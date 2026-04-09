@@ -1,0 +1,1142 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Listening – Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --ink:#0d0f14; --paper:#f4f6f9; --warm:#eaedf2;
+      --gold:#b07d2a; --gold-lt:#d4a445;
+      --navy:#1c3d6e; --navy-md:#2a5298; --navy-lt:#4a7abf;
+      --a1:#2a6496; --b1:#1a5c5c; --b2:#7a3010; --c1:#3d1a60;
+      --pearl:#d5d9e2; --shadow:rgba(13,15,20,.10);
+      --ok:#1a5c35; --no:#7a1520;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Crimson Pro',Georgia,serif;background:var(--paper);color:var(--ink);}
+
+    /* NAV */
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 24px rgba(0,0,0,.3);}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold-lt);padding:1rem 0;text-decoration:none;letter-spacing:.03em;}
+    .nav-logo span{color:#fff;font-style:italic;}
+    .nav-back{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#7899cc;text-decoration:none;transition:color .2s;}
+    .nav-back:hover{color:var(--gold-lt);}
+
+    /* HERO */
+    .hero{background:linear-gradient(160deg,#060c1e 0%,#1c3d6e 55%,#0e2244 100%);padding:5rem 3rem 5rem;position:relative;overflow:hidden;}
+    .hero-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;}
+    .hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:1;}
+    .hero-eyebrow{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.4rem;display:flex;align-items:center;gap:.7rem;}
+    .hero-eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--gold);}
+    .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.8rem);color:#fff;line-height:1.1;margin-bottom:1rem;font-weight:600;}
+    .hero h1 em{color:var(--gold-lt);font-style:italic;}
+    .hero-desc{color:rgba(255,255,255,.65);font-size:1.05rem;line-height:1.85;max-width:680px;margin-bottom:2.5rem;}
+
+    /* LEVEL TABS in hero */
+    .level-jump{display:flex;gap:.6rem;flex-wrap:wrap;}
+    .lj-btn{padding:.55rem 1.3rem;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#aac;cursor:pointer;transition:all .2s;text-decoration:none;}
+    .lj-btn:hover{border-color:var(--gold-lt);color:var(--gold-lt);}
+    .lj-btn.a1{border-color:rgba(42,100,150,.6);color:#7bbce0;}
+    .lj-btn.b1{border-color:rgba(26,92,92,.6);color:#5ecece;}
+    .lj-btn.b2{border-color:rgba(122,48,16,.6);color:#e09060;}
+    .lj-btn.c1{border-color:rgba(61,26,96,.6);color:#c090f0;}
+
+    /* WHY LISTENING */
+    .why-band{background:#fff;border-top:4px solid var(--navy-md);}
+    .why-inner{max-width:960px;margin:0 auto;padding:3rem 2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+    .why-card{padding:1.2rem 1.4rem;}
+    .why-icon{font-size:1.6rem;margin-bottom:.8rem;}
+    .why-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--navy);margin-bottom:.5rem;font-weight:600;}
+    .why-text{font-size:.9rem;color:#555;line-height:1.75;}
+    .why-header{max-width:960px;margin:0 auto;padding:2.5rem 2rem 0;}
+    .why-header h2{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--navy);margin-bottom:.4rem;}
+    .why-header p{font-size:1rem;color:#555;line-height:1.8;max-width:700px;}
+
+    /* PAGE */
+    .page{max-width:960px;margin:0 auto;padding:2.5rem 2rem 5rem;}
+
+    /* LEVEL SECTION HEADER */
+    .level-header{padding:2rem 0 1rem;margin-top:2rem;border-top:3px solid var(--pearl);}
+    .level-header:first-of-type{border-top:none;margin-top:0;}
+    .lh-badge{display:inline-flex;align-items:center;gap:.8rem;margin-bottom:.8rem;}
+    .lh-level{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;padding:.3rem .9rem;border-radius:2px;}
+    .lh-level.a1{background:rgba(42,100,150,.1);color:var(--a1);border:1px solid rgba(42,100,150,.25);}
+    .lh-level.b1{background:rgba(26,92,92,.1);color:var(--b1);border:1px solid rgba(26,92,92,.25);}
+    .lh-level.b2{background:rgba(122,48,16,.1);color:var(--b2);border:1px solid rgba(122,48,16,.25);}
+    .lh-level.c1{background:rgba(61,26,96,.1);color:var(--c1);border:1px solid rgba(61,26,96,.25);}
+    .lh-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:var(--ink);font-weight:600;margin-bottom:.4rem;}
+    .lh-desc{font-size:.97rem;color:#555;line-height:1.8;max-width:720px;margin-bottom:.3rem;}
+    .lh-cefr-def{background:#fff;padding:1.2rem 1.5rem;border-left:3px solid var(--pearl);margin:1rem 0;font-size:.92rem;color:#444;line-height:1.8;}
+    .lh-cefr-def strong{color:var(--navy);}
+
+    /* LISTEN CARD */
+    .listen-card{background:#fff;box-shadow:0 3px 20px var(--shadow);margin:1.5rem 0 2.5rem;overflow:hidden;}
+    .lc-top{padding:1.3rem 1.8rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;}
+    .lc-top.a1{background:var(--a1);}
+    .lc-top.b1{background:var(--b1);}
+    .lc-top.b2{background:var(--b2);}
+    .lc-top.c1{background:var(--c1);}
+    .lc-left{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .lc-num{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:.25rem .7rem;}
+    .lc-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#fff;font-weight:600;}
+    .lc-pills{display:flex;gap:.4rem;flex-wrap:wrap;}
+    .lc-pill{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .6rem;background:rgba(255,255,255,.12);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.15);}
+
+    /* PLAYER */
+    .player-ui{padding:1.2rem 1.8rem;background:#eef0f5;border-bottom:1px solid var(--pearl);}
+    .player-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .play-btn{width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;box-shadow:0 2px 10px rgba(0,0,0,.2);}
+    .play-btn.a1{background:var(--a1);}
+    .play-btn.b1{background:var(--b1);}
+    .play-btn.b2{background:var(--b2);}
+    .play-btn.c1{background:var(--c1);}
+    .play-btn:hover{filter:brightness(1.2);transform:scale(1.05);}
+    .play-btn svg{width:16px;height:16px;fill:#fff;margin-left:2px;}
+    .play-btn.playing .pi{display:none;}
+    .play-btn.playing .pai{display:block!important;}
+    .pai{display:none;}
+    .prog-wrap{flex:1;min-width:160px;}
+    .prog-track{height:5px;background:var(--pearl);border-radius:3px;cursor:pointer;position:relative;margin-bottom:.4rem;}
+    .prog-fill{height:100%;border-radius:3px;width:0%;transition:width .1s linear;pointer-events:none;}
+    .prog-fill.a1{background:var(--a1);}
+    .prog-fill.b1{background:var(--b1);}
+    .prog-fill.b2{background:var(--b2);}
+    .prog-fill.c1{background:var(--c1);}
+    .time-row{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:.65rem;color:#999;}
+    .spd-btn{font-family:'DM Mono',monospace;font-size:.68rem;padding:.35rem .75rem;border:1px solid var(--pearl);background:#fff;cursor:pointer;color:#777;transition:all .2s;}
+    .spd-btn:hover{border-color:var(--navy-md);color:var(--navy);}
+    .spd-btn.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+    .voice-sel{font-family:'DM Mono',monospace;font-size:.65rem;padding:.32rem .55rem;border:1px solid var(--pearl);background:#fff;color:#666;cursor:pointer;outline:none;max-width:130px;}
+    .play-hint{font-family:'DM Mono',monospace;font-size:.62rem;color:#aaa;letter-spacing:.06em;margin-top:.35rem;}
+
+    /* TRANSCRIPT */
+    .trans-wrap{padding:1.4rem 1.8rem 0;}
+    .trans-toggle{display:flex;align-items:center;gap:.6rem;cursor:pointer;user-select:none;margin-bottom:.8rem;}
+    .trans-toggle span{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy-md);}
+    .t-arr{font-size:.7rem;color:var(--navy-md);transition:transform .2s;}
+    .trans-box{display:none;background:var(--warm);padding:1.3rem 1.5rem;border-left:3px solid var(--navy-lt);margin-bottom:1.2rem;}
+    .trans-box.open{display:block;}
+    .trans-box p{font-size:.95rem;line-height:2;color:#333;margin-bottom:.5rem;}
+    .trans-box p:last-child{margin-bottom:0;}
+    .spkr{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--navy-md);letter-spacing:.08em;text-transform:uppercase;margin-right:.4rem;}
+    .vh{background:rgba(176,125,42,.12);border-bottom:1px solid var(--gold);cursor:help;}
+
+    /* QUESTIONS */
+    .qs-wrap{padding:.5rem 1.8rem 1.8rem;}
+    .qs-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
+    .q-item{margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--pearl);}
+    .q-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+    .q-text{font-size:.97rem;color:#333;line-height:1.75;margin-bottom:.7rem;}
+    .q-text strong{color:var(--navy);}
+    .q-text em{font-family:'DM Mono',monospace;font-size:.85rem;color:var(--b2);font-style:normal;}
+    .q-opts{display:flex;flex-direction:column;gap:.35rem;}
+    .q-opt{display:flex;align-items:flex-start;gap:.75rem;padding:.55rem .9rem;border:1px solid var(--pearl);cursor:pointer;background:var(--paper);transition:all .2s;font-size:.93rem;color:#444;line-height:1.5;}
+    .q-opt:hover{border-color:var(--navy-lt);background:rgba(74,122,191,.04);}
+    .q-opt.sel{border-color:var(--navy-md);background:rgba(42,82,152,.05);}
+    .q-opt.ok-ans{border-color:var(--ok);background:rgba(26,92,53,.07);color:var(--ok);}
+    .q-opt.no-ans{border-color:var(--no);background:rgba(122,21,32,.05);color:var(--no);}
+    .opt-l{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--navy-md);flex-shrink:0;margin-top:1px;font-weight:500;}
+    .q-opt.ok-ans .opt-l{color:var(--ok);}
+    .q-opt.no-ans .opt-l{color:var(--no);}
+    .q-fb{font-family:'DM Mono',monospace;font-size:.72rem;margin-top:.5rem;display:none;padding:.5rem .8rem;line-height:1.55;}
+    .q-fb.ok{background:rgba(26,92,53,.08);color:var(--ok);}
+    .q-fb.no{background:rgba(122,21,32,.06);color:var(--no);}
+    .sub-btn{padding:.75rem 1.8rem;border:none;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-top:1.2rem;color:#fff;transition:all .2s;}
+    .sub-btn.a1{background:var(--a1);}
+    .sub-btn.b1{background:var(--b1);}
+    .sub-btn.b2{background:var(--b2);}
+    .sub-btn.c1{background:var(--c1);}
+    .sub-btn:hover{filter:brightness(1.15);}
+    .score-band{display:none;margin-top:1rem;padding:1rem 1.4rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
+    .score-band.a1{background:var(--a1);}
+    .score-band.b1{background:var(--b1);}
+    .score-band.b2{background:var(--b2);}
+    .score-band.c1{background:var(--c1);}
+    .sc-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold-lt);}
+    .sc-msg{font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(255,255,255,.7);line-height:1.6;}
+
+    footer{background:var(--navy);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    footer p{color:#4a6a99;font-size:.78rem;font-family:'DM Mono',monospace;}
+    footer a{color:var(--gold);text-decoration:none;font-family:'DM Mono',monospace;font-size:.78rem;}
+    @media(max-width:800px){.why-inner{grid-template-columns:1fr;}.player-row{gap:.6rem;}.hero{padding:3rem 1.5rem 4rem;}.page{padding:2rem 1rem 4rem;}footer{padding:2rem 1.5rem;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
+  <a href="index.html" class="nav-back">← All Lessons</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Listening · British English · All CEFR Levels</div>
+    <h1>Listening</h1>
+    <p class="hero-desc">Four carefully crafted British English recordings — one per CEFR level — each with 10 comprehension questions covering facts, numbers, dates, names, and meaning. Press Play to hear the audio, then answer the questions below each recording.</p>
+    <div class="level-jump">
+      <a href="#a1a2" class="lj-btn a1">🌱 A1/A2 Beginner</a>
+      <a href="#b1" class="lj-btn b1">🌿 B1 Intermediate</a>
+      <a href="#b2" class="lj-btn b2">🔥 B2 Upper-Int</a>
+      <a href="#c1" class="lj-btn c1">💎 C1 Advanced</a>
+    </div>
+  </div>
+</div>
+
+<!-- WHY LISTENING MATTERS -->
+<div class="why-band">
+  <div class="why-header">
+    <h2>Why Listening Is the Gateway to Language</h2>
+    <p>Research shows that we spend roughly <strong>45% of our communication time listening</strong> — more than reading, writing and speaking combined. Yet it remains the most undertaught skill in language learning. Here is why developing your listening is essential.</p>
+  </div>
+  <div class="why-inner">
+    <div class="why-card">
+      <div class="why-icon">🧠</div>
+      <div class="why-title">Brain Training</div>
+      <div class="why-text">Repeated exposure to authentic spoken English rewires the auditory cortex to recognise sounds, rhythms, and patterns that do not exist in your native language — a process impossible to replicate through reading alone.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🗣️</div>
+      <div class="why-title">Better Speaking</div>
+      <div class="why-text">You cannot reproduce what you cannot hear. Listeners who absorb natural British English pronunciation — its rhythm, intonation, and connected speech — develop far more natural-sounding speech than those who study rules alone.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">💼</div>
+      <div class="why-title">Professional Edge</div>
+      <div class="why-text">Active listening — understanding tone, implication, numbers, and detail — is one of the most valued professional skills in the world. Misheard figures, dates, and instructions cost businesses billions every year.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">📖</div>
+      <div class="why-title">Vocabulary in Context</div>
+      <div class="why-text">Words heard in authentic contexts — surrounded by natural stress, rhythm and meaning — are retained up to three times longer than words studied in isolation. Listening is vocabulary learning at its most powerful.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🎯</div>
+      <div class="why-title">Number & Detail Accuracy</div>
+      <div class="why-text">British speakers compress numbers and dates in natural speech. "The fourteenth of March, nineteen ninety-five" becomes a fast, rhythmic phrase. Practising with real listening develops the ability to catch precise details under time pressure.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🌍</div>
+      <div class="why-title">Cultural Fluency</div>
+      <div class="why-text">British English relies heavily on understatement and indirectness. "That's quite interesting" often means the opposite. Only through sustained listening can you learn to read between the lines of authentic British communication.</div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ═══════════════════════════════════════════════
+     LEVEL A1/A2
+═══════════════════════════════════════════════ -->
+<div class="level-header" id="a1a2">
+  <div class="lh-badge"><span class="lh-level a1">A1/A2 · Beginner</span></div>
+  <div class="lh-title">Daily Life — A Simple Introduction</div>
+  <div class="lh-cefr-def"><strong>CEFR A1/A2:</strong> At this level, learners can understand very basic expressions about people, places, times, numbers, and everyday situations. The recording uses short sentences, simple vocabulary, clear pronunciation, and natural pauses. Questions focus on concrete facts — names, ages, prices, times, and simple actions.</div>
+  <p class="lh-desc">Listen to a short introduction by a young British woman named Emma, who talks about herself, her daily routine, and her plans for the weekend. The recording is spoken slowly and clearly.</p>
+</div>
+
+<div class="listen-card">
+  <div class="lc-top a1">
+    <div class="lc-left">
+      <span class="lc-num">Level A1/A2</span>
+      <span class="lc-title">Emma's Daily Routine</span>
+    </div>
+    <div class="lc-pills">
+      <span class="lc-pill">🌱 Beginner</span>
+      <span class="lc-pill">⏱ ~2 min</span>
+      <span class="lc-pill">10 Questions</span>
+    </div>
+  </div>
+  <div class="player-ui">
+    <div class="player-row">
+      <button class="play-btn a1" id="btn_a1" onclick="togglePlay('a1')" title="Play">
+        <svg class="pi" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg class="pai" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+      <div class="prog-wrap">
+        <div class="prog-track" onclick="seekAudio(event,'a1')"><div class="prog-fill a1" id="pf_a1"></div></div>
+        <div class="time-row"><span id="ct_a1">0:00</span><span id="dt_a1">2:00</span></div>
+      </div>
+      <button class="spd-btn on" id="s1_a1" onclick="setSpd('a1',1)">1×</button>
+      <button class="spd-btn" id="s75_a1" onclick="setSpd('a1',.75)">0.75×</button>
+      <select class="voice-sel" id="vc_a1" onchange="chVoice('a1')"></select>
+    </div>
+    <div class="play-hint">▶ Press Play — the text is read aloud using your browser's British English voice.</div>
+  </div>
+  <div class="trans-wrap">
+    <div class="trans-toggle" onclick="togTrans('tb_a1','ta_a1')">
+      <span>📄 Show Transcript</span><span class="t-arr" id="ta_a1">▼</span>
+    </div>
+    <div class="trans-box" id="tb_a1">
+      <p>Hello! My name is Emma. I am twenty-two years old. I live in Bristol, in the west of England.</p>
+      <p>I work in a café. The café opens at seven o'clock in the morning. I start work at half past seven. I finish at three o'clock in the afternoon.</p>
+      <p>I live with my flatmate, Lucy. Our flat is small but very nice. The rent is six hundred and fifty pounds a month. We have two bedrooms, one bathroom, and a small kitchen.</p>
+      <p>Every morning, I wake up at six fifteen. I have a shower and then I eat breakfast. I usually eat toast with butter and a cup of tea. I walk to work. It takes about fifteen minutes.</p>
+      <p>On Tuesday and Thursday evenings, I go to a gym near my flat. The gym costs thirty pounds a month.</p>
+      <p>This weekend, I am going to visit my parents. They live in Bath, which is about fifteen miles from Bristol. I am going by train. The train ticket costs nine pounds fifty.</p>
+      <p>My parents' house has a big garden. My mother loves flowers. My father likes cooking. He always makes a big Sunday lunch. My favourite food is roast chicken.</p>
+      <p>I want to travel in the future. My dream is to visit Japan. I am saving fifty pounds every month for my trip.</p>
+    </div>
+    <div class="qs-wrap">
+      <div class="qs-label">10 Comprehension Questions — A1/A2</div>
+      <div id="QS_a1">
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q1.</strong> How old is Emma?
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q1')"><span class="opt-l">A</span>Twenty years old</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q1')"><span class="opt-l">B</span>Twenty-two years old</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q1')"><span class="opt-l">C</span>Twenty-five years old</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q1')"><span class="opt-l">D</span>Thirty years old</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q1"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q2.</strong> What time does the café open? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q2')"><span class="opt-l">A</span>Six o'clock</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q2')"><span class="opt-l">B</span>Half past six</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q2')"><span class="opt-l">C</span>Seven o'clock</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q2')"><span class="opt-l">D</span>Eight o'clock</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q2"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q3.</strong> How much is the rent for Emma's flat each month?
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q3')"><span class="opt-l">A</span>£550</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q3')"><span class="opt-l">B</span>£600</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q3')"><span class="opt-l">C</span>£650</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q3')"><span class="opt-l">D</span>£700</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q3"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q4.</strong> What time does Emma wake up every morning? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q4')"><span class="opt-l">A</span>Six o'clock</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q4')"><span class="opt-l">B</span>Six fifteen</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q4')"><span class="opt-l">C</span>Half past six</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q4')"><span class="opt-l">D</span>Seven o'clock</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q4"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q5.</strong> How much does the gym cost per month? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q5')"><span class="opt-l">A</span>£20 a month</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q5')"><span class="opt-l">B</span>£25 a month</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q5')"><span class="opt-l">C</span>£30 a month</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q5')"><span class="opt-l">D</span>£35 a month</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q5"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q6.</strong> Where do Emma's parents live?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q6')"><span class="opt-l">A</span>London</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q6')"><span class="opt-l">B</span>Bristol</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q6')"><span class="opt-l">C</span>Bath</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q6')"><span class="opt-l">D</span>Birmingham</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q6"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q7.</strong> How much does the train ticket to Bath cost? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q7')"><span class="opt-l">A</span>£7.50</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q7')"><span class="opt-l">B</span>£9.50</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q7')"><span class="opt-l">C</span>£11.00</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q7')"><span class="opt-l">D</span>£15.00</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q7"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q8.</strong> What is Emma's favourite food?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q8')"><span class="opt-l">A</span>Roast beef</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q8')"><span class="opt-l">B</span>Fish and chips</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q8')"><span class="opt-l">C</span>Roast chicken</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q8')"><span class="opt-l">D</span>Toast with butter</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q8"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q9.</strong> Which country does Emma dream of visiting?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q9')"><span class="opt-l">A</span>Australia</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q9')"><span class="opt-l">B</span>Japan</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q9')"><span class="opt-l">C</span>France</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q9')"><span class="opt-l">D</span>Canada</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q9"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q10.</strong> How much money does Emma save each month for her trip? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q10')"><span class="opt-l">A</span>£30 a month</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q10')"><span class="opt-l">B</span>£40 a month</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q10')"><span class="opt-l">C</span>£50 a month</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q10')"><span class="opt-l">D</span>£100 a month</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q10"></div>
+        </div>
+
+      </div>
+      <button class="sub-btn a1" onclick="submitQ('QS_a1','a1',{q1:'B',q2:'C',q3:'C',q4:'B',q5:'C',q6:'C',q7:'B',q8:'C',q9:'B',q10:'C'})">Submit Answers</button>
+      <div class="score-band a1" id="sc_QS_a1" style="display:none;"><div class="sc-num" id="sn_QS_a1"></div><div class="sc-msg" id="sm_QS_a1"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     LEVEL B1
+═══════════════════════════════════════════════ -->
+<div class="level-header" id="b1">
+  <div class="lh-badge"><span class="lh-level b1">B1 · Intermediate</span></div>
+  <div class="lh-title">A Phone Call — Booking a Hotel</div>
+  <div class="lh-cefr-def"><strong>CEFR B1:</strong> At this level, learners can understand the main points of clear standard speech on familiar topics such as work, travel, and daily life. Recordings use natural pace with some connected speech. Questions test specific details including dates, numbers, names, and understanding of requests.</div>
+  <p class="lh-desc">Listen to a phone call between a customer (David) and a hotel receptionist (Claire) in Edinburgh, Scotland. David is booking a room for a conference trip.</p>
+</div>
+
+<div class="listen-card">
+  <div class="lc-top b1">
+    <div class="lc-left">
+      <span class="lc-num">Level B1</span>
+      <span class="lc-title">Booking a Hotel Room</span>
+    </div>
+    <div class="lc-pills">
+      <span class="lc-pill">🌿 Intermediate</span>
+      <span class="lc-pill">⏱ ~2 min 30s</span>
+      <span class="lc-pill">10 Questions</span>
+    </div>
+  </div>
+  <div class="player-ui">
+    <div class="player-row">
+      <button class="play-btn b1" id="btn_b1" onclick="togglePlay('b1')" title="Play">
+        <svg class="pi" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg class="pai" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+      <div class="prog-wrap">
+        <div class="prog-track" onclick="seekAudio(event,'b1')"><div class="prog-fill b1" id="pf_b1"></div></div>
+        <div class="time-row"><span id="ct_b1">0:00</span><span id="dt_b1">2:30</span></div>
+      </div>
+      <button class="spd-btn on" id="s1_b1" onclick="setSpd('b1',1)">1×</button>
+      <button class="spd-btn" id="s75_b1" onclick="setSpd('b1',.75)">0.75×</button>
+      <select class="voice-sel" id="vc_b1" onchange="chVoice('b1')"></select>
+    </div>
+    <div class="play-hint">▶ Press Play — the text is read aloud using your browser's British English voice.</div>
+  </div>
+  <div class="trans-wrap">
+    <div class="trans-toggle" onclick="togTrans('tb_b1','ta_b1')">
+      <span>📄 Show Transcript</span><span class="t-arr" id="ta_b1">▼</span>
+    </div>
+    <div class="trans-box" id="tb_b1">
+      <p><span class="spkr">Claire:</span> Good afternoon, the Royal Crescent Hotel, Edinburgh. Claire speaking. How can I help you?</p>
+      <p><span class="spkr">David:</span> Hello, good afternoon. My name is David Harrison. I'd like to make a reservation, please.</p>
+      <p><span class="spkr">Claire:</span> Of course. What dates were you looking at, Mr Harrison?</p>
+      <p><span class="spkr">David:</span> I need a room from the fourteenth to the seventeenth of November. That's three nights.</p>
+      <p><span class="spkr">Claire:</span> Let me check availability for you. The fourteenth to the seventeenth of November — yes, we do have rooms available. Did you want a standard room or a superior room?</p>
+      <p><span class="spkr">David:</span> What's the difference in price?</p>
+      <p><span class="spkr">Claire:</span> A standard double room is one hundred and fifteen pounds per night, and a superior room with a city view is one hundred and forty-five pounds per night. Both prices include breakfast.</p>
+      <p><span class="spkr">David:</span> I'll take the standard double, please. Could I also request a quiet room, away from the street if possible? I have an early start on the fifteenth — I need to be at the conference centre by eight o'clock.</p>
+      <p><span class="spkr">Claire:</span> Absolutely, I'll make a note of that. Can I take a credit card to secure the booking?</p>
+      <p><span class="spkr">David:</span> Yes, of course. The card number is four seven two two, three eight nine one, five five six zero, two four one three. The expiry date is March twenty-twenty-seven.</p>
+      <p><span class="spkr">Claire:</span> Thank you. And the name on the card?</p>
+      <p><span class="spkr">David:</span> David Harrison. H-A-R-R-I-S-O-N.</p>
+      <p><span class="spkr">Claire:</span> Perfect. So to confirm — a standard double room from the fourteenth to the seventeenth of November, three nights at one hundred and fifteen pounds per night, totalling three hundred and forty-five pounds. Check-in is from two pm and check-out is by eleven am. Shall I send a confirmation to your email?</p>
+      <p><span class="spkr">David:</span> Yes please. It's david.harrison at globaltech dot co dot uk.</p>
+      <p><span class="spkr">Claire:</span> Got that. Is there anything else I can help with?</p>
+      <p><span class="spkr">David:</span> Just one thing — is there a car park at the hotel?</p>
+      <p><span class="spkr">Claire:</span> Yes, we have a private car park. It's twelve pounds per night. Would you like me to reserve a space?</p>
+      <p><span class="spkr">David:</span> Yes, please do. Thank you very much.</p>
+      <p><span class="spkr">Claire:</span> My pleasure. We look forward to welcoming you in November. Goodbye.</p>
+    </div>
+    <div class="qs-wrap">
+      <div class="qs-label">10 Comprehension Questions — B1</div>
+      <div id="QS_b1">
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q1.</strong> What is the name of the hotel? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q1')"><span class="opt-l">A</span>The Edinburgh Grand</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q1')"><span class="opt-l">B</span>The Royal Crescent Hotel</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q1')"><span class="opt-l">C</span>The Castle View Hotel</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q1')"><span class="opt-l">D</span>The Harrison Hotel</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q1"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q2.</strong> Which dates does David want to stay? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q2')"><span class="opt-l">A</span>12th–15th November</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q2')"><span class="opt-l">B</span>14th–17th November</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q2')"><span class="opt-l">C</span>15th–18th November</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q2')"><span class="opt-l">D</span>13th–16th November</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q2"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q3.</strong> How much does a standard double room cost per night? 
+            <div class="q-opt" onclick="pick(this,'QS_b1','q3')"><span class="opt-l">A</span>£95 per night</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q3')"><span class="opt-l">B</span>£115 per night</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q3')"><span class="opt-l">C</span>£130 per night</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q3')"><span class="opt-l">D</span>£145 per night</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q3"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q4.</strong> What time does David need to be at the conference centre on the 15th? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q4')"><span class="opt-l">A</span>7:00 am</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q4')"><span class="opt-l">B</span>8:00 am</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q4')"><span class="opt-l">C</span>9:00 am</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q4')"><span class="opt-l">D</span>8:30 am</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q4"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q5.</strong> What is the expiry date on David's credit card? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q5')"><span class="opt-l">A</span>March 2025</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q5')"><span class="opt-l">B</span>November 2026</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q5')"><span class="opt-l">C</span>March 2027</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q5')"><span class="opt-l">D</span>January 2028</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q5"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q6.</strong> What is the total cost of David's stay for three nights? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q6')"><span class="opt-l">A</span>£285</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q6')"><span class="opt-l">B</span>£315</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q6')"><span class="opt-l">C</span>£345</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q6')"><span class="opt-l">D</span>£435</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q6"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q7.</strong> What time is check-out? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q7')"><span class="opt-l">A</span>10:00 am</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q7')"><span class="opt-l">B</span>11:00 am</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q7')"><span class="opt-l">C</span>12:00 noon</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q7')"><span class="opt-l">D</span>2:00 pm</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q7"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q8.</strong> What is David's email address?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q8')"><span class="opt-l">A</span>david.harrison@globaltech.com</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q8')"><span class="opt-l">B</span>d.harrison@globaltech.co.uk</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q8')"><span class="opt-l">C</span>david.harrison@globaltech.co.uk</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q8')"><span class="opt-l">D</span>harrison.david@globaltech.org</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q8"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q9.</strong> How much does car parking cost per night? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q9')"><span class="opt-l">A</span>£8 per night</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q9')"><span class="opt-l">B</span>£10 per night</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q9')"><span class="opt-l">C</span>£12 per night</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q9')"><span class="opt-l">D</span>£15 per night</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q9"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q10.</strong> What does the room price include?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q10')"><span class="opt-l">A</span>Dinner and drinks</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q10')"><span class="opt-l">B</span>Breakfast</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q10')"><span class="opt-l">C</span>Parking and breakfast</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q10')"><span class="opt-l">D</span>Nothing extra</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q10"></div>
+        </div>
+
+      </div>
+      <button class="sub-btn b1" onclick="submitQ('QS_b1','b1',{q1:'B',q2:'B',q3:'B',q4:'B',q5:'C',q6:'C',q7:'B',q8:'C',q9:'C',q10:'B'})">Submit Answers</button>
+      <div class="score-band b1" id="sc_QS_b1" style="display:none;"><div class="sc-num" id="sn_QS_b1"></div><div class="sc-msg" id="sm_QS_b1"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     LEVEL B2
+═══════════════════════════════════════════════ -->
+<div class="level-header" id="b2">
+  <div class="lh-badge"><span class="lh-level b2">B2 · Upper-Intermediate</span></div>
+  <div class="lh-title">A BBC-Style News Report</div>
+  <div class="lh-cefr-def"><strong>CEFR B2:</strong> At this level, learners can understand extended speech and complex arguments on concrete and abstract topics. The recording uses authentic broadcast pace, formal vocabulary, and precise figures. Questions test detailed comprehension of statistics, names, dates, and the ability to infer meaning.</div>
+  <p class="lh-desc">Listen to a BBC-style news report about Britain's housing market. The report includes statistics, dates, named experts, and government policy — all typical of a Radio 4 news broadcast.</p>
+</div>
+
+<div class="listen-card">
+  <div class="lc-top b2">
+    <div class="lc-left">
+      <span class="lc-num">Level B2</span>
+      <span class="lc-title">Britain's Housing Market — News Report</span>
+    </div>
+    <div class="lc-pills">
+      <span class="lc-pill">🔥 Upper-Int</span>
+      <span class="lc-pill">⏱ ~3 min</span>
+      <span class="lc-pill">10 Questions</span>
+    </div>
+  </div>
+  <div class="player-ui">
+    <div class="player-row">
+      <button class="play-btn b2" id="btn_b2" onclick="togglePlay('b2')" title="Play">
+        <svg class="pi" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg class="pai" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+      <div class="prog-wrap">
+        <div class="prog-track" onclick="seekAudio(event,'b2')"><div class="prog-fill b2" id="pf_b2"></div></div>
+        <div class="time-row"><span id="ct_b2">0:00</span><span id="dt_b2">3:00</span></div>
+      </div>
+      <button class="spd-btn on" id="s1_b2" onclick="setSpd('b2',1)">1×</button>
+      <button class="spd-btn" id="s75_b2" onclick="setSpd('b2',.75)">0.75×</button>
+      <select class="voice-sel" id="vc_b2" onchange="chVoice('b2')"></select>
+    </div>
+    <div class="play-hint">▶ Press Play — the text is read aloud using your browser's British English voice.</div>
+  </div>
+  <div class="trans-wrap">
+    <div class="trans-toggle" onclick="togTrans('tb_b2','ta_b2')">
+      <span>📄 Show Transcript</span><span class="t-arr" id="ta_b2">▼</span>
+    </div>
+    <div class="trans-box" id="tb_b2">
+      <p><span class="spkr">Presenter:</span> New figures released today by the Office for National Statistics show that the average house price in England and Wales has risen by eleven point three percent over the past twelve months, reaching a new record high of three hundred and twelve thousand pounds in September of this year.</p>
+      <p>The sharpest rises were recorded in the South East, where prices increased by fourteen percent, and in East Anglia, where the rise stood at thirteen point eight percent. London, by contrast, saw a more modest increase of just six point two percent, as high prices continue to deter buyers.</p>
+      <p>Speaking to the BBC this morning, Professor Rachel Webb of the London School of Economics said the figures reflected a structural imbalance between supply and demand that had been building since at least two thousand and five.</p>
+      <p><span class="spkr">Professor Webb:</span> What we are seeing is not a bubble in any traditional sense. The underlying problem is that we have been building approximately one hundred and forty thousand homes per year, when the government's own target is three hundred thousand. Until that gap closes, prices will remain elevated. I would not expect any meaningful correction before twenty-twenty-eight at the earliest.</p>
+      <p><span class="spkr">Presenter:</span> The government responded this afternoon, with the Housing Secretary, Jonathan Clarke, announcing a new package of measures designed to accelerate housebuilding. Under the plan, local councils will be required to approve planning applications within twelve weeks or face financial penalties. An additional two point four billion pounds will be allocated to affordable housing programmes over the next three years.</p>
+      <p>However, critics from the opposition Labour Party argued the measures did not go nearly far enough. Shadow Housing Minister, Sarah Okafor, said the announcement was, and I quote, "a sticking plaster on a broken system," and called for a full independent review of planning law by the first of March next year.</p>
+      <p>First-time buyers remain the most affected group, with the average age of a first-time buyer now standing at thirty-four — up from twenty-nine in the year two thousand. The average deposit required in London has reached eighty-seven thousand pounds.</p>
+      <p>We will have more on this story in our six o'clock bulletin.</p>
+    </div>
+    <div class="qs-wrap">
+      <div class="qs-label">10 Comprehension Questions — B2</div>
+      <div id="QS_b2">
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q1.</strong> What is the new average house price in England and Wales? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q1')"><span class="opt-l">A</span>£287,000</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q1')"><span class="opt-l">B</span>£300,000</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q1')"><span class="opt-l">C</span>£312,000</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q1')"><span class="opt-l">D</span>£325,000</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q1"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q2.</strong> By what percentage did house prices rise overall in the past 12 months? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q2')"><span class="opt-l">A</span>9.5%</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q2')"><span class="opt-l">B</span>11.3%</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q2')"><span class="opt-l">C</span>13.8%</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q2')"><span class="opt-l">D</span>14%</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q2"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q3.</strong> Which region recorded the largest price increase? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q3')"><span class="opt-l">A</span>London</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q3')"><span class="opt-l">B</span>East Anglia</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q3')"><span class="opt-l">C</span>The South East</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q3')"><span class="opt-l">D</span>The Midlands</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q3"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q4.</strong> According to Professor Webb, since when has the supply-demand imbalance been building?
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q4')"><span class="opt-l">A</span>Since at least 1995</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q4')"><span class="opt-l">B</span>Since at least 2000</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q4')"><span class="opt-l">C</span>Since at least 2005</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q4')"><span class="opt-l">D</span>Since at least 2010</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q4"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q5.</strong> How many homes per year does the government target? How many are actually being built? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q5')"><span class="opt-l">A</span>Target: 200,000 · Built: 100,000</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q5')"><span class="opt-l">B</span>Target: 300,000 · Built: 140,000</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q5')"><span class="opt-l">C</span>Target: 250,000 · Built: 180,000</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q5')"><span class="opt-l">D</span>Target: 400,000 · Built: 200,000</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q5"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q6.</strong> When does Professor Webb predict a correction might happen? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q6')"><span class="opt-l">A</span>Before 2025</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q6')"><span class="opt-l">B</span>Before 2026</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q6')"><span class="opt-l">C</span>Not before 2028</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q6')"><span class="opt-l">D</span>Not before 2030</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q6"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q7.</strong> How much additional funding is being allocated to affordable housing? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q7')"><span class="opt-l">A</span>£1.2 billion over 3 years</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q7')"><span class="opt-l">B</span>£2.4 billion over 3 years</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q7')"><span class="opt-l">C</span>£3.6 billion over 5 years</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q7')"><span class="opt-l">D</span>£4 billion over 4 years</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q7"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q8.</strong> What is the average age of a first-time buyer now, and what was it in the year 2000? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q8')"><span class="opt-l">A</span>Now 30 · Year 2000: 25</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q8')"><span class="opt-l">B</span>Now 34 · Year 2000: 29</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q8')"><span class="opt-l">C</span>Now 36 · Year 2000: 28</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q8')"><span class="opt-l">D</span>Now 38 · Year 2000: 30</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q8"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q9.</strong> What is the average deposit required for first-time buyers in London? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q9')"><span class="opt-l">A</span>£55,000</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q9')"><span class="opt-l">B</span>£72,000</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q9')"><span class="opt-l">C</span>£87,000</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q9')"><span class="opt-l">D</span>£100,000</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q9"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q10.</strong> The Shadow Housing Minister called the government's announcement "a sticking plaster on a broken system." What did she demand? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q10')"><span class="opt-l">A</span>Immediate house price controls</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q10')"><span class="opt-l">B</span>A full independent review of planning law by 1st March</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q10')"><span class="opt-l">C</span>The Housing Secretary's resignation</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q10')"><span class="opt-l">D</span>A ban on foreign property investment</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q10"></div>
+        </div>
+
+      </div>
+      <button class="sub-btn b2" onclick="submitQ('QS_b2','b2',{q1:'C',q2:'B',q3:'C',q4:'C',q5:'B',q6:'C',q7:'B',q8:'B',q9:'C',q10:'B'})">Submit Answers</button>
+      <div class="score-band b2" id="sc_QS_b2" style="display:none;"><div class="sc-num" id="sn_QS_b2"></div><div class="sc-msg" id="sm_QS_b2"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     LEVEL C1
+═══════════════════════════════════════════════ -->
+<div class="level-header" id="c1">
+  <div class="lh-badge"><span class="lh-level c1">C1 · Advanced</span></div>
+  <div class="lh-title">A University Lecture — History of the BBC</div>
+  <div class="lh-cefr-def"><strong>CEFR C1:</strong> At this level, learners can understand extended speech even when it is not clearly structured. They can follow complex argument, recognise implicit attitudes, and identify specific details — including precise dates, statistics, and named sources — within a sustained academic monologue.</div>
+  <p class="lh-desc">Listen to an extract from a university lecture on the history and significance of the BBC. The lecturer covers dates, figures, key individuals, and policy debates. Particular attention to detail is required.</p>
+</div>
+
+<div class="listen-card">
+  <div class="lc-top c1">
+    <div class="lc-left">
+      <span class="lc-num">Level C1</span>
+      <span class="lc-title">The History and Significance of the BBC</span>
+    </div>
+    <div class="lc-pills">
+      <span class="lc-pill">💎 Advanced</span>
+      <span class="lc-pill">⏱ ~3 min 30s</span>
+      <span class="lc-pill">10 Questions</span>
+    </div>
+  </div>
+  <div class="player-ui">
+    <div class="player-row">
+      <button class="play-btn c1" id="btn_c1" onclick="togglePlay('c1')" title="Play">
+        <svg class="pi" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg class="pai" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+      <div class="prog-wrap">
+        <div class="prog-track" onclick="seekAudio(event,'c1')"><div class="prog-fill c1" id="pf_c1"></div></div>
+        <div class="time-row"><span id="ct_c1">0:00</span><span id="dt_c1">3:30</span></div>
+      </div>
+      <button class="spd-btn on" id="s1_c1" onclick="setSpd('c1',1)">1×</button>
+      <button class="spd-btn" id="s75_c1" onclick="setSpd('c1',.75)">0.75×</button>
+      <select class="voice-sel" id="vc_c1" onchange="chVoice('c1')"></select>
+    </div>
+    <div class="play-hint">▶ Press Play — the text is read aloud using your browser's British English voice.</div>
+  </div>
+  <div class="trans-wrap">
+    <div class="trans-toggle" onclick="togTrans('tb_c1','ta_c1')">
+      <span>📄 Show Transcript</span><span class="t-arr" id="ta_c1">▼</span>
+    </div>
+    <div class="trans-box" id="tb_c1">
+      <p><span class="spkr">Lecturer:</span> This morning I want to turn our attention to the British Broadcasting Corporation — an institution that, I would argue, is not merely a media organisation but a foundational element of British cultural identity.</p>
+      <p>The BBC was established by Royal Charter on the eighteenth of January, nineteen twenty-seven, though its predecessor — the British Broadcasting Company — had been operating as a commercial entity since the fourteenth of November, nineteen twenty-two. The transition from Company to Corporation was consequential: it marked a deliberate decision by the government of the day, under Prime Minister Stanley Baldwin, to remove broadcasting from purely commercial imperatives and place it under a public service mandate.</p>
+      <p>The architect of this transformation was John Reith — the BBC's first Director-General — who served from nineteen twenty-two to nineteen thirty-eight. Reith's philosophy, which became known as Reithianism, held that broadcasting should simultaneously inform, educate, and entertain — in that order of priority. His ambition was not merely to reflect public taste but, in his own memorable phrase, to "give the public something slightly better than it thinks it wants."</p>
+      <p>The BBC's first television service launched on the second of November, nineteen thirty-six, making it the world's first regular high-definition public television service. The service was suspended during the Second World War, between September nineteen thirty-nine and June nineteen forty-six — a period of six years and nine months — before resuming with the same programme that had been interrupted when transmission ceased.</p>
+      <p>By the nineteen-sixties, the BBC faced its first serious institutional challenge: the rise of commercial television, which had launched via ITV in September nineteen fifty-five, and the arrival of pirate radio stations in nineteen sixty-four. The response was the launch of BBC Two in April nineteen sixty-four and Radio One in September nineteen sixty-seven — the latter being a direct response to the popularity of offshore pirate stations such as Radio Caroline.</p>
+      <p>Today, the BBC operates under a ten-year Royal Charter — the most recent of which was renewed in December twenty sixteen and runs until thirty-first December twenty-twenty-seven. It is funded primarily through the licence fee, which currently stands at one hundred and sixty-nine pounds and fifty pence per year for a colour television licence. The BBC employs approximately twenty-two thousand people and reaches an estimated four hundred and fifty million people globally each week through its World Service and digital platforms.</p>
+      <p>The question of whether the licence fee model remains viable in the age of streaming is one of the most contested debates in contemporary British media policy. The government commissioned an independent review in February twenty-twenty-three, the findings of which are expected to shape the BBC's funding model from twenty-twenty-eight onwards.</p>
+    </div>
+    <div class="qs-wrap">
+      <div class="qs-label">10 Comprehension Questions — C1</div>
+      <div id="QS_c1">
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q1.</strong> On what exact date was the BBC established by Royal Charter? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q1')"><span class="opt-l">A</span>14th November 1922</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q1')"><span class="opt-l">B</span>2nd November 1936</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q1')"><span class="opt-l">C</span>18th January 1927</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q1')"><span class="opt-l">D</span>1st September 1939</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q1"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q2.</strong> Under which Prime Minister was the BBC Corporation established? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q2')"><span class="opt-l">A</span>Winston Churchill</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q2')"><span class="opt-l">B</span>Ramsay MacDonald</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q2')"><span class="opt-l">C</span>Stanley Baldwin</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q2')"><span class="opt-l">D</span>Neville Chamberlain</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q2"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q3.</strong> How long did John Reith serve as Director-General?
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q3')"><span class="opt-l">A</span>10 years (1922–1932)</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q3')"><span class="opt-l">B</span>16 years (1922–1938)</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q3')"><span class="opt-l">C</span>12 years (1927–1939)</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q3')"><span class="opt-l">D</span>20 years (1922–1942)</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q3"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q4.</strong> When did the BBC's first television service launch? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q4')"><span class="opt-l">A</span>14th November 1922</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q4')"><span class="opt-l">B</span>18th January 1927</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q4')"><span class="opt-l">C</span>2nd November 1936</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q4')"><span class="opt-l">D</span>June 1946</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q4"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q5.</strong> For exactly how long was the BBC television service suspended during WW2? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q5')"><span class="opt-l">A</span>5 years exactly</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q5')"><span class="opt-l">B</span>6 years and 9 months</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q5')"><span class="opt-l">C</span>7 years and 3 months</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q5')"><span class="opt-l">D</span>4 years and 6 months</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q5"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q6.</strong> When did ITV (commercial television) launch in the UK? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q6')"><span class="opt-l">A</span>April 1964</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q6')"><span class="opt-l">B</span>September 1967</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q6')"><span class="opt-l">C</span>September 1955</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q6')"><span class="opt-l">D</span>November 1960</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q6"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q7.</strong> What is the current annual BBC licence fee? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q7')"><span class="opt-l">A</span>£154.50 per year</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q7')"><span class="opt-l">B</span>£159.00 per year</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q7')"><span class="opt-l">C</span>£169.50 per year</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q7')"><span class="opt-l">D</span>£175.00 per year</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q7"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q8.</strong> How many people does the BBC employ, and how many does it reach globally each week? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q8')"><span class="opt-l">A</span>18,000 employees · 300 million weekly reach</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q8')"><span class="opt-l">B</span>22,000 employees · 450 million weekly reach</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q8')"><span class="opt-l">C</span>25,000 employees · 500 million weekly reach</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q8')"><span class="opt-l">D</span>30,000 employees · 600 million weekly reach</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q8"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q9.</strong> Until which date does the current Royal Charter run? 
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q9')"><span class="opt-l">A</span>31st December 2025</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q9')"><span class="opt-l">B</span>31st December 2026</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q9')"><span class="opt-l">C</span>31st December 2027</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q9')"><span class="opt-l">D</span>31st December 2030</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q9"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q10.</strong> What does Reith's phrase "give the public something slightly better than it thinks it wants" reveal about his broadcasting philosophy?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q10')"><span class="opt-l">A</span>He believed audiences should choose all programming themselves.</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q10')"><span class="opt-l">B</span>He believed broadcasting should elevate public taste, not merely reflect it.</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q10')"><span class="opt-l">C</span>He was opposed to entertainment programming entirely.</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q10')"><span class="opt-l">D</span>He thought the public was incapable of understanding serious content.</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q10"></div>
+        </div>
+
+      </div>
+      <button class="sub-btn c1" onclick="submitQ('QS_c1','c1',{q1:'C',q2:'C',q3:'B',q4:'C',q5:'B',q6:'C',q7:'C',q8:'B',q9:'C',q10:'B'})">Submit Answers</button>
+      <div class="score-band c1" id="sc_QS_c1" style="display:none;"><div class="sc-num" id="sn_QS_c1"></div><div class="sc-msg" id="sm_QS_c1"></div></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom · Ramesh Mani Suvedi</p>
+  <a href="index.html">← Back to all lessons</a>
+</footer>
+
+<script>
+/* ─── TRANSCRIPTS ─── */
+function togTrans(bid, aid) {
+  const b = document.getElementById(bid);
+  const a = document.getElementById(aid);
+  const open = b.classList.toggle('open');
+  a.textContent = open ? '▲' : '▼';
+  b.previousElementSibling.querySelector('span').textContent = open ? '📄 Hide Transcript' : '📄 Show Transcript';
+}
+
+/* ─── SCRIPTS ─── */
+const SCRIPTS = {
+  a1: `Hello! My name is Emma. I am twenty-two years old. I live in Bristol, in the west of England.
+I work in a café. The café opens at seven o'clock in the morning. I start work at half past seven. I finish at three o'clock in the afternoon.
+I live with my flatmate, Lucy. Our flat is small but very nice. The rent is six hundred and fifty pounds a month. We have two bedrooms, one bathroom, and a small kitchen.
+Every morning, I wake up at six fifteen. I have a shower and then I eat breakfast. I usually eat toast with butter and a cup of tea. I walk to work. It takes about fifteen minutes.
+On Tuesday and Thursday evenings, I go to a gym near my flat. The gym costs thirty pounds a month.
+This weekend, I am going to visit my parents. They live in Bath, which is about fifteen miles from Bristol. I am going by train. The train ticket costs nine pounds fifty.
+My parents' house has a big garden. My mother loves flowers. My father likes cooking. He always makes a big Sunday lunch. My favourite food is roast chicken.
+I want to travel in the future. My dream is to visit Japan. I am saving fifty pounds every month for my trip.`,
+
+  b1: `Good afternoon, the Royal Crescent Hotel, Edinburgh. Claire speaking. How can I help you?
+Hello, good afternoon. My name is David Harrison. I'd like to make a reservation, please.
+Of course. What dates were you looking at, Mr Harrison?
+I need a room from the fourteenth to the seventeenth of November. That's three nights.
+Let me check availability for you. The fourteenth to the seventeenth of November — yes, we do have rooms available. Did you want a standard room or a superior room?
+What's the difference in price?
+A standard double room is one hundred and fifteen pounds per night, and a superior room with a city view is one hundred and forty-five pounds per night. Both prices include breakfast.
+I'll take the standard double, please. Could I also request a quiet room, away from the street if possible? I have an early start on the fifteenth — I need to be at the conference centre by eight o'clock.
+Absolutely, I'll make a note of that. Can I take a credit card to secure the booking?
+Yes, of course. The card number is four seven two two, three eight nine one, five five six zero, two four one three. The expiry date is March twenty-twenty-seven.
+Thank you. And the name on the card?
+David Harrison. H-A-R-R-I-S-O-N.
+Perfect. So to confirm — a standard double room from the fourteenth to the seventeenth of November, three nights at one hundred and fifteen pounds per night, totalling three hundred and forty-five pounds. Check-in is from two pm and check-out is by eleven am. Shall I send a confirmation to your email?
+Yes please. It's david.harrison at globaltech dot co dot uk.
+Got that. Is there anything else I can help with?
+Just one thing — is there a car park at the hotel?
+Yes, we have a private car park. It's twelve pounds per night. Would you like me to reserve a space?
+Yes, please do. Thank you very much.
+My pleasure. We look forward to welcoming you in November. Goodbye.`,
+
+  b2: `New figures released today by the Office for National Statistics show that the average house price in England and Wales has risen by eleven point three percent over the past twelve months, reaching a new record high of three hundred and twelve thousand pounds in September of this year.
+The sharpest rises were recorded in the South East, where prices increased by fourteen percent, and in East Anglia, where the rise stood at thirteen point eight percent. London, by contrast, saw a more modest increase of just six point two percent, as high prices continue to deter buyers.
+Speaking to the BBC this morning, Professor Rachel Webb of the London School of Economics said the figures reflected a structural imbalance between supply and demand that had been building since at least two thousand and five.
+Professor Webb: What we are seeing is not a bubble in any traditional sense. The underlying problem is that we have been building approximately one hundred and forty thousand homes per year, when the government's own target is three hundred thousand. Until that gap closes, prices will remain elevated. I would not expect any meaningful correction before twenty-twenty-eight at the earliest.
+Presenter: The government responded this afternoon, with the Housing Secretary, Jonathan Clarke, announcing a new package of measures designed to accelerate housebuilding. Under the plan, local councils will be required to approve planning applications within twelve weeks or face financial penalties. An additional two point four billion pounds will be allocated to affordable housing programmes over the next three years.
+However, critics from the opposition Labour Party argued the measures did not go nearly far enough. Shadow Housing Minister, Sarah Okafor, said the announcement was, quote, a sticking plaster on a broken system, and called for a full independent review of planning law by the first of March next year.
+First-time buyers remain the most affected group, with the average age of a first-time buyer now standing at thirty-four — up from twenty-nine in the year two thousand. The average deposit required in London has reached eighty-seven thousand pounds.
+We will have more on this story in our six o'clock bulletin.`,
+
+  c1: `This morning I want to turn our attention to the British Broadcasting Corporation — an institution that, I would argue, is not merely a media organisation but a foundational element of British cultural identity.
+The BBC was established by Royal Charter on the eighteenth of January, nineteen twenty-seven, though its predecessor — the British Broadcasting Company — had been operating as a commercial entity since the fourteenth of November, nineteen twenty-two. The transition from Company to Corporation was consequential: it marked a deliberate decision by the government of the day, under Prime Minister Stanley Baldwin, to remove broadcasting from purely commercial imperatives and place it under a public service mandate.
+The architect of this transformation was John Reith — the BBC's first Director-General — who served from nineteen twenty-two to nineteen thirty-eight. Reith's philosophy, which became known as Reithianism, held that broadcasting should simultaneously inform, educate, and entertain — in that order of priority. His ambition was not merely to reflect public taste but, in his own memorable phrase, to give the public something slightly better than it thinks it wants.
+The BBC's first television service launched on the second of November, nineteen thirty-six, making it the world's first regular high-definition public television service. The service was suspended during the Second World War, between September nineteen thirty-nine and June nineteen forty-six — a period of six years and nine months — before resuming with the same programme that had been interrupted when transmission ceased.
+By the nineteen-sixties, the BBC faced its first serious institutional challenge: the rise of commercial television, which had launched via ITV in September nineteen fifty-five, and the arrival of pirate radio stations in nineteen sixty-four. The response was the launch of BBC Two in April nineteen sixty-four and Radio One in September nineteen sixty-seven — the latter being a direct response to the popularity of offshore pirate stations such as Radio Caroline.
+Today, the BBC operates under a ten-year Royal Charter — the most recent of which was renewed in December twenty sixteen and runs until thirty-first December twenty-twenty-seven. It is funded primarily through the licence fee, which currently stands at one hundred and sixty-nine pounds and fifty pence per year for a colour television licence. The BBC employs approximately twenty-two thousand people and reaches an estimated four hundred and fifty million people globally each week through its World Service and digital platforms.
+The question of whether the licence fee model remains viable in the age of streaming is one of the most contested debates in contemporary British media policy. The government commissioned an independent review in February twenty-twenty-three, the findings of which are expected to shape the BBC's funding model from twenty-twenty-eight onwards.`
+};
+
+const DURATIONS = { a1: 120, b1: 150, c1: 210, b2: 180 };
+let voices = [], selVoice = {}, speeds = {a1:1,b1:1,b2:1,c1:1};
+let playing = {a1:false,b1:false,b2:false,c1:false};
+let elapsed = {a1:0,b1:0,b2:0,c1:0};
+let timers = {};
+
+window.speechSynthesis.onvoiceschanged = loadVoices;
+function loadVoices() {
+  voices = speechSynthesis.getVoices();
+  ['a1','b1','b2','c1'].forEach(k => {
+    const gb = voices.filter(v => v.lang.startsWith('en-GB') || v.name.toLowerCase().includes('uk'));
+    const pool = gb.length ? gb : voices.filter(v => v.lang.startsWith('en'));
+    selVoice[k] = pool[0] || voices[0];
+    const sel = document.getElementById('vc_'+k);
+    if (!sel) return;
+    sel.innerHTML = '';
+    pool.slice(0,8).forEach((v,i) => {
+      const o = document.createElement('option');
+      o.value = i; o.textContent = v.name.replace('Google ','').substring(0,18);
+      sel.appendChild(o);
+    });
+  });
+}
+loadVoices();
+
+function chVoice(k) {
+  const sel = document.getElementById('vc_'+k);
+  const gb = voices.filter(v => v.lang.startsWith('en-GB') || v.name.toLowerCase().includes('uk'));
+  const pool = gb.length ? gb : voices.filter(v => v.lang.startsWith('en'));
+  selVoice[k] = pool[parseInt(sel.value)] || voices[0];
+  if (playing[k]) { stopAudio(k); startAudio(k); }
+}
+
+function setSpd(k, s) {
+  speeds[k] = s;
+  document.getElementById('s1_'+k).classList.toggle('on', s===1);
+  document.getElementById('s75_'+k).classList.toggle('on', s===.75);
+  if (playing[k]) { stopAudio(k); startAudio(k); }
+}
+
+function fmt(s) { return Math.floor(s/60)+':'+String(Math.floor(s%60)).padStart(2,'0'); }
+
+function startAudio(k) {
+  const u = new SpeechSynthesisUtterance(SCRIPTS[k]);
+  u.voice = selVoice[k] || null;
+  u.rate = speeds[k]; u.pitch = 1;
+  const dur = DURATIONS[k] / speeds[k];
+  u.onstart = () => {
+    playing[k] = true;
+    document.getElementById('btn_'+k).classList.add('playing');
+    timers[k] = setInterval(() => {
+      elapsed[k] = Math.min(elapsed[k]+0.1, dur);
+      document.getElementById('pf_'+k).style.width = (elapsed[k]/dur*100)+'%';
+      document.getElementById('ct_'+k).textContent = fmt(elapsed[k]);
+      if (elapsed[k] >= dur-0.1) clearInterval(timers[k]);
+    }, 100);
+  };
+  u.onend = () => {
+    playing[k] = false;
+    document.getElementById('btn_'+k).classList.remove('playing');
+    clearInterval(timers[k]);
+    elapsed[k] = 0;
+    document.getElementById('pf_'+k).style.width = '0%';
+    document.getElementById('ct_'+k).textContent = '0:00';
+  };
+  speechSynthesis.speak(u);
+}
+
+function stopAudio(k) {
+  speechSynthesis.cancel();
+  playing[k] = false;
+  clearInterval(timers[k]);
+  document.getElementById('btn_'+k).classList.remove('playing');
+}
+
+function togglePlay(k) {
+  ['a1','b1','b2','c1'].forEach(x => { if (x!==k && playing[x]) stopAudio(x); });
+  if (playing[k]) stopAudio(k);
+  else { elapsed[k]=0; startAudio(k); }
+}
+
+function seekAudio(e, k) {
+  const t = document.getElementById('pf_'+k).parentElement;
+  const r = t.getBoundingClientRect();
+  const pct = Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
+  elapsed[k] = pct * DURATIONS[k] / speeds[k];
+  document.getElementById('pf_'+k).style.width = (pct*100)+'%';
+  document.getElementById('ct_'+k).textContent = fmt(elapsed[k]);
+}
+
+/* ─── QUIZ ─── */
+function pick(el, qset, qid) {
+  const item = el.closest('.q-item');
+  if (item.dataset.done) return;
+  item.querySelectorAll('.q-opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+const MSGS = {
+  a1:  ['Listen again carefully!','Keep trying!','Good effort!','Well done!','Excellent!','Perfect — well done!'],
+  b1:  ['Listen again carefully!','Keep practising!','Good effort!','Well done!','Excellent!','Perfect score!'],
+  b2:  ['Review the report and try again.','Decent attempt!','Good listening!','Strong result!','Excellent detail!','Outstanding!'],
+  c1:  ['Very challenging — listen again.','Good attempt!','Solid listening!','Strong performance!','Excellent precision!','Perfect — truly advanced!']
+};
+
+function submitQ(qset, level, answers) {
+  let score = 0;
+  const container = document.getElementById(qset);
+  container.querySelectorAll('.q-item').forEach((item, i) => {
+    const qid = 'q'+(i+1);
+    const correct = answers[qid];
+    const sel = item.querySelector('.q-opt.sel');
+    const fb = document.getElementById('fb_'+qset+'_'+qid);
+    item.dataset.done = '1';
+    item.querySelectorAll('.q-opt').forEach(o => {
+      o.onclick = null;
+      if (o.querySelector('.opt-l').textContent.trim() === correct) o.classList.add('ok-ans');
+    });
+    if (sel) {
+      const ch = sel.querySelector('.opt-l').textContent.trim();
+      if (ch === correct) {
+        score++;
+        fb.className = 'q-fb ok';
+        fb.textContent = '✓ Correct!';
+      } else {
+        sel.classList.add('no-ans');
+        fb.className = 'q-fb no';
+        fb.textContent = '✗ The correct answer is ' + correct + '. Review the transcript for details.';
+      }
+    } else {
+      fb.className = 'q-fb no';
+      fb.textContent = '— Not answered. Correct answer: ' + correct + '.';
+    }
+    fb.style.display = 'block';
+  });
+  const band = document.getElementById('sc_'+qset);
+  band.style.display = 'flex';
+  document.getElementById('sn_'+qset).textContent = score + '/10';
+  const idx = Math.min(score <= 3 ? score : score <= 6 ? 3 : score <= 8 ? 4 : score < 10 ? 4 : 5, 5);
+  document.getElementById('sm_'+qset).textContent = MSGS[level][Math.min(score,5)];
+}
+</script>
+</body>
+</html>

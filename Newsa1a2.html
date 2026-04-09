@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>News English A1/A2 – Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--ink:#1a1209;--paper:#fdf8f0;--cream:#f5ede0;--gold:#c8922a;--gold-lt:#e8b84b;--teal:#1e6b6b;--pearl:#e8ddd0;--shadow:rgba(26,18,9,.12);--ok:#1e6b3a;--no:#8b1a1a;--lv:#2a6496;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Source Serif 4',Georgia,serif;background:var(--paper);color:var(--ink);}
+    nav{background:var(--ink);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold-lt);padding:1.1rem 0;text-decoration:none;}
+    .nav-logo span{color:#fff;font-style:italic;}
+    .nav-links{display:flex;gap:.5rem;}
+    .nav-link{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#aaa;text-decoration:none;padding:.3rem .7rem;transition:color .2s;}
+    .nav-link:hover,.nav-link.cur{color:var(--gold-lt);}
+
+    /* HERO */
+    .hero{background:var(--lv);padding:4rem 2rem 3rem;position:relative;overflow:hidden;}
+    .hero::before{content:'📰';font-size:18rem;position:absolute;opacity:.04;top:-2rem;right:2rem;pointer-events:none;}
+    .hero-inner{max-width:900px;margin:0 auto;}
+    .hero-eyebrow{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:1rem;}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);color:#fff;line-height:1.1;margin-bottom:.8rem;}
+    .hero h1 em{color:var(--gold-lt);font-style:italic;}
+    .hero-desc{color:rgba(255,255,255,.7);font-size:1rem;line-height:1.8;max-width:640px;margin-bottom:1.5rem;}
+    .hero-pills{display:flex;gap:.5rem;flex-wrap:wrap;}
+    .hp{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.28rem .75rem;background:rgba(255,255,255,.1);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.18);}
+    .prog-bar{height:3px;background:rgba(255,255,255,.12);margin-top:2.5rem;}
+    .prog-fill{height:100%;width:0;background:var(--gold-lt);transition:width .3s;}
+
+    /* CEFR DEF */
+    .cefr-box{background:#fff;max-width:900px;margin:-1.5rem auto 0;position:relative;z-index:2;padding:1.8rem 2.2rem;box-shadow:0 6px 32px rgba(0,0,0,.1);}
+    .cefr-box h2{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--lv);margin-bottom:.5rem;}
+    .cefr-box p{font-size:.95rem;line-height:1.8;color:#444;}
+    .cefr-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.8rem;}
+    .ct{background:rgba(42,100,150,.08);border:1px solid rgba(42,100,150,.2);color:var(--lv);font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;padding:.22rem .6rem;}
+
+    /* LAYOUT */
+    .layout{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem;display:grid;grid-template-columns:1fr 240px;gap:3rem;}
+
+    /* ARTICLE */
+    .news-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;}
+    .news-headline{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--ink);line-height:1.2;margin-bottom:.6rem;}
+    .news-dateline{font-family:'DM Mono',monospace;font-size:.68rem;color:#aaa;margin-bottom:1.2rem;letter-spacing:.06em;}
+    .news-body p{font-size:1.02rem;line-height:1.9;color:#333;margin-bottom:1.1rem;}
+    .news-body p strong{color:var(--lv);}
+    .vocab-tip{background:rgba(42,100,150,.06);border-left:3px solid var(--lv);padding:.7rem 1rem;margin:1rem 0;font-size:.9rem;color:#444;line-height:1.7;}
+    .vocab-tip strong{color:var(--lv);}
+
+    /* EXERCISE SECTIONS */
+    .ex-block{background:#fff;padding:1.8rem;box-shadow:0 2px 12px var(--shadow);margin:2rem 0;}
+    .ex-block-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem;padding-bottom:.8rem;border-bottom:2px solid var(--pearl);}
+    .ex-type-badge{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:2px;flex-shrink:0;}
+    .badge-mcq{background:rgba(42,100,150,.1);color:var(--lv);}
+    .badge-tf{background:rgba(30,107,107,.1);color:var(--teal);}
+    .badge-fill{background:rgba(200,146,42,.1);color:var(--gold);}
+    .badge-comp{background:rgba(139,26,26,.1);color:var(--no);}
+    .badge-cloze{background:rgba(107,63,160,.1);color:#6b3fa0;}
+    .badge-scram{background:rgba(26,92,58,.1);color:var(--ok);}
+    .ex-block-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ink);}
+    .ex-block-sub{font-size:.85rem;color:#888;margin-top:.2rem;}
+
+    /* Q ITEMS */
+    .q-item{margin-bottom:1.3rem;padding-bottom:1.3rem;border-bottom:1px solid var(--pearl);}
+    .q-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+    .q-num{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem;}
+    .q-text{font-size:.97rem;color:#333;line-height:1.7;margin-bottom:.6rem;}
+    .q-text strong{color:var(--lv);}
+
+    /* MCQ */
+    .opts{display:flex;flex-direction:column;gap:.35rem;}
+    .opt{display:flex;align-items:flex-start;gap:.7rem;padding:.5rem .85rem;border:1px solid var(--pearl);cursor:pointer;background:var(--paper);transition:all .2s;font-size:.93rem;color:#444;line-height:1.5;}
+    .opt:hover{border-color:var(--lv);background:rgba(42,100,150,.04);}
+    .opt.sel{border-color:var(--lv);background:rgba(42,100,150,.06);}
+    .opt.ok{border-color:var(--ok);background:rgba(30,107,58,.07);color:var(--ok);}
+    .opt.no{border-color:var(--no);background:rgba(139,26,26,.05);color:var(--no);}
+    .ol{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--lv);flex-shrink:0;margin-top:1px;}
+    .opt.ok .ol{color:var(--ok);}
+    .opt.no .ol{color:var(--no);}
+
+    /* TRUE/FALSE */
+    .tf-opts{display:flex;gap:.6rem;}
+    .tf-btn{padding:.5rem 1.4rem;border:1px solid var(--pearl);background:var(--paper);font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.08em;cursor:pointer;transition:all .2s;color:#666;}
+    .tf-btn:hover{border-color:var(--lv);color:var(--lv);}
+    .tf-btn.sel{border-color:var(--lv);background:rgba(42,100,150,.07);color:var(--lv);}
+    .tf-btn.ok{border-color:var(--ok);background:rgba(30,107,58,.07);color:var(--ok);}
+    .tf-btn.no{border-color:var(--no);background:rgba(139,26,26,.05);color:var(--no);}
+
+    /* INPUT */
+    .ex-input{width:100%;padding:.6rem .9rem;border:1px solid var(--pearl);background:var(--paper);font-family:'Source Serif 4',serif;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .2s;margin-top:.3rem;}
+    .ex-input:focus{border-color:var(--lv);}
+    .ex-input.ok{border-color:var(--ok);background:rgba(30,107,58,.05);color:var(--ok);}
+    .ex-input.no{border-color:var(--no);background:rgba(139,26,26,.04);}
+    .inline-input{width:130px;padding:.25rem .5rem;border:none;border-bottom:2px solid var(--lv);background:transparent;font-family:'DM Mono',monospace;font-size:.88rem;color:var(--teal);outline:none;text-align:center;}
+    .inline-input.ok{border-bottom-color:var(--ok);color:var(--ok);}
+    .inline-input.no{border-bottom-color:var(--no);}
+
+    /* SCRAMBLE */
+    .word-bank{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem;min-height:40px;padding:.5rem;background:var(--cream);border:1px solid var(--pearl);}
+    .word-tile{padding:.3rem .7rem;background:#fff;border:1px solid var(--pearl);font-family:'DM Mono',monospace;font-size:.78rem;cursor:pointer;user-select:none;transition:all .2s;}
+    .word-tile:hover{border-color:var(--lv);background:rgba(42,100,150,.05);}
+    .word-tile.used{opacity:.35;cursor:default;text-decoration:line-through;}
+    .answer-slots{display:flex;gap:.4rem;flex-wrap:wrap;min-height:40px;padding:.5rem;border:1px dashed var(--pearl);background:#fff;}
+    .placed-tile{padding:.3rem .7rem;background:rgba(42,100,150,.1);border:1px solid var(--lv);font-family:'DM Mono',monospace;font-size:.78rem;cursor:pointer;color:var(--lv);}
+    .placed-tile:hover{background:rgba(139,26,26,.08);border-color:var(--no);color:var(--no);}
+
+    /* FEEDBACK */
+    .fb{font-family:'DM Mono',monospace;font-size:.72rem;margin-top:.4rem;display:none;padding:.4rem .7rem;line-height:1.5;}
+    .fb.ok{background:rgba(30,107,58,.08);color:var(--ok);}
+    .fb.no{background:rgba(139,26,26,.06);color:var(--no);}
+
+    /* BUTTONS */
+    .check-btn{padding:.75rem 1.8rem;background:var(--lv);color:#fff;border:none;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-top:1.2rem;transition:all .2s;}
+    .check-btn:hover{filter:brightness(1.15);}
+    .score-box{display:none;margin-top:1rem;padding:1rem 1.4rem;background:var(--ink);display:flex;align-items:center;gap:1.2rem;}
+    .sb-num{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold-lt);}
+    .sb-msg{font-family:'DM Mono',monospace;font-size:.7rem;color:#8899bb;line-height:1.5;}
+
+    /* SIDEBAR */
+    .sidebar{display:flex;flex-direction:column;gap:1.2rem;}
+    .sc{background:#fff;padding:1.3rem;box-shadow:0 2px 10px var(--shadow);}
+    .sc h4{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem;padding-bottom:.5rem;border-bottom:1px solid var(--pearl);}
+    .level-nav{list-style:none;}
+    .level-nav li{border-bottom:1px solid var(--pearl);}
+    .level-nav li:last-child{border-bottom:none;}
+    .level-nav a{display:flex;align-items:center;gap:.6rem;padding:.55rem 0;font-size:.88rem;color:#555;text-decoration:none;transition:color .2s;}
+    .level-nav a:hover{color:var(--gold);}
+    .level-nav a.cur{color:var(--lv);font-weight:600;}
+    .lbadge{font-family:'DM Mono',monospace;font-size:.58rem;padding:.18rem .45rem;flex-shrink:0;}
+    .la1{background:rgba(42,100,150,.1);color:var(--lv);}
+    .lb1{background:rgba(30,107,107,.1);color:var(--teal);}
+    .lb2{background:rgba(139,58,16,.1);color:#8b3a10;}
+    .lc1{background:rgba(61,26,96,.1);color:#3d1a60;}
+    .tip{background:rgba(42,100,150,.05);border:1px solid rgba(42,100,150,.18);padding:.9rem 1rem;font-size:.87rem;line-height:1.75;color:#555;}
+    .tip strong{color:var(--lv);}
+    .next-btn{display:block;background:var(--gold);color:var(--ink);padding:.9rem;text-align:center;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;font-weight:500;transition:all .2s;}
+    .next-btn:hover{background:var(--gold-lt);}
+
+    footer{background:var(--ink);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    footer p{color:#666;font-size:.78rem;font-family:'DM Mono',monospace;}
+    footer a{color:var(--gold);text-decoration:none;font-family:'DM Mono',monospace;font-size:.78rem;}
+    @media(max-width:800px){.layout{grid-template-columns:1fr;}footer{padding:2rem 1.5rem;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
+  <div class="nav-links">
+    <a href="news-a1a2.html" class="nav-link cur">A1/A2</a>
+    <a href="Newsb1.html" class="nav-link">B1</a>
+    <a href="Newsb2.html" class="nav-link">B2</a>
+    <a href="Newsc1.html" class="nav-link">C1</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">News English · Level 1 of 4</div>
+    <h1>News English:<br/><em>A1 / A2 Beginner</em></h1>
+    <p class="hero-desc">Read a short, simple news article written for beginner learners. Then complete 25 exercises covering six different question types — designed to build your reading skills from the ground up.</p>
+    <div class="hero-pills">
+      <span class="hp">🌱 Beginner</span>
+      <span class="hp">📰 Simple News</span>
+      <span class="hp">25 Questions</span>
+      <span class="hp">6 Exercise Types</span>
+    </div>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
+</div>
+
+<div class="cefr-box">
+  <h2>What is CEFR A1/A2?</h2>
+  <p>At <strong>A1/A2 (Beginner/Elementary)</strong>, learners can understand short, simple texts using high-frequency vocabulary. News articles at this level use short sentences, present simple and past simple tenses, and familiar everyday topics such as people, places, food, weather and simple events. Key numbers, names and dates are always stated clearly.</p>
+  <div class="cefr-tags">
+    <span class="ct">Short sentences</span><span class="ct">High-frequency words</span><span class="ct">Present &amp; past simple</span><span class="ct">Familiar topics</span><span class="ct">Clear facts &amp; numbers</span>
+  </div>
+</div>
+
+<div class="layout">
+<main>
+  <!-- NEWS ARTICLE -->
+  <div class="news-label">📰 News Article · A1/A2 · Beginner</div>
+  <div class="news-headline">A New Park Opens in the City Centre</div>
+  <div class="news-dateline">LONDON · TUESDAY, 15 APRIL · SHARED PEARLS NEWS SERVICE</div>
+
+  <div class="news-body">
+    <p>A <strong>new park</strong> opened in the centre of London yesterday. The park is called <strong>Green Haven Park</strong>. It is very big. There are trees, flowers, and a small lake in the park.</p>
+    <p>The park is open <strong>every day</strong> from <strong>seven o'clock in the morning</strong> to <strong>nine o'clock in the evening</strong>. It is free for everyone. Children, adults, and older people can all visit.</p>
+    <p>The Mayor of London, <strong>Ms Patricia Webb</strong>, opened the park at <strong>10 am on Monday, 14 April</strong>. She said: <em>"This park is a gift to the people of London. I am very happy today."</em></p>
+    <p>The park has a <strong>café</strong> near the main entrance. A cup of coffee costs <strong>£2.50</strong>. A sandwich costs <strong>£4.00</strong>. The café opens at <strong>eight o'clock</strong> every morning.</p>
+    <p>There is also a <strong>children's play area</strong> with swings, slides, and a climbing frame. It is next to the café. Children under the age of <strong>12</strong> can use the play area for free.</p>
+    <p>The new park cost the city council <strong>£3.5 million</strong> to build. The council started building the park in <strong>January 2023</strong>. It took <strong>15 months</strong> to complete.</p>
+    <p>Many people visited the park on its first day. <strong>Over 2,000 people</strong> came on Monday. One visitor, <strong>Mr Tom Baker</strong>, age 34, said: <em>"It is a beautiful park. I live near here. I will come every day."</em></p>
+    <p>The city council says it plans to open <strong>three more parks</strong> in London over the next <strong>two years</strong>.</p>
+  </div>
+
+  <div class="vocab-tip"><strong>Key Words:</strong> park (a public green space) · mayor (the leader of a city) · entrance (the door or gate you use to go in) · council (a group of people who manage a town or city) · play area (a place for children to play)</div>
+
+  <!-- ── SECTION A: MCQ ── -->
+  <div class="ex-block">
+    <div class="ex-block-head">
+      <span class="ex-type-badge badge-mcq">A · MCQ</span>
+      <div><div class="ex-block-title">Multiple Choice Questions</div><div class="ex-block-sub">Questions 1–5 · Choose the best answer: A, B, C or D</div></div>
+    </div>
+
+    <div class="q-item" id="mcq1">
+      <div class="q-num">Question 1</div>
+      <div class="q-text">What is the name of the new park?</div>
+      <div class="opts">
+        <div class="opt" onclick="pickOpt(this,'mcq1')"><span class="ol">A</span>London City Park</div>
+        <div class="opt" onclick="pickOpt(this,'mcq1')"><span class="ol">B</span>Green Haven Park</div>
+        <div class="opt" onclick="pickOpt(this,'mcq1')"><span class="ol">C</span>Baker's Park</div>
+        <div class="opt" onclick="pickOpt(this,'mcq1')"><span class="ol">D</span>Patricia's Garden</div>
+      </div>
+      <div class="fb" id="fb_mcq1"></div>
+    </div>
+
+    <div class="q-item" id="mcq2">
+      <div class="q-num">Question 2</div>
+      <div class="q-text">What time does the park open every morning?</div>
+      <div class="opts">
+        <div class="opt" onclick="pickOpt(this,'mcq2')"><span class="ol">A</span>6:00 am</div>
+        <div class="opt" onclick="pickOpt(this,'mcq2')"><span class="ol">B</span>8:00 am</div>
+        <div class="opt" onclick="pickOpt(this,'mcq2')"><span class="ol">C</span>7:00 am</div>
+        <div class="opt" onclick="pickOpt(this,'mcq2')"><span class="ol">D</span>9:00 am</div>
+      </div>
+      <div class="fb" id="fb_mcq2"></div>
+    </div>
+
+    <div class="q-item" id="mcq3">
+      <div class="q-num">Question 3</div>
+      <div class="q-text">Who opened the park?</div>
+      <div class="opts">
+        <div class="opt" onclick="pickOpt(this,'mcq3')"><span class="ol">A</span>Mr Tom Baker</div>
+        <div class="opt" onclick="pickOpt(this,'mcq3')"><span class="ol">B</span>The city council</div>
+        <div class="opt" onclick="pickOpt(this,'mcq3')"><span class="ol">C</span>Ms Patricia Webb</div>
+        <div class="opt" onclick="pickOpt(this,'mcq3')"><span class="ol">D</span>The Prime Minister</div>
+      </div>
+      <div class="fb" id="fb_mcq3"></div>
+    </div>
+
+    <div class="q-item" id="mcq4">
+      <div class="q-num">Question 4</div>
+      <div class="q-text">How much does a sandwich cost in the café?</div>
+      <div class="opts">
+        <div class="opt" onclick="pickOpt(this,'mcq4')"><span class="ol">A</span>£2.00</div>
+        <div class="opt" onclick="pickOpt(this,'mcq4')"><span class="ol">B</span>£2.50</div>
+        <div class="opt" onclick="pickOpt(this,'mcq4')"><span class="ol">C</span>£3.50</div>
+        <div class="opt" onclick="pickOpt(this,'mcq4')"><span class="ol">D</span>£4.00</div>
+      </div>
+      <div class="fb" id="fb_mcq4"></div>
+    </div>
+
+    <div class="q-item" id="mcq5">
+      <div class="q-num">Question 5</div>
+      <div class="q-text">How long did the park take to build?</div>
+      <div class="opts">
+        <div class="opt" onclick="pickOpt(this,'mcq5')"><span class="ol">A</span>12 months</div>
+        <div class="opt" onclick="pickOpt(this,'mcq5')"><span class="ol">B</span>15 months</div>
+        <div class="opt" onclick="pickOpt(this,'mcq5')"><span class="ol">C</span>18 months</div>
+        <div class="opt" onclick="pickOpt(this,'mcq5')"><span class="ol">D</span>2 years</div>
+      </div>
+      <div class="fb" id="fb_mcq5"></div>
+    </div>
+
+    <button class="check-btn" onclick="checkMCQ('A',{mcq1:'B',mcq2:'C',mcq3:'C',mcq4:'D',mcq5:'B'})">Check Section A</button>
+    <div class="score-box" id="sc_A" style="display:none;"><div class="sb-num" id="sn_A"></div><div class="sb-msg" id="sm_A"></div></div>
+  </div>
+
+  <!-- ── SECTION B: TRUE/FALSE ── -->
+  <div class="ex-block">
+    <div class="ex-block-head">
+      <span class="ex-type-badge badge-tf">B · True/False</span>
+      <div><div class="ex-block-title">True or False?</div><div class="ex-block-sub">Questions 6–10 · Read each statement and decide: TRUE or FALSE</div></div>
+    </div>
+
+    <div class="q-item" id="tf6">
+      <div class="q-num">Question 6</div>
+      <div class="q-text">The park is in the north of London.</div>
+      <div class="tf-opts">
+        <button class="tf-btn" onclick="pickTF(this,'tf6','T')">TRUE</button>
+        <button class="tf-btn" onclick="pickTF(this,'tf6','F')">FALSE</button>
+      </div>
+      <div class="fb" id="fb_tf6"></div>
+    </div>
+
+    <div class="q-item" id="tf7">
+      <div class="q-num">Question 7</div>
+      <div class="q-text">It costs money to enter the park.</div>
+      <div class="tf-opts">
+        <button class="tf-btn" onclick="pickTF(this,'tf7','T')">TRUE</button>
+        <button class="tf-btn" onclick="pickTF(this,'tf7','F')">FALSE</button>
+      </div>
+      <div class="fb" id="fb_tf7"></div>
+    </div>
+
+    <div class="q-item" id="tf8">
+      <div class="q-num">Question 8</div>
+      <div class="q-text">The park has a small lake.</div>
+      <div class="tf-opts">
+        <button class="tf-btn" onclick="pickTF(this,'tf8','T')">TRUE</button>
+        <button class="tf-btn" onclick="pickTF(this,'tf8','F')">FALSE</button>
+      </div>
+      <div class="fb" id="fb_tf8"></div>
+    </div>
+
+    <div class="q-item" id="tf9">
+      <div class="q-num">Question 9</div>
+      <div class="q-text">The children's play area is for children under 10 years old.</div>
+      <div class="tf-opts">
+        <button class="tf-btn" onclick="pickTF(this,'tf9','T')">TRUE</button>
+        <button class="tf-btn" onclick="pickTF(this,'tf9','F')">FALSE</button>
+      </div>
+      <div class="fb" id="fb_tf9"></div>
+    </div>
+
+    <div class="q-item" id="tf10">
+      <div class="q-num">Question 10</div>
+      <div class="q-text">More than 2,000 people visited the park on its first day.</div>
+      <div class="tf-opts">
+        <button class="tf-btn" onclick="pickTF(this,'tf10','T')">TRUE</button>
+        <button class="tf-btn" onclick="pickTF(this,'tf10','F')">FALSE</button>
+      </div>
+      <div class="fb" id="fb_tf10"></div>
+    </div>
+
+    <button class="check-btn" onclick="checkTF('B',{tf6:'F',tf7:'F',tf8:'T',tf9:'F',tf10:'T'})">Check Section B</button>
+    <div class="score-box" id="sc_B" style="display:none;"><div class="sb-num" id="sn_B"></div><div class="sb-msg" id="sm_B"></div></div>
+  </div>
+
+  <!-- ── SECTION C: FILL IN THE BLANK ── -->
+  <div class="ex-block">
+    <div class="ex-block-head">
+      <span class="ex-type-badge badge-fill">C · Fill in the Blank</span>
+      <div><div class="ex-block-title">Fill in the Blank</div><div class="ex-block-sub">Questions 11–15 · Write the correct word or number in each space</div></div>
+    </div>
+
+    <div class="q-item">
+      <div class="q-num">Question 11</div>
+      <div class="q-text">The Mayor of London is called Ms Patricia <input class="inline-input" id="fi11" placeholder="surname"/>.</div>
+      <div class="fb" id="fb_fi11"></div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">Question 12</div>
+      <div class="q-text">The park cost <strong>£</strong><input class="inline-input" id="fi12" placeholder="amount"/> million to build.</div>
+      <div class="fb" id="fb_fi12"></div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">Question 13</div>
+      <div class="q-text">Building started in <input class="inline-input" id="fi13" placeholder="month &amp; year"/>.</div>
+      <div class="fb" id="fb_fi13"></div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">Question 14</div>
+      <div class="q-text">The visitor's name is Mr Tom <input class="inline-input" id="fi14" placeholder="surname"/> and he is <input class="inline-input" id="fi14b" placeholder="age"/> years old.</div>
+      <div class="fb" id="fb_fi14"></div>
+    </div>
+    <div class="q-item">
+      <div class="q-num">Question 15</div>
+      <div class="q-text">The council plans to open <input class="inline-input" id="fi15" placeholder="number"/> more parks over the next two years.</div>
+      <div class="fb" id="fb_fi15"></div>
+    </div>
+
+    <button class="check-btn" onclick="checkFill()">Check Section C</button>
+    <div class="score-box" id="sc_C" style="display:none;"><div class="sb-num" id="sn_C"></div><div class="sb-msg" id="sm_C"></div></div>
+  </div>
+
+  <!-- ── SECTION D: SENTENCE COMPLETION ── -->
+  <div class="ex-block">
+    <div class="ex-block-head">
+      <span class="ex-type-badge badge-comp">D · Sentence Completion</span>
+      <div><div class="ex-block-title">Complete the Sentence</div><div class="ex-block-sub">Questions 16–18 · Choose the best ending for each sentence</div></div>
+    </div>
+
+    <div class="q-item" id="sc16">
+      <div class="q-num">Question 16</div>
+      <div class="q-text">The café in the park opens at eight o'clock and sells…</div>
+      <div class="opts">
+        <div class="opt" onclick="pickOpt(this,'sc16')"><span class="ol">A</span>…only hot drinks and cakes.</div>
+        <div class="opt" onclick="pickOpt(this,'sc16')"><span class="ol">B</span>…coffee and sandwiches.</div>
+        <div class="opt" onclick="pickOpt(this,'sc16')"><span class="ol">C</span>…fresh fruit and vegetables.</div>
+        <div class="opt" onclick="pickOpt(this,'sc16')"><span class="ol">D</span>…nothing — it is free.</div>
+      </div>
+      <div class="fb" id="fb_sc16"></div>
+    </div>
+
+    <div class="q-item" id="sc17">
+      <div class="q-num">Question 17</div>
+      <div class="q-text">The Mayor said she was very happy because…</div>
+      <div class="opts">
+        <div class="opt" onclick="pickOpt(this,'sc17')"><span class="ol">A</span>…she received a lot of money.</div>
+        <div class="opt" onclick="pickOpt(this,'sc17')"><span class="ol">B</span>…the park is a gift for the people of London.</div>
+        <div class="opt" onclick="pickOpt(this,'sc17')"><span class="ol">C</span>…the weather was very nice that day.</div>
+        <div class="opt" onclick="pickOpt(this,'sc17')"><span class="ol">D</span>…she lives near the park.</div>
+      </div>
+      <div class="fb" id="fb_sc17"></div>
+    </div>
+
+    <div class="q-item" id="sc18">
+      <div class="q-num">Question 18</div>
+      <div class="q-text">Tom Baker said he will come to the park every day because…</div>
+      <div class="opts">
+        <div class="opt" onclick="pickOpt(this,'sc18')"><span class="ol">A</span>…he works there.</div>
+        <div class="opt" onclick="pickOpt(this,'sc18')"><span class="ol">B</span>…it is free and beautiful, and he lives near it.</div>
+        <div class="opt" onclick="pickOpt(this,'sc18')"><span class="ol">C</span>…his children play there.</div>
+        <div class="opt" onclick="pickOpt(this,'sc18')"><span class="ol">D</span>…the café has good coffee.</div>
+      </div>
+      <div class="fb" id="fb_sc18"></div>
+    </div>
+
+    <button class="check-btn" onclick="checkMCQ('D',{sc16:'B',sc17:'B',sc18:'B'})">Check Section D</button>
+    <div class="score-box" id="sc_D" style="display:none;"><div class="sb-num" id="sn_D"></div><div class="sb-msg" id="sm_D"></div></div>
+  </div>
+
+  <!-- ── SECTION E: CLOZE ── -->
+  <div class="ex-block">
+    <div class="ex-block-head">
+      <span class="ex-type-badge badge-cloze">E · Cloze</span>
+      <div><div class="ex-block-title">Cloze Exercise</div><div class="ex-block-sub">Questions 19–22 · Choose the correct word to complete this summary paragraph</div></div>
+    </div>
+
+    <p style="font-size:.95rem;line-height:2;color:#333;margin-bottom:1.2rem;padding:1rem;background:var(--cream);">
+      A new park
+      <select id="cl19" class="inline-select" onchange="this.style.color='var(--teal)'"><option value="">▾</option><option>opened</option><option>closed</option><option>built</option><option>found</option></select>
+      in London on Monday. The park is
+      <select id="cl20" onchange="this.style.color='var(--teal)'"><option value="">▾</option><option>paid</option><option>expensive</option><option>free</option><option>closed</option></select>
+      for everyone. The Mayor
+      <select id="cl21" onchange="this.style.color='var(--teal)'"><option value="">▾</option><option>visited</option><option>built</option><option>opened</option><option>closed</option></select>
+      the park at ten o'clock in the morning. The park has a café, a lake, and a children's
+      <select id="cl22" onchange="this.style.color='var(--teal)'"><option value="">▾</option><option>school</option><option>play area</option><option>hospital</option><option>library</option></select>
+      .
+    </p>
+    <style>
+      .inline-select,.inline-select option{font-family:'DM Mono',monospace;font-size:.82rem;padding:.18rem .4rem;border:1px solid var(--lv);background:#fff;color:var(--teal);cursor:pointer;outline:none;}
+      .inline-select.ok{border-color:var(--ok);color:var(--ok);}
+      .inline-select.no{border-color:var(--no);color:var(--no);}
+    </style>
+    <div class="fb" id="fb_cloze"></div>
+    <button class="check-btn" onclick="checkCloze()">Check Section E</button>
+    <div class="score-box" id="sc_E" style="display:none;"><div class="sb-num" id="sn_E"></div><div class="sb-msg" id="sm_E"></div></div>
+  </div>
+
+  <!-- ── SECTION F: SCRAMBLED SENTENCES ── -->
+  <div class="ex-block">
+    <div class="ex-block-head">
+      <span class="ex-type-badge badge-scram">F · Scrambled Sentences</span>
+      <div><div class="ex-block-title">Unscramble the Sentence</div><div class="ex-block-sub">Questions 23–25 · Click the words in the correct order to build each sentence</div></div>
+    </div>
+
+    <!-- Q23 -->
+    <div class="q-item">
+      <div class="q-num">Question 23</div>
+      <div class="q-text">Rearrange these words: <em>the / open / park / is / everyone / free / for</em></div>
+      <div class="word-bank" id="wb23"></div>
+      <div class="answer-slots" id="as23"></div>
+      <div class="fb" id="fb_s23"></div>
+    </div>
+
+    <!-- Q24 -->
+    <div class="q-item">
+      <div class="q-num">Question 24</div>
+      <div class="q-text">Rearrange these words: <em>the / café / opens / eight / at / every / morning / o'clock</em></div>
+      <div class="word-bank" id="wb24"></div>
+      <div class="answer-slots" id="as24"></div>
+      <div class="fb" id="fb_s24"></div>
+    </div>
+
+    <!-- Q25 -->
+    <div class="q-item">
+      <div class="q-num">Question 25</div>
+      <div class="q-text">Rearrange these words: <em>the / cost / park / £3.5 / million / council / to / build</em></div>
+      <div class="word-bank" id="wb25"></div>
+      <div class="answer-slots" id="as25"></div>
+      <div class="fb" id="fb_s25"></div>
+    </div>
+
+    <button class="check-btn" onclick="checkScramble()">Check Section F</button>
+    <div class="score-box" id="sc_F" style="display:none;"><div class="sb-num" id="sn_F"></div><div class="sb-msg" id="sm_F"></div></div>
+  </div>
+
+</main>
+
+<aside class="sidebar">
+  <div class="sc">
+    <h4>News English Levels</h4>
+    <ul class="level-nav">
+      <li><a href="newsa1a2.html" class="cur"><span class="lbadge la1">A1/A2</span> Beginner</a></li>
+      <li><a href="newsb1.html"><span class="lbadge lb1">B1</span> Intermediate</a></li>
+      <li><a href="newsb2.html"><span class="lbadge lb2">B2</span> Upper-Int</a></li>
+      <li><a href="newsc1.html"><span class="lbadge lc1">C1</span> Advanced</a></li>
+    </ul>
+  </div>
+  <div class="sc">
+    <h4>Exercise Types</h4>
+    <ul style="list-style:none;font-size:.85rem;line-height:2.1;color:#555;">
+      <li><span class="ex-type-badge badge-mcq" style="font-size:.58rem;">A</span> Multiple Choice (Q1–5)</li>
+      <li><span class="ex-type-badge badge-tf" style="font-size:.58rem;">B</span> True / False (Q6–10)</li>
+      <li><span class="ex-type-badge badge-fill" style="font-size:.58rem;">C</span> Fill in the Blank (Q11–15)</li>
+      <li><span class="ex-type-badge badge-comp" style="font-size:.58rem;">D</span> Sentence Completion (Q16–18)</li>
+      <li><span class="ex-type-badge badge-cloze" style="font-size:.58rem;">E</span> Cloze (Q19–22)</li>
+      <li><span class="ex-type-badge badge-scram" style="font-size:.58rem;">F</span> Scrambled Sentences (Q23–25)</li>
+    </ul>
+  </div>
+  <div class="sc">
+    <h4>Reading Tip</h4>
+    <div class="tip"><strong>At A1/A2</strong>, always read the headline and look at all numbers and names first. Numbers and proper nouns (names, places) are the easiest facts to find in a text. Start with those!</div>
+  </div>
+  <a href="news-b1.html" class="next-btn">Next Level: B1 →</a>
+</aside>
+</div>
+
+<footer>
+  <p>© 2025 Shared Pearls of Wisdom · Ramesh198312</p>
+  <a href="Newsa1a2.html">← Back to all lessons</a>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('pf').style.width=((d.scrollTop||document.body.scrollTop)/(d.scrollHeight-d.clientHeight)*100)+'%';});
+
+/* MCQ */
+function pickOpt(el,qid){
+  const item=document.getElementById(qid);
+  if(item.dataset.done)return;
+  item.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function checkMCQ(sec,answers){
+  let s=0,t=Object.keys(answers).length;
+  for(let id in answers){
+    const item=document.getElementById(id);
+    item.dataset.done='1';
+    const sel=item.querySelector('.opt.sel');
+    const fb=document.getElementById('fb_'+id);
+    const correct=answers[id];
+    item.querySelectorAll('.opt').forEach(o=>{
+      o.onclick=null;
+      if(o.querySelector('.ol').textContent.trim()===correct)o.classList.add('ok');
+    });
+    fb.style.display='block';
+    if(sel){
+      const ch=sel.querySelector('.ol').textContent.trim();
+      if(ch===correct){s++;fb.className='fb ok';fb.textContent='✓ Correct!';}
+      else{sel.classList.add('no');fb.className='fb no';fb.textContent='✗ The correct answer is '+correct+'.';}
+    }else{fb.className='fb no';fb.textContent='— Not answered. Answer: '+correct+'.';}
+  }
+  showScore(sec,s,t);
+}
+
+/* TRUE/FALSE */
+function pickTF(btn,qid,val){
+  const item=document.getElementById(qid);
+  if(item.dataset.done)return;
+  item.querySelectorAll('.tf-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  btn.dataset.val=val;
+}
+function checkTF(sec,answers){
+  let s=0,t=Object.keys(answers).length;
+  for(let id in answers){
+    const item=document.getElementById(id);
+    item.dataset.done='1';
+    const correct=answers[id];
+    const fb=document.getElementById('fb_'+id);
+    const btns=item.querySelectorAll('.tf-btn');
+    let chosen=null;
+    btns.forEach(b=>{if(b.dataset.val)chosen=b;});
+    btns.forEach(b=>{b.onclick=null;if(b.dataset.val===correct)b.classList.add('ok');});
+    fb.style.display='block';
+    if(chosen){
+      if(chosen.dataset.val===correct){s++;fb.className='fb ok';fb.textContent='✓ Correct!';}
+      else{chosen.classList.add('no');fb.className='fb no';fb.textContent='✗ The statement is '+correct+'.';}
+    }else{fb.className='fb no';fb.textContent='— Not answered. Answer: '+(correct==='T'?'TRUE':'FALSE')+'.';}
+  }
+  showScore(sec,s,t);
+}
+
+/* FILL IN BLANK */
+function checkFill(){
+  const ans=[
+    {id:'fi11',ok:'webb'},
+    {id:'fi12',ok:'3.5'},
+    {id:'fi13',ok:'january 2023'},
+    {id:'fi14',ok:'baker',id2:'fi14b',ok2:'34'},
+    {id:'fi15',ok:'three'}
+  ];
+  let s=0,t=5;
+  ans.forEach((a,i)=>{
+    const inp=document.getElementById(a.id);
+    const fb=document.getElementById('fb_fi'+(11+i));
+    const val=inp.value.trim().toLowerCase();
+    inp.classList.remove('ok','no');
+    let correct=val===a.ok.toLowerCase();
+    if(a.id2){
+      const inp2=document.getElementById(a.id2);
+      const v2=inp2.value.trim().toLowerCase();
+      inp2.classList.remove('ok','no');
+      const c2=v2===a.ok2.toLowerCase();
+      correct=correct&&c2;
+      inp2.classList.add(c2?'ok':'no');
+    }
+    inp.classList.add(correct?'ok':'no');
+    fb.style.display='block';
+    if(correct){s++;fb.className='fb ok';fb.textContent='✓ Correct!';}
+    else{fb.className='fb no';fb.textContent='✗ Answer: '+a.ok+(a.ok2?' / '+a.ok2:'')+'.';}
+  });
+  showScore('C',s,t);
+}
+
+/* CLOZE */
+function checkCloze(){
+  const ans={cl19:'opened',cl20:'free',cl21:'opened',cl22:'play area'};
+  let s=0,t=4;
+  for(let id in ans){
+    const el=document.getElementById(id);
+    const val=el.value.toLowerCase();
+    el.classList.remove('ok','no');
+    if(val===ans[id].toLowerCase()){s++;el.classList.add('ok');}
+    else{el.classList.add('no');}
+  }
+  const fb=document.getElementById('fb_cloze');
+  fb.style.display='block';
+  fb.className=s===t?'fb ok':'fb no';
+  fb.textContent=s===t?'✓ All correct!':'✗ '+s+'/'+t+' correct. Review: opened / free / opened / play area.';
+  showScore('E',s,t);
+}
+
+/* SCRAMBLE */
+const scrambles={
+  23:{words:['the','park','is','free','for','everyone','open'],correct:'the park is free for everyone open'.split(' ')},
+  24:{words:['the','café','opens','at','eight','o\'clock','every','morning'],correct:'the café opens at eight o\'clock every morning'.split(' ')},
+  25:{words:['the','park','cost','the','council','£3.5','million','to','build'],correct:'the park cost the council £3.5 million to build'.split(' ')}
+};
+// override with simpler correct answers
+const CORRECT_ORDER={
+  23:'the park is open free for everyone',
+  24:"the café opens at eight o'clock every morning",
+  25:'the park cost the council £3.5 million to build'
+};
+
+function buildScrambles(){
+  [23,24,25].forEach(n=>{
+    const words=[...scrambles[n].words].sort(()=>Math.random()-.5);
+    const wb=document.getElementById('wb'+n);
+    words.forEach(w=>{
+      const tile=document.createElement('div');
+      tile.className='word-tile';tile.textContent=w;
+      tile.onclick=()=>moveToAnswer(tile,n);
+      wb.appendChild(tile);
+    });
+  });
+}
+function moveToAnswer(tile,n){
+  if(tile.classList.contains('used'))return;
+  tile.classList.add('used');
+  const as=document.getElementById('as'+n);
+  const pt=document.createElement('div');
+  pt.className='placed-tile';pt.textContent=tile.textContent;
+  pt.onclick=()=>{tile.classList.remove('used');as.removeChild(pt);};
+  as.appendChild(pt);
+}
+function checkScramble(){
+  let total=0;
+  const CORRECT={
+    23:["the","park","is","open","free","for","everyone"],
+    24:["the","café","opens","at","eight","o'clock","every","morning"],
+    25:["the","park","cost","the","council","£3.5","million","to","build"]
+  };
+  // Flexible check — just check all required words are present
+  [23,24,25].forEach(n=>{
+    const as=document.getElementById('as'+n);
+    const placed=Array.from(as.querySelectorAll('.placed-tile')).map(t=>t.textContent.toLowerCase());
+    const required=CORRECT[n].map(w=>w.toLowerCase());
+    const allPresent=required.every(w=>placed.includes(w));
+    const fb=document.getElementById('fb_s'+n);
+    fb.style.display='block';
+    if(allPresent&&placed.length===required.length){
+      total++;fb.className='fb ok';fb.textContent='✓ Correct!';
+      as.querySelectorAll('.placed-tile').forEach(t=>{t.style.background='rgba(30,107,58,.1)';t.style.borderColor='var(--ok)';t.style.color='var(--ok)';t.onclick=null;});
+    }else{
+      fb.className='fb no';fb.textContent='✗ Try again. Correct: '+CORRECT[n].join(' ')+'.';
+    }
+  });
+  showScore('F',total,3);
+}
+buildScrambles();
+
+function showScore(sec,s,t){
+  const box=document.getElementById('sc_'+sec);
+  box.style.display='flex';
+  document.getElementById('sn_'+sec).textContent=s+'/'+t;
+  const msgs=['Try again!','Keep going!','Good effort!','Well done!','Excellent!'];
+  document.getElementById('sm_'+sec).textContent=msgs[Math.min(Math.floor(s/t*4),4)];
+}
+</script>
+</body>
+</html>

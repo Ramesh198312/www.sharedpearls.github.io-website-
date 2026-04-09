@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Discover Your Level | Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Crimson+Pro:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      /* Premium Academic Palette */
+      --midnight: #0B1D3A;
+      --gold: #D4AF37;
+      --gold-light: #F4EEDD;
+      --crimson: #A51C30;
+      --paper: #FFFFFF;
+      --parchment: #F9F8F6;
+      --text-main: #1A202C;
+      --text-muted: #4A5568;
+      --border: #E2E8F0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Crimson Pro', Georgia, serif; background: var(--parchment); color: var(--text-main); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* ── NAVIGATION ── */
+    nav { background: var(--midnight); padding: 0.8rem 3rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--gold); }
+    .nav-logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-img { height: 40px; width: auto; border-radius: 4px; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); letter-spacing: 0.02em; line-height: 1; }
+    .logo-text span { color: var(--paper); font-style: italic; }
+    .nav-return { color: var(--paper); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; transition: 0.3s; }
+    .nav-return:hover { color: var(--gold); }
+
+    /* ── DASHBOARD CONTAINER ── */
+    .dashboard-wrapper { flex-grow: 1; display: flex; align-items: center; justify-content: center; padding: 4rem 2rem; background-image: repeating-linear-gradient(45deg, rgba(11,29,58,0.02) 0, rgba(11,29,58,0.02) 1px, transparent 1px, transparent 15px); }
+    
+    .engine-card { background: var(--paper); max-width: 800px; width: 100%; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(11,29,58,0.08); border-top: 6px solid var(--midnight); position: relative; overflow: hidden; min-height: 500px; display: flex; flex-direction: column; }
+
+    /* ── VIEWS (Start, Quiz, Result) ── */
+    .view-panel { padding: 4rem; display: none; flex-direction: column; align-items: center; text-align: center; height: 100%; justify-content: center; animation: fadeIn 0.5s ease forwards; }
+    .view-panel.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── START SCREEN ── */
+    .eyebrow { font-family: 'DM Mono', monospace; font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .title-main { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--midnight); margin-bottom: 1.5rem; line-height: 1.2; }
+    .desc-main { font-size: 1.25rem; color: var(--text-muted); max-width: 500px; margin-bottom: 3rem; }
+    .btn-start { background: var(--midnight); color: var(--paper); border: none; padding: 1.2rem 3rem; font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; cursor: pointer; transition: 0.3s; border-radius: 2px; }
+    .btn-start:hover { background: var(--gold); color: var(--midnight); }
+
+    /* ── QUIZ SCREEN ── */
+    .progress-container { width: 100%; padding: 2rem 4rem 0; display: flex; justify-content: space-between; align-items: center; }
+    .progress-text { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.15em; color: var(--text-muted); text-transform: uppercase; }
+    .progress-bar { height: 4px; background: var(--parchment); width: 150px; border-radius: 2px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.4s ease; }
+
+    .quiz-content { padding: 2rem 4rem 4rem; width: 100%; text-align: left; }
+    .question-text { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--midnight); margin-bottom: 2.5rem; line-height: 1.4; }
+    .options-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+    
+    .option-btn { background: var(--paper); border: 2px solid var(--border); padding: 1.2rem 2rem; font-family: 'Crimson Pro', serif; font-size: 1.2rem; color: var(--text-main); text-align: left; cursor: pointer; transition: 0.2s; border-radius: 4px; display: flex; align-items: center; gap: 15px; }
+    .option-btn:hover { border-color: var(--gold); background: var(--gold-light); transform: translateX(5px); }
+    .option-letter { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--gold); font-weight: 700; }
+
+    /* ── RESULT SCREEN ── */
+    .result-badge { width: 80px; height: 80px; background: var(--midnight); color: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; margin-bottom: 2rem; box-shadow: 0 0 30px rgba(212,175,55,0.3); }
+    .level-title { font-family: 'DM Mono', monospace; font-size: 1.1rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--crimson); margin-bottom: 0.5rem; font-weight: 700; }
+    .portal-btn { display: inline-block; background: var(--gold); color: var(--midnight); padding: 1.2rem 3rem; font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; margin-top: 2.5rem; transition: 0.3s; border-radius: 2px; }
+    .portal-btn:hover { background: var(--midnight); color: var(--paper); }
+
+    @media (max-width: 768px) {
+      .view-panel, .progress-container, .quiz-content { padding: 2rem; }
+      .title-main { font-size: 2.2rem; }
+      .question-text { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div style="width: 40px; height: 40px; background: var(--gold); border-radius: 4px; display: flex; align-items: center; justify-content: center; color: var(--midnight); font-family: 'Playfair Display'; font-weight: bold; font-size: 1.2rem;">S</div>
+    <div class="logo-text">Shared <span>Pearls</span> of Wisdom</div> 
+  </a>
+  <a href="index.html" class="nav-return">← Return to Lobby</a>
+</nav>
+
+<div class="dashboard-wrapper">
+  <div class="engine-card">
+    
+    <div id="view-start" class="view-panel active">
+      <div class="eyebrow">Diagnostic Placement Engine</div>
+      <h1 class="title-main">Discover Your Level</h1>
+      <p class="desc-main">Answer 5 rapid-fire questions engineered to evaluate your syntax, vocabulary, and grammatical intuition. We will instantly route you to your ideal academic portal.</p>
+      <button class="btn-start" onclick="startQuiz()">Begin Diagnostics</button>
+    </div>
+
+    <div id="view-quiz" style="display: none; flex-direction: column; height: 100%;">
+      <div class="progress-container">
+        <div class="progress-text">Question <span id="q-current">1</span> of 5</div>
+        <div class="progress-bar"><div class="progress-fill" id="p-bar"></div></div>
+      </div>
+      <div class="quiz-content">
+        <div class="question-text" id="question-text">Loading question...</div>
+        <div class="options-grid" id="options-grid">
+          </div>
+      </div>
+    </div>
+
+    <div id="view-result" class="view-panel">
+      <div class="result-badge" id="res-grade">B2</div>
+      <div class="level-title" id="res-title">Upper-Intermediate</div>
+      <h1 class="title-main">Assessment Complete</h1>
+      <p class="desc-main" id="res-desc">Based on your diagnostic profile, we recommend entering the B2 portal. Here, you will encounter complex inferential reasoning and discursive essay structuring.</p>
+      <a href="#" id="res-link" class="portal-btn">Enter Your Portal</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ── THE DIAGNOSTIC ALGORITHM ──
+  // These questions scale from A2 to C1 difficulty to accurately place the student.
+  const quizData = [
+    {
+      // A2 Level Check (Past Simple Irregular)
+      question: "I ________ to the cinema with my friends yesterday evening.",
+      options: ["go", "went", "gone", "am going"],
+      correctAnswer: 1 
+    },
+    {
+      // B1 Level Check (Present Perfect Continuous / Since)
+      question: "She is fluent in French because she ________ in Paris since 2018.",
+      options: ["is living", "lived", "has lived", "lives"],
+      correctAnswer: 2
+    },
+    {
+      // B2 Level Check (Third Conditional)
+      question: "If I had known you were arriving so early, I ________ a proper breakfast.",
+      options: ["would bake", "will bake", "baked", "would have baked"],
+      correctAnswer: 3
+    },
+    {
+      // C1 Level Check (Negative Inversion)
+      question: "Not only ________ the rigorous entrance exam, but she also secured the highest score in the cohort.",
+      options: ["she passed", "did she pass", "she did pass", "passed she"],
+      correctAnswer: 1
+    },
+    {
+      // C1/C2 Level Check (Advanced Collocation)
+      question: "The newly implemented fiscal policy is expected to ________ a profound impact on the global economy.",
+      options: ["make", "do", "have", "leave"],
+      correctAnswer: 2
+    }
+  ];
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+
+  // DOM Elements
+  const viewStart = document.getElementById('view-start');
+  const viewQuiz = document.getElementById('view-quiz');
+  const viewResult = document.getElementById('view-result');
+  const questionText = document.getElementById('question-text');
+  const optionsGrid = document.getElementById('options-grid');
+  const qCurrent = document.getElementById('q-current');
+  const pBar = document.getElementById('p-bar');
+
+  function startQuiz() {
+    viewStart.classList.remove('active');
+    setTimeout(() => {
+      viewStart.style.display = 'none';
+      viewQuiz.style.display = 'flex';
+      viewQuiz.style.animation = 'fadeIn 0.5s ease forwards';
+      loadQuestion();
+    }, 300); // Wait for transition
+  }
+
+  function loadQuestion() {
+    const currentQ = quizData[currentQuestionIndex];
+    questionText.innerHTML = currentQ.question;
+    
+    // Update Progress
+    qCurrent.innerText = currentQuestionIndex + 1;
+    pBar.style.width = ((currentQuestionIndex) / quizData.length) * 100 + '%';
+
+    // Clear old options
+    optionsGrid.innerHTML = '';
+
+    // Generate new options
+    const labels = ['A', 'B', 'C', 'D'];
+    currentQ.options.forEach((option, index) => {
+      const button = document.createElement('button');
+      button.className = 'option-btn';
+      button.innerHTML = `<span class="option-letter">${labels[index]}</span> ${option}`;
+      button.onclick = () => selectAnswer(index);
+      optionsGrid.appendChild(button);
+    });
+  }
+
+  function selectAnswer(selectedIndex) {
+    const currentQ = quizData[currentQuestionIndex];
+    if (selectedIndex === currentQ.correctAnswer) {
+      score++;
+    }
+
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < quizData.length) {
+      // Small delay for smooth UX
+      optionsGrid.style.opacity = '0';
+      setTimeout(() => {
+        loadQuestion();
+        optionsGrid.style.opacity = '1';
+      }, 200);
+    } else {
+      showResults();
+    }
+  }
+
+  function showResults() {
+    viewQuiz.style.display = 'none';
+    viewResult.classList.add('active');
+
+    const resGrade = document.getElementById('res-grade');
+    const resTitle = document.getElementById('res-title');
+    const resDesc = document.getElementById('res-desc');
+    const resLink = document.getElementById('res-link');
+
+    // Placement Logic
+    if (score <= 1) {
+      resGrade.innerText = "A2";
+      resTitle.innerText = "Foundation Level";
+      resDesc.innerText = "Your diagnostic profile suggests starting with our Foundation modules. We will solidify your core grammar and essential vocabulary.";
+      resLink.href = "find-your-level-a2.html"; // Replace with your A1/A2 link
+      resLink.innerText = "Enter A2 Portal";
+    } 
+    else if (score === 2 || score === 3) {
+      resGrade.innerText = "B1";
+      resTitle.innerText = "Intermediate Level";
+      resDesc.innerText = "You have a solid grasp of the basics. The B1 portal will transition you from structured textbook learning to independent communication.";
+      resLink.href = "find-your-level-b1.html"; // Replace with actual link
+      resLink.innerText = "Enter B1 Portal";
+    } 
+    else if (score === 4) {
+      resGrade.innerText = "B2";
+      resTitle.innerText = "Upper-Intermediate Level";
+      resDesc.innerText = "Excellent. The B2 portal is designed for you. Here, you will encounter complex inferential reasoning and formal discursive structuring.";
+      resLink.href = "find-your-level-b2.html"; 
+      resLink.innerText = "Enter B2 Portal";
+    } 
+    else if (score === 5) {
+      resGrade.innerText = "C1";
+      resTitle.innerText = "Advanced Scholar";
+      resDesc.innerText = "Exceptional performance. You are ready for the Harvard-tier C1 portal, evaluating deep academic comprehension and abstract theoretical discussion.";
+      resLink.href = "find-your-level-c1.html"; // Replace with your C1 link
+      resLink.innerText = "Enter C1 Portal";
+    }
+  }
+</script>
+
+</body>
+</html>

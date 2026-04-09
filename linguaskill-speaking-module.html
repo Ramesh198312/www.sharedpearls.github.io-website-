@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LinguaSkill Practice | Speaking Module | Shared Pearls</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --midnight: #0B1D3A;
+      --crimson: #8B1A2E;
+      --ink: #1E1E1E;
+      --slate: #4A4A4A;
+      --parchment: #F9F7F1;
+      --paper: #FFFFFF;
+      --gold: #C4923E;
+      --gold-light: #E8D3A2;
+      --border: #E0DCD3;
+      --correct: #1e5c35;
+      --correct-bg: #e8f5e9;
+      --wrong: #9B2C2C;
+      --wrong-bg: #FEE2E2;
+      --notice-bg: #F0F4F8;
+    }
+
+    html { scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Crimson Pro', Georgia, serif; background: var(--parchment); color: var(--ink); line-height: 1.6; }
+
+    .site-header {
+  display: flex;          
+  align-items: center;    
+  gap: 15px;              
+  padding: 20px;        
+}
+
+.header-logo {
+  order: -1;
+  height: 60px;           
+  width: auto;            
+  border-radius: 50%;   
+}
+
+.header-title {
+  font-size: 24px;
+  margin: 0;             
+}
+    /* ── NAVIGATION ── */
+    nav { background: var(--midnight); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--gold); }
+    .nav-logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--gold); }
+    .logo-text span { color: var(--paper); font-style: italic; }
+    .nav-cta { background: var(--gold); color: var(--midnight); padding: 0.6rem 1.2rem; border-radius: 2px; font-weight: 700; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; }
+
+    /* ── TIMER BAR (GLOBAL TIME CARD) ── */
+    .exam-timer-bar { position: sticky; top: 15px; z-index: 99; background: var(--midnight); color: var(--paper); display: flex; justify-content: center; align-items: center; padding: 0.6rem; gap: 15px; border-bottom: 3px solid var(--gold); box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-family: 'DM Mono', monospace; transition: background 0.3s; }
+    .timer-label { font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; color: var(--gold-light); }
+    .timer-countdown { font-size: 1.5rem; font-weight: 700; background: var(--paper); color: var(--midnight); padding: 0.2rem 1rem; border-radius: 2px; border: 2px solid var(--gold); min-width: 110px; text-align: center;}
+    .timer-warning { background: var(--wrong) !important; border-color: var(--wrong) !important; color: var(--paper); }
+    
+    .btn-start { background: var(--correct); color: var(--paper); border: none; padding: 0.6rem 1.2rem; font-family: 'DM Mono', monospace; font-weight: bold; cursor: pointer; border-radius: 2px; text-transform: uppercase; margin-left: 20px; transition: 0.3s;}
+    .btn-start:hover { background: #144024; box-shadow: 0 0 10px rgba(30,92,53,0.5); }
+
+    @keyframes pulseWarning { 0% { opacity: 1; } 50% { opacity: 0.85; } 100% { opacity: 1; } }
+    .bar-warning { background: var(--wrong) !important; border-bottom-color: #6a1b1b !important; animation: pulseWarning 1.5s infinite; }
+
+    /* ── HERO SECTION ── */
+    .hero { background: var(--midnight); padding: 4rem 2rem; text-align: center; color: var(--paper); border-bottom: 5px solid var(--gold);}
+    .hero-subtitle { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 1rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 600; margin-bottom: 1rem; }
+
+    /* ── LAYOUT (SIDEBAR & MAIN) ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 260px 1fr; gap: 4rem; align-items: start; }
+    
+    /* ── SIDEBAR ── */
+    .sidebar { position: static; top: 140px; background: var(--paper); border: 1px solid var(--border); padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .sidebar-title { font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    .tense-nav { list-style: none; }
+    .tense-nav li { margin-bottom: 0.5rem; }
+    .tense-nav a { text-decoration: none; color: var(--slate); font-size: 1.05rem; display: block; padding: 0.4rem 0.8rem; border-left: 2px solid transparent; transition: 0.2s; }
+    .tense-nav a:hover, .tense-nav a.active { color: var(--midnight); border-left-color: var(--gold); background: var(--notice-bg); font-weight: 600; }
+
+    /* ── MAIN CONTENT ── */
+    .test-section { background: var(--paper); border: 1px solid var(--border); padding: 3rem; margin-bottom: 4rem; box-shadow: 0 8px 24px rgba(0,0,0,0.02); scroll-margin-top: 140px;}
+    .test-header { border-bottom: 2px solid var(--gold); padding-bottom: 1rem; margin-bottom: 2rem; }
+    .test-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--midnight); }
+    .instruction-note { background: var(--parchment); padding: 1.2rem; border-left: 4px solid var(--crimson); font-size: 1.05rem; color: var(--ink); margin-bottom: 2rem; font-family: 'DM Mono', monospace; font-size: 0.9rem;}
+    
+    /* ── QUESTION UI & RECORDING ── */
+    .q-block { margin-bottom: 3rem; border-bottom: 1px dashed var(--border); padding-bottom: 2rem;}
+    .q-text { font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; color: var(--midnight); }
+    .q-meta { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--crimson); font-weight: 700; margin-right: 10px; }
+    
+    .record-controls { display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem; }
+    .btn-record { padding: 0.8rem 1.5rem; background: var(--midnight); color: var(--paper); border: none; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.3s; border-radius: 2px; display: flex; align-items: center; gap: 8px;}
+    .btn-record:hover:not(:disabled) { background: var(--gold); color: var(--midnight); }
+    .btn-record:disabled { background: #e0e6ed; color: #9aa5b1; cursor: not-allowed; }
+    .btn-record.recording { background: var(--wrong); animation: pulse 1.5s infinite; }
+    
+    .timer-display { font-family: 'DM Mono', monospace; font-size: 1.2rem; font-weight: bold; color: var(--slate); min-width: 60px;}
+
+    .transcription-box { width: 100%; min-height: 80px; padding: 1rem; font-family: 'Crimson Pro', serif; font-size: 1.15rem; line-height: 1.6; border: 1px solid #cdd6df; background: var(--notice-bg); border-radius: 2px; color: var(--slate); font-style: italic; margin-bottom: 1rem;}
+    
+    .feedback-box { padding: 1.5rem; display: none; border-radius: 2px; font-size: 1.1rem; }
+    .score-badge { display: inline-block; padding: 0.3rem 0.8rem; font-family: 'DM Mono', monospace; font-weight: bold; margin-bottom: 0.5rem; border-radius: 2px;}
+
+    /* ── PREP TIMERS ── */
+    .prep-box { background: var(--parchment); border: 1px solid var(--gold); padding: 1.5rem; margin-bottom: 1.5rem; text-align: center; }
+    .btn-prep { background: var(--gold); color: var(--midnight); border: none; padding: 0.5rem 1rem; font-family: 'DM Mono', monospace; font-weight: bold; cursor: pointer; margin-top: 0.5rem; transition: 0.3s;}
+    .btn-prep:disabled { background: #e0e6ed; color: #9aa5b1; cursor: not-allowed; border: 1px solid #cdd6df;}
+
+    /* ── TABLES (PART 4) ── */
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 1.1rem; }
+    th, td { border: 1px solid var(--border); padding: 1rem; text-align: center; }
+    th { background: var(--midnight); color: var(--paper); font-family: 'DM Mono', monospace; font-weight: 400; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px;}
+    td:first-child { text-align: left; font-weight: 600; }
+
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.8; } 100% { opacity: 1; } }
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .sidebar { display: none; } 
+  }
+  </style>
+</head>
+<body>
+
+<nav>
+  <header class="site-header">
+  <img src="Images/logo.png" alt="Shared Pearls Logo" class="header-logo"></img>
+    <div class="logo-text">Shared <span>Pearls</span> of Wisdom</div> 
+    </header>
+  </nav>
+
+<div class="exam-timer-bar" id="exam-timer-bar">
+  <div class="timer-label">Speaking Exam Time Remaining:</div>
+  <div class="timer-countdown" id="global-time-display">15:00</div>
+  <button id="btn-start-exam" class="btn-start">Start Speaking Exam</button>
+</div>
+
+<header class="hero">
+    <h1>LinguaSkill: Speaking Module</h1>
+</header>
+
+<div class="container">
+  <aside class="sidebar">
+    <div class="sidebar-title">Paper 3: Speaking</div>
+    <ul class="tense-nav">
+      <li><a href="#part-1" class="active">Part 1: Interview</a></li>
+      <li><a href="#part-2">Part 2: Read Aloud</a></li>
+      <li><a href="#part-3">Part 3: Long Turn 1</a></li>
+      <li><a href="#part-4">Part 4: Long Turn 2</a></li>
+    </ul>
+    <div class="s-card">
+    <h2>Modules</h2>
+        <h3><li><a href="linguaskill-reading-module.html" class="current" style="text-decoration: none;"><span class="ln-badge ln-a1"></span> Reading</a></li></h3>
+      <h3><li><a href="linguaskill-listening-module.html" style="text-decoration: none;"><span class="ln-badge ln-b1"></span> Listening</a></li></h3>
+      <h3><li><a href="linguaskill-writing-module.html" style="text-decoration: none;"><span class="ln-badge ln-b2"></span> Writing</a></li></h3>
+      <h3><li><a href="linguaskill-speaking-module.html" style="text-decoration: none;"><span class="ln-badge ln-c1"></span> Speaking</a></li></h3>
+    </ul>
+  </div>  
+  </aside>
+  </aside>
+
+  <main>
+    
+    <div class="instruction-note" id="browser-warning" style="display:none; border-color: var(--wrong); background: var(--wrong-bg); color: var(--wrong);">
+      <strong>Browser Notice:</strong> The simulated speaking assessment requires a browser that supports the Web Speech API (Google Chrome or Microsoft Edge). Please switch browsers to utilize the automated transcription and grading features.
+    </div>
+
+    <section id="part-1" class="test-section">
+      <div class="test-header"><h2>Part 1: Interview</h2></div>
+      <div class="instruction-note">
+        INSTRUCTIONS: Answer the following questions about yourself. Speak clearly and allow yourself approximately 30 seconds per answer.
+      </div>
+      
+      <div class="q-block">
+        <div class="q-text"><span class="q-meta">SP3</span> Describe your daily routine. What does a typical day look like for you?</div>
+        <div class="record-controls">
+          <button class="btn-record lockable" id="btn-sp3" onclick="toggleRecording('sp3', 'routine', 30)" disabled>🎤 Start Recording</button>
+          <div class="timer-display" id="time-sp3">00:30</div>
+        </div>
+        <div class="transcription-box" id="trans-sp3">Waiting for audio...</div>
+        <div class="feedback-box" id="feed-sp3"></div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-text"><span class="q-meta">SP6</span> What are the advantages and disadvantages of living in a big city?</div>
+        <div class="record-controls">
+          <button class="btn-record lockable" id="btn-sp6" onclick="toggleRecording('sp6', 'city', 30)" disabled>🎤 Start Recording</button>
+          <div class="timer-display" id="time-sp6">00:30</div>
+        </div>
+        <div class="transcription-box" id="trans-sp6">Waiting for audio...</div>
+        <div class="feedback-box" id="feed-sp6"></div>
+      </div>
+    </section>
+
+    <section id="part-2" class="test-section">
+      <div class="test-header"><h2>Part 2: Read Aloud</h2></div>
+      <div class="instruction-note">
+        INSTRUCTIONS: Read each sentence aloud clearly and naturally. You will be assessed on pronunciation, stress, and fluency. Target: 15 seconds.
+      </div>
+      
+      <div class="q-block">
+        <div class="q-text"><span class="q-meta">SP9</span> The conference will be held at the Grand Hotel on the 23rd of November.</div>
+        <div class="record-controls">
+          <button class="btn-record lockable" id="btn-sp9" onclick="toggleRecording('sp9', 'read', 15, 'The conference will be held at the Grand Hotel on the 23rd of November.')" disabled>🎤 Start Recording</button>
+          <div class="timer-display" id="time-sp9">00:15</div>
+        </div>
+        <div class="transcription-box" id="trans-sp9">Waiting for audio...</div>
+        <div class="feedback-box" id="feed-sp9"></div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-text"><span class="q-meta">SP11</span> The government has announced a significant increase in funding for renewable energy projects over the next decade.</div>
+        <div class="record-controls">
+          <button class="btn-record lockable" id="btn-sp11" onclick="toggleRecording('sp11', 'read', 15, 'The government has announced a significant increase in funding for renewable energy projects over the next decade.')" disabled>🎤 Start Recording</button>
+          <div class="timer-display" id="time-sp11">00:15</div>
+        </div>
+        <div class="transcription-box" id="trans-sp11">Waiting for audio...</div>
+        <div class="feedback-box" id="feed-sp11"></div>
+      </div>
+    </section>
+
+    <section id="part-3" class="test-section">
+      <div class="test-header"><h2>Part 3: Long Turn 1</h2></div>
+      
+      <div class="prep-box">
+        <strong>Preparation Time: 40 Seconds</strong><br>
+        <div style="font-size: 2rem; font-family: 'DM Mono', monospace; margin: 10px 0;" id="prep-time-p3">00:40</div>
+        <button class="btn-prep lockable" id="btn-prep-p3" onclick="startPrepTimer('prep-time-p3', 40, 'btn-prep-p3')" disabled>Start Prep Timer</button>
+      </div>
+
+      <div class="instruction-note" style="border-color: var(--midnight); background: var(--notice-bg);">
+        <strong>CANDIDATE PROMPT:</strong> Talk about a skill you have learned and how it has been useful in your life. You might like to talk about:
+        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+          <li>what the skill is and how you learned it</li>
+          <li>how long it took to develop the skill</li>
+          <li>how you have used it in your personal or professional life</li>
+          <li>whether you would recommend others to learn this skill, and why</li>
+        </ul>
+      </div>
+      
+      <div class="q-block">
+        <div class="record-controls">
+          <button class="btn-record lockable" id="btn-p3" onclick="toggleRecording('p3', 'skill', 60)" disabled>🎤 Start Speaking (60s)</button>
+          <div class="timer-display" id="time-p3">01:00</div>
+        </div>
+        <div class="transcription-box" id="trans-p3">Waiting for audio...</div>
+        <div class="feedback-box" id="feed-p3"></div>
+      </div>
+    </section>
+
+    <section id="part-4" class="test-section">
+      <div class="test-header"><h2>Part 4: Long Turn 2 (Graphic)</h2></div>
+      
+      <div class="prep-box">
+        <strong>Preparation Time: 60 Seconds</strong><br>
+        <div style="font-size: 2rem; font-family: 'DM Mono', monospace; margin: 10px 0;" id="prep-time-p4">01:00</div>
+        <button class="btn-prep lockable" id="btn-prep-p4" onclick="startPrepTimer('prep-time-p4', 60, 'btn-prep-p4')" disabled>Start Prep Timer</button>
+      </div>
+
+      <div class="instruction-note" style="border-color: var(--midnight); background: var(--notice-bg);">
+        <strong>CANDIDATE PROMPT:</strong> Look at the information below about the results of a survey on how people prefer to travel for holidays. Describe the main findings and give your own opinion. In your response, you should describe:
+        <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+          <li>the most and least popular options overall</li>
+          <li>the main differences between younger and older travellers</li>
+          <li>your own opinion on the findings — do they surprise you?</li>
+        </ul>
+      </div>
+
+      <table>
+        <tr>
+          <th>Preferred method of holiday travel</th>
+          <th>% — Under 35s</th>
+          <th>% — Over 55s</th>
+        </tr>
+        <tr><td>Aeroplane (long-haul, 4+ hours)</td><td>48%</td><td>31%</td></tr>
+        <tr><td>Aeroplane (short-haul, under 4 hours)</td><td>22%</td><td>19%</td></tr>
+        <tr><td>Car (own vehicle or hire car)</td><td>15%</td><td>34%</td></tr>
+        <tr><td>Train</td><td>10%</td><td>12%</td></tr>
+        <tr><td>Coach / bus</td><td>3%</td><td>3%</td></tr>
+        <tr><td>Cruise ship</td><td>2%</td><td>1%</td></tr>
+      </table>
+      
+      <div class="q-block">
+        <div class="record-controls">
+          <button class="btn-record lockable" id="btn-p4" onclick="toggleRecording('p4', 'graph', 60)" disabled>🎤 Start Speaking (60s)</button>
+          <div class="timer-display" id="time-p4">01:00</div>
+        </div>
+        <div class="transcription-box" id="trans-p4">Waiting for audio...</div>
+        <div class="feedback-box" id="feed-p4"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // ── INIT SPEECH API ──
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    document.getElementById('browser-warning').style.display = 'block';
+  }
+
+  // ── GLOBAL EXAM TIMER (15 MINUTES) ──
+  let globalTimeInSeconds = 15 * 60; 
+  const globalDisplay = document.getElementById('global-time-display');
+  const timerBar = document.getElementById('exam-timer-bar');
+  const startExamBtn = document.getElementById('btn-start-exam');
+  let globalTimerInterval;
+  let examStarted = false;
+
+  startExamBtn.addEventListener('click', function() {
+    if (!examStarted) {
+      examStarted = true;
+      startExamBtn.style.display = 'none'; // Hide button
+      
+      // Unlock all microphones and prep buttons
+      document.querySelectorAll('.lockable').forEach(btn => {
+        btn.disabled = false;
+      });
+
+      // Visual flash
+      globalDisplay.style.color = "var(--correct)";
+      setTimeout(() => { globalDisplay.style.color = "var(--midnight)"; }, 1000);
+
+      // Start Countdown
+      globalTimerInterval = setInterval(() => {
+        let m = parseInt(globalTimeInSeconds / 60, 10);
+        let s = parseInt(globalTimeInSeconds % 60, 10);
+        m = m < 10 ? "0" + m : m;
+        s = s < 10 ? "0" + s : s;
+        globalDisplay.textContent = m + ":" + s;
+
+        if (globalTimeInSeconds <= 60) {
+          timerBar.classList.add('bar-warning');
+          globalDisplay.classList.add('timer-warning');
+        }
+
+        if (--globalTimeInSeconds < 0) {
+          clearInterval(globalTimerInterval);
+          globalDisplay.textContent = "00:00";
+          alert("Time is up! The Speaking Exam has concluded.");
+          // Relock everything
+          document.querySelectorAll('.lockable').forEach(btn => {
+            btn.disabled = true;
+          });
+        }
+      }, 1000);
+    }
+  });
+
+  // ── SCROLL SPY ──
+  document.addEventListener("DOMContentLoaded", () => {
+    const links = document.querySelectorAll(".tense-nav a");
+    const sections = document.querySelectorAll(".test-section");
+
+    window.addEventListener("scroll", () => {
+      let scrollY = window.pageYOffset;
+      sections.forEach(current => {
+        const sectionHeight = current.offsetHeight;
+        const sectionTop = current.offsetTop - 150;
+        const sectionId = current.getAttribute("id");
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+          links.forEach(a => {
+            a.classList.remove("active");
+            if (a.getAttribute("href") === "#" + sectionId) {
+              a.classList.add("active");
+            }
+          });
+        }
+      });
+    });
+  });
+
+  // ── PREPARATION TIMERS (COUNTDOWN) ──
+  function startPrepTimer(elementId, seconds, btnId) {
+    let el = document.getElementById(elementId);
+    let btn = document.getElementById(btnId);
+    let timeLeft = seconds;
+    
+    el.style.color = "var(--midnight)";
+    btn.disabled = true; // prevent multiple clicks
+    
+    let timer = setInterval(() => {
+      timeLeft--;
+      let m = Math.floor(timeLeft / 60);
+      let s = timeLeft % 60;
+      el.innerText = `0${m}:${s < 10 ? '0'+s : s}`;
+      
+      if (timeLeft <= 5) el.style.color = "var(--wrong)";
+      
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        el.innerText = "TIME UP";
+        btn.innerText = "Preparation Complete";
+        alert("Preparation time is over. Please begin speaking.");
+      }
+    }, 1000);
+  }
+
+  // ── RECORDER STATE MANAGEMENT & COUNTDOWN ──
+  let recorders = {};
+
+  function toggleRecording(id, type, targetSeconds, targetText = "") {
+    if (!SpeechRecognition) return alert("Speech recognition not supported in this browser.");
+
+    const btn = document.getElementById(`btn-${id}`);
+    const timeDisplay = document.getElementById(`time-${id}`);
+    const transBox = document.getElementById(`trans-${id}`);
+    const feedBox = document.getElementById(`feed-${id}`);
+
+    // If currently recording, STOP MANUALLY
+    if (recorders[id] && recorders[id].isRecording) {
+      stopRecording(id, type, targetText);
+      return;
+    }
+
+    // Start NEW recording
+    btn.innerText = "⏹ Stop & Grade";
+    btn.classList.add('recording');
+    transBox.innerText = "Listening...";
+    feedBox.style.display = 'none';
+
+    recorders[id] = {
+      isRecording: true,
+      elapsed: 0,
+      timeLeft: targetSeconds,
+      transcript: "",
+      recognition: new SpeechRecognition(),
+      timer: setInterval(() => {
+        recorders[id].elapsed++;
+        recorders[id].timeLeft--;
+        
+        let m = Math.floor(recorders[id].timeLeft / 60);
+        let s = recorders[id].timeLeft % 60;
+        timeDisplay.innerText = `0${m}:${s < 10 ? '0'+s : s}`;
+
+        // Auto Stop when time hits 0
+        if (recorders[id].timeLeft <= 0) {
+          stopRecording(id, type, targetText);
+        }
+      }, 1000)
+    };
+
+    const rc = recorders[id].recognition;
+    rc.continuous = true;
+    rc.interimResults = true;
+
+    rc.onresult = (event) => {
+      let interim = "";
+      let final = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        if (event.results[i].isFinal) final += event.results[i][0].transcript;
+        else interim += event.results[i][0].transcript;
+      }
+      recorders[id].transcript += final;
+      transBox.innerText = recorders[id].transcript + interim;
+    };
+
+    rc.onerror = (e) => { console.error("Speech Error:", e); };
+    rc.start();
+  }
+
+  // Helper to stop recording and trigger evaluation
+  function stopRecording(id, type, targetText) {
+    const rec = recorders[id];
+    rec.recognition.stop();
+    clearInterval(rec.timer);
+    rec.isRecording = false;
+    
+    const btn = document.getElementById(`btn-${id}`);
+    btn.innerText = "🎤 Retry Recording";
+    btn.classList.remove('recording');
+    
+    evaluateSpeech(id, type, rec.transcript, rec.elapsed, targetText);
+  }
+
+  // ── EVALUATION ENGINE ──
+  function evaluateSpeech(id, type, transcript, duration, targetText) {
+    const feedBox = document.getElementById(`feed-${id}`);
+    if (duration < 3 || transcript.length < 5) {
+      feedBox.style.display = 'block';
+      feedBox.style.background = 'var(--wrong-bg)';
+      feedBox.style.border = '1px solid var(--wrong)';
+      feedBox.innerHTML = `<span style="color:var(--wrong); font-weight:bold;">Error:</span> Audio too short or undetectable. Please try again in a quiet room.`;
+      return;
+    }
+
+    const words = transcript.trim().split(/\s+/).length;
+    const wpm = Math.round((words / duration) * 60);
+    
+    let checks = [];
+    let score = 0;
+    let maxScore = 0;
+
+    // Fluency Check (Applicable to all)
+    if (wpm >= 110 && wpm <= 160) { checks.push(`Fluency: Excellent pacing (${wpm} WPM).`); score++; }
+    else if (wpm > 160) { checks.push(`Fluency: Slightly fast (${wpm} WPM). Slow down for clarity.`); }
+    else if (wpm >= 80) { checks.push(`Fluency: Adequate pacing (${wpm} WPM).`); }
+    else { checks.push(`Fluency: Halting/Slow (${wpm} WPM).`); }
+
+    // Logic by Type
+    if (type === 'read') {
+      maxScore = 2;
+      const targetWords = targetText.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/);
+      const userWords = transcript.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+      let matches = 0;
+      targetWords.forEach(w => { if (userWords.includes(w)) matches++; });
+      const accuracy = (matches / targetWords.length) * 100;
+
+      if (accuracy >= 85) { checks.push(`Pronunciation & Accuracy: Excellent (${Math.round(accuracy)}% match).`); score++; }
+      else if (accuracy >= 60) { checks.push(`Pronunciation & Accuracy: Adequate (${Math.round(accuracy)}% match). Speak clearer.`); }
+      else { checks.push(`Pronunciation & Accuracy: Weak (${Math.round(accuracy)}% match). Ensure distinct articulation.`); }
+    } 
+    else if (type === 'routine' || type === 'city' || type === 'skill' || type === 'graph') {
+      maxScore = 3;
+      // Duration target checks (Using elapsed time)
+      const targetSec = (type === 'skill' || type === 'graph') ? 45 : 20; 
+      if (duration >= targetSec) { checks.push(`Duration: Good elaboration (${duration} seconds).`); score++; }
+      else { checks.push(`Duration: Too brief (${duration}s). Try to expand your answer more.`); }
+
+      // Keyword Task Achievement
+      let regex;
+      if (type === 'routine') regex = /(wake|morning|breakfast|work|study|lunch|evening|dinner|sleep|usually|always)/i;
+      if (type === 'city') regex = /(traffic|pollution|noise|opportunities|jobs|culture|transport|expensive|crowded|advantages|disadvantages)/i;
+      if (type === 'skill') regex = /(learned|practise|difficult|useful|help|time|recommend|because|course|class)/i;
+      if (type === 'graph') regex = /(aeroplane|long-haul|car|cruise|popular|least|percent|under|over|surprised|opinion|contrast)/i;
+
+      if (regex.test(transcript)) { checks.push(`Task Achievement: Relevant vocabulary detected.`); score++; }
+      else { checks.push(`Task Achievement: Key vocabulary missing. Ensure you stay on topic.`); }
+    }
+
+    // Render Output
+    let cefr = "A2 (Below)";
+    const ratio = score / maxScore;
+    if (ratio === 1) cefr = "B2 / C1 (Strong)";
+    else if (ratio >= 0.6) cefr = "B1 (Adequate)";
+
+    let html = `<div style="background:var(--correct-bg); border:1px solid var(--correct); padding:1rem; border-radius:2px;">
+      <div class="score-badge" style="background:var(--correct); color:white;">Estimated Output: ${cefr}</div>
+      <ul style="margin-left: 1.5rem; margin-top: 0.5rem; font-size: 1.05rem; color: var(--midnight);">`;
+    checks.forEach(c => html += `<li>${c}</li>`);
+    html += `</ul><div style="font-size:0.85rem; color:var(--slate); margin-top:10px;">*Heuristic analysis based on speech-to-text accuracy and WPM metrics.</div></div>`;
+    
+    feedBox.innerHTML = html;
+    feedBox.style.display = 'block';
+  }
+</script>
+</body>
+</html>

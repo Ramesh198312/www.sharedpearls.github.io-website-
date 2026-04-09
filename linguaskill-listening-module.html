@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LinguaSkill Practice | Listening Module | Shared Pearls</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --midnight: #0B1D3A;
+      --crimson: #8B1A2E;
+      --ink: #1E1E1E;
+      --slate: #4A4A4A;
+      --parchment: #F9F7F1;
+      --paper: #FFFFFF;
+      --gold: #C4923E;
+      --gold-light: #E8D3A2;
+      --border: #E0DCD3;
+      --correct: #1e5c35;
+      --correct-bg: #e8f5e9;
+      --wrong: #9B2C2C;
+      --wrong-bg: #FEE2E2;
+      --notice-bg: #F0F4F8;
+    }
+
+    html { scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Crimson Pro', Georgia, serif; background: var(--parchment); color: var(--ink); line-height: 1.6; }
+.site-header {
+  display: flex;          
+  align-items: center;    
+  gap: 15px;              
+  padding: 20px;        
+}
+    .header-logo {
+  order: -1;
+  height: 60px;           
+  width: auto;            
+  border-radius: 50%;   
+}
+
+.header-title {
+  font-size: 24px;
+  margin: 0;             
+}
+    /* ── NAVIGATION ── */
+    nav { background: var(--midnight); padding: 0.8rem 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--gold); }
+    .nav-logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--gold); }
+    .logo-text span { color: var(--paper); font-style: italic; }
+    .nav-cta { background: var(--gold); color: var(--midnight); padding: 0.6rem 1.2rem; border-radius: 2px; font-weight: 700; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; }
+
+    /* ── HERO SECTION ── */
+    .hero { background: var(--midnight); padding: 4rem 2rem; text-align: center; color: var(--paper); border-bottom: 5px solid var(--gold);}
+    .hero-subtitle { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 1rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 600; margin-bottom: 1rem; }
+
+    /* ── LAYOUT (SIDEBAR & MAIN) ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 260px 1fr; gap: 4rem; align-items: start; }
+    
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 100px; background: var(--paper); border: 1px solid var(--border); padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .sidebar-title { font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    .tense-nav { list-style: none; }
+    .tense-nav li { margin-bottom: 0.5rem; }
+    .tense-nav a { text-decoration: none; color: var(--slate); font-size: 1.05rem; display: block; padding: 0.4rem 0.8rem; border-left: 2px solid transparent; transition: 0.2s; }
+    .tense-nav a:hover, .tense-nav a.active { color: var(--midnight); border-left-color: var(--gold); background: var(--notice-bg); font-weight: 600; }
+
+    /* ── MAIN CONTENT ── */
+    .test-section { background: var(--paper); border: 1px solid var(--border); padding: 3rem; margin-bottom: 4rem; box-shadow: 0 8px 24px rgba(0,0,0,0.02); scroll-margin-top: 100px;}
+    .test-header { border-bottom: 2px solid var(--gold); padding-bottom: 1rem; margin-bottom: 2rem; }
+    .test-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--midnight); }
+    .instruction-note { background: var(--parchment); padding: 1.2rem; border-left: 4px solid var(--crimson); font-size: 1.05rem; color: var(--ink); margin-bottom: 2rem; font-family: 'DM Mono', monospace; font-size: 0.9rem;}
+    
+    /* ── AUDIO INTERFACE ── */
+    .audio-interface { background: var(--midnight); padding: 1.5rem; border-radius: 4px; margin-bottom: 2rem; text-align: center; color: var(--paper);}
+    .audio-title { font-family: 'DM Mono', monospace; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 1rem; }
+    audio { width: 100%; outline: none; }
+
+    .mini-audio { background: var(--notice-bg); padding: 0.5rem; border: 1px solid #cdd6df; border-radius: 4px; margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;}
+    .mini-audio audio { height: 35px; }
+    .mini-audio span { font-family: 'DM Mono', monospace; font-size: 0.8rem; font-weight: bold; color: var(--midnight); text-transform: uppercase;}
+    
+    /* ── TRANSCRIPT TOGGLE ── */
+    .transcript-btn { background: transparent; border: 1px solid var(--gold); color: var(--midnight); padding: 0.5rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.8rem; cursor: pointer; border-radius: 2px; margin-bottom: 1rem; transition: 0.3s;}
+    .transcript-btn:hover { background: var(--gold); }
+    .transcript-box { display: none; background: var(--parchment); border: 1px solid var(--border); padding: 1.5rem; font-size: 1rem; line-height: 1.8; margin-bottom: 2rem; border-radius: 4px;}
+    .transcript-box p { margin-bottom: 1rem; }
+    .transcript-box strong { color: var(--crimson); }
+    .transcript-title { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--midnight); text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 5px; margin-bottom: 10px; margin-top: 20px;}
+
+    /* ── EXERCISE STYLES ── */
+    .q-item { margin-bottom: 2.5rem; font-size: 1.15rem; padding-bottom: 1.5rem; border-bottom: 1px dashed var(--border);}
+    .q-item:last-of-type { border-bottom: none; }
+    .q-num { font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--crimson); font-weight: 700; margin-right: 10px; }
+    
+    .mcq-group { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem; margin-left: 35px; width: 100%;}
+    .mcq-label { font-size: 1.05rem; cursor: pointer; display: flex; align-items: baseline; gap: 10px; padding: 0.5rem 1rem; border: 1px solid transparent; border-radius: 4px; transition: 0.2s;}
+    .mcq-label:hover { background: var(--parchment); }
+    .mcq-label input { accent-color: var(--midnight); transform: scale(1.1); margin-top: 5px;}
+    
+    .correct-ui { border-color: var(--correct) !important; background: var(--correct-bg) !important; color: var(--correct) !important; }
+    .wrong-ui { border-color: var(--wrong) !important; background: var(--wrong-bg) !important; color: var(--wrong) !important; }
+
+    .btn-evaluate { padding: 1rem 2rem; background: var(--midnight); color: var(--paper); border: none; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.3s; margin-top: 1rem; width: 100%; border-radius: 2px;}
+    .btn-evaluate:hover { background: var(--gold); color: var(--midnight); }
+    .feedback-box { margin-top: 1rem; padding: 1.5rem; display: none; font-weight: 600; text-align: center; border-radius: 2px; font-size: 1.2rem; }
+
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .sidebar { display: none; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <header class="site-header">
+  <img src="Images/logo.png" alt="Shared Pearls Logo" class="header-logo"></img>
+    <div class="logo-text">Shared <span>Pearls</span> of Wisdom</div> 
+    </header>
+  </nav>
+<header class="hero">
+  <h1>LinguaSkill: Listening Module</h1>
+</header>
+
+<div class="container">
+  <aside class="sidebar">
+    <div class="sidebar-title">Paper 1: Listening</div>
+    <ul class="tense-nav">
+      <li><a href="#task-1" class="active">Task 1: Listen and Select</a></li>
+      <li><a href="#task-2">Task 2: Extended Listening</a></li>
+    </ul>
+  </aside>
+
+  <main>
+
+    <section id="task-1" class="test-section">
+      <div class="test-header"><h2>Task 1: Listen and Select</h2></div>
+      
+      <div class="instruction-note">
+        INSTRUCTIONS: You will hear SEVEN short recordings. For each recording, listen and choose the best answer: A, B or C. <strong>Play each recording ONCE only.</strong>
+      </div>
+      
+      <button class="transcript-btn" onclick="toggleTranscript('transcript-task1')">Toggle Transcripts (Teacher / Review)</button>
+      
+      <div class="transcript-box" id="transcript-task1">
+        <div class="transcript-title">Recording 7: Train Station</div>
+        <p><strong>Announcer:</strong> We apologise to passengers waiting for the 09:42 service to Manchester Piccadilly. This train has been delayed by approximately 25 minutes due to a signalling fault outside Birmingham New Street. Updated departure time is now 10:07. We apologise for any inconvenience caused.</p>
+        
+        <div class="transcript-title">Recording 8: Voicemail</div>
+        <p><strong>Receptionist:</strong> Hello, this is a message for Mr. Hassan from Greendale Dental Practice. We're calling to confirm your appointment on Thursday the 20th at 2:30 pm with Dr. Williams. Please note that we ask patients to arrive ten minutes early to complete a short health questionnaire. If you need to reschedule, please call us by Tuesday morning. Thank you.</p>
+
+        <div class="transcript-title">Recording 9: Colleagues</div>
+        <p><strong>Man:</strong> Have you heard anything about the restructuring? There are rumours that two whole departments are being merged.</p>
+        <p><strong>Woman:</strong> I spoke to HR this morning — she said an announcement will go out before the end of the week, but she couldn't say more than that.</p>
+        <p><strong>Man:</strong> I just hope it doesn't affect our team. We're already stretched as it is.</p>
+
+        <div class="transcript-title">Recording 10: Radio Ad</div>
+        <p><strong>Narrator:</strong> Tired of overpaying for your energy bills? Switch to ClearPower today and pay only for what you use. Our smart meters update in real time, so there are no estimated bills — ever. Visit clearpower.co.uk or call 0800 123 456 to get your free quote. New customers switching this month receive a £50 credit on their first bill.</p>
+
+        <div class="transcript-title">Recording 11: University</div>
+        <p><strong>Student:</strong> I wanted to ask about the deadline extension for the end-of-term assignment. I've been unwell and I'm worried I won't be able to submit on time.</p>
+        <p><strong>Administrator:</strong> You'll need to submit a medical certificate and a completed Mitigating Circumstances form. If approved, you'd normally receive a two-week extension. The forms are available on the student portal.</p>
+        <p><strong>Student:</strong> And how long does the decision usually take?</p>
+        <p><strong>Administrator:</strong> Generally three to five working days from receipt of the completed documentation.</p>
+
+        <div class="transcript-title">Recording 12: Weather</div>
+        <p><strong>Forecaster:</strong> And now the outlook for the weekend. Saturday will start dry with some early morning cloud, but expect sunny spells to develop through the afternoon, particularly in the south. Temperatures will reach a high of 19 degrees. Sunday, however, tells a different story — a band of rain will move in from the west overnight, bringing persistent showers throughout the day. Temperatures will drop to around 13 degrees. So if you're planning outdoor activities, Saturday is definitely your better option.</p>
+
+        <div class="transcript-title">Recording 13: Weekend Plans</div>
+        <p><strong>Anna:</strong> Are you still coming to the exhibition on Saturday? The one at the Modern Art Gallery?</p>
+        <p><strong>Ben:</strong> I'd planned to, but I just found out my sister's flying in from Dubai. I haven't seen her in eight months, so I feel like I should be there to meet her.</p>
+        <p><strong>Anna:</strong> Of course, that's completely understandable. We could always go the following weekend — it runs until the 30th.</p>
+        <p><strong>Ben:</strong> That would be perfect. Sorry for the last-minute change.</p>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">7.</span> Why is the train delayed?
+        <div class="mini-audio">
+          <span>Rec 7:</span>
+          <audio controls><source src="listening-7.m4a" type="audio/mpeg">
+           </audio>
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q7" value="a"> A. There is a problem with the train itself.</label>
+          <label class="mcq-label"><input type="radio" name="q7" value="b"> B. There is a signalling fault on the line.</label>
+          <label class="mcq-label"><input type="radio" name="q7" value="c"> C. The station is experiencing staff shortages.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">8.</span> What does the receptionist ask Mr. Hassan to do?
+        <div class="mini-audio">
+          <span>Rec 8:</span>
+          <audio controls><source src="listening-8.m4a" type="audio/mpeg"></audio>
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q8" value="a"> A. Confirm his appointment by telephone.</label>
+          <label class="mcq-label"><input type="radio" name="q8" value="b"> B. Arrive at the practice before his appointment time.</label>
+          <label class="mcq-label"><input type="radio" name="q8" value="c"> C. Complete a questionnaire online before attending.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">9.</span> What does the woman know about the company announcement?
+        <div class="mini-audio">
+          <span>Rec 9:</span>
+          <audio controls><source src="listening-9.m4a" type="audio/mpeg"></audio>
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q9" value="a"> A. It will confirm that two departments are being closed.</label>
+          <label class="mcq-label"><input type="radio" name="q9" value="b"> B. It will be made before the end of this week.</label>
+          <label class="mcq-label"><input type="radio" name="q9" value="c"> C. It will be sent directly to all staff by HR.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">10.</span> What is the main advantage of ClearPower mentioned in the advertisement?
+        <div class="mini-audio">
+          <span>Rec 10:</span>
+          <audio controls><source src="listening-10.m4a" type="audio/mpeg"></audio>
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q10" value="a"> A. Customers receive the cheapest energy rates available.</label>
+          <label class="mcq-label"><input type="radio" name="q10" value="b"> B. Bills are always based on actual usage, not estimates.</label>
+          <label class="mcq-label"><input type="radio" name="q10" value="c"> C. New customers receive free installation of a smart meter.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">11.</span> What must the student submit to receive a deadline extension?
+        <div class="mini-audio">
+          <span>Rec 11:</span>
+          <audio controls><source src="listening-11.m4a" type="audio/mpeg"></audio>
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q11" value="a"> A. A letter from a parent or guardian and a doctor's note.</label>
+          <label class="mcq-label"><input type="radio" name="q11" value="b"> B. A medical certificate and a Mitigating Circumstances form.</label>
+          <label class="mcq-label"><input type="radio" name="q11" value="c"> C. An online application and a signed statement from their tutor.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="a">
+        <span class="q-num">12.</span> What does the forecaster recommend?
+        <div class="mini-audio">
+          <span>Rec 12:</span>
+          <audio controls><source src="listening-12.m4a" type="audio/mpeg"></audio>
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q12" value="a"> A. Planning outdoor activities on Saturday rather than Sunday.</label>
+          <label class="mcq-label"><input type="radio" name="q12" value="b"> B. Travelling south to enjoy better weather on Sunday.</label>
+          <label class="mcq-label"><input type="radio" name="q12" value="c"> C. Carrying an umbrella throughout the whole weekend.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">13.</span> Why is Ben unable to attend the exhibition on Saturday?
+        <div class="mini-audio">
+          <span>Rec 13:</span>
+          <audio controls><source src="listening-13.m4a" type="audio/mpeg"></audio>
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q13" value="a"> A. He has a work commitment he cannot reschedule.</label>
+          <label class="mcq-label"><input type="radio" name="q13" value="b"> B. He wants to be with his sister who is visiting from abroad.</label>
+          <label class="mcq-label"><input type="radio" name="q13" value="c"> C. He forgot he had already made other arrangements.</label>
+        </div>
+      </div>
+
+      <button class="btn-evaluate" onclick="evaluateSection('task-1')">Submit Task 1</button>
+      <div class="feedback-box"></div>
+    </section>
+
+    <section id="task-2" class="test-section">
+      <div class="test-header"><h2>Task 2: Extended Listening</h2></div>
+      
+      <div class="instruction-note">
+        INSTRUCTIONS: You will hear a radio interview. Read Questions 35–42 before the recording begins, then listen and choose the best answer (A, B or C) for each question. Questions are in the same order as the information in the recording. <strong>Play the track ONCE only.</strong>
+      </div>
+      
+      <div class="audio-interface">
+        <div class="audio-title">Track — Radio interview: 'The Future of Cities'</div>
+        <audio controls controlsList="nodownload noplaybackrate">
+          <source src="linguaskill-extended-listening-of-listening.m4a" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+
+      <button class="transcript-btn" onclick="toggleTranscript('transcript-task2')">Toggle Audio Transcript (Teacher / Review)</button>
+      
+      <div class="transcript-box" id="transcript-task2">
+        <p><strong>Host:</strong> Dr. Castellano, your new book argues that cities around the world are facing a crisis. Can you summarise what you mean by that?</p>
+        <p><strong>Dr. Castellano:</strong> Certainly. The fundamental problem is that most of our major cities were designed — if you can call it that — for a world that no longer exists. The infrastructure was built for far smaller populations, mostly before the widespread ownership of cars, and long before anyone imagined the impact of climate change. As a result, we're seeing systems that are simply overwhelmed.</p>
+        <p><strong>Host:</strong> What systems in particular are you referring to?</p>
+        <p><strong>Dr. Castellano:</strong> Transport is the most obvious — the congestion in cities like Jakarta, São Paulo, and Lagos is not just an inconvenience; it has measurable effects on productivity, air quality, and mental health. But it's also about water infrastructure, energy grids, and housing. The demand in all of these areas has outgrown what cities were built to handle.</p>
+        <p><strong>Host:</strong> Your book focuses quite heavily on what you call 'fifteen-minute cities.' Can you explain that concept?</p>
+        <p><strong>Dr. Castellano:</strong> The idea is relatively simple: you design — or redesign — urban areas so that residents can reach everything they need on a daily basis within a fifteen-minute walk or cycle. That means shops, schools, parks, healthcare, workplaces. Paris has been perhaps the most high-profile attempt to implement this model, with Mayor Hidalgo making it a central policy since around 2020.</p>
+        <p><strong>Host:</strong> Has it been successful?</p>
+        <p><strong>Dr. Castellano:</strong> The results are encouraging but mixed. Cycling infrastructure has expanded dramatically, and residents report feeling that their neighbourhoods are more liveable. But some critics argue that the model works well in wealthier central districts and less well in the suburbs, where the density of services is much lower. It's not a silver bullet.</p>
+        <p><strong>Host:</strong> What role does technology play in the cities of the future?</p>
+        <p><strong>Dr. Castellano:</strong> It's significant, but I'd caution against seeing it as a solution in itself. Smart sensors can help manage traffic flow and reduce energy consumption. Data can help city planners make much better informed decisions. But technology without good governance and political will tends to make existing inequalities worse, not better. The most successful smart city projects I've seen always put community needs first and use technology as a tool, rather than an end in itself.</p>
+        <p><strong>Host:</strong> Finally — what would you say to someone who is pessimistic about the future of cities?</p>
+        <p><strong>Dr. Castellano:</strong> I'd say there is genuine cause for optimism, but it requires urgent action. Cities that have committed to long-term, bold planning — places like Singapore, Copenhagen, and Medellín — have transformed dramatically within a generation. The lesson is that change is possible, but it demands political courage and a willingness to think beyond the next election cycle.</p>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">35.</span> According to Dr. Castellano, what is the main reason cities are struggling?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q35" value="a"> A. They have expanded too quickly without planning permission.</label>
+          <label class="mcq-label"><input type="radio" name="q35" value="b"> B. They were built for conditions that are very different from today.</label>
+          <label class="mcq-label"><input type="radio" name="q35" value="c"> C. Governments have failed to invest in new infrastructure.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">36.</span> Dr. Castellano says that traffic congestion in cities affects:
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q36" value="a"> A. only the economy and government tax revenues.</label>
+          <label class="mcq-label"><input type="radio" name="q36" value="b"> B. productivity, air quality, and people's mental health.</label>
+          <label class="mcq-label"><input type="radio" name="q36" value="c"> C. mostly people who do not have access to public transport.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="a">
+        <span class="q-num">37.</span> What is the main principle of a 'fifteen-minute city'?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q37" value="a"> A. Residents can access essential services within a short distance of their home.</label>
+          <label class="mcq-label"><input type="radio" name="q37" value="b"> B. City centres are reserved for pedestrians and cyclists only.</label>
+          <label class="mcq-label"><input type="radio" name="q37" value="c"> C. Public transport should reach any point in the city within fifteen minutes.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="c">
+        <span class="q-num">38.</span> Which city is mentioned as a well-known example of the fifteen-minute city model?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q38" value="a"> A. London</label>
+          <label class="mcq-label"><input type="radio" name="q38" value="b"> B. Singapore</label>
+          <label class="mcq-label"><input type="radio" name="q38" value="c"> C. Paris</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">39.</span> What criticism does Dr. Castellano acknowledge about the fifteen-minute city model?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q39" value="a"> A. It is too expensive for most city governments to implement.</label>
+          <label class="mcq-label"><input type="radio" name="q39" value="b"> B. It works better in well-served central areas than in suburbs.</label>
+          <label class="mcq-label"><input type="radio" name="q39" value="c"> C. Residents have not changed their habits even when services are nearby.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="c">
+        <span class="q-num">40.</span> What is Dr. Castellano's view on technology and city planning?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q40" value="a"> A. Technology is the most important factor in creating successful cities.</label>
+          <label class="mcq-label"><input type="radio" name="q40" value="b"> B. Technology should only be used in wealthy cities that can afford it.</label>
+          <label class="mcq-label"><input type="radio" name="q40" value="c"> C. Technology is a useful tool, but it cannot replace good governance.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">41.</span> According to Dr. Castellano, what do successful smart city projects have in common?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q41" value="a"> A. They invest heavily in the latest digital infrastructure.</label>
+          <label class="mcq-label"><input type="radio" name="q41" value="b"> B. They put the needs of residents first and use technology to support that.</label>
+          <label class="mcq-label"><input type="radio" name="q41" value="c"> C. They are managed by technology companies rather than local governments.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="a">
+        <span class="q-num">42.</span> What does Dr. Castellano say about cities like Singapore, Copenhagen, and Medellín?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q42" value="a"> A. They have achieved significant transformation through committed long-term planning.</label>
+          <label class="mcq-label"><input type="radio" name="q42" value="b"> B. They are models that only work in wealthy developed countries.</label>
+          <label class="mcq-label"><input type="radio" name="q42" value="c"> C. They changed quickly because they avoided using new technology.</label>
+        </div>
+      </div>
+
+      <button class="btn-evaluate" onclick="evaluateSection('task-2')">Submit Task 2</button>
+      <div class="feedback-box"></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Sidebar Highlight Logic
+  document.addEventListener("DOMContentLoaded", () => {
+    const links = document.querySelectorAll(".tense-nav a");
+    const sections = document.querySelectorAll(".test-section");
+
+    window.addEventListener("scroll", () => {
+      let scrollY = window.pageYOffset;
+      sections.forEach(current => {
+        const sectionHeight = current.offsetHeight;
+        const sectionTop = current.offsetTop - 150;
+        const sectionId = current.getAttribute("id");
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+          links.forEach(a => {
+            a.classList.remove("active");
+            if (a.getAttribute("href") === "#" + sectionId) {
+              a.classList.add("active");
+            }
+          });
+        }
+      });
+    });
+  });
+
+  // Transcript Toggle Logic
+  function toggleTranscript(id) {
+    const box = document.getElementById(id);
+    if (box.style.display === 'none' || box.style.display === '') {
+      box.style.display = 'block';
+    } else {
+      box.style.display = 'none';
+    }
+  }
+
+  // Master Evaluation Engine
+  function evaluateSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    const questions = section.querySelectorAll('.q-item');
+    let score = 0;
+    let total = questions.length;
+
+    questions.forEach(q => {
+      const type = q.getAttribute('data-type');
+      const primaryAnswer = q.getAttribute('data-answer').toLowerCase();
+      let isCorrect = false;
+
+      if (type === 'radio') {
+        const checked = q.querySelector('input[type="radio"]:checked');
+        q.querySelectorAll('.mcq-label').forEach(lbl => lbl.classList.remove('correct-ui', 'wrong-ui'));
+        if (checked) {
+          if (checked.value.toLowerCase() === primaryAnswer) {
+            isCorrect = true;
+            checked.parentElement.classList.add('correct-ui');
+          } else {
+            checked.parentElement.classList.add('wrong-ui');
+          }
+        }
+      }
+
+      if (isCorrect) score++;
+    });
+
+    const feedbackBox = section.querySelector('.feedback-box');
+    feedbackBox.style.display = 'block';
+    if (score === total) {
+      feedbackBox.className = 'feedback-box correct-ui';
+      feedbackBox.innerHTML = `Excellent listening comprehension! Score: ${score}/${total}.`;
+    } else {
+      feedbackBox.className = 'feedback-box wrong-ui';
+      feedbackBox.innerHTML = `Score: ${score}/${total}. Please review the red errors and listen to the track again.`;
+    }
+  }
+</script>
+</body>
+</html>

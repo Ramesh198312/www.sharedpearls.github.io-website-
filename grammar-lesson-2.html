@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grammar Lesson 2: Conditionals – Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--ink:#1a1209;--parchment:#fdf8f0;--cream:#f5ede0;--gold:#c8922a;--gold-light:#e8b84b;--rust:#a0401a;--teal:#1e6b6b;--pearl:#e8ddd0;--shadow:rgba(26,18,9,0.12);--correct:#1e6b3a;--wrong:#8b1a1a;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Source Serif 4',Georgia,serif;background:var(--parchment);color:var(--ink);}
+    nav{background:var(--ink);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold-light);padding:1.1rem 0;text-decoration:none;display:block;}
+    .nav-logo span{color:#fff;font-style:italic;}
+    .nav-back{font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;text-decoration:none;}
+    .nav-back:hover{color:var(--gold-light);}
+
+    .hero{background:var(--teal);padding:4rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;}
+    .hero::before{content:'🔀';font-size:16rem;position:absolute;opacity:0.05;top:-2rem;left:50%;transform:translateX(-50%);pointer-events:none;}
+    .meta{display:flex;justify-content:center;gap:0.8rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+    .pill{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.35rem 0.9rem;border-radius:2px;}
+    .pill-light{background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);}
+    .pill-gold{background:rgba(200,146,42,0.3);color:var(--gold-light);border:1px solid rgba(200,146,42,0.4);}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);color:#fff;line-height:1.15;max-width:780px;margin:0 auto 1rem;}
+    .hero h1 em{color:var(--gold-light);font-style:italic;}
+    .hero p{color:rgba(255,255,255,0.75);font-size:1rem;font-weight:300;max-width:580px;margin:0 auto;line-height:1.7;}
+    .progress-bar{height:3px;background:rgba(255,255,255,0.15);margin-top:2.5rem;}
+    .progress-fill{height:100%;width:0;background:var(--gold-light);transition:width 0.3s;}
+
+    .layout{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 280px;gap:3rem;padding:3rem 2rem;}
+    .body h2{font-family:'Playfair Display',serif;font-size:1.5rem;margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--teal);display:inline-block;}
+    .body p{font-size:1.02rem;line-height:1.9;color:#333;margin-bottom:1.3rem;}
+
+    /* CONDITIONAL CARDS - interactive stepper */
+    .cond-stepper{margin:2rem 0;}
+    .cond-tabs{display:flex;gap:0;border-bottom:2px solid var(--pearl);}
+    .cond-tab{flex:1;padding:0.8rem;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;background:#fff;border:none;border-bottom:3px solid transparent;cursor:pointer;color:#888;transition:all 0.2s;text-align:center;}
+    .cond-tab.active{color:var(--teal);border-bottom-color:var(--teal);font-weight:600;}
+    .cond-panels{background:#fff;box-shadow:0 2px 12px var(--shadow);}
+    .cond-panel{display:none;padding:2rem;}
+    .cond-panel.active{display:block;}
+    .cond-type{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;}
+    .cond-name{font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:0.3rem;}
+    .cond-use{color:#888;font-size:0.9rem;margin-bottom:1.5rem;font-style:italic;}
+    .cond-formula{background:var(--ink);padding:1rem 1.4rem;margin-bottom:1.5rem;}
+    .cond-formula p{font-family:'DM Mono',monospace;font-size:0.9rem;color:#fff;margin:0;line-height:1.8;}
+    .cond-formula span{color:var(--gold-light);}
+    .cond-examples{display:grid;gap:0.8rem;}
+    .cond-ex{background:var(--cream);padding:0.9rem 1.2rem;border-left:3px solid var(--teal);}
+    .cond-ex.biz{border-left-color:var(--gold);}
+    .cond-ex-label{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:0.3rem;}
+    .cond-ex p{font-size:0.93rem;color:#333;line-height:1.6;font-style:italic;}
+    .cond-ex p strong{color:var(--teal);font-style:normal;}
+    .cond-ex.biz p strong{color:var(--gold);}
+    .cond-nav{display:flex;gap:0.5rem;justify-content:flex-end;margin-top:1.5rem;}
+    .cond-nav-btn{padding:0.5rem 1.2rem;border:1px solid var(--pearl);background:var(--parchment);font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;cursor:pointer;transition:all 0.2s;color:#888;}
+    .cond-nav-btn:hover{background:var(--teal);color:#fff;border-color:var(--teal);}
+
+    /* MIXED CONDITIONALS */
+    .mixed-box{background:var(--ink);padding:1.8rem;margin:2rem 0;}
+    .mixed-box h3{font-family:'Playfair Display',serif;color:var(--gold-light);font-size:1.1rem;margin-bottom:0.8rem;}
+    .mixed-box p{color:#ccc;font-size:0.9rem;line-height:1.8;margin-bottom:0.8rem;}
+    .mixed-box .ex{color:#7ed4d4;font-style:italic;font-size:0.92rem;line-height:1.7;}
+
+    /* CONTRAST TABLE */
+    .contrast-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:0.9rem;}
+    .contrast-table th{background:var(--teal);color:#fff;font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.7rem 1rem;text-align:left;}
+    .contrast-table td{padding:0.7rem 1rem;border-bottom:1px solid var(--pearl);color:#444;line-height:1.6;}
+    .contrast-table tr:last-child td{border-bottom:none;}
+    .contrast-table td em{color:var(--teal);font-style:italic;}
+
+    /* QUIZ - drag & match style */
+    .match-quiz{background:#fff;padding:2rem;box-shadow:0 2px 12px var(--shadow);margin-top:2.5rem;}
+    .match-header{font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:0.3rem;}
+    .match-sub{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--teal);margin-bottom:1.5rem;}
+    .match-item{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.2rem;flex-wrap:wrap;}
+    .match-sentence{flex:1;font-size:0.95rem;color:#333;line-height:1.7;padding:0.7rem;background:var(--parchment);border:1px solid var(--pearl);min-width:200px;}
+    .match-select{padding:0.6rem 0.8rem;border:1px solid var(--pearl);background:#fff;font-family:'Source Serif 4',serif;font-size:0.88rem;color:var(--ink);cursor:pointer;outline:none;transition:border-color 0.2s;}
+    .match-select:focus{border-color:var(--teal);}
+    .match-select.correct{border-color:var(--correct);background:rgba(30,107,58,0.05);}
+    .match-select.wrong{border-color:var(--wrong);background:rgba(139,26,26,0.05);}
+    .match-fb{font-family:'DM Mono',monospace;font-size:0.75rem;margin-top:0.3rem;width:100%;display:none;}
+    .match-fb.ok{color:var(--correct);}
+    .match-fb.no{color:var(--wrong);}
+    .quiz-btn{padding:0.8rem 2rem;background:var(--teal);color:#fff;border:none;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:1rem;transition:all 0.2s;}
+    .quiz-btn:hover{background:#155555;}
+    .quiz-score{display:none;margin-top:1rem;padding:1rem;background:var(--ink);text-align:center;}
+    .quiz-score span{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-light);}
+    .quiz-score p{color:#aaa;font-size:0.85rem;margin-top:0.3rem;}
+
+    /* SIDEBAR */
+    .sidebar{display:flex;flex-direction:column;gap:1.5rem;}
+    .s-card{background:#fff;padding:1.4rem;box-shadow:0 2px 12px var(--shadow);}
+    .s-card h4{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid var(--pearl);}
+    .nav-list{list-style:none;}
+    .nav-list li{border-bottom:1px solid var(--pearl);}
+    .nav-list li:last-child{border-bottom:none;}
+    .nav-list a{display:block;padding:0.6rem 0;font-size:0.88rem;color:#555;text-decoration:none;transition:color 0.2s;}
+    .nav-list a:hover{color:var(--gold);}
+    .nav-list a.current{color:var(--gold);font-weight:600;}
+    .tip-box{background:rgba(30,107,107,0.06);border:1px solid rgba(30,107,107,0.2);padding:1rem;font-size:0.88rem;line-height:1.7;color:#555;}
+    .tip-box strong{color:var(--teal);}
+    .next-btn{display:block;background:var(--gold);color:var(--ink);padding:1rem;text-align:center;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;font-weight:500;transition:all 0.2s;}
+    .next-btn:hover{background:var(--gold-light);}
+    .prev-btn{display:block;background:transparent;color:var(--teal);border:1px solid var(--teal);padding:0.8rem;text-align:center;font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+    .prev-btn:hover{background:var(--teal);color:#fff;}
+
+    footer{background:var(--ink);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    footer p{color:#666;font-size:0.82rem;font-family:'DM Mono',monospace;}
+    footer a{color:var(--gold);text-decoration:none;font-family:'DM Mono',monospace;font-size:0.82rem;}
+    @media(max-width:800px){.layout{grid-template-columns:1fr;}footer{padding:2rem 1.5rem;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
+  <a href="grammar-lesson-1.html" class="nav-back">← Lesson 1</a>
+</nav>
+
+<div class="hero">
+  <div class="meta">
+    <span class="pill pill-gold">✍ Grammar · Lesson 2 of 3</span>
+    <span class="pill pill-light">📚 B2 · Upper-Intermediate</span>
+    <span class="pill pill-light">⏱ 20 min</span>
+  </div>
+  <h1>Conditionals:<br/><em>If, When, Unless — and Beyond</em></h1>
+  <p>All four conditional types explained with professional examples, business scenarios, and interactive exercises — including the tricky mixed conditionals.</p>
+  <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+</div>
+
+<div class="layout">
+<article class="body">
+
+  <h2>What Are Conditionals?</h2>
+  <p>Conditionals describe situations where one event depends on another. They are essential in professional English — for proposals, negotiations, planning, and polite requests. English has four main conditional types, each expressing a different degree of reality or possibility.</p>
+
+  <h2>The Four Conditionals — Interactive Guide</h2>
+
+  <div class="cond-stepper">
+    <div class="cond-tabs">
+      <button class="cond-tab active" onclick="showCond(0)">Zero</button>
+      <button class="cond-tab" onclick="showCond(1)">First</button>
+      <button class="cond-tab" onclick="showCond(2)">Second</button>
+      <button class="cond-tab" onclick="showCond(3)">Third</button>
+    </div>
+    <div class="cond-panels">
+
+      <!-- ZERO -->
+      <div class="cond-panel active">
+        <div class="cond-type">Conditional 0</div>
+        <div class="cond-name">The Zero Conditional</div>
+        <div class="cond-use">For universal truths, scientific facts, and general rules</div>
+        <div class="cond-formula">
+          <p><span>If/When</span> + Present Simple, <span>→</span> Present Simple</p>
+        </div>
+        <div class="cond-examples">
+          <div class="cond-ex">
+            <div class="cond-ex-label">General fact</div>
+            <p>If you <strong>heat</strong> water to 100°C, it <strong>boils</strong>.</p>
+          </div>
+          <div class="cond-ex biz">
+            <div class="cond-ex-label">Business English</div>
+            <p>If a client <strong>raises</strong> a complaint, our team <strong>responds</strong> within 24 hours.</p>
+          </div>
+          <div class="cond-ex biz">
+            <div class="cond-ex-label">Business English</div>
+            <p>When demand <strong>increases</strong>, prices usually <strong>rise</strong>.</p>
+          </div>
+        </div>
+        <div class="cond-nav"><button class="cond-nav-btn" onclick="showCond(1)">Next: First Conditional →</button></div>
+      </div>
+
+      <!-- FIRST -->
+      <div class="cond-panel">
+        <div class="cond-type">Conditional 1</div>
+        <div class="cond-name">The First Conditional</div>
+        <div class="cond-use">For real, likely future situations — plans, warnings, promises</div>
+        <div class="cond-formula">
+          <p><span>If</span> + Present Simple, <span>→</span> will + Infinitive</p>
+        </div>
+        <div class="cond-examples">
+          <div class="cond-ex">
+            <div class="cond-ex-label">Everyday</div>
+            <p>If it <strong>rains</strong>, I <strong>will take</strong> an umbrella.</p>
+          </div>
+          <div class="cond-ex biz">
+            <div class="cond-ex-label">Business English</div>
+            <p>If we <strong>secure</strong> the contract, we <strong>will hire</strong> three additional staff members.</p>
+          </div>
+          <div class="cond-ex biz">
+            <div class="cond-ex-label">Negotiation</div>
+            <p>If you <strong>place</strong> an order today, we <strong>will offer</strong> a 10% discount.</p>
+          </div>
+        </div>
+        <div class="cond-nav">
+          <button class="cond-nav-btn" onclick="showCond(0)">← Zero</button>
+          <button class="cond-nav-btn" onclick="showCond(2)">Next: Second Conditional →</button>
+        </div>
+      </div>
+
+      <!-- SECOND -->
+      <div class="cond-panel">
+        <div class="cond-type">Conditional 2</div>
+        <div class="cond-name">The Second Conditional</div>
+        <div class="cond-use">For hypothetical, unlikely or imaginary present/future situations</div>
+        <div class="cond-formula">
+          <p><span>If</span> + Past Simple, <span>→</span> would + Infinitive</p>
+        </div>
+        <div class="cond-examples">
+          <div class="cond-ex">
+            <div class="cond-ex-label">Everyday</div>
+            <p>If I <strong>had</strong> more time, I <strong>would learn</strong> Japanese.</p>
+          </div>
+          <div class="cond-ex biz">
+            <div class="cond-ex-label">Business English</div>
+            <p>If we <strong>expanded</strong> to Asia, we <strong>would need</strong> a local distribution partner.</p>
+          </div>
+          <div class="cond-ex biz">
+            <div class="cond-ex-label">Polite request</div>
+            <p>I <strong>would appreciate</strong> it if you <strong>could send</strong> the report by Friday.</p>
+          </div>
+        </div>
+        <div class="cond-nav">
+          <button class="cond-nav-btn" onclick="showCond(1)">← First</button>
+          <button class="cond-nav-btn" onclick="showCond(3)">Next: Third Conditional →</button>
+        </div>
+      </div>
+
+      <!-- THIRD -->
+      <div class="cond-panel">
+        <div class="cond-type">Conditional 3</div>
+        <div class="cond-name">The Third Conditional</div>
+        <div class="cond-use">For imaginary past situations — things that didn't happen</div>
+        <div class="cond-formula">
+          <p><span>If</span> + Past Perfect, <span>→</span> would have + Past Participle</p>
+        </div>
+        <div class="cond-examples">
+          <div class="cond-ex">
+            <div class="cond-ex-label">Everyday</div>
+            <p>If she <strong>had studied</strong> harder, she <strong>would have passed</strong> the exam.</p>
+          </div>
+          <div class="cond-ex biz">
+            <div class="cond-ex-label">Business post-mortem</div>
+            <p>If we <strong>had launched</strong> earlier, we <strong>would have captured</strong> a larger market share.</p>
+          </div>
+          <div class="cond-ex biz">
+            <div class="cond-ex-label">Apology / reflection</div>
+            <p>If I <strong>had been</strong> informed sooner, I <strong>would have resolved</strong> the issue immediately.</p>
+          </div>
+        </div>
+        <div class="cond-nav"><button class="cond-nav-btn" onclick="showCond(2)">← Second</button></div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Mixed Conditionals</h2>
+  <p>Mixed conditionals combine a past condition with a present result, or a present condition with a past result. They are common in sophisticated professional writing and speaking.</p>
+
+  <div class="mixed-box">
+    <h3>Past Condition → Present Result</h3>
+    <p>Structure: <em>If + Past Perfect, → would + Infinitive</em></p>
+    <p class="ex">"If we had invested in that technology five years ago, we would be market leaders today."</p>
+    <p class="ex">"If she had taken the management course, she would be running the department by now."</p>
+  </div>
+
+  <div class="mixed-box" style="border-left:3px solid var(--teal);">
+    <h3>Present Condition → Past Result</h3>
+    <p>Structure: <em>If + Past Simple, → would have + Past Participle</em></p>
+    <p class="ex">"If he were more organised, he would have met the deadline."</p>
+    <p class="ex">"If the software were more reliable, the project would have launched on time."</p>
+  </div>
+
+  <h2>Unless, Provided That & As Long As</h2>
+  <p>Beyond "if", professionals regularly use these conditional connectors — and using them correctly signals a strong command of English.</p>
+
+  <table class="contrast-table">
+    <thead><tr><th>Word</th><th>Meaning</th><th>Professional Example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Unless</strong></td><td>= if not</td><td><em>"Unless you confirm by Friday, we will proceed without your input."</em></td></tr>
+      <tr><td><strong>Provided that</strong></td><td>= only if (condition)</td><td><em>"We will sign the contract, provided that all terms are agreed."</em></td></tr>
+      <tr><td><strong>As long as</strong></td><td>= on the condition that</td><td><em>"We can offer flexible hours as long as targets are met."</em></td></tr>
+      <tr><td><strong>In case</strong></td><td>= to prepare for a possibility</td><td><em>"Please keep a copy of all correspondence in case of a dispute."</em></td></tr>
+      <tr><td><strong>Supposing</strong></td><td>= what if (hypothetical)</td><td><em>"Supposing the deal falls through — what is our contingency plan?"</em></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Practice Quiz — Match the Conditional</h2>
+  <div class="match-quiz">
+    <div class="match-header">Identify the Conditional Type</div>
+    <div class="match-sub">Select the correct conditional type for each sentence</div>
+
+    <div class="match-item">
+      <div class="match-sentence">"If we lose this client, we will need to find replacements quickly."</div>
+      <div style="display:flex;flex-direction:column;gap:0.3rem;">
+        <select class="match-select" id="m1">
+          <option value="">— Select —</option>
+          <option>Zero</option><option>First</option><option>Second</option><option>Third</option><option>Mixed</option>
+        </select>
+        <div class="match-fb" id="mf1"></div>
+      </div>
+    </div>
+    <div class="match-item">
+      <div class="match-sentence">"If I had known about the budget cut, I would have planned differently."</div>
+      <div style="display:flex;flex-direction:column;gap:0.3rem;">
+        <select class="match-select" id="m2">
+          <option value="">— Select —</option>
+          <option>Zero</option><option>First</option><option>Second</option><option>Third</option><option>Mixed</option>
+        </select>
+        <div class="match-fb" id="mf2"></div>
+      </div>
+    </div>
+    <div class="match-item">
+      <div class="match-sentence">"If clients complain, we always issue a full refund within 48 hours."</div>
+      <div style="display:flex;flex-direction:column;gap:0.3rem;">
+        <select class="match-select" id="m3">
+          <option value="">— Select —</option>
+          <option>Zero</option><option>First</option><option>Second</option><option>Third</option><option>Mixed</option>
+        </select>
+        <div class="match-fb" id="mf3"></div>
+      </div>
+    </div>
+    <div class="match-item">
+      <div class="match-sentence">"If we had merged with that company, we would be worth twice as much now."</div>
+      <div style="display:flex;flex-direction:column;gap:0.3rem;">
+        <select class="match-select" id="m4">
+          <option value="">— Select —</option>
+          <option>Zero</option><option>First</option><option>Second</option><option>Third</option><option>Mixed</option>
+        </select>
+        <div class="match-fb" id="mf4"></div>
+      </div>
+    </div>
+    <div class="match-item">
+      <div class="match-sentence">"If I were the CEO, I would restructure the entire sales division."</div>
+      <div style="display:flex;flex-direction:column;gap:0.3rem;">
+        <select class="match-select" id="m5">
+          <option value="">— Select —</option>
+          <option>Zero</option><option>First</option><option>Second</option><option>Third</option><option>Mixed</option>
+        </select>
+        <div class="match-fb" id="mf5"></div>
+      </div>
+    </div>
+
+    <button class="quiz-btn" onclick="checkMatch()">Check Answers</button>
+    <div class="quiz-score" id="qs">
+      <span id="qscore"></span>
+      <p id="qmsg"></p>
+    </div>
+  </div>
+
+</article>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="s-card">
+    <h4>Grammar Lessons</h4>
+    <ul class="nav-list">
+      <li><a href="grammar-lesson-1.html">① English Tenses: The Big Picture</a></li>
+      <li><a href="grammar-lesson-2.html" class="current">② Conditionals: If, When & Unless</a></li>
+      <li><a href="grammar-lesson-3.html">③ Passive Voice in Professional Writing</a></li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <h4>Professional Tip</h4>
+    <div class="tip-box">
+      <strong>Second Conditional = Polite Requests</strong><br/><br/>
+      In professional English, the Second Conditional makes requests sound much more polished:<br/><br/>
+      ✗ <em>"Can you send me the file?"</em><br/>
+      ✓ <em>"I would appreciate it if you could send me the file."</em>
+    </div>
+  </div>
+  <div class="s-card">
+    <h4>Common Errors</h4>
+    <ul class="nav-list">
+      <li><a href="#">"If I would go" ✗</a></li>
+      <li><a href="#">"If I would have" ✗</a></li>
+      <li><a href="#">Unless vs If not</a></li>
+      <li><a href="#">In case vs If</a></li>
+    </ul>
+  </div>
+  <a href="grammar-lesson-1.html" class="prev-btn">← Lesson 1: Tenses</a>
+  <a href="grammarlesson3.html" class="next-btn">Next: Passive Voice →</a>
+</aside>
+</div>
+
+<footer>
+  <p>© 2025 Shared Pearls of Wisdom · Ramesh198312</p>
+  <a href="index.html">← Back to all lessons</a>
+</footer>
+
+<script>
+  window.addEventListener('scroll',()=>{
+    const d=document.documentElement;
+    document.getElementById('pf').style.width=((d.scrollTop||document.body.scrollTop)/(d.scrollHeight-d.clientHeight)*100)+'%';
+  });
+
+  function showCond(i){
+    document.querySelectorAll('.cond-tab').forEach((t,j)=>{t.classList.toggle('active',i===j);});
+    document.querySelectorAll('.cond-panel').forEach((p,j)=>{p.classList.toggle('active',i===j);});
+  }
+
+  const matchAns={m1:'First',m2:'Third',m3:'Zero',m4:'Mixed',m5:'Second'};
+  const matchExp={
+    m1:'First Conditional — real, likely future situation.',
+    m2:'Third Conditional — imaginary past; it did not happen.',
+    m3:'Zero Conditional — company policy / universal procedure.',
+    m4:'Mixed Conditional — past condition + present result.',
+    m5:'Second Conditional — hypothetical present; not real.'
+  };
+  function checkMatch(){
+    let score=0;
+    for(let k in matchAns){
+      const sel=document.getElementById(k);
+      const fb=document.getElementById('mf'+k.slice(1));
+      sel.classList.remove('correct','wrong');
+      fb.style.display='block';
+      if(sel.value===matchAns[k]){
+        sel.classList.add('correct');
+        fb.className='match-fb ok';
+        fb.textContent='✓ Correct! '+matchExp[k];
+        score++;
+      } else {
+        sel.classList.add('wrong');
+        fb.className='match-fb no';
+        fb.textContent='✗ Answer: '+matchAns[k]+' — '+matchExp[k];
+      }
+    }
+    const qs=document.getElementById('qs');
+    qs.style.display='block';
+    document.getElementById('qscore').textContent=score+'/5';
+    const msgs=['Review the conditional types above.','Keep going!','Good effort!','Nearly there!','Perfect — excellent grammar!'];
+    document.getElementById('qmsg').textContent=msgs[score];
+  }
+</script>
+</body>
+</html>

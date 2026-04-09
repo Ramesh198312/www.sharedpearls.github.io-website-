@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The 12 Tenses Masterclass | Shared Pearls</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --midnight: #0B1D3A;
+      --crimson: #8B1A2E;
+      --ink: #1E1E1E;
+      --slate: #4A4A4A;
+      --parchment: #F9F7F1;
+      --paper: #FFFFFF;
+      --gold: #C4923E;
+      --gold-light: #E8D3A2;
+      --border: #E0DCD3;
+      --correct: #1e5c35;
+      --correct-bg: #e8f5e9;
+      --wrong: #9B2C2C;
+      --wrong-bg: #FEE2E2;
+    }
+
+    html { scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Crimson Pro', Georgia, serif; background: var(--parchment); color: var(--ink); line-height: 1.6; }
+
+    /* ── NAVIGATION ── */
+    nav { background: var(--midnight); padding: 0.8rem 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--gold); }
+    .nav-logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--gold); }
+    .logo-text span { color: var(--paper); font-style: italic; }
+    .nav-cta { background: var(--gold); color: var(--midnight); padding: 0.6rem 1.2rem; border-radius: 2px; font-weight: 700; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; }
+
+    /* ── HERO SECTION ── */
+    .hero { background: var(--crimson); padding: 4rem 2rem; text-align: center; color: var(--paper); border-bottom: 5px solid var(--midnight);}
+    .hero-subtitle { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 1rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 600; margin-bottom: 1rem; }
+
+    /* ── LAYOUT (SIDEBAR & MAIN) ── */
+    .container { max-width: 1300px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 280px 1fr; gap: 4rem; align-items: start; }
+    
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 100px; background: var(--paper); border: 1px solid var(--border); padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .sidebar-title { font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    .tense-nav { list-style: none; }
+    .tense-nav li { margin-bottom: 0.5rem; }
+    .tense-nav a { text-decoration: none; color: var(--slate); font-size: 1.05rem; display: block; padding: 0.4rem 0.8rem; border-left: 2px solid transparent; transition: 0.2s; }
+    .tense-nav a:hover, .tense-nav a.active { color: var(--crimson); border-left-color: var(--crimson); background: rgba(139,26,46,0.03); font-weight: 600; }
+    .aspect-group { margin-top: 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; color: #999; text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* ── MAIN CONTENT ── */
+    .tense-section { background: var(--paper); border: 1px solid var(--border); padding: 3rem; margin-bottom: 4rem; box-shadow: 0 8px 24px rgba(0,0,0,0.02); scroll-margin-top: 100px;}
+    .tense-header { border-bottom: 2px solid var(--gold); padding-bottom: 1rem; margin-bottom: 2rem; }
+    .tense-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--midnight); }
+    .linguist-note { background: var(--parchment); padding: 1.5rem; border-left: 4px solid var(--midnight); font-size: 1.1rem; color: var(--ink); margin-bottom: 2rem; font-style: italic; }
+    
+    /* ── EXERCISE STYLES ── */
+    .exercise-block { margin-top: 3rem; border-top: 1px dashed var(--border); padding-top: 2rem; }
+    .ex-title { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--crimson); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+    .q-item { margin-bottom: 1.8rem; font-size: 1.15rem; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;}
+    .q-num { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--gold); font-weight: 700; width: 25px; }
+    
+    .input-fill { font-family: 'Crimson Pro', serif; font-size: 1.1rem; padding: 0.2rem 0.5rem; border: none; border-bottom: 2px solid var(--slate); background: transparent; outline: none; width: 120px; text-align: center; color: var(--crimson); font-weight: 600; transition: 0.3s;}
+    .input-fill:focus { border-bottom-color: var(--gold); }
+    .select-inline { font-family: 'Crimson Pro', serif; font-size: 1.1rem; padding: 0.2rem 0.5rem; border: 1px solid var(--slate); background: var(--parchment); outline: none; color: var(--crimson); font-weight: 600; cursor: pointer; border-radius: 2px;}
+    .mcq-group { display: flex; gap: 1.5rem; margin-top: 0.5rem; margin-left: 35px; width: 100%;}
+    .mcq-label { font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+    .mcq-label input { accent-color: var(--crimson); transform: scale(1.1); }
+    
+    .dd-container { margin-left: 35px; width: 100%; margin-top: 0.5rem;}
+    .drop-zone { display: inline-block; min-width: 120px; height: 35px; border: 2px dashed var(--slate); vertical-align: middle; transition: 0.2s; padding: 0 0.5rem; background: var(--parchment); text-align: center; line-height: 35px; color: var(--crimson); font-weight: 600;}
+    .drop-zone.over { background: var(--gold-light); border-color: var(--gold); }
+    .drag-bank { display: flex; gap: 1rem; padding: 1rem; background: var(--parchment); border: 1px solid var(--border); margin-top: 1rem; border-radius: 4px;}
+    .draggable { padding: 0.3rem 0.8rem; background: var(--midnight); color: var(--paper); font-size: 1rem; cursor: grab; border-radius: 2px; }
+
+    .correct-ui { border-color: var(--correct) !important; background: var(--correct-bg) !important; color: var(--correct) !important; }
+    .wrong-ui { border-color: var(--wrong) !important; background: var(--wrong-bg) !important; color: var(--wrong) !important; }
+
+    .btn-evaluate { padding: 1rem 2rem; background: var(--midnight); color: var(--paper); border: none; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.3s; margin-top: 2rem; width: 100%; border-radius: 2px;}
+    .btn-evaluate:hover { background: var(--gold); color: var(--midnight); }
+    .feedback-box { margin-top: 1rem; padding: 1rem; display: none; font-weight: 600; text-align: center; border-radius: 2px; }
+
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .sidebar { display: none; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div style="width: 35px; height: 35px; background: var(--gold); display: flex; align-items: center; justify-content: center; color: var(--midnight); font-weight: bold;">S</div>
+    <div class="logo-text">Shared <span>Pearls</span></div> 
+  </a>
+  <a href="index.html" class="nav-cta">Return to Lobby</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-subtitle">Advanced Syntax & Semantics</div>
+  <h1>The 12 Tenses Masterclass</h1>
+</header>
+
+<div class="container">
+  <aside class="sidebar">
+    <div class="sidebar-title">Grammar Index</div>
+    
+    <div class="aspect-group">Present Aspect</div>
+    <ul class="tense-nav">
+      <li><a href="#t-pres-simp" class="active">1. Present Simple</a></li>
+      <li><a href="#t-pres-cont">2. Present Continuous</a></li>
+      <li><a href="#t-pres-perf">3. Present Perfect</a></li>
+      <li><a href="#t-pres-perf-cont">4. Present Perf. Continuous</a></li>
+    </ul>
+
+    <div class="aspect-group">Past Aspect</div>
+    <ul class="tense-nav">
+      <li><a href="#t-past-simp">5. Past Simple</a></li>
+      <li><a href="#t-past-cont">6. Past Continuous</a></li>
+      <li><a href="#t-past-perf">7. Past Perfect</a></li>
+      <li><a href="#t-past-perf-cont">8. Past Perf. Continuous</a></li>
+    </ul>
+
+    <div class="aspect-group">Future Aspect</div>
+    <ul class="tense-nav">
+      <li><a href="#t-fut-simp">9. Future Simple</a></li>
+      <li><a href="#t-fut-cont">10. Future Continuous</a></li>
+      <li><a href="#t-fut-perf">11. Future Perfect</a></li>
+      <li><a href="#t-fut-perf-cont">12. Future Perf. Continuous</a></li>
+    </ul>
+  </aside>
+
+  <main>
+
+    <section id="t-pres-simp" class="tense-section">
+      <div class="tense-header"><h2>1. Present Simple</h2></div>
+      <div class="linguist-note">Expresses timelessness, habits, universal truths, and scheduled future events.</div>
+      <div class="exercise-block" id="ex-pres-simp">
+        <div class="ex-title">Assessment Module (30 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="boils"><span class="q-num">1.</span> Water <input type="text" class="input-fill" placeholder="(boil)"> at 100 degrees Celsius.</div>
+        <div class="q-item" data-type="fill" data-answer="departs"><span class="q-num">2.</span> The Oxford train <input type="text" class="input-fill" placeholder="(depart)"> at 08:30 every morning.</div>
+        <div class="q-item" data-type="fill" data-answer="speaks"><span class="q-num">3.</span> The professor <input type="text" class="input-fill" placeholder="(speak)"> five different languages fluently.</div>
+        <div class="q-item" data-type="fill" data-answer="revolves"><span class="q-num">4.</span> The Earth <input type="text" class="input-fill" placeholder="(revolve)"> around the Sun.</div>
+        <div class="q-item" data-type="fill" data-answer="consists"><span class="q-num">5.</span> This linguistic theory <input type="text" class="input-fill" placeholder="(consist)"> of three main principles.</div>
+        <div class="q-item" data-type="fill" data-answer="requires"><span class="q-num">6.</span> Fluency <input type="text" class="input-fill" placeholder="(require)"> consistent daily practice.</div>
+
+        <div class="q-item" data-type="select" data-answer="do not"><span class="q-num">7.</span> Stative verbs generally <select class="select-inline"><option value="empty">---</option><option value="are not">are not</option><option value="do not">do not</option></select> take the continuous form.</div>
+        <div class="q-item" data-type="select" data-answer="does"><span class="q-num">8.</span> <select class="select-inline"><option value="empty">---</option><option value="do">Do</option><option value="does">Does</option></select> the committee agree with this proposal?</div>
+        <div class="q-item" data-type="select" data-answer="belong"><span class="q-num">9.</span> These ancient artifacts <select class="select-inline"><option value="empty">---</option><option value="belongs">belongs</option><option value="belong">belong</option></select> in a museum.</div>
+        <div class="q-item" data-type="select" data-answer="seem"><span class="q-num">10.</span> The results of the study <select class="select-inline"><option value="empty">---</option><option value="seem">seem</option><option value="seems">seems</option></select> inconclusive.</div>
+        <div class="q-item" data-type="select" data-answer="prefer"><span class="q-num">11.</span> Advanced scholars often <select class="select-inline"><option value="empty">---</option><option value="prefer">prefer</option><option value="prefers">prefers</option></select> primary sources.</div>
+        <div class="q-item" data-type="select" data-answer="weighs"><span class="q-num">12.</span> The package <select class="select-inline"><option value="empty">---</option><option value="weigh">weigh</option><option value="weighs">weighs</option></select> exactly two kilograms.</div>
+
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">13.</span> Which adverb is strongly associated with the Present Simple?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps13" value="a"> Currently</label><label class="mcq-label"><input type="radio" name="ps13" value="b"> Seldom</label><label class="mcq-label"><input type="radio" name="ps13" value="c"> Lately</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">14.</span> Identify the correct negative form:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps14" value="a"> He does not understand.</label><label class="mcq-label"><input type="radio" name="ps14" value="b"> He do not understand.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="c"><span class="q-num">15.</span> "The plane lands at 5 PM." Why is Present Simple used here?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps15" value="a"> It is a habit.</label><label class="mcq-label"><input type="radio" name="ps15" value="b"> It is a fact.</label><label class="mcq-label"><input type="radio" name="ps15" value="c"> It is a scheduled timetable.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">16.</span> Which verb is a stative verb?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps16" value="a"> Believe</label><label class="mcq-label"><input type="radio" name="ps16" value="b"> Run</label><label class="mcq-label"><input type="radio" name="ps16" value="c"> Write</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">17.</span> Which sentence is correct?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps17" value="a"> The sun rise in the east.</label><label class="mcq-label"><input type="radio" name="ps17" value="b"> The sun rises in the east.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">18.</span> Select the correct question structure:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps18" value="a"> Where do they live?</label><label class="mcq-label"><input type="radio" name="ps18" value="b"> Where they do live?</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="originates"><span class="q-num">19.</span> This fascinating theory <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> from Cambridge.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="originate">originate</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="originates">originates</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="analyzes"><span class="q-num">20.</span> The software <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the data automatically.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="analyze">analyze</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="analyzes">analyzes</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="entails"><span class="q-num">21.</span> The job <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> a lot of travel.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="entails">entails</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="entail">entail</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="fluctuate"><span class="q-num">22.</span> Market prices <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> constantly.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="fluctuate">fluctuate</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="fluctuates">fluctuates</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="does not"><span class="q-num">23.</span> The evidence <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> support the claim.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="do not">do not</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="does not">does not</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="comprises"><span class="q-num">24.</span> The exam <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> four separate modules.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="comprises">comprises</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="comprise">comprise</div></div></div></div>
+
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">25.</span> "I promise I will help." The verb 'promise' here uses Present Simple. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps25" value="true"> True</label><label class="mcq-label"><input type="radio" name="ps25" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">26.</span> The word "information" takes a plural verb (e.g., informations are). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps26" value="true"> True</label><label class="mcq-label"><input type="radio" name="ps26" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">27.</span> We add '-es' to verbs ending in -sh, -ch, -x, and -o for the 3rd person singular. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps27" value="true"> True</label><label class="mcq-label"><input type="radio" name="ps27" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">28.</span> "He don't know the answer" is grammatically acceptable in academic writing. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps28" value="true"> True</label><label class="mcq-label"><input type="radio" name="ps28" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">29.</span> Fact: "Ice melts at above 0 degrees." is correct. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps29" value="true"> True</label><label class="mcq-label"><input type="radio" name="ps29" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">30.</span> Stative verbs can be freely used with 'ing' to show habits. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps30" value="true"> True</label><label class="mcq-label"><input type="radio" name="ps30" value="false"> False</label></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-pres-simp')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+
+    <section id="t-pres-cont" class="tense-section">
+      <div class="tense-header"><h2>2. Present Continuous (Progressive)</h2></div>
+      <div class="linguist-note">Captures the immediacy or temporariness of an action happening right now or around now.</div>
+      <div class="exercise-block" id="ex-pres-cont">
+        <div class="ex-title">Assessment Module (30 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="are becoming"><span class="q-num">1.</span> Extreme weather events <input type="text" class="input-fill" style="width:160px;" placeholder="(become)"> more frequent.</div>
+        <div class="q-item" data-type="fill" data-answer="is studying"><span class="q-num">2.</span> She <input type="text" class="input-fill" placeholder="(study)"> for her IELTS exam at the moment.</div>
+        <div class="q-item" data-type="fill" data-answer="am writing"><span class="q-num">3.</span> I <input type="text" class="input-fill" placeholder="(write)"> to inform you of a change in policy.</div>
+        <div class="q-item" data-type="fill" data-answer="are implementing"><span class="q-num">4.</span> We <input type="text" class="input-fill" style="width:180px;" placeholder="(implement)"> new strategies this quarter.</div>
+        <div class="q-item" data-type="fill" data-answer="is melting"><span class="q-num">5.</span> The polar ice cap <input type="text" class="input-fill" placeholder="(melt)"> at an alarming rate.</div>
+        <div class="q-item" data-type="fill" data-answer="are experiencing"><span class="q-num">6.</span> They <input type="text" class="input-fill" style="width:180px;" placeholder="(experience)"> technical difficulties.</div>
+
+        <div class="q-item" data-type="select" data-answer="is tasting"><span class="q-num">7.</span> The chef <select class="select-inline"><option value="empty">---</option><option value="tastes">tastes</option><option value="is tasting">is tasting</option></select> the soup right now.</div>
+        <div class="q-item" data-type="select" data-answer="are you doing"><span class="q-num">8.</span> What <select class="select-inline"><option value="empty">---</option><option value="are you doing">are you doing</option><option value="do you do">do you do</option></select> under the table?</div>
+        <div class="q-item" data-type="select" data-answer="is continually complaining"><span class="q-num">9.</span> He <select class="select-inline"><option value="empty">---</option><option value="continually complains">continually complains</option><option value="is continually complaining">is continually complaining</option></select> about the noise!</div>
+        <div class="q-item" data-type="select" data-answer="am seeing"><span class="q-num">10.</span> I <select class="select-inline"><option value="empty">---</option><option value="see">see</option><option value="am seeing">am seeing</option></select> the dentist tomorrow at 2 PM.</div>
+        <div class="q-item" data-type="select" data-answer="are currently reviewing"><span class="q-num">11.</span> The board <select class="select-inline"><option value="empty">---</option><option value="currently reviews">currently reviews</option><option value="are currently reviewing">are currently reviewing</option></select> the proposal.</div>
+        <div class="q-item" data-type="select" data-answer="is getting"><span class="q-num">12.</span> The economic situation <select class="select-inline"><option value="empty">---</option><option value="gets">gets</option><option value="is getting">is getting</option></select> worse day by day.</div>
+
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">13.</span> Which sentence expresses irritation?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pc13" value="a"> He always leaves his keys.</label><label class="mcq-label"><input type="radio" name="pc13" value="b"> He is always leaving his keys!</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="c"><span class="q-num">14.</span> Which time marker goes with Present Continuous?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pc14" value="a"> Every day</label><label class="mcq-label"><input type="radio" name="pc14" value="b"> Last week</label><label class="mcq-label"><input type="radio" name="pc14" value="c"> At present</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">15.</span> "I am living in London." implies:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pc15" value="a"> A temporary situation.</label><label class="mcq-label"><input type="radio" name="pc15" value="b"> A permanent state.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">16.</span> Choose the correct spelling for adding -ing to 'run':
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pc16" value="a"> runing</label><label class="mcq-label"><input type="radio" name="pc16" value="b"> running</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">17.</span> "We are meeting the CEO later." denotes:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pc17" value="a"> A planned future arrangement.</label><label class="mcq-label"><input type="radio" name="pc17" value="b"> An action happening now.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">18.</span> Why is "I am needing help" incorrect?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pc18" value="a"> 'Need' is an action verb.</label><label class="mcq-label"><input type="radio" name="pc18" value="b"> 'Need' is a stative verb.</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="is staying"><span class="q-num">19.</span> She usually lives in London, but she <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> in Paris this month.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="stays">stays</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="is staying">is staying</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="are developing"><span class="q-num">20.</span> Scientists <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> a new vaccine right now.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="develop">develop</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="are developing">are developing</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="is expanding"><span class="q-num">21.</span> The universe <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> constantly.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="is expanding">is expanding</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="expands">expands</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="are negotiating"><span class="q-num">22.</span> The two nations <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> a peace treaty this week.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="negotiate">negotiate</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="are negotiating">are negotiating</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="is behaving"><span class="q-num">23.</span> My computer <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> strangely today.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="is behaving">is behaving</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="behaves">behaves</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="am trying"><span class="q-num">24.</span> Shh! I <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> to concentrate!
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="try">try</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="am trying">am trying</div></div></div></div>
+
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">25.</span> "I am knowing him very well." is grammatically correct. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pc25" value="true"> True</label><label class="mcq-label"><input type="radio" name="pc25" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">26.</span> We use the Present Continuous for trends (e.g., "Prices are rising"). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pc26" value="true"> True</label><label class="mcq-label"><input type="radio" name="pc26" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">27.</span> Verbs of possession (own, belong) are commonly used in the continuous form. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pc27" value="true"> True</label><label class="mcq-label"><input type="radio" name="pc27" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">28.</span> "You are being rude!" describes temporary behavior, not a permanent trait. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pc28" value="true"> True</label><label class="mcq-label"><input type="radio" name="pc28" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">29.</span> The structure is Subject + Base Verb + ing. (e.g., I going). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pc29" value="true"> True</label><label class="mcq-label"><input type="radio" name="pc29" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">30.</span> Present Continuous can describe actions happening "around now" even if not at this exact second. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pc30" value="true"> True</label><label class="mcq-label"><input type="radio" name="pc30" value="false"> False</label></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-pres-cont')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+          </div>
+        </div>
+        <button class="btn-evaluate" onclick="evaluateSection('ex-pres-cont')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+
+    <section id="t-pres-perf" class="tense-section">
+      <div class="tense-header"><h2>3. Present Perfect</h2></div>
+      <div class="linguist-note">Connects the past to the present. Used for life experiences, recent actions with present results, or actions beginning in the past and continuing to now.</div>
+      <div class="exercise-block" id="ex-pres-perf">
+        <div class="ex-title">Assessment Module (30 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="have finished"><span class="q-num">1.</span> I <input type="text" class="input-fill" style="width:160px;" placeholder="(finish)"> the report. Here it is.</div>
+        <div class="q-item" data-type="fill" data-answer="has visited"><span class="q-num">2.</span> She <input type="text" class="input-fill" placeholder="(visit)"> Paris three times.</div>
+        <div class="q-item" data-type="fill" data-answer="have lost"><span class="q-num">3.</span> We <input type="text" class="input-fill" placeholder="(lose)"> our tickets, so we cannot enter.</div>
+        <div class="q-item" data-type="fill" data-answer="has lived"><span class="q-num">4.</span> He <input type="text" class="input-fill" placeholder="(live)"> in Tokyo since 2015.</div>
+        <div class="q-item" data-type="fill" data-answer="have seen"><span class="q-num">5.</span> I <input type="text" class="input-fill" placeholder="(see)"> that movie already.</div>
+        <div class="q-item" data-type="fill" data-answer="has published"><span class="q-num">6.</span> The professor <input type="text" class="input-fill" style="width:160px;" placeholder="(publish)"> a new journal article.</div>
+
+        <div class="q-item" data-type="select" data-answer="has gone"><span class="q-num">7.</span> Mark isn't here; he <select class="select-inline"><option value="empty">---</option><option value="has been">has been</option><option value="has gone">has gone</option></select> to the bank.</div>
+        <div class="q-item" data-type="select" data-answer="have already eaten"><span class="q-num">8.</span> No thank you, I <select class="select-inline"><option value="empty">---</option><option value="already have eaten">already have eaten</option><option value="have already eaten">have already eaten</option></select>.</div>
+        <div class="q-item" data-type="select" data-answer="has not arrived"><span class="q-num">9.</span> The package <select class="select-inline"><option value="empty">---</option><option value="has not arrived">has not arrived</option><option value="did not arrive">did not arrive</option></select> yet.</div>
+        <div class="q-item" data-type="select" data-answer="have known"><span class="q-num">10.</span> They <select class="select-inline"><option value="empty">---</option><option value="have known">have known</option><option value="know">know</option></select> each other for ten years.</div>
+        <div class="q-item" data-type="select" data-answer="has been"><span class="q-num">11.</span> It <select class="select-inline"><option value="empty">---</option><option value="is">is</option><option value="has been">has been</option></select> a very difficult week.</div>
+        <div class="q-item" data-type="select" data-answer="have you ever flown"><span class="q-num">12.</span> <select class="select-inline"><option value="empty">---</option><option value="did you ever fly">Did you ever fly</option><option value="have you ever flown">Have you ever flown</option></select> in a helicopter?</div>
+
+        <div class="q-item" data-type="radio" data-answer="c"><span class="q-num">13.</span> Which time marker is strictly associated with the Present Perfect?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp13" value="a"> Yesterday</label><label class="mcq-label"><input type="radio" name="pp13" value="b"> Last month</label><label class="mcq-label"><input type="radio" name="pp13" value="c"> Lately</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">14.</span> What is the difference between 'has gone to' and 'has been to'?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp14" value="a"> 'Gone' means they haven't returned; 'Been' means they have returned.</label><label class="mcq-label"><input type="radio" name="pp14" value="b"> There is no difference in meaning.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">15.</span> Which sentence is grammatically correct?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp15" value="a"> I have seen him yesterday.</label><label class="mcq-label"><input type="radio" name="pp15" value="b"> I have seen him this week.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">16.</span> Choose the correct placement of 'just':
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp16" value="a"> She has just finished her exam.</label><label class="mcq-label"><input type="radio" name="pp16" value="b"> She just has finished her exam.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">17.</span> 'Yet' is typically used in:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp17" value="a"> Positive statements only.</label><label class="mcq-label"><input type="radio" name="pp17" value="b"> Questions and negative statements.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">18.</span> Which word indicates the starting point of an action?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp18" value="a"> Since</label><label class="mcq-label"><input type="radio" name="pp18" value="b"> For</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="has written"><span class="q-num">19.</span> The author <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> five best-selling novels so far.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="has written">has written</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="wrote">wrote</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="have decided"><span class="q-num">20.</span> We <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> to cancel the conference.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="decide">decide</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="have decided">have decided</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="has improved"><span class="q-num">21.</span> Her fluency <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> significantly since she joined.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="has improved">has improved</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="improves">improves</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="have completed"><span class="q-num">22.</span> The students <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> their final assessments.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="complete">complete</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="have completed">have completed</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="has broken"><span class="q-num">23.</span> Oh no, someone <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the laboratory equipment!
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="has broken">has broken</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="breaks">breaks</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="have forgotten"><span class="q-num">24.</span> I <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> my password again.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="have forgotten">have forgotten</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="forgot">forgot</div></div></div></div>
+
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">25.</span> You can use the Present Perfect with specific past time markers like "in 1999". <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp25" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp25" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">26.</span> The Present Perfect is formed with the auxiliary verbs 'have/has' + the past participle (V3). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp26" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp26" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">27.</span> We use 'for' to indicate the duration of an action (e.g., for three years). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp27" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp27" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">28.</span> "He has lived here since five months" is grammatically correct. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp28" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp28" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">29.</span> "I have lost my keys" implies that I still do not have them right now. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp29" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp29" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">30.</span> Stative verbs cannot be used in the Present Perfect simple. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp30" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp30" value="false"> False</label></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-pres-perf')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+
+    <section id="t-pres-perf-cont" class="tense-section">
+      <div class="tense-header"><h2>4. Present Perfect Continuous</h2></div>
+      <div class="linguist-note">Emphasizes the continuous duration of an action that started in the past and continues to the present, or has just recently stopped, leaving a visible present result.</div>
+      <div class="exercise-block" id="ex-pres-perf-cont">
+        <div class="ex-title">Assessment Module (30 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="have been waiting"><span class="q-num">1.</span> We <input type="text" class="input-fill" style="width:180px;" placeholder="(wait)"> for the bus for 40 minutes!</div>
+        <div class="q-item" data-type="fill" data-answer="has been raining"><span class="q-num">2.</span> It <input type="text" class="input-fill" style="width:160px;" placeholder="(rain)"> all morning; the roads are flooded.</div>
+        <div class="q-item" data-type="fill" data-answer="have been studying"><span class="q-num">3.</span> I <input type="text" class="input-fill" style="width:180px;" placeholder="(study)"> English grammar since 8 AM.</div>
+        <div class="q-item" data-type="fill" data-answer="has been working"><span class="q-num">4.</span> She <input type="text" class="input-fill" style="width:180px;" placeholder="(work)"> at this company for a decade.</div>
+        <div class="q-item" data-type="fill" data-answer="have been trying"><span class="q-num">5.</span> They <input type="text" class="input-fill" style="width:180px;" placeholder="(try)"> to fix the server all afternoon.</div>
+        <div class="q-item" data-type="fill" data-answer="has been playing"><span class="q-num">6.</span> He is exhausted because he <input type="text" class="input-fill" style="width:180px;" placeholder="(play)"> tennis.</div>
+
+        <div class="q-item" data-type="select" data-answer="have been running"><span class="q-num">7.</span> I am out of breath because I <select class="select-inline"><option value="empty">---</option><option value="have run">have run</option><option value="have been running">have been running</option></select>.</div>
+        <div class="q-item" data-type="select" data-answer="has been repairing"><span class="q-num">8.</span> His hands are dirty; he <select class="select-inline"><option value="empty">---</option><option value="has repaired">has repaired</option><option value="has been repairing">has been repairing</option></select> the car engine.</div>
+        <div class="q-item" data-type="select" data-answer="have you been doing"><span class="q-num">9.</span> You look exhausted! What <select class="select-inline"><option value="empty">---</option><option value="have you been doing">have you been doing</option><option value="have you done">have you done</option></select>?</div>
+        <div class="q-item" data-type="select" data-answer="has been sleeping"><span class="q-num">10.</span> The baby <select class="select-inline"><option value="empty">---</option><option value="has slept">has slept</option><option value="has been sleeping">has been sleeping</option></select> for three hours straight.</div>
+        <div class="q-item" data-type="select" data-answer="have been learning"><span class="q-num">11.</span> We <select class="select-inline"><option value="empty">---</option><option value="have been learning">have been learning</option><option value="are learning">are learning</option></select> a lot about syntax lately.</div>
+        <div class="q-item" data-type="select" data-answer="has been ignoring"><span class="q-num">12.</span> He <select class="select-inline"><option value="empty">---</option><option value="has ignored">has ignored</option><option value="has been ignoring">has been ignoring</option></select> my emails all week.</div>
+
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">13.</span> What is the primary focus of the Present Perfect Continuous?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc13" value="a"> The duration and activity itself.</label><label class="mcq-label"><input type="radio" name="ppc13" value="b"> The completed result of the action.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">14.</span> "She has been painting the room." This means:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc14" value="a"> The room is definitely completely painted.</label><label class="mcq-label"><input type="radio" name="ppc14" value="b"> She was engaged in the activity of painting, but it may not be finished.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">15.</span> Which phrase naturally pairs with Present Perfect Continuous?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc15" value="a"> All day</label><label class="mcq-label"><input type="radio" name="ppc15" value="b"> Three times</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">16.</span> Why is "I have been knowing him for years" incorrect?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc16" value="a"> 'Know' is an irregular verb.</label><label class="mcq-label"><input type="radio" name="ppc16" value="b"> 'Know' is a stative verb and usually avoids continuous forms.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">17.</span> "How long have you been waiting?" is asking about:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc17" value="a"> The length of time an ongoing action has lasted.</label><label class="mcq-label"><input type="radio" name="ppc17" value="b"> The specific time an action ended.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">18.</span> Which is correct for explaining a present side effect?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc18" value="a"> The ground is wet because it has been raining.</label><label class="mcq-label"><input type="radio" name="ppc18" value="b"> The ground is wet because it rains.</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="has been complaining"><span class="q-num">19.</span> The client <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> about the delay all morning.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="has complained">has complained</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="has been complaining">has been complaining</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="have been negotiating"><span class="q-num">20.</span> The diplomats <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the terms since Monday.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="have been negotiating">have been negotiating</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="have negotiated">have negotiated</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="has been monitoring"><span class="q-num">21.</span> The software <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the network traffic continuously.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="has monitored">has monitored</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="has been monitoring">has been monitoring</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="have been observing"><span class="q-num">22.</span> Scientists <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> this phenomenon for decades.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="have been observing">have been observing</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="have observed">have observed</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="has been declining"><span class="q-num">23.</span> The population of the species <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> steadily.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="has declined">has declined</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="has been declining">has been declining</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="have been preparing"><span class="q-num">24.</span> We <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> for this audit for six months.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="have prepared">have prepared</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="have been preparing">have been preparing</div></div></div></div>
+
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">25.</span> The Present Perfect Continuous places heavy emphasis on the final result rather than the activity itself. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc25" value="true"> True</label><label class="mcq-label"><input type="radio" name="ppc25" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">26.</span> The grammatical structure is 'Subject + have/has + been + Verb-ing'. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc26" value="true"> True</label><label class="mcq-label"><input type="radio" name="ppc26" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">27.</span> It can be used to explain a present side effect, like being tired or having dirty hands. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc27" value="true"> True</label><label class="mcq-label"><input type="radio" name="ppc27" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">28.</span> "I have been understanding the lesson better" is grammatically standard. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc28" value="true"> True</label><label class="mcq-label"><input type="radio" name="ppc28" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">29.</span> This tense is frequently used in response to the question "How long...?" <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc29" value="true"> True</label><label class="mcq-label"><input type="radio" name="ppc29" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">30.</span> It implies that the action has definitely and permanently finished forever. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc30" value="true"> True</label><label class="mcq-label"><input type="radio" name="ppc30" value="false"> False</label></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-pres-perf-cont')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+<section id="t-past-simp" class="tense-section">
+      <div class="tense-header"><h2>5. Past Simple</h2></div>
+      <div class="linguist-note">
+        <strong>The Linguist's Perspective:</strong> The Past Simple is the absolute backbone of narrative storytelling and historical documentation. It expresses actions, habits, or states of being that started and completely finished at a specific point in the past. It is structurally unique because it requires an auxiliary verb ("did") for negatives and questions, except for the verb "to be" (was/were).
+      </div>
+      
+      <div class="exercise-block" id="ex-past-simp">
+        <div class="ex-title">Assessment Module: Past Simple (30 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="visited"><span class="q-num">1.</span> I <input type="text" class="input-fill" placeholder="(visit)"> the British Museum in 2018.</div>
+        <div class="q-item" data-type="fill" data-answer="did not go"><span class="q-num">2.</span> They <input type="text" class="input-fill" style="width:150px;" placeholder="(not/go)"> to the lecture yesterday.</div>
+        <div class="q-item" data-type="fill" data-answer="wrote"><span class="q-num">3.</span> Shakespeare <input type="text" class="input-fill" placeholder="(write)"> Hamlet in 1599.</div>
+        <div class="q-item" data-type="fill" data-answer="ate"><span class="q-num">4.</span> We <input type="text" class="input-fill" placeholder="(eat)"> all the provisions before rescue arrived.</div>
+        <div class="q-item" data-type="fill" data-answer="launched"><span class="q-num">5.</span> The corporation <input type="text" class="input-fill" placeholder="(launch)"> its new initiative last week.</div>
+        <div class="q-item" data-type="fill" data-answer="bought"><span class="q-num">6.</span> He <input type="text" class="input-fill" placeholder="(buy)"> an antique clock at the auction.</div>
+
+        <div class="q-item" data-type="select" data-answer="did you arrive"><span class="q-num">7.</span> What time <select class="select-inline"><option value="empty">---</option><option value="did you arrive">did you arrive</option><option value="you arrived">you arrived</option></select> at the symposium?</div>
+        <div class="q-item" data-type="select" data-answer="was"><span class="q-num">8.</span> The methodology <select class="select-inline"><option value="empty">---</option><option value="were">were</option><option value="was">was</option></select> highly controversial.</div>
+        <div class="q-item" data-type="select" data-answer="did not see"><span class="q-num">9.</span> The security guard <select class="select-inline"><option value="empty">---</option><option value="saw not">saw not</option><option value="did not see">did not see</option></select> the intruder.</div>
+        <div class="q-item" data-type="select" data-answer="Were"><span class="q-num">10.</span> <select class="select-inline"><option value="empty">---</option><option value="Was">Was</option><option value="Were">Were</option></select> the findings published in a peer-reviewed journal?</div>
+        <div class="q-item" data-type="select" data-answer="built"><span class="q-num">11.</span> The ancient Romans <select class="select-inline"><option value="empty">---</option><option value="builded">builded</option><option value="built">built</option></select> incredible aqueducts.</div>
+        <div class="q-item" data-type="select" data-answer="discovered"><span class="q-num">12.</span> Alexander Fleming <select class="select-inline"><option value="empty">---</option><option value="discovers">discovers</option><option value="discovered">discovered</option></select> penicillin entirely by accident.</div>
+
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">13.</span> Identify the grammatically sound negative construction:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps13" value="a"> I didn't went.</label><label class="mcq-label"><input type="radio" name="ps13" value="b"> I didn't go.</label><label class="mcq-label"><input type="radio" name="ps13" value="c"> I didn't goes.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">14.</span> What is the correct irregular past simple form of 'catch'?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps14" value="a"> catched</label><label class="mcq-label"><input type="radio" name="ps14" value="b"> caught</label><label class="mcq-label"><input type="radio" name="ps14" value="c"> caughted</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="c"><span class="q-num">15.</span> Which time marker exclusively forces the use of the Past Simple?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps15" value="a"> Lately</label><label class="mcq-label"><input type="radio" name="ps15" value="b"> Since 2010</label><label class="mcq-label"><input type="radio" name="ps15" value="c"> In 2010</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">16.</span> Why must we use Past Simple in the sentence "Da Vinci painted the Mona Lisa"?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps16" value="a"> The creator is deceased, cementing the action permanently in the past.</label><label class="mcq-label"><input type="radio" name="ps16" value="b"> It is a masterpiece.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">17.</span> Select the correct interrogative syntax:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps17" value="a"> Did she play the concerto?</label><label class="mcq-label"><input type="radio" name="ps17" value="b"> Did she played the concerto?</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">18.</span> "I used to swim every morning." This structural phrasing signifies:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps18" value="a"> An ongoing present habit.</label><label class="mcq-label"><input type="radio" name="ps18" value="b"> A past habit that is no longer true today.</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="stole"><span class="q-num">19.</span> The syndicate <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the priceless artifact.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="stole">stole</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="stealed">stealed</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="flew"><span class="q-num">20.</span> The delegation <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> to Geneva for the summit.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="flied">flied</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="flew">flew</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="hid"><span class="q-num">21.</span> The whistleblower <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the encrypted drive.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="hidded">hidded</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="hid">hid</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="thought"><span class="q-num">22.</span> The committee <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the proposal was inadequate.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="thinked">thinked</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="thought">thought</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="taught"><span class="q-num">23.</span> Dr. Aris <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> advanced phonology last semester.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="teached">teached</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="taught">taught</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="drank"><span class="q-num">24.</span> Socrates supposedly <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> hemlock to end his life.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="drunk">drunk</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="drank">drank</div></div></div></div>
+
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">25.</span> Regular verbs form the past simple by adding the suffix -ed or -d. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps25" value="true"> True</label><label class="mcq-label"><input type="radio" name="ps25" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">26.</span> The primary auxiliary verb used to negate the past simple is "do not". <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps26" value="true"> True</label><label class="mcq-label"><input type="radio" name="ps26" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">27.</span> The verb "to be" is an anomaly, possessing two distinct past simple forms: 'was' and 'were'. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps27" value="true"> True</label><label class="mcq-label"><input type="radio" name="ps27" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">28.</span> The Past Simple is suitable for actions that began in the past and continue to affect the present moment. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps28" value="true"> True</label><label class="mcq-label"><input type="radio" name="ps28" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">29.</span> Historical narratives, outlining sequences of completed events, rely almost entirely on the Past Simple. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps29" value="true"> True</label><label class="mcq-label"><input type="radio" name="ps29" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">30.</span> In interrogative constructions using "did", the main verb must also be conjugated into the past tense (e.g., "Did he went?"). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ps30" value="true"> True</label><label class="mcq-label"><input type="radio" name="ps30" value="false"> False</label></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-past-simp')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+<section id="t-past-cont" class="tense-section">
+      <div class="tense-header"><h2>6. Past Continuous (Progressive)</h2></div>
+      <div class="linguist-note">
+        <strong>The Linguist's Perspective:</strong> The Past Continuous is the tense of "scene-setting." It describes an action that was in progress at a specific moment in the past. It is most frequently used to set the background atmosphere of a story ("The wind was howling...") or to show an ongoing action that was suddenly interrupted by a Past Simple event ("I was reading when the power went out").
+      </div>
+      
+      <div class="exercise-block" id="ex-past-cont">
+        <div class="ex-title">Assessment Module: Past Continuous (30 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="was reading"><span class="q-num">1.</span> I <input type="text" class="input-fill" placeholder="(read)"> a journal article when the lights went out.</div>
+        <div class="q-item" data-type="fill" data-answer="were playing"><span class="q-num">2.</span> The children <input type="text" class="input-fill" placeholder="(play)"> in the courtyard at 5 PM yesterday.</div>
+        <div class="q-item" data-type="fill" data-answer="was not listening"><span class="q-num">3.</span> She <input type="text" class="input-fill" style="width:160px;" placeholder="(not/listen)"> to the lecture, so she missed the prompt.</div>
+        <div class="q-item" data-type="fill" data-answer="was shining"><span class="q-num">4.</span> It was a beautiful morning; the sun <input type="text" class="input-fill" placeholder="(shine)"> brightly.</div>
+        <div class="q-item" data-type="fill" data-answer="were you doing"><span class="q-num">5.</span> What exactly <input type="text" class="input-fill" style="width:150px;" placeholder="(you/do)"> at 8 o'clock last night?</div>
+        <div class="q-item" data-type="fill" data-answer="were discussing"><span class="q-num">6.</span> The board members <input type="text" class="input-fill" style="width:160px;" placeholder="(discuss)"> the merger when he arrived.</div>
+
+        <div class="q-item" data-type="select" data-answer="was studying"><span class="q-num">7.</span> While I <select class="select-inline"><option value="empty">---</option><option value="was studying">was studying</option><option value="studied">studied</option></select>, my roommate was watching television.</div>
+        <div class="q-item" data-type="select" data-answer="was howling"><span class="q-num">8.</span> The wind <select class="select-inline"><option value="empty">---</option><option value="was howling">was howling</option><option value="howled">howled</option></select> fiercely all through the night.</div>
+        <div class="q-item" data-type="select" data-answer="were not paying"><span class="q-num">9.</span> They <select class="select-inline"><option value="empty">---</option><option value="was not paying">was not paying</option><option value="were not paying">were not paying</option></select> attention during the safety briefing.</div>
+        <div class="q-item" data-type="select" data-answer="were"><span class="q-num">10.</span> <select class="select-inline"><option value="empty">---</option><option value="Was">Was</option><option value="Were">Were</option></select> the suspects acting suspiciously before the incident?</div>
+        <div class="q-item" data-type="select" data-answer="was running"><span class="q-num">11.</span> I dropped my phone while I <select class="select-inline"><option value="empty">---</option><option value="ran">ran</option><option value="was running">was running</option></select> for the departing train.</div>
+        <div class="q-item" data-type="select" data-answer="were still driving"><span class="q-num">12.</span> At midnight, we <select class="select-inline"><option value="empty">---</option><option value="still drove">still drove</option><option value="were still driving">were still driving</option></select> through the desert.</div>
+
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">13.</span> Which sentence correctly uses the Past Continuous for background description?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pco13" value="a"> He opened the door, stepped out, and locked it.</label><label class="mcq-label"><input type="radio" name="pco13" value="b"> The rain was falling heavily and the wind was blowing.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">14.</span> Choose the correct syntax for an interrupted action:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pco14" value="a"> I was cooking dinner when the phone rang.</label><label class="mcq-label"><input type="radio" name="pco14" value="b"> I cooked dinner when the phone was ringing.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">15.</span> Which time marker pairs naturally with the Past Continuous?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pco15" value="a"> At exactly 6 PM last night</label><label class="mcq-label"><input type="radio" name="pco15" value="b"> Tomorrow morning</label><label class="mcq-label"><input type="radio" name="pco15" value="c"> Since 1999</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">16.</span> Parallel actions in the past (happening simultaneously) are often connected by:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pco16" value="a"> When</label><label class="mcq-label"><input type="radio" name="pco16" value="b"> While</label><label class="mcq-label"><input type="radio" name="pco16" value="c"> For</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">17.</span> Identify the error in this sentence: "I was knowing the answer."
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pco17" value="a"> 'Know' is a stative verb and usually rejects continuous forms.</label><label class="mcq-label"><input type="radio" name="pco17" value="b"> It should be 'was known'.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">18.</span> "She was always arriving late to meetings." This specific structure expresses:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pco18" value="a"> A neutral historical fact.</label><label class="mcq-label"><input type="radio" name="pco18" value="b"> Annoyance or irritation at a past repeated action.</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="were waiting"><span class="q-num">19.</span> The delegates <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> for over an hour in the lobby.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="was waiting">was waiting</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="were waiting">were waiting</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="was making"><span class="q-num">20.</span> The engine <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> a terrifying grinding noise.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="were making">were making</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="was making">was making</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="were"><span class="q-num">21.</span> <div class="drop-zone" style="min-width: 80px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> you sleeping when I called your office?
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="was">Was</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="were">Were</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="were laughing"><span class="q-num">22.</span> The audience members <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> uproariously at the satire.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="laughed">laughed</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="were laughing">were laughing</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="was constantly interrupting"><span class="q-num">23.</span> The opposing counsel <div class="drop-zone" style="min-width: 200px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the witness!
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="interrupted">interrupted</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="was constantly interrupting">was constantly interrupting</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="were arguing"><span class="q-num">24.</span> While they <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>, the prime suspect escaped unnoticed.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="argued">argued</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="were arguing">were arguing</div></div></div></div>
+
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">25.</span> The grammatical structure is: Subject + was/were + Present Participle (Verb-ing). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pco25" value="true"> True</label><label class="mcq-label"><input type="radio" name="pco25" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">26.</span> We use Past Continuous for completed, chronological sequences of events in a story (e.g., He woke up, got out of bed, and made coffee). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pco26" value="true"> True</label><label class="mcq-label"><input type="radio" name="pco26" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">27.</span> Stative verbs expressing possession, like "belong" or "own", are rarely used in the Past Continuous. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pco27" value="true"> True</label><label class="mcq-label"><input type="radio" name="pco27" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">28.</span> In complex sentences, "when" is typically followed by the Past Simple, while "while" is followed by the Past Continuous. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pco28" value="true"> True</label><label class="mcq-label"><input type="radio" name="pco28" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">29.</span> "I was dropping my glass" is the most natural way to describe a sudden, split-second accident in the past. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pco29" value="true"> True</label><label class="mcq-label"><input type="radio" name="pco29" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">30.</span> It can be used to emphasize that an action was strictly in progress at a precise, pinpointed moment in the past (e.g., "At 10:04 PM, I was driving"). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pco30" value="true"> True</label><label class="mcq-label"><input type="radio" name="pco30" value="false"> False</label></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-past-cont')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+    <section id="t-past-perf" class="tense-section">
+      <div class="tense-header"><h2>7. Past Perfect</h2></div>
+      <div class="linguist-note">
+        <strong>The Linguist's Perspective:</strong> Often referred to as "the past of the past," the Past Perfect is used to establish a chronological hierarchy. When telling a story with multiple past events, we use the Past Perfect (had + past participle) to explicitly clarify which event happened <em>first</em> before the main Past Simple narrative timeline occurred.
+      </div>
+      
+      <div class="exercise-block" id="ex-past-perf">
+        <div class="ex-title">Assessment Module: Past Perfect (30 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="had left"><span class="q-num">1.</span> By the time we arrived at the station, the train <input type="text" class="input-fill" placeholder="(leave)">.</div>
+        <div class="q-item" data-type="fill" data-answer="had forgotten"><span class="q-num">2.</span> I realized during the exam that I <input type="text" class="input-fill" style="width:150px;" placeholder="(forget)"> my calculator.</div>
+        <div class="q-item" data-type="fill" data-answer="had finished"><span class="q-num">3.</span> She <input type="text" class="input-fill" placeholder="(finish)"> her essay before the deadline.</div>
+        <div class="q-item" data-type="fill" data-answer="had seen"><span class="q-num">4.</span> He didn't want to go to the cinema because he <input type="text" class="input-fill" placeholder="(see)"> the film already.</div>
+        <div class="q-item" data-type="fill" data-answer="had started"><span class="q-num">5.</span> When I turned on the television, the match <input type="text" class="input-fill" placeholder="(start)">.</div>
+        <div class="q-item" data-type="fill" data-answer="had not studied"><span class="q-num">6.</span> He failed the proficiency test because he <input type="text" class="input-fill" style="width:160px;" placeholder="(not/study)">.</div>
+
+        <div class="q-item" data-type="select" data-answer="had already eaten"><span class="q-num">7.</span> I declined the invitation to dinner because I <select class="select-inline"><option value="empty">---</option><option value="already ate">already ate</option><option value="had already eaten">had already eaten</option></select>.</div>
+        <div class="q-item" data-type="select" data-answer="had never flown"><span class="q-num">8.</span> He was extremely nervous because he <select class="select-inline"><option value="empty">---</option><option value="had never flown">had never flown</option><option value="never flew">never flew</option></select> before.</div>
+        <div class="q-item" data-type="select" data-answer="had locked"><span class="q-num">9.</span> I couldn't get into the office; someone <select class="select-inline"><option value="empty">---</option><option value="had locked">had locked</option><option value="locked">locked</option></select> the main door.</div>
+        <div class="q-item" data-type="select" data-answer="had been"><span class="q-num">10.</span> She knew Paris very well because she <select class="select-inline"><option value="empty">---</option><option value="was">was</option><option value="had been">had been</option></select> there many times.</div>
+        <div class="q-item" data-type="select" data-answer="had they gone"><span class="q-num">11.</span> Where <select class="select-inline"><option value="empty">---</option><option value="did they go">did they go</option><option value="had they gone">had they gone</option></select> before you found them?</div>
+        <div class="q-item" data-type="select" data-answer="had just spoken"><span class="q-num">12.</span> I wasn't surprised by the news; the manager <select class="select-inline"><option value="empty">---</option><option value="just spoke">just spoke</option><option value="had just spoken">had just spoken</option></select> to me about it.</div>
+
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">13.</span> What is the primary function of the Past Perfect tense?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp13" value="a"> To describe an action that happened a very long time ago.</label><label class="mcq-label"><input type="radio" name="pp13" value="b"> To show that one action happened before another action in the past.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">14.</span> Which conjunction is most frequently paired with the Past Perfect?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp14" value="a"> By the time</label><label class="mcq-label"><input type="radio" name="pp14" value="b"> While</label><label class="mcq-label"><input type="radio" name="pp14" value="c"> Since</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">15.</span> "When I arrived, the meeting had started." What does this imply?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp15" value="a"> The meeting started at the exact moment I arrived.</label><label class="mcq-label"><input type="radio" name="pp15" value="b"> I was late; the meeting was already in progress.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">16.</span> Identify the correct grammatical structure:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp16" value="a"> Subject + had + past participle (V3)</label><label class="mcq-label"><input type="radio" name="pp16" value="b"> Subject + had + past simple (V2)</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">17.</span> "He had lived there for ten years before moving." The use of 'for' here shows:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp17" value="a"> A present result.</label><label class="mcq-label"><input type="radio" name="pp17" value="b"> Duration up to a point in the past.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">18.</span> Which sentence is correct?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp18" value="a"> I had never seen such a beautiful sunset before that day.</label><label class="mcq-label"><input type="radio" name="pp18" value="b"> I never had saw such a beautiful sunset before that day.</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="had lost"><span class="q-num">19.</span> He couldn't open the door because he <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> his keys.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="lost">lost</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="had lost">had lost</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="had collapsed"><span class="q-num">20.</span> By the time the rescue team arrived, the bridge <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="collapsed">collapsed</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="had collapsed">had collapsed</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="had changed"><span class="q-num">21.</span> I didn't recognize her; she <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> so much.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="had changed">had changed</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="changed">changed</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="had given"><span class="q-num">22.</span> The professor asked us to read the article he <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> us the week before.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="gave">gave</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="had given">had given</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="had read"><span class="q-num">23.</span> I answered the question easily because I <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the assigned chapter.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="read">read</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="had read">had read</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="had left"><span class="q-num">24.</span> We were relieved to find that the storm <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the area.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="had left">had left</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="left">left</div></div></div></div>
+
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">25.</span> You must always use the Past Perfect if you are talking about the distant past, like the Roman Empire. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp25" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp25" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">26.</span> If events are described in the exact chronological order they occurred, the Past Simple is usually sufficient. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp26" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp26" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">27.</span> The contraction for "had" is often "'d", which can look identical to the contraction for "would". <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp27" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp27" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">28.</span> "She had went to the store" is a grammatically acceptable sentence. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp28" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp28" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">29.</span> "Hardly had I arrived when the phone rang." This is an advanced inversion structure using the Past Perfect. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp29" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp29" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">30.</span> The Past Perfect is crucial for reporting speech from the past (e.g., He said he had finished). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="pp30" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp30" value="false"> False</label></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-past-perf')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+    <section id="t-past-perf-cont" class="tense-section">
+      <div class="tense-header"><h2>8. Past Perfect Continuous</h2></div>
+      <div class="linguist-note">
+        <strong>The Linguist's Perspective:</strong> This tense is highly specific. It focuses on the <em>duration</em> of an ongoing action that led up to a specific point in the past. It is incredibly useful for providing a backstory or explaining the visible past cause of a past situation (e.g., "The ground was wet because it had been raining").
+      </div>
+      
+      <div class="exercise-block" id="ex-past-perf-cont">
+        <div class="ex-title">Assessment Module: Past Perfect Continuous (30 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="had been waiting"><span class="q-num">1.</span> They were exhausted because they <input type="text" class="input-fill" style="width:180px;" placeholder="(wait)"> for five hours.</div>
+        <div class="q-item" data-type="fill" data-answer="had been raining"><span class="q-num">2.</span> The streets were flooded; it <input type="text" class="input-fill" style="width:160px;" placeholder="(rain)"> heavily all night.</div>
+        <div class="q-item" data-type="fill" data-answer="had been studying"><span class="q-num">3.</span> She passed the exam easily since she <input type="text" class="input-fill" style="width:180px;" placeholder="(study)"> for months.</div>
+        <div class="q-item" data-type="fill" data-answer="had been working"><span class="q-num">4.</span> He <input type="text" class="input-fill" style="width:180px;" placeholder="(work)"> at the firm for a decade before he was promoted.</div>
+        <div class="q-item" data-type="fill" data-answer="had been arguing"><span class="q-num">5.</span> Their faces were red; they <input type="text" class="input-fill" style="width:180px;" placeholder="(argue)"> before I entered the room.</div>
+        <div class="q-item" data-type="fill" data-answer="had been trying"><span class="q-num">6.</span> We <input type="text" class="input-fill" style="width:180px;" placeholder="(try)"> to contact you all morning before you finally called back.</div>
+
+        <div class="q-item" data-type="select" data-answer="had been running"><span class="q-num">7.</span> He was out of breath because he <select class="select-inline"><option value="empty">---</option><option value="had run">had run</option><option value="had been running">had been running</option></select>.</div>
+        <div class="q-item" data-type="select" data-answer="had been practicing"><span class="q-num">8.</span> The pianist's fingers ached; she <select class="select-inline"><option value="empty">---</option><option value="had practiced">had practiced</option><option value="had been practicing">had been practicing</option></select> for the recital all day.</div>
+        <div class="q-item" data-type="select" data-answer="had been looking"><span class="q-num">9.</span> I found the keys I <select class="select-inline"><option value="empty">---</option><option value="had been looking">had been looking</option><option value="was looking">was looking</option></select> for all week.</div>
+        <div class="q-item" data-type="select" data-answer="had been living"><span class="q-num">10.</span> Before moving to London, they <select class="select-inline"><option value="empty">---</option><option value="had lived">had lived</option><option value="had been living">had been living</option></select> in Manchester for years.</div>
+        <div class="q-item" data-type="select" data-answer="had been driving"><span class="q-num">11.</span> The driver was tired because he <select class="select-inline"><option value="empty">---</option><option value="drove">drove</option><option value="had been driving">had been driving</option></select> through the night.</div>
+        <div class="q-item" data-type="select" data-answer="had been feeling"><span class="q-num">12.</span> She finally went to the doctor because she <select class="select-inline"><option value="empty">---</option><option value="felt">felt</option><option value="had been feeling">had been feeling</option></select> unwell for weeks.</div>
+
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">13.</span> What does the Past Perfect Continuous emphasize over the Past Perfect Simple?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc13" value="a"> The completion of an action.</label><label class="mcq-label"><input type="radio" name="ppc13" value="b"> The duration and ongoing nature of an action before another past point.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">14.</span> Which sentence provides a 'visible cause' in the past?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc14" value="a"> His clothes were covered in paint because he had been painting the fence.</label><label class="mcq-label"><input type="radio" name="ppc14" value="b"> He painted the fence yesterday.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">15.</span> Identify the error: "I had been knowing him for ten years before we married."
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc15" value="a"> 'Before' is the wrong conjunction.</label><label class="mcq-label"><input type="radio" name="ppc15" value="b"> 'Know' is a stative verb and shouldn't be used in continuous form.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">16.</span> Which structure is correct?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc16" value="a"> Subject + had + been + Verb(-ing)</label><label class="mcq-label"><input type="radio" name="ppc16" value="b"> Subject + had + being + Verb(-ing)</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">17.</span> "They had been negotiating for hours when the deal fell through." This highlights:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc17" value="a"> That the negotiation was successful.</label><label class="mcq-label"><input type="radio" name="ppc17" value="b"> A continuous process that was eventually interrupted or concluded.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">18.</span> Select the most natural phrasing for an academic context:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc18" value="a"> Researchers had been investigating the phenomenon for decades before a breakthrough occurred.</label><label class="mcq-label"><input type="radio" name="ppc18" value="b"> Researchers were investigating the phenomenon before it occurred.</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="had been complaining"><span class="q-num">19.</span> The committee <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> about the policy long before it was revised.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="had complained">had complained</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="had been complaining">had been complaining</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="had been leaking"><span class="q-num">20.</span> We discovered the roof <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> for months, causing severe damage.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="had been leaking">had been leaking</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="leaked">leaked</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="had been preparing"><span class="q-num">21.</span> The athlete was fully ready; she <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> for the Olympics for four years.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="prepared">prepared</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="had been preparing">had been preparing</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="had been working"><span class="q-num">22.</span> His eyes were bloodshot because he <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> on his thesis all night.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="had been working">had been working</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="worked">worked</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="had been watching"><span class="q-num">23.</span> I <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the documentary when the power suddenly cut out.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="had been watching">had been watching</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="watched">watched</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="had been expecting"><span class="q-num">24.</span> We were not surprised by the ruling; we <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> it for a while.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="had been expecting">had been expecting</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="had expected">had expected</div></div></div></div>
+
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">25.</span> The Past Perfect Continuous is excellent for explaining the direct cause of a situation that existed in the past. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc25" value="true"> True</label><label class="mcq-label"><input type="radio" name="ppc25" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">26.</span> We use it to focus on how many times an action happened (e.g., "I had been calling him three times"). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc26" value="true"> True</label><label class="mcq-label"><input type="radio" name="ppc26" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">27.</span> Sentences often utilize "for" or "since" to denote the duration of the activity prior to the interrupting event. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc27" value="true"> True</label><label class="mcq-label"><input type="radio" name="ppc27" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">28.</span> "Had been being" is technically possible in English syntax but is practically never used. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc28" value="true"> True</label><label class="mcq-label"><input type="radio" name="pp28" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">29.</span> The tense can freely be used with verbs of state (e.g., "She had been possessing the car since 2010"). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc29" value="true"> True</label><label class="mcq-label"><input type="radio" name="ppc29" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">30.</span> It is the past equivalent of the Present Perfect Continuous, just shifted further back in time. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="ppc30" value="true"> True</label><label class="mcq-label"><input type="radio" name="ppc30" value="false"> False</label></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-past-perf-cont')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+    <section id="t-fut-simp" class="tense-section">
+      <div class="tense-header"><h2>9. Future Simple</h2></div>
+      <div class="linguist-note">
+        <strong>The Linguist's Perspective:</strong> The Future Simple (using 'will') is not for established plans. It is strictly utilized for spontaneous decisions made at the moment of speaking, predictions based on personal opinion rather than current evidence, promises, and objective facts about the future. 
+      </div>
+      
+      <div class="exercise-block" id="ex-fut-simp">
+        <div class="ex-title">Assessment Module: Future Simple (30 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="will help"><span class="q-num">1.</span> That box looks incredibly heavy. I <input type="text" class="input-fill" placeholder="(help)"> you carry it.</div>
+        <div class="q-item" data-type="fill" data-answer="will be"><span class="q-num">2.</span> I am absolutely certain she <input type="text" class="input-fill" placeholder="(be)"> a brilliant CEO one day.</div>
+        <div class="q-item" data-type="fill" data-answer="will not tolerate"><span class="q-num">3.</span> The university <input type="text" class="input-fill" style="width:160px;" placeholder="(not/tolerate)"> plagiarism.</div>
+        <div class="q-item" data-type="fill" data-answer="will call"><span class="q-num">4.</span> Please leave your number, and the doctor <input type="text" class="input-fill" placeholder="(call)"> you back shortly.</div>
+        <div class="q-item" data-type="fill" data-answer="will turn"><span class="q-num">5.</span> My youngest daughter <input type="text" class="input-fill" placeholder="(turn)"> eighteen next Tuesday.</div>
+        <div class="q-item" data-type="fill" data-answer="will open"><span class="q-num">6.</span> It's suffocating in here. I <input type="text" class="input-fill" placeholder="(open)"> the window.</div>
+
+        <div class="q-item" data-type="select" data-answer="will answer"><span class="q-num">7.</span> The phone is ringing! I <select class="select-inline"><option value="empty">---</option><option value="am answering">am answering</option><option value="will answer">will answer</option></select> it.</div>
+        <div class="q-item" data-type="select" data-answer="will probably win"><span class="q-num">8.</span> Based on their current trajectory, they <select class="select-inline"><option value="empty">---</option><option value="win">win</option><option value="will probably win">will probably win</option></select> the election.</div>
+        <div class="q-item" data-type="select" data-answer="will never forget"><span class="q-num">9.</span> I swear I <select class="select-inline"><option value="empty">---</option><option value="will never forget">will never forget</option><option value="never forget">never forget</option></select> the assistance you provided today.</div>
+        <div class="q-item" data-type="select" data-answer="will"><span class="q-num">10.</span> <select class="select-inline"><option value="empty">---</option><option value="Do">Do</option><option value="Will">Will</option></select> you marry me?</div>
+        <div class="q-item" data-type="select" data-answer="will have"><span class="q-num">11.</span> "What would you like to order?" "I <select class="select-inline"><option value="empty">---</option><option value="am having">am having</option><option value="will have">will have</option></select> the sea bass, please."</div>
+        <div class="q-item" data-type="select" data-answer="will not"><span class="q-num">12.</span> I am afraid the board <select class="select-inline"><option value="empty">---</option><option value="does not">does not</option><option value="will not">will not</option></select> approve this budget.</div>
+
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">13.</span> Which situation absolutely requires the Future Simple ('will')?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fs13" value="a"> Stating a scheduled flight time.</label><label class="mcq-label"><input type="radio" name="fs13" value="b"> Making a spontaneous offer to help someone.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">14.</span> What is the correct negative contraction of 'will not'?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fs14" value="a"> won't</label><label class="mcq-label"><input type="radio" name="fs14" value="b"> willn't</label><label class="mcq-label"><input type="radio" name="fs14" value="c"> want</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">15.</span> "I think humanity will colonize Mars." This is an example of:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fs15" value="a"> A concrete, unchangeable plan.</label><label class="mcq-label"><input type="radio" name="fs15" value="b"> A subjective prediction based on personal opinion.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">16.</span> Identify the correct grammatical structure:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fs16" value="a"> Subject + will + base verb (infinitive without 'to')</label><label class="mcq-label"><input type="radio" name="fs16" value="b"> Subject + will + to + base verb</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">17.</span> "I will always love you." Here, 'will' is functioning as a:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fs17" value="a"> Spontaneous decision.</label><label class="mcq-label"><input type="radio" name="fs17" value="b"> Promise.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">18.</span> Which sentence is grammatically correct?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fs18" value="a"> She will arrive tomorrow.</label><label class="mcq-label"><input type="radio" name="fs18" value="b"> She will arrives tomorrow.</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="will contact"><span class="q-num">19.</span> Leave your email, and our team <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> you shortly.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="contacts">contacts</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will contact">will contact</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will survive"><span class="q-num">20.</span> Despite the economic crash, the company <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will survive">will survive</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="survived">survived</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will proceed"><span class="q-num">21.</span> We <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> with the operation as planned.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will proceed">will proceed</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="proceeding">proceeding</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will decline"><span class="q-num">22.</span> Experts predict that inflation <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> next year.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="declines">declines</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will decline">will decline</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="won't forget"><span class="q-num">23.</span> I promise I <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> to send the documents.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="won't forget">won't forget</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="don't forget">don't forget</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will take"><span class="q-num">24.</span> I <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the responsibility for this error.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will take">will take</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="taking">taking</div></div></div></div>
+
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">25.</span> You should add an 's' to the main verb after 'will' if the subject is He, She, or It. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fs25" value="true"> True</label><label class="mcq-label"><input type="radio" name="fs25" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">26.</span> The Future Simple is the most appropriate tense to use when making a threat or a warning. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fs26" value="true"> True</label><label class="mcq-label"><input type="radio" name="fs26" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">27.</span> "Shall" can be used instead of "will", but it is highly formal and mostly restricted to 'I' and 'we' in British English. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fs27" value="true"> True</label><label class="mcq-label"><input type="radio" name="fs27" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">28.</span> "I will to go to the store" is a grammatically correct sentence. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fs28" value="true"> True</label><label class="mcq-label"><input type="radio" name="fs28" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">29.</span> For fixed arrangements like a doctor's appointment tomorrow, 'will' is the preferred and most natural tense. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fs29" value="true"> True</label><label class="mcq-label"><input type="radio" name="fs29" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">30.</span> Future Simple is often used with phrases like "I think," "I hope," and "I believe." <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fs30" value="true"> True</label><label class="mcq-label"><input type="radio" name="fs30" value="false"> False</label></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-fut-simp')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+    <section id="t-fut-cont" class="tense-section">
+      <div class="tense-header"><h2>10. Future Continuous</h2></div>
+      <div class="linguist-note">
+        <strong>The Linguist's Perspective:</strong> The Future Continuous describes an action that will be <em>in progress</em> at a specific time in the future. It is highly effective for projecting oneself into a future scenario (e.g., "This time tomorrow, I will be flying to Paris"). In advanced socio-linguistics, it is also used to make very polite inquiries about someone's plans without pressuring them.
+      </div>
+      
+      <div class="exercise-block" id="ex-fut-cont">
+        <div class="ex-title">Assessment Module: Future Continuous (30 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="will be flying"><span class="q-num">1.</span> This time tomorrow, I <input type="text" class="input-fill" style="width:150px;" placeholder="(fly)"> over the Atlantic.</div>
+        <div class="q-item" data-type="fill" data-answer="will be waiting"><span class="q-num">2.</span> Don't worry, my chauffeur <input type="text" class="input-fill" style="width:160px;" placeholder="(wait)"> for you at the arrivals gate.</div>
+        <div class="q-item" data-type="fill" data-answer="will be holding"><span class="q-num">3.</span> The committee <input type="text" class="input-fill" style="width:160px;" placeholder="(hold)"> interviews all day next Monday.</div>
+        <div class="q-item" data-type="fill" data-answer="will not be attending"><span class="q-num">4.</span> Unfortunately, I <input type="text" class="input-fill" style="width:180px;" placeholder="(not/attend)"> the symposium this year.</div>
+        <div class="q-item" data-type="fill" data-answer="will be using"><span class="q-num">5.</span> Excuse me, <input type="text" class="input-fill" style="width:150px;" placeholder="(you/use)"> the photocopier for long?</div>
+        <div class="q-item" data-type="fill" data-answer="will be watching"><span class="q-num">6.</span> At 8 PM tonight, millions of people <input type="text" class="input-fill" style="width:160px;" placeholder="(watch)"> the presidential debate.</div>
+
+        <div class="q-item" data-type="select" data-answer="will be working"><span class="q-num">7.</span> Please don't call me at 2 PM. I <select class="select-inline"><option value="empty">---</option><option value="will work">will work</option><option value="will be working">will be working</option></select> on a crucial report.</div>
+        <div class="q-item" data-type="select" data-answer="will be seeing"><span class="q-num">8.</span> I <select class="select-inline"><option value="empty">---</option><option value="will be seeing">will be seeing</option><option value="will see">will see</option></select> the director tomorrow anyway, so I can give him your message.</div>
+        <div class="q-item" data-type="select" data-answer="will be sleeping"><span class="q-num">9.</span> By the time you get home, the children <select class="select-inline"><option value="empty">---</option><option value="will sleep">will sleep</option><option value="will be sleeping">will be sleeping</option></select>.</div>
+        <div class="q-item" data-type="select" data-answer="will be sunbathing"><span class="q-num">10.</span> In exactly one week, we <select class="select-inline"><option value="empty">---</option><option value="sunbathe">sunbathe</option><option value="will be sunbathing">will be sunbathing</option></select> on a beach in Bali.</div>
+        <div class="q-item" data-type="select" data-answer="Will you be needing"><span class="q-num">11.</span> <select class="select-inline"><option value="empty">---</option><option value="Will you need">Will you need</option><option value="Will you be needing">Will you be needing</option></select> the conference room after lunch?</div>
+        <div class="q-item" data-type="select" data-answer="will be living"><span class="q-num">12.</span> I wonder where we <select class="select-inline"><option value="empty">---</option><option value="will live">will live</option><option value="will be living">will be living</option></select> ten years from now.</div>
+
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">13.</span> What is the grammatical formula for the Future Continuous?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fc13" value="a"> Subject + will + base verb + ing</label><label class="mcq-label"><input type="radio" name="fc13" value="b"> Subject + will + be + verb(-ing)</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">14.</span> "I will be seeing John at work tomorrow." Why use continuous here?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fc14" value="a"> It represents an action that will happen as a matter of routine, without extra effort.</label><label class="mcq-label"><input type="radio" name="fc14" value="b"> It expresses a very strong, spontaneous promise.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">15.</span> Which question sounds more polite and less intrusive to a native speaker?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fc15" value="a"> Will you go to the post office today?</label><label class="mcq-label"><input type="radio" name="fc15" value="b"> Will you be going to the post office today?</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">16.</span> "Don't call at 8:00. We will be eating." This means:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fc16" value="a"> The dinner will have already started before 8:00 and will still be in progress.</label><label class="mcq-label"><input type="radio" name="fc16" value="b"> We will start eating exactly at 8:00.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">17.</span> Identify the incorrect sentence:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fc17" value="a"> They will be staying with us.</label><label class="mcq-label"><input type="radio" name="fc17" value="b"> They will being stay with us.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">18.</span> Stative verbs (like 'know', 'belong') generally:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fc18" value="a"> Cannot be used in the Future Continuous.</label><label class="mcq-label"><input type="radio" name="fc18" value="b"> Must be used in the Future Continuous.</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="will be hosting"><span class="q-num">19.</span> Next month, the university <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> an international linguistics summit.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will be hosting">will be hosting</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will host">will host</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will be reviewing"><span class="q-num">20.</span> The auditors <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> our financial records all of next week.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will be reviewing">will be reviewing</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will review">will review</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will be implementing"><span class="q-num">21.</span> They <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the new security protocols during the weekend.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will be implementing">will be implementing</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="implemented">implemented</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will be managing"><span class="q-num">22.</span> While the director is on leave, Sarah <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the department.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="manages">manages</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will be managing">will be managing</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will be presenting"><span class="q-num">23.</span> I <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> my research findings at 10 AM tomorrow.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will be presenting">will be presenting</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will presented">will presented</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will be traveling"><span class="q-num">24.</span> Unfortunately, the CEO <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> during the proposed meeting time.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will travel">will travel</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will be traveling">will be traveling</div></div></div></div>
+
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">25.</span> Future Continuous describes an action that will start before a specific future time and continue past it. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fc25" value="true"> True</label><label class="mcq-label"><input type="radio" name="fc25" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">26.</span> The negative form is created by placing 'not' after 'be' (e.g., will be not doing). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fc26" value="true"> True</label><label class="mcq-label"><input type="radio" name="fc26" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">27.</span> Native speakers often use this tense to casually ask about someone's plans to see if they can do a favor. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fc27" value="true"> True</label><label class="mcq-label"><input type="radio" name="fc27" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">28.</span> "I will be knowing the answer tomorrow" is an excellent example of this tense. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fc28" value="true"> True</label><label class="mcq-label"><input type="radio" name="fc28" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">29.</span> "This time next year" is a classic time phrase that triggers the Future Continuous. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fc29" value="true"> True</label><label class="mcq-label"><input type="radio" name="fc29" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">30.</span> It can be used to make a deduction about the present future (e.g., "Don't call him now, he'll be sleeping"). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fc30" value="true"> True</label><label class="mcq-label"><input type="radio" name="fc30" value="false"> False</label></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-fut-cont')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+
+    <section id="t-fut-perf" class="tense-section">
+      <div class="tense-header"><h2>11. Future Perfect</h2></div>
+      <div class="linguist-note">
+        <strong>The Linguist's Perspective:</strong> The Future Perfect requires mental time travel. We use it to project ourselves to a specific point in the future, and from that vantage point, we look backward at an action that will already be completed. It almost always requires a deadline or a temporal marker, typically introduced by the preposition "by" (e.g., "By Friday, I will have finished"). 
+        <br><br>
+        <em>Advanced Note:</em> Native speakers also use it to make confident deductions about the present: "There's no point calling him; his flight <em>will have landed</em> by now."
+      </div>
+      
+      <div class="exercise-block" id="ex-fut-perf">
+        <div class="ex-title">Assessment Module: Future Perfect (30 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="will have graduated"><span class="q-num">1.</span> By this time next year, she <input type="text" class="input-fill" style="width:180px;" placeholder="(graduate)"> from Oxford.</div>
+        <div class="q-item" data-type="fill" data-answer="will have completed"><span class="q-num">2.</span> They <input type="text" class="input-fill" style="width:180px;" placeholder="(complete)"> the new bridge by December.</div>
+        <div class="q-item" data-type="fill" data-answer="will have read"><span class="q-num">3.</span> I <input type="text" class="input-fill" style="width:160px;" placeholder="(read)"> the entire manuscript before the meeting.</div>
+        <div class="q-item" data-type="fill" data-answer="will have melted"><span class="q-num">4.</span> If we don't hurry, the ice cream <input type="text" class="input-fill" style="width:160px;" placeholder="(melt)"> before we get home.</div>
+        <div class="q-item" data-type="fill" data-answer="will have repaired"><span class="q-num">5.</span> The mechanics <input type="text" class="input-fill" style="width:160px;" placeholder="(repair)"> the engine by tomorrow morning.</div>
+        <div class="q-item" data-type="fill" data-answer="will have left"><span class="q-num">6.</span> By the time you wake up, I <input type="text" class="input-fill" style="width:150px;" placeholder="(leave)"> for the airport.</div>
+
+        <div class="q-item" data-type="select" data-answer="will have passed"><span class="q-num">7.</span> The meteorologists assure us that the storm <select class="select-inline"><option value="empty">---</option><option value="will pass">will pass</option><option value="will have passed">will have passed</option></select> by nightfall.</div>
+        <div class="q-item" data-type="select" data-answer="will you have finished"><span class="q-num">8.</span> <select class="select-inline"><option value="empty">---</option><option value="Will you finish">Will you finish</option><option value="will you have finished">Will you have finished</option></select> the financial report by noon?</div>
+        <div class="q-item" data-type="select" data-answer="will have made"><span class="q-num">9.</span> I am confident that the board <select class="select-inline"><option value="empty">---</option><option value="will make">will make</option><option value="will have made">will have made</option></select> their final decision by then.</div>
+        <div class="q-item" data-type="select" data-answer="will have discovered"><span class="q-num">10.</span> Many hope that scientists <select class="select-inline"><option value="empty">---</option><option value="will have discovered">will have discovered</option><option value="will discover">will discover</option></select> a cure within the next decade.</div>
+        <div class="q-item" data-type="select" data-answer="will have forgotten"><span class="q-num">11.</span> Don't worry about the mistake; everyone <select class="select-inline"><option value="empty">---</option><option value="will forget">will forget</option><option value="will have forgotten">will have forgotten</option></select> about it by next week.</div>
+        <div class="q-item" data-type="select" data-answer="will have sold"><span class="q-num">12.</span> We must hurry, or they <select class="select-inline"><option value="empty">---</option><option value="will sell">will sell</option><option value="will have sold">will have sold</option></select> all the tickets before we arrive.</div>
+
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">13.</span> What is the primary function of the Future Perfect tense?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fp13" value="a"> To describe an action that will be ongoing in the future.</label><label class="mcq-label"><input type="radio" name="fp13" value="b"> To describe an action that will be completed before a specific future time.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">14.</span> Identify the correct grammatical formula:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fp14" value="a"> Subject + will + have + Past Participle (V3)</label><label class="mcq-label"><input type="radio" name="fp14" value="b"> Subject + will + be + Past Participle (V3)</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">15.</span> Which conjunction/preposition is heavily associated with setting the deadline in this tense?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fp15" value="a"> While</label><label class="mcq-label"><input type="radio" name="fp15" value="b"> By / By the time</label><label class="mcq-label"><input type="radio" name="fp15" value="c"> Since</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">16.</span> "By next week, I will have read the book." What does this imply?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fp16" value="a"> The reading process will be completely finished before next week arrives.</label><label class="mcq-label"><input type="radio" name="fp16" value="b"> I will start reading the book next week.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">17.</span> Identify the incorrect grammatical structure:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fp17" value="a"> She will have gone to the store.</label><label class="mcq-label"><input type="radio" name="fp17" value="b"> She will has gone to the store.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">18.</span> Can stative verbs (like 'know' or 'belong') be used in the Future Perfect?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fp18" value="a"> Yes (e.g., "I will have known her for ten years").</label><label class="mcq-label"><input type="radio" name="fp18" value="b"> No, they are strictly forbidden.</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="will have started"><span class="q-num">19.</span> If we don't leave now, the film <div class="drop-zone" style="min-width:180px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> before we get to the cinema.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will start">will start</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will have started">will have started</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will have saved"><span class="q-num">20.</span> I <div class="drop-zone" style="min-width:180px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> enough money for the deposit by December.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will save">will save</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will have saved">will have saved</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will have arrived"><span class="q-num">21.</span> The international guests <div class="drop-zone" style="min-width:180px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> before the catering is ready.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will have arrived">will have arrived</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will arrive">will arrive</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will have painted"><span class="q-num">22.</span> The contractors <div class="drop-zone" style="min-width:180px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the entire exterior of the house by Saturday.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will paint">will paint</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will have painted">will have painted</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will they have announced"><span class="q-num">23.</span> <div class="drop-zone" style="min-width:220px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the winner of the literature prize by tonight?
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will they announce">Will they announce</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will they have announced">Will they have announced</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will have flown"><span class="q-num">24.</span> We <div class="drop-zone" style="min-width:180px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> over 5,000 miles by the time the plane touches down.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will fly">will fly</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will have flown">will have flown</div></div></div></div>
+
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">25.</span> The auxiliary verb "have" must change to "has" for third-person singular subjects (e.g., "She will has finished"). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fp25" value="true"> True</label><label class="mcq-label"><input type="radio" name="fp25" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">26.</span> The Future Perfect is used to project oneself into the future and look back at an action that is already complete. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fp26" value="true"> True</label><label class="mcq-label"><input type="radio" name="fp26" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">27.</span> Prepositions like "Before" and "By" are essential mechanical tools used to set the future deadline for this tense. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fp27" value="true"> True</label><label class="mcq-label"><input type="radio" name="fp27" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">28.</span> The main verb following "will have" must always be in the past participle (V3) form. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fp28" value="true"> True</label><label class="mcq-label"><input type="radio" name="fp28" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">29.</span> "I will have been reading" is an example of the Future Perfect Simple tense. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fp29" value="true"> True</label><label class="mcq-label"><input type="radio" name="fp29" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">30.</span> Advanced users can utilize the Future Perfect to express a logical deduction about something that has just happened (e.g., "The postman will have delivered the letters by now"). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fp30" value="true"> True</label><label class="mcq-label"><input type="radio" name="fp30" value="false"> False</label></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-fut-perf')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+    Here is the grand finale. The 100% complete, unfragmented code for the Future Perfect Continuous module.
+
+This brings your masterclass to exactly 360 Oxford-standard questions across all 12 tenses. I have engineered the linguistic notes and the 30 interactive questions specifically to test the complex "duration up to a future point" mechanics of this final tense.
+
+Please copy this entire block and paste it directly below the closing </section> tag of your Future Continuous section (or wherever you placed the previous ones) in your all-tenses-masterclass.html file.
+
+HTML
+    <section id="t-fut-perf-cont" class="tense-section">
+      <div class="tense-header"><h2>12. Future Perfect Continuous</h2></div>
+      <div class="linguist-note">
+        <strong>The Linguist's Perspective:</strong> The rarest and most mathematically precise of all the English tenses. We use the Future Perfect Continuous to project ourselves forward to a specific point in the future, and look back to measure the <em>duration</em> of an action that will still be ongoing at that point. It almost always requires two time markers: a future point ("by next year") and a duration ("for ten years").
+      </div>
+      
+      <div class="exercise-block" id="ex-fut-perf-cont">
+        <div class="ex-title">Assessment Module: Future Perfect Continuous (30 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="will have been working"><span class="q-num">1.</span> By December, she <input type="text" class="input-fill" style="width:200px;" placeholder="(work)"> at the academy for a decade.</div>
+        <div class="q-item" data-type="fill" data-answer="will have been studying"><span class="q-num">2.</span> By 6 PM tonight, I <input type="text" class="input-fill" style="width:200px;" placeholder="(study)"> for eight hours straight.</div>
+        <div class="q-item" data-type="fill" data-answer="will have been living"><span class="q-num">3.</span> Next month, they <input type="text" class="input-fill" style="width:200px;" placeholder="(live)"> in London for exactly three years.</div>
+        <div class="q-item" data-type="fill" data-answer="will have been waiting"><span class="q-num">4.</span> By the time he finally arrives, we <input type="text" class="input-fill" style="width:200px;" placeholder="(wait)"> for over an hour.</div>
+        <div class="q-item" data-type="fill" data-answer="will have been operating"><span class="q-num">5.</span> In 2030, this multinational company <input type="text" class="input-fill" style="width:220px;" placeholder="(operate)"> for a century.</div>
+        <div class="q-item" data-type="fill" data-answer="will have been snowing"><span class="q-num">6.</span> By tomorrow morning, it <input type="text" class="input-fill" style="width:200px;" placeholder="(snow)"> continuously for 48 hours.</div>
+
+        <div class="q-item" data-type="select" data-answer="will have been studying"><span class="q-num">7.</span> By next month, I <select class="select-inline"><option value="empty">---</option><option value="will study">will study</option><option value="will have been studying">will have been studying</option></select> advanced linguistics for a year.</div>
+        <div class="q-item" data-type="select" data-answer="will have been traveling"><span class="q-num">8.</span> They are exhausted now, and they <select class="select-inline"><option value="empty">---</option><option value="will have been traveling">will have been traveling</option><option value="will travel">will travel</option></select> for 24 hours by the time they land.</div>
+        <div class="q-item" data-type="select" data-answer="will have been teaching"><span class="q-num">9.</span> Professor Aris <select class="select-inline"><option value="empty">---</option><option value="will have taught">will have taught</option><option value="will have been teaching">will have been teaching</option></select> here for twenty years by the time he retires next spring.</div>
+        <div class="q-item" data-type="select" data-answer="will you have been living"><span class="q-num">10.</span> How long <select class="select-inline"><option value="empty">---</option><option value="will you have been living">will you have been living</option><option value="will you live">will you live</option></select> in Petaling Jaya by the end of this year?</div>
+        <div class="q-item" data-type="select" data-answer="will have been driving"><span class="q-num">11.</span> By midnight, we <select class="select-inline"><option value="empty">---</option><option value="will be driving">will be driving</option><option value="will have been driving">will have been driving</option></select> for ten solid hours.</div>
+        <div class="q-item" data-type="select" data-answer="will have been running"><span class="q-num">12.</span> The server <select class="select-inline"><option value="empty">---</option><option value="will have been running">will have been running</option><option value="will be running">will be running</option></select> continuously for 90 days by Tuesday.</div>
+
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">13.</span> What does the Future Perfect Continuous primarily emphasize?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fpc13" value="a"> The exact moment a future action starts.</label><label class="mcq-label"><input type="radio" name="fpc13" value="b"> The duration of an action leading up to a specific future point.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">14.</span> Which prepositions are most mechanically vital to this tense?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fpc14" value="a"> "By" (for the deadline) and "For" (for the duration).</label><label class="mcq-label"><input type="radio" name="fpc14" value="b"> "In" (for the location) and "On" (for the day).</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">15.</span> "By 2028, I will have been working here for 5 years." This means:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fpc15" value="a"> I will start my job in 2028 and stay for 5 years.</label><label class="mcq-label"><input type="radio" name="fpc15" value="b"> The 5-year duration milestone is reached in 2028, and the work may continue.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">16.</span> Identify the correct grammatical formula:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fpc16" value="a"> Subject + will + have + been + Verb(-ing)</label><label class="mcq-label"><input type="radio" name="fpc16" value="b"> Subject + will + be + have + Verb(-ing)</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">17.</span> Why is "By next year, I will have been knowing her for a decade" incorrect?
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fpc17" value="a"> 'Know' is a stative verb and resists continuous forms; use Future Perfect instead.</label><label class="mcq-label"><input type="radio" name="fpc17" value="b"> You cannot use "for a decade" with future tenses.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">18.</span> Select the correct, flawless sentence:
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fpc18" value="a"> By 8 PM, I will have been reading for three hours.</label><label class="mcq-label"><input type="radio" name="fpc18" value="b"> By 8 PM, I will have been read for three hours.</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="will have been negotiating"><span class="q-num">19.</span> By Friday, we <div class="drop-zone" style="min-width:220px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> this contract for a week.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will negotiate">will negotiate</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will have been negotiating">will have been negotiating</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will have been practicing"><span class="q-num">20.</span> She <div class="drop-zone" style="min-width:220px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> the piano for hours before the recital begins.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will have been practicing">will have been practicing</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will practice">will practice</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will have been waiting"><span class="q-num">21.</span> By the time the rescue team arrives, they <div class="drop-zone" style="min-width:220px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> for days.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will have been waiting">will have been waiting</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will wait">will wait</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will have been writing"><span class="q-num">22.</span> Next month, I <div class="drop-zone" style="min-width:220px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> this manuscript for exactly a year.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will write">will write</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will have been writing">will have been writing</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will have been warning"><span class="q-num">23.</span> By 2050, scientists <div class="drop-zone" style="min-width:220px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> us about these climate effects for decades.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will have been warning">will have been warning</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="warned">warned</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="will have been running"><span class="q-num">24.</span> At the end of the marathon, he <div class="drop-zone" style="min-width:220px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div> for over four hours.
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="will have been running">will have been running</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="will run">will run</div></div></div></div>
+
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">25.</span> The tense is correctly formed with: Subject + will + have + been + present participle (-ing). <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fpc25" value="true"> True</label><label class="mcq-label"><input type="radio" name="fpc25" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">26.</span> This tense is commonly used in daily conversation to express spontaneous decisions in the future. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fpc26" value="true"> True</label><label class="mcq-label"><input type="radio" name="fpc26" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">27.</span> Stative verbs (like 'belong', 'seem', 'own') are rarely used in the Future Perfect Continuous. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fpc27" value="true"> True</label><label class="mcq-label"><input type="radio" name="fpc27" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">28.</span> Conceptually, it is used to project ourselves forward in time and look backward at the duration of an ongoing activity. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fpc28" value="true"> True</label><label class="mcq-label"><input type="radio" name="fpc28" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="false"><span class="q-num">29.</span> "By the time you arrive, I will have been cooking" means I will finish cooking at the exact second you arrive. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fpc29" value="true"> True</label><label class="mcq-label"><input type="radio" name="fpc29" value="false"> False</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="true"><span class="q-num">30.</span> A sentence in this tense logically requires a specific future time reference point (e.g., "by tomorrow", "when she arrives") to make sense. <div class="mcq-group"><label class="mcq-label"><input type="radio" name="fpc30" value="true"> True</label><label class="mcq-label"><input type="radio" name="fpc30" value="false"> False</label></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-fut-perf-cont')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Dynamic Sidebar Highlighting
+  document.addEventListener("DOMContentLoaded", () => {
+    const links = document.querySelectorAll(".tense-nav a");
+    const sections = document.querySelectorAll(".tense-section");
+
+    window.addEventListener("scroll", () => {
+      let scrollY = window.pageYOffset;
+      sections.forEach(current => {
+        const sectionHeight = current.offsetHeight;
+        const sectionTop = current.offsetTop - 150;
+        const sectionId = current.getAttribute("id");
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+          links.forEach(a => {
+            a.classList.remove("active");
+            if (a.getAttribute("href") === "#" + sectionId) {
+              a.classList.add("active");
+            }
+          });
+        }
+      });
+    });
+  });
+
+  // Drag and Drop Logic
+  function allowDrop(ev) { ev.preventDefault(); ev.target.classList.add('over'); }
+  function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+  document.addEventListener('dragenter', function(e) { if(e.target.className.includes('drop-zone')) e.target.classList.add('over'); });
+  document.addEventListener('dragleave', function(e) { if(e.target.className.includes('drop-zone')) e.target.classList.remove('over'); });
+
+  function drop(ev) {
+    ev.preventDefault();
+    ev.target.classList.remove('over');
+    var data = ev.dataTransfer.getData("text");
+    if(ev.target.classList.contains('drop-zone')) {
+      ev.target.innerHTML = '';
+      const draggedElement = document.getElementById(data);
+      const clone = draggedElement.cloneNode(true);
+      clone.removeAttribute('id'); 
+      clone.style.margin = "0";
+      ev.target.appendChild(clone);
+      ev.target.setAttribute('data-dropped-id', data); 
+    }
+  }
+
+  // Master Evaluation Engine (This grades the answers!)
+  function evaluateSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    const questions = section.querySelectorAll('.q-item');
+    let score = 0;
+    let total = questions.length;
+
+    questions.forEach(q => {
+      const type = q.getAttribute('data-type');
+      const correctAnswer = q.getAttribute('data-answer').toLowerCase();
+      let isCorrect = false;
+
+      if (type === 'fill') {
+        const input = q.querySelector('input');
+        input.classList.remove('correct-ui', 'wrong-ui');
+        if (input.value.trim().toLowerCase() === correctAnswer) {
+          isCorrect = true;
+          input.classList.add('correct-ui');
+        } else if (input.value.trim() !== '') {
+          input.classList.add('wrong-ui');
+        }
+      }
+      else if (type === 'radio') {
+        const checked = q.querySelector('input[type="radio"]:checked');
+        q.querySelectorAll('.mcq-label').forEach(lbl => lbl.classList.remove('correct-ui', 'wrong-ui'));
+        if (checked) {
+          if (checked.value.toLowerCase() === correctAnswer) {
+            isCorrect = true;
+            checked.parentElement.classList.add('correct-ui');
+          } else {
+            checked.parentElement.classList.add('wrong-ui');
+          }
+        }
+      }
+      else if (type === 'select') {
+        const select = q.querySelector('select');
+        select.classList.remove('correct-ui', 'wrong-ui');
+        if (select.value !== 'empty') {
+          if (select.value.toLowerCase() === correctAnswer) {
+            isCorrect = true;
+            select.classList.add('correct-ui');
+          } else {
+            select.classList.add('wrong-ui');
+          }
+        }
+      }
+      else if (type === 'drag') {
+        const dropZone = q.querySelector('.drop-zone');
+        dropZone.classList.remove('correct-ui', 'wrong-ui');
+        const droppedId = dropZone.getAttribute('data-dropped-id');
+        if (droppedId) {
+          if (droppedId.toLowerCase() === correctAnswer) {
+            isCorrect = true;
+            dropZone.classList.add('correct-ui');
+          } else {
+            dropZone.classList.add('wrong-ui');
+          }
+        }
+      }
+
+      if (isCorrect) score++;
+    });
+
+    const feedbackBox = section.querySelector('.feedback-box');
+    feedbackBox.style.display = 'block';
+    if (score === total) {
+      feedbackBox.className = 'feedback-box correct-ui';
+      feedbackBox.innerHTML = `Excellent. Score: ${score}/${total}.`;
+    } else {
+      feedbackBox.className = 'feedback-box wrong-ui';
+      feedbackBox.innerHTML = `Score: ${score}/${total}. Please review the red errors.`;
+    }
+  }
+</script>
+</body>
+</html>

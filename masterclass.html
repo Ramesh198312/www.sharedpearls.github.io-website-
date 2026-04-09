@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shared Pearls of Wisdom | Elite English Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      /* Premium Academic Palette */
+      --midnight: #0B1D3A;
+      --midnight-light: #162E54;
+      --gold: #D4AF37;
+      --gold-light: #F4EEDD;
+      --crimson: #A51C30;
+      --paper: #FFFFFF;
+      --parchment: #F9F8F6;
+      --text-main: #1A202C;
+      --text-muted: #4A5568;
+      --border: #E2E8F0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Crimson Pro', Georgia, serif; background: var(--parchment); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+
+    /* ── SCROLL ANIMATIONS (Google Edu Style) ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal.reveal-left { transform: translateX(-40px); }
+    .reveal.reveal-right { transform: translateX(40px); }
+    .reveal.active { opacity: 1; transform: translateY(0) translateX(0); }
+
+    /* ── NAVIGATION ── */
+    nav { background: var(--midnight); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--gold); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+    
+    .nav-logo { display: flex; align-items: center; gap: 15px; text-decoration: none; padding: 0.8rem 0; }
+    .logo-img { height: 45px; width: auto; object-fit: contain; border-radius: 4px; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--gold); letter-spacing: 0.02em; line-height: 1; }
+    .logo-text span { color: var(--paper); font-style: italic; }
+
+    .nav-links { display: flex; list-style: none; gap: 1.8rem; align-items: center; }
+    .nav-links a { color: var(--paper); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { background: var(--gold); color: var(--midnight) !important; padding: 0.8rem 1.5rem; border-radius: 2px; font-weight: 700; transition: all 0.3s !important; }
+    .nav-cta:hover { background: var(--paper); box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+
+    /* ── HERO SECTION ── */
+    .hero { background: linear-gradient(135deg, var(--midnight) 0%, #051024 100%); color: var(--paper); padding: 8rem 2rem; text-align: center; position: relative; overflow: hidden; }
+    .hero::after { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 15px); pointer-events: none; }
+    .hero-content { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
+    .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; display: inline-block; border-bottom: 1px solid var(--gold); padding-bottom: 0.3rem;}
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 6vw, 4.5rem); font-weight: 600; line-height: 1.1; margin-bottom: 1.5rem; }
+    .hero h1 em { color: var(--gold); font-style: italic; }
+    .hero p { font-size: 1.3rem; color: #A0AEC0; max-width: 700px; margin: 0 auto 3rem; line-height: 1.8; }
+    
+    .hero-buttons { display: flex; gap: 1.5rem; justify-content: center; }
+    .btn-primary { background: var(--gold); color: var(--midnight); padding: 1rem 2.5rem; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; border-radius: 3px; transition: 0.3s; border: 1px solid var(--gold); }
+    .btn-primary:hover { background: var(--paper); color: var(--midnight); border-color: var(--paper); }
+    .btn-secondary { background: transparent; color: var(--paper); padding: 1rem 2.5rem; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; text-decoration: none; border-radius: 3px; transition: 0.3s; border: 1px solid rgba(255,255,255,0.3); }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── VALUE PROPOSITION ── */
+    .value-prop { padding: 6rem 2rem; background: var(--paper); text-align: center; }
+    .value-prop h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--midnight); margin-bottom: 3rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem; max-width: 1200px; margin: 0 auto; }
+    .feature-card { padding: 2rem; }
+    .feature-icon { font-size: 2.5rem; color: var(--crimson); margin-bottom: 1.5rem; font-family: 'Playfair Display', serif; font-style: italic; }
+    .feature-card h3 { font-family: 'DM Mono', monospace; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--midnight); margin-bottom: 1rem; }
+    .feature-card p { font-size: 1.1rem; color: var(--text-muted); }
+
+    /* ── ACADEMY GATEWAYS (THE MODULES) ── */
+    .gateways { padding: 6rem 2rem; background: var(--parchment); }
+    .section-header { text-align: center; margin-bottom: 4rem; max-width: 800px; margin-left: auto; margin-right: auto; }
+    .section-header h2 { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--midnight); margin-bottom: 1rem; }
+    .section-header p { font-size: 1.2rem; color: var(--text-muted); }
+
+    .gateway-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem; max-width: 1200px; margin: 0 auto; }
+    
+    .gateway-card { background: var(--paper); border: 1px solid var(--border); padding: 3rem; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s; position: relative; overflow: hidden; text-decoration: none; display: flex; flex-direction: column; height: 100%; border-top: 4px solid transparent;}
+    .gateway-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(11,29,58,0.08); border-top-color: var(--gold); }
+    
+    .gw-badge { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.4rem 0.8rem; background: var(--gold-light); color: var(--midnight); display: inline-block; margin-bottom: 1.5rem; font-weight: 700; }
+    .gw-badge.crimson { background: rgba(165, 28, 48, 0.1); color: var(--crimson); }
+    
+    .gateway-card h3 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--midnight); margin-bottom: 1rem; line-height: 1.2; }
+    .gateway-card p { font-size: 1.15rem; color: var(--text-muted); margin-bottom: 2.5rem; flex-grow: 1; }
+    .gw-link { font-family: 'DM Mono', monospace; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--midnight); font-weight: 700; display: inline-flex; align-items: center; gap: 10px; }
+    .gateway-card:hover .gw-link { color: var(--gold); }
+
+    /* ── FOOTER & NEWSLETTER ── */
+    footer { background: var(--midnight); color: var(--paper); padding: 5rem 2rem 2rem; }
+    .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4rem; margin-bottom: 2rem; }
+    
+    .footer-brand h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); margin-bottom: 1rem; }
+    .footer-brand p { color: #A0AEC0; font-size: 1.05rem; max-width: 400px; }
+
+    .newsletter-box h3 { font-family: 'DM Mono', monospace; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; color: var(--paper); }
+    .newsletter-form { display: flex; gap: 1rem; margin-top: 1.5rem; }
+    .newsletter-form input { flex-grow: 1; padding: 1rem 1.5rem; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: var(--paper); font-family: 'Crimson Pro', serif; font-size: 1.1rem; outline: none; border-radius: 2px; transition: 0.3s; }
+    .newsletter-form input:focus { border-color: var(--gold); background: rgba(255,255,255,0.1); }
+    .newsletter-form button { padding: 1rem 2rem; background: var(--gold); color: var(--midnight); border: none; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; border-radius: 2px; transition: 0.3s; }
+    .newsletter-form button:hover { background: var(--paper); }
+
+    .footer-bottom { text-align: center; color: #718096; font-family: 'DM Mono', monospace; font-size: 0.8rem; }
+
+    @media (max-width: 1024px) {
+      .nav-links { gap: 1rem; }
+    }
+
+    @media (max-width: 900px) {
+      .hero-buttons { flex-direction: column; }
+      .features-grid, .gateway-grid, .footer-content { grid-template-columns: 1fr; }
+      .nav-links { display: none; } /* Add a hamburger menu later for mobile */
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="Images/logo.png" alt="Shared Pearls Logo" class="logo-img">
+    <div class="logo-text">Shared <span>Pearls</span> of Wisdom</div> 
+  </a>
+  <ul class="nav-links">
+    <li><a href="determiners-quantifiers-modifiers.html">Grammar</a></li>
+    <li><a href="tenses-masterclass.html">Tenses</a></li>
+    <li><a href="#">IELTS</a></li>
+    <li><a href="inside-file-placement-engine-find-your-level.html">Assessments</a></li>
+    <li><a href="podcast-series.html">Podcasts</a></li>
+    <li><a href="#" class="nav-cta">LinguaSkills</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow reveal">Premium English Mastery</div>
+    <h1 class="reveal" style="transition-delay: 0.1s;">Master the Elegance of the <br/><em>English Language</em></h1>
+    <p class="reveal" style="transition-delay: 0.2s;">An elite academic platform engineered for ambitious learners. From definitive CEFR assessments to advanced phonetics and rhetoric, unlock your true linguistic potential.</p>
+    <div class="hero-buttons reveal" style="transition-delay: 0.3s;">
+      <a href="#inside-file-placement-engine-find-your-level" class="btn-primary">Discover Your Level</a>
+      <a href="#academy" class="btn-secondary">Explore the Syllabus</a>
+    </div>
+  </div>
+</header>
+
+<section class="value-prop">
+  <h2 class="reveal">Why Choose Shared Pearls of Wisdom?</h2>
+  <div class="features-grid">
+    <div class="feature-card reveal" style="transition-delay: 0.1s;">
+      <div class="feature-icon">I.</div>
+      <h3>Academic Rigor</h3>
+      <p>Curriculum designed by experts, mirroring the exact standards of Cambridge, Oxford, and Harvard examination boards.</p>
+    </div>
+    <div class="feature-card reveal" style="transition-delay: 0.2s;">
+      <div class="feature-icon">II.</div>
+      <h3>Advanced Phonology</h3>
+      <p>Go beyond textbooks. Master the subtle art of Received Pronunciation, connected speech, and isochronous rhythm.</p>
+    </div>
+    <div class="feature-card reveal" style="transition-delay: 0.3s;">
+      <div class="feature-icon">III.</div>
+      <h3>Cultural Fluency</h3>
+      <p>Immerse yourself in authentic British podcast dialogues, preparing you for high-level corporate and academic discourse.</p>
+    </div>
+  </div>
+</section>
+
+<section id="academy" class="gateways">
+  <div class="section-header reveal">
+    <h2>The Academy Modules</h2>
+    <p>Select your path to mastery. Access our premium suites designed specifically for intermediate to advanced scholars.</p>
+  </div>
+
+  <div class="gateway-grid">
+    
+    <a href="#" id="assessments" class="gateway-card reveal" style="transition-delay: 0.1s;">
+      <span class="gw-badge">Diagnostic Suite</span>
+      <h3>CEFR Proficiency Assessments</h3>
+      <p>Determine your exact linguistic standing. Experience our proprietary split-pane examination engines covering A1 Foundation through C1 Advanced.</p>
+      <span class="gw-link">Enter Examination Hall →</span>
+    </a>
+
+    <a href="#" class="gateway-card reveal" style="transition-delay: 0.2s;">
+      <span class="gw-badge crimson">Linguistics Lab</span>
+      <h3>Phonetics & Pronunciation Masterclass</h3>
+      <p>Deconstruct the British accent. Learn the International Phonetic Alphabet (IPA), master the schwa, and unlock the secrets of connected speech.</p>
+      <span class="gw-link">Begin Masterclass →</span>
+    </a>
+
+    <a href="parallelism-masterclass.html" class="gateway-card reveal" style="transition-delay: 0.3s;">
+      <span class="gw-badge crimson">Rhetoric & Syntax</span>
+      <h3>Advanced Grammar: Parallelism</h3>
+      <p>Elevate your writing from conversational to academic. Master parallel construction with interactive drag-and-drop syntax reconstruction tools.</p>
+      <span class="gw-link">Start Interactive Lesson →</span>
+    </a>
+
+    <a href="#" id="podcasts" class="gateway-card reveal" style="transition-delay: 0.4s;">
+      <span class="gw-badge">Audio Immersion</span>
+      <h3>The Podcast Lounge</h3>
+      <p>Listen to "The Future of Humanity" and other high-fidelity dialogues designed to train your ear for real-world British fluency and advanced vocabulary.</p>
+      <span class="gw-link">Listen to Episode 1 →</span>
+    </a>
+
+  </div>
+</section>
+
+<footer id="subscribe">
+  <div class="footer-content">
+    <div class="footer-brand reveal">
+      <h2>Shared Pearls of Wisdom</h2>
+      <p>Elevating global communication through rigorous academic standards and unparalleled linguistic resources.</p>
+    </div>
+    
+    <div class="newsletter-box reveal" style="transition-delay: 0.2s;">
+      <h3>Join the Inner Circle</h3>
+      <p style="color: #A0AEC0; font-size: 1.05rem;">Subscribe to receive exclusive masterclasses, vocabulary deep-dives, and updates on new podcast episodes directly to your inbox.</p>
+      
+      <form action="#" method="POST" class="newsletter-form">
+        <input type="email" name="EMAIL" placeholder="Enter your email address..." required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+  
+  <div class="footer-bottom reveal" style="transition-delay: 0.4s;">
+    <p>© 2026 Shared Pearls of Wisdom. All rights reserved. Architected for Premium Scholars.</p>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // 1. Target all elements with the 'reveal' class
+    const reveals = document.querySelectorAll(".reveal");
+
+    // 2. Set the observer options
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.15 // Triggers when 15% of the element is visible
+    };
+
+    // 3. The Observer logic
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+          // Optional: If you only want the animation to happen ONCE, uncomment the line below:
+          // observer.unobserve(entry.target);
+        } else {
+          // Removes the class when scrolling back up so it re-animates on the way down
+          entry.target.classList.remove("active");
+        }
+      });
+    }, observerOptions);
+
+    // 4. Attach observer to each element
+    reveals.forEach(reveal => {
+      revealObserver.observe(reveal);
+    });
+  });
+</script>
+
+</body>
+</html>

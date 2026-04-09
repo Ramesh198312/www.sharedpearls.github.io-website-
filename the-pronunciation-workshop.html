@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Pronunciation Workshop | Shared Pearls of Wisdom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f382a; /* Deep Forest Green */
+            --secondary: #cda434; /* Aged Gold */
+            --bg-page: #f9f8f6; /* Warm Alabaster */
+            --accent: #e8e5dc;
+            --text-main: #2c3e50;
+            --correct: #27ae60;
+            --incorrect: #c0392b;
+            --hover-light: #f0f4f1;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lato', sans-serif; line-height: 1.8; color: var(--text-main); background: var(--bg-page); }
+        .container { max-width: 950px; margin: 0 auto; padding: 50px 20px; }
+        
+        /* Typography */
+        h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; color: var(--primary); }
+        h1 { font-size: 3em; line-height: 1.1; margin-bottom: 15px; }
+        h2 { font-size: 2.2em; border-bottom: 2px solid var(--secondary); padding-bottom: 10px; margin: 50px 0 25px; }
+        h3 { font-size: 1.8em; margin: 30px 0 15px; }
+        h4 { font-size: 1.4em; margin: 20px 0 10px; color: var(--secondary); }
+        
+        .meta { font-size: 0.85em; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 40px; padding: 8px 15px; border-radius: 4px; display: inline-block; font-weight: bold; background: var(--primary); color: #fff; }
+        .estimated-time { font-family: 'Cormorant Garamond', serif; font-size: 1.2em; color: var(--secondary); font-style: italic; margin-bottom: 30px; display: block; }
+        
+        p { margin-bottom: 20px; font-size: 1.15em; }
+        .phonetic { font-family: 'Arial', sans-serif; color: #666; font-weight: bold; letter-spacing: 1px; }
+        .highlight { background: rgba(205, 164, 52, 0.15); padding: 0 4px; border-radius: 3px; font-weight: bold; color: var(--primary); }
+
+        /* Audio & Theory Boxes */
+        .audio-box { background: #fff; padding: 30px; border-radius: 8px; text-align: center; border: 1px solid var(--accent); margin: 30px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-top: 4px solid var(--primary); }
+        audio { width: 100%; max-width: 500px; margin-top: 15px; outline: none; }
+        
+        .theory-box { background: #fff; border-left: 5px solid var(--secondary); padding: 30px; margin-bottom: 40px; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
+        .rule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .rule-card { background: var(--bg-page); border: 1px solid var(--accent); padding: 20px; border-radius: 6px; }
+        .rule-card strong { color: var(--primary); display: block; margin-bottom: 10px; font-family: 'Cormorant Garamond', serif; font-size: 1.3em; }
+
+        /* Quiz UI */
+        .quiz-section { background: #fff; padding: 40px; border-radius: 8px; border: 1px solid var(--accent); margin-top: 60px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        .q-block { padding: 20px; border-radius: 6px; background: #fafafa; border: 1px solid #eee; margin-bottom: 20px; transition: 0.3s; }
+        .q-block:hover { border-color: var(--secondary); }
+        .q-num { font-weight: bold; color: var(--primary); margin-right: 10px; font-family: 'Cormorant Garamond', serif; font-size: 1.3em; }
+        .q-instruction { font-size: 0.85em; text-transform: uppercase; color: #777; letter-spacing: 1px; margin-bottom: 10px; display: block; font-weight: bold; }
+
+        /* Q-Type 1: Dropdown */
+        select.q-drop { padding: 6px 12px; font-family: 'Lato', sans-serif; font-size: 1em; border: 2px solid #ccc; border-radius: 4px; cursor: pointer; background: #fff; font-weight: bold; color: var(--primary); outline: none; transition: 0.2s; }
+        select.q-drop:focus { border-color: var(--secondary); }
+
+        /* Q-Type 2: Drag and Drop */
+        .dd-container { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; margin-top: 15px; }
+        .draggable { background: var(--primary); color: white; padding: 8px 16px; border-radius: 4px; cursor: grab; font-weight: bold; user-select: none; transition: transform 0.1s; }
+        .draggable:active { cursor: grabbing; transform: scale(0.95); }
+        .dropzone { width: 180px; height: 45px; background: #fff; border: 2px dashed #999; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+        .dropzone.hover { border-color: var(--secondary); background: rgba(205, 164, 52, 0.1); }
+        .dropzone .draggable { margin: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 2px; }
+
+        /* Q-Type 3: Click and Match */
+        .cm-wordbank { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 25px; padding: 20px; background: #fff; border: 1px solid #ddd; border-radius: 6px; border-top: 3px solid var(--secondary); }
+        .cm-word { background: #fff; border: 2px solid var(--primary); color: var(--primary); padding: 6px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .cm-word:hover { background: var(--hover-light); }
+        .cm-word.selected { background: var(--secondary); border-color: var(--secondary); color: #fff; transform: scale(1.05); }
+        .cm-word.used { opacity: 0.3; pointer-events: none; }
+        .cm-blank { display: inline-block; min-width: 130px; height: 32px; border-bottom: 2px solid var(--primary); margin: 0 5px; cursor: pointer; text-align: center; font-weight: bold; vertical-align: middle; background: rgba(15, 56, 42, 0.05); color: var(--secondary); transition: 0.2s; }
+        .cm-blank:hover { background: rgba(15, 56, 42, 0.1); }
+
+        /* Feedback & Button */
+        .check-btn { background: var(--primary); color: white; border: none; padding: 16px 40px; font-size: 1.1em; border-radius: 4px; cursor: pointer; font-weight: bold; display: block; margin: 40px auto 0; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .check-btn:hover { background: #0a261c; transform: translateY(-2px); }
+        .feedback { display: block; margin-top: 15px; font-weight: bold; font-size: 1em; padding: 10px 15px; border-radius: 4px; display: none; }
+        .fc-correct { color: var(--correct); background: #e8f8f5; border-left: 4px solid var(--correct); display: block; }
+        .fc-incorrect { color: var(--incorrect); background: #fdedec; border-left: 4px solid var(--incorrect); display: block; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>The Pronunciation Workshop</h1>
+    <div class="meta">Masterclass | Level: Advanced (C1/C2) | Cambridge Tier</div>
+    <span class="estimated-time">Estimated Study & Practice Time: 120 Minutes</span>
+
+    <p>Welcome to the ultimate masterclass in British English pronunciation. Traditional textbooks teach you how words sound in isolation. But in the real world, native speakers do not speak in isolated, robotic blocks. Words crash into each other, sounds vanish entirely, and grammar words shrink into whispers.</p>
+    
+    <p>If you want to achieve true conversational fluency, eliminate hesitation, and decode fast native speech, you must master <strong>Connected Speech</strong>, <strong>Weak Forms</strong>, and the dreaded <strong>Heteronyms</strong>. Read the comprehensive study guide below, listen to the audio examples, and then prove your mastery in the 25-question interactive workshop.</p>
+
+    <h2>Part 1: The Magic of Connected Speech</h2>
+    <div class="theory-box">
+        <p>When native speakers talk naturally, the boundaries between words blur. This is not "lazy" English; it is highly efficient, rhythmic English governed by four strict phonetic rules.</p>
+        
+        <div class="audio-box">
+            <h4>Listen: The 4 Rules in Action</h4>
+            <p style="font-size:0.9em; color:#666;">Audio Track 1: Catenation, Elision, Assimilation, and Intrusion.</p>
+            <audio controls><source src="track1.mp3" type="audio/mpeg">Audio placeholder</audio>
+        </div>
+
+        <div class="rule-grid">
+            <div class="rule-card">
+                <strong>1. Catenation (Linking)</strong>
+                <p>When a word ends in a consonant and the next begins with a vowel, the consonant jumps across to attach to the vowel.</p>
+                <p><em>Example:</em> "An apple" becomes <span class="highlight">"A napple"</span>.</p>
+            </div>
+            <div class="rule-card">
+                <strong>2. Elision (Disappearing Sounds)</strong>
+                <p>When a word ends in /t/ or /d/ and the next begins with a consonant, the /t/ or /d/ often vanishes entirely to save time.</p>
+                <p><em>Example:</em> "Next door" becomes <span class="highlight">"Nex door"</span>.</p>
+            </div>
+            <div class="rule-card">
+                <strong>3. Assimilation (Blending)</strong>
+                <p>When two sounds meet, they often blend to create a completely new sound. /t/ + /j/ creates a "ch" sound.</p>
+                <p><em>Example:</em> "Don't you" becomes <span class="highlight">"Don't-chu"</span>.</p>
+            </div>
+            <div class="rule-card">
+                <strong>4. Intrusion (Adding Sounds)</strong>
+                <p>When two vowel sounds meet, we insert a tiny /w/, /j/ (y), or /r/ to bridge the gap smoothly.</p>
+                <p><em>Example:</em> "Go away" becomes <span class="highlight">"Go-w-away"</span>. "Law and order" becomes <span class="highlight">"Law-r-and order"</span>.</p>
+            </div>
+        </div>
+    </div>
+
+    <h2>Part 2: The Schwa (/ə/) & Weak Forms</h2>
+    <div class="theory-box">
+        <p>The English language is "stress-timed." This means we punch the important words (nouns, main verbs) and crush the grammar words (prepositions, articles, auxiliary verbs). The sound we crush them into is called the <strong>Schwa</strong> <span class="phonetic">/ə/</span>. It sounds like a relaxed, short "uh".</p>
+
+        <div class="audio-box">
+            <h4>Listen: Crushing the Grammar Words</h4>
+            <p style="font-size:0.9em; color:#666;">Audio Track 2: Hearing the Schwa in natural sentences.</p>
+            <audio controls><source src="track2.mp3" type="audio/mpeg">Audio placeholder</audio>
+        </div>
+
+        <p>Look at how these common grammar words transform from their "Strong" dictionary form to their "Weak" conversational form:</p>
+        <ul>
+            <li><strong>To:</strong> "I want to go" -> <em>I want <span class="highlight">tə</span> go.</em></li>
+            <li><strong>For:</strong> "It's for you" -> <em>It's <span class="highlight">fə</span> you.</em></li>
+            <li><strong>Can:</strong> "I can swim" -> <em>I <span class="highlight">kən</span> swim.</em></li>
+            <li><strong>And:</strong> "Fish and chips" -> <em>Fish <span class="highlight">'n'</span> chips.</em></li>
+        </ul>
+    </div>
+
+    <h2>Part 3: The Heteronym Trap</h2>
+    <div class="theory-box">
+        <p>Heteronyms are the ultimate test of advanced English. These are words that are <strong>spelled exactly the same, but pronounced differently</strong> depending on their meaning and grammatical function.</p>
+
+        <div class="audio-box">
+            <h4>Listen: Identical Spelling, Different Sounds</h4>
+            <p style="font-size:0.9em; color:#666;">Audio Track 3: The Heteronym Challenge.</p>
+            <audio controls><source src="track3.mp3" type="audio/mpeg">Audio placeholder</audio>
+        </div>
+
+        <div class="rule-grid">
+            <div class="rule-card">
+                <strong>Minute</strong>
+                <p>1. <span class="phonetic">/ˈmɪn.ɪt/</span> (Noun): 60 seconds.</p>
+                <p>2. <span class="phonetic">/maɪˈnjuːt/</span> (Adjective): Extremely small.</p>
+            </div>
+            <div class="rule-card">
+                <strong>Tear</strong>
+                <p>1. <span class="phonetic">/tɪər/</span> (Noun): Water from the eye.</p>
+                <p>2. <span class="phonetic">/teər/</span> (Verb): To rip paper or fabric.</p>
+            </div>
+            <div class="rule-card">
+                <strong>Lead</strong>
+                <p>1. <span class="phonetic">/liːd/</span> (Verb): To guide someone.</p>
+                <p>2. <span class="phonetic">/led/</span> (Noun): A heavy grey metal.</p>
+            </div>
+            <div class="rule-card">
+                <strong>Bow</strong>
+                <p>1. <span class="phonetic">/baʊ/</span> (Verb): To bend forward in respect.</p>
+                <p>2. <span class="phonetic">/bəʊ/</span> (Noun): A weapon for shooting arrows.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="quiz-section">
+        <h2 style="margin-top:0; border:none; text-align:center;">The Workshop Examination</h2>
+        <p style="text-align:center; margin-bottom: 40px; color:#555;">Apply the theory. Complete the 25 tasks below to test your mastery of advanced British English pronunciation.</p>
+        
+        <div id="quiz-container"></div>
+        
+        <button class="check-btn" onclick="checkAllAnswers()">Submit My Workshop Answers</button>
+    </div>
+
+</div>
+
+<script>
+    /* =========================================
+       DATA STRUCTURE FOR 25 QUESTIONS
+    ========================================= */
+    const quizData = [
+        // SECTION 1: DROPDOWNS (Heteronyms & Weak Forms) Q1-10
+        { id: 1, type: 'drop', text: "Due to the intense heat, the bridge was built with heavy {/led/} pipes.", options: ["/liːd/", "/led/"] },
+        { id: 2, type: 'drop', text: "The detective noticed a {/maɪˈnjuːt/} scratch on the glass.", options: ["/ˈmɪn.ɪt/", "/maɪˈnjuːt/"] },
+        { id: 3, type: 'drop', text: "When you meet the Queen, you must {/baʊ/} respectfully.", options: ["/bəʊ/ (rhymes with toe)", "/baʊ/ (rhymes with cow)"] },
+        { id: 4, type: 'drop', text: "Be careful not to {/teər/} the fragile document.", options: ["/tɪər/ (rhymes with near)", "/teər/ (rhymes with hair)"] },
+        { id: 5, type: 'drop', text: "In natural speech, 'I can play tennis' is pronounced with a {weak form (/kən/)}.", options: ["strong form (/kæn/)", "weak form (/kən/)"] },
+        { id: 6, type: 'drop', text: "Connected Speech: 'Hand me that' usually sounds like 'Han me that' because of {Elision}.", options: ["Elision", "Catenation", "Intrusion"] },
+        { id: 7, type: 'drop', text: "Connected Speech: In the phrase 'Law and order', native speakers insert an intrusive {/r/} sound.", options: ["/w/", "/j/ (y)", "/r/"] },
+        { id: 8, type: 'drop', text: "Connected Speech: In 'Go out', native speakers insert an intrusive {/w/} sound.", options: ["/w/", "/j/ (y)", "/r/"] },
+        { id: 9, type: 'drop', text: "Connected Speech: 'Don't you' sounds like 'Don't-chu' due to {Assimilation}.", options: ["Elision", "Assimilation", "Catenation"] },
+        { id: 10, type: 'drop', text: "Connected Speech: 'An apple' sounding like 'A napple' is a perfect example of {Catenation}.", options: ["Catenation", "Elision", "Assimilation"] },
+
+        // SECTION 2: DRAG AND DROP (Phonetic Definitions) Q11-15
+        { id: 11, type: 'drag', text: "The disappearance of a sound (like the 't' in 'next week'):", answer: "Elision", dragItems: ["Elision", "Assimilation", "Catenation", "Intrusion", "Schwa"] },
+        { id: 12, type: 'drag', text: "The most common vowel sound in the English language (/ə/):", answer: "Schwa", dragItems: [] },
+        { id: 13, type: 'drag', text: "Linking a final consonant to a starting vowel:", answer: "Catenation", dragItems: [] },
+        { id: 14, type: 'drag', text: "Two sounds merging together to create a brand new sound (e.g., 't' + 'y' = 'ch'):", answer: "Assimilation", dragItems: [] },
+        { id: 15, type: 'drag', text: "Adding a /w/, /j/, or /r/ sound between two vowels to bridge the gap:", answer: "Intrusion", dragItems: [] },
+
+        // SECTION 3: CLICK AND MATCH (Theory Completion) Q16-25
+        { type: 'clickBank', words: ["Heteronym", "Weak", "Minimal", "Stress", "Fluency", "Rhythm", "Grammar", "Consonant", "Vowel", "Context"] },
+        { id: 16, type: 'click', text: "A word spelled identically to another but pronounced differently is a {Heteronym}." },
+        { id: 17, type: 'click', text: "Prepositions and auxiliary verbs usually take their {Weak} form in connected speech." },
+        { id: 18, type: 'click', text: "Words that differ by only one specific sound (like 'ship' and 'sheep') are called {Minimal} pairs." },
+        { id: 19, type: 'click', text: "English is a {Stress}-timed language, meaning we punch the important words." },
+        { id: 20, type: 'click', text: "To know which pronunciation of 'minute' to use, you must look at the sentence {Context}." },
+        { id: 21, type: 'click', text: "Catenation only happens when a {Consonant} is followed by a vowel." },
+        { id: 22, type: 'click', text: "Intrusion only happens when a {Vowel} is followed by another vowel." },
+        { id: 23, type: 'click', text: "Nouns, main verbs, and adjectives are rarely reduced because they hold the {Grammar} meaning of the sentence." }, /* Note: Adjusted to fit 'Grammar' logically, or 'Meaning'. Let's use 'Grammar' as per wordbank, though 'Meaning' is better. Let's tweak: "Schwas are mostly used for {Grammar} words, not content words." */
+        { id: 24, type: 'click', text: "Mastering these phonetic rules gives your speech a natural, native-like {Rhythm}." },
+        { id: 25, type: 'click', text: "Connecting your speech is the ultimate secret to achieving true conversational {Fluency}." }
+    ];
+
+    // Minor fix for Q23 to match the exact Wordbank perfectly
+    quizData[23].text = "Schwas are almost exclusively used to reduce structural {Grammar} words.";
+
+    /* =========================================
+       RENDER FUNCTIONS
+    ========================================= */
+    function renderQuiz() {
+        const container = document.getElementById('quiz-container');
+        let html = '';
+
+        // Add Section Headers dynamically
+        html += `<h3>Part A: Applied Phonetics</h3>
+                 <p style="margin-bottom:20px; color:#666; font-size:0.9em; text-transform:uppercase; font-weight:bold;">Select the correct phonetic reality from the dropdown.</p>`;
+        
+        quizData.forEach(q => {
+            if (q.id === 11) {
+                html += `<h3 style="margin-top:50px;">Part B: Vocabulary of Pronunciation</h3>
+                         <p style="margin-bottom:20px; color:#666; font-size:0.9em; text-transform:uppercase; font-weight:bold;">Drag the correct linguistic term into the empty boxes.</p>`;
+            }
+            if (q.id === 16) {
+                html += `<h3 style="margin-top:50px;">Part C: The Theory Master Test</h3>
+                         <p style="margin-bottom:20px; color:#666; font-size:0.9em; text-transform:uppercase; font-weight:bold;">Click a word from the bank, then click a blank space to complete the rule.</p>`;
+            }
+
+            if (q.type === 'drop') {
+                let parts = q.text.split(/\{|\}/);
+                let correctAnswer = parts[1];
+                let optionsHtml = q.options.sort(() => Math.random() - 0.5).map(opt => `<option value="${opt}">${opt}</option>`).join('');
+                
+                html += `<div class="q-block" data-id="${q.id}" data-type="drop" data-answer="${correctAnswer}">
+                            <span class="q-instruction">Question ${q.id}</span>
+                            <div style="font-size:1.1em;">
+                                ${parts[0]} <select class="q-drop"><option value="">-- Choose --</option>${optionsHtml}</select> ${parts[2] || ''}
+                            </div>
+                            <div class="feedback"></div>
+                         </div>`;
+            } 
+            else if (q.type === 'drag') {
+                if(q.dragItems && q.dragItems.length > 0) {
+                    html += `<div class="q-block" style="background: var(--bg-page); border-left: 4px solid var(--primary); margin-bottom: 25px;">
+                                <div class="dd-container" id="drag-bank">`;
+                    q.dragItems.forEach(item => {
+                        html += `<div class="draggable" draggable="true" ondragstart="drag(event)" id="drag-${Math.random().toString(36).substr(2,9)}">${item}</div>`;
+                    });
+                    html += `   </div>
+                             </div>`;
+                }
+                html += `<div class="q-block" data-id="${q.id}" data-type="drag" data-answer="${q.answer}">
+                            <span class="q-instruction">Question ${q.id}</span>
+                            <div style="font-size:1.1em;">${q.text}</div>
+                            <div class="dd-container">
+                                <div class="dropzone" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)" ondrop="drop(event, this)"></div>
+                            </div>
+                            <div class="feedback"></div>
+                         </div>`;
+            }
+            else if (q.type === 'clickBank') {
+                html += `<div class="q-block" style="background: var(--bg-page); border-left: 4px solid var(--secondary); margin-bottom: 25px;">
+                            <div class="cm-wordbank">`;
+                q.words.forEach(word => {
+                    html += `<div class="cm-word" onclick="selectWord(this)">${word}</div>`;
+                });
+                html += `   </div>
+                         </div>`;
+            }
+            else if (q.type === 'click') {
+                let parts = q.text.split(/\{|\}/);
+                let correctAnswer = parts[1];
+                html += `<div class="q-block" data-id="${q.id}" data-type="click" data-answer="${correctAnswer}">
+                            <span class="q-instruction">Question ${q.id}</span>
+                            <div style="font-size:1.1em;">
+                                ${parts[0]} <span class="cm-blank" onclick="fillBlank(this)">______</span> ${parts[2] || ''}
+                            </div>
+                            <div class="feedback"></div>
+                         </div>`;
+            }
+        });
+
+        container.innerHTML = html;
+    }
+
+    /* =========================================
+       INTERACTION LOGIC
+    ========================================= */
+    // Drag & Drop
+    function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+    function allowDrop(ev) { ev.preventDefault(); ev.currentTarget.classList.add('hover'); }
+    function leaveDrop(ev) { ev.currentTarget.classList.remove('hover'); }
+    function drop(ev, el) {
+        ev.preventDefault();
+        el.classList.remove('hover');
+        if(el.children.length > 0) {
+            document.getElementById('drag-bank').appendChild(el.children[0]);
+        }
+        var data = ev.dataTransfer.getData("text");
+        el.appendChild(document.getElementById(data));
+    }
+
+    // Click & Match
+    let selectedClickWord = null;
+    function selectWord(el) {
+        document.querySelectorAll('.cm-word').forEach(w => w.classList.remove('selected'));
+        if(!el.classList.contains('used')) {
+            el.classList.add('selected');
+            selectedClickWord = el;
+        }
+    }
+    
+    function fillBlank(el) {
+        if(selectedClickWord) {
+            if(el.dataset.linkedWordId) {
+                document.getElementById(el.dataset.linkedWordId).classList.remove('used');
+            }
+            if(!selectedClickWord.id) selectedClickWord.id = 'cw-' + Math.random().toString(36).substr(2,9);
+            
+            el.innerText = selectedClickWord.innerText;
+            el.dataset.linkedWordId = selectedClickWord.id;
+            selectedClickWord.classList.add('used');
+            selectedClickWord.classList.remove('selected');
+            selectedClickWord = null;
+        } else if (el.innerText !== '______') {
+            document.getElementById(el.dataset.linkedWordId).classList.remove('used');
+            el.innerText = '______';
+            delete el.dataset.linkedWordId;
+        }
+    }
+
+    /* =========================================
+       GRADING LOGIC
+    ========================================= */
+    function checkAllAnswers() {
+        const blocks = document.querySelectorAll('.q-block[data-id]');
+        let score = 0;
+
+        blocks.forEach(block => {
+            let type = block.dataset.type;
+            let correctAnswer = block.dataset.answer.toLowerCase();
+            let feedback = block.querySelector('.feedback');
+            let userAnswer = "";
+
+            if (type === 'drop') {
+                userAnswer = block.querySelector('select').value.toLowerCase();
+            } else if (type === 'drag') {
+                let dropped = block.querySelector('.dropzone .draggable');
+                userAnswer = dropped ? dropped.innerText.toLowerCase().trim() : "";
+            } else if (type === 'click') {
+                let blank = block.querySelector('.cm-blank');
+                userAnswer = blank.innerText !== '______' ? blank.innerText.toLowerCase().trim() : "";
+            }
+
+            if (userAnswer === "") {
+                feedback.innerHTML = "❌ You missed this one!";
+                feedback.className = "feedback fc-incorrect";
+            } else if (userAnswer === correctAnswer) {
+                feedback.innerHTML = "✅ Spot on!";
+                feedback.className = "feedback fc-correct";
+                score++;
+            } else {
+                feedback.innerHTML = `❌ Incorrect. The correct answer is: <strong>${block.dataset.answer}</strong>`;
+                feedback.className = "feedback fc-incorrect";
+            }
+        });
+
+        alert(`Workshop Complete! You scored ${score} out of 25. Review your feedback below to see where you can improve your phonetic accuracy.`);
+    }
+
+    // Initialize on load
+    window.onload = renderQuiz;
+</script>
+
+</body>
+</html>

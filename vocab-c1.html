@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vocabulary C1 Advanced – Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--ink:#1a1209;--parchment:#fdf8f0;--cream:#f5ede0;--gold:#c8922a;--gold-light:#e8b84b;--teal:#1e6b6b;--pearl:#e8ddd0;--shadow:rgba(26,18,9,0.12);--correct:#1e6b3a;--wrong:#8b1a1a;--level:#4a2880;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Source Serif 4',Georgia,serif;background:var(--parchment);color:var(--ink);}
+    nav{background:var(--ink);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold-light);padding:1.1rem 0;text-decoration:none;display:block;}
+    .nav-logo span{color:#fff;font-style:italic;}
+    .nav-back{font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;text-decoration:none;}
+    .nav-back:hover{color:var(--gold-light);}
+
+    /* HERO — dark purple, luxurious */
+    .hero{background:linear-gradient(135deg,#1a0d30 0%,#4a2880 60%,#2d1060 100%);padding:4rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;}
+    .hero::before{content:'💎';font-size:18rem;position:absolute;opacity:0.05;top:-3rem;left:50%;transform:translateX(-50%);pointer-events:none;}
+    .level-badge{display:inline-block;background:rgba(255,255,255,0.12);border:2px solid rgba(255,255,255,0.35);border-radius:50%;width:80px;height:80px;line-height:80px;font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff;margin-bottom:1.5rem;letter-spacing:0.02em;}
+    .meta{display:flex;justify-content:center;gap:0.8rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+    .pill{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.35rem 0.9rem;border-radius:2px;}
+    .pill-light{background:rgba(255,255,255,0.12);color:#ddd;border:1px solid rgba(255,255,255,0.2);}
+    .pill-gold{background:rgba(200,146,42,0.35);color:var(--gold-light);border:1px solid rgba(200,146,42,0.4);}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);color:#fff;line-height:1.15;max-width:780px;margin:0 auto 1rem;}
+    .hero h1 em{color:var(--gold-light);font-style:italic;}
+    .hero p{color:rgba(255,255,255,0.75);font-size:1rem;max-width:620px;margin:0 auto;line-height:1.7;}
+    .progress-bar{height:3px;background:rgba(255,255,255,0.12);margin-top:2.5rem;}
+    .progress-fill{height:100%;width:0;background:var(--gold-light);transition:width 0.3s;}
+
+    /* CEFR DEF */
+    .cefr-def{background:#fff;max-width:900px;margin:-2rem auto 0;position:relative;z-index:2;padding:2rem 2.5rem;box-shadow:0 8px 40px rgba(0,0,0,0.14);display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start;}
+    .cefr-icon{font-size:3rem;line-height:1;}
+    .cefr-def h2{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:0.5rem;color:var(--level);}
+    .cefr-def p{font-size:0.95rem;line-height:1.8;color:#444;}
+    .cefr-traits{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem;}
+    .cefr-trait{background:rgba(74,40,128,0.07);border:1px solid rgba(74,40,128,0.2);color:var(--level);font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.7rem;}
+
+    /* LAYOUT */
+    .layout{max-width:1000px;margin:3rem auto;padding:0 2rem;display:grid;grid-template-columns:1fr 260px;gap:3rem;}
+    .vocab-section-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin:2.5rem 0 1.5rem;padding-bottom:0.5rem;border-bottom:2px solid var(--level);display:inline-block;}
+    .body p{font-size:1rem;line-height:1.9;color:#333;margin-bottom:1.2rem;}
+
+    /* WORD CARDS — richer at C1 */
+    .word-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.5rem 0;}
+    .word-card{background:#fff;padding:1.5rem;box-shadow:0 2px 10px var(--shadow);border-top:3px solid var(--level);transition:transform 0.2s,box-shadow 0.2s;position:relative;}
+    .word-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px var(--shadow);}
+    .wc-word{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ink);margin-bottom:0.1rem;}
+    .wc-ipa{font-family:'DM Mono',monospace;font-size:0.72rem;color:#aaa;margin-bottom:0.2rem;}
+    .wc-pos{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#bbb;margin-bottom:0.5rem;}
+    .wc-def{font-size:0.88rem;color:#555;line-height:1.6;margin-bottom:0.6rem;}
+    .wc-ex{font-size:0.84rem;color:var(--level);font-style:italic;border-left:2px solid var(--level);padding-left:0.7rem;line-height:1.65;margin-bottom:0.3rem;}
+    .wc-ex2{font-size:0.82rem;color:#888;font-style:italic;padding-left:0.9rem;line-height:1.5;margin-bottom:0.5rem;}
+    .wc-syn{font-family:'DM Mono',monospace;font-size:0.62rem;color:#aaa;}
+    .wc-syn span{color:var(--level);font-style:normal;}
+    .wc-colloc{display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.5rem;}
+    .colloc-tag{background:rgba(74,40,128,0.06);border:1px solid rgba(74,40,128,0.15);font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--level);padding:0.2rem 0.5rem;}
+
+    /* EXERCISES */
+    .ex-section{background:#fff;padding:2rem;box-shadow:0 2px 12px var(--shadow);margin:2rem 0;}
+    .ex-title{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:0.3rem;}
+    .ex-sub{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--level);margin-bottom:1.5rem;}
+    .ex-item{margin-bottom:1.4rem;padding-bottom:1.4rem;border-bottom:1px solid var(--pearl);}
+    .ex-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+    .ex-q{font-size:0.97rem;color:#333;line-height:1.75;margin-bottom:0.6rem;}
+    .ex-q strong{color:var(--level);}
+    .ex-q em{color:#888;font-size:0.9rem;}
+    .ex-input{width:100%;padding:0.65rem 1rem;border:1px solid var(--pearl);background:var(--parchment);font-family:'Source Serif 4',serif;font-size:0.9rem;color:var(--ink);outline:none;transition:border-color 0.2s;}
+    .ex-input:focus{border-color:var(--level);}
+    .ex-input.correct{border-color:var(--correct);background:rgba(30,107,58,0.05);color:var(--correct);}
+    .ex-input.wrong{border-color:var(--wrong);background:rgba(139,26,26,0.04);}
+    .ex-select{padding:0.65rem 1rem;border:1px solid var(--pearl);background:#fff;font-family:'Source Serif 4',serif;font-size:0.9rem;color:var(--ink);cursor:pointer;outline:none;min-width:210px;}
+    .ex-select.correct{border-color:var(--correct);background:rgba(30,107,58,0.05);}
+    .ex-select.wrong{border-color:var(--wrong);}
+    .ex-fb{font-family:'DM Mono',monospace;font-size:0.75rem;margin-top:0.4rem;display:none;line-height:1.6;}
+    .ex-fb.ok{color:var(--correct);}
+    .ex-fb.no{color:var(--wrong);}
+    .check-btn{padding:0.8rem 2rem;background:var(--level);color:#fff;border:none;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:1rem;transition:all 0.2s;}
+    .check-btn:hover{background:#1a0d30;}
+    .score-box{display:none;margin-top:1rem;padding:1.2rem;background:var(--ink);text-align:center;}
+    .score-box .big{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-light);display:block;}
+    .score-box p{color:#aaa;font-size:0.85rem;margin-top:0.3rem;}
+
+    /* SIDEBAR */
+    .sidebar{display:flex;flex-direction:column;gap:1.5rem;}
+    .s-card{background:#fff;padding:1.4rem;box-shadow:0 2px 12px var(--shadow);}
+    .s-card h4{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid var(--pearl);}
+    .level-nav{list-style:none;}
+    .level-nav li{border-bottom:1px solid var(--pearl);}
+    .level-nav li:last-child{border-bottom:none;}
+    .level-nav a{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0;font-size:0.88rem;color:#555;text-decoration:none;transition:color 0.2s;}
+    .level-nav a:hover{color:var(--gold);}
+    .level-nav a.current{color:var(--level);font-weight:600;}
+    .ln-badge{font-family:'DM Mono',monospace;font-size:0.62rem;padding:0.2rem 0.5rem;border-radius:2px;flex-shrink:0;}
+    .ln-a1{background:rgba(42,100,150,0.1);color:#2a6496;}
+    .ln-b1{background:rgba(30,107,107,0.1);color:var(--teal);}
+    .ln-b2{background:rgba(139,58,16,0.1);color:#8b3a10;}
+    .ln-c1{background:rgba(74,40,128,0.1);color:var(--level);}
+    .tip-box{background:rgba(74,40,128,0.05);border:1px solid rgba(74,40,128,0.18);padding:1rem;font-size:0.88rem;line-height:1.7;color:#555;}
+    .tip-box strong{color:var(--level);}
+    .complete-box{background:rgba(30,107,58,0.07);border:1px solid rgba(30,107,58,0.2);padding:1.3rem;text-align:center;}
+    .complete-box strong{color:var(--correct);font-size:1rem;display:block;margin-bottom:0.5rem;}
+    .complete-box p{font-size:0.85rem;color:#555;margin-bottom:0.8rem;line-height:1.6;}
+    .home-btn{display:block;background:var(--ink);color:var(--gold-light);padding:1rem;text-align:center;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+    .home-btn:hover{background:#2d2010;}
+    .prev-btn{display:block;background:transparent;color:var(--level);border:1px solid var(--level);padding:0.8rem;text-align:center;font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+    .prev-btn:hover{background:var(--level);color:#fff;}
+
+    footer{background:var(--ink);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    footer p{color:#666;font-size:0.82rem;font-family:'DM Mono',monospace;}
+    footer a{color:var(--gold);text-decoration:none;font-family:'DM Mono',monospace;font-size:0.82rem;}
+    @media(max-width:800px){.layout{grid-template-columns:1fr;}.word-grid{grid-template-columns:1fr;}.cefr-def{grid-template-columns:1fr;}footer{padding:2rem 1.5rem;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
+  <a href="vocab-b2.html" class="nav-back">← B2</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="level-badge">C1</div>
+  <div class="meta">
+    <span class="pill pill-gold">📖 Vocabulary · Level 4 of 4</span>
+    <span class="pill pill-light">💎 Advanced</span>
+    <span class="pill pill-light">⏱ 35 min</span>
+  </div>
+  <h1>CEFR C1:<br/><em>Advanced Vocabulary</em></h1>
+  <p>Command the language of experts — precise, sophisticated, and powerful vocabulary used in academic research, high-level business, law, diplomacy, and literary discourse.</p>
+  <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+</div>
+
+<!-- CEFR DEF -->
+<div class="cefr-def">
+  <div class="cefr-icon">💎</div>
+  <div>
+    <h2>What is CEFR C1?</h2>
+    <p>At <strong>C1 (Advanced)</strong>, learners can understand a wide range of demanding, longer texts and recognise implicit meaning. They can express themselves fluently and spontaneously without much obvious searching for expressions. They can use language flexibly and effectively for social, academic, and professional purposes. Crucially, C1 learners can produce clear, well-structured, detailed text on complex subjects, showing <em>controlled use of organisational patterns, connectors, and cohesive devices</em>. C1 vocabulary is characterised by low-frequency, high-precision words — <em>nuanced synonyms, formal discourse markers, abstract conceptual vocabulary, and register-aware usage</em>. At this level, choosing exactly the right word — and knowing which words to avoid in which contexts — defines mastery.</p>
+    <div class="cefr-traits">
+      <span class="cefr-trait">8,000–12,000+ words</span>
+      <span class="cefr-trait">Low-frequency precision words</span>
+      <span class="cefr-trait">Discourse markers</span>
+      <span class="cefr-trait">Register awareness</span>
+      <span class="cefr-trait">Implicit meaning</span>
+      <span class="cefr-trait">Synonymy &amp; connotation</span>
+      <span class="cefr-trait">Academic writing vocabulary</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+<article>
+  <div class="vocab-section-title">Core Vocabulary — 20 Advanced Words</div>
+  <p>At C1, each word includes its IPA pronunciation guide, near-synonyms, and key collocations — the hallmarks of truly advanced vocabulary learning. Study the subtle distinctions carefully.</p>
+
+  <div class="word-grid">
+    <div class="word-card"><div class="wc-word">abdicate</div><div class="wc-ipa">/ˈæbdɪkeɪt/</div><div class="wc-pos">verb</div><div class="wc-def">To renounce a position of power or responsibility; to fail to fulfil a duty.</div><div class="wc-ex">"The board accused the CEO of abdicating his responsibility during the crisis."</div><div class="wc-ex2">"To abdicate leadership in difficult times is a failure of character."</div><div class="wc-syn">Near-synonyms: <span>relinquish, renounce, forsake</span></div><div class="wc-colloc"><span class="colloc-tag">abdicate responsibility</span><span class="colloc-tag">abdicate authority</span></div></div>
+    <div class="word-card"><div class="wc-word">acrimony</div><div class="wc-ipa">/ˈækrɪməni/</div><div class="wc-pos">noun</div><div class="wc-def">Bitterness and ill feeling, especially in speech or manner.</div><div class="wc-ex">"The negotiations ended in acrimony, with both sides accusing the other of bad faith."</div><div class="wc-ex2">"Despite the acrimony of the dispute, a settlement was eventually reached."</div><div class="wc-syn">Near-synonyms: <span>animosity, rancour, bitterness</span></div><div class="wc-colloc"><span class="colloc-tag">bitter acrimony</span><span class="colloc-tag">end in acrimony</span></div></div>
+    <div class="word-card"><div class="wc-word">articulate</div><div class="wc-ipa">/ɑːˈtɪkjʊlət/</div><div class="wc-pos">adjective / verb</div><div class="wc-def">(adj) Able to express ideas clearly and fluently; (v) to express an idea in words.</div><div class="wc-ex">"She is an exceptionally articulate speaker who can hold any audience."</div><div class="wc-ex2">"The report articulates the company's strategic vision with great clarity."</div><div class="wc-syn">Near-synonyms: <span>eloquent, lucid, coherent</span></div><div class="wc-colloc"><span class="colloc-tag">articulate a view</span><span class="colloc-tag">well-articulated</span></div></div>
+    <div class="word-card"><div class="wc-word">candour</div><div class="wc-ipa">/ˈkændər/</div><div class="wc-pos">noun</div><div class="wc-def">The quality of being open, frank, and sincere in speech; honest directness.</div><div class="wc-ex">"I appreciate your candour — it is rare to find such honesty in business."</div><div class="wc-ex2">"He spoke with great candour about the failures of the project."</div><div class="wc-syn">Near-synonyms: <span>frankness, honesty, forthrightness</span></div><div class="wc-colloc"><span class="colloc-tag">speak with candour</span><span class="colloc-tag">refreshing candour</span></div></div>
+    <div class="word-card"><div class="wc-word">circumspect</div><div class="wc-ipa">/ˈsɜːkəmspekt/</div><div class="wc-pos">adjective</div><div class="wc-def">Thinking carefully about all consequences before acting; cautious and prudent.</div><div class="wc-ex">"Investors have become increasingly circumspect in the current economic climate."</div><div class="wc-ex2">"A circumspect approach to policy-making is essential in times of uncertainty."</div><div class="wc-syn">Near-synonyms: <span>cautious, prudent, wary, discreet</span></div><div class="wc-colloc"><span class="colloc-tag">remain circumspect</span><span class="colloc-tag">circumspect approach</span></div></div>
+    <div class="word-card"><div class="wc-word">cogent</div><div class="wc-ipa">/ˈkəʊdʒənt/</div><div class="wc-pos">adjective</div><div class="wc-def">Clear, logical, and convincing; forceful in argument or expression.</div><div class="wc-ex">"She presented a cogent argument that convinced even her strongest critics."</div><div class="wc-ex2">"The defence lawyer offered a cogent case that the jury found hard to dismiss."</div><div class="wc-syn">Near-synonyms: <span>compelling, persuasive, lucid, forceful</span></div><div class="wc-colloc"><span class="colloc-tag">cogent argument</span><span class="colloc-tag">highly cogent</span></div></div>
+    <div class="word-card"><div class="wc-word">diffident</div><div class="wc-ipa">/ˈdɪfɪdənt/</div><div class="wc-pos">adjective</div><div class="wc-def">Modest or shy because of a lack of self-confidence; hesitant to assert oneself.</div><div class="wc-ex">"Despite her brilliance, she remained diffident in large group meetings."</div><div class="wc-ex2">"His diffident manner in interviews belied his considerable expertise."</div><div class="wc-syn">Near-synonyms: <span>modest, self-effacing, reticent, bashful</span></div><div class="wc-colloc"><span class="colloc-tag">diffident manner</span><span class="colloc-tag">remain diffident</span></div></div>
+    <div class="word-card"><div class="wc-word">disseminate</div><div class="wc-ipa">/dɪˈsemɪneɪt/</div><div class="wc-pos">verb</div><div class="wc-def">To spread information or ideas widely and to many people.</div><div class="wc-ex">"The organisation works to disseminate accurate health information globally."</div><div class="wc-ex2">"Social media has transformed the way misinformation is disseminated."</div><div class="wc-syn">Near-synonyms: <span>circulate, propagate, broadcast, promulgate</span></div><div class="wc-colloc"><span class="colloc-tag">disseminate information</span><span class="colloc-tag">widely disseminated</span></div></div>
+    <div class="word-card"><div class="wc-word">equivocate</div><div class="wc-ipa">/ɪˈkwɪvəkeɪt/</div><div class="wc-pos">verb</div><div class="wc-def">To use deliberately vague language to avoid commitment or mislead.</div><div class="wc-ex">"Stop equivocating and give us a direct answer to the question."</div><div class="wc-ex2">"Politicians often equivocate on difficult issues to avoid alienating voters."</div><div class="wc-syn">Near-synonyms: <span>prevaricate, hedge, waffle, obfuscate</span></div><div class="wc-colloc"><span class="colloc-tag">equivocate on</span><span class="colloc-tag">tend to equivocate</span></div></div>
+    <div class="word-card"><div class="wc-word">exacerbate</div><div class="wc-ipa">/ɪɡˈzæsəbeɪt/</div><div class="wc-pos">verb</div><div class="wc-def">To make a problem, situation, or negative feeling worse.</div><div class="wc-ex">"The austerity measures only served to exacerbate the economic inequality."</div><div class="wc-ex2">"Poor communication in the team exacerbated an already tense situation."</div><div class="wc-syn">Near-synonyms: <span>aggravate, worsen, intensify, compound</span></div><div class="wc-colloc"><span class="colloc-tag">exacerbate the problem</span><span class="colloc-tag">further exacerbate</span></div></div>
+    <div class="word-card"><div class="wc-word">hegemony</div><div class="wc-ipa">/hɪˈdʒeməni/</div><div class="wc-pos">noun</div><div class="wc-def">Leadership or dominance of one country, group, or organisation over others.</div><div class="wc-ex">"The report examines the cultural hegemony of English in global academia."</div><div class="wc-ex2">"Many argue that digital platforms have established a new form of technological hegemony."</div><div class="wc-syn">Near-synonyms: <span>dominance, supremacy, ascendancy, primacy</span></div><div class="wc-colloc"><span class="colloc-tag">cultural hegemony</span><span class="colloc-tag">assert hegemony</span></div></div>
+    <div class="word-card"><div class="wc-word">impasse</div><div class="wc-ipa">/ˈɪmpɑːs/</div><div class="wc-pos">noun</div><div class="wc-def">A deadlock — a situation in which no progress can be made; a complete standstill.</div><div class="wc-ex">"Negotiations reached an impasse when neither side was willing to compromise."</div><div class="wc-ex2">"The political impasse has paralysed any attempt at meaningful reform."</div><div class="wc-syn">Near-synonyms: <span>deadlock, stalemate, standstill, gridlock</span></div><div class="wc-colloc"><span class="colloc-tag">reach an impasse</span><span class="colloc-tag">political impasse</span></div></div>
+    <div class="word-card"><div class="wc-word">incongruous</div><div class="wc-ipa">/ɪnˈkɒŋɡruəs/</div><div class="wc-pos">adjective</div><div class="wc-def">Not in harmony or keeping with the surroundings; strange or out of place.</div><div class="wc-ex">"His casual dress seemed incongruous at such a formal diplomatic reception."</div><div class="wc-ex2">"There is something incongruous about a company that promotes sustainability while ignoring its own waste."</div><div class="wc-syn">Near-synonyms: <span>inconsistent, out of place, jarring, anomalous</span></div><div class="wc-colloc"><span class="colloc-tag">seem incongruous</span><span class="colloc-tag">incongruous with</span></div></div>
+    <div class="word-card"><div class="wc-word">obfuscate</div><div class="wc-ipa">/ˈɒbfʌskeɪt/</div><div class="wc-pos">verb</div><div class="wc-def">To make something unclear or difficult to understand; to confuse deliberately.</div><div class="wc-ex">"Critics accused the government of obfuscating the true cost of the programme."</div><div class="wc-ex2">"Dense technical jargon can obfuscate meaning rather than clarify it."</div><div class="wc-syn">Near-synonyms: <span>obscure, muddy, confuse, cloud</span></div><div class="wc-colloc"><span class="colloc-tag">deliberately obfuscate</span><span class="colloc-tag">obfuscate the truth</span></div></div>
+    <div class="word-card"><div class="wc-word">paradigm</div><div class="wc-ipa">/ˈpærədaɪm/</div><div class="wc-pos">noun</div><div class="wc-def">A typical example or model of something; a framework of thought or ideas.</div><div class="wc-ex">"Artificial intelligence represents a paradigm shift in how we process information."</div><div class="wc-ex2">"The research challenges the dominant paradigm in evolutionary biology."</div><div class="wc-syn">Near-synonyms: <span>model, framework, archetype, pattern</span></div><div class="wc-colloc"><span class="colloc-tag">paradigm shift</span><span class="colloc-tag">dominant paradigm</span></div></div>
+    <div class="word-card"><div class="wc-word">perfunctory</div><div class="wc-ipa">/pəˈfʌŋktəri/</div><div class="wc-pos">adjective</div><div class="wc-def">Carried out with minimal effort; done as a routine duty without care or interest.</div><div class="wc-ex">"His perfunctory apology satisfied no one and only deepened the resentment."</div><div class="wc-ex2">"The inspection was so perfunctory that it failed to detect any of the violations."</div><div class="wc-syn">Near-synonyms: <span>cursory, superficial, token, desultory</span></div><div class="wc-colloc"><span class="colloc-tag">perfunctory apology</span><span class="colloc-tag">perfunctory inspection</span></div></div>
+    <div class="word-card"><div class="wc-word">reiterate</div><div class="wc-ipa">/riːˈɪtəreɪt/</div><div class="wc-pos">verb</div><div class="wc-def">To say or do something again or repeatedly for emphasis or clarity.</div><div class="wc-ex">"Allow me to reiterate the company's position on this matter for absolute clarity."</div><div class="wc-ex2">"The minister reiterated his commitment to reform at every press conference."</div><div class="wc-syn">Near-synonyms: <span>restate, repeat, emphasise, underscore</span></div><div class="wc-colloc"><span class="colloc-tag">reiterate a point</span><span class="colloc-tag">reiterate commitment</span></div></div>
+    <div class="word-card"><div class="wc-word">salient</div><div class="wc-ipa">/ˈseɪliənt/</div><div class="wc-pos">adjective</div><div class="wc-def">Most noticeable or important; standing out prominently from the rest.</div><div class="wc-ex">"Let me draw your attention to the most salient points in the executive summary."</div><div class="wc-ex2">"The salient feature of the proposal is its surprisingly low cost."</div><div class="wc-syn">Near-synonyms: <span>prominent, notable, key, conspicuous</span></div><div class="wc-colloc"><span class="colloc-tag">salient point</span><span class="colloc-tag">most salient feature</span></div></div>
+    <div class="word-card"><div class="wc-word">tenuous</div><div class="wc-ipa">/ˈtenjʊəs/</div><div class="wc-pos">adjective</div><div class="wc-def">Very weak or slight; lacking substance or strength; uncertain.</div><div class="wc-ex">"The connection between the two events is tenuous at best."</div><div class="wc-ex2">"Her argument rested on a tenuous chain of circumstantial evidence."</div><div class="wc-syn">Near-synonyms: <span>flimsy, fragile, weak, insubstantial</span></div><div class="wc-colloc"><span class="colloc-tag">tenuous link</span><span class="colloc-tag">tenuous at best</span></div></div>
+    <div class="word-card"><div class="wc-word">ubiquitous</div><div class="wc-ipa">/juːˈbɪkwɪtəs/</div><div class="wc-pos">adjective</div><div class="wc-def">Seeming to appear or be present everywhere at the same time.</div><div class="wc-ex">"Smartphones have become ubiquitous in modern professional environments."</div><div class="wc-ex2">"The company's logo is now ubiquitous across the city's advertising spaces."</div><div class="wc-syn">Near-synonyms: <span>omnipresent, pervasive, universal, ever-present</span></div><div class="wc-colloc"><span class="colloc-tag">become ubiquitous</span><span class="colloc-tag">ubiquitous presence</span></div></div>
+  </div>
+
+  <!-- EXERCISES -->
+  <div class="vocab-section-title">10 Exercises</div>
+
+  <!-- EX 1 -->
+  <div class="ex-section">
+    <div class="ex-title">Exercise 1 — Fill in the Blank</div>
+    <div class="ex-sub">Use: exacerbate / impasse / paradigm / reiterate / ubiquitous</div>
+    <div class="ex-item"><div class="ex-q">1. Cutting the budget will only <strong>___</strong> the existing problems rather than solve them.</div><input class="ex-input" id="e1_1" placeholder="Your answer…"/><div class="ex-fb" id="f1_1"></div></div>
+    <div class="ex-item"><div class="ex-q">2. Allow me to <strong>___</strong> my earlier point: quality must never be compromised for speed.</div><input class="ex-input" id="e1_2" placeholder="Your answer…"/><div class="ex-fb" id="f1_2"></div></div>
+    <div class="ex-item"><div class="ex-q">3. Digital technology has brought about a genuine <strong>___</strong> shift in global communication.</div><input class="ex-input" id="e1_3" placeholder="Your answer…"/><div class="ex-fb" id="f1_3"></div></div>
+    <div class="ex-item"><div class="ex-q">4. The talks reached an <strong>___</strong> when neither delegation was willing to make further concessions.</div><input class="ex-input" id="e1_4" placeholder="Your answer…"/><div class="ex-fb" id="f1_4"></div></div>
+    <div class="ex-item"><div class="ex-q">5. Coffee shops have become <strong>___</strong> in every city centre across the country.</div><input class="ex-input" id="e1_5" placeholder="Your answer…"/><div class="ex-fb" id="f1_5"></div></div>
+    <button class="check-btn" onclick="checkEx(1,{e1_1:'exacerbate',e1_2:'reiterate',e1_3:'paradigm',e1_4:'impasse',e1_5:'ubiquitous'})">Check Answers</button>
+    <div class="score-box" id="sc1"><span class="big" id="sc1v"></span><p id="sc1m"></p></div>
+  </div>
+
+  <!-- EX 2 -->
+  <div class="ex-section">
+    <div class="ex-title">Exercise 2 — Precision Word Choice</div>
+    <div class="ex-sub">At C1, choose the most precise, register-appropriate word for each context</div>
+    <div class="ex-item">
+      <div class="ex-q">6. The politician's vague statement seemed deliberately designed to <strong>___</strong> the public about the true cost of the policy. <em>(to confuse / obscure)</em></div>
+      <select class="ex-select" id="e2_1"><option value="">— Choose —</option><option>equivocate</option><option>obfuscate</option><option>disseminate</option><option>articulate</option></select>
+      <div class="ex-fb" id="f2_1"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">7. Her <strong>___</strong> apology — just two words before moving on — only made the situation worse. <em>(minimal, without care)</em></div>
+      <select class="ex-select" id="e2_2"><option value="">— Choose —</option><option>candid</option><option>salient</option><option>perfunctory</option><option>cogent</option></select>
+      <div class="ex-fb" id="f2_2"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">8. The link between screen time and poor sleep is now well-established, but the link to academic failure remains <strong>___</strong>. <em>(weak, uncertain)</em></div>
+      <select class="ex-select" id="e2_3"><option value="">— Choose —</option><option>diffident</option><option>tenuous</option><option>circumspect</option><option>incongruous</option></select>
+      <div class="ex-fb" id="f2_3"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">9. I appreciate your <strong>___</strong> — it is genuinely refreshing to hear such honest feedback. <em>(frankness, openness)</em></div>
+      <select class="ex-select" id="e2_4"><option value="">— Choose —</option><option>acrimony</option><option>candour</option><option>hegemony</option><option>impasse</option></select>
+      <div class="ex-fb" id="f2_4"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">10. Please draw attention to only the most <strong>___</strong> points in your summary — we have limited time. <em>(most important, standing out)</em></div>
+      <select class="ex-select" id="e2_5"><option value="">— Choose —</option><option>cogent</option><option>salient</option><option>articulate</option><option>ubiquitous</option></select>
+      <div class="ex-fb" id="f2_5"></div>
+    </div>
+    <button class="check-btn" onclick="checkEx(2,{e2_1:'obfuscate',e2_2:'perfunctory',e2_3:'tenuous',e2_4:'candour',e2_5:'salient'})">Check Answers</button>
+    <div class="score-box" id="sc2"><span class="big" id="sc2v"></span><p id="sc2m"></p></div>
+  </div>
+
+</article>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="s-card">
+    <h4>Vocabulary Levels</h4>
+    <ul class="level-nav">
+      <li><a href="vocab-a1a2.html"><span class="ln-badge ln-a1">A1/A2</span> Beginner</a></li>
+      <li><a href="vocab-b1.html"><span class="ln-badge ln-b1">B1</span> Intermediate</a></li>
+      <li><a href="vocab-b2.html"><span class="ln-badge ln-b2">B2</span> Upper-Int</a></li>
+      <li><a href="vocab-c1.html" class="current"><span class="ln-badge ln-c1">C1</span> Advanced</a></li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <h4>C1 Study Tip</h4>
+    <div class="tip-box"><strong>At C1 level</strong>, the key is connotation. Study each word's <em>near-synonyms</em> carefully — they share core meaning but differ in register, formality, or tone. For example: "candour" vs "bluntness" both mean directness, but candour is positive and respected, while bluntness can suggest rudeness.</div>
+  </div>
+  <div class="s-card">
+    <div class="complete-box">
+      <strong>🏆 Vocabulary Section Complete!</strong>
+      <p>You have completed all four CEFR vocabulary levels — A1/A2, B1, B2, and C1. Your English word power has grown significantly.</p>
+    </div>
+  </div>
+  <a href="vocab-b2.html" class="prev-btn">← B2 Upper-Int</a>
+  <a href="index.html" class="home-btn">🏠 Back to All Lessons</a>
+</aside>
+</div>
+
+<footer>
+  <p>© 2025 Shared Pearls of Wisdom · Ramesh198312</p>
+  <a href="index.html">← Back to all lessons</a>
+</footer>
+
+<script>
+  window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('pf').style.width=((d.scrollTop||document.body.scrollTop)/(d.scrollHeight-d.clientHeight)*100)+'%';});
+  function checkEx(n,answers){
+    let score=0,total=Object.keys(answers).length;
+    for(let id in answers){
+      const inp=document.getElementById(id);
+      const fb=document.getElementById('f'+id.slice(1));
+      const val=inp.tagName==='SELECT'?inp.options[inp.selectedIndex].text.toLowerCase():inp.value.trim().toLowerCase();
+      const correct=answers[id].toLowerCase();
+      inp.classList.remove('correct','wrong');
+      fb.style.display='block';
+      if(val===correct){inp.classList.add('correct');fb.className='ex-fb ok';fb.textContent='✓ Correct! Excellent word choice.';score++;}
+      else{inp.classList.add('wrong');fb.className='ex-fb no';fb.textContent='✗ Best answer: "'+answers[id]+'" — review the word cards above for the distinction.';}
+    }
+    const sb=document.getElementById('sc'+n);sb.style.display='block';
+    document.getElementById('sc'+n+'v').textContent=score+'/'+total;
+    const msgs=['Review the vocabulary cards carefully.','Keep practising!','Good — you are developing precision.','Strong word knowledge!','Excellent command!','Outstanding — true C1 mastery!'];
+    document.getElementById('sc'+n+'m').textContent=msgs[Math.min(score,5)];
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>C1 Advanced Assessment · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* Harvard Crimson & Premium Academic Palette */
+  --crimson: #A51C30;
+  --crimson-dark: #7A1523;
+  --charcoal: #222222;
+  --charcoal-light: #4B525A;
+  --ivory: #FAF9F6;
+  --white: #ffffff;
+  --gold: #C4923E;
+  --border: #E0E0E0;
+  
+  --success: #2e7d32;
+  --error: #c0392b;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Source Serif 4', Georgia, serif; background:var(--ivory); color:var(--charcoal); min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden;}
+
+/* ── HEADER & TIMER ── */
+header { background:var(--charcoal); color:var(--white); padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:200; border-bottom: 4px solid var(--crimson);}
+.brand-title { font-family:'Playfair Display', serif; font-size:1.6rem; color:var(--white); font-weight:700; }
+.brand-title span { color:var(--crimson); font-style:italic; }
+.level-badge { background:var(--crimson); color:var(--white); font-family:'DM Mono', monospace; font-size:0.7rem; padding:0.3rem 0.6rem; vertical-align:middle; margin-left:10px; border-radius:3px; letter-spacing:0.1em;}
+.timer-container { display:flex; align-items:center; gap:1rem; background:rgba(0,0,0,0.4); padding:0.5rem 1.5rem; border-radius:4px; border:1px solid rgba(255,255,255,0.1); }
+.timer-label { font-family:'DM Mono', monospace; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); }
+.timer-clock { font-family:'DM Mono', monospace; font-size:1.5rem; font-weight:700; color:var(--white); }
+.timer-clock.warning { color:#ff6b6b; animation: pulse 1s infinite; }
+
+/* ── MAIN LAYOUT ── */
+.exam-container { max-width:1400px; margin:2rem auto; display:grid; grid-template-columns:250px 1fr; gap:2rem; width:100%; padding:0 2rem; flex-grow:1; }
+
+/* ── SIDEBAR NAVIGATION ── */
+.exam-nav { background:var(--white); border:1px solid var(--border); border-radius:6px; padding:1.5rem; height:fit-content; position:sticky; top:100px; box-shadow:0 4px 20px rgba(0,0,0,0.04); }
+.nav-btn { display:block; width:100%; text-align:left; background:none; border:none; padding:1rem; font-family:'DM Mono', monospace; font-size:0.9rem; font-weight:700; color:var(--charcoal-light); cursor:pointer; transition:0.2s; border-radius:4px; margin-bottom:0.5rem; border-left: 3px solid transparent;}
+.nav-btn:hover { background:var(--ivory); color:var(--charcoal); }
+.nav-btn.active { background:rgba(165,28,48,0.05); color:var(--crimson); border-left-color:var(--crimson); }
+.submit-exam-btn { display:block; width:100%; padding:1rem; margin-top:2rem; background:var(--crimson); color:var(--white); border:none; font-family:'DM Mono', monospace; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; border-radius:4px; cursor:pointer; transition:0.3s; }
+.submit-exam-btn:hover { background:var(--crimson-dark); box-shadow: 0 4px 12px rgba(165,28,48,0.3);}
+
+/* ── EXAM PANELS ── */
+.exam-panel { display:none; background:var(--white); border:1px solid var(--border); border-radius:6px; padding:3rem; box-shadow:0 8px 30px rgba(0,0,0,0.05); animation:fadeIn 0.4s ease-out; }
+.exam-panel.active { display:block; }
+.panel-title { font-family:'Playfair Display', serif; font-size:2.4rem; color:var(--charcoal); margin-bottom:0.5rem; padding-bottom:1rem; border-bottom: 2px solid var(--border);}
+.panel-desc { font-family:'DM Mono', monospace; font-size:0.85rem; color:var(--crimson); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:2.5rem; font-weight:700; }
+
+/* ── SPLIT PANE READING UX ── */
+.split-layout { display: flex; gap: 3rem; align-items: flex-start; margin-bottom: 4rem; padding-bottom: 3rem; border-bottom: 1px dashed var(--border);}
+.split-layout:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
+.split-left { flex: 1; position: sticky; top: 100px; max-height: calc(100vh - 140px); overflow-y: auto; padding-right: 1.5rem; }
+.split-left::-webkit-scrollbar { width: 6px; }
+.split-left::-webkit-scrollbar-track { background: var(--ivory); }
+.split-left::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.split-right { flex: 1; }
+
+.part-title { font-family:'Playfair Display', serif; font-size:1.6rem; color:var(--crimson); margin-bottom:1rem; }
+.instruction-text { margin-bottom:1.5rem; color:var(--charcoal-light); font-weight:600; font-family:'DM Mono', monospace; font-size: 0.85rem;}
+.reading-text { background:var(--ivory); padding:2rem; border-left:4px solid var(--charcoal); font-size:1.15rem; line-height:1.9; color: var(--charcoal);}
+.reading-text p { margin-bottom: 1.2rem; }
+
+/* ── QUESTION BLOCKS ── */
+.question-block { margin-bottom:2rem; font-size:1.1rem; background: var(--white); border: 1px solid var(--border); padding: 1.5rem; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
+.question-text { font-weight:600; margin-bottom:1rem; display:block; color: var(--charcoal);}
+.mcq-option { display:block; margin-bottom:0.8rem; cursor:pointer; padding: 0.8rem; border-radius: 4px; transition: 0.2s; border: 1px solid transparent; background: var(--ivory);}
+.mcq-option:hover { border-color: var(--gold); background: var(--white);}
+.mcq-option input { margin-right:12px; accent-color:var(--crimson); transform: scale(1.2);}
+.fill-input { font-family:'DM Mono', monospace; font-size:1rem; padding:0.4rem 0.8rem; border:none; border-bottom:2px solid var(--charcoal); background:rgba(0,0,0,0.03); width:150px; outline:none; transition:0.3s; margin:0 5px; color: var(--crimson); font-weight: 700; text-align: center;}
+.fill-input:focus { border-bottom-color:var(--crimson); background:rgba(165,28,48,0.05); }
+
+/* ── LISTENING SPECIFICS ── */
+.audio-player-container { background:var(--charcoal); padding:1.5rem; border-radius:6px; margin-bottom:2rem; display:flex; align-items:center; gap:1.5rem; }
+.audio-btn { background:var(--crimson); border:none; width:55px; height:55px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: 0.3s;}
+.audio-btn:hover { background:var(--crimson-dark); transform: scale(1.05);}
+.audio-track { flex-grow:1; height:6px; background:rgba(255,255,255,0.2); border-radius:3px; position:relative; }
+.audio-progress { position:absolute; left:0; top:0; height:100%; width:0%; background:var(--gold); border-radius:3px; }
+.audio-instruction { color:var(--white); font-family:'DM Mono', monospace; font-size:0.8rem; letter-spacing:0.1em; }
+.dev-transcript { display:none; background:#f8f9fa; padding:1.5rem; font-family:'DM Mono', monospace; font-size:0.85rem; border:1px solid var(--border); margin-bottom:2rem; white-space:pre-wrap; line-height: 1.6;}
+
+/* ── WRITING SPECIFICS ── */
+.writing-area { width:100%; height:450px; padding:2rem; font-family:'Source Serif 4', serif; font-size:1.15rem; line-height:1.8; border:2px solid var(--border); border-radius:4px; resize:vertical; outline:none; transition: 0.3s; background: var(--white); }
+.writing-area:focus { border-color:var(--crimson); box-shadow:0 0 0 4px rgba(165,28,48,0.1); }
+.writing-area:disabled { background: var(--ivory); color: #666; cursor: not-allowed; }
+.word-count { font-family:'DM Mono', monospace; font-size:0.9rem; color:var(--charcoal-light); margin-top:0.8rem; text-align:right; font-weight:700; }
+.submit-writing-btn { background: var(--charcoal); color: var(--white); border: none; padding: 1.2rem 2rem; font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 4px; cursor: pointer; transition: 0.3s; margin-top: 1rem; width: 100%; }
+.submit-writing-btn:hover { background: var(--crimson); }
+.submit-writing-btn:disabled { background: var(--success); cursor: default; }
+
+/* ── SPEAKING SPECIFICS ── */
+.speaking-prompt { background:var(--ivory); color:var(--charcoal); padding:2.5rem; border-radius:6px; margin-bottom:2rem; border-left: 6px solid var(--crimson); }
+.speaking-prompt h3 { font-family:'Playfair Display', serif; font-size:1.8rem; margin-bottom:1.5rem; color:var(--charcoal); }
+.speaking-prompt p { font-size:1.15rem; line-height:1.7; margin-bottom:1rem;}
+.record-btn { background:var(--white); color:var(--crimson); border:2px solid var(--crimson); padding:1rem 2rem; font-family:'DM Mono', monospace; font-size:1rem; font-weight:700; border-radius:30px; cursor:pointer; margin-top:1.5rem; transition:0.3s; display:inline-flex; align-items:center; gap:10px; }
+.record-btn.recording { background:var(--error); color:var(--white); border-color:var(--error); animation:pulse 1.5s infinite; }
+.record-btn::before { content:''; display:inline-block; width:12px; height:12px; border-radius:50%; background:var(--error); }
+.record-btn.recording::before { background:var(--white); }
+
+/* ── RESULTS MODAL ── */
+#results-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(34,34,34,0.95); z-index:1000; align-items:center; justify-content:center; }
+.modal-content { background:var(--white); padding:4rem; border-radius:8px; max-width:650px; width:90%; text-align:center; position:relative; border-top:8px solid var(--crimson); box-shadow: 0 20px 60px rgba(0,0,0,0.6);}
+.score-circle { width:160px; height:160px; border-radius:50%; border:8px solid var(--charcoal); margin:0 auto 2rem; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display', serif; font-size:3.5rem; font-weight:700; color:var(--crimson); }
+.status-msg { font-size:1.15rem; line-height:1.7; margin-bottom:2.5rem; color: var(--charcoal); }
+
+@keyframes pulse { 0% { opacity:1; } 50% { opacity:0.6; } 100% { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
+
+/* Media Query for smaller screens to stack the split layout */
+@media (max-width: 1024px) {
+    .split-layout { flex-direction: column; gap: 1rem; }
+    .split-left { position: static; max-height: none; overflow-y: visible; padding-right: 0;}
+    .exam-container { grid-template-columns: 1fr; }
+    .exam-nav { position: static; display: flex; overflow-x: auto; gap: 1rem; padding: 1rem;}
+    .nav-btn { flex-shrink: 0; width: auto; margin-bottom: 0; border-left: none; border-bottom: 3px solid transparent;}
+    .nav-btn.active { border-bottom-color: var(--crimson); border-left-color: transparent;}
+}
+
+footer { background:var(--charcoal); padding:2rem; text-align:center; color:rgba(255,255,255,0.6); font-family:'DM Mono', monospace; font-size:0.85rem; margin-top:auto;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-title">Shared <span>Pearls</span> <span class="level-badge">C1 ADVANCED</span></div>
+  <div class="timer-container">
+    <span class="timer-label">Time Remaining</span>
+    <span class="timer-clock" id="exam-timer">120:00</span>
+  </div>
+</header>
+
+<div class="exam-container">
+  
+  <aside class="exam-nav">
+    <button class="nav-btn active" onclick="switchTab('reading')">1. Reading & Use of English</button>
+    <button class="nav-btn" onclick="switchTab('listening')">2. Listening</button>
+    <button class="nav-btn" onclick="switchTab('writing')">3. Writing</button>
+    <button class="nav-btn" onclick="switchTab('speaking')">4. Speaking</button>
+    <button class="submit-exam-btn" onclick="submitExam()">Submit Examination</button>
+  </aside>
+
+  <main>
+    <section id="panel-reading" class="exam-panel active">
+      <h1 class="panel-title">Paper 1: Reading & Use of English</h1>
+      <div class="panel-desc">Time Limit: 45 Minutes • Total Marks: 15</div>
+
+      <div class="split-layout">
+        <div class="split-left">
+          <h2 class="part-title">Part 1: The Illusion of Conscious Will</h2>
+          <p class="instruction-text">Read the article. The text will remain static while you scroll through the questions on the right.</p>
+          <div class="reading-text">
+            <p>The phenomenon of neuroplasticity has fundamentally upended traditional paradigms within cognitive science. For decades, the prevailing dogma dictated that the adult human brain was essentially an immutable organ; once the critical periods of childhood development had passed, neurological architecture was considered fixed. However, contemporary functional magnetic resonance imaging (fMRI) has decisively proven that the brain remains remarkably malleable throughout an individual's lifespan, continuously rewiring its neural pathways in response to experiential learning and environmental stimuli.</p>
+            
+            <p>This revelation has profound implications, particularly concerning our understanding of conscious will. If our neural circuitry is perpetually being overwritten by our habits and environments, to what extent are our decisions truly autonomous? Behavioural economist Dr. Aris Thorne argues that what we perceive as 'conscious choice' is frequently merely a post-hoc rationalisation of decisions already executed by the subconscious mind. According to Thorne, the conscious mind acts less like a chief executive making decisions, and more like a press secretary, desperately formulating logical explanations for actions already taken by the hidden mechanics of the brain.</p>
+
+            <p>While some critics find this deterministic view deeply unsettling, arguing it strips humanity of moral agency, proponents suggest it offers a liberating perspective. Recognizing the immense power of our underlying neurological scaffolding allows individuals to deliberately cultivate environments that foster positive subconscious habituation, effectively 'hacking' their own neuroplasticity.</p>
+          </div>
+        </div>
+        
+        <div class="split-right">
+          <div class="question-block">
+            <span class="question-text">1. What does the author imply about early neurological theories?</span>
+            <label class="mcq-option"><input type="radio" name="r1" value="A"> A) They were based entirely on philosophical speculation rather than science.</label>
+            <label class="mcq-option"><input type="radio" name="r1" value="B"> B) They mistakenly viewed the adult brain as incapable of structural change.</label>
+            <label class="mcq-option"><input type="radio" name="r1" value="C"> C) They correctly identified the critical periods of childhood development.</label>
+            <label class="mcq-option"><input type="radio" name="r1" value="D"> D) They failed to utilise fMRI technology effectively.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">2. According to Dr. Thorne’s analogy, the role of the 'press secretary' is to:</span>
+            <label class="mcq-option"><input type="radio" name="r2" value="A"> A) direct the subconscious mind to take action.</label>
+            <label class="mcq-option"><input type="radio" name="r2" value="B"> B) act as a barrier between the environment and the brain.</label>
+            <label class="mcq-option"><input type="radio" name="r2" value="C"> C) provide a plausible justification for actions already decided upon.</label>
+            <label class="mcq-option"><input type="radio" name="r2" value="D"> D) communicate the brain's decisions to other individuals.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">3. Which word is closest in meaning to "immutable" as used in paragraph 1?</span>
+            <label class="mcq-option"><input type="radio" name="r3" value="A"> A) Unalterable</label>
+            <label class="mcq-option"><input type="radio" name="r3" value="B"> B) Unpredictable</label>
+            <label class="mcq-option"><input type="radio" name="r3" value="C"> C) Vulnerable</label>
+            <label class="mcq-option"><input type="radio" name="r3" value="D"> D) Complex</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">4. What is the critics' primary concern regarding Thorne's view of conscious will?</span>
+            <label class="mcq-option"><input type="radio" name="r4" value="A"> A) It relies too heavily on unproven fMRI data.</label>
+            <label class="mcq-option"><input type="radio" name="r4" value="B"> B) It suggests humans cannot be held responsible for their actions.</label>
+            <label class="mcq-option"><input type="radio" name="r4" value="C"> C) It underestimates the intelligence of the subconscious mind.</label>
+            <label class="mcq-option"><input type="radio" name="r4" value="D"> D) It forces individuals to constantly monitor their environments.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">5. The phrase "hacking their own neuroplasticity" in the final paragraph refers to:</span>
+            <label class="mcq-option"><input type="radio" name="r5" value="A"> A) using computer software to map brain functions.</label>
+            <label class="mcq-option"><input type="radio" name="r5" value="B"> B) undergoing medical procedures to alter brain chemistry.</label>
+            <label class="mcq-option"><input type="radio" name="r5" value="C"> C) intentionally designing one's surroundings to shape automatic behaviours.</label>
+            <label class="mcq-option"><input type="radio" name="r5" value="D"> D) manipulating others' subconscious minds for personal gain.</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="split-layout">
+        <div class="split-left">
+          <h2 class="part-title">Part 2: The Antikythera Mechanism</h2>
+          <p class="instruction-text">Read the text. Think of the word which best fits each gap. Use only ONE word.</p>
+          <div class="reading-text" style="line-height:2.6;">
+            Discovered in 1901 off the coast of a Greek island, the Antikythera Mechanism is widely regarded <strong>(6)</strong> <input type="text" id="r6" class="fill-input" autocomplete="off"> the world's oldest analog computer. Its intricate system of bronze gears suggests a level of technological sophistication that was not thought to <strong>(7)</strong> <input type="text" id="r7" class="fill-input" autocomplete="off"> existed until the mechanical clocks of the 14th century.<br><br>
+            For decades, historians were completely baffled by the device. It was <strong>(8)</strong> <input type="text" id="r8" class="fill-input" autocomplete="off"> until the advent of high-resolution 3D X-ray imaging in the early 2000s that scientists could peer inside the corroded fragments. What they discovered was nothing <strong>(9)</strong> <input type="text" id="r9" class="fill-input" autocomplete="off"> of miraculous: a device capable of predicting astronomical positions, eclipses, and even tracking the four-year cycle of athletic games. <br><br>
+            The mechanism forces us to fundamentally reassess our understanding of ancient Greek engineering. The fact that this technology appears to have been lost for over a millennium serves as a stark reminder that human progress is rarely a linear trajectory; <strong>(10)</strong> <input type="text" id="r10" class="fill-input" autocomplete="off"> , it is prone to devastating historical regressions.
+          </div>
+        </div>
+        
+        <div class="split-right">
+          <div class="question-block" style="background:var(--ivory); border-color:var(--gold);">
+            <span class="question-text" style="color:var(--gold); margin-bottom:0;">Instructions for Part 2:</span>
+            <p style="font-size:0.95rem; color:var(--charcoal-light); margin-top:0.5rem;">Type your answers directly into the text on the left. Ensure you use only a single word. Spelling must be exact.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="split-layout">
+        <div class="split-left">
+          <h2 class="part-title">Part 3: The Urban Paradox</h2>
+          <p class="instruction-text">Read the text and answer questions 11–15 on the right.</p>
+          <div class="reading-text">
+            <p>Modern mega-cities represent a fascinating sociological paradox. On one hand, they are engines of unprecedented economic mobility, drawing millions with the promise of prosperity. On the other, they frequently breed profound social isolation. The sheer density of urban populations often results in a psychological phenomenon known as 'civic inattention'—a survival mechanism whereby city dwellers deliberately ignore one another to cope with overwhelming sensory overload.</p>
+            <p>Urban planners are increasingly seeking to mitigate this alienation by designing 'third places'—communal areas that are neither the home (first place) nor the workplace (second place). However, the aggressive gentrification of many urban centres is rapidly eroding these spaces, replacing independent cafes and public squares with exclusive, high-end retail environments that inadvertently <strong>(15)</strong> _____ community cohesion.</p>
+          </div>
+        </div>
+        
+        <div class="split-right">
+          <div class="question-block">
+            <span class="question-text">11. What is the 'paradox' mentioned in the first sentence?</span>
+            <label class="mcq-option"><input type="radio" name="r11" value="A"> A) Cities are expensive but people earn more money.</label>
+            <label class="mcq-option"><input type="radio" name="r11" value="B"> B) Cities bring people physically closer together while driving them emotionally apart.</label>
+            <label class="mcq-option"><input type="radio" name="r11" value="C"> C) Cities require modern infrastructure but rely on outdated planning.</label>
+            <label class="mcq-option"><input type="radio" name="r11" value="D"> D) Cities are built for cars but are mostly navigated by pedestrians.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">12. 'Civic inattention' is described as:</span>
+            <label class="mcq-option"><input type="radio" name="r12" value="A"> A) a deliberate act of rudeness.</label>
+            <label class="mcq-option"><input type="radio" name="r12" value="B"> B) a failure of the education system.</label>
+            <label class="mcq-option"><input type="radio" name="r12" value="C"> C) an unconscious reflex to avoid danger.</label>
+            <label class="mcq-option"><input type="radio" name="r12" value="D"> D) a psychological strategy to manage environmental stress.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">13. What qualifies as a 'third place'?</span>
+            <label class="mcq-option"><input type="radio" name="r13" value="A"> A) A corporate office building</label>
+            <label class="mcq-option"><input type="radio" name="r13" value="B"> B) A private residential apartment</label>
+            <label class="mcq-option"><input type="radio" name="r13" value="C"> C) A public park or local library</label>
+            <label class="mcq-option"><input type="radio" name="r13" value="D"> D) A heavily guarded retail store</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">14. What is the consequence of 'aggressive gentrification'?</span>
+            <label class="mcq-option"><input type="radio" name="r14" value="A"> A) It creates more affordable housing.</label>
+            <label class="mcq-option"><input type="radio" name="r14" value="B"> B) It destroys the spaces where communities naturally gather.</label>
+            <label class="mcq-option"><input type="radio" name="r14" value="C"> C) It forces urban planners to design better parks.</label>
+            <label class="mcq-option"><input type="radio" name="r14" value="D"> D) It decreases sensory overload for city dwellers.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">15. Which word best fits the gap marked <strong>(15)</strong> in the text?</span>
+            <label class="mcq-option"><input type="radio" name="r15" value="A"> A) bolster</label>
+            <label class="mcq-option"><input type="radio" name="r15" value="B"> B) facilitate</label>
+            <label class="mcq-option"><input type="radio" name="r15" value="C"> C) undermine</label>
+            <label class="mcq-option"><input type="radio" name="r15" value="D"> D) construct</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-listening" class="exam-panel">
+      <h1 class="panel-title">Paper 2: Listening</h1>
+      <div class="panel-desc">Audio Length: ~35 Minutes • Total Marks: 10</div>
+
+      <div class="audio-player-container">
+        <audio id="real-audio-player" src="find-your-level-listening-c1.m4a" preload="metadata"></audio>
+        <button class="audio-btn" onclick="toggleRealAudio()" id="play-btn">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="audio-track">
+          <div class="audio-progress" id="audio-bar"></div>
+        </div>
+        <div class="audio-instruction">Listen to the university lecture.</div>
+      </div>
+
+      <button onclick="document.getElementById('dev-script').style.display='block'" style="font-size:0.75rem; color:var(--crimson); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline; font-weight: bold;">[Audio Transcript]</button>
+      <div id="dev-script" class="dev-transcript">
+AUDIO SCRIPT:
+[Extract 1: University Lecture on Architecture]
+"Today we're looking at Brutalism. Now, the term itself is derived not from the English word 'brutal', meaning cruel, but from the French 'béton brut', meaning raw concrete. Post-war Europe was economically devastated, and concrete was cheap, resilient, and honest. Architects like Le Corbusier championed this style not out of a desire to create oppressive, monolithic structures—which is how they are often mischaracterised today—but to create egalitarian, functional housing for the masses. The tragedy of Brutalism is that its utopian social intentions were entirely eclipsed by its stark, uncompromising aesthetics, leading to its widespread public vilification in the late 20th century."
+
+[Extract 2: Interview on AI]
+Interviewer: Professor Sterling, will Artificial Intelligence render human creatives obsolete?
+Sterling: That's a profound misframing of the trajectory of AI. What we are witnessing isn't the replacement of human creativity, but the automation of technical execution. An AI can paint a picture in the style of Rembrandt in seconds, but it possesses no intent. It has nothing to say about the human condition. The artists who will thrive are those who pivot from being technicians to being curators and conceptual architects. The AI is merely the brush; the human remains the visionary.
+      </div>
+
+      <div class="part-container">
+        <h2 class="part-title">Part 1: Architecture Lecture</h2>
+        <div class="question-block">
+          <span class="question-text">6. The lecturer explains that the term 'Brutalism' originates from a word relating to:</span>
+          <label class="mcq-option"><input type="radio" name="l6" value="A"> A) violence and cruelty.</label>
+          <label class="mcq-option"><input type="radio" name="l6" value="B"> B) an untreated building material.</label>
+          <label class="mcq-option"><input type="radio" name="l6" value="C"> C) the oppressive nature of post-war governments.</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">7. What was the original motivation behind Brutalist architecture?</span>
+          <label class="mcq-option"><input type="radio" name="l7" value="A"> A) To create intimidating civic monuments.</label>
+          <label class="mcq-option"><input type="radio" name="l7" value="B"> B) To prove that concrete could be beautiful.</label>
+          <label class="mcq-option"><input type="radio" name="l7" value="C"> C) To provide practical, affordable living spaces for ordinary people.</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">8. What does the lecturer consider to be the "tragedy" of Brutalism?</span>
+          <label class="mcq-option"><input type="radio" name="l8" value="A"> A) The concrete deteriorated much faster than expected.</label>
+          <label class="mcq-option"><input type="radio" name="l8" value="B"> B) The public hated the appearance so much that they ignored the positive social goals.</label>
+          <label class="mcq-option"><input type="radio" name="l8" value="C"> C) It was too expensive for war-torn European countries to maintain.</label>
+        </div>
+      </div>
+
+      <div class="part-container" style="border-bottom:none;">
+        <h2 class="part-title">Part 2: AI and Creativity</h2>
+        <div class="question-block">
+          <span class="question-text">9. How does Professor Sterling view the current capabilities of AI in art?</span>
+          <label class="mcq-option"><input type="radio" name="l9" value="A"> A) It is capable of genuine emotional expression.</label>
+          <label class="mcq-option"><input type="radio" name="l9" value="B"> B) It excels at the mechanical production of art but lacks purpose.</label>
+          <label class="mcq-option"><input type="radio" name="l9" value="C"> C) It will eventually replace all human painters and writers.</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">10. According to Sterling, how must human artists adapt to survive?</span>
+          <label class="mcq-option"><input type="radio" name="l10" value="A"> A) By refusing to use AI tools in their work.</label>
+          <label class="mcq-option"><input type="radio" name="l10" value="B"> B) By focusing purely on traditional painting techniques.</label>
+          <label class="mcq-option"><input type="radio" name="l10" value="C"> C) By focusing on generating ideas and concepts rather than technical production.</label>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-writing" class="exam-panel">
+      <h1 class="panel-title">Paper 3: Writing</h1>
+      <div class="panel-desc">Recommended Time: 45 Minutes • Required length: 220-260 words</div>
+
+      <div class="part-container" style="border-bottom:none;">
+        <h2 class="part-title">Task 1: Formal Essay</h2>
+        <div class="reading-text" style="background:var(--ivory); border-color:var(--crimson);">
+          Your class has attended a panel discussion on the increasing integration of Artificial Intelligence in judicial and hiring processes.<br><br>
+          <strong>Topic:</strong> <em>"Should algorithmic systems be trusted to make decisions that significantly impact human lives?"</em><br><br>
+          Write an essay discussing <strong>TWO</strong> of the points below. You should explain which point is more important to consider, providing reasons to support your opinion.<br><br>
+          1. The elimination of human bias and prejudice.<br>
+          2. The lack of human empathy and contextual understanding.<br>
+          3. The difficulty of determining legal accountability for algorithmic errors.
+        </div>
+        <p style="font-family:'DM Mono', monospace; font-size:0.9rem; margin-bottom:1rem; color:var(--charcoal-light);">You must use consistently formal register and complex syntactic structures.</p>
+        
+        <textarea id="writing-input" class="writing-area" placeholder="Write your essay here..." oninput="countWords()"></textarea>
+        <div class="word-count" id="word-count-display">Word count: 0</div>
+        
+        <button id="btn-submit-writing" class="submit-writing-btn" onclick="submitWritingTask()">Submit Academic Essay</button>
+      </div>
+    </section>
+
+    <section id="panel-speaking" class="exam-panel">
+      <h1 class="panel-title">Paper 4: Speaking</h1>
+      <div class="panel-desc">Simulated Oral Examination • 15 Minutes</div>
+
+      <p style="font-size:1.1rem; line-height:1.6; margin-bottom:2rem;">At the C1 level, you are assessed on lexical resource, grammatical mastery, discourse management, and pronunciation. Press <strong>Record Answer</strong> to speak your response.</p>
+
+      <div class="speaking-prompt">
+        <h3>Part 1: Abstract Concepts</h3>
+        <p>1. In what ways do you think the concept of 'success' has changed in the last 50 years?</p>
+        <p>2. How significant is the role of the arts (music, literature, theatre) in maintaining cultural identity in a globalised world?</p>
+        <button class="record-btn" onclick="toggleRecord(this)">Record Answer</button>
+      </div>
+
+      <div class="speaking-prompt">
+        <h3>Part 2: Complex Comparison</h3>
+        <p>Imagine two scenarios regarding education: A completely virtual university accessed via VR, and a traditional, ancient university campus.</p>
+        <p>Compare the two environments. Speculate on the psychological impact each might have on a student's development, and evaluate which produces a more well-rounded citizen.</p>
+        <button class="record-btn" onclick="toggleRecord(this)">Record Answer (Aim for 2 minutes uninterrupted)</button>
+      </div>
+
+      <div class="speaking-prompt">
+        <h3>Part 3: Negotiation & Justification</h3>
+        <p>"To combat climate change, governments should heavily tax carbon-intensive travel, such as international flights, making them unaffordable for the average person."</p>
+        <p>Formulate a robust argument either supporting or opposing this policy. Anticipate a counter-argument and refute it.</p>
+        <button class="record-btn" onclick="toggleRecord(this)">Record Answer</button>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<div id="results-modal">
+  <div class="modal-content">
+    <h2 class="panel-title" style="border:none; padding:0; margin-bottom:2rem; font-size: 2.8rem;">Examination Concluded</h2>
+    
+    <div class="score-circle" id="final-score">--/20</div>
+    
+    <div class="status-msg">
+      <strong>Receptive Skills (Reading/Listening):</strong> Auto-calculated above.<br><br>
+      <strong>Productive Skills (Writing/Speaking):</strong> Your responses have been transmitted to the C1 Assessment Board for comprehensive manual review.<br><br>
+      A detailed diagnostic report, benchmarking your performance against global C1 standards, will be issued shortly.
+    </div>
+    
+    <button class="submit-exam-btn" style="margin-top:0;" onclick="location.reload()">Return to Main Portal</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom · Harvard-Tier C1 Examination Syndicate</p>
+</footer>
+
+<script>
+/* ── TIMER LOGIC (120 Mins) ── */
+let timeLeft = 7200; 
+let timerId = setInterval(() => {
+  timeLeft--;
+  let m = Math.floor(timeLeft / 60);
+  let s = timeLeft % 60;
+  let display = document.getElementById('exam-timer');
+  display.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  
+  if(timeLeft < 300) display.classList.add('warning'); 
+  if(timeLeft <= 0) {
+    clearInterval(timerId);
+    submitExam();
+  }
+}, 1000);
+
+/* ── TAB NAVIGATION ── */
+function switchTab(tabId) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`button[onclick="switchTab('${tabId}')"]`).classList.add('active');
+  
+  document.querySelectorAll('.exam-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`panel-${tabId}`).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ── REAL AUDIO PLAYER ENGINE ── */
+const audioElement = document.getElementById('real-audio-player');
+const playBtn = document.getElementById('play-btn');
+const audioBar = document.getElementById('audio-bar');
+
+function toggleRealAudio() {
+  if (audioElement.paused) {
+    // Play the audio
+    audioElement.play();
+    
+    // Change icon to 'Pause'
+    playBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+  } else {
+    // Pause the audio
+    audioElement.pause();
+    
+    // Change icon to 'Play'
+    playBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M8 5v14l11-7z"/></svg>`;
+  }
+}
+
+// Automatically update the visual progress bar as the audio plays
+audioElement.addEventListener('timeupdate', () => {
+  if (audioElement.duration) {
+    const progressPercent = (audioElement.currentTime / audioElement.duration) * 100;
+    audioBar.style.width = progressPercent + '%';
+  }
+});
+
+// Reset the player when the audio finishes
+audioElement.addEventListener('ended', () => {
+  playBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M8 5v14l11-7z"/></svg>`;
+  audioBar.style.width = '0%';
+});
+
+/* ── WRITING SUBMISSION ENGINE (C1 Level) ── */
+function countWords() {
+  const text = document.getElementById('writing-input').value.trim();
+  const words = text ? text.split(/\s+/) : [];
+  const counter = document.getElementById('word-count-display');
+  counter.innerText = `Word count: ${words.length}`;
+  
+  // C1 Target: 220 - 260 words
+  if(words.length < 220 || words.length > 260) {
+      counter.style.color = "var(--error)";
+  } else {
+      counter.style.color = "var(--success)";
+  }
+}
+
+function submitWritingTask() {
+    const textarea = document.getElementById('writing-input');
+    const text = textarea.value.trim();
+    const words = text ? text.split(/\s+/) : [];
+    
+    if(words.length < 100) {
+        alert("Your essay is severely under length. Please write at least 220 words to meet C1 standards.");
+        return;
+    }
+    
+    textarea.disabled = true;
+    const btn = document.getElementById('btn-submit-writing');
+    btn.innerHTML = "Task Safely Transmitted ✓";
+    btn.disabled = true;
+}
+
+/* ── SPEAKING RECORD BUTTON MOCK ── */
+function toggleRecord(btn) {
+  if(btn.classList.contains('recording')) {
+    btn.classList.remove('recording');
+    btn.innerText = "Response Uploaded ✓";
+    btn.style.borderColor = "var(--success)";
+    btn.style.color = "var(--success)";
+  } else {
+    btn.classList.add('recording');
+    btn.innerText = "Recording in Progress... Click to Stop";
+  }
+}
+
+/* ── AUTO-GRADING ENGINE (C1 Level) ── */
+const answerKey = {
+  // Reading Part 1
+  r1: 'B', r2: 'C', r3: 'A', r4: 'B', r5: 'C',
+  // Reading Part 2 (Strict C1 constraints)
+  r6: ['as'],
+  r7: ['have'],
+  r8: ['not'],
+  r9: ['short'],
+  r10: ['rather', 'instead'],
+  // Reading Part 3
+  r11: 'B', r12: 'D', r13: 'C', r14: 'B', r15: 'C',
+  
+  // Listening 
+  l6: 'B', l7: 'C', l8: 'B', 
+  l9: 'B', l10: 'C'
+};
+
+function submitExam() {
+  clearInterval(timerId);
+  let score = 0;
+
+  const mcqs = ['r1','r2','r3','r4','r5', 'r11','r12','r13','r14','r15', 'l6','l7','l8','l9','l10'];
+  mcqs.forEach(id => {
+    const selected = document.querySelector(`input[name="${id}"]:checked`);
+    if(selected && selected.value === answerKey[id]) {
+      score++;
+    }
+  });
+
+  const blanks = ['r6','r7','r8','r9','r10'];
+  blanks.forEach(id => {
+    const input = document.getElementById(id).value.toLowerCase().trim();
+    if(answerKey[id].includes(input)) {
+      score++;
+    }
+  });
+
+  document.getElementById('final-score').innerText = `${score}/20`; 
+  document.getElementById('results-modal').style.display = 'flex';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Idiom Investigator · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* Premium Palette */
+  --black: #ffffff; 
+  --dark: #fdfbf7; 
+  --dark2: #ffffff; 
+  --dark3: #f9f8f6; 
+  --gold: #b07d2a; 
+  --gold-lt: #8a5e18; 
+  --cream: #333333; 
+  --cream-dim: #555555; 
+  --ok: #27ae60;
+  --ok-bg: #e8f8f5;
+  --no: #c0392b;
+  --no-bg: #fdedec;
+  
+  /* Investigator Theme Accents */
+  --ink: #1a2530;
+  --paper: #f4f1ea;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Lato',sans-serif; background:var(--dark); color:var(--cream); min-height:100vh; }
+
+/* ── NAV & HERO ── */
+nav { background:var(--black); display:flex; align-items:center; justify-content:space-between; padding:0 3rem; position:sticky; top:0; z-index:300; border-bottom:1px solid rgba(176,125,42,.2); box-shadow: 0 2px 10px rgba(0,0,0,0.02); height: 70px;}
+.nav-logo { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--gold); text-decoration:none; font-weight:700; }
+.nav-logo em { color:var(--cream); font-style:italic; }
+.nav-right { display:flex; align-items:center; gap:1.5rem; }
+.nav-series { font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-lt); padding:.4rem 1rem; border:1px solid rgba(176,125,42,.3); font-weight:bold; }
+.nav-link { font-family:'DM Mono',monospace; font-size:.65rem; font-weight:bold; letter-spacing:.12em; text-transform:uppercase; color:var(--cream-dim); text-decoration:none; transition:color .2s; }
+.nav-link:hover { color:var(--gold); }
+
+.hero { background:var(--black); padding:4rem 3rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.hero-inner { max-width:900px; margin: 0 auto; text-align: center;}
+.hero-ep { font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; font-weight:bold; display:block;}
+h1 { font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:900; line-height:1.1; color:var(--ink); margin-bottom:1.2rem; }
+h1 .gold { color:var(--gold); }
+.hero-desc { font-size:1.15rem; line-height:1.8; color:var(--cream-dim); max-width:700px; margin: 0 auto 2rem; }
+
+/* ── LAYOUTS ── */
+.container { max-width:1100px; margin:0 auto; padding:3rem 2rem 6rem; }
+.layout-grid { display:grid; grid-template-columns:300px 1fr; gap:3rem; }
+
+/* ── SIDEBAR (CASE FILES) ── */
+.sidebar { display:flex; flex-direction:column; gap:1.5rem; }
+.level-toggle { display: flex; gap: 0.5rem; }
+.lvl-btn { flex: 1; padding: 1rem 0; background: var(--dark3); border: 1px solid rgba(0,0,0,0.1); font-family: 'DM Mono', monospace; font-size: 0.8rem; font-weight: bold; cursor: pointer; color: var(--cream-dim); transition: 0.2s; border-radius: 4px;}
+.lvl-btn.active { background: var(--ink); color: white; border-color: var(--ink);}
+
+.sw { background:var(--dark2); border:1px solid rgba(0,0,0,.08); box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-radius: 4px; overflow:hidden; }
+.sw-hd { background:var(--dark3); padding:1.2rem; font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold-lt); border-bottom:1px solid rgba(0,0,0,.05); font-weight:bold; }
+.sw-bd { padding:0; max-height: 60vh; overflow-y: auto; }
+
+.case-list { list-style:none; }
+.case-list li { border-bottom:1px solid rgba(0,0,0,.05); }
+.case-btn { width:100%; text-align:left; background:none; border:none; padding:1.1rem; font-family:'Lato',sans-serif; font-size:1rem; color:var(--cream-dim); cursor:pointer; transition:all .2s; border-left: 4px solid transparent; font-weight: 500;}
+.case-btn:hover { background: rgba(176,125,42,0.03); color:var(--ink); }
+.case-btn.active { color:var(--ink); background: #fff; border-left: 4px solid var(--gold); font-weight: bold;}
+.case-id { font-family:'DM Mono',monospace; font-size:.65rem; padding:.2rem .5rem; border-radius:3px; background: var(--paper); color: var(--cream-dim); margin-right: 0.5rem;}
+
+/* ── MAIN CONTENT (THE DOSSIER) ── */
+.dossier-card { background:var(--dark2); padding:3rem; border-radius:4px; border:1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-top:4px solid var(--ink); animation: fadeIn 0.4s ease-out;}
+.dossier-header { border-bottom: 2px dashed rgba(0,0,0,0.1); padding-bottom: 1.5rem; margin-bottom: 2rem;}
+.case-number { font-family:'DM Mono',monospace; font-size:.8rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); margin-bottom: 0.5rem; display: block; font-weight: bold;}
+.idiom-title { font-size:2.5rem; color:var(--ink); font-family: 'Playfair Display', serif; font-weight: 900;}
+
+/* Toggle Section */
+.toggle-container { background: var(--dark3); border-radius: 6px; padding: 2rem; margin-bottom: 2.5rem; text-align: center; border: 1px solid rgba(0,0,0,0.05);}
+.switch-wrapper { display: inline-flex; background: rgba(0,0,0,0.05); border-radius: 30px; padding: 0.3rem; margin-bottom: 1.5rem;}
+.switch-btn { padding: 0.6rem 1.5rem; border: none; background: transparent; font-family: 'DM Mono', monospace; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; border-radius: 20px; cursor: pointer; transition: 0.3s; color: var(--cream-dim);}
+.switch-btn.active { background: #fff; color: var(--ink); box-shadow: 0 2px 8px rgba(0,0,0,0.1);}
+
+.meaning-display { font-size: 1.3rem; line-height: 1.6; color: var(--cream); font-style: italic; min-height: 60px; display: flex; align-items: center; justify-content: center;}
+.meaning-display strong { color: var(--gold-lt); font-style: normal;}
+
+/* Evidence Log (Etymology) */
+.evidence-log { margin-bottom: 2.5rem; }
+.section-label { font-family:'DM Mono',monospace; font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; color:var(--ink); margin-bottom: 1rem; font-weight: bold; display: flex; align-items: center; gap: 0.5rem;}
+.section-label::before { content: ''; display: inline-block; width: 12px; height: 12px; background: var(--gold); border-radius: 50%; }
+.etymology-text { font-size: 1.1rem; line-height: 1.8; color: var(--cream); background: var(--paper); padding: 1.5rem; border-left: 4px solid var(--gold-lt); border-radius: 0 4px 4px 0;}
+
+/* Pragmatic Profile */
+.pragmatics { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem; padding: 1.5rem; background: #fff; border: 1px solid rgba(0,0,0,0.08); border-radius: 4px;}
+.meter-group { display: flex; flex-direction: column; gap: 0.5rem;}
+.meter-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; text-transform: uppercase; color: var(--cream-dim); font-weight: bold;}
+.meter-bar { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; position: relative;}
+.meter-fill { position: absolute; top: 0; left: 0; height: 100%; background: var(--ink); border-radius: 4px; transition: width 0.5s ease;}
+
+/* Mini Quiz */
+.quiz-box { border-top: 2px dashed rgba(0,0,0,0.1); padding-top: 2.5rem;}
+.scenario { font-size: 1.1rem; line-height: 1.7; margin-bottom: 1.5rem;}
+.cloze-input { font-family: 'Playfair Display', serif; font-size: 1.2rem; padding: 0.5rem; border: none; border-bottom: 2px solid var(--gold); background: transparent; outline: none; color: var(--ink); font-weight: bold; width: 250px; text-align: center; transition: 0.3s;}
+.cloze-input:focus { border-bottom-color: var(--ink); }
+.submit-case { margin-top: 1.5rem; font-family:'DM Mono',monospace; font-size:.8rem; font-weight:bold; letter-spacing:.1em; text-transform:uppercase; padding:1rem 2rem; background:var(--ink); color:#fff; border:none; border-radius:4px; cursor:pointer; transition:0.2s;}
+.submit-case:hover { background: var(--gold-lt); }
+
+.feedback { display: none; margin-top: 1rem; padding: 1rem; border-radius: 4px; font-weight: bold;}
+.feedback.show { display: block; animation: fadeIn 0.3s;}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+footer { background:var(--black); padding:2rem 3rem; text-align: center; border-top:1px solid rgba(0,0,0,.1); margin-top: 4rem;}
+footer p { color:rgba(0,0,0,.5); font-size:.8rem; font-family:'DM Mono',monospace; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Shared <em>Pearls</em> of Wisdom</a>
+  <div class="nav-right">
+    <span class="nav-series">Premium Masterclass</span>
+    <a href="index.html" class="nav-link">← Return to Hub</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="hero-ep">Etymology & Pragmatics</span>
+    <h1>The Idiom <span class="gold">Investigator</span></h1>
+    <p class="hero-desc">Idioms defy literal translation. To master them, we must examine the historical evidence. Toggle between literal and figurative meanings, uncover their origins, and solve the contextual case files.</p>
+  </div>
+</div>
+
+<div class="container layout-grid">
+  
+  <aside class="sidebar">
+    <div class="level-toggle">
+      <button class="lvl-btn active" id="btn-lvl-b" onclick="switchLevel('B')">B1/B2 Cases</button>
+      <button class="lvl-btn" id="btn-lvl-c" onclick="switchLevel('C')">C1/C2 Cases</button>
+    </div>
+    
+    <div class="sw">
+      <div class="sw-hd">Open Case Files</div>
+      <div class="sw-bd">
+        <ul class="case-list" id="sidebar-list">
+          </ul>
+      </div>
+    </div>
+    
+    <div class="sw" style="margin-top: 1rem;">
+      <div class="sw-hd">Professor's Note</div>
+      <div class="sw-bd" style="padding: 1.2rem;">
+        <p style="font-size: 0.9rem; line-height: 1.6; color: var(--cream-dim);">
+          Pay close attention to the <strong>Pragmatic Profile</strong>. Using a highly informal idiom in a formal corporate email is a common error. Context is just as important as meaning.
+        </p>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="dossier-card" id="dossier-content">
+      
+      <div class="dossier-header">
+        <span class="case-number" id="ui-case-num">Case File #01</span>
+        <h2 class="idiom-title" id="ui-idiom-title">Loading...</h2>
+      </div>
+
+      <div class="toggle-container">
+        <div class="switch-wrapper">
+          <button class="switch-btn active" id="btn-literal" onclick="toggleMeaning('literal')">Literal Imagery</button>
+          <button class="switch-btn" id="btn-figurative" onclick="toggleMeaning('figurative')">Figurative Meaning</button>
+        </div>
+        <div class="meaning-display" id="ui-meaning">
+          </div>
+      </div>
+
+      <div class="evidence-log">
+        <div class="section-label">Historical Evidence (Etymology)</div>
+        <div class="etymology-text" id="ui-etymology">
+          </div>
+      </div>
+
+      <div class="section-label">Pragmatic Profile</div>
+      <div class="pragmatics">
+        <div class="meter-group">
+          <span class="meter-label">Formality Level (Casual → Formal)</span>
+          <div class="meter-bar"><div class="meter-fill" id="ui-formality" style="width: 50%;"></div></div>
+        </div>
+        <div class="meter-group">
+          <span class="meter-label">Usage Frequency (Rare → Common)</span>
+          <div class="meter-bar"><div class="meter-fill" id="ui-frequency" style="width: 80%; background: var(--gold);"></div></div>
+        </div>
+      </div>
+
+      <div class="quiz-box">
+        <div class="section-label" style="color: var(--ok);">Solve The Case</div>
+        <p class="scenario" id="ui-scenario">
+          </p>
+        <input type="text" id="quiz-input" class="cloze-input" placeholder="type idiom here..." autocomplete="off">
+        <br>
+        <button class="submit-case" onclick="checkCase()">Verify Evidence</button>
+        <div id="quiz-feedback" class="feedback"></div>
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom · Premium Masterclass Series</p>
+</footer>
+
+<script>
+/* ========================================================
+   THE IDIOM DATABASE (50 Cases)
+======================================================== */
+const db = {
+  'B': [
+    {
+      idiom: "Bite the bullet",
+      literal: "To physically place a metal projectile between your teeth and chew on it.",
+      figurative: "To bravely face a difficult, unpleasant, or painful situation that is unavoidable.",
+      etymology: "Before reliable anesthesia in the 19th century, battlefield surgeons would give soldiers a soft lead bullet to bite down on during painful procedures to prevent them from screaming and biting their tongues.",
+      formality: "40%", 
+      frequency: "85%", 
+      scenario: "I really don't want to tell the boss that we lost the client, but I'm just going to have to [blank] and tell him the truth.",
+      ans: ["bite the bullet"]
+    },
+    {
+      idiom: "Spill the beans",
+      literal: "To accidentally drop a bowl of legumes onto the floor.",
+      figurative: "To accidentally or prematurely reveal a secret or hidden information.",
+      etymology: "Traced back to ancient Greece, where voting was conducted anonymously by dropping a white bean (yes) or a black bean (no) into a jar. If someone knocked over the jar, the beans would spill, revealing the secret election results.",
+      formality: "30%",
+      frequency: "90%",
+      scenario: "Come on, stop hiding the details of the surprise party! It's time to [blank] and tell me what is going on.",
+      ans: ["spill the beans"]
+    },
+    {
+      idiom: "Under the weather",
+      literal: "To be physically standing outside beneath the rain or clouds.",
+      figurative: "To feel slightly ill or sick; not feeling your best.",
+      etymology: "A maritime origin. In the old days of sailing ships, if a sailor felt seasick, he would be sent below deck to protect him from the harsh weather and storms. He was literally sent 'under the weather' to recover.",
+      formality: "60%",
+      frequency: "95%",
+      scenario: "I won't be able to come into the office today. I woke up feeling a bit [blank] with a sore throat.",
+      ans: ["under the weather"]
+    },
+    {
+      idiom: "Beat around the bush",
+      literal: "To hit the ground repeatedly near a shrub with a stick.",
+      figurative: "To avoid talking about the main topic; to hesitate in getting to the point.",
+      etymology: "In medieval bird hunting, some hunters would walk through the woods beating bushes to scare birds out into the open so others could catch them. Beating 'around' the bush was the preamble to the main event.",
+      formality: "50%",
+      frequency: "80%",
+      scenario: "Please stop [blank] and just tell me directly if I got the promotion or not.",
+      ans: ["beating around the bush", "beat around the bush"]
+    },
+    {
+      idiom: "Cost an arm and a leg",
+      literal: "To pay for a product by surgically removing two of your limbs.",
+      figurative: "To be extremely expensive; costing an exorbitant amount of money.",
+      etymology: "A 20th-century American hyperbole that evolved from older phrases like 'I'd give my right arm for that,' exaggerating the physical sacrifice required to obtain a highly desired item.",
+      formality: "35%",
+      frequency: "85%",
+      scenario: "I love that vintage sports car, but maintaining the engine and buying parts will absolutely [blank].",
+      ans: ["cost an arm and a leg"]
+    },
+    {
+      idiom: "Break the ice",
+      literal: "To strike a frozen body of water with a heavy tool until it shatters.",
+      figurative: "To do or say something to relieve tension or get conversation started in a socially awkward situation.",
+      etymology: "In the days of robust maritime trade, special smaller ships called 'icebreakers' were sent ahead of trade ships during winter to forge a path through frozen rivers and lakes, allowing commercial flow to begin.",
+      formality: "60%",
+      frequency: "85%",
+      scenario: "The meeting was very quiet until the manager told a funny story about his morning commute to [blank].",
+      ans: ["break the ice"]
+    },
+    {
+      idiom: "Let the cat out of the bag",
+      literal: "To untie a sack and allow a feline to escape.",
+      figurative: "To carelessly or mistakenly reveal a secret.",
+      etymology: "In medieval markets, piglets were sold in tied bags (pokes). Dishonest merchants would sometimes substitute a worthless stray cat for the valuable pig. If a buyer opened the sack to check, they would 'let the cat out of the bag', revealing the fraud.",
+      formality: "40%",
+      frequency: "75%",
+      scenario: "We were trying to keep the retirement gift a secret, but Susan accidentally [blank] during lunch.",
+      ans: ["let the cat out of the bag", "lets the cat out of the bag"]
+    },
+    {
+      idiom: "Barking up the wrong tree",
+      literal: "A dog standing at the base of an oak, aggressively shouting at branches that contain nothing.",
+      figurative: "To pursue a false lead or make a mistake in your line of thought.",
+      etymology: "Derived from 19th-century American raccoon hunting. Hunting dogs would chase prey into a tree and bark at the base to signal the hunter. However, clever raccoons would sometimes jump to an adjacent tree, leaving the dog barking at an empty one.",
+      formality: "50%",
+      frequency: "80%",
+      scenario: "If the police think my client committed the robbery, they are completely [blank]. He was out of the country.",
+      ans: ["barking up the wrong tree"]
+    },
+    {
+      idiom: "Turn a blind eye",
+      literal: "To physically rotate a sightless eyeball toward an object.",
+      figurative: "To purposefully ignore undesirable information or pretend not to notice something wrong.",
+      etymology: "During the naval Battle of Copenhagen (1801), British Admiral Horatio Nelson, who was blind in one eye, was signaled by his superior to retreat. Nelson allegedly lifted his telescope to his blind eye and claimed he 'did not see the signal', continuing his victorious attack.",
+      formality: "70%",
+      frequency: "75%",
+      scenario: "The factory supervisor was known to [blank] to minor safety violations if it meant production moved faster.",
+      ans: ["turn a blind eye"]
+    },
+    {
+      idiom: "Caught red-handed",
+      literal: "To be arrested with hands covered in crimson paint or dye.",
+      figurative: "To be discovered in the exact act of committing a crime or doing something wrong.",
+      etymology: "An old English legal term. If a person was accused of butchering another man's livestock, the courts required strict proof. Being caught with the actual blood of the animal on your hands was the ultimate, irrefutable evidence.",
+      formality: "65%",
+      frequency: "80%",
+      scenario: "The accountant couldn't deny stealing the funds; the auditors found the hidden bank transfers and he was [blank].",
+      ans: ["caught red-handed", "caught red handed"]
+    },
+    {
+      idiom: "On the ball",
+      literal: "To be physically balancing your body on top of a sphere.",
+      figurative: "To be alert, highly competent, and quick to understand and react to things.",
+      etymology: "Originates from sports terminology, primarily baseball or soccer, where a good player must constantly keep their eyes 'on the ball' to react instantly to the changing dynamics of the game.",
+      formality: "55%",
+      frequency: "85%",
+      scenario: "We need someone really [blank] to manage this complex software migration without any downtime.",
+      ans: ["on the ball"]
+    },
+    {
+      idiom: "Hit the nail on the head",
+      literal: "To strike the flat metal top of a spike perfectly with a hammer.",
+      figurative: "To describe exactly what is causing a situation or problem; to be precisely correct.",
+      etymology: "A direct analogy from carpentry. A clean, perfectly aimed strike drives the nail perfectly, while an inaccurate strike bends it or ruins the wood.",
+      formality: "60%",
+      frequency: "90%",
+      scenario: "Your analysis of why our sales dropped last quarter was perfect. You really [blank].",
+      ans: ["hit the nail on the head"]
+    },
+    {
+      idiom: "Bury the hatchet",
+      literal: "To dig a hole in the earth and place a small axe inside.",
+      figurative: "To make peace; to end a long conflict or quarrel.",
+      etymology: "Originates from a literal practice among early Native American tribes (particularly the Iroquois). When peace treaties were negotiated between tribes, chiefs would physically bury their weapons in the ground to symbolise the end of hostilities.",
+      formality: "65%",
+      frequency: "70%",
+      scenario: "After years of arguing over the property line, the two neighbours finally decided to [blank] and become friends.",
+      ans: ["bury the hatchet"]
+    },
+    {
+      idiom: "Burn the midnight oil",
+      literal: "To ignite petroleum at 12:00 AM.",
+      figurative: "To work, read, or study late into the night.",
+      etymology: "Before the invention of electric lighting, anyone wishing to work past sunset had to rely on the light of oil lamps. Working very late literally required burning extra oil.",
+      formality: "60%",
+      frequency: "80%",
+      scenario: "The legal team had to [blank] to finish reviewing the contract before the morning deadline.",
+      ans: ["burn the midnight oil"]
+    },
+    {
+      idiom: "Don't look a gift horse in the mouth",
+      literal: "To refuse to open the jaws of an equine present to inspect its gums.",
+      figurative: "When receiving a gift, be grateful and do not question its value or look for flaws.",
+      etymology: "As horses age, their teeth change shape and project further forward. Therefore, inspecting a horse's mouth is a way of determining its age and true value. Doing this to a horse given as a free gift was considered highly rude and ungrateful.",
+      formality: "50%",
+      frequency: "65%",
+      scenario: "I know the car your uncle gave you is old and rusty, but [blank]. It gets you to work!",
+      ans: ["don't look a gift horse in the mouth", "never look a gift horse in the mouth"]
+    },
+    {
+      idiom: "Jump on the bandwagon",
+      literal: "To leap onto a large horse-drawn wagon carrying musicians.",
+      figurative: "To join a popular trend or support a politician only after they have already become successful.",
+      etymology: "In 19th-century America, politicians would often campaign by parading through towns on actual wagons carrying a live brass band to attract a crowd. Once the politician seemed destined to win, local leaders would literally 'jump on the bandwagon' to show their allegiance.",
+      formality: "55%",
+      frequency: "85%",
+      scenario: "Now that the local football team is winning the championships, everyone wants to [blank] and buy their merchandise.",
+      ans: ["jump on the bandwagon"]
+    },
+    {
+      idiom: "Once in a blue moon",
+      literal: "When the Earth's lunar satellite physically turns the colour of sapphire.",
+      figurative: "An event that happens very rarely or almost never.",
+      etymology: "A 'blue moon' is an astronomical term for the second full moon occurring within a single calendar month, which only happens roughly every 2.7 years. Historically, heavy volcanic ash in the atmosphere has also occasionally tinted the moon visually blue, a deeply rare event.",
+      formality: "60%",
+      frequency: "90%",
+      scenario: "My brother lives in Australia, so we only get to see him [blank].",
+      ans: ["once in a blue moon"]
+    },
+    {
+      idiom: "Pull someone's leg",
+      literal: "To firmly grasp a person's lower limb and tug it.",
+      figurative: "To playfully deceive someone; to joke or trick someone in a friendly way.",
+      etymology: "Believed to originate from 18th-century street thieves in London. One thief would use a cane or wire to trip a victim (pull their leg) so another could rob them while they were disoriented. Over time, it softened into a metaphor for mental disorientation via teasing.",
+      formality: "45%",
+      frequency: "85%",
+      scenario: "I panicked when you said my car was towed! I can't believe you were just [blank].",
+      ans: ["pulling my leg", "pull someone's leg", "pulling someone's leg"]
+    },
+    {
+      idiom: "Saved by the bell",
+      literal: "Rescued from danger by the ringing of a metallic chime.",
+      figurative: "To be rescued from a difficult situation at the very last possible moment.",
+      etymology: "Originates from late 19th-century boxing rules. If a boxer was losing badly or knocked down, the ringing of the bell to signal the end of the round would prevent them from being counted out and losing the match.",
+      formality: "50%",
+      frequency: "80%",
+      scenario: "I hadn't done my homework, but the fire alarm went off right before the teacher called on me. I was [blank].",
+      ans: ["saved by the bell"]
+    },
+    {
+      idiom: "Throw in the towel",
+      literal: "To toss a piece of absorbent cotton fabric into the centre of a room.",
+      figurative: "To give up, surrender, or admit defeat.",
+      etymology: "Another boxing idiom. In the early 20th century, if a fighter was taking too much damage, their trainer would physically throw a sponge or towel into the ring to signal to the referee to stop the fight and concede defeat.",
+      formality: "60%",
+      frequency: "85%",
+      scenario: "After three weeks of trying to fix the old computer, I decided to [blank] and just buy a new one.",
+      ans: ["throw in the towel"]
+    },
+    {
+      idiom: "Down to the wire",
+      literal: "Moving closely toward a thin metal thread.",
+      figurative: "A situation whose outcome is not known until the very last second.",
+      etymology: "Originates from horse racing in the late 19th century. A literal wire was strung across the finish line above the track to help the judges clearly determine which horse's nose crossed first in a tight race.",
+      formality: "65%",
+      frequency: "75%",
+      scenario: "The election was incredibly close; the vote counting went right [blank].",
+      ans: ["down to the wire"]
+    },
+    {
+      idiom: "Wild goose chase",
+      literal: "Running through a field trying to catch aggressive waterfowl.",
+      figurative: "A hopeless, complicated search for something that is impossible to find or doesn't exist.",
+      etymology: "Coined by Shakespeare in 'Romeo and Juliet'. It originally referred to a complicated equestrian game where riders had to follow a lead horse in a complex, unpredictable formation, resembling the erratic flight pattern of a flock of wild geese.",
+      formality: "55%",
+      frequency: "70%",
+      scenario: "The faulty GPS sent us on a [blank] looking for a restaurant that closed down five years ago.",
+      ans: ["wild goose chase"]
+    },
+    {
+      idiom: "Cold turkey",
+      literal: "A chilled, unheated poultry dish.",
+      figurative: "To abruptly and completely give up a habit or addiction, rather than gradually reducing it.",
+      etymology: "Derived from the physical symptoms of drug withdrawal. When someone suddenly stops an addiction, their skin becomes pale and covered in goosebumps, heavily resembling the skin of a plucked, refrigerated turkey.",
+      formality: "45%",
+      frequency: "80%",
+      scenario: "Instead of wearing nicotine patches, he decided to quit smoking [blank].",
+      ans: ["cold turkey"]
+    },
+    {
+      idiom: "Let your hair down",
+      literal: "To remove hairpins and allow your hair to fall to your shoulders.",
+      figurative: "To relax completely, act freely, and drop your formal inhibitions.",
+      etymology: "In 17th-century Parisian and English society, aristocratic women were required to wear their hair in incredibly tight, elaborate updos in public. They could only 'let their hair down' in the privacy of their own homes where they could finally relax.",
+      formality: "40%",
+      frequency: "80%",
+      scenario: "After completing the grueling financial audit, the accounting team went out for drinks to finally [blank].",
+      ans: ["let their hair down", "let your hair down"]
+    },
+    {
+      idiom: "Rule of thumb",
+      literal: "To measure objects using your thumb as a ruler.",
+      figurative: "A broadly accurate guide or principle based on practice rather than exact scientific measurement.",
+      etymology: "Derived from old tradesmen, carpenters, and farmers who lacked precise measuring tools and would literally use the width or length of their thumbs to estimate measurements in the field.",
+      formality: "70%",
+      frequency: "90%",
+      scenario: "As a general [blank], you should cook the steak for exactly four minutes on each side for medium-rare.",
+      ans: ["rule of thumb"]
+    }
+  ],
+  'C': [
+    {
+      idiom: "A damp squib",
+      literal: "A wet, soggy piece of fireworks lying on the ground.",
+      figurative: "An event or situation that is highly anticipated but turns out to be deeply disappointing and underwhelming.",
+      etymology: "A 'squib' is a small explosive device. In the 16th century, if the gunpowder inside became damp, it would fail to explode, producing only a sad fizzle.",
+      formality: "70%",
+      frequency: "40%",
+      scenario: "The corporate merger was expected to revolutionise the tech industry, but it ultimately turned out to be [blank].",
+      ans: ["a damp squib"]
+    },
+    {
+      idiom: "Beyond the pale",
+      literal: "To travel past a wooden fence or physical boundary line.",
+      figurative: "An action or behaviour that is completely unacceptable, unreasonable, or outside the bounds of moral decency.",
+      etymology: "A 'pale' is a fence or boundary. Historically, it referred to the 'Pale of Settlement' in Ireland or Russia. Anything 'beyond the pale' was considered lawless territory.",
+      formality: "85%",
+      frequency: "50%",
+      scenario: "I can tolerate his slight arrogance, but screaming at the junior staff in front of clients is entirely [blank].",
+      ans: ["beyond the pale"]
+    },
+    {
+      idiom: "Rest on one's laurels",
+      literal: "To use a crown of aromatic leaves as a pillow for sleeping.",
+      figurative: "To be dangerously complacent; to rely on past successes instead of working hard in the present.",
+      etymology: "In Ancient Greece, wreaths made from bay laurel were awarded to victorious athletes. To 'rest' on them implies stopping all current effort because you believe your past awards are enough.",
+      formality: "80%",
+      frequency: "65%",
+      scenario: "Our company had a fantastic financial quarter, but our competitors are innovating quickly; we cannot afford to [blank] now.",
+      ans: ["rest on our laurels", "rest on one's laurels"]
+    },
+    {
+      idiom: "A red herring",
+      literal: "A strongly scented crimson fish used as a distraction.",
+      figurative: "A piece of information or clue meant to be misleading or distracting from the actual important issue.",
+      etymology: "In the 18th century, dog trainers would drag a strong-smelling smoked fish across the trail of a fox to train hunting hounds to ignore distracting smells.",
+      formality: "75%",
+      frequency: "60%",
+      scenario: "The politician's sudden speech about tax reform was just [blank] to distract the media from his recent scandal.",
+      ans: ["a red herring"]
+    },
+    {
+      idiom: "Steal someone's thunder",
+      literal: "To physically capture the acoustic shockwave caused by lightning.",
+      figurative: "To take the attention or praise away from someone else, usually by doing what they intended to do first.",
+      etymology: "In 1704, playwright John Dennis invented a new thunder sound effect for a play. The play failed, but a rival theatre stole his sound machine. He shouted, 'They steal my thunder!'",
+      formality: "55%",
+      frequency: "75%",
+      scenario: "I was about to announce my promotion, but my sister decided to [blank] by announcing she was engaged.",
+      ans: ["steal my thunder", "steal someone's thunder"]
+    },
+    {
+      idiom: "White elephant",
+      literal: "A pale-coloured, large pachyderm.",
+      figurative: "A possession that is useless or troublesome, especially one that is expensive to maintain or difficult to dispose of.",
+      etymology: "Originates from the ancient Kings of Siam (now Thailand). The King would gift sacred, rare albino elephants to courtiers who had displeased him. Because the animals were sacred, they could not be put to work, and the massive cost of feeding and housing them would financially ruin the recipient.",
+      formality: "80%",
+      frequency: "45%",
+      scenario: "The city spent millions building a massive stadium for the Olympics, but now it sits abandoned; a total financial [blank].",
+      ans: ["white elephant", "a white elephant"]
+    },
+    {
+      idiom: "Pyrrhic victory",
+      literal: "Winning a trophy named Pyrrhus.",
+      figurative: "A victory or success that is won at such a devastating cost to the victor that it is essentially synonymous with defeat.",
+      etymology: "Named after King Pyrrhus of Epirus, whose army suffered irreplaceable casualties in defeating the Romans at Asculum in 279 BC. He famously declared, 'If we are victorious in one more battle with the Romans, we shall be utterly ruined.'",
+      formality: "90%",
+      frequency: "40%",
+      scenario: "The CEO won the brutal lawsuit against his former partners, but the legal fees bankrupted the company; it was a textbook [blank].",
+      ans: ["pyrrhic victory", "a pyrrhic victory"]
+    },
+    {
+      idiom: "Show your true colors",
+      literal: "To paint yourself in bright pigments.",
+      figurative: "To reveal one's genuine character, intentions, or beliefs, especially when they are unpleasant and previously hidden.",
+      etymology: "A tactic from 17th-century naval warfare. Warships would sometimes sail under a false flag (colours) to deceive enemy vessels into letting them approach. Only at the very last moment before firing would they lower the deception and 'show their true colours'.",
+      formality: "70%",
+      frequency: "80%",
+      scenario: "He pretended to be a supportive colleague, but when the promotion became available, he sabotaged me and finally [blank].",
+      ans: ["showed his true colors", "showed his true colours", "show your true colors"]
+    },
+    {
+      idiom: "A flash in the pan",
+      literal: "A bright spark inside a cooking skillet.",
+      figurative: "Someone or something that promises great success but ultimately fails or produces nothing of lasting value.",
+      etymology: "Derived from early flintlock muskets. If the gunpowder in the small external 'pan' ignited (the flash) but failed to ignite the main charge inside the barrel, the gun would not fire. It produced light and noise, but no projectile.",
+      formality: "75%",
+      frequency: "50%",
+      scenario: "The tech startup had a brilliant launch week, but the app was buggy and users abandoned it. It was just [blank].",
+      ans: ["a flash in the pan"]
+    },
+    {
+      idiom: "Hoist with his own petard",
+      literal: "To be lifted into the air by your own explosive device.",
+      figurative: "To be ruined or destroyed by the very trap, plot, or deception one had intended for someone else.",
+      etymology: "A phrase cemented by Shakespeare in Hamlet. A 'petard' was a dangerous medieval bell-shaped bomb used to blow open castle gates. If the fuse was faulty, the engineer would be 'hoisted' (blown into the air) by his own bomb.",
+      formality: "85%",
+      frequency: "30%",
+      scenario: "The manager tried to get his rival fired by planting false documents, but IT traced the files back to his computer. He was [blank].",
+      ans: ["hoist with his own petard", "hoisted with his own petard"]
+    },
+    {
+      idiom: "To the bitter end",
+      literal: "To chew on something sour until it is entirely consumed.",
+      figurative: "To continue a task or struggle to the absolute conclusion, regardless of how difficult or unpleasant it becomes.",
+      etymology: "Nautical terminology. The 'bitts' are the strong wooden posts on a ship's deck where the anchor cable is tied. The very last usable section of the rope is called the 'bitter end'. To pay out rope to the bitter end means there is absolutely nothing left.",
+      formality: "75%",
+      frequency: "70%",
+      scenario: "The negotiations were incredibly hostile, but the union representatives vowed to fight for fair wages right [blank].",
+      ans: ["to the bitter end"]
+    },
+    {
+      idiom: "Run amok",
+      literal: "To sprint wildly while yelling the word 'amok'.",
+      figurative: "To behave in a frenzied, out-of-control, or destructive manner without discipline.",
+      etymology: "Originates from the Malay word 'amuk', which historically described a specific, culturally bound psychological condition where a person would enter a state of blind, murderous frenzy, often attacking anyone in their path.",
+      formality: "70%",
+      frequency: "60%",
+      scenario: "Without the teacher present, the kindergarteners were completely unsupervised and began to [blank] in the art room.",
+      ans: ["run amok"]
+    },
+    {
+      idiom: "Mad as a hatter",
+      literal: "To be as angry as someone who crafts headwear.",
+      figurative: "To be completely eccentric, erratic, or exhibiting signs of insanity.",
+      etymology: "In the 18th and 19th centuries, hat makers used highly toxic mercury nitrate to cure the felt used in top hats. Prolonged exposure to mercury vapours caused severe neurological damage, leading to trembling, memory loss, and severe behavioural changes in the hatters.",
+      formality: "60%",
+      frequency: "50%",
+      scenario: "His conspiracy theories about the moon landing make him sound completely [blank].",
+      ans: ["mad as a hatter"]
+    },
+    {
+      idiom: "Cross the Rubicon",
+      literal: "To walk through a small stream in Italy.",
+      figurative: "To take a decisive, irrevocable step that commits one to a specific course of action; the point of no return.",
+      etymology: "In 49 BC, Julius Caesar led his army across the Rubicon River in Northern Italy. Roman law strictly forbade a general from leading a standing army across this border into Italy proper. By crossing it, Caesar irreversibly committed to civil war.",
+      formality: "85%",
+      frequency: "40%",
+      scenario: "By publicly leaking the company's internal emails to the press, the whistleblower knew he had [blank] and could never return.",
+      ans: ["crossed the Rubicon", "cross the Rubicon"]
+    },
+    {
+      idiom: "Fly off the handle",
+      literal: "To throw a door handle into the air.",
+      figurative: "To suddenly and completely lose one's temper in an explosive fit of rage.",
+      etymology: "Derived from poorly constructed axes in the pioneer era. If the heavy iron axe head was not securely fastened, it would abruptly 'fly off the handle' during a downward swing, creating a sudden, wildly dangerous and unpredictable situation.",
+      formality: "55%",
+      frequency: "75%",
+      scenario: "I just asked a simple question about the budget, and the director completely [blank] and started screaming.",
+      ans: ["flew off the handle", "fly off the handle"]
+    },
+    {
+      idiom: "Go the whole nine yards",
+      literal: "To physically run a distance of exactly 27 feet.",
+      figurative: "To give absolute maximum effort; to do everything possible or use everything available.",
+      etymology: "While heavily debated, the most robust theory points to World War II aviation. The ammunition belts for .50 caliber machine guns in American bomber planes were exactly nine yards long. If a gunner fired all his ammunition at a target, he gave it 'the whole nine yards'.",
+      formality: "60%",
+      frequency: "80%",
+      scenario: "For her wedding reception, they didn't just rent a hall; they hired a live orchestra and went [blank].",
+      ans: ["the whole nine yards", "go the whole nine yards"]
+    },
+    {
+      idiom: "Keep at bay",
+      literal: "To trap something near the coastline or a body of water.",
+      figurative: "To prevent a dangerous, threatening, or unpleasant situation from coming too close or causing harm.",
+      etymology: "Derived from medieval stag hunting. When a hunted animal was cornered and turned to face the hounds, the dogs would howl and bark loudly (the Old French word 'abaiier' means to bark). The prey was 'at bay', held off by the barking.",
+      formality: "75%",
+      frequency: "85%",
+      scenario: "The new antiviral medication is incredibly effective at keeping the symptoms of the disease [blank].",
+      ans: ["at bay", "keep at bay"]
+    },
+    {
+      idiom: "Pass the buck",
+      literal: "To hand a male deer to the person next to you.",
+      figurative: "To shift the responsibility, blame, or accountability for a problem to someone else.",
+      etymology: "Originates from 19th-century American frontier poker. A marker (often a knife with a handle made of buckhorn) was placed in front of the person whose turn it was to deal the cards. If a player didn't want the responsibility of dealing, they would literally 'pass the buck' to the next player.",
+      formality: "65%",
+      frequency: "80%",
+      scenario: "Whenever a project fails, the marketing department always tries to [blank] to the engineering team.",
+      ans: ["pass the buck"]
+    },
+    {
+      idiom: "Read the riot act",
+      literal: "To read a dramatic play about a violent protest.",
+      figurative: "To give someone a severe warning or reprimand them forcefully for bad behaviour.",
+      etymology: "Under the British Riot Act of 1714, if an unruly crowd gathered, a local magistrate was legally required to stand before them and read aloud a specific proclamation ordering them to disperse. If they did not leave within one hour, deadly force could be used.",
+      formality: "70%",
+      frequency: "55%",
+      scenario: "After the students vandalised the laboratory, the principal called them into his office and firmly [blank].",
+      ans: ["read the riot act", "read them the riot act"]
+    },
+    {
+      idiom: "Ride roughshod",
+      literal: "To wear uncomfortable, abrasive shoes while riding a horse.",
+      figurative: "To act in a bullying or arrogant manner, completely ignoring the feelings, rights, or opinions of others.",
+      etymology: "In the 17th century, a horse was 'roughshod' when the nails in its horseshoes were intentionally left protruding. This provided extra grip on slippery winter roads but also turned the horse's hooves into lethal, tearing weapons in cavalry charges.",
+      formality: "80%",
+      frequency: "50%",
+      scenario: "The new CEO decided to [blank] over the existing corporate culture, firing executives without warning.",
+      ans: ["ride roughshod"]
+    },
+    {
+      idiom: "Run the gauntlet",
+      literal: "To jog while holding heavy metal medieval gloves.",
+      figurative: "To be subjected to a severe, punishing ordeal, or to face heavy criticism from multiple sources at once.",
+      etymology: "Originates from the Swedish military punishment 'gatlopp' (lane run) during the Thirty Years' War. A convicted soldier was forced to run stripped to the waist between two rows of his comrades, who would strike him with sticks or whips as he passed.",
+      formality: "75%",
+      frequency: "65%",
+      scenario: "To get the controversial bill passed into law, the senator had to [blank] of angry press conferences and hostile debates.",
+      ans: ["run the gauntlet"]
+    },
+    {
+      idiom: "Swan song",
+      literal: "A concert performed exclusively by aquatic birds.",
+      figurative: "The final performance, achievement, or public appearance of a person before retirement or death.",
+      etymology: "Stemming from ancient Greek mythology, there was a poetic belief that swans, which are typically silent or produce harsh honks during their lives, sing one incredibly beautiful, mournful song in the moments right before they die.",
+      formality: "85%",
+      frequency: "55%",
+      scenario: "The legendary architect designed one final, magnificent museum as his [blank] before retiring at the age of eighty.",
+      ans: ["swan song", "a swan song"]
+    },
+    {
+      idiom: "Turn the tables",
+      literal: "To physically lift and rotate a dining table 180 degrees.",
+      figurative: "To completely reverse a situation, putting oneself in a position of superiority over an opponent who previously had the advantage.",
+      etymology: "Derived from 17th-century board games, primarily backgammon (which was played on a board composed of 'tables'). If the board was physically rotated, the players inherited each other's positions, instantly reversing who was winning and losing.",
+      formality: "60%",
+      frequency: "85%",
+      scenario: "The defense lawyer managed to [blank] on the prosecution by introducing a surprise witness at the last minute.",
+      ans: ["turn the tables"]
+    },
+    {
+      idiom: "Throw the baby out with the bathwater",
+      literal: "To accidentally toss an infant out of a window while emptying a bathtub.",
+      figurative: "To accidentally discard something valuable or essential while trying to get rid of something undesirable.",
+      etymology: "A German proverb translated into English in the 19th century. It originated from an era before indoor plumbing, where entire families shared the same bathwater. The baby was washed last, when the water was heavily clouded, prompting the dark humor of warning mothers not to throw the baby out with the murky water.",
+      formality: "75%",
+      frequency: "60%",
+      scenario: "We need to fix the flaws in the software, but let's not scrap the entire project and [blank].",
+      ans: ["throw the baby out with the bathwater"]
+    },
+    {
+      idiom: "Paint the town red",
+      literal: "To hire contractors to coat the exterior of urban buildings in crimson gloss.",
+      figurative: "To go out into a city or town and have a wildly exuberant, often boisterous or drunken celebration.",
+      etymology: "Traced to an infamous incident in 1837. The wealthy, eccentric Marquis of Waterford and his drunken aristocratic friends went on a rampage in the English town of Melton Mowbray. During their vandalism, they literally stole several pots of red paint and painted the town's tollgates, doors, and a swan statue red.",
+      formality: "55%",
+      frequency: "70%",
+      scenario: "After they finally finished their final university exams, the students went to the city centre to [blank].",
+      ans: ["paint the town red"]
+    }
+  ]
+};
+
+let currentLevel = 'B';
+let currentIndex = 0;
+
+/* ========================================================
+   CONTROLLERS
+======================================================== */
+
+function switchLevel(lvl) {
+  currentLevel = lvl;
+  document.getElementById('btn-lvl-b').classList.toggle('active', lvl === 'B');
+  document.getElementById('btn-lvl-c').classList.toggle('active', lvl === 'C');
+  
+  renderSidebar();
+  loadIdiom(0);
+}
+
+function renderSidebar() {
+  const ul = document.getElementById('sidebar-list');
+  ul.innerHTML = '';
+  
+  const cases = db[currentLevel];
+  
+  cases.forEach((c, index) => {
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.className = 'case-btn';
+    if (index === currentIndex) btn.classList.add('active');
+    
+    btn.innerHTML = `<span class="case-id">#${String(index + 1).padStart(2, '0')}</span> ${c.idiom}`;
+    btn.onclick = () => loadIdiom(index);
+    
+    li.appendChild(btn);
+    ul.appendChild(li);
+  });
+}
+
+function loadIdiom(index) {
+  currentIndex = index;
+  const data = db[currentLevel][index];
+  
+  // Update UI sidebar
+  const buttons = document.querySelectorAll('.case-btn');
+  buttons.forEach((btn, i) => btn.classList.toggle('active', i === index));
+  
+  // Populate Header
+  document.getElementById('ui-case-num').innerText = `Case File #${String(index + 1).padStart(2, '0')} (${currentLevel === 'B' ? 'Intermediate' : 'Advanced'})`;
+  document.getElementById('ui-idiom-title').innerText = data.idiom;
+  
+  // Reset Toggle to Figurative (Default for learners)
+  toggleMeaning('figurative');
+  
+  // Populate Etymology & Pragmatics
+  document.getElementById('ui-etymology').innerText = data.etymology;
+  
+  // Animate meters
+  const formMeter = document.getElementById('ui-formality');
+  const freqMeter = document.getElementById('ui-frequency');
+  formMeter.style.width = '0%';
+  freqMeter.style.width = '0%';
+  setTimeout(() => {
+    formMeter.style.width = data.formality;
+    freqMeter.style.width = data.frequency;
+  }, 100);
+
+  // Populate Quiz
+  const scenarioStr = data.scenario.replace('[blank]', '<span style="color:var(--gold); border-bottom:1px dashed var(--gold);">________</span>');
+  document.getElementById('ui-scenario').innerHTML = scenarioStr;
+  
+  // Reset Quiz UI
+  const input = document.getElementById('quiz-input');
+  input.value = '';
+  input.style.borderColor = 'var(--gold)';
+  input.style.color = 'var(--ink)';
+  
+  const fb = document.getElementById('quiz-feedback');
+  fb.classList.remove('show', 'fb-ok', 'fb-no');
+  fb.style.backgroundColor = '';
+  fb.style.color = '';
+  fb.style.borderLeft = '';
+}
+
+function toggleMeaning(type) {
+  const data = db[currentLevel][currentIndex];
+  const btnLit = document.getElementById('btn-literal');
+  const btnFig = document.getElementById('btn-figurative');
+  const display = document.getElementById('ui-meaning');
+  
+  if (type === 'literal') {
+    btnLit.classList.add('active');
+    btnFig.classList.remove('active');
+    display.innerHTML = data.literal;
+    display.style.color = 'var(--cream-dim)';
+  } else {
+    btnFig.classList.add('active');
+    btnLit.classList.remove('active');
+    display.innerHTML = `<strong>Definition:</strong> &nbsp; ${data.figurative}`;
+    display.style.color = 'var(--ink)';
+  }
+}
+
+function checkCase() {
+  const data = db[currentLevel][currentIndex];
+  const input = document.getElementById('quiz-input');
+  const fb = document.getElementById('quiz-feedback');
+  
+  let guess = input.value.toLowerCase().trim();
+  // Strip punctuation
+  guess = guess.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+
+  let isCorrect = false;
+  for (let ans of data.ans) {
+    if (guess === ans.toLowerCase()) {
+      isCorrect = true;
+      break;
+    }
+  }
+
+  fb.classList.remove('show');
+  
+  // Force a tiny reflow for animation restart
+  void fb.offsetWidth; 
+
+  if (isCorrect) {
+    input.style.borderColor = 'var(--ok)';
+    input.style.color = 'var(--ok)';
+    fb.style.backgroundColor = 'var(--ok-bg)';
+    fb.style.color = 'var(--ok)';
+    fb.style.borderLeft = '4px solid var(--ok)';
+    fb.innerHTML = `✓ <strong>CASE CLOSED.</strong> Excellent pragmatic application.`;
+  } else {
+    input.style.borderColor = 'var(--no)';
+    input.style.color = 'var(--no)';
+    fb.style.backgroundColor = 'var(--no-bg)';
+    fb.style.color = 'var(--no)';
+    fb.style.borderLeft = '4px solid var(--no)';
+    fb.innerHTML = `✗ <strong>ERROR.</strong> The evidence does not match. Try adjusting verb tense or pronouns.`;
+  }
+  
+  fb.classList.add('show');
+}
+
+// Enter key submit
+document.getElementById("quiz-input").addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    checkCase();
+  }
+});
+
+// Init
+window.onload = () => {
+  switchLevel('B');
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grammar Lesson 1: English Tenses – Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: oklab(41.21% -0.07764 0.0845); --parchment: hsl(0, 0%, 94%); --cream: hsl(0, 0%, 96%);
+      --gold: #c8922a; --gold-light: #e8b84b; --rust: #a0401a;
+      --teal: #1e6b6b; --pearl: hsl(0, 0%, 96%); --shadow: rgba(26,18,9,0.12);
+      --correct: #1e6b3a; --wrong: #8b1a1a;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Source Serif 4',Georgia,serif; background:var(--parchment); color:var(--ink); }
+    nav { background:var(--ink); padding:0 2rem; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+    .nav-logo { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--gold-light); padding:1.1rem 0; text-decoration:none; display:block; }
+    .nav-logo span { color:#fff; font-style:italic; }
+    .nav-back { font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:#aaa; text-decoration:none; }
+    .nav-back:hover { color:var(--gold-light); }
+
+    /* HERO */
+    .hero { background:var(--ink); padding:4rem 2rem 3rem; text-align:center; position:relative; overflow:hidden; }
+    .hero::before { content:'⏱'; font-size:16rem; position:absolute; opacity:0.04; top:-2rem; left:50%; transform:translateX(-50%); pointer-events:none; }
+    .meta { display:flex; justify-content:center; gap:0.8rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+    .pill { font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase; padding:0.35rem 0.9rem; border-radius:2px; }
+    .pill-gold { background:rgba(200,146,42,0.2); color:var(--gold-light); border:1px solid rgba(200,146,42,0.3); }
+    .pill-teal { background:rgba(30,107,107,0.3); color:#5ecece; border:1px solid rgba(30,107,107,0.4); }
+    .pill-gray { background:rgba(255,255,255,0.07); color:#aaa; border:1px solid rgba(255,255,255,0.1); }
+    .hero h1 { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,4vw,3rem); color:#fff; line-height:1.15; max-width:780px; margin:0 auto 1rem; }
+    .hero h1 em { color:var(--gold-light); font-style:italic; }
+    .hero p { color:#999; font-size:1rem; font-weight:300; max-width:580px; margin:0 auto; line-height:1.7; }
+    .progress-bar { height:3px; background:rgba(255,255,255,0.1); margin-top:2.5rem; }
+    .progress-fill { height:100%; width:0; background:var(--gold); transition:width 0.3s; }
+
+    /* LAYOUT */
+    .layout { max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1fr 280px; gap:3rem; padding:3rem 2rem; }
+
+    /* ARTICLE */
+    .body h2 { font-family:'Playfair Display',serif; font-size:1.5rem; margin:2.5rem 0 1rem; padding-bottom:0.5rem; border-bottom:2px solid var(--gold); display:inline-block; }
+    .body p { font-size:1.02rem; line-height:1.9; color:#333; margin-bottom:1.3rem; }
+    .body ul { margin:0 0 1.3rem 1.5rem; }
+    .body ul li { font-size:0.97rem; line-height:1.8; color:#444; margin-bottom:0.4rem; }
+
+    /* TENSE TIMELINE (interactive) */
+    .timeline-wrap { background:#fff; padding:1.5rem; box-shadow:0 2px 12px var(--shadow); margin:2rem 0; }
+    .timeline-label { font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+    .timeline { display:flex; align-items:center; gap:0; margin-bottom:1.5rem; position:relative; }
+    .t-seg { flex:1; height:6px; cursor:pointer; transition:filter 0.2s; }
+    .t-seg.past { background:linear-gradient(90deg,#6b3fa0,#9b5db5); }
+    .t-seg.present { background:linear-gradient(90deg,#c8922a,#e8b84b); }
+    .t-seg.future { background:linear-gradient(90deg,#1e6b6b,#2d9e9e); }
+    .t-seg:hover { filter:brightness(1.2); }
+    .t-dot { width:16px; height:16px; border-radius:50%; background:#fff; border:3px solid var(--gold); flex-shrink:0; position:relative; z-index:1; }
+    .tense-panels { }
+    .tense-panel { display:none; }
+    .tense-panel.active { display:block; }
+    .tense-table { width:100%; border-collapse:collapse; margin-top:0.8rem; font-size:0.9rem; }
+    .tense-table th { background:var(--ink); color:var(--gold-light); font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.6rem 0.8rem; text-align:left; }
+    .tense-table td { padding:0.6rem 0.8rem; border-bottom:1px solid var(--pearl); color:#444; line-height:1.6; }
+    .tense-table tr:last-child td { border-bottom:none; }
+    .tense-table .ex { color:var(--teal); font-style:italic; font-size:0.88rem; }
+    .tl-tabs { display:flex; gap:0.5rem; margin-bottom:1rem; flex-wrap:wrap; }
+    .tl-tab { padding:0.4rem 1rem; font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; border:1px solid var(--pearl); cursor:pointer; background:var(--parchment); color:#888; transition:all 0.2s; }
+    .tl-tab.active-past { background:#6b3fa0; color:#fff; border-color:#6b3fa0; }
+    .tl-tab.active-present { background:var(--gold); color:var(--ink); border-color:var(--gold); }
+    .tl-tab.active-future { background:var(--teal); color:#fff; border-color:var(--teal); }
+
+    /* FORMULA CARD */
+    .formula-card { background:var(--ink); padding:1.5rem 1.8rem; margin:1.5rem 0; }
+    .formula-label { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:0.5rem; }
+    .formula { font-family:'DM Mono',monospace; font-size:1rem; color:#fff; line-height:1.8; }
+    .formula span.sub { color:var(--gold-light); }
+    .formula span.ex { color:#7ed4d4; font-style:italic; }
+
+    /* EXAMPLE SENTENCE */
+    .example-box { background:var(--cream); border-left:4px solid var(--teal); padding:1rem 1.4rem; margin:1rem 0; font-style:italic; color:var(--teal); font-size:0.97rem; line-height:1.7; }
+    .example-box strong { font-style:normal; color:var(--ink); }
+
+    /* QUIZ */
+    .quiz-section { background:#fff; padding:2rem; box-shadow:0 2px 12px var(--shadow); margin-top:2.5rem; }
+    .quiz-header { font-family:'Playfair Display',serif; font-size:1.3rem; margin-bottom:0.4rem; }
+    .quiz-sub { font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; }
+    .q-item { margin-bottom:1.5rem; padding-bottom:1.5rem; border-bottom:1px solid var(--pearl); }
+    .q-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+    .q-prompt { font-size:0.97rem; color:#333; line-height:1.7; margin-bottom:0.8rem; }
+    .q-prompt em { color:var(--gold); font-style:normal; font-weight:600; }
+    .q-input { width:100%; padding:0.7rem 1rem; border:1px solid var(--pearl); background:var(--parchment); font-family:'DM Mono',monospace; font-size:0.88rem; color:var(--ink); outline:none; transition:border-color 0.2s; }
+    .q-input:focus { border-color:var(--gold); }
+    .q-input.correct { border-color:var(--correct); background:rgba(30,107,58,0.05); color:var(--correct); }
+    .q-input.wrong { border-color:var(--wrong); background:rgba(139,26,26,0.05); }
+    .q-feedback { font-size:0.83rem; margin-top:0.4rem; font-family:'DM Mono',monospace; display:none; }
+    .q-feedback.ok { color:var(--correct); }
+    .q-feedback.no { color:var(--wrong); }
+    .quiz-btn { padding:0.8rem 2rem; background:var(--teal); color:#fff; border:none; font-family:'DM Mono',monospace; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; margin-top:1rem; transition:all 0.2s; }
+    .quiz-btn:hover { background:#155555; }
+    .quiz-score { display:none; margin-top:1rem; padding:1rem; background:var(--ink); text-align:center; }
+    .quiz-score span { font-family:'Playfair Display',serif; font-size:2rem; color:var(--gold-light); }
+    .quiz-score p { color:#aaa; font-size:0.85rem; margin-top:0.3rem; }
+
+    /* SIDEBAR */
+    .sidebar { display:flex; flex-direction:column; gap:1.5rem; }
+    .s-card { background:#fff; padding:1.4rem; box-shadow:0 2px 12px var(--shadow); }
+    .s-card h4 { font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; padding-bottom:0.6rem; border-bottom:1px solid var(--pearl); }
+    .nav-list { list-style:none; }
+    .nav-list li { border-bottom:1px solid var(--pearl); }
+    .nav-list li:last-child { border-bottom:none; }
+    .nav-list a { display:block; padding:0.6rem 0; font-size:0.88rem; color:#555; text-decoration:none; transition:color 0.2s; }
+    .nav-list a:hover { color:var(--gold); }
+    .nav-list a.current { color:var(--gold); font-weight:600; }
+    .tip-box { background:rgba(200,146,42,0.08); border:1px solid rgba(200,146,42,0.2); padding:1rem; font-size:0.88rem; line-height:1.7; color:#555; }
+    .tip-box strong { color:var(--gold); font-style:normal; }
+    .next-btn { display:block; background:var(--gold); color:var(--ink); padding:1rem; text-align:center; font-family:'DM Mono',monospace; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; font-weight:500; transition:all 0.2s; }
+    .next-btn:hover { background:var(--gold-light); }
+
+    /* FOOTER */
+    footer { background:var(--ink); padding:2rem 4rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+    footer p { color:hsl(0, 0%, 99%); font-size:0.82rem; font-family:'DM Mono',monospace; }
+    footer a { color:var(--gold); text-decoration:none; font-family:'DM Mono',monospace; font-size:0.82rem; }
+
+    @media (max-width:800px) { .layout { grid-template-columns:1fr; } footer { padding:2rem 1.5rem; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="Index.html" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
+  <a href="Index.html" class="nav-back">← All Lessons</a>
+</nav>
+
+<div class="hero">
+  <div class="meta">
+    <span class="pill pill-gold">✍ Grammar · Lesson 1 of 3</span>
+    <span class="pill pill-teal">📚 B1–B2 · Intermediate</span>
+    <span class="pill pill-gray">⏱ 18 min</span>
+    <span class="pill pill-gray">💼 Professionals</span>
+  </div>
+  <h1>English Tenses:<br/><em>The Complete Big Picture</em></h1>
+  <p>Master the 12 English tenses — past, present and future — with clear formulas, real professional examples, and an interactive timeline.</p>
+  <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+</div>
+
+<div class="layout">
+<article class="body">
+
+  <h2>Why Tenses Matter for Professionals</h2>
+  <p>In a professional setting, using the wrong tense can confuse your message, undermine your credibility, or change your meaning entirely. Consider the difference between <em>"I worked on this project"</em> (it's finished) and <em>"I have been working on this project"</em> (it is ongoing). Each sends a very different signal to a colleague or employer.</p>
+  <p>English has 12 tenses, organised into three time frames — <strong>past</strong>, <strong>present</strong>, and <strong>future</strong> — each with four aspects: simple, continuous, perfect, and perfect continuous. This lesson gives you the full map.</p>
+
+  <h2>The Interactive Tense Timeline</h2>
+
+  <div class="timeline-wrap">
+    <div class="timeline-label">Click a time zone to explore its tenses</div>
+    <div class="timeline">
+      <div class="t-seg past" onclick="showTense('past')" title="Past"></div>
+      <div class="t-dot"></div>
+      <div class="t-seg present" onclick="showTense('present')" title="Present"></div>
+      <div class="t-dot" style="border-color:var(--gold-light);background:var(--gold);"></div>
+      <div class="t-seg future" onclick="showTense('future')" title="Future"></div>
+    </div>
+    <div class="tl-tabs">
+      <button class="tl-tab" id="tab-past" onclick="showTense('past')">Past</button>
+      <button class="tl-tab" id="tab-present" onclick="showTense('present')">Present</button>
+      <button class="tl-tab" id="tab-future" onclick="showTense('future')">Future</button>
+    </div>
+    <div class="tense-panels">
+      <!-- PAST -->
+      <div class="tense-panel" id="panel-past">
+        <table class="tense-table">
+          <thead><tr><th>Tense</th><th>Formula</th><th>Professional Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Past Simple</strong></td><td>Subject + V2</td><td class="ex">"We launched the campaign last quarter."</td></tr>
+            <tr><td><strong>Past Continuous</strong></td><td>was/were + V-ing</td><td class="ex">"The team was reviewing the data when the meeting started."</td></tr>
+            <tr><td><strong>Past Perfect</strong></td><td>had + V3</td><td class="ex">"She had already submitted the report before the deadline."</td></tr>
+            <tr><td><strong>Past Perfect Cont.</strong></td><td>had been + V-ing</td><td class="ex">"They had been negotiating for weeks before the deal was signed."</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- PRESENT -->
+      <div class="tense-panel" id="panel-present">
+        <table class="tense-table">
+          <thead><tr><th>Tense</th><th>Formula</th><th>Professional Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Present Simple</strong></td><td>Subject + V1 (s/es)</td><td class="ex">"Our company operates in 12 countries."</td></tr>
+            <tr><td><strong>Present Continuous</strong></td><td>am/is/are + V-ing</td><td class="ex">"We are currently expanding our team."</td></tr>
+            <tr><td><strong>Present Perfect</strong></td><td>have/has + V3</td><td class="ex">"I have reviewed the contract and it looks good."</td></tr>
+            <tr><td><strong>Present Perfect Cont.</strong></td><td>have/has been + V-ing</td><td class="ex">"She has been leading the project for six months."</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- FUTURE -->
+      <div class="tense-panel" id="panel-future">
+        <table class="tense-table">
+          <thead><tr><th>Tense</th><th>Formula</th><th>Professional Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Future Simple</strong></td><td>will + V1</td><td class="ex">"The CEO will address the board on Monday."</td></tr>
+            <tr><td><strong>Future Continuous</strong></td><td>will be + V-ing</td><td class="ex">"I will be attending the conference all week."</td></tr>
+            <tr><td><strong>Future Perfect</strong></td><td>will have + V3</td><td class="ex">"By Friday, we will have completed the audit."</td></tr>
+            <tr><td><strong>Future Perfect Cont.</strong></td><td>will have been + V-ing</td><td class="ex">"By next year, she will have been managing the team for a decade."</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <h2>The Four Aspects Explained</h2>
+  <p>Every tense belongs to one of four <em>aspects</em>. Understanding the aspect helps you choose the right tense quickly.</p>
+
+  <div class="formula-card">
+    <div class="formula-label">Aspect 1 · Simple</div>
+    <div class="formula">Completed or habitual actions<br/><span class="ex">→ "She writes reports every Monday."</span></div>
+  </div>
+  <div class="formula-card" style="border-left:3px solid var(--teal);">
+    <div class="formula-label">Aspect 2 · Continuous</div>
+    <div class="formula">Actions in progress at a specific moment<br/><span class="ex">→ "He is preparing the presentation right now."</span></div>
+  </div>
+  <div class="formula-card" style="border-left:3px solid #6b3fa0;">
+    <div class="formula-label">Aspect 3 · Perfect</div>
+    <div class="formula">Actions with a connection to another time<br/><span class="ex">→ "We have restructured the department."</span></div>
+  </div>
+  <div class="formula-card" style="border-left:3px solid var(--rust);">
+    <div class="formula-label">Aspect 4 · Perfect Continuous</div>
+    <div class="formula">Duration of action up to a specific point<br/><span class="ex">→ "They have been working on this proposal for two days."</span></div>
+  </div>
+
+  <h2>Common Professional Mistakes</h2>
+  <p>These are the most frequent tense errors made by intermediate-level professionals in business English:</p>
+
+  <ul>
+    <li><strong>Using Past Simple instead of Present Perfect:</strong><br/>
+      ✗ <em>"I already sent the email."</em> &nbsp;→&nbsp; ✓ <em>"I have already sent the email."</em></li>
+    <li><strong>Using Present Simple instead of Present Continuous for ongoing plans:</strong><br/>
+      ✗ <em>"We expand to Asia next year."</em> &nbsp;→&nbsp; ✓ <em>"We are expanding to Asia next year."</em></li>
+    <li><strong>Forgetting the auxiliary in questions:</strong><br/>
+      ✗ <em>"You finished the report?"</em> &nbsp;→&nbsp; ✓ <em>"Have you finished the report?"</em></li>
+  </ul>
+
+  <h2>Quick Practice Quiz</h2>
+  <div class="quiz-section">
+    <div class="quiz-header">Choose the Correct Tense</div>
+    <div class="quiz-sub">Type the correct verb form in the box</div>
+
+    <div class="q-item">
+      <div class="q-prompt">1. By the time the client arrived, we <em>___</em> (already / prepare) the boardroom.</div>
+      <input class="q-input" id="q1" placeholder="Type your answer…" />
+      <div class="q-feedback" id="f1"></div>
+    </div>
+    <div class="q-item">
+      <div class="q-prompt">2. Our company <em>___</em> (operate) in Europe since 2008.</div>
+      <input class="q-input" id="q2" placeholder="Type your answer…" />
+      <div class="q-feedback" id="f2"></div>
+    </div>
+    <div class="q-item">
+      <div class="q-prompt">3. At 3 pm tomorrow, the board <em>___</em> (review) the quarterly results.</div>
+      <input class="q-input" id="q3" placeholder="Type your answer…" />
+      <div class="q-feedback" id="f3"></div>
+    </div>
+    <div class="q-item">
+      <div class="q-prompt">4. She <em>___</em> (work) on three major projects when she was promoted.</div>
+      <input class="q-input" id="q4" placeholder="Type your answer…" />
+      <div class="q-feedback" id="f4"></div>
+    </div>
+    <div class="q-item">
+      <div class="q-prompt">5. By December, we <em>___</em> (complete) all client deliverables.</div>
+      <input class="q-input" id="q5" placeholder="Type your answer…" />
+      <div class="q-feedback" id="f5"></div>
+    </div>
+
+    <button class="quiz-btn" onclick="checkQuiz()">Check My Answers</button>
+    <div class="quiz-score" id="qs">
+      <span id="qscore"></span>
+      <p id="qmsg"></p>
+    </div>
+  </div>
+
+</article>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="s-card">
+    <h4>Grammar Lessons</h4>
+    <ul class="nav-list">
+      <li><a href="grammarlesson1.html" class="current">① English Tenses: The Big Picture</a></li>
+      <li><a href="grammarlesson2.html">② Conditionals: If, When & Unless</a></li>
+      <li><a href="grammarlesson3.html">③ Passive Voice in Professional Writing</a></li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <h4>Professional Tip</h4>
+    <div class="tip-box">
+      <strong>In emails and reports</strong>, the <em>Present Perfect</em> is your most powerful tool. It connects past actions to the present moment — ideal for updates, summaries and follow-ups.<br/><br/>
+      <em>"We have reviewed your proposal and are pleased to move forward."</em>
+    </div>
+  </div>
+  <div class="s-card">
+    <h4>Key Terms</h4>
+    <ul class="nav-list">
+      <li><a href="#">Auxiliary verb</a></li>
+      <li><a href="#">Past participle (V3)</a></li>
+      <li><a href="#">Aspect</a></li>
+      <li><a href="#">Stative verb</a></li>
+      <li><a href="#">Time marker</a></li>
+    </ul>
+  </div>
+  <a href="grammarlesson2.html" class="next-btn">Next Lesson: Conditionals →</a>
+</aside>
+</div>
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom · Ramesh Mani Suvedi</p>
+  <a href="Index.html">← Back to all lessons</a>
+</footer>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll',()=>{
+    const d=document.documentElement;
+    document.getElementById('pf').style.width=((d.scrollTop||document.body.scrollTop)/(d.scrollHeight-d.clientHeight)*100)+'%';
+  });
+
+  // Timeline
+  function showTense(t){
+    document.querySelectorAll('.tense-panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.tl-tab').forEach(b=>b.className='tl-tab');
+    document.getElementById('panel-'+t).classList.add('active');
+    const tab=document.getElementById('tab-'+t);
+    tab.classList.add('active-'+t);
+  }
+  showTense('present');
+
+  // Quiz
+  const answers={
+    q1:{ans:'had already prepared',msg:'Past Perfect — the preparation happened before the client arrived.'},
+    q2:{ans:'has been operating',msg:'Present Perfect Continuous — ongoing since 2008 to now.'},
+    q3:{ans:'will be reviewing',msg:'Future Continuous — action in progress at a future point.'},
+    q4:{ans:'was working',msg:'Past Continuous — ongoing action at the time of promotion.'},
+    q5:{ans:'will have completed',msg:'Future Perfect — completed before a future deadline.'}
+  };
+  function checkQuiz(){
+    let score=0;
+    for(let i=1;i<=5;i++){
+      const inp=document.getElementById('q'+i);
+      const fb=document.getElementById('f'+i);
+      const val=inp.value.trim().toLowerCase();
+      const correct=answers['q'+i].ans.toLowerCase();
+      inp.classList.remove('correct','wrong');
+      fb.style.display='block';
+      if(val===correct){
+        inp.classList.add('correct');
+        fb.className='q-feedback ok';
+        fb.textContent='✓ Correct! '+answers['q'+i].msg;
+        score++;
+      } else {
+        inp.classList.add('wrong');
+        fb.className='q-feedback no';
+        fb.textContent='✗ Answer: '+answers['q'+i].ans+' — '+answers['q'+i].msg;
+      }
+    }
+    const qs=document.getElementById('qs');
+    qs.style.display='block';
+    document.getElementById('qscore').textContent=score+'/5';
+    const msgs=['Keep practising — review the tense table above!','Good start — aim for 5/5!','Solid — almost there!','Great work!','Perfect score — excellent command of tenses!'];
+    document.getElementById('qmsg').textContent=msgs[score];
+  }
+</script>
+</body>
+</html>

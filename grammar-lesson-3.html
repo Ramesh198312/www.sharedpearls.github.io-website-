@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grammar Lesson 3: Passive Voice – Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--ink:#1a1209;--parchment:#fdf8f0;--cream:#f5ede0;--gold:#c8922a;--gold-light:#e8b84b;--rust:#a0401a;--teal:#1e6b6b;--pearl:#e8ddd0;--shadow:rgba(26,18,9,0.12);--correct:#1e6b3a;--wrong:#8b1a1a;--purple:#6b3fa0;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Source Serif 4',Georgia,serif;background:var(--parchment);color:var(--ink);}
+    nav{background:var(--ink);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold-light);padding:1.1rem 0;text-decoration:none;display:block;}
+    .nav-logo span{color:#fff;font-style:italic;}
+    .nav-back{font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;text-decoration:none;}
+    .nav-back:hover{color:var(--gold-light);}
+
+    .hero{background:var(--rust);padding:4rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;}
+    .hero::before{content:'📄';font-size:16rem;position:absolute;opacity:0.05;top:-2rem;left:50%;transform:translateX(-50%);pointer-events:none;}
+    .meta{display:flex;justify-content:center;gap:0.8rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+    .pill{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.35rem 0.9rem;border-radius:2px;}
+    .pill-light{background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);}
+    .pill-gold{background:rgba(200,146,42,0.3);color:var(--gold-light);border:1px solid rgba(200,146,42,0.4);}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);color:#fff;line-height:1.15;max-width:780px;margin:0 auto 1rem;}
+    .hero h1 em{color:var(--gold-light);font-style:italic;}
+    .hero p{color:rgba(255,255,255,0.8);font-size:1rem;font-weight:300;max-width:580px;margin:0 auto;line-height:1.7;}
+    .progress-bar{height:3px;background:rgba(255,255,255,0.15);margin-top:2.5rem;}
+    .progress-fill{height:100%;width:0;background:var(--gold-light);transition:width 0.3s;}
+
+    .layout{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 280px;gap:3rem;padding:3rem 2rem;}
+    .body h2{font-family:'Playfair Display',serif;font-size:1.5rem;margin:2.5rem 0 1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--rust);display:inline-block;}
+    .body p{font-size:1.02rem;line-height:1.9;color:#333;margin-bottom:1.3rem;}
+
+    /* ACTIVE vs PASSIVE TRANSFORMER */
+    .transformer{background:#fff;box-shadow:0 2px 12px var(--shadow);margin:2rem 0;padding:1.8rem;}
+    .transformer-label{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--rust);margin-bottom:1.2rem;}
+    .transform-row{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;margin-bottom:1rem;}
+    .t-box{padding:1rem 1.2rem;}
+    .t-box.active-box{background:rgba(30,107,107,0.07);border:1px solid rgba(30,107,107,0.2);}
+    .t-box.passive-box{background:rgba(160,64,26,0.07);border:1px solid rgba(160,64,26,0.2);}
+    .t-box-label{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:#888;margin-bottom:0.4rem;}
+    .t-box p{font-size:0.92rem;color:#333;line-height:1.6;margin:0;}
+    .t-box p .subj{color:var(--teal);font-weight:600;}
+    .t-box p .verb{color:var(--rust);font-weight:600;}
+    .t-box p .obj{color:var(--purple);font-weight:600;}
+    .t-arrow{font-size:1.5rem;color:#ccc;text-align:center;flex-shrink:0;}
+
+    /* FORMULA */
+    .formula-wrap{background:var(--ink);padding:1.5rem;margin:1.5rem 0;}
+    .formula-title{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;}
+    .formula-row{display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;margin-bottom:0.5rem;}
+    .f-pill{padding:0.35rem 0.8rem;font-family:'DM Mono',monospace;font-size:0.8rem;border-radius:2px;}
+    .f-verb{background:rgba(160,64,26,0.3);color:#f0a080;}
+    .f-be{background:rgba(200,146,42,0.25);color:var(--gold-light);}
+    .f-pp{background:rgba(107,63,160,0.3);color:#c8a0f0;}
+    .f-by{background:rgba(255,255,255,0.1);color:#aaa;}
+    .f-plus{color:#666;font-family:'DM Mono',monospace;}
+
+    /* TENSE PASSIVE TABLE */
+    .passive-table{width:100%;border-collapse:collapse;font-size:0.88rem;margin:1.5rem 0;}
+    .passive-table th{background:var(--rust);color:#fff;font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.65rem 0.9rem;text-align:left;}
+    .passive-table td{padding:0.65rem 0.9rem;border-bottom:1px solid var(--pearl);color:#444;line-height:1.6;vertical-align:top;}
+    .passive-table tr:last-child td{border-bottom:none;}
+    .passive-table td em{color:var(--rust);font-style:italic;}
+    .passive-table td code{font-family:'DM Mono',monospace;font-size:0.82rem;background:var(--cream);padding:0.1rem 0.4rem;}
+
+    /* WHEN TO USE */
+    .use-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1.5rem 0;}
+    .use-card{padding:1.4rem;}
+    .use-card.yes{background:rgba(30,107,58,0.07);border:1px solid rgba(30,107,58,0.2);}
+    .use-card.no{background:rgba(139,26,26,0.06);border:1px solid rgba(139,26,26,0.15);}
+    .use-card h4{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.8rem;}
+    .use-card.yes h4{color:var(--correct);}
+    .use-card.no h4{color:var(--wrong);}
+    .use-card ul{list-style:none;padding:0;}
+    .use-card ul li{font-size:0.88rem;color:#555;padding:0.4rem 0;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;gap:0.5rem;line-height:1.6;}
+    .use-card ul li:last-child{border-bottom:none;}
+    .use-card.yes li::before{content:'✓';color:var(--correct);flex-shrink:0;}
+    .use-card.no li::before{content:'✗';color:var(--wrong);flex-shrink:0;}
+
+    /* REWRITE QUIZ */
+    .rewrite-quiz{background:#fff;padding:2rem;box-shadow:0 2px 12px var(--shadow);margin-top:2.5rem;}
+    .quiz-header{font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:0.3rem;}
+    .quiz-sub{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--rust);margin-bottom:1.5rem;}
+    .rq-item{margin-bottom:1.8rem;padding-bottom:1.8rem;border-bottom:1px solid var(--pearl);}
+    .rq-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+    .rq-instruction{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--rust);margin-bottom:0.3rem;}
+    .rq-given{font-size:0.97rem;color:#333;line-height:1.7;margin-bottom:0.7rem;font-style:italic;background:var(--cream);padding:0.6rem 0.9rem;border-left:3px solid var(--rust);}
+    .rq-input{width:100%;padding:0.7rem 1rem;border:1px solid var(--pearl);background:var(--parchment);font-family:'Source Serif 4',serif;font-size:0.9rem;color:var(--ink);outline:none;transition:border-color 0.2s;}
+    .rq-input:focus{border-color:var(--rust);}
+    .rq-input.correct{border-color:var(--correct);background:rgba(30,107,58,0.05);color:var(--correct);}
+    .rq-input.wrong{border-color:var(--wrong);background:rgba(139,26,26,0.05);}
+    .rq-fb{font-size:0.83rem;margin-top:0.4rem;font-family:'DM Mono',monospace;display:none;}
+    .rq-fb.ok{color:var(--correct);}
+    .rq-fb.no{color:var(--wrong);}
+    .quiz-btn{padding:0.8rem 2rem;background:var(--rust);color:#fff;border:none;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:1rem;transition:all 0.2s;}
+    .quiz-btn:hover{background:#c4501f;}
+    .quiz-score{display:none;margin-top:1rem;padding:1.2rem;background:var(--ink);text-align:center;}
+    .quiz-score span{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-light);}
+    .quiz-score p{color:#aaa;font-size:0.85rem;margin-top:0.3rem;}
+
+    /* SIDEBAR */
+    .sidebar{display:flex;flex-direction:column;gap:1.5rem;}
+    .s-card{background:#fff;padding:1.4rem;box-shadow:0 2px 12px var(--shadow);}
+    .s-card h4{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid var(--pearl);}
+    .nav-list{list-style:none;}
+    .nav-list li{border-bottom:1px solid var(--pearl);}
+    .nav-list li:last-child{border-bottom:none;}
+    .nav-list a{display:block;padding:0.6rem 0;font-size:0.88rem;color:#555;text-decoration:none;transition:color 0.2s;}
+    .nav-list a:hover{color:var(--gold);}
+    .nav-list a.current{color:var(--gold);font-weight:600;}
+    .tip-box{background:rgba(160,64,26,0.06);border:1px solid rgba(160,64,26,0.18);padding:1rem;font-size:0.88rem;line-height:1.7;color:#555;}
+    .tip-box strong{color:var(--rust);}
+    .complete-box{background:rgba(30,107,58,0.07);border:1px solid rgba(30,107,58,0.2);padding:1.2rem;text-align:center;}
+    .complete-box p{font-size:0.85rem;color:#555;margin-bottom:0.8rem;line-height:1.6;}
+    .complete-box strong{color:var(--correct);font-size:1rem;display:block;margin-bottom:0.3rem;}
+    .home-btn{display:block;background:var(--ink);color:var(--gold-light);padding:1rem;text-align:center;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+    .home-btn:hover{background:#2d2010;}
+    .prev-btn{display:block;background:transparent;color:var(--rust);border:1px solid var(--rust);padding:0.8rem;text-align:center;font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+    .prev-btn:hover{background:var(--rust);color:#fff;}
+
+    footer{background:var(--ink);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    footer p{color:#666;font-size:0.82rem;font-family:'DM Mono',monospace;}
+    footer a{color:var(--gold);text-decoration:none;font-family:'DM Mono',monospace;font-size:0.82rem;}
+    @media(max-width:800px){.layout{grid-template-columns:1fr;}.use-grid{grid-template-columns:1fr;}footer{padding:2rem 1.5rem;}.transform-row{grid-template-columns:1fr;}.t-arrow{display:none;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
+  <a href="grammar-lesson-2.html" class="nav-back">← Lesson 2</a>
+</nav>
+
+<div class="hero">
+  <div class="meta">
+    <span class="pill pill-gold">✍ Grammar · Lesson 3 of 3</span>
+    <span class="pill pill-light">📚 B2–C1 · Upper-Int to Advanced</span>
+    <span class="pill pill-light">⏱ 22 min</span>
+  </div>
+  <h1>Passive Voice in<br/><em>Professional Writing</em></h1>
+  <p>When to use it, how to form it across all tenses, and how to use it strategically in reports, emails, and business communication.</p>
+  <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+</div>
+
+<div class="layout">
+<article class="body">
+
+  <h2>Active vs Passive: The Core Difference</h2>
+  <p>In an <strong>active</strong> sentence, the subject <em>performs</em> the action. In a <strong>passive</strong> sentence, the subject <em>receives</em> the action. Both are grammatically correct — the choice depends on what you want to emphasise.</p>
+
+  <div class="transformer">
+    <div class="transformer-label">Active → Passive Transformation</div>
+
+    <div class="transform-row">
+      <div class="t-box active-box">
+        <div class="t-box-label">Active Voice</div>
+        <p><span class="subj">The manager</span> <span class="verb">approved</span> <span class="obj">the proposal</span>.</p>
+      </div>
+      <div class="t-arrow">→</div>
+      <div class="t-box passive-box">
+        <div class="t-box-label">Passive Voice</div>
+        <p><span class="obj">The proposal</span> <span class="verb">was approved</span> <span style="color:#888">(by the manager)</span>.</p>
+      </div>
+    </div>
+
+    <div class="transform-row">
+      <div class="t-box active-box">
+        <div class="t-box-label">Active Voice</div>
+        <p><span class="subj">Our team</span> <span class="verb">is reviewing</span> <span class="obj">the contract</span>.</p>
+      </div>
+      <div class="t-arrow">→</div>
+      <div class="t-box passive-box">
+        <div class="t-box-label">Passive Voice</div>
+        <p><span class="obj">The contract</span> <span class="verb">is being reviewed</span> <span style="color:#888">(by our team)</span>.</p>
+      </div>
+    </div>
+
+    <div class="transform-row" style="margin-bottom:0;">
+      <div class="t-box active-box">
+        <div class="t-box-label">Active Voice</div>
+        <p><span class="subj">The board</span> <span class="verb">will announce</span> <span class="obj">the decision</span> tomorrow.</p>
+      </div>
+      <div class="t-arrow">→</div>
+      <div class="t-box passive-box">
+        <div class="t-box-label">Passive Voice</div>
+        <p><span class="obj">The decision</span> <span class="verb">will be announced</span> tomorrow.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>How to Form the Passive</h2>
+  <p>The passive is always formed with the verb <em>to be</em> + the <strong>past participle</strong> (V3). The tense of the sentence determines the form of <em>to be</em>.</p>
+
+  <div class="formula-wrap">
+    <div class="formula-title">The Passive Formula</div>
+    <div class="formula-row">
+      <span class="f-pill f-be">correct form of "be"</span>
+      <span class="f-plus">+</span>
+      <span class="f-pill f-pp">past participle (V3)</span>
+      <span class="f-plus">+</span>
+      <span class="f-pill f-by">(by + agent — optional)</span>
+    </div>
+  </div>
+
+  <table class="passive-table">
+    <thead><tr><th>Tense</th><th>Passive Formula</th><th>Professional Example</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Present Simple</strong></td><td><code>is/are + V3</code></td><td><em>"Invoices are processed weekly."</em></td></tr>
+      <tr><td><strong>Present Continuous</strong></td><td><code>is/are being + V3</code></td><td><em>"The system is being upgraded."</em></td></tr>
+      <tr><td><strong>Present Perfect</strong></td><td><code>has/have been + V3</code></td><td><em>"The contract has been signed."</em></td></tr>
+      <tr><td><strong>Past Simple</strong></td><td><code>was/were + V3</code></td><td><em>"The report was submitted on time."</em></td></tr>
+      <tr><td><strong>Past Continuous</strong></td><td><code>was/were being + V3</code></td><td><em>"The data was being analysed when the server crashed."</em></td></tr>
+      <tr><td><strong>Past Perfect</strong></td><td><code>had been + V3</code></td><td><em>"The meeting had been postponed before I arrived."</em></td></tr>
+      <tr><td><strong>Future Simple</strong></td><td><code>will be + V3</code></td><td><em>"The results will be published next week."</em></td></tr>
+      <tr><td><strong>Future Perfect</strong></td><td><code>will have been + V3</code></td><td><em>"All orders will have been dispatched by Friday."</em></td></tr>
+      <tr><td><strong>Modal</strong></td><td><code>modal + be + V3</code></td><td><em>"This issue must be addressed immediately."</em></td></tr>
+    </tbody>
+  </table>
+
+  <h2>When to Use the Passive</h2>
+  <p>In professional English, the passive voice is not just acceptable — it is often the preferred and more appropriate choice. Here is a clear guide:</p>
+
+  <div class="use-grid">
+    <div class="use-card yes">
+      <h4>✓ Use Passive When…</h4>
+      <ul>
+        <li>The action is more important than who did it</li>
+        <li>The agent (doer) is unknown or irrelevant</li>
+        <li>You want to sound objective in reports</li>
+        <li>You want to avoid assigning blame directly</li>
+        <li>Writing formal documents, policies or procedures</li>
+        <li>Scientific or technical writing requires it</li>
+      </ul>
+    </div>
+    <div class="use-card no">
+      <h4>✗ Avoid Passive When…</h4>
+      <ul>
+        <li>The agent is important and should be named</li>
+        <li>Clarity and directness are required</li>
+        <li>Writing persuasive or sales content</li>
+        <li>The sentence becomes too long or vague</li>
+        <li>Informal conversation or casual emails</li>
+        <li>You are giving instructions or commands</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Passive in Professional Contexts</h2>
+  <p>Here is how skilled professionals use the passive strategically across different document types:</p>
+
+  <div style="background:#fff;padding:1.5rem;box-shadow:0 2px 12px var(--shadow);margin:1.5rem 0;">
+    <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--rust);margin-bottom:1rem;">Context: Formal Report</div>
+    <p style="font-size:0.93rem;color:#333;line-height:1.8;margin-bottom:0.6rem;">
+      <em>"The data <strong>was collected</strong> over a six-month period. All samples <strong>were tested</strong> under controlled conditions. The findings <strong>have been summarised</strong> in Section 4. Further action <strong>will be taken</strong> based on these results."</em>
+    </p>
+    <p style="font-family:'DM Mono',monospace;font-size:0.75rem;color:#888;">Note: the passive removes personal pronouns, creating a formal, objective tone.</p>
+  </div>
+
+  <div style="background:#fff;padding:1.5rem;box-shadow:0 2px 12px var(--shadow);margin:1.5rem 0;">
+    <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--rust);margin-bottom:1rem;">Context: Diplomatic Email (avoiding blame)</div>
+    <p style="font-size:0.93rem;color:#333;line-height:1.8;margin-bottom:0.6rem;">
+      ✗ Active: <em>"John's team missed the deadline and caused the delay."</em><br/>
+      ✓ Passive: <em>"The deadline <strong>was not met</strong>, which resulted in a delay. The issue <strong>is being investigated</strong>."</em>
+    </p>
+    <p style="font-family:'DM Mono',monospace;font-size:0.75rem;color:#888;">The passive removes the finger-pointing and keeps communication professional.</p>
+  </div>
+
+  <h2>Rewrite Practice — Active to Passive</h2>
+  <div class="rewrite-quiz">
+    <div class="quiz-header">Transform These Sentences</div>
+    <div class="quiz-sub">Rewrite each active sentence in the passive voice</div>
+
+    <div class="rq-item">
+      <div class="rq-instruction">Rewrite in the Passive (Past Simple)</div>
+      <div class="rq-given">The director approved the new budget.</div>
+      <input class="rq-input" id="r1" placeholder="The new budget was…"/>
+      <div class="rq-fb" id="rf1"></div>
+    </div>
+    <div class="rq-item">
+      <div class="rq-instruction">Rewrite in the Passive (Present Continuous)</div>
+      <div class="rq-given">Our engineers are testing the new software.</div>
+      <input class="rq-input" id="r2" placeholder="The new software is…"/>
+      <div class="rq-fb" id="rf2"></div>
+    </div>
+    <div class="rq-item">
+      <div class="rq-instruction">Rewrite in the Passive (Future Simple)</div>
+      <div class="rq-given">The CEO will present the annual results next Friday.</div>
+      <input class="rq-input" id="r3" placeholder="The annual results will…"/>
+      <div class="rq-fb" id="rf3"></div>
+    </div>
+    <div class="rq-item">
+      <div class="rq-instruction">Rewrite in the Passive (Present Perfect)</div>
+      <div class="rq-given">The committee has reviewed all applications.</div>
+      <input class="rq-input" id="r4" placeholder="All applications have…"/>
+      <div class="rq-fb" id="rf4"></div>
+    </div>
+    <div class="rq-item">
+      <div class="rq-instruction">Rewrite in the Passive (Modal — must)</div>
+      <div class="rq-given">All employees must complete the training by December.</div>
+      <input class="rq-input" id="r5" placeholder="The training must…"/>
+      <div class="rq-fb" id="rf5"></div>
+    </div>
+
+    <button class="quiz-btn" onclick="checkRewrite()">Check My Answers</button>
+    <div class="quiz-score" id="qs">
+      <span id="qscore"></span>
+      <p id="qmsg"></p>
+    </div>
+  </div>
+
+</article>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="s-card">
+    <h4>Grammar Lessons</h4>
+    <ul class="nav-list">
+      <li><a href="grammar-lesson-1.html">① English Tenses: The Big Picture</a></li>
+      <li><a href="grammar-lesson-2.html">② Conditionals: If, When & Unless</a></li>
+      <li><a href="grammar-lesson-3.html" class="current">③ Passive Voice in Professional Writing</a></li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <h4>Professional Tip</h4>
+    <div class="tip-box">
+      <strong>Report Writing Rule:</strong> Use passive voice for methods, findings, and conclusions. Switch to active for recommendations and calls to action.<br/><br/>
+      ✓ <em>"Data was collected..."</em> (passive)<br/>
+      ✓ <em>"We recommend that..."</em> (active)
+    </div>
+  </div>
+  <div class="s-card">
+    <div class="complete-box">
+      <strong>🎉 Grammar Section Complete!</strong>
+      <p>You have finished all 3 grammar lessons. Well done — your professional English grammar is now significantly stronger.</p>
+    </div>
+  </div>
+  <a href="grammar-lesson-2.html" class="prev-btn">← Lesson 2: Conditionals</a>
+  <a href="index.html" class="home-btn">🏠 Back to All Lessons</a>
+</aside>
+</div>
+
+<footer>
+  <p>© 2025 Shared Pearls of Wisdom · Ramesh198312</p>
+  <a href="index.html">← Back to all lessons</a>
+</footer>
+
+<script>
+  window.addEventListener('scroll',()=>{
+    const d=document.documentElement;
+    document.getElementById('pf').style.width=((d.scrollTop||document.body.scrollTop)/(d.scrollHeight-d.clientHeight)*100)+'%';
+  });
+
+  const answers={
+    r1:{ans:'the new budget was approved by the director',loose:'was approved',msg:'Past Simple Passive: was/were + past participle.'},
+    r2:{ans:'the new software is being tested by our engineers',loose:'is being tested',msg:'Present Continuous Passive: is/are + being + past participle.'},
+    r3:{ans:'the annual results will be presented by the ceo next friday',loose:'will be presented',msg:'Future Passive: will + be + past participle.'},
+    r4:{ans:'all applications have been reviewed by the committee',loose:'have been reviewed',msg:'Present Perfect Passive: have/has + been + past participle.'},
+    r5:{ans:'the training must be completed by all employees by december',loose:'must be completed',msg:'Modal Passive: modal + be + past participle.'}
+  };
+
+  function checkRewrite(){
+    let score=0;
+    for(let i=1;i<=5;i++){
+      const inp=document.getElementById('r'+i);
+      const fb=document.getElementById('rf'+i);
+      const val=inp.value.trim().toLowerCase().replace(/[.,]/g,'');
+      const a=answers['r'+i];
+      inp.classList.remove('correct','wrong');
+      fb.style.display='block';
+      if(val.includes(a.loose.toLowerCase())){
+        inp.classList.add('correct');
+        fb.className='rq-fb ok';
+        fb.textContent='✓ Correct! '+a.msg;
+        score++;
+      } else {
+        inp.classList.add('wrong');
+        fb.className='rq-fb no';
+        fb.textContent='✗ Model answer: "'+a.ans+'" — '+a.msg;
+      }
+    }
+    const qs=document.getElementById('qs');
+    qs.style.display='block';
+    document.getElementById('qscore').textContent=score+'/5';
+    const msgs=['Review the passive formation table above.','Keep practising!','Good effort!','Excellent work!','Perfect — outstanding command of the passive!'];
+    document.getElementById('qmsg').textContent=msgs[score];
+  }
+</script>
+</body>
+</html>

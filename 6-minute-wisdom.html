@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>6-Minute Wisdom · The Architecture of Meaning</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* Premium Palette */
+  --black: #ffffff; 
+  --dark: #fdfbf7; 
+  --dark2: #ffffff; 
+  --dark3: #f9f8f6; 
+  
+  --gold: #b07d2a; 
+  --gold-lt: #8a5e18; 
+  
+  --cream: #333333; 
+  --cream-dim: #555555; 
+  
+  --ok: #27ae60;
+  --ok-bg: #e8f8f5;
+  --no: #c0392b;
+  --no-bg: #fdedec;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Lato',sans-serif; background:var(--dark); color:var(--cream); min-height:100vh; }
+
+/* ── NAV ── */
+nav { background:var(--black); display:flex; align-items:center; justify-content:space-between; padding:0 3rem; position:sticky; top:0; z-index:300; border-bottom:1px solid rgba(176,125,42,.2); box-shadow: 0 2px 10px rgba(0,0,0,0.02); height: 70px;}
+.nav-logo { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--gold); text-decoration:none; font-weight:700; }
+.nav-logo em { color:var(--cream); font-style:italic; }
+.nav-right { display:flex; align-items:center; gap:1.5rem; }
+.nav-series { font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-lt); padding:.4rem 1rem; border:1px solid rgba(176,125,42,.3); font-weight:bold; }
+.nav-link { font-family:'DM Mono',monospace; font-size:.65rem; font-weight:bold; letter-spacing:.12em; text-transform:uppercase; color:var(--cream-dim); text-decoration:none; transition:color .2s; }
+.nav-link:hover { color:var(--gold); }
+
+/* ── HERO ── */
+.hero { background:var(--black); padding:4rem 3rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.hero-inner { max-width:880px; }
+.hero-ep { font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; font-weight:bold; display:block;}
+h1 { font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:900; line-height:1.1; color:var(--cream); margin-bottom:1.2rem; }
+h1 .gold { color:var(--gold); }
+.hero-desc { font-size:1.15rem; line-height:1.8; color:var(--cream-dim); max-width:700px; margin-bottom:2rem; }
+
+/* ── LAYOUT ── */
+.layout { max-width:1100px; margin:0 auto; padding:3rem 2rem 6rem; display:grid; grid-template-columns:1fr 300px; gap:4rem; }
+
+/* ── SIDEBAR (LEVEL SELECTOR) ── */
+.sidebar { position:sticky; top:100px; align-self:start; display:flex; flex-direction:column; gap:2rem; }
+.sw { background:var(--dark2); border:1px solid rgba(0,0,0,.08); box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-radius: 4px; overflow:hidden; }
+.sw-hd { background:var(--dark3); padding:1.2rem; font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold-lt); border-bottom:1px solid rgba(0,0,0,.05); font-weight:bold; }
+.sw-bd { padding:0; }
+
+.level-list { list-style:none; }
+.level-list li { border-bottom:1px solid rgba(0,0,0,.05); }
+.level-list li:last-child { border-bottom:none; }
+.level-btn { width:100%; text-align:left; background:none; border:none; padding:1.2rem; font-family:'Lato',sans-serif; font-size:1.05rem; font-weight:bold; color:var(--cream-dim); cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:1rem; border-left: 4px solid transparent; }
+.level-btn:hover { background: rgba(176,125,42,0.03); color:var(--gold-lt); }
+.level-btn.active { color:var(--gold-lt); background: #fff; border-left: 4px solid var(--gold); }
+.lvl-badge { font-family:'DM Mono',monospace; font-size:.65rem; padding:.25rem .6rem; background:rgba(176,125,42,0.1); border-radius:3px; color:var(--gold-lt); }
+
+/* ── CONTENT PANELS ── */
+.level-content { display: none; animation: fadeIn 0.4s ease-out; }
+.level-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.reading-box { background:var(--dark2); padding:3rem; border-radius:4px; border:1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom:2.5rem; border-top:4px solid var(--gold); }
+.section-title { font-family:'Playfair Display',serif; font-size:2rem; color:var(--gold-lt); margin-bottom:1.5rem; border-bottom:1px solid rgba(176,125,42,.2); padding-bottom:0.8rem; font-weight: 700;}
+.text-content p { font-size:1.15rem; line-height:1.9; margin-bottom:1.5rem; color:var(--cream); }
+.text-content .hi { background:rgba(176,125,42,.1); padding:0 5px; font-weight:bold; color:var(--gold-lt); border-radius:3px; }
+
+/* Dialogue */
+.dialogue-box { background:var(--dark3); padding:2rem; border:1px solid rgba(0,0,0,.05); border-radius:4px; margin-top: 2rem;}
+.dialogue-title { font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; font-weight:bold; }
+.dl { display:flex; gap:1.2rem; margin-bottom:1rem; font-size:1.05rem; line-height:1.7; }
+.dl-sp { font-family:'DM Mono',monospace; font-size:.75rem; font-weight:bold; color:var(--gold-lt); flex-shrink:0; min-width:85px; padding-top:5px; letter-spacing:.05em; text-transform: uppercase;}
+.dl-txt { color:var(--cream-dim); }
+
+/* Vocab */
+.vocab-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1.5rem; margin-bottom:3rem; }
+.vocab-card { background:var(--dark2); padding:1.5rem; border-radius:4px; border:1px solid rgba(0,0,0,0.08); border-left:3px solid var(--gold); box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+.v-word { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:bold; color:var(--gold-lt); display:block; margin-bottom:0.5rem; }
+.v-def { font-size:0.95rem; color:var(--cream-dim); line-height:1.6; }
+
+/* ── QUIZ UI ── */
+.quiz-section { background:var(--dark2); padding:3rem; border-radius:4px; border:1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+.q-card { margin-bottom:2rem; padding-bottom:1.5rem; border-bottom:1px dashed rgba(0,0,0,0.1); }
+.q-card:last-child { border-bottom: none; }
+.q-num { font-family:'DM Mono',monospace; font-size:.7rem; font-weight:bold; color:var(--gold); text-transform:uppercase; letter-spacing:.1em; margin-bottom:0.8rem; }
+.q-text { font-size:1.1rem; line-height:1.7; color:var(--cream); margin-bottom:1.2rem; }
+
+select.q-sel { font-family:'Lato',sans-serif; font-size:1rem; padding:.5rem 1rem; border:2px solid #ddd; border-radius:4px; outline:none; font-weight:bold; color:var(--gold-lt); cursor:pointer; width: 100%; max-width: 400px; transition: border-color 0.2s;}
+select.q-sel:focus { border-color:var(--gold); }
+
+.cloze-blank { border:none; border-bottom:2px solid var(--gold-lt); background:transparent; font-family:'DM Mono',monospace; font-size:1rem; color:var(--gold-lt); text-align:center; padding:0 .5rem; min-width:150px; outline:none; font-weight:bold; }
+.cloze-blank:focus { border-bottom-color:var(--cream); }
+
+.check-btn { font-family:'DM Mono',monospace; font-size:.75rem; font-weight:bold; letter-spacing:.12em; text-transform:uppercase; padding:1.2rem 2rem; background:var(--gold); border:none; color:#fff; cursor:pointer; transition:all .2s; border-radius:4px; width:100%; margin-top:1rem; }
+.check-btn:hover { background:var(--gold-lt); }
+
+.feedback { display:none; margin-top:1.2rem; font-weight:bold; font-size:.95rem; padding:1rem; border-radius:4px; }
+.feedback.show { display:block; }
+.fb-ok { background:var(--ok-bg); color:var(--ok); border-left:4px solid var(--ok); }
+.fb-no { background:var(--no-bg); color:var(--no); border-left:4px solid var(--no); }
+
+footer { background:var(--black); padding:2rem 3rem; text-align: center; border-top:1px solid rgba(0,0,0,.1); }
+footer p { color:rgba(0,0,0,.5); font-size:.8rem; font-family:'DM Mono',monospace; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="Index.html" class="nav-logo">Shared <em>Pearls</em> of Wisdom</a>
+  <div class="nav-right">
+    <span class="nav-series">Premium Subscriber Access</span>
+    <a href="Index.html" class="nav-link">← Back to Main Page</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="hero-ep">6-Minute Wisdom · Exclusive Weekly Masterclass</span>
+    <h1>The Architecture of <span class="gold">Meaning</span></h1>
+    <p class="hero-desc">Language is not merely a tool for describing the world; it is the tool we use to build it. Select your CEFR level from the sidebar to explore how vocabulary and syntax shape human reality.</p>
+  </div>
+</div>
+
+<div class="layout">
+  
+  <main id="content-container">
+
+    <div id="level-a1" class="level-content active">
+      <div class="reading-box">
+        <h2 class="section-title">Words Have Power</h2>
+        <div class="text-content">
+          <p>Every day, we use words to talk to family and friends. Simple words can change how a person feels. When someone has a bad day, a <span class="hi">kind</span> word can make them <span class="hi">smile</span>. We say "Thank you" and "Well done" to show we care.</p>
+          <p>But words can also be <span class="hi">dangerous</span>. When we feel angry, we sometimes speak too <span class="hi">fast</span>. We use <span class="hi">harsh</span> words. A broken window is easy to <span class="hi">repair</span>, but sad feelings are difficult to fix.</p>
+          <p>A good rule to remember is: Think before you speak. If you say something wrong, you must <span class="hi">apologise</span> quickly. Say "I am sorry" to make things better.</p>
+        </div>
+        
+        <div class="dialogue-box">
+          <div class="dialogue-title">Everyday Dialogue</div>
+          <div class="dl"><span class="dl-sp">Maria</span><span class="dl-txt">I am very angry with my sister. I want to call her and shout.</span></div>
+          <div class="dl"><span class="dl-sp">David</span><span class="dl-txt">Stop and breathe first. Don't use <span class="hi">harsh</span> words on the phone.</span></div>
+          <div class="dl"><span class="dl-sp">Maria</span><span class="dl-txt">Why? She broke my <span class="hi">favourite</span> cup!</span></div>
+          <div class="dl"><span class="dl-sp">David</span><span class="dl-txt">Because you can buy a new cup. But if you <span class="hi">hurt</span> her feelings, it takes a long time to fix.</span></div>
+        </div>
+      </div>
+
+      <h2 class="section-title" style="border:none; margin-bottom:1rem; font-size:1.5rem;">Core Vocabulary (10 Words)</h2>
+      <div class="vocab-grid">
+        <div class="vocab-card"><span class="v-word">1. Kind (adj.)</span><span class="v-def">Friendly and good to other people.</span></div>
+        <div class="vocab-card"><span class="v-word">2. Harsh (adj.)</span><span class="v-def">Too strong or cruel; making someone sad.</span></div>
+        <div class="vocab-card"><span class="v-word">3. Apologise (verb)</span><span class="v-def">To say that you are sorry for doing something wrong.</span></div>
+        <div class="vocab-card"><span class="v-word">4. Hurt (verb)</span><span class="v-def">To give pain to someone's body or feelings.</span></div>
+        <div class="vocab-card"><span class="v-word">5. Repair (verb)</span><span class="v-def">To fix something that is broken.</span></div>
+        <div class="vocab-card"><span class="v-word">6. Smile (verb/noun)</span><span class="v-def">A happy expression on your face.</span></div>
+        <div class="vocab-card"><span class="v-word">7. Feel (verb)</span><span class="v-def">To experience an emotion, like being happy or sad.</span></div>
+        <div class="vocab-card"><span class="v-word">8. Favourite (adj.)</span><span class="v-def">The person or thing you like the most.</span></div>
+        <div class="vocab-card"><span class="v-word">9. Fast (adv.)</span><span class="v-def">Moving or happening quickly.</span></div>
+        <div class="vocab-card"><span class="v-word">10. Dangerous (adj.)</span><span class="v-def">Not safe; able to cause harm.</span></div>
+      </div>
+
+      <div class="quiz-section">
+        <h2 class="section-title" style="border:none; color:var(--gold);">Comprehension Check (10 Questions)</h2>
+        
+        <div class="q-card">
+          <div class="q-num">Question 1</div>
+          <div class="q-text">What should you do if you say something wrong?</div>
+          <select id="a1-q1" class="q-sel" data-ans="1">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">Wait for the person to forget</option>
+            <option value="1">Apologise quickly</option>
+            <option value="2">Speak louder</option>
+          </select>
+          <div id="fb-a1-q1" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 2</div>
+          <div class="q-text">Complete the sentence: "Do not use <input type="text" id="a1-q2" class="cloze-blank" data-ans="harsh" placeholder="type here..."> words when you are angry."</div>
+          <div id="fb-a1-q2" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 3</div>
+          <div class="q-text">How do kind words usually make people feel?</div>
+          <select id="a1-q3" class="q-sel" data-ans="2">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">Angry</option>
+            <option value="1">Fast</option>
+            <option value="2">Happy</option>
+          </select>
+          <div id="fb-a1-q3" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 4</div>
+          <div class="q-text">Complete the sentence: "Saying 'Thank you' can make someone <input type="text" id="a1-q4" class="cloze-blank" data-ans="smile" placeholder="type here...">."</div>
+          <div id="fb-a1-q4" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 5</div>
+          <div class="q-text">Why is a broken window different from sad feelings?</div>
+          <select id="a1-q5" class="q-sel" data-ans="0">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">A window is easier to repair</option>
+            <option value="1">A window is dangerous</option>
+            <option value="2">A window is your favourite thing</option>
+          </select>
+          <div id="fb-a1-q5" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 6</div>
+          <div class="q-text">Complete the sentence: "If you speak too <input type="text" id="a1-q6" class="cloze-blank" data-ans="fast" placeholder="type here...">, you might say something bad."</div>
+          <div id="fb-a1-q6" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 7</div>
+          <div class="q-text">What is a good rule to remember?</div>
+          <select id="a1-q7" class="q-sel" data-ans="1">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">Speak loudly</option>
+            <option value="1">Think before you speak</option>
+            <option value="2">Break your favourite cup</option>
+          </select>
+          <div id="fb-a1-q7" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 8</div>
+          <div class="q-text">Complete the sentence: "Words can be <input type="text" id="a1-q8" class="cloze-blank" data-ans="dangerous" placeholder="type here..."> when we are angry."</div>
+          <div id="fb-a1-q8" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 9</div>
+          <div class="q-text">What does David tell Maria to do first?</div>
+          <select id="a1-q9" class="q-sel" data-ans="0">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">Stop and breathe</option>
+            <option value="1">Call her sister immediately</option>
+            <option value="2">Buy a new cup</option>
+          </select>
+          <div id="fb-a1-q9" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 10</div>
+          <div class="q-text">Complete the sentence: "If you <input type="text" id="a1-q10" class="cloze-blank" data-ans="hurt" placeholder="type here..."> her feelings, it takes a long time to fix."</div>
+          <div id="fb-a1-q10" class="feedback"></div>
+        </div>
+
+        <button class="check-btn" onclick="checkAnswers('a1')">Verify My Answers</button>
+      </div>
+    </div>
+
+
+    <div id="level-b1" class="level-content">
+      <div class="reading-box">
+        <h2 class="section-title">The Danger of Rumours</h2>
+        <div class="text-content">
+          <p>Have you ever heard a <span class="hi">secret</span> about a colleague and repeated it without checking the facts? In social situations, <span class="hi">gossip</span> spreads incredibly fast. People often share stories because it makes them feel included.</p>
+          <p>However, spreading false information has serious <span class="hi">consequences</span>. An old English <span class="hi">proverb</span> states: "A lie can travel halfway around the world while the truth is putting on its shoes." Once a person's <span class="hi">reputation</span> is damaged, it can take years to rebuild <span class="hi">trust</span>.</p>
+          <p>If someone tells you a negative rumour, you should try to break the chain. If you realise you have said something untrue, you must <span class="hi">admit</span> your mistake <span class="hi">immediately</span> to prevent further <span class="hi">damage</span>.</p>
+        </div>
+        
+        <div class="dialogue-box">
+          <div class="dialogue-title">Contextual Dialogue</div>
+          <div class="dl"><span class="dl-sp">Sarah</span><span class="dl-txt">Did you hear why the manager left? Mark told me he was stealing money.</span></div>
+          <div class="dl"><span class="dl-sp">Tom</span><span class="dl-txt">I really don't think we should spread that. Mark tends to <span class="hi">exaggerate</span> everything.</span></div>
+          <div class="dl"><span class="dl-sp">Sarah</span><span class="dl-txt">I suppose you're right. I would hate it if people were gossiping about my career.</span></div>
+          <div class="dl"><span class="dl-sp">Tom</span><span class="dl-txt">Exactly. We should treat it as a rumour to avoid causing any <span class="hi">damage</span>.</span></div>
+        </div>
+      </div>
+
+      <h2 class="section-title" style="border:none; margin-bottom:1rem; font-size:1.5rem;">Core Vocabulary (10 Words)</h2>
+      <div class="vocab-grid">
+        <div class="vocab-card"><span class="v-word">1. Gossip (noun)</span><span class="v-def">Casual conversations about other people's private lives.</span></div>
+        <div class="vocab-card"><span class="v-word">2. Reputation (noun)</span><span class="v-def">The beliefs or opinions that are generally held about someone.</span></div>
+        <div class="vocab-card"><span class="v-word">3. Exaggerate (verb)</span><span class="v-def">To make something seem larger or worse than it really is.</span></div>
+        <div class="vocab-card"><span class="v-word">4. Admit (verb)</span><span class="v-def">To confess to be true or to be the case.</span></div>
+        <div class="vocab-card"><span class="v-word">5. Secret (noun)</span><span class="v-def">Something that is kept hidden from others.</span></div>
+        <div class="vocab-card"><span class="v-word">6. Consequence (noun)</span><span class="v-def">A result or effect of an action, usually a negative one.</span></div>
+        <div class="vocab-card"><span class="v-word">7. Proverb (noun)</span><span class="v-def">A short, well-known saying stating a general truth.</span></div>
+        <div class="vocab-card"><span class="v-word">8. Trust (noun)</span><span class="v-def">Firm belief in the reliability or truth of someone.</span></div>
+        <div class="vocab-card"><span class="v-word">9. Damage (noun)</span><span class="v-def">Physical or emotional harm that impairs value or usefulness.</span></div>
+        <div class="vocab-card"><span class="v-word">10. Immediately (adv.)</span><span class="v-def">At once; instantly.</span></div>
+      </div>
+
+      <div class="quiz-section">
+        <h2 class="section-title" style="border:none; color:var(--gold);">Comprehension Check (10 Questions)</h2>
+        
+        <div class="q-card">
+          <div class="q-num">Question 1</div>
+          <div class="q-text">According to the proverb in the text, what travels faster?</div>
+          <select id="b1-q1" class="q-sel" data-ans="1">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">The truth</option>
+            <option value="1">A lie</option>
+            <option value="2">A reputation</option>
+          </select>
+          <div id="fb-b1-q1" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 2</div>
+          <div class="q-text">Complete the sentence: "Mark likes to <input type="text" id="b1-q2" class="cloze-blank" data-ans="exaggerate" placeholder="type here..."> stories to make them sound more dramatic."</div>
+          <div id="fb-b1-q2" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 3</div>
+          <div class="q-text">Why do people often share secrets?</div>
+          <select id="b1-q3" class="q-sel" data-ans="2">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">To find the truth</option>
+            <option value="1">To admit a mistake</option>
+            <option value="2">To feel included or important</option>
+          </select>
+          <div id="fb-b1-q3" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 4</div>
+          <div class="q-text">Complete the sentence: "If you realise you said something untrue, you must <input type="text" id="b1-q4" class="cloze-blank" data-ans="admit" placeholder="type here..."> it."</div>
+          <div id="fb-b1-q4" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 5</div>
+          <div class="q-text">What happens when a person's reputation is damaged?</div>
+          <select id="b1-q5" class="q-sel" data-ans="0">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">It takes years to rebuild trust</option>
+            <option value="1">People stop gossiping</option>
+            <option value="2">The truth puts on its shoes</option>
+          </select>
+          <div id="fb-b1-q5" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 6</div>
+          <div class="q-text">Complete the sentence: "Spreading false information has serious <input type="text" id="b1-q6" class="cloze-blank" data-ans="consequences" placeholder="type here...">."</div>
+          <div id="fb-b1-q6" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 7</div>
+          <div class="q-text">What should you do if someone tells you a negative rumour?</div>
+          <select id="b1-q7" class="q-sel" data-ans="1">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">Tell Mark</option>
+            <option value="1">Break the chain</option>
+            <option value="2">Exaggerate it</option>
+          </select>
+          <div id="fb-b1-q7" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 8</div>
+          <div class="q-text">Complete the sentence: "An old English <input type="text" id="b1-q8" class="cloze-blank" data-ans="proverb" placeholder="type here..."> says a lie travels fast."</div>
+          <div id="fb-b1-q8" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 9</div>
+          <div class="q-text">How does Tom describe Mark's stories?</div>
+          <select id="b1-q9" class="q-sel" data-ans="2">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">They are well-researched</option>
+            <option value="1">They are secrets</option>
+            <option value="2">They tend to be exaggerated</option>
+          </select>
+          <div id="fb-b1-q9" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 10</div>
+          <div class="q-text">Complete the sentence: "You must apologise <input type="text" id="b1-q10" class="cloze-blank" data-ans="immediately" placeholder="type here..."> to prevent further damage."</div>
+          <div id="fb-b1-q10" class="feedback"></div>
+        </div>
+
+        <button class="check-btn" onclick="checkAnswers('b1')">Verify My Answers</button>
+      </div>
+    </div>
+
+
+    <div id="level-b2" class="level-content">
+      <div class="reading-box">
+        <h2 class="section-title">Diplomacy: The Art of Hedging</h2>
+        <div class="text-content">
+          <p>In professional environments, native English speakers rarely use <span class="hi">blunt</span> language when delivering bad news. Instead, they rely on a linguistic strategy known as <span class="hi">hedging</span>. This involves using words to <span class="hi">soften</span> statements, making them less <span class="hi">absolute</span>.</p>
+          <p>For instance, instead of stating, "Your report is completely wrong," a <span class="hi">tactful</span> manager might say, "It seems there might be a slight <span class="hi">inconsistency</span> here." This subtle shift protects the recipient's ego and prevents <span class="hi">defensive</span> reactions.</p>
+          <p>Mastering this <span class="hi">nuanced</span> phrasing is essential for advancing in global business. It allows you to question someone's <span class="hi">competence</span> gracefully, expressing disagreement while maintaining strong professional <span class="hi">rapport</span>.</p>
+        </div>
+        
+        <div class="dialogue-box">
+          <div class="dialogue-title">Contextual Dialogue</div>
+          <div class="dl"><span class="dl-sp">Director</span><span class="dl-txt">I told the design team their presentation was an absolute disaster.</span></div>
+          <div class="dl"><span class="dl-sp">HR Lead</span><span class="dl-txt">While honesty is crucial, your approach was unnecessarily <span class="hi">blunt</span>. You triggered a <span class="hi">defensive</span> response.</span></div>
+          <div class="dl"><span class="dl-sp">Director</span><span class="dl-txt">So I should just soften my opinions?</span></div>
+          <div class="dl"><span class="dl-sp">HR Lead</span><span class="dl-txt">No. You should be <span class="hi">tactful</span>. Question the <span class="hi">inconsistency</span> in the data, rather than insulting their competence outright.</span></div>
+        </div>
+      </div>
+
+      <h2 class="section-title" style="border:none; margin-bottom:1rem; font-size:1.5rem;">Core Vocabulary (10 Words)</h2>
+      <div class="vocab-grid">
+        <div class="vocab-card"><span class="v-word">1. Hedging (noun)</span><span class="v-def">Using cautious language to make claims less certain (e.g., perhaps, might).</span></div>
+        <div class="vocab-card"><span class="v-word">2. Rapport (noun)</span><span class="v-def">A harmonious relationship where people understand each other's ideas.</span></div>
+        <div class="vocab-card"><span class="v-word">3. Blunt (adj.)</span><span class="v-def">Uncompromisingly direct; saying what you think without politeness.</span></div>
+        <div class="vocab-card"><span class="v-word">4. Tactful (adj.)</span><span class="v-def">Showing sensitivity in dealing with others or difficult issues.</span></div>
+        <div class="vocab-card"><span class="v-word">5. Absolute (adj.)</span><span class="v-def">Viewed or existing independently and not in relation to other things; total.</span></div>
+        <div class="vocab-card"><span class="v-word">6. Nuanced (adj.)</span><span class="v-def">Characterised by subtle shades of meaning or expression.</span></div>
+        <div class="vocab-card"><span class="v-word">7. Competence (noun)</span><span class="v-def">The ability to do something successfully or efficiently.</span></div>
+        <div class="vocab-card"><span class="v-word">8. Defensive (adj.)</span><span class="v-def">Very anxious to challenge or avoid criticism.</span></div>
+        <div class="vocab-card"><span class="v-word">9. Soften (verb)</span><span class="v-def">To make an attitude or statement less severe or harsh.</span></div>
+        <div class="vocab-card"><span class="v-word">10. Inconsistency (noun)</span><span class="v-def">The fact of not matching or aligning with established facts.</span></div>
+      </div>
+
+      <div class="quiz-section">
+        <h2 class="section-title" style="border:none; color:var(--gold);">Comprehension Check (10 Questions)</h2>
+        
+        <div class="q-card">
+          <div class="q-num">Question 1</div>
+          <div class="q-text">What is the primary purpose of "hedging" in business communication?</div>
+          <select id="b2-q1" class="q-sel" data-ans="1">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">To confuse the listener</option>
+            <option value="1">To make statements less absolute and more polite</option>
+            <option value="2">To show authority and directness</option>
+          </select>
+          <div id="fb-b2-q1" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 2</div>
+          <div class="q-text">Complete the sentence: "The director's feedback was too <input type="text" id="b2-q2" class="cloze-blank" data-ans="blunt" placeholder="type here...">; he should have been more polite."</div>
+          <div id="fb-b2-q2" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 3</div>
+          <div class="q-text">What kind of reaction does blunt criticism often cause?</div>
+          <select id="b2-q3" class="q-sel" data-ans="2">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">Tactful reactions</option>
+            <option value="1">Absolute agreement</option>
+            <option value="2">Defensive reactions</option>
+          </select>
+          <div id="fb-b2-q3" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 4</div>
+          <div class="q-text">Complete the sentence: "You should be <input type="text" id="b2-q4" class="cloze-blank" data-ans="tactful" placeholder="type here..."> instead of insulting their competence."</div>
+          <div id="fb-b2-q4" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 5</div>
+          <div class="q-text">How do native speakers usually deliver bad news?</div>
+          <select id="b2-q5" class="q-sel" data-ans="1">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">Using absolute statements</option>
+            <option value="1">Using softening words (hedging)</option>
+            <option value="2">Insulting competence gracefully</option>
+          </select>
+          <div id="fb-b2-q5" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 6</div>
+          <div class="q-text">Complete the sentence: "Maintaining strong professional <input type="text" id="b2-q6" class="cloze-blank" data-ans="rapport" placeholder="type here..."> is essential."</div>
+          <div id="fb-b2-q6" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 7</div>
+          <div class="q-text">What is a good way to point out a mistake tactfully?</div>
+          <select id="b2-q7" class="q-sel" data-ans="1">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">Saying "Your report is completely wrong."</option>
+            <option value="1">Mentioning there might be a slight inconsistency.</option>
+            <option value="2">Asking why they are so defensive.</option>
+          </select>
+          <div id="fb-b2-q7" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 8</div>
+          <div class="q-text">Complete the sentence: "A tactful manager might point out a slight <input type="text" id="b2-q8" class="cloze-blank" data-ans="inconsistency" placeholder="type here..."> in the data."</div>
+          <div id="fb-b2-q8" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 9</div>
+          <div class="q-text">Why does hedging protect the recipient's ego?</div>
+          <select id="b2-q9" class="q-sel" data-ans="0">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">It makes claims less absolute.</option>
+            <option value="1">It causes blunt reactions.</option>
+            <option value="2">It proves their lack of competence.</option>
+          </select>
+          <div id="fb-b2-q9" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 10</div>
+          <div class="q-text">Complete the sentence: "Mastering this <input type="text" id="b2-q10" class="cloze-blank" data-ans="nuanced" placeholder="type here..."> phrasing is vital for global business."</div>
+          <div id="fb-b2-q10" class="feedback"></div>
+        </div>
+
+        <button class="check-btn" onclick="checkAnswers('b2')">Verify My Answers</button>
+      </div>
+    </div>
+
+
+    <div id="level-c1" class="level-content">
+      <div class="reading-box">
+        <h2 class="section-title">Rhetorical Camouflage</h2>
+        <div class="text-content">
+          <p>In the higher <span class="hi">echelons</span> of politics, language is routinely <span class="hi">weaponised</span>. Public figures rarely resort to outright falsehoods; instead, they operate within the grey area of calculated <span class="hi">ambiguity</span>. By employing sophisticated <span class="hi">euphemisms</span>, they obscure <span class="hi">accountability</span>.</p>
+          <p>Consider the classic phrase, "Mistakes were made." This masterpiece of linguistic evasion acknowledges an error while simultaneously erasing the agent responsible. Corporations do not 'fire' employees; they implement a 'strategic downsizing'. These terms undergo <span class="hi">semantic bleaching</span>, stripping words of their emotional weight to achieve <span class="hi">mitigation</span>.</p>
+          <p>To be an advanced speaker, one must deconstruct this <span class="hi">obfuscation</span>. The true meaning is almost always located in the <span class="hi">subtext</span>—in what is omitted rather than what is <span class="hi">explicitly</span> stated.</p>
+        </div>
+        
+        <div class="dialogue-box">
+          <div class="dialogue-title">Contextual Dialogue</div>
+          <div class="dl"><span class="dl-sp">Journalist</span><span class="dl-txt">The minister’s speech was remarkably evasive. She completely avoided <span class="hi">accountability</span>.</span></div>
+          <div class="dl"><span class="dl-sp">Analyst</span><span class="dl-txt">Undoubtedly. She relied heavily on <span class="hi">obfuscation</span> to distract the press from the lack of concrete policy.</span></div>
+          <div class="dl"><span class="dl-sp">Journalist</span><span class="dl-txt">Indeed. By stating 'resources were streamlined,' she neatly avoided admitting that funding had been slashed.</span></div>
+          <div class="dl"><span class="dl-sp">Analyst</span><span class="dl-txt">Precisely. It was a masterclass in rhetorical camouflage and <span class="hi">euphemism</span>.</span></div>
+        </div>
+      </div>
+
+      <h2 class="section-title" style="border:none; margin-bottom:1rem; font-size:1.5rem;">Core Vocabulary (10 Words)</h2>
+      <div class="vocab-grid">
+        <div class="vocab-card"><span class="v-word">1. Ambiguity (noun)</span><span class="v-def">The quality of being open to more than one interpretation.</span></div>
+        <div class="vocab-card"><span class="v-word">2. Obfuscation (noun)</span><span class="v-def">The action of deliberately making something unclear.</span></div>
+        <div class="vocab-card"><span class="v-word">3. Euphemism (noun)</span><span class="v-def">A mild word substituted for one considered too harsh.</span></div>
+        <div class="vocab-card"><span class="v-word">4. Mitigation (noun)</span><span class="v-def">The action of reducing the severity or seriousness of something.</span></div>
+        <div class="vocab-card"><span class="v-word">5. Echelons (noun)</span><span class="v-def">A level or rank in an organisation or society.</span></div>
+        <div class="vocab-card"><span class="v-word">6. Weaponise (verb)</span><span class="v-def">To adapt something for use as a weapon (e.g., information).</span></div>
+        <div class="vocab-card"><span class="v-word">7. Semantic bleaching</span><span class="v-def">The loss of a word's original, intense meaning over time.</span></div>
+        <div class="vocab-card"><span class="v-word">8. Explicitly (adv.)</span><span class="v-def">In a clear and detailed manner, leaving no room for confusion.</span></div>
+        <div class="vocab-card"><span class="v-word">9. Accountability (noun)</span><span class="v-def">The fact or condition of being responsible for actions.</span></div>
+        <div class="vocab-card"><span class="v-word">10. Subtext (noun)</span><span class="v-def">An underlying and often distinct theme in a piece of writing.</span></div>
+      </div>
+
+      <div class="quiz-section">
+        <h2 class="section-title" style="border:none; color:var(--gold);">Comprehension Check (10 Questions)</h2>
+        
+        <div class="q-card">
+          <div class="q-num">Question 1</div>
+          <div class="q-text">The phrase "Mistakes were made" relies on which linguistic feature to avoid accountability?</div>
+          <select id="c1-q1" class="q-sel" data-ans="1">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">Active voice with strong modal verbs</option>
+            <option value="1">Passive voice to remove the acting agent</option>
+            <option value="2">Semantic bleaching to increase emotional impact</option>
+          </select>
+          <div id="fb-c1-q1" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 2</div>
+          <div class="q-text">Complete the sentence: "The politician used deliberate <input type="text" id="c1-q2" class="cloze-blank" data-ans="obfuscation" placeholder="type here..."> so the public would not understand the new laws."</div>
+          <div id="fb-c1-q2" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 3</div>
+          <div class="q-text">What does 'semantic bleaching' do to corporate terms like "downsizing"?</div>
+          <select id="c1-q3" class="q-sel" data-ans="2">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">It makes them more offensive.</option>
+            <option value="1">It assigns explicit accountability.</option>
+            <option value="2">It strips words of their emotional weight.</option>
+          </select>
+          <div id="fb-c1-q3" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 4</div>
+          <div class="q-text">Complete the sentence: "They operate within the grey area of calculated <input type="text" id="c1-q4" class="cloze-blank" data-ans="ambiguity" placeholder="type here...">."</div>
+          <div id="fb-c1-q4" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 5</div>
+          <div class="q-text">Why do corporations use terms like "strategic downsizing"?</div>
+          <select id="c1-q5" class="q-sel" data-ans="0">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">To achieve mitigation of harsh realities.</option>
+            <option value="1">To weaponise the echelons.</option>
+            <option value="2">To explicitly admit fault.</option>
+          </select>
+          <div id="fb-c1-q5" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 6</div>
+          <div class="q-text">Complete the sentence: "The true meaning is often found in the <input type="text" id="c1-q6" class="cloze-blank" data-ans="subtext" placeholder="type here...">, not the explicit text."</div>
+          <div id="fb-c1-q6" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 7</div>
+          <div class="q-text">How do public figures generally avoid accountability?</div>
+          <select id="c1-q7" class="q-sel" data-ans="1">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">By telling outright falsehoods.</option>
+            <option value="1">By employing sophisticated euphemisms.</option>
+            <option value="2">By speaking explicitly.</option>
+          </select>
+          <div id="fb-c1-q7" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 8</div>
+          <div class="q-text">Complete the sentence: "The minister relied heavily on rhetorical camouflage and <input type="text" id="c1-q8" class="cloze-blank" data-ans="euphemism" placeholder="type here...">."</div>
+          <div id="fb-c1-q8" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 9</div>
+          <div class="q-text">What is the effect of stating "resources were streamlined"?</div>
+          <select id="c1-q9" class="q-sel" data-ans="1">
+            <option value="-1">-- Select Answer --</option>
+            <option value="0">It acknowledges an error.</option>
+            <option value="1">It avoids admitting that funding was slashed.</option>
+            <option value="2">It demonstrates strong accountability.</option>
+          </select>
+          <div id="fb-c1-q9" class="feedback"></div>
+        </div>
+
+        <div class="q-card">
+          <div class="q-num">Question 10</div>
+          <div class="q-text">Complete the sentence: "Public figures often <input type="text" id="c1-q10" class="cloze-blank" data-ans="weaponise" placeholder="type here..."> language to protect their positions."</div>
+          <div id="fb-c1-q10" class="feedback"></div>
+        </div>
+
+        <button class="check-btn" onclick="checkAnswers('c1')">Verify My Answers</button>
+      </div>
+    </div>
+
+  </main>
+
+  <aside class="sidebar">
+    <div class="sw">
+      <div class="sw-hd">Select Your Level</div>
+      <div class="sw-bd">
+        <ul class="level-list">
+          <li><button class="level-btn active" onclick="switchLevel('a1', this)"><span class="lvl-badge">A1 / A2</span> Beginner</button></li>
+          <li><button class="level-btn" onclick="switchLevel('b1', this)"><span class="lvl-badge">B1</span> Intermediate</button></li>
+          <li><button class="level-btn" onclick="switchLevel('b2', this)"><span class="lvl-badge">B2</span> Upper-Int</button></li>
+          <li><button class="level-btn" onclick="switchLevel('c1', this)"><span class="lvl-badge">C1 / C2</span> Advanced</button></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sw" style="margin-top: 2rem;">
+      <div class="sw-hd">Professor's Note</div>
+      <div class="sw-bd" style="padding: 1.2rem;">
+        <p style="font-size: 0.95rem; line-height: 1.6; color: var(--cream-dim);">
+          Notice how the grammatical architecture evolves across the tabs. At <strong>A1/A2</strong>, we rely on the present simple to express basic realities. By <strong>C1</strong>, we are deconstructing passive syntax and semantic bleaching. This is how fluency is built: layer by layer.
+        </p>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom · Premium Member Area · Curated by Cambridge Educators</p>
+</footer>
+
+<script>
+/* ========================================================
+   ROBUST CSS-TOGGLE LOGIC
+======================================================== */
+function switchLevel(levelId, btnElement) {
+    // 1. Update active state on sidebar buttons
+    const buttons = document.querySelectorAll('.level-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    btnElement.classList.add('active');
+
+    // 2. Hide all content panels
+    const panels = document.querySelectorAll('.level-content');
+    panels.forEach(panel => panel.classList.remove('active'));
+
+    // 3. Show the selected content panel
+    const targetPanel = document.getElementById('level-' + levelId);
+    if (targetPanel) {
+        targetPanel.classList.add('active');
+        // Scroll slightly to top of content for better UX
+        window.scrollTo({ top: document.querySelector('.layout').offsetTop - 80, behavior: 'smooth' });
+    }
+}
+
+/* ========================================================
+   DYNAMIC QUIZ CHECKING LOGIC
+======================================================== */
+function checkAnswers(levelId) {
+    let score = 0;
+    const totalQuestions = 10;
+    
+    for (let i = 1; i <= totalQuestions; i++) {
+        const qElement = document.getElementById(`${levelId}-q${i}`);
+        const qFeedback = document.getElementById(`fb-${levelId}-q${i}`);
+        
+        if (!qElement || !qFeedback) continue;
+        
+        qFeedback.classList.remove('fb-ok', 'fb-no');
+        qFeedback.classList.add('show');
+        
+        const correctAns = qElement.getAttribute('data-ans');
+        let isCorrect = false;
+        
+        // Handle Dropdown (Select) Validation
+        if (qElement.tagName === 'SELECT') {
+            const userAns = qElement.value;
+            if (userAns === correctAns) {
+                isCorrect = true;
+                qElement.style.borderColor = "var(--ok)";
+                qFeedback.classList.add('fb-ok');
+                qFeedback.innerText = "✓ Correct! Excellent analysis.";
+            } else {
+                qElement.style.borderColor = "var(--no)";
+                qFeedback.classList.add('fb-no');
+                qFeedback.innerText = "✗ Incorrect. Please review the text and try again.";
+            }
+        } 
+        // Handle Fill-in-the-blank (Input) Validation
+        else if (qElement.tagName === 'INPUT') {
+            const userAns = qElement.value.trim().toLowerCase();
+            const correctLower = correctAns.toLowerCase();
+            if (userAns === correctLower) {
+                isCorrect = true;
+                qElement.style.borderBottomColor = "var(--ok)";
+                qFeedback.classList.add('fb-ok');
+                qFeedback.innerText = "✓ Spot on! Perfect spelling.";
+            } else {
+                qElement.style.borderBottomColor = "var(--no)";
+                qFeedback.classList.add('fb-no');
+                qFeedback.innerText = `✗ Not quite. The word you are looking for is '${correctAns}'.`;
+            }
+        }
+
+        if (isCorrect) score++;
+    }
+
+    // Simple alert summary
+    if (score === totalQuestions) {
+        alert(`Outstanding work! You scored ${score} out of ${totalQuestions}. You have truly mastered this level's concepts.`);
+    } else {
+        alert(`You scored ${score} out of ${totalQuestions}. Review the professor's notes and try again.`);
+    }
+}
+</script>
+</body>
+</html>

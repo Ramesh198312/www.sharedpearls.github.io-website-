@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vocabulary B1 – Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--ink:#1a1209;--parchment:#fdf8f0;--cream:#f5ede0;--gold:#c8922a;--gold-light:#e8b84b;--teal:#1e6b6b;--pearl:#e8ddd0;--shadow:rgba(26,18,9,0.12);--correct:#1e6b3a;--wrong:#8b1a1a;--level:#1e6b6b;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Source Serif 4',Georgia,serif;background:var(--parchment);color:var(--ink);}
+    nav{background:var(--ink);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold-light);padding:1.1rem 0;text-decoration:none;display:block;}
+    .nav-logo span{color:#fff;font-style:italic;}
+    .nav-back{font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;text-decoration:none;}
+    .nav-back:hover{color:var(--gold-light);}
+    .hero{background:linear-gradient(135deg,#0d3d3d 0%,#1e6b6b 100%);padding:4rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;}
+    .hero::before{content:'📗';font-size:18rem;position:absolute;opacity:0.05;top:-3rem;left:50%;transform:translateX(-50%);pointer-events:none;}
+    .level-badge{display:inline-block;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.4);border-radius:50%;width:80px;height:80px;line-height:80px;font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff;margin-bottom:1.5rem;}
+    .meta{display:flex;justify-content:center;gap:0.8rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+    .pill{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.35rem 0.9rem;border-radius:2px;}
+    .pill-light{background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);}
+    .pill-gold{background:rgba(200,146,42,0.35);color:var(--gold-light);border:1px solid rgba(200,146,42,0.4);}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);color:#fff;line-height:1.15;max-width:780px;margin:0 auto 1rem;}
+    .hero h1 em{color:var(--gold-light);font-style:italic;}
+    .hero p{color:rgba(255,255,255,0.8);font-size:1rem;max-width:600px;margin:0 auto;line-height:1.7;}
+    .progress-bar{height:3px;background:rgba(255,255,255,0.15);margin-top:2.5rem;}
+    .progress-fill{height:100%;width:0;background:var(--gold-light);transition:width 0.3s;}
+    .cefr-def{background:#fff;max-width:900px;margin:-2rem auto 0;position:relative;z-index:2;padding:2rem 2.5rem;box-shadow:0 8px 40px rgba(0,0,0,0.12);display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start;}
+    .cefr-icon{font-size:3rem;line-height:1;}
+    .cefr-def h2{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:0.5rem;color:var(--level);}
+    .cefr-def p{font-size:0.95rem;line-height:1.8;color:#444;}
+    .cefr-traits{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem;}
+    .cefr-trait{background:rgba(30,107,107,0.08);border:1px solid rgba(30,107,107,0.2);color:var(--teal);font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.7rem;}
+    .layout{max-width:1000px;margin:3rem auto;padding:0 2rem;display:grid;grid-template-columns:1fr 260px;gap:3rem;}
+    .vocab-section-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin:2.5rem 0 1.5rem;padding-bottom:0.5rem;border-bottom:2px solid var(--level);display:inline-block;}
+    .body p{font-size:1rem;line-height:1.9;color:#333;margin-bottom:1.2rem;}
+    .word-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.5rem 0;}
+    .word-card{background:#fff;padding:1.4rem;box-shadow:0 2px 10px var(--shadow);border-top:3px solid var(--level);cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;}
+    .word-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px var(--shadow);}
+    .wc-word{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ink);margin-bottom:0.2rem;}
+    .wc-pos{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;margin-bottom:0.5rem;}
+    .wc-def{font-size:0.88rem;color:#555;line-height:1.6;margin-bottom:0.6rem;}
+    .wc-ex{font-size:0.85rem;color:var(--teal);font-style:italic;border-left:2px solid var(--teal);padding-left:0.7rem;line-height:1.6;}
+    .wc-ex2{font-size:0.82rem;color:#888;font-style:italic;padding-left:0.9rem;margin-top:0.3rem;line-height:1.5;}
+    .ex-section{background:#fff;padding:2rem;box-shadow:0 2px 12px var(--shadow);margin:2rem 0;}
+    .ex-title{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:0.3rem;}
+    .ex-sub{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--level);margin-bottom:1.5rem;}
+    .ex-item{margin-bottom:1.3rem;padding-bottom:1.3rem;border-bottom:1px solid var(--pearl);}
+    .ex-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+    .ex-q{font-size:0.97rem;color:#333;line-height:1.7;margin-bottom:0.6rem;}
+    .ex-q strong{color:var(--level);}
+    .ex-input{width:100%;padding:0.6rem 0.9rem;border:1px solid var(--pearl);background:var(--parchment);font-family:'Source Serif 4',serif;font-size:0.9rem;color:var(--ink);outline:none;transition:border-color 0.2s;}
+    .ex-input:focus{border-color:var(--level);}
+    .ex-input.correct{border-color:var(--correct);background:rgba(30,107,58,0.05);color:var(--correct);}
+    .ex-input.wrong{border-color:var(--wrong);background:rgba(139,26,26,0.05);}
+    .ex-select{padding:0.6rem 0.9rem;border:1px solid var(--pearl);background:#fff;font-family:'Source Serif 4',serif;font-size:0.9rem;color:var(--ink);cursor:pointer;outline:none;min-width:200px;}
+    .ex-select.correct{border-color:var(--correct);background:rgba(30,107,58,0.05);}
+    .ex-select.wrong{border-color:var(--wrong);}
+    .ex-fb{font-family:'DM Mono',monospace;font-size:0.75rem;margin-top:0.4rem;display:none;}
+    .ex-fb.ok{color:var(--correct);}
+    .ex-fb.no{color:var(--wrong);}
+    .check-btn{padding:0.75rem 1.8rem;background:var(--level);color:#fff;border:none;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:1rem;transition:all 0.2s;}
+    .check-btn:hover{background:#0d3d3d;}
+    .score-box{display:none;margin-top:1rem;padding:1rem;background:var(--ink);text-align:center;}
+    .score-box .big{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-light);display:block;}
+    .score-box p{color:#aaa;font-size:0.85rem;margin-top:0.3rem;}
+    .sidebar{display:flex;flex-direction:column;gap:1.5rem;}
+    .s-card{background:#fff;padding:1.4rem;box-shadow:0 2px 12px var(--shadow);}
+    .s-card h4{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid var(--pearl);}
+    .level-nav{list-style:none;}
+    .level-nav li{border-bottom:1px solid var(--pearl);}
+    .level-nav li:last-child{border-bottom:none;}
+    .level-nav a{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0;font-size:0.88rem;color:#555;text-decoration:none;transition:color 0.2s;}
+    .level-nav a:hover{color:var(--gold);}
+    .level-nav a.current{color:var(--level);font-weight:600;}
+    .ln-badge{font-family:'DM Mono',monospace;font-size:0.62rem;padding:0.2rem 0.5rem;border-radius:2px;flex-shrink:0;}
+    .ln-a1{background:rgba(42,100,150,0.1);color:#2a6496;}
+    .ln-b1{background:rgba(30,107,107,0.1);color:var(--teal);}
+    .ln-b2{background:rgba(160,64,26,0.1);color:#a0401a;}
+    .ln-c1{background:rgba(107,63,160,0.1);color:#6b3fa0;}
+    .tip-box{background:rgba(30,107,107,0.06);border:1px solid rgba(30,107,107,0.2);padding:1rem;font-size:0.88rem;line-height:1.7;color:#555;}
+    .tip-box strong{color:var(--level);}
+    .next-btn{display:block;background:var(--gold);color:var(--ink);padding:1rem;text-align:center;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;font-weight:500;transition:all 0.2s;}
+    .next-btn:hover{background:var(--gold-light);}
+    .prev-btn{display:block;background:transparent;color:var(--level);border:1px solid var(--level);padding:0.8rem;text-align:center;font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+    .prev-btn:hover{background:var(--level);color:#fff;}
+    footer{background:var(--ink);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    footer p{color:#666;font-size:0.82rem;font-family:'DM Mono',monospace;}
+    footer a{color:var(--gold);text-decoration:none;font-family:'DM Mono',monospace;font-size:0.82rem;}
+    @media(max-width:800px){.layout{grid-template-columns:1fr;}.word-grid{grid-template-columns:1fr;}.cefr-def{grid-template-columns:1fr;}footer{padding:2rem 1.5rem;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
+  <a href="vocab-a1a2.html" class="nav-back">← A1/A2</a>
+</nav>
+<div class="hero">
+  <div class="level-badge">B1</div>
+  <div class="meta">
+    <span class="pill pill-gold">📖 Vocabulary · Level 2 of 4</span>
+    <span class="pill pill-light">🌿 Intermediate</span>
+    <span class="pill pill-light">⏱ 28 min</span>
+  </div>
+  <h1>CEFR B1:<br/><em>Intermediate Vocabulary</em></h1>
+  <p>Expand your word bank with topic-based vocabulary for opinions, work, society and relationships — used in everyday conversation and writing.</p>
+  <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+</div>
+
+<div class="cefr-def">
+  <div class="cefr-icon">🌿</div>
+  <div>
+    <h2>What is CEFR B1?</h2>
+    <p>At <strong>B1 (Intermediate)</strong>, learners can understand the main points of clear standard input on familiar matters in work, school and leisure. They can deal with most situations likely to arise whilst travelling. They can produce simple connected text on topics which are familiar or of personal interest. B1 vocabulary goes beyond basic nouns and verbs — learners begin using <em>phrasal verbs, collocations, word families, and abstract nouns</em> to express opinions, compare ideas, and discuss experiences in greater detail.</p>
+    <div class="cefr-traits">
+      <span class="cefr-trait">~2,000–3,000 words</span>
+      <span class="cefr-trait">Abstract nouns</span>
+      <span class="cefr-trait">Phrasal verbs</span>
+      <span class="cefr-trait">Collocations</span>
+      <span class="cefr-trait">Opinion language</span>
+      <span class="cefr-trait">Word families</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+<article>
+  <div class="vocab-section-title">Core Vocabulary — 20 Intermediate Words</div>
+  <p>These words appear frequently in everyday conversations, workplace settings, and general reading at B1 level. Study each word, its definition, and both example sentences.</p>
+
+  <div class="word-grid">
+    <div class="word-card"><div class="wc-word">achieve</div><div class="wc-pos">verb</div><div class="wc-def">To successfully reach a goal through effort and determination.</div><div class="wc-ex">"She worked very hard to achieve her dream of becoming a doctor."</div><div class="wc-ex2">"The team achieved excellent results in the final quarter."</div></div>
+    <div class="word-card"><div class="wc-word">advantage</div><div class="wc-pos">noun</div><div class="wc-def">A condition that puts you in a better position; a benefit.</div><div class="wc-ex">"One advantage of living in the city is access to public transport."</div><div class="wc-ex2">"Speaking two languages is a great advantage in the job market."</div></div>
+    <div class="word-card"><div class="wc-word">argue</div><div class="wc-pos">verb</div><div class="wc-def">To give reasons for or against something; to disagree with someone.</div><div class="wc-ex">"Some people argue that technology makes us less social."</div><div class="wc-ex2">"He argued his case clearly during the meeting."</div></div>
+    <div class="word-card"><div class="wc-word">behaviour</div><div class="wc-pos">noun</div><div class="wc-def">The way a person or animal acts in a particular situation.</div><div class="wc-ex">"The teacher praised the children's excellent behaviour."</div><div class="wc-ex2">"Poor workplace behaviour can affect the whole team."</div></div>
+    <div class="word-card"><div class="wc-word">compare</div><div class="wc-pos">verb</div><div class="wc-def">To examine the similarities and differences between two things.</div><div class="wc-ex">"Let's compare the prices in two different shops."</div><div class="wc-ex2">"The report compares sales figures from the last three years."</div></div>
+    <div class="word-card"><div class="wc-word">develop</div><div class="wc-pos">verb</div><div class="wc-def">To grow, improve, or become more advanced over time.</div><div class="wc-ex">"She is developing her writing skills by practising every day."</div><div class="wc-ex2">"The company plans to develop a new product line next year."</div></div>
+    <div class="word-card"><div class="wc-word">effort</div><div class="wc-pos">noun</div><div class="wc-def">Physical or mental energy used to do something; a serious attempt.</div><div class="wc-ex">"Learning a new language requires a lot of effort."</div><div class="wc-ex2">"The manager praised the team's efforts during the difficult project."</div></div>
+    <div class="word-card"><div class="wc-word">experience</div><div class="wc-pos">noun / verb</div><div class="wc-def">Knowledge or skill gained from doing something; to go through an event.</div><div class="wc-ex">"She has five years of experience in marketing."</div><div class="wc-ex2">"Travelling abroad is a wonderful experience for young people."</div></div>
+    <div class="word-card"><div class="wc-word">improve</div><div class="wc-pos">verb</div><div class="wc-def">To make or become better in quality or condition.</div><div class="wc-ex">"I want to improve my speaking skills before the interview."</div><div class="wc-ex2">"Reading every day will significantly improve your vocabulary."</div></div>
+    <div class="word-card"><div class="wc-word">influence</div><div class="wc-pos">noun / verb</div><div class="wc-def">The power to affect or change someone's thoughts, feelings, or actions.</div><div class="wc-ex">"Social media has a strong influence on young people today."</div><div class="wc-ex2">"Her teacher influenced her decision to study abroad."</div></div>
+    <div class="word-card"><div class="wc-word">manage</div><div class="wc-pos">verb</div><div class="wc-def">To succeed in doing something difficult; to be in charge of people or a system.</div><div class="wc-ex">"How do you manage to study and work at the same time?"</div><div class="wc-ex2">"She manages a team of fifteen people at her company."</div></div>
+    <div class="word-card"><div class="wc-word">opportunity</div><div class="wc-pos">noun</div><div class="wc-def">A favourable time or set of circumstances that makes something possible.</div><div class="wc-ex">"This job is a great opportunity to develop my career."</div><div class="wc-ex2">"He missed the opportunity to apply for the scholarship."</div></div>
+    <div class="word-card"><div class="wc-word">opinion</div><div class="wc-pos">noun</div><div class="wc-def">A personal view or judgement about something; not a fact.</div><div class="wc-ex">"In my opinion, working from home is more productive."</div><div class="wc-ex2">"She gave her honest opinion during the team discussion."</div></div>
+    <div class="word-card"><div class="wc-word">prevent</div><div class="wc-pos">verb</div><div class="wc-def">To stop something from happening; to keep something from occurring.</div><div class="wc-ex">"Regular exercise can help prevent many health problems."</div><div class="wc-ex2">"The new security system prevents unauthorised access."</div></div>
+    <div class="word-card"><div class="wc-word">require</div><div class="wc-pos">verb</div><div class="wc-def">To need or depend on something; to make something necessary.</div><div class="wc-ex">"This job requires excellent communication skills."</div><div class="wc-ex2">"The project requires three months of careful planning."</div></div>
+    <div class="word-card"><div class="wc-word">solution</div><div class="wc-pos">noun</div><div class="wc-def">A way of solving a problem or dealing with a difficult situation.</div><div class="wc-ex">"We need to find a solution to the traffic problem in this city."</div><div class="wc-ex2">"The manager proposed an innovative solution to reduce costs."</div></div>
+    <div class="word-card"><div class="wc-word">suggest</div><div class="wc-pos">verb</div><div class="wc-def">To put forward an idea or proposal for consideration.</div><div class="wc-ex">"I suggest we meet at 10 am on Monday."</div><div class="wc-ex2">"The report suggests that more investment is needed in education."</div></div>
+    <div class="word-card"><div class="wc-word">support</div><div class="wc-pos">verb / noun</div><div class="wc-def">To agree with and encourage something or someone; help given to someone.</div><div class="wc-ex">"My family always supported my decision to study abroad."</div><div class="wc-ex2">"The government provides financial support for small businesses."</div></div>
+    <div class="word-card"><div class="wc-word">challenge</div><div class="wc-pos">noun / verb</div><div class="wc-def">Something difficult that tests your abilities; to question or dispute something.</div><div class="wc-ex">"Learning a new language is always a challenge."</div><div class="wc-ex2">"The new regulations challenge the way companies operate."</div></div>
+    <div class="word-card"><div class="wc-word">significant</div><div class="wc-pos">adjective</div><div class="wc-def">Large enough to be noticed or have an important effect; meaningful.</div><div class="wc-ex">"There has been a significant improvement in her grades."</div><div class="wc-ex2">"The deal was a significant milestone for the company."</div></div>
+  </div>
+
+  <!-- EXERCISES -->
+  <div class="vocab-section-title">10 Exercises</div>
+
+  <!-- EX 1 -->
+  <div class="ex-section">
+    <div class="ex-title">Exercise 1 — Fill in the Blank</div>
+    <div class="ex-sub">Use: achieve / effort / improve / opportunity / challenge</div>
+    <div class="ex-item"><div class="ex-q">1. Learning to speak a new language fluently is a real <strong>___</strong>, but it is worth it.</div><input class="ex-input" id="e1_1" placeholder="Your answer…"/><div class="ex-fb" id="f1_1"></div></div>
+    <div class="ex-item"><div class="ex-q">2. She put in a great deal of <strong>___</strong> to prepare for the presentation.</div><input class="ex-input" id="e1_2" placeholder="Your answer…"/><div class="ex-fb" id="f1_2"></div></div>
+    <div class="ex-item"><div class="ex-q">3. Working abroad is an excellent <strong>___</strong> to develop new skills.</div><input class="ex-input" id="e1_3" placeholder="Your answer…"/><div class="ex-fb" id="f1_3"></div></div>
+    <div class="ex-item"><div class="ex-q">4. If you practise every day, you will <strong>___</strong> your writing skills quickly.</div><input class="ex-input" id="e1_4" placeholder="Your answer…"/><div class="ex-fb" id="f1_4"></div></div>
+    <div class="ex-item"><div class="ex-q">5. It is important to set clear goals if you want to <strong>___</strong> success in your career.</div><input class="ex-input" id="e1_5" placeholder="Your answer…"/><div class="ex-fb" id="f1_5"></div></div>
+    <button class="check-btn" onclick="checkEx(1,{e1_1:'challenge',e1_2:'effort',e1_3:'opportunity',e1_4:'improve',e1_5:'achieve'})">Check Answers</button>
+    <div class="score-box" id="sc1"><span class="big" id="sc1v"></span><p id="sc1m"></p></div>
+  </div>
+
+  <!-- EX 2 -->
+  <div class="ex-section">
+    <div class="ex-title">Exercise 2 — Choose the Correct Word</div>
+    <div class="ex-sub">Select the best option for each sentence</div>
+    <div class="ex-item">
+      <div class="ex-q">6. The government plans to <strong>___</strong> new policies to reduce pollution.</div>
+      <select class="ex-select" id="e2_1"><option value="">— Choose —</option><option>prevent</option><option>develop</option><option>argue</option><option>compare</option></select>
+      <div class="ex-fb" id="f2_1"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">7. In my <strong>___</strong>, remote work is more efficient for most professionals.</div>
+      <select class="ex-select" id="e2_2"><option value="">— Choose —</option><option>experience</option><option>behaviour</option><option>opinion</option><option>solution</option></select>
+      <div class="ex-fb" id="f2_2"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">8. The new manager was able to <strong>___</strong> the team very effectively from day one.</div>
+      <select class="ex-select" id="e2_3"><option value="">— Choose —</option><option>suggest</option><option>influence</option><option>manage</option><option>require</option></select>
+      <div class="ex-fb" id="f2_3"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">9. The report shows a <strong>___</strong> increase in customer satisfaction this year.</div>
+      <select class="ex-select" id="e2_4"><option value="">— Choose —</option><option>significant</option><option>busy</option><option>early</option><option>tired</option></select>
+      <div class="ex-fb" id="f2_4"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">10. The doctor <strong>___</strong> that we get at least 30 minutes of exercise every day.</div>
+      <select class="ex-select" id="e2_5"><option value="">— Choose —</option><option>requires</option><option>supports</option><option>suggests</option><option>prevents</option></select>
+      <div class="ex-fb" id="f2_5"></div>
+    </div>
+    <button class="check-btn" onclick="checkEx(2,{e2_1:'develop',e2_2:'opinion',e2_3:'manage',e2_4:'significant',e2_5:'suggests'})">Check Answers</button>
+    <div class="score-box" id="sc2"><span class="big" id="sc2v"></span><p id="sc2m"></p></div>
+  </div>
+
+</article>
+<aside class="sidebar">
+  <div class="s-card">
+    <h4>Vocabulary Levels</h4>
+    <ul class="level-nav">
+      <li><a href="vocab-a1a2.html"><span class="ln-badge ln-a1">A1/A2</span> Beginner</a></li>
+      <li><a href="vocab-b1.html" class="current"><span class="ln-badge ln-b1">B1</span> Intermediate</a></li>
+      <li><a href="vocab-b2.html"><span class="ln-badge ln-b2">B2</span> Upper-Int</a></li>
+      <li><a href="vocab-c1.html"><span class="ln-badge ln-c1">C1</span> Advanced</a></li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <h4>Study Tip</h4>
+    <div class="tip-box"><strong>At B1 level</strong>, focus on collocations — word combinations that naturally go together. For example: <em>make an effort</em>, <em>achieve a goal</em>, <em>find a solution</em>. Learning words in pairs is far more powerful than single-word memorisation.</div>
+  </div>
+  <a href="vocab-a1a2.html" class="prev-btn">← A1/A2 Beginner</a>
+  <a href="vocab-b2.html" class="next-btn">Next Level: B2 →</a>
+</aside>
+</div>
+
+<footer>
+  <p>© 2025 Shared Pearls of Wisdom · Ramesh198312</p>
+  <a href="index.html">← Back to all lessons</a>
+</footer>
+<script>
+  window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('pf').style.width=((d.scrollTop||document.body.scrollTop)/(d.scrollHeight-d.clientHeight)*100)+'%';});
+  function checkEx(n,answers){
+    let score=0,total=Object.keys(answers).length;
+    for(let id in answers){
+      const inp=document.getElementById(id);
+      const fb=document.getElementById('f'+id.slice(1));
+      const val=inp.tagName==='SELECT'?inp.options[inp.selectedIndex].text.toLowerCase():inp.value.trim().toLowerCase();
+      const correct=answers[id].toLowerCase();
+      inp.classList.remove('correct','wrong');
+      fb.style.display='block';
+      if(val===correct){inp.classList.add('correct');fb.className='ex-fb ok';fb.textContent='✓ Correct!';score++;}
+      else{inp.classList.add('wrong');fb.className='ex-fb no';fb.textContent='✗ Answer: '+answers[id];}
+    }
+    const sb=document.getElementById('sc'+n);sb.style.display='block';
+    document.getElementById('sc'+n+'v').textContent=score+'/'+total;
+    const msgs=['Keep going!','Getting there!','Good effort!','Well done!','Excellent!','Perfect!'];
+    document.getElementById('sc'+n+'m').textContent=msgs[Math.min(score,5)];
+  }
+</script>
+</body>
+</html>

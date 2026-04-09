@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vocabulary A1/A2 – Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--ink:#1a1209;--parchment:#fdf8f0;--cream:#f5ede0;--gold:#c8922a;--gold-light:#e8b84b;--teal:#1e6b6b;--pearl:#e8ddd0;--shadow:rgba(26,18,9,0.12);--correct:#1e6b3a;--wrong:#8b1a1a;--level:#2a6496;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Source Serif 4',Georgia,serif;background:var(--parchment);color:var(--ink);}
+    nav{background:var(--ink);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold-light);padding:1.1rem 0;text-decoration:none;display:block;}
+    .nav-logo span{color:#fff;font-style:italic;}
+    .nav-back{font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;text-decoration:none;}
+    .nav-back:hover{color:var(--gold-light);}
+
+    /* HERO */
+    .hero{background:linear-gradient(135deg,#1a3a5c 0%,#2a6496 100%);padding:4rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;}
+    .hero::before{content:'⭐';font-size:18rem;position:absolute;opacity:0.05;top:-3rem;left:50%;transform:translateX(-50%);pointer-events:none;}
+    .level-badge{display:inline-block;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.4);border-radius:50%;width:80px;height:80px;line-height:80px;font-family:'Playfair Display',serif;font-size:1.1rem;color:#fff;margin-bottom:1.5rem;letter-spacing:0.05em;}
+    .meta{display:flex;justify-content:center;gap:0.8rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+    .pill{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.35rem 0.9rem;border-radius:2px;}
+    .pill-light{background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);}
+    .pill-gold{background:rgba(200,146,42,0.35);color:var(--gold-light);border:1px solid rgba(200,146,42,0.4);}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);color:#fff;line-height:1.15;max-width:780px;margin:0 auto 1rem;}
+    .hero h1 em{color:var(--gold-light);font-style:italic;}
+    .hero p{color:rgba(255,255,255,0.8);font-size:1rem;max-width:600px;margin:0 auto;line-height:1.7;}
+    .progress-bar{height:3px;background:rgba(255,255,255,0.15);margin-top:2.5rem;}
+    .progress-fill{height:100%;width:0;background:var(--gold-light);transition:width 0.3s;}
+
+    /* CEFR DEFINITION BOX */
+    .cefr-def{background:#fff;max-width:900px;margin:-2rem auto 0;position:relative;z-index:2;padding:2rem 2.5rem;box-shadow:0 8px 40px rgba(0,0,0,0.12);display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start;}
+    .cefr-icon{font-size:3rem;line-height:1;}
+    .cefr-def h2{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:0.5rem;color:var(--level);}
+    .cefr-def p{font-size:0.95rem;line-height:1.8;color:#444;}
+    .cefr-traits{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem;}
+    .cefr-trait{background:rgba(42,100,150,0.08);border:1px solid rgba(42,100,150,0.2);color:#2a6496;font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.7rem;}
+
+    /* LAYOUT */
+    .layout{max-width:1000px;margin:3rem auto;padding:0 2rem;display:grid;grid-template-columns:1fr 260px;gap:3rem;}
+
+    /* VOCAB SECTION */
+    .vocab-section-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin:2.5rem 0 1.5rem;padding-bottom:0.5rem;border-bottom:2px solid var(--level);display:inline-block;}
+    .body p{font-size:1rem;line-height:1.9;color:#333;margin-bottom:1.2rem;}
+
+    /* WORD CARDS GRID */
+    .word-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.5rem 0;}
+    .word-card{background:#fff;padding:1.4rem;box-shadow:0 2px 10px var(--shadow);border-top:3px solid var(--level);cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;}
+    .word-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px var(--shadow);}
+    .wc-word{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ink);margin-bottom:0.2rem;}
+    .wc-pos{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;margin-bottom:0.5rem;}
+    .wc-def{font-size:0.88rem;color:#555;line-height:1.6;margin-bottom:0.6rem;}
+    .wc-ex{font-size:0.85rem;color:var(--teal);font-style:italic;border-left:2px solid var(--teal);padding-left:0.7rem;line-height:1.6;}
+    .wc-ex2{font-size:0.82rem;color:#888;font-style:italic;padding-left:0.9rem;margin-top:0.3rem;line-height:1.5;}
+
+    /* EXERCISES */
+    .ex-section{background:#fff;padding:2rem;box-shadow:0 2px 12px var(--shadow);margin:2rem 0;}
+    .ex-title{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:0.3rem;}
+    .ex-sub{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--level);margin-bottom:1.5rem;}
+    .ex-item{margin-bottom:1.3rem;padding-bottom:1.3rem;border-bottom:1px solid var(--pearl);}
+    .ex-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+    .ex-q{font-size:0.97rem;color:#333;line-height:1.7;margin-bottom:0.6rem;}
+    .ex-q strong{color:var(--level);}
+    .ex-input{width:100%;padding:0.6rem 0.9rem;border:1px solid var(--pearl);background:var(--parchment);font-family:'Source Serif 4',serif;font-size:0.9rem;color:var(--ink);outline:none;transition:border-color 0.2s;}
+    .ex-input:focus{border-color:var(--level);}
+    .ex-input.correct{border-color:var(--correct);background:rgba(30,107,58,0.05);color:var(--correct);}
+    .ex-input.wrong{border-color:var(--wrong);background:rgba(139,26,26,0.05);}
+    .ex-select{padding:0.6rem 0.9rem;border:1px solid var(--pearl);background:#fff;font-family:'Source Serif 4',serif;font-size:0.9rem;color:var(--ink);cursor:pointer;outline:none;min-width:180px;}
+    .ex-select.correct{border-color:var(--correct);background:rgba(30,107,58,0.05);}
+    .ex-select.wrong{border-color:var(--wrong);}
+    .ex-fb{font-family:'DM Mono',monospace;font-size:0.75rem;margin-top:0.4rem;display:none;}
+    .ex-fb.ok{color:var(--correct);}
+    .ex-fb.no{color:var(--wrong);}
+    .check-btn{padding:0.75rem 1.8rem;background:var(--level);color:#fff;border:none;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:1rem;transition:all 0.2s;}
+    .check-btn:hover{background:#1a4d78;}
+    .score-box{display:none;margin-top:1rem;padding:1rem;background:var(--ink);text-align:center;}
+    .score-box .big{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-light);display:block;}
+    .score-box p{color:#aaa;font-size:0.85rem;margin-top:0.3rem;}
+
+    /* SIDEBAR */
+    .sidebar{display:flex;flex-direction:column;gap:1.5rem;}
+    .s-card{background:#fff;padding:1.4rem;box-shadow:0 2px 12px var(--shadow);}
+    .s-card h4{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid var(--pearl);}
+    .level-nav{list-style:none;}
+    .level-nav li{border-bottom:1px solid var(--pearl);}
+    .level-nav li:last-child{border-bottom:none;}
+    .level-nav a{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0;font-size:0.88rem;color:#555;text-decoration:none;transition:color 0.2s;}
+    .level-nav a:hover{color:var(--gold);}
+    .level-nav a.current{color:var(--level);font-weight:600;}
+    .ln-badge{font-family:'DM Mono',monospace;font-size:0.62rem;padding:0.2rem 0.5rem;border-radius:2px;flex-shrink:0;}
+    .ln-a1{background:rgba(42,100,150,0.1);color:#2a6496;}
+    .ln-b1{background:rgba(30,107,107,0.1);color:var(--teal);}
+    .ln-b2{background:rgba(160,64,26,0.1);color:#a0401a;}
+    .ln-c1{background:rgba(107,63,160,0.1);color:#6b3fa0;}
+    .tip-box{background:rgba(42,100,150,0.06);border:1px solid rgba(42,100,150,0.2);padding:1rem;font-size:0.88rem;line-height:1.7;color:#555;}
+    .tip-box strong{color:var(--level);}
+    .next-btn{display:block;background:var(--gold);color:var(--ink);padding:1rem;text-align:center;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;font-weight:500;transition:all 0.2s;}
+    .next-btn:hover{background:var(--gold-light);}
+
+    footer{background:var(--ink);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    footer p{color:#666;font-size:0.82rem;font-family:'DM Mono',monospace;}
+    footer a{color:var(--gold);text-decoration:none;font-family:'DM Mono',monospace;font-size:0.82rem;}
+    @media(max-width:800px){.layout{grid-template-columns:1fr;}.word-grid{grid-template-columns:1fr;}.cefr-def{grid-template-columns:1fr;}footer{padding:2rem 1.5rem;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
+  <a href="index.html" class="nav-back">← All Lessons</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="level-badge">A1/A2</div>
+  <div class="meta">
+    <span class="pill pill-gold">📖 Vocabulary · Level 1 of 4</span>
+    <span class="pill pill-light">🌱 Beginner / Elementary</span>
+    <span class="pill pill-light">⏱ 25 min</span>
+  </div>
+  <h1>CEFR A1 / A2:<br/><em>Beginner & Elementary Vocabulary</em></h1>
+  <p>Build your essential English word bank — everyday objects, actions, feelings, and basic communication phrases used in real life.</p>
+  <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+</div>
+
+<!-- CEFR DEFINITION -->
+<div class="cefr-def">
+  <div class="cefr-icon">🌱</div>
+  <div>
+    <h2>What is CEFR A1 / A2?</h2>
+    <p>The <strong>Common European Framework of Reference (CEFR)</strong> is an international standard used to describe language ability. <strong>A1 (Beginner)</strong> learners can understand and use very basic expressions to introduce themselves and interact simply. <strong>A2 (Elementary)</strong> learners can communicate in routine tasks, describe their background, immediate environment, and matters of immediate need. At this level, vocabulary focuses on <em>concrete, everyday words</em> — family, food, colours, numbers, jobs, and simple actions.</p>
+    <div class="cefr-traits">
+      <span class="cefr-trait">~500–1,000 words</span>
+      <span class="cefr-trait">Concrete nouns</span>
+      <span class="cefr-trait">Basic verbs</span>
+      <span class="cefr-trait">Simple adjectives</span>
+      <span class="cefr-trait">Everyday phrases</span>
+      <span class="cefr-trait">Numbers &amp; colours</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+<article>
+
+  <div class="vocab-section-title">Core Vocabulary — 20 Essential Words</div>
+  <p>Study each word carefully. Notice the part of speech, definition, and two example sentences. The first example is everyday; the second is slightly more formal.</p>
+
+  <div class="word-grid">
+    <div class="word-card"><div class="wc-word">happy</div><div class="wc-pos">adjective</div><div class="wc-def">Feeling pleasure or joy; contented and satisfied.</div><div class="wc-ex">"I am very happy to meet you today."</div><div class="wc-ex2">"She felt happy when she received the good news."</div></div>
+    <div class="word-card"><div class="wc-word">buy</div><div class="wc-pos">verb</div><div class="wc-def">To get something by paying money for it.</div><div class="wc-ex">"I want to buy a new bag."</div><div class="wc-ex2">"He bought a dictionary to improve his vocabulary."</div></div>
+    <div class="word-card"><div class="wc-word">family</div><div class="wc-pos">noun</div><div class="wc-def">A group of people related by blood or marriage.</div><div class="wc-ex">"My family has four people: mum, dad, my sister and me."</div><div class="wc-ex2">"She lives with her family in a small town."</div></div>
+    <div class="word-card"><div class="wc-word">work</div><div class="wc-pos">verb / noun</div><div class="wc-def">To do a job or task; a place or activity where you earn money.</div><div class="wc-ex">"I work in a school."</div><div class="wc-ex2">"He goes to work every morning by bus."</div></div>
+    <div class="word-card"><div class="wc-word">hungry</div><div class="wc-pos">adjective</div><div class="wc-def">Feeling the need to eat; having an empty stomach.</div><div class="wc-ex">"I am hungry. Can we eat now?"</div><div class="wc-ex2">"The children were hungry after their long walk."</div></div>
+    <div class="word-card"><div class="wc-word">travel</div><div class="wc-pos">verb / noun</div><div class="wc-def">To go from one place to another, especially over a distance.</div><div class="wc-ex">"I love to travel to new countries."</div><div class="wc-ex2">"She travels by train to the city every week."</div></div>
+    <div class="word-card"><div class="wc-word">friend</div><div class="wc-pos">noun</div><div class="wc-def">A person you know well and like very much.</div><div class="wc-ex">"My best friend is called Sara."</div><div class="wc-ex2">"He made many friends at his new school."</div></div>
+    <div class="word-card"><div class="wc-word">open</div><div class="wc-pos">verb / adjective</div><div class="wc-def">To move something so it is not closed; not shut.</div><div class="wc-ex">"Please open the window. It is very hot."</div><div class="wc-ex2">"The shop is open from 9 am to 6 pm."</div></div>
+    <div class="word-card"><div class="wc-word">beautiful</div><div class="wc-pos">adjective</div><div class="wc-def">Very pleasing to look at; attractive in appearance.</div><div class="wc-ex">"What a beautiful flower!"</div><div class="wc-ex2">"They live in a beautiful house by the sea."</div></div>
+    <div class="word-card"><div class="wc-word">speak</div><div class="wc-pos">verb</div><div class="wc-def">To say words aloud; to talk to someone.</div><div class="wc-ex">"Do you speak English?"</div><div class="wc-ex2">"She speaks three languages: English, French and Arabic."</div></div>
+    <div class="word-card"><div class="wc-word">tired</div><div class="wc-pos">adjective</div><div class="wc-def">Feeling the need to rest or sleep; not having energy.</div><div class="wc-ex">"I am very tired after work today."</div><div class="wc-ex2">"He looked tired after the long journey."</div></div>
+    <div class="word-card"><div class="wc-word">ask</div><div class="wc-pos">verb</div><div class="wc-def">To say something as a question; to request information.</div><div class="wc-ex">"Can I ask you a question?"</div><div class="wc-ex2">"She asked the teacher for help with the exercise."</div></div>
+    <div class="word-card"><div class="wc-word">need</div><div class="wc-pos">verb / noun</div><div class="wc-def">To require something that is necessary or important.</div><div class="wc-ex">"I need to drink some water."</div><div class="wc-ex2">"Do you need any help with your homework?"</div></div>
+    <div class="word-card"><div class="wc-word">early</div><div class="wc-pos">adjective / adverb</div><div class="wc-def">Before the usual or expected time; near the beginning.</div><div class="wc-ex">"I wake up early every morning."</div><div class="wc-ex2">"She arrived early to prepare for the meeting."</div></div>
+    <div class="word-card"><div class="wc-word">money</div><div class="wc-pos">noun</div><div class="wc-def">Coins and notes used to buy things; currency.</div><div class="wc-ex">"I do not have enough money to buy that bag."</div><div class="wc-ex2">"He saves money every month in a bank account."</div></div>
+    <div class="word-card"><div class="wc-word">understand</div><div class="wc-pos">verb</div><div class="wc-def">To know what something means; to get the meaning of.</div><div class="wc-ex">"I don't understand this word. Can you help?"</div><div class="wc-ex2">"Do you understand the instructions for the exercise?"</div></div>
+    <div class="word-card"><div class="wc-word">busy</div><div class="wc-pos">adjective</div><div class="wc-def">Having a lot to do; occupied with work or activities.</div><div class="wc-ex">"Sorry, I can't talk now. I am very busy."</div><div class="wc-ex2">"The office is always busy on Monday mornings."</div></div>
+    <div class="word-card"><div class="wc-word">place</div><div class="wc-pos">noun</div><div class="wc-def">A particular area, location, or position.</div><div class="wc-ex">"This is a nice place to have lunch."</div><div class="wc-ex2">"The library is a quiet place to study."</div></div>
+    <div class="word-card"><div class="wc-word">learn</div><div class="wc-pos">verb</div><div class="wc-def">To get knowledge or a skill by studying or practising.</div><div class="wc-ex">"I want to learn English quickly."</div><div class="wc-ex2">"She is learning to drive a car this month."</div></div>
+    <div class="word-card"><div class="wc-word">important</div><div class="wc-pos">adjective</div><div class="wc-def">Having great value, significance or meaning; necessary.</div><div class="wc-ex">"Water is important for our health."</div><div class="wc-ex2">"It is important to arrive on time for a job interview."</div></div>
+  </div>
+
+  <!-- EXERCISES -->
+  <div class="vocab-section-title">10 Exercises</div>
+
+  <!-- EX 1: Fill in the blank -->
+  <div class="ex-section">
+    <div class="ex-title">Exercise 1 — Fill in the Blank</div>
+    <div class="ex-sub">Choose the correct word from the box: happy / tired / busy / hungry / early</div>
+    <div class="ex-item"><div class="ex-q">1. I did not eat breakfast. Now I am very <strong>___</strong>.</div><input class="ex-input" id="e1_1" placeholder="Your answer…"/><div class="ex-fb" id="f1_1"></div></div>
+    <div class="ex-item"><div class="ex-q">2. She worked 12 hours today. She is very <strong>___</strong> now.</div><input class="ex-input" id="e1_2" placeholder="Your answer…"/><div class="ex-fb" id="f1_2"></div></div>
+    <div class="ex-item"><div class="ex-q">3. It is his birthday today. He feels very <strong>___</strong>.</div><input class="ex-input" id="e1_3" placeholder="Your answer…"/><div class="ex-fb" id="f1_3"></div></div>
+    <div class="ex-item"><div class="ex-q">4. I cannot meet you today. I am very <strong>___</strong> with work.</div><input class="ex-input" id="e1_4" placeholder="Your answer…"/><div class="ex-fb" id="f1_4"></div></div>
+    <div class="ex-item"><div class="ex-q">5. She always arrives <strong>___</strong> to class — before the teacher!</div><input class="ex-input" id="e1_5" placeholder="Your answer…"/><div class="ex-fb" id="f1_5"></div></div>
+    <button class="check-btn" onclick="checkEx(1,{e1_1:'hungry',e1_2:'tired',e1_3:'happy',e1_4:'busy',e1_5:'early'})">Check Answers</button>
+    <div class="score-box" id="sc1"><span class="big" id="sc1v"></span><p id="sc1m"></p></div>
+  </div>
+
+  <!-- EX 2: Choose the correct word -->
+  <div class="ex-section">
+    <div class="ex-title">Exercise 2 — Choose the Correct Word</div>
+    <div class="ex-sub">Select the best word to complete each sentence</div>
+    <div class="ex-item">
+      <div class="ex-q">6. I want to <strong>___</strong> a new phone next week.</div>
+      <select class="ex-select" id="e2_1"><option value="">— Choose —</option><option>open</option><option>buy</option><option>ask</option><option>speak</option></select>
+      <div class="ex-fb" id="f2_1"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">7. Can you <strong>___</strong> the door please? It is very cold.</div>
+      <select class="ex-select" id="e2_2"><option value="">— Choose —</option><option>need</option><option>learn</option><option>open</option><option>close</option></select>
+      <div class="ex-fb" id="f2_2"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">8. Do you <strong>___</strong> Spanish or only English?</div>
+      <select class="ex-select" id="e2_3"><option value="">— Choose —</option><option>travel</option><option>speak</option><option>work</option><option>understand</option></select>
+      <div class="ex-fb" id="f2_3"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">9. My teacher asked me to <strong>___</strong> 10 new words every day.</div>
+      <select class="ex-select" id="e2_4"><option value="">— Choose —</option><option>buy</option><option>ask</option><option>learn</option><option>place</option></select>
+      <div class="ex-fb" id="f2_4"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">10. I do not have enough <strong>___</strong> to buy a new laptop.</div>
+      <select class="ex-select" id="e2_5"><option value="">— Choose —</option><option>family</option><option>friend</option><option>money</option><option>place</option></select>
+      <div class="ex-fb" id="f2_5"></div>
+    </div>
+    <button class="check-btn" onclick="checkEx(2,{e2_1:'buy',e2_2:'close',e2_3:'speak',e2_4:'learn',e2_5:'money'})">Check Answers</button>
+    <div class="score-box" id="sc2"><span class="big" id="sc2v"></span><p id="sc2m"></p></div>
+  </div>
+
+</article>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="s-card">
+    <h4>Vocabulary Levels</h4>
+    <ul class="level-nav">
+      <li><a href="vocab-a1a2.html" class="current"><span class="ln-badge ln-a1">A1/A2</span> Beginner</a></li>
+      <li><a href="vocab-b1.html"><span class="ln-badge ln-b1">B1</span> Intermediate</a></li>
+      <li><a href="vocab-b2.html"><span class="ln-badge ln-b2">B2</span> Upper-Int</a></li>
+      <li><a href="vocab-c1.html"><span class="ln-badge ln-c1">C1</span> Advanced</a></li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <h4>Study Tip</h4>
+    <div class="tip-box"><strong>The best way to learn vocabulary</strong> at A1/A2 is to connect words to things around you. Point to objects in your home and say the word aloud. Make short sentences about your daily life.</div>
+  </div>
+  <div class="s-card">
+    <h4>Your Progress</h4>
+    <p style="font-size:0.88rem;color:#666;line-height:1.7;">Complete all 10 exercises to unlock your level score. Each correct answer builds your word bank!</p>
+  </div>
+  <a href="vocab-b1.html" class="next-btn">Next Level: B1 Intermediate →</a>
+</aside>
+</div>
+
+<footer>
+  <p>© 2025 Shared Pearls of Wisdom · Ramesh198312</p>
+  <a href="index.html">← Back to all lessons</a>
+</footer>
+
+<script>
+  window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('pf').style.width=((d.scrollTop||document.body.scrollTop)/(d.scrollHeight-d.clientHeight)*100)+'%';});
+
+  function checkEx(n, answers){
+    let score=0, total=Object.keys(answers).length;
+    for(let id in answers){
+      const inp=document.getElementById(id);
+      const fb=document.getElementById('f'+id.slice(1));
+      const val=inp.value?inp.value.trim().toLowerCase():inp.options?inp.options[inp.selectedIndex].text.toLowerCase():'';
+      const correct=answers[id].toLowerCase();
+      inp.classList.remove('correct','wrong');
+      fb.style.display='block';
+      if(val===correct){inp.classList.add('correct');fb.className='ex-fb ok';fb.textContent='✓ Correct!';score++;}
+      else{inp.classList.add('wrong');fb.className='ex-fb no';fb.textContent='✗ Answer: '+answers[id];}
+    }
+    const sb=document.getElementById('sc'+n);
+    sb.style.display='block';
+    document.getElementById('sc'+n+'v').textContent=score+'/'+total;
+    const msgs=['Keep trying!','Getting there!','Good effort!','Well done!','Excellent!','Perfect!'];
+    document.getElementById('sc'+n+'m').textContent=msgs[Math.min(score,5)];
+  }
+</script>
+</body>
+</html>

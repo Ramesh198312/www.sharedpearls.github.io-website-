@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Proverbial Playbook · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* Premium Archive Palette */
+  --black: #ffffff; 
+  --dark: #fdfbf7; 
+  --dark2: #ffffff; 
+  --dark3: #f9f8f6; 
+  --gold: #b07d2a; 
+  --gold-lt: #8a5e18; 
+  --cream: #333333; 
+  --cream-dim: #555555; 
+  --ok: #27ae60;
+  --ok-bg: #e8f8f5;
+  --no: #c0392b;
+  --no-bg: #fdedec;
+  
+  /* Proverb Theme Accents - Deep Oxford Green */
+  --oxford: #102a23;
+  --oxford-lt: #1a4237;
+  --parchment: #fdfbf7;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Lato',sans-serif; background:var(--dark); color:var(--cream); min-height:100vh; }
+
+/* ── NAV & HERO ── */
+nav { background:var(--black); display:flex; align-items:center; justify-content:space-between; padding:0 3rem; position:sticky; top:0; z-index:300; border-bottom:1px solid rgba(176,125,42,.2); box-shadow: 0 2px 10px rgba(0,0,0,0.02); height: 70px;}
+.nav-logo { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--gold); text-decoration:none; font-weight:700; }
+.nav-logo em { color:var(--cream); font-style:italic; }
+.nav-right { display:flex; align-items:center; gap:1.5rem; }
+.nav-series { font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-lt); padding:.4rem 1rem; border:1px solid rgba(176,125,42,.3); font-weight:bold; }
+
+.hero { background:var(--black); padding:4rem 3rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.hero-inner { max-width:950px; margin: 0 auto; text-align: center;}
+.hero-ep { font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; font-weight:bold; display:block;}
+h1 { font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:900; line-height:1.1; color:var(--oxford); margin-bottom:1.2rem; }
+h1 .gold { color:var(--gold); }
+.hero-desc { font-size:1.15rem; line-height:1.8; color:var(--cream-dim); max-width:750px; margin: 0 auto 2rem; }
+
+/* ── LAYOUTS ── */
+.container { max-width:1150px; margin:0 auto; padding:3rem 2rem 6rem; }
+.layout-grid { display:grid; grid-template-columns:320px 1fr; gap:3rem; }
+
+/* ── INTRO SCREEN ── */
+#intro-screen { animation: fadeIn 0.5s ease-out; }
+.intro-box { background: var(--dark2); padding: 4rem; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-top: 4px solid var(--gold); text-align: left;}
+.intro-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--oxford); margin-bottom: 1.5rem; border-bottom: 1px solid rgba(176,125,42,.2); padding-bottom: 1rem; font-weight: 900;}
+.intro-text p { font-size: 1.15rem; line-height: 1.8; margin-bottom: 1.5rem; color: var(--cream); }
+.intro-text .highlight { font-weight: bold; color: var(--gold-lt); background: rgba(176,125,42,0.08); padding: 0 4px; border-radius: 3px;}
+.start-btn { display: block; width: 100%; max-width: 300px; margin: 3rem auto 0; padding: 1.2rem; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; background: var(--oxford); color: white; border: none; border-radius: 4px; cursor: pointer; transition: all 0.3s;}
+.start-btn:hover { background: var(--oxford-lt); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(26,66,55,0.3);}
+
+/* ── SIDEBAR (THE ARCHIVE) ── */
+.sidebar { display:flex; flex-direction:column; gap:1.5rem; }
+.level-toggle { display: flex; gap: 0.5rem; }
+.lvl-btn { flex: 1; padding: 1rem 0; background: var(--dark3); border: 1px solid rgba(0,0,0,0.1); font-family: 'DM Mono', monospace; font-size: 0.8rem; font-weight: bold; cursor: pointer; color: var(--cream-dim); transition: 0.2s; border-radius: 4px;}
+.lvl-btn.active { background: var(--oxford); color: white; border-color: var(--oxford);}
+
+.sw { background:var(--dark2); border:1px solid rgba(0,0,0,.08); box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-radius: 4px; overflow:hidden; }
+.sw-hd { background:var(--dark3); padding:1.2rem; font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold-lt); border-bottom:1px solid rgba(0,0,0,.05); font-weight:bold; }
+.sw-bd { padding:0; max-height: 60vh; overflow-y: auto; }
+
+.prov-list { list-style:none; }
+.prov-list li { border-bottom:1px solid rgba(0,0,0,.05); }
+.prov-btn { width:100%; text-align:left; background:none; border:none; padding:1.1rem; font-family:'Lato',sans-serif; font-size:1rem; color:var(--cream-dim); cursor:pointer; transition:all .2s; border-left: 4px solid transparent; font-weight: 500;}
+.prov-btn:hover { background: rgba(176,125,42,0.03); color:var(--oxford); }
+.prov-btn.active { color:var(--oxford); background: #fff; border-left: 4px solid var(--gold); font-weight: bold;}
+
+/* ── MAIN CONTENT (THE LEDGER) ── */
+#vault-screen { display: none; animation: fadeIn 0.5s ease-out; }
+.ledger-card { background:var(--dark2); padding:3.5rem; border-radius:4px; border:1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-top:4px solid var(--oxford); position: relative;}
+.ledger-card::before { content: ''; position: absolute; top: 0; right: 0; width: 120px; height: 120px; background: radial-gradient(circle at top right, rgba(26,66,55,0.05) 0%, transparent 70%); pointer-events: none;}
+
+.ledger-number { font-family:'DM Mono',monospace; font-size:.8rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); margin-bottom: 0.8rem; display: block; font-weight: bold;}
+.proverb-title { font-size:2.4rem; color:var(--oxford); font-family: 'Playfair Display', serif; font-weight: 900; margin-bottom: 2rem; line-height: 1.2;}
+
+/* Definitions */
+.definition-box { background: var(--parchment); border-left: 4px solid var(--gold); padding: 2rem; border-radius: 0 4px 4px 0; margin-bottom: 2.5rem; border-top: 1px solid rgba(0,0,0,0.03); border-right: 1px solid rgba(0,0,0,0.03); border-bottom: 1px solid rgba(0,0,0,0.03);}
+.def-label { font-family:'DM Mono',monospace; font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold-lt); margin-bottom: 0.8rem; font-weight: bold;}
+.def-text { font-size: 1.25rem; line-height: 1.6; color: var(--cream); font-style: italic;}
+
+/* Pragmatics Context */
+.context-box { margin-bottom: 3rem;}
+.context-label { font-family:'DM Mono',monospace; font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; color:var(--oxford); margin-bottom: 1rem; font-weight: bold; display: flex; align-items: center; gap: 0.5rem;}
+.context-label::before { content: ''; display: inline-block; width: 12px; height: 12px; background: var(--oxford); border-radius: 50%; }
+.context-text { font-size: 1.1rem; line-height: 1.8; color: var(--cream-dim); padding-left: 1.2rem;}
+
+/* Mini Quiz */
+.quiz-box { border-top: 2px dashed rgba(0,0,0,0.1); padding-top: 2.5rem;}
+.scenario { font-size: 1.15rem; line-height: 1.8; margin-bottom: 2rem; color: var(--cream);}
+.cloze-input { font-family: 'Playfair Display', serif; font-size: 1.3rem; padding: 0.5rem; border: none; border-bottom: 2px solid var(--gold); background: transparent; outline: none; color: var(--oxford); font-weight: bold; width: 100%; max-width: 450px; text-align: center; transition: 0.3s; margin-bottom: 1rem;}
+.cloze-input:focus { border-bottom-color: var(--oxford); }
+.submit-case { font-family:'DM Mono',monospace; font-size:.8rem; font-weight:bold; letter-spacing:.1em; text-transform:uppercase; padding:1.2rem 2.5rem; background:var(--oxford); color:#fff; border:none; border-radius:4px; cursor:pointer; transition:0.2s;}
+.submit-case:hover { background: var(--oxford-lt); }
+
+.feedback { display: none; margin-top: 1.5rem; padding: 1.2rem; border-radius: 4px; font-weight: bold; font-size: 1.05rem;}
+.feedback.show { display: block; animation: fadeIn 0.3s;}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+footer { background:var(--black); padding:2rem 3rem; text-align: center; border-top:1px solid rgba(0,0,0,.1); margin-top: 4rem;}
+footer p { color:rgba(0,0,0,.5); font-size:.8rem; font-family:'DM Mono',monospace; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Shared <em>Pearls</em> of Wisdom</a>
+  <div class="nav-right">
+    <span class="nav-series">Premium Masterclass</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="hero-ep">Cultural Fluency & Figurative Communication</span>
+    <h1>The Proverbial <span class="gold">Playbook</span></h1>
+    <p class="hero-desc">Proverbs are the distilled cultural wisdom of the English language. Master them to instantly convey complex moral, ethical, and practical judgments with native-level fluency.</p>
+  </div>
+</div>
+
+<div class="container">
+  
+  <div id="intro-screen">
+    <div class="intro-box">
+      <h2 class="intro-title">The Psychology of Proverbs</h2>
+      <div class="intro-text">
+        <p>While <em>idioms</em> are phrases with definitions disconnected from their literal words (e.g., "bite the bullet"), <span class="highlight">proverbs</span> are complete, self-contained sentences. They are pithy statements that express a general cultural truth, piece of advice, or moral judgment.</p>
+        <p><strong>Why are they significant in figurative communication?</strong></p>
+        <p>Native speakers use proverbs as <span class="highlight">social shorthand</span>. Instead of spending five minutes aggressively lecturing a colleague about taking precautions, a native speaker will simply say, <em>"Well, better safe than sorry."</em> It softens the advice and attributes the judgment to society rather than the individual.</p>
+        <p>Mastering proverbs means you are no longer just speaking English—you are understanding the shared cultural psychology of its speakers.</p>
+      </div>
+      <button class="start-btn" onclick="startVault()">Access The Archive</button>
+    </div>
+  </div>
+
+  <div id="vault-screen" class="layout-grid">
+    
+    <aside class="sidebar">
+      <div class="level-toggle">
+        <button class="lvl-btn active" id="btn-lvl-b" onclick="switchLevel('B')">B1/B2 Proverbs</button>
+        <button class="lvl-btn" id="btn-lvl-c" onclick="switchLevel('C')">C1/C2 Proverbs</button>
+      </div>
+      
+      <div class="sw">
+        <div class="sw-hd">The Wisdom Archive</div>
+        <div class="sw-bd">
+          <ul class="prov-list" id="sidebar-list">
+            </ul>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="ledger-card">
+        <span class="ledger-number" id="ui-prov-num">Proverb 01</span>
+        <h2 class="proverb-title" id="ui-prov-title">Loading...</h2>
+
+        <div class="definition-box">
+          <div class="def-label">Literal Meaning / Translation</div>
+          <div class="def-text" id="ui-meaning">
+            </div>
+        </div>
+
+        <div class="context-box">
+          <div class="context-label">Pragmatic Context</div>
+          <div class="context-text" id="ui-context">
+            </div>
+        </div>
+
+        <div class="quiz-box">
+          <div class="context-label" style="color: var(--ok); margin-bottom: 0.5rem;">Application Check</div>
+          <p style="color: var(--cream-dim); font-size: 0.95rem; margin-bottom: 1.5rem;">Complete the scenario using the exact proverb.</p>
+          
+          <p class="scenario" id="ui-scenario">
+            </p>
+          <input type="text" id="quiz-input" class="cloze-input" placeholder="Type the full proverb..." autocomplete="off">
+          <br>
+          <button class="submit-case" onclick="checkProverb()">Submit Answer</button>
+          <div id="quiz-feedback" class="feedback"></div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom · Premium Masterclass Series</p>
+</footer>
+
+<script>
+/* ========================================================
+   THE PROVERB DATABASE (60 Masterclass Proverbs)
+======================================================== */
+const db = {
+  'B': [
+    {
+      proverb: "Better safe than sorry",
+      meaning: "It’s better to be too careful than to be careless and regret it later.",
+      context: "Used to justify taking extra precautions, even if they seem unnecessary or tedious at the time.",
+      scenario: "I know it rarely rains here in summer, but I'm going to pack an umbrella anyway. [blank].",
+      ans: ["better safe than sorry"]
+    },
+    {
+      proverb: "An apple a day keeps the doctor away",
+      meaning: "A small preventive treatment wards off serious problems.",
+      context: "Used to encourage healthy daily habits or preventative maintenance.",
+      scenario: "My grandmother always made sure we ate fresh fruit every morning, reminding us that [blank].",
+      ans: ["an apple a day keeps the doctor away"]
+    },
+    {
+      proverb: "Don't judge a book by its cover",
+      meaning: "Don’t judge anyone or anything purely by their outward appearance.",
+      context: "Used as a warning against superficial prejudice when meeting new people or assessing situations.",
+      scenario: "The restaurant looked old and dirty from the outside, but the food was incredible. It just goes to show, [blank].",
+      ans: ["don't judge a book by its cover", "do not judge a book by its cover"]
+    },
+    {
+      proverb: "A penny saved is a penny earned",
+      meaning: "It is as useful to save the money you already have as it is to earn more.",
+      context: "Used to encourage frugality and careful financial planning.",
+      scenario: "Instead of buying a new coffee every morning, I make it at home. After all, [blank].",
+      ans: ["a penny saved is a penny earned"]
+    },
+    {
+      proverb: "One man's trash is another man's treasure",
+      meaning: "What is completely useless to one person could be highly valuable to another.",
+      context: "Used when buying second-hand goods, or when someone loves something you dislike.",
+      scenario: "I couldn't believe she bought that ugly old lamp at the garage sale, but I suppose [blank].",
+      ans: ["one man's trash is another man's treasure"]
+    },
+    {
+      proverb: "Bad news travels fast",
+      meaning: "People tend to circulate bad news (accidents, illness, scandal) very quickly.",
+      context: "Used to explain why gossip or negative updates spread before official announcements.",
+      scenario: "I was going to tell my family about my car accident, but my cousin had already texted them. [blank].",
+      ans: ["bad news travels fast"]
+    },
+    {
+      proverb: "A picture speaks a thousand words",
+      meaning: "Visual evidence is much better than a long verbal description.",
+      context: "Used to emphasize the power of visual media or observation over explanation.",
+      scenario: "I tried to describe how beautiful the mountains were, but eventually I just showed them the photograph. [blank].",
+      ans: ["a picture speaks a thousand words", "a picture is worth a thousand words"]
+    },
+    {
+      proverb: "Where there is a will, there is a way",
+      meaning: "If you are truly determined to do something, you will find a method to achieve it.",
+      context: "Used to encourage someone facing a seemingly impossible obstacle.",
+      scenario: "We have no budget and no staff, but if we really want to launch this charity, we can do it. [blank].",
+      ans: ["where there is a will there is a way", "where there is a will, there is a way"]
+    },
+    {
+      proverb: "You can't teach an old dog new tricks",
+      meaning: "A person who is deeply used to doing things a certain way cannot change their habits.",
+      context: "Often used (sometimes humorously or in frustration) regarding older people struggling with new technology or methods.",
+      scenario: "I tried to show my grandfather how to use a smartphone, but he insists on his landline. [blank].",
+      ans: ["you can't teach an old dog new tricks", "you cannot teach an old dog new tricks"]
+    },
+    {
+      proverb: "Like father, like son",
+      meaning: "A son’s character or behaviour can be expected to strongly resemble his father’s.",
+      context: "Used when observing a child adopting the specific traits, hobbies, or flaws of a parent.",
+      scenario: "David loves to fix old engines just like his dad used to do. It's true what they say: [blank].",
+      ans: ["like father like son", "like father, like son"]
+    },
+    {
+      proverb: "No smoke without fire",
+      meaning: "There is always a factual reason or truth behind a rumour.",
+      context: "Used to suggest that if many people are saying something bad about someone, it's probably partly true.",
+      scenario: "The politician denied the corruption rumors, but so many journalists are reporting it. There's [blank].",
+      ans: ["no smoke without fire"]
+    },
+    {
+      proverb: "Easier said than done",
+      meaning: "What is suggested sounds simple in theory, but it is much more difficult to actually execute.",
+      context: "A defensive response when someone offers overly simplistic advice to a complex problem.",
+      scenario: "My doctor told me to simply 'stop stressing' about my job. Unfortunately, that is [blank].",
+      ans: ["easier said than done"]
+    },
+    {
+      proverb: "Time is money",
+      meaning: "Time is incredibly valuable and should not be wasted.",
+      context: "Used in business environments to urge efficiency and rapid decision-making.",
+      scenario: "We need to finish this meeting in ten minutes and get back to production. Remember, [blank].",
+      ans: ["time is money"]
+    },
+    {
+      proverb: "Let bygones be bygones",
+      meaning: "Let’s forgive and forget past quarrels or arguments.",
+      context: "An invitation to officially end a feud and move forward with a clean slate.",
+      scenario: "We've been arguing about that contract for five years. It's time to shake hands and [blank].",
+      ans: ["let bygones be bygones"]
+    },
+    {
+      proverb: "A burnt child dreads the fire",
+      meaning: "A bad experience will make people strictly avoid similar situations in the future.",
+      context: "Used to explain why someone is overly cautious or fearful after a trauma or failure.",
+      scenario: "After losing all his money in the stock market crash, he refuses to invest a single penny. [blank].",
+      ans: ["a burnt child dreads the fire"]
+    },
+    {
+      proverb: "Charity begins at home",
+      meaning: "A person’s very first duty is to help and care for their own family and friends before strangers.",
+      context: "Sometimes used as a justification for prioritizing local or family needs over international or broader causes.",
+      scenario: "Before you donate your weekend to the community centre, you should fix your mother's roof. [blank].",
+      ans: ["charity begins at home"]
+    },
+    {
+      proverb: "Once bitten, twice shy",
+      meaning: "After an unpleasant experience, people are highly careful to avoid something similar.",
+      context: "A more common variation of 'A burnt child dreads the fire,' used frequently in modern English regarding relationships.",
+      scenario: "She refuses to date anyone from her office after her last terrible breakup. [blank].",
+      ans: ["once bitten twice shy", "once bitten, twice shy"]
+    },
+    {
+      proverb: "All that glitters is not gold",
+      meaning: "Attractive appearances can be highly deceptive.",
+      context: "A warning that something that looks incredibly appealing or profitable might be worthless or dangerous.",
+      scenario: "The new sports car looked beautiful, but the engine broke down on the first day. Truly, [blank].",
+      ans: ["all that glitters is not gold"]
+    },
+    {
+      proverb: "A cat has nine lives",
+      meaning: "Cats (and by extension, lucky people) can survive many accidents and close calls.",
+      context: "Used when someone narrowly escapes disaster multiple times.",
+      scenario: "He survived a car crash, a lightning strike, and a bad fall. I swear that man is a feline; [blank].",
+      ans: ["a cat has nine lives"]
+    },
+    {
+      proverb: "Actions speak louder than words",
+      meaning: "People show what they are really like by what they *do*, rather than by what they *say*.",
+      context: "Used to dismiss empty promises and demand physical proof of commitment.",
+      scenario: "The manager promised to improve working conditions, but he hasn't changed anything. [blank].",
+      ans: ["actions speak louder than words", "facts speak louder than words"]
+    },
+    {
+      proverb: "If life deals you lemons, make lemonade",
+      meaning: "Proverbial phrase used to encourage optimism and a can-do attitude in the face of adversity or misfortune.",
+      context: "Used to motivate someone to turn a bad situation or setback into a positive, productive opportunity.",
+      scenario: "She lost her corporate job, but used the free time to start her own successful bakery. As they say, [blank].",
+      ans: ["if life deals you lemons make lemonade", "if life deals you lemons, make lemonade", "when life gives you lemons make lemonade"]
+    },
+    {
+      proverb: "Union is strength",
+      meaning: "A group has more force than an individual.",
+      context: "Used to encourage teamwork, solidarity, and collaborative effort to overcome a large obstacle.",
+      scenario: "We cannot negotiate with the management alone, but if all the employees strike together, we will win. Remember, [blank].",
+      ans: ["union is strength"]
+    },
+    {
+      proverb: "You are what you eat",
+      meaning: "What you eat has an effect on your well-being.",
+      context: "Used as pragmatic advice emphasizing that physical health is directly correlated to dietary habits.",
+      scenario: "If you consume nothing but fast food and sugar, you will constantly feel tired and sick. [blank].",
+      ans: ["you are what you eat"]
+    },
+    {
+      proverb: "Sticks and stones will break my bones but names will never hurt me",
+      meaning: "Physical attacks may harm me, but cruel words will not.",
+      context: "A defensive statement used to show resilience against verbal bullying, insults, or unfounded criticism.",
+      scenario: "The rival team kept shouting insults at him from the sidelines, but he just smiled and muttered, '[blank]'.",
+      ans: ["sticks and stones will break my bones but names will never hurt me"]
+    },
+    {
+      proverb: "All covet, all lose",
+      meaning: "If you try to obtain everything, you risk losing everything.",
+      context: "A warning against extreme greed and overreaching, suggesting that focusing on too many goals leads to total failure.",
+      scenario: "The company tried to acquire three different competitors at once and ended up going bankrupt. Truly, [blank].",
+      ans: ["all covet all lose", "all covet, all lose"]
+    },
+    {
+      proverb: "Memory is the treasure of the mind",
+      meaning: "A good memory is very precious.",
+      context: "Used to highlight the deep emotional and cognitive value of preserving one's past experiences.",
+      scenario: "She spent hours writing in her journal every night, determined not to forget her travels, knowing that [blank].",
+      ans: ["memory is the treasure of the mind"]
+    },
+    {
+      proverb: "He can who believes he can",
+      meaning: "If you believe you can do something, you will be able to do it.",
+      context: "Used to build self-efficacy and confidence in someone facing a daunting physical or mental challenge.",
+      scenario: "The coach looked at the nervous athlete before the final race and reminded her, '[blank].'",
+      ans: ["he can who believes he can"]
+    },
+    {
+      proverb: "It’s no use crying over spilt milk",
+      meaning: "Don’t express regret for something that has happened and cannot be remedied.",
+      context: "Used to shift focus from past mistakes to future solutions when someone is obsessing over an irreversible error.",
+      scenario: "You accidentally deleted the document, and it is gone forever. We just have to rewrite it; [blank].",
+      ans: ["it's no use crying over spilt milk", "it is no use crying over spilt milk"]
+    },
+    {
+      proverb: "A trouble shared is a trouble halved",
+      meaning: "If you tell someone about a problem you are having, the problem will not seem so daunting.",
+      context: "An invitation to open up emotionally, encouraging someone to confide their anxieties.",
+      scenario: "Please tell me why you are so stressed about your finances. I can help you, and [blank].",
+      ans: ["a trouble shared is a trouble halved"]
+    },
+    {
+      proverb: "First come, first served",
+      meaning: "The first person in the line will be attended to first.",
+      context: "Used to establish a rule of strict chronological fairness, often regarding limited resources or tickets.",
+      scenario: "There are only fifty concert tickets available at the box office, and there are no reservations. It is strictly [blank].",
+      ans: ["first come first served", "first come, first served"]
+    }
+  ],
+  'C': [
+    {
+      proverb: "The pen is mightier than the sword",
+      meaning: "Words, communication, and ideas have a greater and more lasting effect than war and physical violence.",
+      context: "A philosophical assertion used by writers, politicians, and academics to advocate for diplomacy and journalism.",
+      scenario: "Instead of fighting the corrupt mayor physically, the journalist wrote an exposing article that ruined his career, proving that [blank].",
+      ans: ["the pen is mightier than the sword"]
+    },
+    {
+      proverb: "An idle brain is the devil's workshop",
+      meaning: "When you are not busy working or thinking, you are highly susceptible to temptation and mischief.",
+      context: "A stern warning (often to youths) against laziness and lack of purpose.",
+      scenario: "During the summer holidays, the bored teenagers started vandalising the park. It's true that [blank].",
+      ans: ["an idle brain is the devil's workshop", "an idle mind is the devil's workshop"]
+    },
+    {
+      proverb: "A rotten apple spoils the barrel",
+      meaning: "A single dishonest or immoral person can have a corrupting influence on an entire group.",
+      context: "Used in corporate or team environments to justify removing a toxic individual before they infect the culture.",
+      scenario: "We had to fire him before his negative attitude infected the rest of the sales team. [blank].",
+      ans: ["a rotten apple spoils the barrel"]
+    },
+    {
+      proverb: "A fool and his money are soon parted",
+      meaning: "A foolish person usually spends money carelessly and quickly loses their wealth.",
+      context: "A harsh judgment of someone who makes terrible financial investments or buys useless luxury items.",
+      scenario: "He won the lottery but spent it all on useless sports cars in a year. Truly, [blank].",
+      ans: ["a fool and his money are soon parted"]
+    },
+    {
+      proverb: "Beauty lies in the eyes of the beholder",
+      meaning: "Different people have completely different tastes and perspectives on what is beautiful.",
+      context: "Used to diplomatically explain why you don't find someone's partner, art, or choices attractive.",
+      scenario: "I personally think that modern art painting looks like a mess, but she paid thousands for it. I suppose [blank].",
+      ans: ["beauty lies in the eyes of the beholder", "beauty is in the eye of the beholder"]
+    },
+    {
+      proverb: "Honey catches more flies than vinegar",
+      meaning: "You can obtain much more cooperation from others using sweet, polite words rather than anger and demands.",
+      context: "Advice on negotiation and human resources: be kind to get what you want.",
+      scenario: "If you want the receptionist to help you, try smiling instead of yelling. [blank].",
+      ans: ["honey catches more flies than vinegar"]
+    },
+    {
+      proverb: "A new broom sweeps clean",
+      meaning: "A newly-appointed leader or manager makes energetic, sweeping changes to improve things.",
+      context: "Used when a new CEO or coach arrives and immediately changes all the old rules.",
+      scenario: "The new director fired half the lazy staff on his very first day. Well, [blank].",
+      ans: ["a new broom sweeps clean"]
+    },
+    {
+      proverb: "Loose lips sink ships",
+      meaning: "Disclosing important or confidential information could result in massive, catastrophic losses.",
+      context: "A phrase from WWII propaganda, now used in business to warn against breaking non-disclosure agreements.",
+      scenario: "Do not tell anyone about the merger until it is officially signed. Remember, [blank].",
+      ans: ["loose lips sink ships"]
+    },
+    {
+      proverb: "Elbow grease is the best polish",
+      meaning: "Hard, physical work gives the absolute best results.",
+      context: "Used to dismiss shortcuts or expensive tools in favour of dedicated effort.",
+      scenario: "You don't need expensive chemicals to clean that antique table; just use a cloth and remember that [blank].",
+      ans: ["elbow grease is the best polish"]
+    },
+    {
+      proverb: "Justice delayed is justice denied",
+      meaning: "If the law takes too long to be applied, it ceases to be true justice because the victims suffer in the meantime.",
+      context: "A profound legal and political proverb used to criticize slow court systems or bureaucratic stalling.",
+      scenario: "The innocent man waited twenty years for his trial. They finally freed him, but [blank].",
+      ans: ["justice delayed is justice denied", "justice delayed is the justice denied"]
+    },
+    {
+      proverb: "Marry in haste, repent at leisure",
+      meaning: "If you rush into a serious commitment, you may spend your entire, long life regretting it.",
+      context: "A stern warning against impulsive decisions, especially regarding lifelong partnerships or contracts.",
+      scenario: "They got married in Vegas after knowing each other for a week, and now they are miserable. [blank].",
+      ans: ["marry in haste, repent at leisure", "marry in haste repent at leisure"]
+    },
+    {
+      proverb: "What soberness conceals, drunkenness reveals",
+      meaning: "People lose their inhibitions and reveal their true, hidden thoughts under the influence of alcohol.",
+      context: "Used when someone accidentally confesses a truth or insult while intoxicated.",
+      scenario: "He finally admitted he hated his job after his fourth glass of wine. It's true: [blank].",
+      ans: ["what soberness conceals drunkenness reveals", "what soberness conceals, drunkenness reveals"]
+    },
+    {
+      proverb: "Who makes himself a sheep will be eaten by the wolves",
+      meaning: "An easily influenced, weak, or overly submissive person will be exploited by ruthless people.",
+      context: "A harsh piece of advice urging someone to stand up for themselves in a competitive environment.",
+      scenario: "You have to demand a raise. If you just sit there quietly and accept their terms, [blank].",
+      ans: ["who makes himself a sheep will be eaten by the wolves"]
+    },
+    {
+      proverb: "He who pays the piper calls the tune",
+      meaning: "The person who provides the funding or money ultimately controls the decisions and direction.",
+      context: "Used in business or politics to explain why the person writing the cheques gets to make the rules.",
+      scenario: "The investors forced the director to change the ending of the movie. Ultimately, [blank].",
+      ans: ["he who pays the piper calls the tune"]
+    },
+    {
+      proverb: "An army marches on its stomach",
+      meaning: "To be effective, any large group of workers or soldiers relies entirely on good, plentiful resources (food).",
+      context: "Used by managers to justify spending money on catering, breaks, or morale for their staff.",
+      scenario: "I ordered pizzas for the team who are working overtime tonight, because [blank].",
+      ans: ["an army marches on its stomach"]
+    },
+    {
+      proverb: "Kill not the goose that lays golden eggs",
+      meaning: "Do not destroy the source of your wealth or good fortune out of greed or impatience.",
+      context: "A warning against over-exploiting a profitable resource or mistreating your best employee.",
+      scenario: "If you keep forcing your best programmer to work weekends, she will quit. [blank].",
+      ans: ["kill not the goose that lays golden eggs", "kill not the goose that lays the golden eggs"]
+    },
+    {
+      proverb: "Fine words butter no parsnips",
+      meaning: "Nothing is achieved by empty words or flattery; only physical action yields results.",
+      context: "An archaic but beautiful C2 proverb used to reject compliments when actual help or money is needed.",
+      scenario: "The CEO praised our hard work, but refused to give us a bonus. I told him, [blank].",
+      ans: ["fine words butter no parsnips"]
+    },
+    {
+      proverb: "Ignorance is bliss",
+      meaning: "What you do not know causes no worry or sadness; sometimes it is better not to know the ugly truth.",
+      context: "Used when someone is happier because they are unaware of a complex or terrifying reality.",
+      scenario: "Before I studied medicine, I never worried about germs. Now I'm terrified. Truly, [blank].",
+      ans: ["ignorance is bliss"]
+    },
+    {
+      proverb: "Empty vessels make the most noise",
+      meaning: "The least intelligent or capable people are often the most talkative, arrogant, or loud.",
+      context: "A sharp insult used to dismiss someone who is bragging loudly but lacks actual substance.",
+      scenario: "The intern who knows the least about the project is the one shouting the loudest in the meeting. [blank].",
+      ans: ["empty vessels make the most noise"]
+    },
+    {
+      proverb: "Fools rush in where angels fear to tread",
+      meaning: "Inexperienced or arrogant people quickly become involved in dangerous situations that wise people would carefully avoid.",
+      context: "A profound observation by Alexander Pope, used to criticize rash, unthinking action in complex scenarios.",
+      scenario: "Without any research, the amateur investor put all his money into the unstable cryptocurrency market. [blank].",
+      ans: ["fools rush in where angels fear to tread"]
+    },
+    {
+      proverb: "Many a true word is spoken in jest",
+      meaning: "Even if something is said as a joke it can still be true.",
+      context: "Used when someone uses humor or sarcasm to mask a serious critique or an uncomfortable fact.",
+      scenario: "He laughed when he called my business plan a 'disaster', but I should probably review it again. [blank].",
+      ans: ["many a true word is spoken in jest"]
+    },
+    {
+      proverb: "He who knows nothing doubts nothing",
+      meaning: "Knowledge leads us to make choices and ask questions.",
+      context: "A philosophical observation that ignorance breeds false confidence, while deep education reveals how complex the world truly is.",
+      scenario: "The amateur confidently declared the surgery would be easy, while the veteran surgeon hesitated. Truly, [blank].",
+      ans: ["he who knows nothing doubts nothing"]
+    },
+    {
+      proverb: "Children and fools tell the truth",
+      meaning: "Children have not yet learned, and fools never did learn, that it is often advantageous to lie.",
+      context: "Used when a naive person blurts out an uncomfortable, socially unacceptable fact that polite society is ignoring.",
+      scenario: "Everyone politely praised the terrible dinner, until the five-year-old said it tasted like cardboard. [blank].",
+      ans: ["children and fools tell the truth"]
+    },
+    {
+      proverb: "If two ride a horse, one must ride behind",
+      meaning: "When two people do something together, one will be the leader and the other will be the subordinate.",
+      context: "A pragmatic assessment of power dynamics, insisting that complete equality in leadership is often impossible.",
+      scenario: "We cannot be co-CEOs with equal veto power; someone has to have the final say. [blank].",
+      ans: ["if two ride a horse one must ride behind", "if two ride a horse, one must ride behind"]
+    },
+    {
+      proverb: "A bad tree does not yield good apples",
+      meaning: "A bad parent does not raise good children or a bad foundation ruins the outcome.",
+      context: "Used to assert that foundational flaws (in parenting, leadership, or systems) inevitably produce flawed outcomes.",
+      scenario: "It is no surprise that the corrupt director's protege was also caught embezzling funds. [blank].",
+      ans: ["a bad tree does not yield good apples"]
+    },
+    {
+      proverb: "Better be the head of a dog than the tail of a lion",
+      meaning: "It’s better to be the leader of a small group than a subordinate in a bigger one.",
+      context: "Used to justify choosing autonomy and leadership in a lesser organization over a minor role in a prestigious one.",
+      scenario: "He rejected the junior role at the massive tech firm to become the CEO of a tiny startup, reasoning that [blank].",
+      ans: ["better be the head of a dog than the tail of a lion"]
+    },
+    {
+      proverb: "All cats are grey in the dark",
+      meaning: "People are undistinguished until they have made a name for themselves or appearances don't matter in the dark.",
+      context: "An observation that without external markers of status or in times of crisis, everyone is fundamentally equal and anonymous.",
+      scenario: "Before the competition begins, no one knows who the true champions are; [blank].",
+      ans: ["all cats are grey in the dark"]
+    },
+    {
+      proverb: "A fault confessed is half redressed",
+      meaning: "Confession is the beginning of forgiveness.",
+      context: "Used to encourage someone to take accountability for their actions, noting that honesty mitigates the anger of the offended party.",
+      scenario: "If you tell the manager you broke the machine immediately, he won't be as angry. Remember, [blank].",
+      ans: ["a fault confessed is half redressed"]
+    },
+    {
+      proverb: "No man is a hero to his valet",
+      meaning: "Few people are admired by those who know them intimately and are aware of their failings.",
+      context: "Used to point out that public figures and idols all have hidden personal flaws that are obvious to those who live with them.",
+      scenario: "The public worshipped the famous author, but his personal assistant knew how cruel and petty he was in private. [blank].",
+      ans: ["no man is a hero to his valet"]
+    },
+    {
+      proverb: "Might as well be hanged for a sheep as for a lamb",
+      meaning: "If the penalty is going to be the same, you might as well commit the greater offence.",
+      context: "A pragmatic justification for taking a massive risk or committing fully to a transgression, since the punishment for a minor infraction is already guaranteed.",
+      scenario: "Since I'm already going to get detention for being ten minutes late, I might as well skip the whole class. [blank].",
+      ans: ["might as well be hanged for a sheep as for a lamb", "might as well be hung for a sheep as for a lamb"]
+    }
+  ]
+};
+
+/* ========================================================
+   GLOBAL STATE & LOCAL STORAGE ENGINE
+======================================================== */
+let currentLevel = 'B';
+let currentIndex = 0;
+
+// Initialize Local Storage
+let savedProgress = JSON.parse(localStorage.getItem('proverbialPlaybookProgress'));
+if (!savedProgress) {
+    savedProgress = { 'B': [], 'C': [] };
+}
+
+/* ========================================================
+   CONTROLLERS
+======================================================== */
+
+function switchLevel(lvl) {
+  currentLevel = lvl;
+  document.getElementById('btn-lvl-b').classList.toggle('active', lvl === 'B');
+  document.getElementById('btn-lvl-c').classList.toggle('active', lvl === 'C');
+  
+  renderSidebar();
+  loadProverb(0);
+}
+
+function renderSidebar() {
+  const ul = document.getElementById('sidebar-list');
+  ul.innerHTML = '';
+  
+  const items = db[currentLevel];
+  
+  items.forEach((item, index) => {
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.className = 'prov-btn';
+    
+    // Highlight active item
+    if (index === currentIndex) btn.classList.add('active');
+    
+    // Check Local Storage for Solved Status
+    const isSolved = savedProgress[currentLevel].includes(index);
+    const statusIcon = isSolved ? `<span style="color:var(--ok); font-weight:bold; margin-right:5px;">✓</span>` : '';
+    
+    // Truncate long proverbs for the sidebar
+    let shortTitle = item.proverb;
+    if (shortTitle.length > 25) shortTitle = shortTitle.substring(0, 25) + '...';
+
+    btn.innerHTML = `<span style="font-family:'DM Mono',monospace; font-size:0.7rem; color:var(--gold); margin-right:8px;">${String(index + 1).padStart(2, '0')}</span> ${statusIcon} ${shortTitle}`;
+    btn.onclick = () => loadProverb(index);
+    
+    // Add visual fade to solved items so learners focus on new ones
+    if (isSolved && index !== currentIndex) {
+        btn.style.opacity = '0.6'; 
+    }
+    
+    li.appendChild(btn);
+    ul.appendChild(li);
+  });
+}
+
+function loadProverb(index) {
+  currentIndex = index;
+  const data = db[currentLevel][index];
+  
+  renderSidebar(); // Re-render to update active states
+  
+  // Populate Header
+  document.getElementById('ui-prov-num').innerText = `Ledger #${String(index + 1).padStart(2, '0')} (${currentLevel === 'B' ? 'Intermediate' : 'Advanced'})`;
+  document.getElementById('ui-prov-title').innerText = data.proverb;
+  
+  // Populate Definition & Context
+  document.getElementById('ui-meaning').innerText = data.meaning;
+  document.getElementById('ui-context').innerText = data.context;
+
+  // Populate Quiz
+  const scenarioStr = data.scenario.replace('[blank]', '<span style="color:var(--gold); border-bottom:1px dashed var(--gold);">___________________</span>');
+  document.getElementById('ui-scenario').innerHTML = scenarioStr;
+  
+  // Reset Quiz UI
+  const input = document.getElementById('quiz-input');
+  const fb = document.getElementById('quiz-feedback');
+  
+  // Check if already solved to update UI
+  if (savedProgress[currentLevel].includes(index)) {
+      input.value = data.ans[0];
+      input.disabled = true;
+      input.style.borderColor = 'var(--ok)';
+      input.style.color = 'var(--ok)';
+      
+      fb.style.backgroundColor = 'var(--ok-bg)';
+      fb.style.color = 'var(--ok)';
+      fb.style.borderLeft = '4px solid var(--ok)';
+      fb.innerHTML = `✓ <strong>ARCHIVED.</strong> You have already mastered this proverb.`;
+      fb.classList.add('show');
+  } else {
+      input.value = '';
+      input.disabled = false;
+      input.style.borderColor = 'var(--gold)';
+      input.style.color = 'var(--oxford)';
+      fb.classList.remove('show');
+  }
+}
+
+function checkProverb() {
+  // If already solved, do nothing
+  if (savedProgress[currentLevel].includes(currentIndex)) return;
+
+  const data = db[currentLevel][currentIndex];
+  const input = document.getElementById('quiz-input');
+  const fb = document.getElementById('quiz-feedback');
+  
+  let guess = input.value.toLowerCase().trim();
+  guess = guess.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+
+  let isCorrect = false;
+  for (let ans of data.ans) {
+    let cleanAns = ans.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+    if (guess === cleanAns) {
+      isCorrect = true;
+      break;
+    }
+  }
+
+  fb.classList.remove('show');
+  void fb.offsetWidth; // Force reflow for animation
+
+  if (isCorrect) {
+    input.style.borderColor = 'var(--ok)';
+    input.style.color = 'var(--ok)';
+    input.disabled = true;
+    
+    fb.style.backgroundColor = 'var(--ok-bg)';
+    fb.style.color = 'var(--ok)';
+    fb.style.borderLeft = '4px solid var(--ok)';
+    fb.innerHTML = `✓ <strong>CORRECT.</strong> Superb pragmatic application of cultural wisdom.`;
+    
+    // Save Progress to Local Storage
+    savedProgress[currentLevel].push(currentIndex);
+    localStorage.setItem('proverbialPlaybookProgress', JSON.stringify(savedProgress));
+    
+    // Update sidebar to show the new checkmark
+    renderSidebar();
+
+  } else {
+    input.style.borderColor = 'var(--no)';
+    input.style.color = 'var(--no)';
+    fb.style.backgroundColor = 'var(--no-bg)';
+    fb.style.color = 'var(--no)';
+    fb.style.borderLeft = '4px solid var(--no)';
+    fb.innerHTML = `✗ <strong>ERROR.</strong> The proverb does not match. Check your spelling.`;
+  }
+  
+  fb.classList.add('show');
+}
+
+// Enter key submit
+document.getElementById("quiz-input").addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    checkProverb();
+  }
+});
+
+function startVault() {
+  document.getElementById('intro-screen').style.display = 'none';
+  document.getElementById('vault-screen').style.display = 'grid';
+  switchLevel('B');
+}
+</script>
+</body>
+</html>

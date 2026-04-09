@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lexical Laboratory · Shared Pearls of Wisdom</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Great+Vibes&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* The Oxford / Archive Palette */
+  --oxford: rgb(0, 128, 0); /* hsl(144, 69%, 50%) */
+  --oxford-lt: rgb(0, 102, 0); /* hsl(144, 69%, 30%) */
+  --parchment: #fdfbf7;
+  --white: #ffffff;
+  
+  --gold: rgba(199, 45, 6, 0.865);
+  --gold-lt: #d4af37;
+  --gold-dark: #8a5e18;
+  --gold-bg: #fdfaf5;
+  
+  --text-main: #333333;
+  --text-dim: #555555;
+  --border: #e5e0d8;
+
+  /* The Requested Light Green Accent */
+  --accent-green: #e8f5e9;
+  --accent-green-dark: #2e7d32;
+  --accent-green-border: #c8e6c9;
+  
+  --error-bg: #fdedec;
+  --error-text: #c0392b;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Lato',sans-serif; background:var(--parchment); color:var(--text-main); min-height:100vh; display: flex; flex-direction: column;}
+
+/* ── NAV & HERO ── */
+nav { background:var(--white); display:flex; align-items:center; justify-content:space-between; padding:0 3rem; position:sticky; top:0; z-index:300; border-bottom:1px solid var(--border); box-shadow: 0 2px 10px rgba(0,0,0,0.02); height: 70px;}
+.nav-logo { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--gold); text-decoration:none; font-weight:700; }
+.nav-logo em { color:var(--text-main); font-style:italic; }
+.nav-series { font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:var(--oxford); padding:.4rem 1rem; border:1px solid var(--oxford); font-weight:bold; }
+
+.hero { background:var(--oxford); padding:4rem 3rem; text-align: center; border-bottom: 4px solid var(--gold);}
+.hero-inner { max-width:850px; margin: 0 auto; }
+.hero-ep { font-family:'DM Mono',monospace; font-size:.75rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; display:block;}
+h1 { font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:700; line-height:1.2; color:var(--white); margin-bottom:1.5rem;}
+.hero-desc { font-size:1.15rem; line-height:1.8; color:rgba(255,255,255,0.8); }
+
+/* ── LAYOUT & TABS ── */
+.container { max-width:1100px; margin: 0 auto; padding: 3rem 2rem 6rem; flex-grow: 1; width: 100%;}
+
+/* Level Tabs */
+.level-tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 3rem; border-bottom: 2px solid var(--border); padding-bottom: 1rem;}
+.lvl-btn { background: transparent; border: 2px solid transparent; padding: 0.8rem 2rem; font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: bold; color: var(--text-dim); cursor: pointer; border-radius: 4px; transition: all 0.3s;}
+.lvl-btn:hover { color: var(--oxford); background: rgba(0,0,0,0.02);}
+.lvl-btn.active { background: var(--accent-green); color: var(--accent-green-dark); border-color: var(--accent-green-border); box-shadow: 0 4px 10px rgba(46,125,50,0.1);}
+
+/* Mode Tabs */
+.mode-tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; background: var(--white); padding: 0.5rem; border-radius: 6px; border: 1px solid var(--border); box-shadow: 0 2px 5px rgba(0,0,0,0.02); width: fit-content; margin-left: auto; margin-right: auto;}
+.mode-btn { background: transparent; border: none; padding: 0.6rem 1.5rem; font-family: 'Lato', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text-dim); cursor: pointer; border-radius: 4px; transition: 0.2s;}
+.mode-btn:hover { color: var(--oxford); }
+.mode-btn.active { background: var(--oxford); color: var(--white); }
+
+/* ── CONTENT PANELS ── */
+.panel { display: none; animation: fadeIn 0.4s ease-out; }
+.panel.active { display: block; }
+
+/* 1. WORD LIST */
+.list-wrapper { max-height: 800px; overflow-y: auto; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.03); background: var(--white); }
+.word-table { width: 100%; border-collapse: collapse; }
+.word-table th { background: var(--oxford); color: var(--white); text-align: left; padding: 1.2rem; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; position: sticky; top: 0; z-index: 10;}
+.word-table td { padding: 1.5rem 1.2rem; border-bottom: 1px solid var(--border); vertical-align: top;}
+.word-table tr:last-child td { border-bottom: none; }
+.wt-word { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--oxford); display: block; margin-bottom: 0.3rem;}
+.wt-phonetic { font-family: 'Lato', sans-serif; font-size: 0.9rem; color: var(--text-dim); font-style: italic;}
+.wt-pos { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--gold); background: var(--gold-bg); padding: 0.2rem 0.5rem; border-radius: 3px; display: inline-block; margin-bottom: 0.8rem;}
+.wt-def { font-size: 1.05rem; line-height: 1.6; margin-bottom: 0.8rem; color: var(--text-main);}
+.wt-ex { font-size: 1rem; line-height: 1.6; color: var(--text-dim); font-style: italic; border-left: 3px solid var(--gold); padding-left: 1rem;}
+
+/* 2. FLASHCARDS */
+.flashcard-container { display: flex; flex-direction: column; align-items: center; gap: 2rem;}
+.flashcard-scene { width: 100%; max-width: 600px; height: 350px; perspective: 1000px; cursor: pointer;}
+.flashcard { width: 100%; height: 100%; position: relative; transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d;}
+.flashcard.is-flipped { transform: rotateX(180deg); }
+.card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; background: var(--white); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 3rem; text-align: center;}
+.card-front { border-top: 6px solid var(--oxford); }
+.card-back { transform: rotateX(180deg); border-top: 6px solid var(--gold); }
+.fc-word { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: var(--oxford); margin-bottom: 0.5rem;}
+.fc-phonetic { font-size: 1.1rem; color: var(--text-dim); font-style: italic;}
+.fc-pos { font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--gold); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.1em;}
+.fc-def { font-size: 1.3rem; line-height: 1.6; color: var(--text-main); margin-bottom: 1.5rem;}
+.fc-ex { font-size: 1.1rem; line-height: 1.6; color: var(--text-dim); font-style: italic;}
+.flip-hint { position: absolute; bottom: 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6;}
+.fc-controls { display: flex; gap: 1rem; align-items: center; justify-content: center; width: 100%; max-width: 600px;}
+.fc-btn { background: var(--white); border: 1px solid var(--border); padding: 1rem 2rem; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: bold; color: var(--text-main); cursor: pointer; border-radius: 6px; transition: 0.2s; flex-grow: 1; text-transform: uppercase;}
+.fc-btn:hover { background: var(--parchment); border-color: var(--gold); color: var(--gold);}
+.fc-btn.mastered { background: var(--accent-green); color: var(--accent-green-dark); border-color: var(--accent-green-border);}
+
+/* 3. INTERACTIVE EXERCISES */
+.exercise-box { background: var(--white); padding: 3rem; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-top: 4px solid var(--oxford);}
+.ex-instructions { font-family: 'DM Mono', monospace; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 2rem; font-weight: bold;}
+.ex-paragraph { font-size: 1.15rem; line-height: 2.4; color: var(--text-main); margin-bottom: 2.5rem;}
+.ex-input { appearance: none; font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--oxford); border: none; border-bottom: 2px solid var(--gold); background: transparent; padding: 0 0.3rem; width: 130px; text-align: center; outline: none; transition: 0.3s;}
+.ex-input:focus { border-bottom-color: var(--oxford); background: rgba(0,0,0,0.02);}
+.ex-input.correct { border-bottom-color: var(--accent-green-dark); color: var(--accent-green-dark); background: var(--accent-green);}
+.ex-input.incorrect { border-bottom-color: var(--error-text); color: var(--error-text); background: var(--error-bg);}
+.ex-wordbank { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2.5rem; padding: 1.5rem; background: var(--parchment); border: 1px solid var(--border); border-radius: 6px;}
+.ex-wb-word { font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: bold; color: var(--text-dim); padding: 0.4rem 0.8rem; background: var(--white); border: 1px solid var(--border); border-radius: 4px; cursor: default; transition: 0.2s;}
+.ex-wb-word.used { opacity: 0.3; text-decoration: line-through;}
+.submit-btn { background: var(--oxford); color: var(--white); border: none; padding: 1.2rem 2.5rem; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 6px; cursor: pointer; transition: 0.2s; width: 100%;}
+.submit-btn:hover { background: var(--oxford-lt); }
+.feedback-msg { margin-top: 1.5rem; padding: 1.5rem; border-radius: 4px; display: none;}
+.feedback-msg.show { display: block; animation: fadeIn 0.3s;}
+
+/* ── HIDDEN CERTIFICATE CSS ── */
+.cert-offscreen { position: absolute; left: -9999px; top: -9999px; }
+.certificate-canvas { background: #fffdf8; width: 800px; height: 565px; padding: 30px; position: relative;}
+.cert-border-outer { border: 2px solid var(--gold); width: 100%; height: 100%; padding: 6px; position: relative;}
+.cert-border-inner { border: 1px solid var(--gold-dark); width: 100%; height: 100%; padding: 40px; text-align: center; position: relative; background-image: radial-gradient(circle, #fffdf8 40%, #fdfbf7 100%);}
+.corner { position: absolute; width: 30px; height: 30px; border: 2px solid var(--gold); }
+.top-left { top: -6px; left: -6px; border-right: none; border-bottom: none; }
+.top-right { top: -6px; right: -6px; border-left: none; border-bottom: none; }
+.bottom-left { bottom: -6px; left: -6px; border-right: none; border-top: none; }
+.bottom-right { bottom: -6px; right: -6px; border-left: none; border-top: none; }
+.cert-header { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 1.5rem;}
+.cert-title { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--oxford); margin-bottom: 0.5rem; line-height: 1.1;}
+.cert-subtitle { font-family: 'Great Vibes', cursive, 'Playfair Display', serif; font-size: 2.2rem; color: var(--gold); margin-bottom: 2rem; font-style: italic;}
+.cert-text { font-family: 'Lato', sans-serif; font-size: 1.1rem; color: var(--text-dim); margin-bottom: 1rem;}
+.cert-name { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--text-main); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; width: 80%; margin-left: auto; margin-right: auto;}
+.cert-module { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--oxford); margin-bottom: 0.5rem;}
+.cert-level { font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: bold; color: var(--gold-dark); letter-spacing: 0.1em; margin-bottom: 3rem;}
+.cert-footer { display: flex; justify-content: space-between; align-items: flex-end; padding: 0 2rem; margin-top: 2rem;}
+.signature-block { text-align: center; width: 200px;}
+.signature-line { border-bottom: 1px solid var(--text-main); margin-bottom: 0.5rem; height: 40px; display: flex; align-items: flex-end; justify-content: center;}
+.signature-font { font-family: 'Great Vibes', cursive; font-size: 2rem; color: var(--oxford); transform: translateY(10px);}
+.signature-title { font-family: 'Lato', sans-serif; font-size: 0.85rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em;}
+.seal-container { position: relative; width: 100px; height: 100px; display: flex; justify-content: center; align-items: center;}
+.seal-outer { position: absolute; width: 100px; height: 100px; border-radius: 50%; background: var(--gold-lt); border: 2px dashed #fff; display: flex; justify-content: center; align-items: center;}
+.seal-inner { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;}
+.seal-text { font-family: 'Playfair Display', serif; font-size: 0.65rem; color: #fff; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;}
+.seal-year { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: #fff; margin-top: 4px;}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+footer { background:var(--white); padding:2rem; text-align: center; border-top:1px solid var(--border); margin-top: auto;}
+footer p { color:var(--text-dim); font-size:.85rem; font-family: 'DM Mono', monospace; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="Index.html" class="nav-logo">Shared <em>Pearls</em> of Wisdom</a>
+  <div class="nav-right">
+    <span class="nav-series">Interactive Lexicon Vault</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="hero-ep" style="font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: yellow;">The Academic Word Vault</span>
+    <h1>Lexical <span style="color: gold;">Laboratory</span></h1>
+    <p class="hero-desc">Expand your vocabulary with meticulously curated 30-word academic sets per level. Utilise spaced-repetition flashcards for retention, and interactive cloze exercises for contextual mastery.</p>
+  </div>
+</div>
+
+<div class="container">
+  
+  <div class="level-tabs">
+    <button class="lvl-btn active" onclick="setLevel('A1_A2', this)">A1/A2 (30 Words)</button>
+    <button class="lvl-btn" onclick="setLevel('B1', this)">B1 (30 Words)</button>
+    <button class="lvl-btn" onclick="setLevel('B2', this)">B2 (30 Words)</button>
+    <button class="lvl-btn" onclick="setLevel('C1', this)">C1 (30 Words)</button>
+  </div>
+
+  <div class="mode-tabs">
+    <button class="mode-btn active" onclick="setMode('list', this)">Lexical Registry</button>
+    <button class="mode-btn" onclick="setMode('flashcards', this)">Flashcard Engine</button>
+    <button class="mode-btn" onclick="setMode('exercise', this)">Contextual Exam</button>
+  </div>
+
+  <main id="content-area">
+    
+    <div id="panel-list" class="panel active">
+      <div class="list-wrapper">
+        <table class="word-table">
+          <thead>
+            <tr>
+              <th style="width: 30%;">Vocabulary</th>
+              <th style="width: 70%;">Definition & Context</th>
+            </tr>
+          </thead>
+          <tbody id="list-body">
+            </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="panel-flashcards" class="panel">
+      <div class="flashcard-container">
+        
+        <div class="flashcard-scene" onclick="flipCard()">
+          <div class="flashcard" id="fc-element">
+            <div class="card-face card-front">
+              <span class="fc-word" id="fc-front-word">Word</span>
+              <span class="fc-phonetic" id="fc-front-phon">/wɜːd/</span>
+              <span class="flip-hint">Click to flip</span>
+            </div>
+            <div class="card-face card-back">
+              <span class="fc-pos" id="fc-back-pos">noun</span>
+              <div class="fc-def" id="fc-back-def">Definition goes here.</div>
+              <div class="fc-ex" id="fc-back-ex">"Example sentence goes here."</div>
+              <span class="flip-hint">Click to flip back</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="fc-controls">
+          <button class="fc-btn" onclick="prevCard()">← Previous</button>
+          <button class="fc-btn" id="btn-mastered" onclick="toggleMastered()">Mark Mastered</button>
+          <button class="fc-btn" onclick="nextCard()">Next →</button>
+        </div>
+        <div style="font-family:'DM Mono',monospace; font-size:0.85rem; color:var(--text-dim); margin-top: 0.5rem;" id="fc-counter">Card 1 of 30</div>
+
+      </div>
+    </div>
+
+    <div id="panel-exercise" class="panel">
+      <div class="exercise-box">
+        <div class="ex-instructions">Contextual Application (Cloze Test - 30 Blanks)</div>
+        
+        <div class="ex-wordbank" id="ex-wordbank">
+          </div>
+
+        <div class="ex-paragraph" id="ex-paragraph">
+          </div>
+
+        <button class="submit-btn" onclick="checkExercise()">Submit Answers for Evaluation</button>
+        
+        <div id="ex-feedback" class="feedback-msg"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom · Cambridge-Tier Lexical Architecture</p>
+</footer>
+
+<div class="cert-offscreen">
+  <div id="certificate-node" class="certificate-canvas">
+    <div class="cert-border-outer">
+      <div class="corner top-left"></div>
+      <div class="corner top-right"></div>
+      <div class="corner bottom-left"></div>
+      <div class="corner bottom-right"></div>
+      
+      <div class="cert-border-inner">
+        <div class="cert-header">Shared Pearls of Wisdom</div>
+        <h1 class="cert-title">Certificate</h1>
+        <h2 class="cert-subtitle">of Linguistic Mastery</h2>
+        
+        <p class="cert-text">This document proudly certifies that</p>
+        <div class="cert-name" id="display-name">Student Name</div>
+        
+        <p class="cert-text">has successfully completed the rigorous requirements for</p>
+        <div class="cert-module">The Lexicon Laboratory</div>
+        <div class="cert-level" id="display-level">Level Mastery</div>
+        
+        <div class="cert-footer">
+          <div class="signature-block">
+            <div class="signature-line"><span id="display-date" style="font-family:'Lato',sans-serif; font-size:1.1rem; color:var(--oxford);">Date</span></div>
+            <div class="signature-title">Date of Completion</div>
+          </div>
+          
+          <div class="seal-container">
+            <div class="seal-outer">
+              <div class="seal-inner">
+                <span class="seal-text">Official<br>Seal</span>
+                <span class="seal-year">2026</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="signature-block">
+            <div class="signature-line"><span class="signature-font">S. Pearls</span></div>
+            <div class="signature-title">Director of Studies</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ========================================================
+   THE MASSIVE LEXICAL DATABASE (120 Words)
+======================================================== */
+const db = {
+  "A1_A2": {
+    words: [
+      {word:"Common", phon:"/ˈkɒmən/", pos:"adj", def:"Happening often; usual.", ex:"It is a common mistake."},
+      {word:"Worry", phon:"/ˈwʌri/", pos:"verb", def:"To feel anxious or troubled.", ex:"Do not worry about the test."},
+      {word:"Practice", phon:"/ˈpræktɪs/", pos:"verb", def:"To do something repeatedly to improve.", ex:"I practice piano every day."},
+      {word:"Improve", phon:"/ɪmˈpruːv/", pos:"verb", def:"To make or become better.", ex:"Reading will improve your vocabulary."},
+      {word:"Suggest", phon:"/səˈdʒest/", pos:"verb", def:"To put forward an idea.", ex:"I suggest we go home now."},
+      {word:"Choose", phon:"/tʃuːz/", pos:"verb", def:"To pick out from a number of alternatives.", ex:"Choose your favourite colour."},
+      {word:"Popular", phon:"/ˈpɒpjələ/", pos:"adj", def:"Liked by many people.", ex:"Football is a popular sport."},
+      {word:"Friendly", phon:"/ˈfrendli/", pos:"adj", def:"Kind and pleasant.", ex:"The shop assistant was very friendly."},
+      {word:"Explain", phon:"/ɪkˈspleɪn/", pos:"verb", def:"To make something clear or easy to understand.", ex:"Can you explain this rule?"},
+      {word:"Difficult", phon:"/ˈdɪfɪkəlt/", pos:"adj", def:"Needing much effort or skill.", ex:"The exam was very difficult."},
+      {word:"Listen", phon:"/ˈlɪsn/", pos:"verb", def:"To pay attention to sound.", ex:"Listen to the teacher."},
+      {word:"Remember", phon:"/rɪˈmembə/", pos:"verb", def:"To bring back to mind.", ex:"I remember your name."},
+      {word:"Benefit", phon:"/ˈbenɪfɪt/", pos:"noun", def:"An advantage or profit gained.", ex:"Exercise has a huge health benefit."},
+      {word:"Important", phon:"/ɪmˈpɔːtnt/", pos:"adj", def:"Of great significance or value.", ex:"It is important to sleep well."},
+      {word:"Understand", phon:"/ˌʌndəˈstænd/", pos:"verb", def:"To perceive the meaning of.", ex:"I understand the question."},
+      {word:"Forget", phon:"/fəˈɡet/", pos:"verb", def:"To fail to remember.", ex:"Don't forget your keys."},
+      {word:"Answer", phon:"/ˈɑːnsə/", pos:"verb", def:"To reply to a question.", ex:"Please answer the phone."},
+      {word:"Happen", phon:"/ˈhæpən/", pos:"verb", def:"To take place; occur.", ex:"What will happen tomorrow?"},
+      {word:"Decide", phon:"/dɪˈsaɪd/", pos:"verb", def:"To make a choice.", ex:"I must decide what to eat."},
+      {word:"Believe", phon:"/bɪˈliːv/", pos:"verb", def:"To accept that something is true.", ex:"I believe you."},
+      {word:"Careful", phon:"/ˈkeəfl/", pos:"adj", def:"Making sure of avoiding potential danger.", ex:"Be careful on the ice."},
+      {word:"Share", phon:"/ʃeə/", pos:"verb", def:"To have a portion of something with others.", ex:"We share the pizza."},
+      {word:"Useful", phon:"/ˈjuːsfl/", pos:"adj", def:"Able to be used for a practical purpose.", ex:"A dictionary is a useful tool."},
+      {word:"Visit", phon:"/ˈvɪzɪt/", pos:"verb", def:"To go to see a person or place.", ex:"I visit my grandmother weekly."},
+      {word:"Watch", phon:"/wɒtʃ/", pos:"verb", def:"To look at or observe attentively.", ex:"We watch movies on Friday."},
+      {word:"Promise", phon:"/ˈprɒmɪs/", pos:"verb", def:"To assure someone that one will do something.", ex:"I promise to call you."},
+      {word:"Invite", phon:"/ɪnˈvaɪt/", pos:"verb", def:"To make a polite request to someone to come.", ex:"I will invite them to the party."},
+      {word:"Beautiful", phon:"/ˈbjuːtɪfl/", pos:"adj", def:"Pleasing the senses or mind.", ex:"The painting is beautiful."},
+      {word:"Habit", phon:"/ˈhæbɪt/", pos:"noun", def:"A regular practice.", ex:"Smoking is a bad habit."},
+      {word:"Notice", phon:"/ˈnəʊtɪs/", pos:"verb", def:"To become aware of.", ex:"Did you notice the new sign?"}
+    ],
+    exercise: {
+      text: "It is a [w1] mistake to [w2] about your English. If you [w3] every day, you will [w4] quickly. I [w5] that you [w6] a [w7] book to read. A [w8] teacher can [w9] the [w10] grammar. You must [w11] closely and [w12] the vocabulary to get a real [w13]. It is [w14] to [w15] the meaning. Do not [w16] to [w17] the questions. If mistakes [w18], you must [w19] to try again. I [w20] you can succeed! Be [w21] when you [w22] your [w23] notes with others. Tomorrow, we will [w24] the museum and [w25] a film. I [w26] to [w27] you. It is a [w28] day to build a new study [w29] and [w30] your progress.",
+      answers: {w1:"common", w2:"worry", w3:"practice", w4:"improve", w5:"suggest", w6:"choose", w7:"popular", w8:"friendly", w9:"explain", w10:"difficult", w11:"listen", w12:"remember", w13:"benefit", w14:"important", w15:"understand", w16:"forget", w17:"answer", w18:"happen", w19:"decide", w20:"believe", w21:"careful", w22:"share", w23:"useful", w24:"visit", w25:"watch", w26:"promise", w27:"invite", w28:"beautiful", w29:"habit", w30:"notice"}
+    }
+  },
+  "B1": {
+    words: [
+      {word:"Achieve", phon:"/əˈtʃiːv/", pos:"verb", def:"To successfully reach a goal.", ex:"He will achieve great things."},
+      {word:"Analyze", phon:"/ˈænəlaɪz/", pos:"verb", def:"To examine methodically.", ex:"We must analyze the data."},
+      {word:"Evidence", phon:"/ˈevɪdəns/", pos:"noun", def:"Information indicating whether a belief is true.", ex:"The police have new evidence."},
+      {word:"Method", phon:"/ˈmeθəd/", pos:"noun", def:"A particular form of procedure.", ex:"This teaching method is effective."},
+      {word:"Require", phon:"/rɪˈkwaɪə/", pos:"verb", def:"To need for a particular purpose.", ex:"These plants require full sun."},
+      {word:"Significant", phon:"/sɪɡˈnɪfɪkənt/", pos:"adj", def:"Sufficiently great or important.", ex:"There is a significant difference."},
+      {word:"Challenge", phon:"/ˈtʃælɪndʒ/", pos:"noun", def:"A task that tests someone's abilities.", ex:"Climbing the mountain was a challenge."},
+      {word:"Develop", phon:"/dɪˈveləp/", pos:"verb", def:"To grow or cause to grow.", ex:"We must develop a new plan."},
+      {word:"Encourage", phon:"/ɪnˈkʌrɪdʒ/", pos:"verb", def:"To give support or confidence.", ex:"I encourage you to try again."},
+      {word:"Focus", phon:"/ˈfəʊkəs/", pos:"verb", def:"To pay particular attention to.", ex:"You need to focus on your studies."},
+      {word:"Identify", phon:"/aɪˈdentɪfaɪ/", pos:"verb", def:"To establish who or what someone or something is.", ex:"Can you identify the suspect?"},
+      {word:"Manage", phon:"/ˈmænɪdʒ/", pos:"verb", def:"To be in charge of; administer.", ex:"She will manage the new store."},
+      {word:"Organize", phon:"/ˈɔːɡənaɪz/", pos:"verb", def:"To arrange into a structured whole.", ex:"Let's organize the files."},
+      {word:"Participate", phon:"/pɑːˈtɪsɪpeɪt/", pos:"verb", def:"To take part.", ex:"I will participate in the marathon."},
+      {word:"Recommend", phon:"/ˌrekəˈmend/", pos:"verb", def:"To advise as a course of action.", ex:"I recommend the steak."},
+      {word:"Support", phon:"/səˈpɔːt/", pos:"noun", def:"Material or emotional assistance.", ex:"Thank you for your support."},
+      {word:"Traditional", phon:"/trəˈdɪʃənl/", pos:"adj", def:"Existing in or as part of a long-established custom.", ex:"We ate a traditional meal."},
+      {word:"Variety", phon:"/vəˈraɪəti/", pos:"noun", def:"The quality or state of being different or diverse.", ex:"I like a variety of music."},
+      {word:"Accept", phon:"/əkˈsept/", pos:"verb", def:"To consent to receive.", ex:"Please accept my apology."},
+      {word:"Balance", phon:"/ˈbæləns/", pos:"noun", def:"An even distribution of weight or elements.", ex:"Maintain a healthy work-life balance."},
+      {word:"Compare", phon:"/kəmˈpeə/", pos:"verb", def:"To estimate or measure the similarity or dissimilarity.", ex:"Let's compare the two cars."},
+      {word:"Describe", phon:"/dɪˈskraɪb/", pos:"verb", def:"To give an account in words.", ex:"Can you describe the thief?"},
+      {word:"Educate", phon:"/ˈedʒukeɪt/", pos:"verb", def:"To give intellectual instruction to.", ex:"We must educate the children."},
+      {word:"Familiar", phon:"/fəˈmɪliə/", pos:"adj", def:"Well known from long or close association.", ex:"Your face looks familiar."},
+      {word:"Generate", phon:"/ˈdʒenəreɪt/", pos:"verb", def:"To cause to arise or come about.", ex:"The wind turbines generate power."},
+      {word:"Healthy", phon:"/ˈhelθi/", pos:"adj", def:"In good physical or mental condition.", ex:"Eat a healthy diet."},
+      {word:"Inform", phon:"/ɪnˈfɔːm/", pos:"verb", def:"To give facts or information; tell.", ex:"I will inform the manager."},
+      {word:"Knowledge", phon:"/ˈnɒlɪdʒ/", pos:"noun", def:"Facts, information, and skills acquired.", ex:"He has great historical knowledge."},
+      {word:"Logical", phon:"/ˈlɒdʒɪkl/", pos:"adj", def:"Characterized by clear, sound reasoning.", ex:"That is a logical conclusion."},
+      {word:"Measure", phon:"/ˈmeʒə/", pos:"verb", def:"To ascertain the size, amount, or degree.", ex:"Measure the wood before cutting."}
+    ],
+    exercise: {
+      text: "To [w1] success, you must [w2] the [w3] carefully. We need a new [w4] that will [w5] less time but make a [w6] difference. It is a [w7] to [w8] new skills, but we [w9] everyone to [w10] on their goals. You must [w11] the problem and [w12] your time well to [w13] the project. If you [w14] in the meeting, I [w15] you ask for [w16]. The [w17] approach uses a [w18] of ideas, but you must [w19] new ways to find a [w20]. We will [w21] the results and [w22] the details to [w23] the team. It is [w24] to [w25] new ideas for a [w26] environment. We will [w27] you about the [w28] you need. A [w29] plan will help us [w30] our progress.",
+      answers: {w1:"achieve", w2:"analyze", w3:"evidence", w4:"method", w5:"require", w6:"significant", w7:"challenge", w8:"develop", w9:"encourage", w10:"focus", w11:"identify", w12:"manage", w13:"organize", w14:"participate", w15:"recommend", w16:"support", w17:"traditional", w18:"variety", w19:"accept", w20:"balance", w21:"compare", w22:"describe", w23:"educate", w24:"logical", w25:"generate", w26:"healthy", w27:"inform", w28:"knowledge", w29:"familiar", w30:"measure"}
+    }
+  },
+  "B2": {
+    words: [
+      {word:"Crucial", phon:"/ˈkruːʃl/", pos:"adj", def:"Decisive or critical.", ex:"Water is crucial for survival."},
+      {word:"Evaluate", phon:"/ɪˈvæljueɪt/", pos:"verb", def:"To form an idea of the amount or value of.", ex:"We must evaluate the risks."},
+      {word:"Perspective", phon:"/pəˈspektɪv/", pos:"noun", def:"A point of view.", ex:"From my perspective, this is wrong."},
+      {word:"Implement", phon:"/ˈɪmplɪment/", pos:"verb", def:"To put into effect.", ex:"We will implement the changes today."},
+      {word:"Consequence", phon:"/ˈkɒnsɪkwəns/", pos:"noun", def:"A result or effect.", ex:"Fear is a consequence of danger."},
+      {word:"Acquire", phon:"/əˈkwaɪə/", pos:"verb", def:"To buy or obtain for oneself.", ex:"He managed to acquire the company."},
+      {word:"Ambition", phon:"/æmˈbɪʃn/", pos:"noun", def:"A strong desire to achieve something.", ex:"Her ambition is to be CEO."},
+      {word:"Obvious", phon:"/ˈɒbviəs/", pos:"adj", def:"Easily perceived or understood.", ex:"The mistake was obvious."},
+      {word:"Category", phon:"/ˈkætəɡəri/", pos:"noun", def:"A class or division of things.", ex:"Which category does this fit?"},
+      {word:"Component", phon:"/kəmˈpəʊnənt/", pos:"noun", def:"A part or element of a larger whole.", ex:"This is a vital engine component."},
+      {word:"Debate", phon:"/dɪˈbeɪt/", pos:"verb", def:"To argue about a subject.", ex:"They will debate the issue tomorrow."},
+      {word:"Dimension", phon:"/daɪˈmenʃn/", pos:"noun", def:"A measurable extent of some kind.", ex:"What is the dimension of the room?"},
+      {word:"Establish", phon:"/ɪˈstæblɪʃ/", pos:"verb", def:"To set up on a firm or permanent basis.", ex:"We need to establish a base."},
+      {word:"Exceed", phon:"/ɪkˈsiːd/", pos:"verb", def:"To be greater in number or size.", ex:"Do not exceed the speed limit."},
+      {word:"Frequency", phon:"/ˈfriːkwənsi/", pos:"noun", def:"The rate at which something occurs.", ex:"The frequency of storms is rising."},
+      {word:"Grant", phon:"/ɡrɑːnt/", pos:"verb", def:"To agree to give or allow.", ex:"The bank will grant the loan."},
+      {word:"Hence", phon:"/hens/", pos:"adv", def:"As a consequence; for this reason.", ex:"He was late, hence the anger."},
+      {word:"Imply", phon:"/ɪmˈplaɪ/", pos:"verb", def:"To strongly suggest the truth of.", ex:"Are you trying to imply I lied?"},
+      {word:"Integrate", phon:"/ˈɪntɪɡreɪt/", pos:"verb", def:"To combine one thing with another.", ex:"We must integrate the software."},
+      {word:"Label", phon:"/ˈleɪbl/", pos:"verb", def:"To assign to a category.", ex:"Do not label him a failure."},
+      {word:"Mechanism", phon:"/ˈmekənɪzəm/", pos:"noun", def:"A system of parts working together.", ex:"The clock mechanism is broken."},
+      {word:"Apparent", phon:"/əˈpærənt/", pos:"adj", def:"Clearly visible or understood.", ex:"It became apparent he was lost."},
+      {word:"Parameter", phon:"/pəˈræmɪtə/", pos:"noun", def:"A numerical or other measurable factor.", ex:"Stay within the parameter of safety."},
+      {word:"Phase", phon:"/feɪz/", pos:"noun", def:"A distinct period or stage.", ex:"This is just a passing phase."},
+      {word:"Predict", phon:"/prɪˈdɪkt/", pos:"verb", def:"To say or estimate what will happen.", ex:"I predict it will rain."},
+      {word:"Principle", phon:"/ˈprɪnsəpl/", pos:"noun", def:"A fundamental truth or proposition.", ex:"He is a man of principle."},
+      {word:"Resolve", phon:"/rɪˈzɒlv/", pos:"verb", def:"To settle or find a solution.", ex:"We must resolve this dispute."},
+      {word:"Retain", phon:"/rɪˈteɪn/", pos:"verb", def:"To continue to have; keep possession of.", ex:"Try to retain this information."},
+      {word:"Statistic", phon:"/stəˈtɪstɪk/", pos:"noun", def:"A fact or piece of data.", ex:"This is a worrying statistic."},
+      {word:"Undertake", phon:"/ˌʌndəˈteɪk/", pos:"verb", def:"To commit oneself to and begin.", ex:"I will undertake the task."}
+    ],
+    exercise: {
+      text: "It is [w1] to [w2] the new policy from a global [w3]. If we fail to [w4] it correctly, the [w5] will be severe. We must [w6] new skills to achieve our [w7]. It is [w8] that this [w9] is a major [w10] of the project. We will [w11] the new [w12] and [w13] strict rules. We hope to [w14] expectations and increase the [w15] of success. The board will [w16] permission; [w17], we do not [w18] any delay. We must [w19] this system and [w20] the risks. The internal [w21] is quite [w22]. Every [w23] of this [w24] is designed to [w25] outcomes based on scientific [w26]. We will [w27] the conflict, [w28] the best staff, check every [w29], and [w30] the final review.",
+      answers: {w1:"crucial", w2:"evaluate", w3:"perspective", w4:"implement", w5:"consequence", w6:"acquire", w7:"ambition", w8:"obvious", w9:"category", w10:"component", w11:"debate", w12:"dimension", w13:"establish", w14:"exceed", w15:"frequency", w16:"grant", w17:"hence", w18:"imply", w19:"integrate", w20:"label", w21:"mechanism", w22:"apparent", w23:"parameter", w24:"phase", w25:"predict", w26:"principle", w27:"resolve", w28:"retain", w29:"statistic", w30:"undertake"}
+    }
+  },
+  "C1": {
+    words: [
+      {word:"Ambiguous", phon:"/æmˈbɪɡjuəs/", pos:"adj", def:"Open to more than one interpretation.", ex:"The contract terms are ambiguous."},
+      {word:"Quagmire", phon:"/ˈkwɒɡmaɪə/", pos:"noun", def:"A complex, hazardous situation.", ex:"The legal case became a quagmire."},
+      {word:"Imperative", phon:"/ɪmˈperətɪv/", pos:"adj", def:"Of vital importance; crucial.", ex:"It is imperative we act now."},
+      {word:"Alleviate", phon:"/əˈliːvieɪt/", pos:"verb", def:"To make suffering less severe.", ex:"This pill will alleviate the pain."},
+      {word:"Mitigate", phon:"/ˈmɪtɪɡeɪt/", pos:"verb", def:"To make less severe, serious, or painful.", ex:"We need to mitigate the damage."},
+      {word:"Inherent", phon:"/ɪnˈherənt/", pos:"adj", def:"Existing as a permanent attribute.", ex:"There is an inherent risk in flying."},
+      {word:"Pragmatic", phon:"/præɡˈmætɪk/", pos:"adj", def:"Dealing with things sensibly and realistically.", ex:"We need a pragmatic solution."},
+      {word:"Ubiquitous", phon:"/juːˈbɪkwɪtəs/", pos:"adj", def:"Present, appearing, or found everywhere.", ex:"Coffee shops are ubiquitous here."},
+      {word:"Paradigm", phon:"/ˈpærədaɪm/", pos:"noun", def:"A typical example or pattern of something.", ex:"A new paradigm for learning."},
+      {word:"Juxtapose", phon:"/ˌdʒʌkstəˈpəʊz/", pos:"verb", def:"To place close together for contrasting effect.", ex:"We will juxtapose the two images."},
+      {word:"Corroborate", phon:"/kəˈrɒbəreɪt/", pos:"verb", def:"To confirm or give support to.", ex:"Can anyone corroborate your story?"},
+      {word:"Fallacy", phon:"/ˈfæləsi/", pos:"noun", def:"A mistaken belief based on unsound argument.", ex:"That theory is a known fallacy."},
+      {word:"Sycophant", phon:"/ˈsɪkəfænt/", pos:"noun", def:"A person who acts obsequiously to gain advantage.", ex:"He is surrounded by sycophants."},
+      {word:"Lethargic", phon:"/ləˈθɑːdʒɪk/", pos:"adj", def:"Affected by lethargy; sluggish and apathetic.", ex:"I feel very lethargic today."},
+      {word:"Wane", phon:"/weɪn/", pos:"verb", def:"To decrease in vigor, power, or extent.", ex:"His interest began to wane."},
+      {word:"Unprecedented", phon:"/ʌnˈpresɪdentɪd/", pos:"adj", def:"Never done or known before.", ex:"This is an unprecedented crisis."},
+      {word:"Dichotomy", phon:"/daɪˈkɒtəmi/", pos:"noun", def:"A division or contrast between two things.", ex:"The dichotomy between science and faith."},
+      {word:"Anomaly", phon:"/əˈnɒməli/", pos:"noun", def:"Something that deviates from what is standard.", ex:"The data shows a clear anomaly."},
+      {word:"Catalyst", phon:"/ˈkætəlɪst/", pos:"noun", def:"A person or thing that precipitates an event.", ex:"The riot was a catalyst for change."},
+      {word:"Obfuscate", phon:"/ˈɒbfʌskeɪt/", pos:"verb", def:"To render obscure, unclear, or unintelligible.", ex:"Politicians often obfuscate the facts."},
+      {word:"Vacillate", phon:"/ˈvæsɪleɪt/", pos:"verb", def:"To alternate or waver between opinions.", ex:"Do not vacillate on this decision."},
+      {word:"Ephemeral", phon:"/ɪˈfemərəl/", pos:"adj", def:"Lasting for a very short time.", ex:"Fame is often ephemeral."},
+      {word:"Tangible", phon:"/ˈtændʒəbl/", pos:"adj", def:"Perceptible by touch; clear and definite.", ex:"We need tangible results."},
+      {word:"Resilient", phon:"/rɪˈzɪliənt/", pos:"adj", def:"Able to withstand or recover quickly.", ex:"Children are highly resilient."},
+      {word:"Hegemony", phon:"/hɪˈdʒeməni/", pos:"noun", def:"Leadership or dominance by one group.", ex:"The cultural hegemony of the empire."},
+      {word:"Nuance", phon:"/ˈnjuːɑːns/", pos:"noun", def:"A subtle difference in meaning or expression.", ex:"I miss the nuance of the language."},
+      {word:"Gregarious", phon:"/ɡrɪˈɡeəriəs/", pos:"adj", def:"Fond of company; sociable.", ex:"He is a gregarious host."},
+      {word:"Xenophobia", phon:"/ˌzenəˈfəʊbiə/", pos:"noun", def:"Dislike of or prejudice against people from other countries.", ex:"The policy is driven by xenophobia."},
+      {word:"Yield", phon:"/jiːld/", pos:"verb", def:"To produce or provide; to give way.", ex:"The investment will yield high returns."},
+      {word:"Zealot", phon:"/ˈzelət/", pos:"noun", def:"A person who is fanatical and uncompromising.", ex:"He was acting like a religious zealot."}
+    ],
+    exercise: {
+      text: "The manager's [w1] instructions created a [w2], making it [w3] to [w4] the confusion. To [w5] the risks [w6] in the project, we must adopt a more [w7] approach. The [w8] presence of technology has shifted the cultural [w9]. We must [w10] the old data with the new to [w11] our findings. It is a [w12] to trust a [w13] who only flatters the boss. The team's [w14] attitude began to [w15] after our [w16] success. The [w17] between theory and practice is an [w18] that acts as a [w19] for change. We cannot [w20] the truth or [w21] on key decisions. Despite the [w22] nature of fame, the [w23] rewards are clear. We must remain [w24] against the [w25] of monopolies. By mastering every linguistic [w26], the [w27] speaker can combat [w28], refuse to [w29] to despair, and debate any [w30].",
+      answers: {w1:"ambiguous", w2:"quagmire", w3:"imperative", w4:"alleviate", w5:"mitigate", w6:"inherent", w7:"pragmatic", w8:"ubiquitous", w9:"paradigm", w10:"juxtapose", w11:"corroborate", w12:"fallacy", w13:"sycophant", w14:"lethargic", w15:"wane", w16:"unprecedented", w17:"dichotomy", w18:"anomaly", w19:"catalyst", w20:"obfuscate", w21:"vacillate", w22:"ephemeral", w23:"tangible", w24:"resilient", w25:"hegemony", w26:"nuance", w27:"gregarious", w28:"xenophobia", w29:"yield", w30:"zealot"}
+    }
+  }
+};
+
+/* ========================================================
+   GLOBAL STATE & STORAGE
+======================================================== */
+let currentLevel = 'A1_A2';
+let currentMode = 'list';
+let fcIndex = 0;
+
+let masteredWords = JSON.parse(localStorage.getItem('lexicalMastery')) || [];
+
+window.onload = () => {
+  renderAll();
+};
+
+/* ========================================================
+   CONTROLLERS
+======================================================== */
+function setLevel(lvl, btnElem) {
+  currentLevel = lvl;
+  fcIndex = 0; 
+  document.querySelectorAll('.lvl-btn').forEach(btn => btn.classList.remove('active'));
+  btnElem.classList.add('active');
+  renderAll();
+}
+
+function setMode(mode, btnElem) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+  btnElem.classList.add('active');
+  document.querySelectorAll('.panel').forEach(panel => panel.classList.remove('active'));
+  document.getElementById(`panel-${mode}`).classList.add('active');
+}
+
+function renderAll() {
+  renderList();
+  renderFlashcard();
+  renderExercise();
+}
+
+/* ========================================================
+   1. WORD LIST RENDERER
+======================================================== */
+function renderList() {
+  const tbody = document.getElementById('list-body');
+  tbody.innerHTML = '';
+  
+  db[currentLevel].words.forEach(item => {
+    const isMastered = masteredWords.includes(item.word);
+    const checkmark = isMastered ? `<span style="color:var(--accent-green-dark); font-size: 1.2rem; margin-left: 10px;" title="Mastered">✓</span>` : '';
+    
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>
+        <span class="wt-word">${item.word} ${checkmark}</span>
+        <span class="wt-phonetic">${item.phon}</span>
+      </td>
+      <td>
+        <span class="wt-pos">${item.pos}</span>
+        <div class="wt-def">${item.def}</div>
+        <div class="wt-ex">"${item.ex}"</div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ========================================================
+   2. FLASHCARD RENDERER & LOGIC
+======================================================== */
+function renderFlashcard() {
+  const words = db[currentLevel].words;
+  const item = words[fcIndex];
+  
+  const card = document.getElementById('fc-element');
+  card.classList.remove('is-flipped');
+  
+  document.getElementById('fc-front-word').innerText = item.word;
+  document.getElementById('fc-front-phon').innerText = item.phon;
+  document.getElementById('fc-back-pos').innerText = item.pos;
+  document.getElementById('fc-back-def').innerText = item.def;
+  document.getElementById('fc-back-ex').innerText = `"${item.ex}"`;
+  
+  document.getElementById('fc-counter').innerText = `Card ${fcIndex + 1} of ${words.length}`;
+  
+  const btnMastered = document.getElementById('btn-mastered');
+  if (masteredWords.includes(item.word)) {
+    btnMastered.classList.add('mastered');
+    btnMastered.innerText = "✓ Mastered";
+  } else {
+    btnMastered.classList.remove('mastered');
+    btnMastered.innerText = "Mark Mastered";
+  }
+}
+
+function flipCard() {
+  document.getElementById('fc-element').classList.toggle('is-flipped');
+}
+
+function nextCard() {
+  const total = db[currentLevel].words.length;
+  fcIndex = (fcIndex + 1) % total;
+  renderFlashcard();
+}
+
+function prevCard() {
+  const total = db[currentLevel].words.length;
+  fcIndex = (fcIndex - 1 + total) % total;
+  renderFlashcard();
+}
+
+function toggleMastered() {
+  const item = db[currentLevel].words[fcIndex];
+  const word = item.word;
+  
+  if (masteredWords.includes(word)) {
+    masteredWords = masteredWords.filter(w => w !== word);
+  } else {
+    masteredWords.push(word);
+  }
+  
+  localStorage.setItem('lexicalMastery', JSON.stringify(masteredWords));
+  renderFlashcard();
+  renderList();
+}
+
+/* ========================================================
+   3. EXERCISE RENDERER & LOGIC
+======================================================== */
+function renderExercise() {
+  const data = db[currentLevel].exercise;
+  const words = db[currentLevel].words.map(w => w.word.toLowerCase());
+  
+  const shuffled = [...words].sort(() => 0.5 - Math.random());
+  
+  const wbContainer = document.getElementById('ex-wordbank');
+  wbContainer.innerHTML = '';
+  shuffled.forEach(w => {
+    const span = document.createElement('span');
+    span.className = 'ex-wb-word';
+    span.id = `wb-${w}`;
+    span.innerText = w;
+    wbContainer.appendChild(span);
+  });
+  
+  let rawText = data.text;
+  rawText = rawText.replace(/\[w(\d+)\]/g, (match, p1) => {
+    return `<input type="text" class="ex-input" id="ex-input-${p1}" data-key="w${p1}" autocomplete="off">`;
+  });
+  
+  document.getElementById('ex-paragraph').innerHTML = rawText;
+  
+  const fb = document.getElementById('ex-feedback');
+  fb.classList.remove('show');
+  
+  document.querySelectorAll('.ex-input').forEach(input => {
+      input.addEventListener('input', updateWordBank);
+  });
+}
+
+function updateWordBank() {
+    document.querySelectorAll('.ex-wb-word').forEach(span => span.classList.remove('used'));
+    const currentInputs = Array.from(document.querySelectorAll('.ex-input')).map(inp => inp.value.toLowerCase().trim());
+    currentInputs.forEach(val => {
+        const wbItem = document.getElementById(`wb-${val}`);
+        if(wbItem) wbItem.classList.add('used');
+    });
+}
+
+function checkExercise() {
+  const answers = db[currentLevel].exercise.answers;
+  let allCorrect = true;
+  
+  document.querySelectorAll('.ex-input').forEach(input => {
+    const key = input.getAttribute('data-key');
+    const correctAns = answers[key].toLowerCase();
+    const userAns = input.value.toLowerCase().trim();
+    
+    input.classList.remove('correct', 'incorrect');
+    
+    if (userAns === correctAns) {
+      input.classList.add('correct');
+      input.disabled = true;
+    } else {
+      input.classList.add('incorrect');
+      allCorrect = false;
+    }
+  });
+  
+  const fb = document.getElementById('ex-feedback');
+  fb.classList.remove('show');
+  void fb.offsetWidth; 
+  
+  if (allCorrect) {
+    // Determine current level name for the certificate
+    const activeLevelBtn = document.querySelector('.lvl-btn.active').innerText.split(' ')[0]; // Gets A1/A2, B1 etc.
+    
+    fb.style.backgroundColor = 'var(--accent-green)';
+    fb.style.color = 'var(--accent-green-dark)';
+    fb.style.borderLeft = '4px solid var(--accent-green-dark)';
+    
+    // Inject the inline Certificate Generator UI
+    fb.innerHTML = `
+      <div style="text-align:center; padding: 10px 0;">
+          <div style="font-size: 1.25rem; margin-bottom: 10px;">✓ <strong>EXCELLENT.</strong> Perfect contextual application!</div>
+          <p style="font-size: 0.95rem; margin-bottom: 20px; color: var(--text-dim);">You have officially mastered the ${activeLevelBtn} Lexical Registry. Claim your Certificate of Mastery below.</p>
+          <div style="display: flex; justify-content: center; gap: 15px; align-items: center; flex-wrap: wrap; border-top: 1px dashed var(--accent-green-dark); padding-top: 20px;">
+              <input type="text" id="cert-name-input" placeholder="Enter Your Full Name" style="padding: 12px 15px; font-family: 'Lato', sans-serif; font-size: 1rem; border: 1px solid var(--accent-green-dark); border-radius: 4px; outline: none; width: 250px;">
+              <button onclick="triggerCertificateDownload('${activeLevelBtn}')" id="cert-dl-btn" style="background: var(--oxford); color: var(--white); border: none; padding: 12px 25px; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: bold; text-transform: uppercase; border-radius: 4px; cursor: pointer; transition: 0.2s;">Download Certificate</button>
+          </div>
+      </div>
+    `;
+  } else {
+    fb.style.backgroundColor = 'var(--error-bg)';
+    fb.style.color = 'var(--error-text)';
+    fb.style.borderLeft = '4px solid var(--error-text)';
+    fb.innerHTML = `✗ <strong>ERROR.</strong> Please review the incorrect fields (marked in red). Check your spelling and ensure you used the word bank.`;
+  }
+  fb.classList.add('show');
+}
+
+/* ========================================================
+   CERTIFICATE GENERATOR LOGIC
+======================================================== */
+function triggerCertificateDownload(levelCode) {
+    const name = document.getElementById('cert-name-input').value.trim();
+    if(!name) {
+        alert("Please enter your name for the certificate.");
+        document.getElementById('cert-name-input').focus();
+        return;
+    }
+
+    const downloadBtn = document.getElementById('cert-dl-btn');
+    downloadBtn.innerText = "Generating...";
+    downloadBtn.disabled = true;
+
+    // Map level code to full string
+    const levelMap = {
+        "A1/A2": "A1 / A2 Elementary",
+        "B1": "B1 Intermediate",
+        "B2": "B2 Upper Intermediate",
+        "C1": "C1 / C2 Advanced Mastery"
+    };
+
+    // Populate hidden certificate
+    document.getElementById('display-name').innerText = name;
+    document.getElementById('display-level').innerText = levelMap[levelCode] || levelCode + " Mastery";
+    
+    const today = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('display-date').innerText = today.toLocaleDateString('en-GB', options);
+
+    // Target the hidden certificate div
+    const certNode = document.getElementById('certificate-node');
+
+    // Run html2canvas
+    html2canvas(certNode, {
+        scale: 3, // High resolution
+        backgroundColor: "#fffdf8",
+        logging: false
+    }).then(canvas => {
+        const imageURL = canvas.toDataURL("image/png");
+        const link = document.createElement('a');
+        link.download = `Lexical_Certificate_${name.replace(/\s+/g, '_')}.png`;
+        link.href = imageURL;
+        link.click();
+        
+        // Reset Button
+        downloadBtn.innerText = "Downloaded!";
+        setTimeout(() => {
+            downloadBtn.innerText = "Download Certificate";
+            downloadBtn.disabled = false;
+        }, 3000);
+    }).catch(err => {
+        console.error("Error generating certificate:", err);
+        alert("Error generating certificate. Please try again.");
+        downloadBtn.disabled = false;
+    });
+}
+</script>
+</body>
+</html>

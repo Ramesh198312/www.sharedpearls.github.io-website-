@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Riddle Room · Cognitive Mastery · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Lato:wght@300;400;700&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* Premium Palette */
+  --black: #ffffff; 
+  --dark: #fdfbf7; 
+  --dark2: #ffffff; 
+  --dark3: #f9f8f6; 
+  --gold: #b07d2a; 
+  --gold-lt: #8a5e18; 
+  --cream: #333333; 
+  --cream-dim: #555555; 
+  --ok: #27ae60;
+  --ok-bg: #e8f8f5;
+  --no: #c0392b;
+  --no-bg: #fdedec;
+  --riddle-green: #f1f8e9;
+  --riddle-green-dark: #2e7d32;
+  --locked-grey: #e0e0e0;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Lato',sans-serif; background:var(--dark); color:var(--cream); min-height:100vh; }
+
+/* ── NAV & HERO ── */
+nav { background:var(--black); display:flex; align-items:center; justify-content:space-between; padding:0 3rem; position:sticky; top:0; z-index:300; border-bottom:1px solid rgba(176,125,42,.2); box-shadow: 0 2px 10px rgba(0,0,0,0.02); height: 70px;}
+.nav-logo { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--gold); text-decoration:none; font-weight:700; }
+.nav-logo em { color:var(--cream); font-style:italic; }
+.nav-right { display:flex; align-items:center; gap:1.5rem; }
+.nav-series { font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-lt); padding:.4rem 1rem; border:1px solid rgba(176,125,42,.3); font-weight:bold; }
+
+.hero { background:var(--black); padding:4rem 3rem; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.hero-inner { max-width:900px; margin: 0 auto; text-align: center;}
+.hero-ep { font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; font-weight:bold; display:block;}
+h1 { font-family:'Playfair Display',serif; font-size:3.5rem; font-weight:900; line-height:1.1; color:var(--cream); margin-bottom:1.2rem; }
+h1 .gold { color:var(--gold); }
+
+/* ── LAYOUTS ── */
+.container { max-width:1100px; margin:0 auto; padding:3rem 2rem 6rem; }
+.layout-grid { display:grid; grid-template-columns:300px 1fr; gap:3rem; }
+
+/* ── INTRO SCREEN ── */
+#intro-screen { animation: fadeIn 0.5s ease-out; }
+.intro-box { background: var(--dark2); padding: 4rem; border-radius: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-top: 4px solid var(--gold); text-align: left;}
+.intro-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--gold-lt); margin-bottom: 1.5rem; border-bottom: 1px solid rgba(176,125,42,.2); padding-bottom: 1rem;}
+.intro-text p { font-size: 1.15rem; line-height: 1.8; margin-bottom: 1.5rem; color: var(--cream); }
+.intro-text .highlight { font-weight: bold; color: var(--gold-lt); background: rgba(176,125,42,0.08); padding: 0 4px; border-radius: 3px;}
+.start-btn { display: block; width: 100%; max-width: 300px; margin: 3rem auto 0; padding: 1.2rem; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; background: var(--gold); color: white; border: none; border-radius: 4px; cursor: pointer; transition: all 0.3s;}
+.start-btn:hover { background: var(--gold-lt); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(176,125,42,0.3);}
+
+/* ── SIDEBAR (VAULT) ── */
+.sidebar { display:flex; flex-direction:column; gap:1.5rem; }
+.level-toggle { display: flex; gap: 0.5rem; }
+.lvl-btn { flex: 1; padding: 1rem 0; background: var(--dark3); border: 1px solid rgba(0,0,0,0.1); font-family: 'DM Mono', monospace; font-size: 0.8rem; font-weight: bold; cursor: pointer; color: var(--cream-dim); transition: 0.2s; border-radius: 4px;}
+.lvl-btn.active { background: var(--gold); color: white; border-color: var(--gold);}
+
+.sw { background:var(--dark2); border:1px solid rgba(0,0,0,.08); box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-radius: 4px; overflow:hidden; }
+.sw-hd { background:var(--dark3); padding:1.2rem; font-family:'DM Mono',monospace; font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold-lt); border-bottom:1px solid rgba(0,0,0,.05); font-weight:bold; }
+.sw-bd { padding:0; max-height: 60vh; overflow-y: auto; }
+
+.riddle-list { list-style:none; }
+.riddle-list li { border-bottom:1px solid rgba(0,0,0,.05); }
+.riddle-list li:last-child { border-bottom:none; }
+.riddle-btn { width:100%; text-align:left; background:none; border:none; padding:1.1rem; font-family:'Lato',sans-serif; font-size:1rem; font-weight:400; color:var(--cream-dim); cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:0.8rem; border-left: 4px solid transparent; }
+.riddle-btn:hover:not(:disabled) { background: rgba(176,125,42,0.03); color:var(--gold-lt); }
+.riddle-btn.active { color:var(--gold-lt); background: #fff; border-left: 4px solid var(--gold); font-weight: bold;}
+.riddle-btn:disabled { cursor: not-allowed; opacity: 0.6; }
+
+.rid-status { font-family:'DM Mono',monospace; font-size:.65rem; padding:.2rem .5rem; border-radius:3px; font-weight: bold; }
+.status-locked { background: var(--locked-grey); color: #777; }
+.status-active { background: var(--riddle-green); color: var(--riddle-green-dark); }
+.status-solved { background: var(--ok-bg); color: var(--ok); }
+
+/* ── MAIN CONTENT (VAULT) ── */
+#vault-screen { display: none; animation: fadeIn 0.5s ease-out; }
+.riddle-card { background:var(--dark2); padding:3rem; border-radius:4px; border:1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-top:4px solid var(--gold); position: relative;}
+.riddle-number { font-family:'DM Mono',monospace; font-size:.8rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gold); margin-bottom: 1rem; font-weight: bold; display: block;}
+.riddle-question { font-size:1.6rem; line-height:1.7; color:var(--cream); margin-bottom:2.5rem; font-weight: 700; font-family: 'Playfair Display', serif;}
+
+/* Hint System */
+.hint-container { margin-bottom: 2rem; }
+.hint-btn-trigger { font-family: 'DM Mono', monospace; font-size: 0.75rem; padding: 0.6rem 1.2rem; border: 1px solid var(--gold-lt); background: transparent; color: var(--gold-lt); border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s;}
+.hint-btn-trigger:hover:not(:disabled) { background: rgba(176,125,42,0.1); }
+.hint-btn-trigger:disabled { border-color: #ccc; color: #999; cursor: not-allowed; }
+.hint-display { display: none; background: var(--dark3); padding: 1.2rem; border-left: 3px solid var(--gold); margin-top: 1rem; font-size: 1rem; color: var(--cream-dim); font-style: italic; border-radius: 0 4px 4px 0;}
+.hint-display.show { display: block; animation: fadeIn 0.3s; }
+
+/* Input */
+.input-group { display: flex; gap: 1rem; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap;}
+.guess-input { font-family: 'Lato', sans-serif; font-size: 1.1rem; padding: 1rem 1.5rem; border: 2px solid #ddd; border-radius: 4px; flex-grow: 1; outline: none; color: var(--gold-lt); font-weight: bold; transition: 0.2s;}
+.guess-input:focus { border-color: var(--gold); }
+.guess-input.correct { border-color: var(--ok); background: var(--ok-bg); color: var(--ok);}
+.guess-input.incorrect { border-color: var(--no); background: var(--no-bg); }
+.submit-btn { font-family:'DM Mono',monospace; font-size:.8rem; font-weight:bold; letter-spacing:.1em; text-transform:uppercase; padding:1.1rem 2rem; background:var(--gold); color:#fff; border:none; border-radius:4px; cursor:pointer; transition:0.2s;}
+.submit-btn:hover { background: var(--gold-lt); }
+
+.feedback-msg { font-weight: bold; font-size: 1rem; padding: 1.2rem; border-radius: 4px; display: none; margin-bottom: 2rem;}
+.feedback-msg.show { display: block; animation: fadeIn 0.3s;}
+
+/* Breakdown */
+.breakdown-box { background: #fff; padding: 2.5rem; border-radius: 4px; border: 1px solid rgba(0,0,0,0.08); box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: none; border-left: 4px solid var(--ok); margin-top: 2.5rem;}
+.breakdown-box.show { display: block; animation: riseUp 0.4s ease-out;}
+.aha-title { font-family:'Playfair Display',serif; font-size:1.6rem; color:var(--ok); margin-bottom:1rem; font-weight: 700;}
+.breakdown-text { font-size: 1.1rem; line-height: 1.8; color: var(--cream); }
+.breakdown-text strong { color: var(--gold-lt); }
+.next-riddle-btn { display: inline-block; margin-top: 2rem; padding: 1rem 2rem; background: var(--ok); color: white; text-transform: uppercase; font-family: 'DM Mono', monospace; font-size: 0.8rem; font-weight: bold; border: none; border-radius: 4px; cursor: pointer; letter-spacing: 1px;}
+.next-riddle-btn:hover { background: #219653; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes riseUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+footer { background:var(--black); padding:2rem 3rem; text-align: center; border-top:1px solid rgba(0,0,0,.1); margin-top: 4rem;}
+footer p { color:rgba(0,0,0,.5); font-size:.8rem; font-family:'DM Mono',monospace; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Shared <em>Pearls</em> of Wisdom</a>
+  <div class="nav-right">
+    <span class="nav-series">Premium Subscriber Access</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <span class="hero-ep">Cognitive Linguistics · 50 Master Riddles</span>
+    <h1>The <span class="gold">Riddle</span> Room</h1>
+  </div>
+</div>
+
+<div class="container">
+  
+  <div id="intro-screen">
+    <div class="intro-box">
+      <h2 class="intro-title">The Neuroscience of the Riddle</h2>
+      <div class="intro-text">
+        <p>Welcome to The Riddle Room. As a Cambridge-trained linguist, I must clarify that riddles are not mere child's play; they are <span class="highlight">cognitive gymnasiums</span>. Standard reading exercises require linear processing. Riddles, however, demand cognitive flexibility and <strong>lateral thinking</strong>.</p>
+        <p>When you attempt to solve a riddle, you force your brain to navigate <span class="highlight">polysemy</span> (words with multiple meanings), <span class="highlight">homophones</span> (words that sound identical but differ in meaning), and syntactic ambiguity. This struggle creates new neural pathways, accelerating vocabulary retention and deep cultural fluency.</p>
+        <p><strong>The Rules of the Vault:</strong><br>
+        1. You have access to 25 Intermediate (B1/B2) and 25 Advanced (C1/C2) riddles.<br>
+        2. The Vault is locked. You must solve Riddle 1 to unlock Riddle 2.<br>
+        3. You may request up to 3 hints per riddle, but true masters solve the subtext alone.</p>
+      </div>
+      <button class="start-btn" onclick="startVault()">Enter the Vault</button>
+    </div>
+  </div>
+
+  <div id="vault-screen" class="layout-grid">
+    
+    <aside class="sidebar">
+      <div class="level-toggle">
+        <button class="lvl-btn active" id="btn-lvl-b" onclick="switchLevel('B')">B1/B2 Vault</button>
+        <button class="lvl-btn" id="btn-lvl-c" onclick="switchLevel('C')">C1/C2 Vault</button>
+      </div>
+      
+      <div class="sw">
+        <div class="sw-hd">Riddle Progression</div>
+        <div class="sw-bd">
+          <ul class="riddle-list" id="sidebar-list">
+            </ul>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="riddle-card">
+        <span class="riddle-number" id="rid-num">Riddle 01</span>
+        <div class="riddle-question" id="rid-text">Loading cognitive challenge...</div>
+
+        <div class="hint-container">
+          <button class="hint-btn-trigger" id="hint-trigger" onclick="showHint()">Request Hint (0/3)</button>
+          <div class="hint-display" id="hint-display"></div>
+        </div>
+
+        <div class="input-group">
+          <input type="text" id="guess-input" class="guess-input" placeholder="Type your answer...">
+          <button class="submit-btn" id="submit-btn" onclick="checkAnswer()">Submit</button>
+        </div>
+        
+        <div class="feedback-msg" id="feedback-msg"></div>
+
+        <div class="breakdown-box" id="breakdown-box">
+          <div class="aha-title">Linguistic Analysis</div>
+          <div class="breakdown-text" id="breakdown-text"></div>
+          <button class="next-riddle-btn" id="next-btn" onclick="loadNextRiddle()">Proceed to Next Riddle →</button>
+        </div>
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom · Exclusive Linguistic Content</p>
+</footer>
+
+<script>
+/* ========================================================
+   THE RIDDLE DATABASE (50 High-Value Linguistic Challenges)
+   Format: q(question), h(hints array), a(answers array), b(breakdown)
+======================================================== */
+
+// B1/B2 TIER: Focus on Polysemy, Homophones, and Concrete Nouns
+const riddlesB = [
+  { q: "I have a bank but no money, a bed but I never sleep, and a mouth but I never speak. What am I?", h: ["I flow continuously.", "My bank is made of mud and grass.", "Rhymes with 'liver'."], a: ["river", "a river"], b: "This exploits the polysemy of geographic terms: a river's <strong>bank</strong> (edge), <strong>bed</strong> (bottom), and <strong>mouth</strong> (where it meets the sea)." },
+  { q: "I have bark but I do not bite. I have many rings but no fingers. What am I?", h: ["I grow in the forest.", "My bark is brown and hard.", "Rhymes with 'free'."], a: ["tree", "a tree"], b: "A classic play on <strong>bark</strong> (dog vs. wood) and <strong>rings</strong> (jewellery vs. annual growth circles)." },
+  { q: "I have hands but cannot hold a pen. I have a face but no eyes. I can tell you something important, but I have no voice. What am I?", h: ["I am found on a wall or a wrist.", "I relate to time.", "Rhymes with 'rock' or 'match'."], a: ["clock", "a clock", "watch", "a watch"], b: "This relies on anthropomorphic polysemy: attributing human parts (<strong>hands</strong>, <strong>face</strong>) to an inanimate object that tracks time." },
+  { q: "I am full of holes but I can hold water perfectly. What am I?", h: ["You use me in the kitchen or bathroom.", "I am very soft.", "Rhymes with 'plunge'."], a: ["sponge", "a sponge"], b: "This relies on a physical paradox. A <strong>sponge</strong> absorbs liquid precisely because of its porous nature (holes)." },
+  { q: "You can catch me easily, but you cannot throw me. You get me in winter. What am I?", h: ["It affects your health.", "You sneeze when you have me.", "Rhymes with 'bold'."], a: ["cold", "a cold"], b: "Exploits the idiomatic collocation <strong>'to catch a cold'</strong>, tricking the brain into expecting a physical object like a ball." },
+  { q: "I fly without wings. I cry without eyes. Wherever I go, darkness follows me. What am I?", h: ["Look up at the sky.", "My tears are water.", "Rhymes with 'loud'."], a: ["cloud", "a cloud"], b: "A poetic riddle using metaphorical verbs: a cloud <strong>flies</strong> (drifts) and <strong>cries</strong> (rains)." },
+  { q: "I have keys but no locks. I have space but no room. You can enter, but you cannot go outside. What am I?", h: ["You use me to type.", "I am attached to a computer.", "Rhymes with 'board'."], a: ["keyboard", "a keyboard"], b: "A brilliant tech-riddle exploiting the double meanings of <strong>keys</strong>, <strong>space</strong> (spacebar), and <strong>enter</strong> (enter key)." },
+  { q: "I am tall when I am young, and I am short when I am old. I glow in the dark. What am I?", h: ["I am made of wax.", "I have a wick.", "Rhymes with 'handle'."], a: ["candle", "a candle"], b: "This plays on the concept of physical reduction over time through burning, countering the usual human lifecycle of growing taller." },
+  { q: "I belong to you, but your friends use me much more often than you do. What am I?", h: ["It is not a physical object.", "It is written on your birth certificate.", "Rhymes with 'fame'."], a: ["name", "my name", "your name", "a name"], b: "A linguistic puzzle focusing on possession versus utility. Your <strong>name</strong> is your property, but primarily serves as a tool for others to address you." },
+  { q: "I go all the way around the world, but I never leave the corner. What am I?", h: ["I am small and sticky.", "I am put on an envelope.", "Rhymes with 'camp'."], a: ["stamp", "a stamp", "postage stamp"], b: "Exploits the literal vs. figurative concept of travel. The <strong>stamp</strong> remains physically fixed to the corner of an envelope while traversing the globe." },
+  { q: "I have cities but no houses. I have mountains but no trees. I have water but no fish. What am I?", h: ["I am made of paper.", "You use me to navigate.", "Rhymes with 'cap'."], a: ["map", "a map"], b: "A test of representation. A <strong>map</strong> depicts geographical features symbolically without containing their physical properties." },
+  { q: "What is always coming but never arrives?", h: ["It relates to time.", "You say 'see you then'.", "Rhymes with 'sorrow'."], a: ["tomorrow"], b: "A temporal paradox. By definition, once <strong>tomorrow</strong> arrives, it undergoes a semantic shift and becomes 'today'." },
+  { q: "I run, but I never walk. I murmur, but I never talk. I have a bed, but I never sleep. What am I?", h: ["I contain water.", "I flow to the ocean.", "Rhymes with 'liver'."], a: ["river", "a river", "stream"], b: "Further reinforcement of river polysemy (run, murmur, bed) using personification." },
+  { q: "If you drop me I am sure to crack, but give me a smile and I will always smile back. What am I?", h: ["I am made of glass.", "You look at me every morning.", "Rhymes with 'terror'."], a: ["mirror", "a mirror"], b: "Plays on the concept of reflection and the dual meaning of 'crack' (breaking glass vs. breaking a smile)." },
+  { q: "I shave every day, but my beard stays the exact same. What am I?", h: ["I am a professional.", "I use scissors and razors.", "Rhymes with 'harbour'."], a: ["barber", "a barber", "hairdresser"], b: "Syntactic trickery. The verb <strong>shave</strong> usually implies an action on oneself, but here it acts as a transitive verb directed at clients." },
+  { q: "I have a tail, and I have a head, but I have no body. I am made of metal. What am I?", h: ["I am used to buy things.", "You can flip me.", "Rhymes with 'join'."], a: ["coin", "a coin"], b: "Exploits the specific nomenclature of a coin's two sides (<strong>heads</strong> and <strong>tails</strong>)." },
+  { q: "I can travel at nearly 300,000 kilometres per second, but I can be stopped by a piece of cardboard. What am I?", h: ["I come from the sun.", "I banish darkness.", "Rhymes with 'bright'."], a: ["light", "sunlight"], b: "A physics riddle relying on the literal speed of <strong>light</strong> and its inability to pass through opaque objects." },
+  { q: "I start with 'e', I end with 'e', but I usually contain only one letter. What am I?", h: ["I am made of paper.", "You put a stamp on me.", "Rhymes with 'antelope'."], a: ["envelope", "an envelope"], b: "A brilliant play on the word <strong>'letter'</strong> (a character of the alphabet vs. a written message)." },
+  { q: "What has to be broken before you can use it?", h: ["It comes from a chicken.", "You eat it for breakfast.", "Rhymes with 'leg'."], a: ["egg", "an egg"], b: "Challenges the negative connotation of 'broken'. For an <strong>egg</strong>, breaking the shell is the prerequisite for utility." },
+  { q: "I follow you everywhere in the light, but I disappear when you go into the dark. What am I?", h: ["I am attached to your feet.", "I change size depending on the sun.", "Rhymes with 'meadow'."], a: ["shadow", "a shadow", "my shadow"], b: "A logic puzzle based on light physics. A <strong>shadow</strong> requires illumination to exist." },
+  { q: "I have one eye, but I cannot see. I am made of metal and I love clothes. What am I?", h: ["I am very sharp.", "I am used with thread.", "Rhymes with 'noodle'."], a: ["needle", "a needle", "sewing needle"], b: "Exploits the polysemy of <strong>'eye'</strong> (the sensory organ vs. the hole at the end of a sewing needle)." },
+  { q: "I am a word of letters three, add two and fewer there will be. What word am I?", h: ["It is a comparative adjective.", "The opposite of 'more'.", "Rhymes with 'mess'."], a: ["few"], b: "A pure spelling and grammar trick. The word is <strong>FEW</strong>. If you add 'E' and 'R', it becomes <strong>FEWER</strong>." },
+  { q: "I build up castles. I tear down mountains. I make some men blind, I help others to see. What am I?", h: ["I am found at the beach.", "I am used in hourglasses.", "Rhymes with 'band'."], a: ["sand"], b: "A poetic description of <strong>sand</strong> (sandcastles, erosion, causing blindness in a storm, melted to make glass lenses)." },
+  { q: "You buy me to eat, but you never consume me. What am I?", h: ["I am found in the kitchen.", "I hold your food.", "Rhymes with 'late'."], a: ["plate", "a plate", "cutlery", "fork"], b: "A logic test separating the <em>purpose</em> of an object from the <em>action</em> performed upon it. A <strong>plate</strong> facilitates eating but is not edible." },
+  { q: "I have words, but I never speak. I have a spine, but I have no bones. What am I?", h: ["You read me.", "I have pages.", "Rhymes with 'look'."], a: ["book", "a book"], b: "Exploits the polysemy of <strong>'spine'</strong> (the human backbone vs. the bound edge of a publication)." }
+];
+
+// C1/C2 TIER: Abstract Concepts, Syntactic Ambiguity, and Semantic Bleaching
+const riddlesC = [
+  { q: "I am the absence of sound, yet speaking my name completely destroys me. What am I?", h: ["I represent absolute quiet.", "A librarian desires me.", "Rhymes with 'violence'."], a: ["silence"], b: "A performative paradox. The concept of <strong>silence</strong> is instantly negated by the vocalization required to identify it." },
+  { q: "I am lighter than what I am made of, and more of me is hidden than is seen. What am I?", h: ["I am found in the ocean.", "I am very cold.", "Rhymes with 'bird'."], a: ["iceberg", "an iceberg"], b: "A physical reality translated into linguistic abstraction. An <strong>iceberg</strong> floats because ice is less dense than water, and 90% remains submerged." },
+  { q: "I can be kept only after I have been given. If I am broken, no glue can repair me. What am I?", h: ["I am a verbal contract.", "Politicians often break me.", "Rhymes with 'Thomas'."], a: ["promise", "a promise", "my word"], b: "Exploits the abstract idioms of commitment. You must 'give' a <strong>promise</strong> to 'keep' it, and 'breaking' it is a metaphorical destruction of trust." },
+  { q: "I am greater than God, more malevolent than the devil. The impoverished possess me, the affluent require me. If you consume me, you will perish. What am I?", h: ["It is a pronoun.", "It represents the void.", "Rhymes with 'bluffing'."], a: ["nothing"], b: "A masterclass in logical negation. By making <strong>'Nothing'</strong> the grammatical subject, we create paradoxical absolute statements (e.g., Nothing is greater than God)." },
+  { q: "I am the beginning of eternity, the end of time and space, the beginning of every end, and the end of every place. What am I?", h: ["I am a single character.", "Look at the spelling of the words.", "It is a vowel."], a: ["e", "the letter e"], b: "A classic orthographic trick. It completely ignores semantic meaning and forces the reader to look purely at the <strong>spelling</strong> of the words provided." },
+  { q: "I am born in fear, raised in truth, and I come to your lips only when you are compelled. What am I?", h: ["I am extracted by a detective.", "I am an admission of guilt.", "Rhymes with 'profession'."], a: ["confession", "a confession"], b: "An abstract narrative of human guilt. A <strong>confession</strong> is forced out by psychological pressure and represents hidden truth." },
+  { q: "I possess no weight, but if you hold me for more than a few minutes, you will die. What am I?", h: ["I am inside your lungs.", "You do this when swimming underwater.", "Rhymes with 'death'."], a: ["breath", "my breath", "your breath"], b: "Exploits the idiom <strong>'to hold your breath'</strong>. It treats respiration as a physical object being gripped." },
+  { q: "I run faster the shorter I get. I am the enemy of the procrastinator. What am I?", h: ["I am measured in hours and minutes.", "I am invisible.", "Rhymes with 'dime'."], a: ["time", "a deadline"], b: "A temporal riddle. As a deadline approaches (time gets shorter), the perception of <strong>time</strong> passing accelerates." },
+  { q: "If you have me, you want to share me. If you share me, you no longer have me. What am I?", h: ["I am hidden information.", "Do not tell anyone.", "Rhymes with 'regret'."], a: ["secret", "a secret"], b: "A semantic paradox. The definition of a <strong>secret</strong> requires it to be unshared; the act of sharing annihilates its status as a secret." },
+  { q: "I am always hungry; I must always be fed. The finger I touch will soon turn red. What am I?", h: ["I produce heat and light.", "Water destroys me.", "Rhymes with 'liar'."], a: ["fire"], b: "Uses intense personification (hungry, fed, touch). <strong>Fire</strong> consumes oxygen and fuel, and burns flesh." },
+  { q: "I can erase your deepest traumas or erase your greatest triumphs. I am the thief of the elderly. What am I?", h: ["I reside in your brain.", "I relate to the past.", "Rhymes with 'armory'."], a: ["memory", "amnesia", "dementia"], b: "A neurological metaphor. <strong>Memory</strong> (or its loss) dictates our connection to our own history." },
+  { q: "I cost no money to give, but I can enrich the receiver immensely. I take only a second, but the memory of me can last forever. What am I?", h: ["It is a facial expression.", "It shows happiness.", "Rhymes with 'mile'."], a: ["smile", "a smile"], b: "An emotional riddle exploring the intangible, non-monetary value of a <strong>smile</strong>." },
+  { q: "I exist only when you move. I mimic your actions perfectly, but I make no sound. What am I?", h: ["I require light.", "I am dark.", "Rhymes with 'meadow'."], a: ["shadow", "a shadow", "reflection"], b: "Explores the physics of light interception. A <strong>shadow</strong> is a projection, not an entity." },
+  { q: "I have no voice, but I can teach you all there is to know. I have no hinges, but I can be opened and closed. What am I?", h: ["I am found in a library.", "I contain chapters.", "Rhymes with 'hook'."], a: ["book", "a book"], b: "Advanced polysemy involving 'opening' an object that isn't a door, and 'teaching' without vocal cords." },
+  { q: "I am a vessel without doors or hinges, yet within my walls, golden treasure is hidden. What am I?", h: ["I am laid by a bird.", "My treasure is a yolk.", "Rhymes with 'leg'."], a: ["egg", "an egg"], b: "A highly poetic translation of an <strong>egg</strong>. The 'golden treasure' is a metaphor for the yellow yolk." },
+  { q: "I strip away the leaves, I howl in the night, and I can be felt but never seen. What am I?", h: ["I am moving air.", "I occur during a storm.", "Rhymes with 'pinned'."], a: ["wind", "the wind"], b: "Personification of meteorological phenomena. The <strong>wind</strong> is entirely invisible, known only by its effects." },
+  { q: "I am an action that is always in the past. If you do me today, you will have done me yesterday. What am I?", h: ["I am a cognitive process.", "I am the opposite of forget.", "Rhymes with 'December'."], a: ["remember", "remembering"], b: "A philosophical knot regarding tense. The act of <strong>remembering</strong> inherently focuses on past events." },
+  { q: "I can fly but I have no wings. I can cry but I have no eyes. Darkness follows me. What am I?", h: ["I am in the sky.", "I bring rain.", "Rhymes with 'loud'."], a: ["cloud", "a cloud", "storm cloud"], b: "C1 variation of the cloud riddle, demanding recognition of metaphorical verbs." },
+  { q: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?", h: ["I repeat what you say.", "I am found in canyons.", "Rhymes with 'gecko'."], a: ["echo", "an echo"], b: "The physics of soundwave reflection personified as a bodiless mimic (an <strong>echo</strong>)." },
+  { q: "I am a word of five letters. Remove my first, and I am the same. Remove my last, and I am the same. What am I?", h: ["I am a synonym for 'blank'.", "I mean having nothing inside.", "Rhymes with 'plenty'."], a: ["empty"], b: "An orthographic and phonetic trick. E-M-P-T-Y. Remove E, it's 'mpty' (sounds empty). Remove Y, it's 'empt' (sounds empty)." },
+  { q: "I have branches, but no fruit, trunk, or leaves. What am I?", h: ["I am an institution.", "I hold your money.", "Rhymes with 'tank'."], a: ["bank", "a bank"], b: "Exploits the institutional polysemy of <strong>'branch'</strong> (a local office) versus the botanical definition." },
+  { q: "I am the only thing that is yours, yet you leave me behind everywhere you walk. What am I?", h: ["I am an impression on the ground.", "Detectives look for me.", "Rhymes with 'boot print'."], a: ["footprint", "footprints", "fingerprint"], b: "A play on the concept of 'leaving' something. A <strong>footprint</strong> is a physical trace rather than a possessed object." },
+  { q: "I am always old, sometimes new. Never sad, sometimes blue. Never empty, sometimes full. Never pushing, always pulling. What am I?", h: ["I am in the night sky.", "I control the tides.", "Rhymes with 'spoon'."], a: ["moon", "the moon"], b: "A complex weave of idioms and physics: new moon, blue moon, full moon, and gravitational pull." },
+  { q: "I can measure time, but I have no gears. I am made of glass and filled with dust. What am I?", h: ["I have a narrow waist.", "I contain sand.", "Rhymes with 'power glass'."], a: ["hourglass", "an hourglass"], b: "A descriptive riddle focusing on ancient timekeeping mechanisms." },
+  { q: "I can bring tears to your eyes, resurrect the dead, make you smile, and reverse time. I form in an instant but last a lifetime. What am I?", h: ["I am stored in your brain.", "I am a thought of the past.", "Rhymes with 'armory'."], a: ["memory", "a memory"], b: "A deeply metaphorical exploration of how a <strong>memory</strong> subjectively alters reality, time, and emotion." }
+];
+
+/* ========================================================
+   GLOBAL STATE ENGINE
+======================================================== */
+let activeVault = 'B'; // 'B' or 'C'
+let unlockedB = 0; // Max index unlocked in B
+let unlockedC = 0; // Max index unlocked in C
+let currentRiddleIndex = 0;
+let currentHintsUsed = 0;
+
+/* ========================================================
+   CONTROLLERS
+======================================================== */
+
+// Initialize
+function startVault() {
+  document.getElementById('intro-screen').style.display = 'none';
+  document.getElementById('vault-screen').style.display = 'grid';
+  renderSidebar();
+  loadRiddle(0);
+}
+
+// Switch Vault Level
+function switchLevel(level) {
+  activeVault = level;
+  
+  // Update toggle buttons
+  document.getElementById('btn-lvl-b').classList.toggle('active', level === 'B');
+  document.getElementById('btn-lvl-c').classList.toggle('active', level === 'C');
+  
+  // Find highest unlocked riddle to load
+  let loadIdx = level === 'B' ? unlockedB : unlockedC;
+  
+  renderSidebar();
+  loadRiddle(loadIdx);
+}
+
+// Render Sidebar List dynamically based on lock state
+function renderSidebar() {
+  const ul = document.getElementById('sidebar-list');
+  ul.innerHTML = '';
+  
+  const totalRiddles = activeVault === 'B' ? riddlesB.length : riddlesC.length;
+  const unlockedMax = activeVault === 'B' ? unlockedB : unlockedC;
+
+  for (let i = 0; i < totalRiddles; i++) {
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.className = 'riddle-btn';
+    
+    // Status Logic
+    let statusText = '';
+    let statusClass = '';
+    
+    if (i < unlockedMax) {
+      statusText = 'Solved';
+      statusClass = 'status-solved';
+      btn.onclick = () => loadRiddle(i);
+    } else if (i === unlockedMax) {
+      statusText = 'Active';
+      statusClass = 'status-active';
+      btn.onclick = () => loadRiddle(i);
+    } else {
+      statusText = 'Locked';
+      statusClass = 'status-locked';
+      btn.disabled = true;
+    }
+
+    // Active state highlighting
+    if (i === currentRiddleIndex) {
+      btn.classList.add('active');
+    }
+
+    // Add badge if solved previously
+    if (i < unlockedMax) {
+       btn.classList.add('solved');
+    }
+
+    btn.innerHTML = `<span class="rid-status ${statusClass}">${statusText}</span> Riddle ${String(i + 1).padStart(2, '0')}`;
+    li.appendChild(btn);
+    ul.appendChild(li);
+  }
+}
+
+// Load a specific riddle into the UI
+function loadRiddle(index) {
+  currentRiddleIndex = index;
+  currentHintsUsed = 0;
+  
+  const dataset = activeVault === 'B' ? riddlesB : riddlesC;
+  const data = dataset[index];
+
+  // Re-render sidebar to update active class
+  renderSidebar();
+
+  // Reset UI
+  document.getElementById('rid-num').innerText = `${activeVault === 'B' ? 'Intermediate' : 'Advanced'} Level · Riddle ${String(index + 1).padStart(2, '0')}`;
+  document.getElementById('rid-text').innerText = data.q;
+  
+  // Reset Inputs & Feedback
+  const guessInput = document.getElementById('guess-input');
+  guessInput.value = '';
+  guessInput.disabled = false;
+  guessInput.classList.remove('correct', 'incorrect');
+  
+  const submitBtn = document.getElementById('submit-btn');
+  submitBtn.disabled = false;
+
+  document.getElementById('feedback-msg').classList.remove('show', 'fb-ok', 'fb-no');
+  document.getElementById('breakdown-box').classList.remove('show');
+  
+  // Reset Hints
+  const hintBtn = document.getElementById('hint-trigger');
+  hintBtn.innerText = "Request Hint (0/3)";
+  hintBtn.disabled = false;
+  document.getElementById('hint-display').classList.remove('show');
+
+  // If this riddle was already solved previously, show the breakdown immediately
+  const unlockedMax = activeVault === 'B' ? unlockedB : unlockedC;
+  if (index < unlockedMax) {
+     triggerSuccessState(data, true);
+  }
+}
+
+// Show Progressive Hint
+function showHint() {
+  const dataset = activeVault === 'B' ? riddlesB : riddlesC;
+  const data = dataset[currentRiddleIndex];
+  
+  if (currentHintsUsed < 3) {
+    const hintDisplay = document.getElementById('hint-display');
+    hintDisplay.innerText = `Hint ${currentHintsUsed + 1}: ${data.h[currentHintsUsed]}`;
+    hintDisplay.classList.add('show');
+    
+    currentHintsUsed++;
+    
+    const hintBtn = document.getElementById('hint-trigger');
+    hintBtn.innerText = `Request Hint (${currentHintsUsed}/3)`;
+    
+    if (currentHintsUsed === 3) {
+      hintBtn.disabled = true;
+    }
+  }
+}
+
+// Check the user's input
+function checkAnswer() {
+  const dataset = activeVault === 'B' ? riddlesB : riddlesC;
+  const data = dataset[currentRiddleIndex];
+  
+  const guessInput = document.getElementById('guess-input');
+  const feedbackMsg = document.getElementById('feedback-msg');
+  
+  let userGuess = guessInput.value.trim().toLowerCase();
+  // Strip common articles for fuzzy matching
+  userGuess = userGuess.replace(/^(a|an|the|my|your)\s+/i, "").trim();
+
+  let isCorrect = false;
+  for (let i = 0; i < data.a.length; i++) {
+    let acceptable = data.a[i].toLowerCase().replace(/^(a|an|the|my|your)\s+/i, "").trim();
+    if (userGuess === acceptable) {
+      isCorrect = true;
+      break;
+    }
+  }
+
+  feedbackMsg.classList.remove('show', 'fb-ok', 'fb-no');
+  guessInput.classList.remove('correct', 'incorrect');
+
+  if (isCorrect) {
+    // Unlock next riddle if this was the latest active one
+    const unlockedMax = activeVault === 'B' ? unlockedB : unlockedC;
+    if (currentRiddleIndex === unlockedMax) {
+      if (activeVault === 'B' && unlockedB < 24) unlockedB++;
+      if (activeVault === 'C' && unlockedC < 24) unlockedC++;
+    }
+    
+    triggerSuccessState(data, false);
+    renderSidebar(); // Refresh sidebar locks
+
+  } else {
+    guessInput.classList.add('incorrect');
+    feedbackMsg.classList.add('fb-no');
+    feedbackMsg.innerText = "✗ Incorrect. The cognitive parameters do not align. Try requesting a hint.";
+    feedbackMsg.classList.add('show');
+  }
+}
+
+// Handle Success UI State
+function triggerSuccessState(data, isReviewing) {
+  const guessInput = document.getElementById('guess-input');
+  const feedbackMsg = document.getElementById('feedback-msg');
+  const breakdownBox = document.getElementById('breakdown-box');
+  const breakdownText = document.getElementById('breakdown-text');
+  
+  guessInput.value = data.a[0]; // Show primary answer
+  guessInput.disabled = true;
+  guessInput.classList.remove('incorrect');
+  guessInput.classList.add('correct');
+  
+  document.getElementById('submit-btn').disabled = true;
+  document.getElementById('hint-trigger').disabled = true;
+
+  feedbackMsg.classList.remove('fb-no');
+  feedbackMsg.classList.add('fb-ok');
+  feedbackMsg.innerText = isReviewing ? "✓ You have already solved this riddle." : "✓ Outstanding lateral thinking! Vault lock bypassed.";
+  feedbackMsg.classList.add('show');
+
+  breakdownText.innerHTML = data.b;
+  breakdownBox.classList.add('show');
+  
+  // Handle 'Next' button visibility
+  const btnNext = document.getElementById('next-btn');
+  const maxIdx = activeVault === 'B' ? 24 : 24;
+  if (currentRiddleIndex < maxIdx) {
+      btnNext.style.display = 'inline-block';
+  } else {
+      btnNext.style.display = 'none'; // Reached end of vault
+  }
+}
+
+function loadNextRiddle() {
+    loadRiddle(currentRiddleIndex + 1);
+}
+
+// Allow pressing 'Enter' to submit
+document.getElementById("guess-input").addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById("submit-btn").click();
+  }
+});
+</script>
+</body>
+</html>

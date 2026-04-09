@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>B1 Intermediate Assessment · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* Cambridge Slate & Heritage Teal Palette */
+  --cambridge-slate: #1C2E3D;
+  --heritage-teal: #2C7A7B;
+  --teal-light: #E6F2F2;
+  --parchment: #F9F8F6;
+  --white: #ffffff;
+  --gold: #C5A059;
+  --border: #D1D9E0;
+  
+  --success: #2F855A;
+  --error: #C53030;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Source Serif 4', Georgia, serif; background:var(--parchment); color:var(--cambridge-slate); min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden;}
+
+/* ── HEADER & TIMER ── */
+header { background:var(--cambridge-slate); color:var(--white); padding:1.2rem 2rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:200; border-bottom: 4px solid var(--heritage-teal);}
+.brand-title { font-family:'Playfair Display', serif; font-size:1.6rem; color:var(--white); font-weight:700; }
+.brand-title span { color:var(--gold); font-style:italic; }
+.level-badge { background:var(--heritage-teal); color:var(--white); font-family:'DM Mono', monospace; font-size:0.75rem; padding:0.3rem 0.6rem; vertical-align:middle; margin-left:10px; border-radius:3px; letter-spacing:0.1em; font-weight: bold;}
+.timer-container { display:flex; align-items:center; gap:1rem; background:rgba(0,0,0,0.3); padding:0.5rem 1.5rem; border-radius:4px; border:1px solid rgba(255,255,255,0.1); }
+.timer-label { font-family:'DM Mono', monospace; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); }
+.timer-clock { font-family:'DM Mono', monospace; font-size:1.5rem; font-weight:700; color:var(--white); }
+.timer-clock.warning { color:#FC8181; animation: pulse 1s infinite; }
+
+/* ── MAIN LAYOUT ── */
+.exam-container { max-width:1300px; margin:2rem auto; display:grid; grid-template-columns:260px 1fr; gap:2.5rem; width:100%; padding:0 2rem; flex-grow:1; }
+
+/* ── SIDEBAR NAVIGATION ── */
+.exam-nav { background:var(--white); border:1px solid var(--border); border-radius:6px; padding:1.5rem; height:fit-content; position:sticky; top:100px; box-shadow:0 4px 15px rgba(28,46,61,0.05); }
+.nav-btn { display:block; width:100%; text-align:left; background:none; border:none; padding:1rem; font-family:'DM Mono', monospace; font-size:0.9rem; font-weight:700; color:var(--cambridge-slate); cursor:pointer; transition:0.2s; border-radius:4px; margin-bottom:0.5rem; border-left: 3px solid transparent; opacity: 0.8;}
+.nav-btn:hover { background:var(--teal-light); opacity: 1; }
+.nav-btn.active { background:var(--teal-light); color:var(--heritage-teal); border-left-color:var(--heritage-teal); opacity: 1;}
+.submit-exam-btn { display:block; width:100%; padding:1rem; margin-top:2rem; background:var(--gold); color:var(--white); border:none; font-family:'DM Mono', monospace; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; border-radius:4px; cursor:pointer; transition:0.3s; }
+.submit-exam-btn:hover { background:var(--cambridge-slate); box-shadow: 0 4px 12px rgba(28,46,61,0.2);}
+
+/* ── EXAM PANELS ── */
+.exam-panel { display:none; background:var(--white); border:1px solid var(--border); border-radius:6px; padding:3rem; box-shadow:0 8px 30px rgba(0,0,0,0.04); animation:fadeIn 0.4s ease-out; }
+.exam-panel.active { display:block; }
+.panel-title { font-family:'Playfair Display', serif; font-size:2.4rem; color:var(--cambridge-slate); margin-bottom:0.5rem; padding-bottom:1rem; border-bottom: 2px solid var(--border);}
+.panel-desc { font-family:'DM Mono', monospace; font-size:0.85rem; color:var(--heritage-teal); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:2.5rem; font-weight:700;}
+
+/* ── SPLIT PANE READING UX ── */
+.split-layout { display: flex; gap: 2.5rem; align-items: flex-start; margin-bottom: 3.5rem; padding-bottom: 3rem; border-bottom: 1px dashed var(--border);}
+.split-layout:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
+.split-left { flex: 1; position: sticky; top: 100px; max-height: calc(100vh - 140px); overflow-y: auto; padding-right: 1.5rem; }
+.split-left::-webkit-scrollbar { width: 6px; }
+.split-left::-webkit-scrollbar-track { background: var(--parchment); }
+.split-left::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.split-right { flex: 1; }
+
+.part-title { font-family:'Playfair Display', serif; font-size:1.5rem; color:var(--heritage-teal); margin-bottom:1rem; }
+.instruction-text { margin-bottom:1.5rem; color:#5A6B7C; font-weight:600; font-family:'DM Mono', monospace; font-size: 0.85rem;}
+.reading-text { background:var(--teal-light); padding:2rem; border-left:4px solid var(--heritage-teal); font-size:1.1rem; line-height:1.8; color: var(--cambridge-slate); border-radius: 0 4px 4px 0;}
+.reading-text p { margin-bottom: 1.2rem; }
+
+/* ── QUESTION BLOCKS ── */
+.question-block { margin-bottom:1.8rem; font-size:1.05rem; background: var(--white); border: 1px solid var(--border); padding: 1.5rem; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);}
+.question-text { font-weight:600; margin-bottom:1rem; display:block; color: var(--cambridge-slate);}
+.mcq-option { display:block; margin-bottom:0.8rem; cursor:pointer; padding: 0.8rem; border-radius: 4px; transition: 0.2s; border: 1px solid transparent; background: var(--parchment);}
+.mcq-option:hover { border-color: var(--gold); background: var(--white);}
+.mcq-option input { margin-right:12px; accent-color:var(--heritage-teal); transform: scale(1.1);}
+.fill-input { font-family:'DM Mono', monospace; font-size:1rem; padding:0.4rem 0.8rem; border:none; border-bottom:2px solid var(--cambridge-slate); background:rgba(28,46,61,0.03); width:140px; outline:none; transition:0.3s; margin:0 5px; color: var(--heritage-teal); font-weight: 700; text-align: center;}
+.fill-input:focus { border-bottom-color:var(--heritage-teal); background:rgba(44,122,123,0.1); }
+
+/* ── LISTENING SPECIFICS ── */
+.audio-player-container { background:var(--cambridge-slate); padding:1.5rem; border-radius:6px; margin-bottom:2rem; display:flex; align-items:center; gap:1.5rem; }
+.audio-btn { background:var(--gold); border:none; width:55px; height:55px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: 0.3s;}
+.audio-btn:hover { background:var(--white); transform: scale(1.05);}
+.audio-btn:hover svg { fill: var(--cambridge-slate); }
+.audio-track { flex-grow:1; height:6px; background:rgba(255,255,255,0.2); border-radius:3px; position:relative; }
+.audio-progress { position:absolute; left:0; top:0; height:100%; width:0%; background:var(--heritage-teal); border-radius:3px; }
+.audio-instruction { color:var(--white); font-family:'DM Mono', monospace; font-size:0.85rem; letter-spacing:0.1em; }
+.dev-transcript { display:none; background:#F0F4F8; padding:1.5rem; font-family:'DM Mono', monospace; font-size:0.85rem; border:1px solid var(--border); margin-bottom:2rem; white-space:pre-wrap; line-height: 1.6;}
+
+/* ── WRITING SPECIFICS ── */
+.writing-area { width:100%; height:320px; padding:1.5rem; font-family:'Source Serif 4', serif; font-size:1.1rem; line-height:1.7; border:2px solid var(--border); border-radius:4px; resize:vertical; outline:none; transition: 0.3s; background: var(--white); }
+.writing-area:focus { border-color:var(--heritage-teal); box-shadow:0 0 0 4px rgba(44,122,123,0.1); }
+.writing-area:disabled { background: var(--parchment); color: #666; cursor: not-allowed; }
+.word-count { font-family:'DM Mono', monospace; font-size:0.9rem; color:#5A6B7C; margin-top:0.8rem; text-align:right; font-weight:700; }
+.submit-writing-btn { background: var(--heritage-teal); color: var(--white); border: none; padding: 1.2rem 2rem; font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 4px; cursor: pointer; transition: 0.3s; margin-top: 1rem; width: 100%; }
+.submit-writing-btn:hover { background: var(--cambridge-slate); }
+.submit-writing-btn:disabled { background: var(--success); cursor: default; }
+
+/* ── SPEAKING SPECIFICS ── */
+.speaking-prompt { background:var(--teal-light); color:var(--cambridge-slate); padding:2rem; border-radius:6px; margin-bottom:2rem; border-left: 5px solid var(--heritage-teal); }
+.speaking-prompt h3 { font-family:'Playfair Display', serif; font-size:1.6rem; margin-bottom:1rem; color:var(--cambridge-slate); }
+.speaking-prompt p { font-size:1.1rem; line-height:1.6; margin-bottom:0.8rem;}
+.record-btn { background:var(--white); color:var(--heritage-teal); border:2px solid var(--heritage-teal); padding:0.9rem 1.8rem; font-family:'DM Mono', monospace; font-size:0.95rem; font-weight:700; border-radius:30px; cursor:pointer; margin-top:1.2rem; transition:0.3s; display:inline-flex; align-items:center; gap:10px; }
+.record-btn.recording { background:var(--error); color:var(--white); border-color:var(--error); animation:pulse 1.5s infinite; }
+.record-btn::before { content:''; display:inline-block; width:12px; height:12px; border-radius:50%; background:var(--error); }
+.record-btn.recording::before { background:var(--white); }
+
+/* ── RESULTS MODAL ── */
+#results-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(28,46,61,0.95); z-index:1000; align-items:center; justify-content:center; }
+.modal-content { background:var(--white); padding:4rem; border-radius:8px; max-width:600px; width:90%; text-align:center; position:relative; border-top:8px solid var(--heritage-teal); box-shadow: 0 15px 50px rgba(0,0,0,0.5);}
+.score-circle { width:140px; height:140px; border-radius:50%; border:6px solid var(--heritage-teal); margin:0 auto 1.5rem; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display', serif; font-size:3rem; font-weight:700; color:var(--heritage-teal); }
+.status-msg { font-size:1.1rem; line-height:1.6; margin-bottom:2rem; color: var(--cambridge-slate); }
+
+@keyframes pulse { 0% { opacity:1; } 50% { opacity:0.6; } 100% { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
+
+/* Responsive adjustments */
+@media (max-width: 950px) {
+    .split-layout { flex-direction: column; gap: 1.5rem; }
+    .split-left { position: static; max-height: none; overflow-y: visible; padding-right: 0;}
+    .exam-container { grid-template-columns: 1fr; }
+    .exam-nav { position: static; display: flex; overflow-x: auto; gap: 0.5rem; padding: 1rem;}
+    .nav-btn { flex-shrink: 0; width: auto; margin-bottom: 0; border-left: none; border-bottom: 3px solid transparent;}
+    .nav-btn.active { border-bottom-color: var(--heritage-teal); border-left-color: transparent;}
+}
+
+footer { background:var(--cambridge-slate); padding:2rem; text-align:center; color:rgba(255,255,255,0.6); font-family:'DM Mono', monospace; font-size:0.85rem; margin-top:auto;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-title">Shared <span>Pearls</span> of Wisdom<span class="level-badge">B1 INTERMEDIATE</span></div>
+  <div class="timer-container">
+    <span class="timer-label">Time Remaining</span>
+    <span class="timer-clock" id="exam-timer">90:00</span>
+  </div>
+</header>
+
+<div class="exam-container">
+  
+  <aside class="exam-nav">
+    <button class="nav-btn active" onclick="switchTab('reading')">1. Reading & Use of English</button>
+    <button class="nav-btn" onclick="switchTab('listening')">2. Listening</button>
+    <button class="nav-btn" onclick="switchTab('writing')">3. Writing</button>
+    <button class="nav-btn" onclick="switchTab('speaking')">4. Speaking</button>
+    <button class="submit-exam-btn" onclick="submitExam()">Submit Examination</button>
+  </aside>
+
+  <main>
+    <section id="panel-reading" class="exam-panel active">
+      <h1 class="panel-title">Paper 1: Reading</h1>
+      <div class="panel-desc">Time Limit: 30 Minutes • Total Marks: 15</div>
+
+      <div class="split-layout">
+        <div class="split-left">
+          <h2 class="part-title">Part 1: City Cycling Scheme</h2>
+          <p class="instruction-text">Read the information about the new bicycle rental scheme. The text will remain visible while you answer questions 1–5 on the right.</p>
+          <div class="reading-text">
+            <p><strong>Welcome to CityBikes!</strong></p>
+            <p>Our new bicycle rental scheme is designed to help you travel quickly and cheaply around the city centre. To get started, you must download the CityBikes app on your smartphone and register your debit or credit card. Unfortunately, we cannot accept cash payments at the docking stations.</p>
+            <p><strong>Pricing:</strong><br>
+            The first 30 minutes of every journey are completely free. After that, it costs £2 for every additional 30 minutes. If you plan to use the bikes regularly, you can buy an annual membership for £60, which extends your free ride time to 60 minutes per journey.</p>
+            <p><strong>Rules:</strong><br>
+            Riders must be at least 16 years old. While wearing a helmet is not required by law, we strongly advise all users to wear one for their own safety. Please remember to return the bicycle to an official docking station. If you leave a bike in the street, you will be charged a £50 penalty fee.</p>
+          </div>
+        </div>
+        
+        <div class="split-right">
+          <div class="question-block">
+            <span class="question-text">1. How do you pay for the bicycle rental?</span>
+            <label class="mcq-option"><input type="radio" name="r1" value="A"> A) By paying cash at the docking station.</label>
+            <label class="mcq-option"><input type="radio" name="r1" value="B"> B) Using a bank card through a mobile app.</label>
+            <label class="mcq-option"><input type="radio" name="r1" value="C"> C) By buying a paper ticket from a shop.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">2. How much does a 45-minute journey cost for a non-member?</span>
+            <label class="mcq-option"><input type="radio" name="r2" value="A"> A) It is free.</label>
+            <label class="mcq-option"><input type="radio" name="r2" value="B"> B) £2</label>
+            <label class="mcq-option"><input type="radio" name="r2" value="C"> C) £60</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">3. What is the benefit of the annual membership?</span>
+            <label class="mcq-option"><input type="radio" name="r3" value="A"> A) You do not have to pay the penalty fee.</label>
+            <label class="mcq-option"><input type="radio" name="r3" value="B"> B) You get a free safety helmet.</label>
+            <label class="mcq-option"><input type="radio" name="r3" value="C"> C) You can ride for longer before paying.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">4. What is the rule regarding helmets?</span>
+            <label class="mcq-option"><input type="radio" name="r4" value="A"> A) It is illegal to ride without one.</label>
+            <label class="mcq-option"><input type="radio" name="r4" value="B"> B) The company recommends wearing one.</label>
+            <label class="mcq-option"><input type="radio" name="r4" value="C"> C) You can only rent one if you are over 16.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">5. You will have to pay £50 if you...</span>
+            <label class="mcq-option"><input type="radio" name="r5" value="A"> A) do not park the bike in the correct place.</label>
+            <label class="mcq-option"><input type="radio" name="r5" value="B"> B) keep the bike for more than two hours.</label>
+            <label class="mcq-option"><input type="radio" name="r5" value="C"> C) let someone under 16 ride the bike.</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="split-layout">
+        <div class="split-left">
+          <h2 class="part-title">Part 2: The History of Chocolate</h2>
+          <p class="instruction-text">Read the text below and think of the word which best fits each gap. Use only ONE word in each gap.</p>
+          <div class="reading-text" style="line-height:2.4;">
+            Chocolate is one of the most popular sweet treats in the world, but it hasn't always been a solid bar. For most of <strong>(6)</strong> <input type="text" id="r6" class="fill-input" autocomplete="off"> history, chocolate was a bitter drink.<br><br>
+            It was first discovered by ancient cultures in Central America, <strong>(7)</strong> <input type="text" id="r7" class="fill-input" autocomplete="off"> crushed cacao beans and mixed them with water and chilli peppers. They believed the drink gave them strength and energy. When Spanish explorers arrived in the 1500s, they brought cacao beans back to Europe. At first, Europeans didn't like the bitter taste, but when they started adding sugar and milk, it quickly <strong>(8)</strong> <input type="text" id="r8" class="fill-input" autocomplete="off"> a fashionable drink for the rich.<br><br>
+            It wasn't <strong>(9)</strong> <input type="text" id="r9" class="fill-input" autocomplete="off"> the 19th century that a machine was invented to press the cocoa butter out of the beans, making it possible to create solid chocolate. Today, millions of tonnes of chocolate are eaten every year, and people <strong>(10)</strong> <input type="text" id="r10" class="fill-input" autocomplete="off"> love it just as much as they did hundreds of years ago.
+          </div>
+        </div>
+        
+        <div class="split-right">
+          <div class="question-block" style="background:var(--parchment); border-color:var(--gold);">
+            <span class="question-text" style="color:var(--gold); margin-bottom:0;">Instructions for Part 2:</span>
+            <p style="font-size:0.95rem; color:var(--cambridge-slate); margin-top:0.5rem;">At B1 level, you must understand prepositions, articles, pronouns, and auxiliary verbs. Type your answers directly into the text on the left. Spelling must be exact.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="split-layout" style="border-bottom:none;">
+        <div class="split-left">
+          <h2 class="part-title">Part 3: My Year in the Arctic</h2>
+          <p class="instruction-text">Read the article by a wildlife photographer and answer questions 11–15.</p>
+          <div class="reading-text">
+            <p>Two years ago, I decided to leave my comfortable job in London and spend twelve months photographing wildlife in the Arctic Circle. My friends thought I was crazy. They asked why I would want to swap a warm office for temperatures that regularly drop to minus 30 degrees. The truth is, I had always been fascinated by polar bears, and I knew that if I didn't go then, I probably never would.</p>
+            <p>Living in the Arctic was a massive shock to the system. During the winter months, the sun didn't rise at all. This constant darkness was much harder to deal with than the freezing cold. I had to learn how to operate my camera wearing thick gloves, which was incredibly frustrating at first. However, the local people were wonderful. They taught me how to dress properly and how to read the ice to stay safe.</p>
+            <p>The highlight of the year happened in April. After waiting in a snowy hideout for three days, a mother polar bear and her two cubs walked right past me. They were completely silent. I managed to take some of the best photographs of my career. Looking back, it was the most difficult year of my life, but I wouldn't change a single moment of it.</p>
+          </div>
+        </div>
+        
+        <div class="split-right">
+          <div class="question-block">
+            <span class="question-text">11. What was the writer's main reason for going to the Arctic?</span>
+            <label class="mcq-option"><input type="radio" name="r11" value="A"> A) He was bored with his office job in London.</label>
+            <label class="mcq-option"><input type="radio" name="r11" value="B"> B) He had a strong desire to see polar bears.</label>
+            <label class="mcq-option"><input type="radio" name="r11" value="C"> C) His friends challenged him to do it.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">12. What did the writer find most difficult about the experience?</span>
+            <label class="mcq-option"><input type="radio" name="r12" value="A"> A) The extreme cold temperatures.</label>
+            <label class="mcq-option"><input type="radio" name="r12" value="B"> B) Using his camera with thick gloves.</label>
+            <label class="mcq-option"><input type="radio" name="r12" value="C"> C) The lack of sunlight during winter.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">13. How did the local people help him?</span>
+            <label class="mcq-option"><input type="radio" name="r13" value="A"> A) They helped him find the polar bears.</label>
+            <label class="mcq-option"><input type="radio" name="r13" value="B"> B) They showed him how to survive in the environment.</label>
+            <label class="mcq-option"><input type="radio" name="r13" value="C"> C) They allowed him to stay in their homes.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">14. What happened in April?</span>
+            <label class="mcq-option"><input type="radio" name="r14" value="A"> A) He successfully photographed a bear family.</label>
+            <label class="mcq-option"><input type="radio" name="r14" value="B"> B) He got trapped in a hideout for three days.</label>
+            <label class="mcq-option"><input type="radio" name="r14" value="C"> C) He heard the terrifying noise of polar bears.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">15. What is the writer's overall feeling about the trip?</span>
+            <label class="mcq-option"><input type="radio" name="r15" value="A"> A) He is glad it's over and wouldn't go back.</label>
+            <label class="mcq-option"><input type="radio" name="r15" value="B"> B) It was tough, but completely worth the effort.</label>
+            <label class="mcq-option"><input type="radio" name="r15" value="C"> C) He regrets going because it was too dangerous.</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-listening" class="exam-panel">
+      <h1 class="panel-title">Paper 2: Listening</h1>
+      <div class="panel-desc">Audio Length: ~25 Minutes • Total Marks: 15</div>
+
+      <div class="audio-player-container">
+  <audio id="real-audio-player" src="find-your-level-listening-b1.mp3" preload="metadata"></audio>
+
+  <button class="audio-btn" onclick="toggleRealAudio()" id="play-btn">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M8 5v14l11-7z"/></svg>
+  </button>
+  
+  <div class="audio-track">
+    <div class="audio-progress" id="audio-bar"></div>
+  </div>
+  <div class="audio-instruction">Listen to the recording to answer all parts.</div>
+</div>
+      <button onclick="document.getElementById('dev-script').style.display='block'" style="font-size:0.75rem; color:var(--heritage-teal); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline; font-weight: bold;">[Audio Transcript]</button>
+      <div id="dev-script" class="dev-transcript">
+[Part 1: Voicemail]
+"Hi David, it's Mum. I'm calling about the family dinner on Sunday. I know we originally said we'd eat at 1:00 PM, but your aunt's train is delayed, so we're going to eat at 2:30 PM instead. Could you please bring a dessert? Don't make a cake though, we already have one. Maybe just pick up some ice cream from the supermarket. Let me know when you get this message."
+
+[Part 2: Radio Interview]
+Interviewer: Welcome to the show, Mark. You recently started a business making furniture from recycled wood. Why did you choose wood?
+Mark: Well, I used to work in IT, staring at screens all day. I wanted to do something practical with my hands. Wood is great because every piece has a different history. It takes a lot of time to prepare the wood, which is the hardest part, but building the furniture is very relaxing.
+Interviewer: Are your products expensive?
+Mark: Not really. Because the materials are recycled, I don't pay much for them. I try to keep my prices low so normal people can afford them, not just luxury buyers.
+
+[Part 3: Conversation]
+Lucy: Hi Ben, have you started the history project yet?
+Ben: Hi Lucy. Yes, I chose to write about the Romans. But I'm having trouble finding good information.
+Lucy: Why don't you look in the university library? The books there are much better than the internet.
+Ben: Good idea. I'll go there tomorrow afternoon. I need to finish it by Friday because I'm playing in a football match on Saturday.
+Lucy: Well, good luck with both!
+      </div>
+
+      <div class="part-container">
+        <h2 class="part-title">Part 1: Telephone Message</h2>
+        <p class="instruction-text">Listen to the voicemail and complete the notes. Write ONE word or number for questions 1–5.</p>
+        <div class="question-block" style="background:var(--teal-light); border:none;">
+          <div style="margin-bottom:0.8rem;">1. Message for: <input type="text" id="l1" class="fill-input" style="background:var(--white);" autocomplete="off"></div>
+          <div style="margin-bottom:0.8rem;">2. Day of dinner: <input type="text" id="l2" class="fill-input" style="background:var(--white);" autocomplete="off"></div>
+          <div style="margin-bottom:0.8rem;">3. New time to eat: <input type="text" id="l3" class="fill-input" style="background:var(--white);" autocomplete="off"> PM</div>
+          <div style="margin-bottom:0.8rem;">4. Reason for delay: Aunt's <input type="text" id="l4" class="fill-input" style="background:var(--white);" autocomplete="off"> is late</div>
+          <div style="margin-bottom:0.8rem;">5. Please bring some: <input type="text" id="l5" class="fill-input" style="background:var(--white);" autocomplete="off"></div>
+        </div>
+      </div>
+
+      <div class="part-container">
+        <h2 class="part-title">Part 2: The Furniture Maker</h2>
+        <p class="instruction-text">Listen to the interview with Mark and answer questions 6–10.</p>
+        <div class="question-block">
+          <span class="question-text">6. What was Mark's previous job?</span>
+          <label class="mcq-option"><input type="radio" name="l6" value="A"> A) He was a builder.</label>
+          <label class="mcq-option"><input type="radio" name="l6" value="B"> B) He worked in IT.</label>
+          <label class="mcq-option"><input type="radio" name="l6" value="C"> C) He sold luxury goods.</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">7. Why did Mark choose to work with wood?</span>
+          <label class="mcq-option"><input type="radio" name="l7" value="A"> A) He wanted a practical, hands-on job.</label>
+          <label class="mcq-option"><input type="radio" name="l7" value="B"> B) It was a very well-paid industry.</label>
+          <label class="mcq-option"><input type="radio" name="l7" value="C"> C) He wanted to save the environment.</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">8. What does Mark say is the most difficult part of his job?</span>
+          <label class="mcq-option"><input type="radio" name="l8" value="A"> A) Finding customers to buy the furniture.</label>
+          <label class="mcq-option"><input type="radio" name="l8" value="B"> B) Actually building the tables and chairs.</label>
+          <label class="mcq-option"><input type="radio" name="l8" value="C"> C) Getting the old wood ready to use.</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">9. What do we learn about his prices?</span>
+          <label class="mcq-option"><input type="radio" name="l9" value="A"> A) They are very expensive.</label>
+          <label class="mcq-option"><input type="radio" name="l9" value="B"> B) They are affordable for most people.</label>
+          <label class="mcq-option"><input type="radio" name="l9" value="C"> C) He gives the furniture away for free.</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">10. Why are his materials cheap?</span>
+          <label class="mcq-option"><input type="radio" name="l10" value="A"> A) Because he cuts down the trees himself.</label>
+          <label class="mcq-option"><input type="radio" name="l10" value="B"> B) Because he uses recycled wood.</label>
+          <label class="mcq-option"><input type="radio" name="l10" value="C"> C) Because the government pays for them.</label>
+        </div>
+      </div>
+
+      <div class="part-container" style="border-bottom:none;">
+        <h2 class="part-title">Part 3: The School Project</h2>
+        <p class="instruction-text">Listen to a conversation between Lucy and Ben. Answer questions 11–15.</p>
+        <div class="question-block">
+          <span class="question-text">11. What topic has Ben chosen for his project?</span>
+          <label class="mcq-option"><input type="radio" name="l11" value="A"> A) The Egyptians</label>
+          <label class="mcq-option"><input type="radio" name="l11" value="B"> B) The Romans</label>
+          <label class="mcq-option"><input type="radio" name="l11" value="C"> C) The Greeks</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">12. What problem does Ben have?</span>
+          <label class="mcq-option"><input type="radio" name="l12" value="A"> A) He doesn't understand the homework.</label>
+          <label class="mcq-option"><input type="radio" name="l12" value="B"> B) He lost his textbook.</label>
+          <label class="mcq-option"><input type="radio" name="l12" value="C"> C) He can't find good information.</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">13. Where does Lucy suggest he looks for information?</span>
+          <label class="mcq-option"><input type="radio" name="l13" value="A"> A) On the internet</label>
+          <label class="mcq-option"><input type="radio" name="l13" value="B"> B) In the university library</label>
+          <label class="mcq-option"><input type="radio" name="l13" value="C"> C) In the local museum</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">14. When does Ben need to finish the project?</span>
+          <label class="mcq-option"><input type="radio" name="l14" value="A"> A) Thursday</label>
+          <label class="mcq-option"><input type="radio" name="l14" value="B"> B) Friday</label>
+          <label class="mcq-option"><input type="radio" name="l14" value="C"> C) Saturday</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">15. What is Ben doing on Saturday?</span>
+          <label class="mcq-option"><input type="radio" name="l15" value="A"> A) Going to the library</label>
+          <label class="mcq-option"><input type="radio" name="l15" value="B"> B) Doing his homework</label>
+          <label class="mcq-option"><input type="radio" name="l15" value="C"> C) Playing in a football match</label>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-writing" class="exam-panel">
+      <h1 class="panel-title">Paper 3: Writing</h1>
+      <div class="panel-desc">Recommended Time: 25 Minutes • Required length: 100 words</div>
+
+      <div class="part-container" style="border-bottom:none;">
+        <h2 class="part-title">Task 1: An Email to a Friend</h2>
+        <div class="reading-text" style="background:var(--parchment); border-color:var(--heritage-teal);">
+          Read this email from your English-speaking friend, Sam.<br><br>
+          <em>"Hi! I haven't watched a good movie in a long time. Tell me about a film you watched recently. What was it about? Why did you like it? Do you want to go to the cinema together next week?"</em><br><br>
+          Write an email to Sam, answering all of his questions.
+        </div>
+        <p class="instruction-text" style="margin-top:1rem;">Write <strong>around 100 words</strong>. Use appropriate B1 vocabulary and linking words (because, although, so).</p>
+        
+        <textarea id="writing-input" class="writing-area" placeholder="Start typing your email here..." oninput="countWords()"></textarea>
+        <div class="word-count" id="word-count-display">Word count: 0</div>
+        
+        <button id="btn-submit-writing" class="submit-writing-btn" onclick="submitWritingTask()">Submit Writing Task</button>
+      </div>
+    </section>
+
+    <section id="panel-speaking" class="exam-panel">
+      <h1 class="panel-title">Paper 4: Speaking</h1>
+      <div class="panel-desc">Simulated Oral Examination • 10–12 Minutes</div>
+
+      <p class="instruction-text" style="font-size:1rem; margin-bottom:2rem;">At B1 level, you must show you can organise your thoughts and give reasons for your opinions. Read the prompts below and press <strong>Record Answer</strong> to speak.</p>
+
+      <div class="speaking-prompt">
+        <h3>Part 1: Interview</h3>
+        <p>1. Tell me about your favourite subject at school or your favourite part of your job.</p>
+        <p>2. What do you enjoy doing in the evenings when you are at home?</p>
+        <p>3. Have you ever travelled to another country? Tell me about it.</p>
+        <button class="record-btn" onclick="toggleRecord(this)">Record Answer</button>
+      </div>
+
+      <div class="speaking-prompt">
+        <h3>Part 2: Extended Turn (Describing a picture)</h3>
+        <p>Imagine you are looking at a photograph of a family having a picnic in a busy park on a sunny day.</p>
+        <p>Describe what you can see in the picture. Talk about the weather, what the people are wearing, what they are eating, and how they might be feeling.</p>
+        <button class="record-btn" onclick="toggleRecord(this)">Record Answer (Speak for 1 minute)</button>
+      </div>
+
+      <div class="speaking-prompt">
+        <h3>Part 3: Discussion</h3>
+        <p>Your language school is planning a day trip for all the students. You can either go to a historical museum, a theme park, or the beach.</p>
+        <p>Discuss the advantages and disadvantages of each option. Which one would you prefer and why?</p>
+        <button class="record-btn" onclick="toggleRecord(this)">Record Answer</button>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<div id="results-modal">
+  <div class="modal-content">
+    <h2 class="panel-title" style="border:none; padding:0; margin-bottom:2rem;">Assessment Complete</h2>
+    
+    <div class="score-circle" id="final-score">--/25</div>
+    
+    <div class="status-msg">
+      <strong>Reading & Listening Score:</strong> Auto-calculated above.<br><br>
+      <strong>Writing & Speaking:</strong> Your B1 responses have been securely logged for manual evaluation by our Cambridge-certified instructors.<br><br>
+      You will receive your full diagnostic report via email.
+    </div>
+    
+    <button class="submit-exam-btn" style="margin-top:0;" onclick="location.reload()">Return to Dashboard</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom · B1 Preliminary Examination Center</p>
+</footer>
+
+<script>
+/* ── TIMER LOGIC (90 Mins for B1) ── */
+let timeLeft = 5400; 
+let timerId = setInterval(() => {
+  timeLeft--;
+  let m = Math.floor(timeLeft / 60);
+  let s = timeLeft % 60;
+  let display = document.getElementById('exam-timer');
+  display.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  
+  if(timeLeft < 300) display.classList.add('warning'); 
+  if(timeLeft <= 0) {
+    clearInterval(timerId);
+    submitExam();
+  }
+}, 1000);
+
+/* ── TAB NAVIGATION ── */
+function switchTab(tabId) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`button[onclick="switchTab('${tabId}')"]`).classList.add('active');
+  
+  document.querySelectorAll('.exam-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`panel-${tabId}`).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ── REAL AUDIO PLAYER ENGINE ── */
+const audioElement = document.getElementById('real-audio-player');
+const playBtn = document.getElementById('play-btn');
+const audioBar = document.getElementById('audio-bar');
+
+function toggleRealAudio() {
+  if (audioElement.paused) {
+    // Play the audio
+    audioElement.play();
+    
+    // Change icon to 'Pause'
+    playBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+  } else {
+    // Pause the audio
+    audioElement.pause();
+    
+    // Change icon to 'Play'
+    playBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M8 5v14l11-7z"/></svg>`;
+  }
+}
+
+// Automatically update the visual progress bar as the audio plays
+audioElement.addEventListener('timeupdate', () => {
+  if (audioElement.duration) {
+    const progressPercent = (audioElement.currentTime / audioElement.duration) * 100;
+    audioBar.style.width = progressPercent + '%';
+  }
+});
+
+// Reset the player when the audio finishes
+audioElement.addEventListener('ended', () => {
+  playBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M8 5v14l11-7z"/></svg>`;
+  audioBar.style.width = '0%';
+});
+/* ── WRITING SUBMISSION ENGINE (B1 Target: ~100 words) ── */
+function countWords() {
+  const text = document.getElementById('writing-input').value.trim();
+  const words = text ? text.split(/\s+/) : [];
+  const counter = document.getElementById('word-count-display');
+  counter.innerText = `Word count: ${words.length}`;
+  
+  // Acceptable B1 range: 80 - 120 words
+  if(words.length < 80 || words.length > 120) {
+      counter.style.color = "var(--error)";
+  } else {
+      counter.style.color = "var(--success)";
+  }
+}
+
+function submitWritingTask() {
+    const textarea = document.getElementById('writing-input');
+    const text = textarea.value.trim();
+    const words = text ? text.split(/\s+/) : [];
+    
+    if(words.length < 40) {
+        alert("Your email is too short for a B1 assessment. Please write around 100 words.");
+        return;
+    }
+    
+    textarea.disabled = true;
+    const btn = document.getElementById('btn-submit-writing');
+    btn.innerHTML = "Task Submitted ✓";
+    btn.disabled = true;
+}
+
+/* ── SPEAKING RECORD BUTTON MOCK ── */
+function toggleRecord(btn) {
+  if(btn.classList.contains('recording')) {
+    btn.classList.remove('recording');
+    btn.innerText = "Response Recorded ✓";
+    btn.style.borderColor = "var(--success)";
+    btn.style.color = "var(--success)";
+  } else {
+    btn.classList.add('recording');
+    btn.innerText = "Recording... Click to Stop";
+  }
+}
+
+/* ── AUTO-GRADING ENGINE (B1) ── */
+const answerKey = {
+  // Reading Part 1 (MCQs)
+  r1: 'B', r2: 'B', r3: 'C', r4: 'B', r5: 'A',
+  // Reading Part 2 (Open Cloze)
+  r6: ['its'],
+  r7: ['who'],
+  r8: ['became', 'was'],
+  r9: ['until', 'till'],
+  r10: ['still'],
+  // Reading Part 3 (MCQs)
+  r11: 'B', r12: 'C', r13: 'B', r14: 'A', r15: 'B',
+  
+  // Listening Part 1 (Fill Blanks)
+  l1: ['david'],
+  l2: ['sunday'],
+  l3: ['2:30', '2.30'],
+  l4: ['train'],
+  l5: ['ice', 'icecream', 'ice-cream'],
+  // Listening Part 2 & 3 (MCQs)
+  l6: 'B', l7: 'A', l8: 'C', l9: 'B', l10: 'B',
+  l11: 'B', l12: 'C', l13: 'B', l14: 'B', l15: 'C'
+};
+
+function submitExam() {
+  clearInterval(timerId);
+  let score = 0;
+
+  // 15 MCQs
+  const mcqs = ['r1','r2','r3','r4','r5', 'r11','r12','r13','r14','r15', 'l6','l7','l8','l9','l10', 'l11','l12','l13','l14','l15'];
+  mcqs.forEach(id => {
+    const selected = document.querySelector(`input[name="${id}"]:checked`);
+    if(selected && selected.value === answerKey[id]) {
+      score++;
+    }
+  });
+
+  // 10 Blanks
+  const blanks = ['r6','r7','r8','r9','r10', 'l1','l2','l3','l4','l5'];
+  blanks.forEach(id => {
+    const input = document.getElementById(id).value.toLowerCase().trim();
+    if(answerKey[id].includes(input)) {
+      score++;
+    }
+  });
+
+  document.getElementById('final-score').innerText = `${score}/30`;
+  document.getElementById('results-modal').style.display = 'flex';
+}
+</script>
+</body>
+</html>

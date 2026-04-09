@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shared Pearls of Wisdom – Learn English</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #1a1209;
+      --parchment: #fdf8f0;
+      --cream: #f5ede0;
+      --gold: #c8922a;
+      --gold-light: #e8b84b;
+      --rust: #a0401a;
+      --teal: #1e6b6b;
+      --teal-light: #2d9e9e;
+      --pearl: #e8ddd0;
+      --shadow: green (26,18,9,0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: var(--parchment);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: green;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 16px var(--shadow);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--gold-light);
+      padding: 1.1rem 0;
+      letter-spacing: 0.02em;
+    }
+    .nav-logo span { color: #fff; font-style: italic; }
+    .nav-links {
+      display: flex;
+      gap: 0;
+      list-style: none;
+    }
+    .nav-links a {
+      color: #ccc;
+      text-decoration: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1.3rem 1.1rem;
+      display: block;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold-light); background: rgba(255, 255, 255, 0.153); }
+    .nav-cta {
+      background: var(--gold);
+      color: var(--ink) !important;
+      border-radius: 2px;
+      font-weight: 500 !important;
+    }
+    .nav-cta:hover { background: var(--gold-light) !important; color: var(--ink) !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 88vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-left {
+      background: var(--ink);
+      padding: 6rem 4rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+    .hero-left::after {
+      content: '';
+      position: absolute;
+      right: -40px;
+      top: 0; bottom: 0;
+      width: 80px;
+      background: var(--ink);
+      clip-path: polygon(0 0, 0 100%, 100% 100%);
+      z-index: 2;
+    }
+    .hero-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em {
+      color: var(--gold-light);
+      font-style: italic;
+    }
+    .hero-desc {
+      color: #aaa;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      max-width: 440px;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.85rem 1.8rem;
+      border-radius: 2px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-gold { background: var(--gold); color: var(--ink); font-weight: 500; }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200,146,42,0.3); }
+    .btn-outline { background: transparent; color: #ccc; border: 1px solid rgba(255,255,255,0.2); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold-light); }
+
+    .hero-right {
+      background: var(--cream);
+      padding: 4rem 3rem 4rem 5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+      position: relative;
+    }
+    .hero-right::before {
+      content: '"';
+      font-family: 'Playfair Display', serif;
+      font-size: 20rem;
+      color: var(--pearl);
+      position: absolute;
+      top: -2rem;
+      right: 2rem;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .featured-card {
+      background: #fff;
+      border-left: 4px solid var(--gold);
+      padding: 1.5rem 1.8rem;
+      box-shadow: 0 4px 24px var(--shadow);
+      position: relative;
+      z-index: 1;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+    .featured-card:hover { transform: translateX(6px); box-shadow: 0 8px 32px var(--shadow); }
+    .card-level {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .featured-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+      color: var(--ink);
+    }
+    .featured-card h3 a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .featured-card p {
+      font-size: 0.9rem;
+      color: #666;
+      line-height: 1.6;
+    }
+    .teal-card { border-left-color: var(--teal); }
+    .teal-card .card-level { color: var(--teal); }
+    .rust-card { border-left-color: var(--rust); }
+    .rust-card .card-level { color: var(--rust); }
+
+    /* ── TICKER ── */
+    .ticker {
+      background: var(--gold);
+      padding: 0.7rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-block;
+      animation: ticker 30s linear infinite;
+    }
+    .ticker-item {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      color: var(--ink);
+      margin: 0 2.5rem;
+    }
+    .ticker-item::before { content: '◆ '; opacity: 0.5; }
+    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── SECTION HEADER ── */
+    .section { padding: 5rem 4rem; }
+    .section-alt { background: var(--cream); }
+    .section-dark { background: var(--ink); }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--pearl);
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: var(--ink);
+    }
+    .section-dark .section-title { color: #fff; }
+    .section-dark .section-header { border-bottom-color: rgba(255,255,255,0.1); }
+    .section-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .section-link:hover { text-decoration: none; }
+
+    /* ── SKILLS GRID ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--pearl);
+      border: 1px solid var(--pearl);
+    }
+    .skill-tile {
+      background: #fff;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .skill-tile:hover { background: var(--ink); transform: scale(1.02); z-index: 1; position: relative; }
+    .skill-tile:hover .skill-icon { filter: brightness(10); }
+    .skill-tile:hover .skill-name { color: var(--gold-light); }
+    .skill-tile:hover .skill-desc { color: #aaa; }
+    .skill-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+    .skill-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+      transition: color 0.2s;
+    }
+    .skill-name a {
+      text-decoration: none;
+    }
+  
+.skill-name + a{
+  text-decoration: none;
+    color: blueviolet;
+    font-size: 1.05rem;  
+}
+.skill-name + :any-link{
+  text-decoration: none;
+    color:blueviolet;
+    font: size 1.05rem;
+}
+    .skill-name .sub-link {
+      color: #666;
+          }
+    .skill-desc { font-size: 0.85rem; 
+      color: #888; 
+      line-height: 1.5; 
+      transition: color 0.2s; }
+
+    /* ── LESSONS CARDS ── */
+    .lessons-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .lesson-card {
+      background: #fff;
+      border-radius: 2px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px var(--shadow);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .lesson-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px var(--shadow); }
+    .lesson-thumb {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .thumb-grammar { background: linear-gradient(135deg, #1a1209 60%, #3d2b10); }
+    .thumb-vocab { background: linear-gradient(135deg, #1e4d4d, #1e6b6b); }
+    .thumb-pronun { background: linear-gradient(135deg, #5c1a0a, #a0401a); }
+    .thumb-listen { background: linear-gradient(135deg, #1a2a4d, #2a4a8a); }
+    .thumb-news { background: linear-gradient(135deg, #2d1a4d, #5a3a8a); }
+    .thumb-biz { background: linear-gradient(135deg, #1a3320, #2d6640); }
+
+    .lesson-tag-bar {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.5rem 1rem;
+      background: rgba(8, 181, 100, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .lesson-level {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+    }
+    .lesson-duration {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: #aaa;
+    }
+    .lesson-body { padding: 1.2rem 1.4rem 1.5rem; }
+    .lesson-category {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .lesson-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      line-height: 1.35;
+      margin-bottom: 0.5rem;
+    }
+    .lesson-excerpt { font-size: 0.85rem; color: #777; line-height: 1.6; }
+
+    /* ── QUOTE BAND ── */
+    .quote-band {
+      background: var(--teal);
+      padding: 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .quote-band::before {
+      content: '❝';
+      font-size: 16rem;
+      color: rgba(255,255,255,0.06);
+      position: absolute;
+      left: 3rem;
+      top: -3rem;
+      font-family: 'Playfair Display', serif;
+      pointer-events: none;
+    }
+    .quote-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      color: #fff;
+      font-style: italic;
+      max-width: 800px;
+      margin: 0 auto 1.2rem;
+      line-height: 1.5;
+      position: relative;
+    }
+    .quote-attr {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+    }
+
+    /* ── SERIES DARK ── */
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    .series-card {
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 2rem;
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .series-card:hover { border-color: var(--gold); background: rgba(31, 207, 148, 0.189); }
+    .series-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      color: rgba(200,146,42,0.25);
+      line-height: 1;
+      flex-shrink: 0;
+      transition: color 0.2s;
+    }
+    .series-card:hover .series-num { color: rgba(232,184,75,0.5); }
+    .series-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .series-info p { font-size: 0.88rem; color: #888; line-height: 1.6; }
+    .series-badge {
+      display: inline-block;
+      margin-top: 0.8rem;
+      padding: 0.25rem 0.7rem;
+      background: rgba(200,146,42,0.15);
+      color: var(--gold-light);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── LEVEL FINDER ── */
+    .level-finder {
+      background: #fff;
+      padding: 4rem;
+      text-align: center;
+    }
+    .level-finder h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+    }
+    .level-finder p { color: #777; margin-bottom: 2.5rem; font-size: 1rem; }
+    .levels-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .level-btn {
+      padding: 0.7rem 1.4rem;
+      border: 1px solid var(--pearl);
+      background: var(--parchment);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: var(--ink);
+    }
+    .level-btn:hover, .level-btn.active { background: var(--ink); color: var(--gold-light); border-color: var(--ink); }
+    .level-test-btn {
+      background: var(--rust);
+      color: #fff;
+      padding: 0.9rem 2.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .level-test-btn:hover { background: #c4501f; transform: translateY(-2px); }
+
+    /* ── NEWSLETTER ── */
+    .newsletter {
+      background: var(--gold);
+      padding: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .newsletter-copy h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+    .newsletter-copy p { color: rgba(26,18,9,0.7); font-size: 0.95rem; }
+    .newsletter-form {
+      display: flex;
+      gap: 0;
+      flex: 1;
+      max-width: 420px;
+      min-width: 280px;
+    }
+    .newsletter-form input {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      border: none;
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.9rem;
+      background: rgba(255,255,255,0.9);
+      outline: none;
+    }
+    .newsletter-form button {
+      padding: 0.9rem 1.5rem;
+      background: var(--ink);
+      color: var(--gold-light);
+      border: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .newsletter-form button:hover { background: #2d2010; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0f0b06;
+      padding: 3rem 4rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+    }
+    .footer-brand h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: var(--gold-light);
+      margin-bottom: 0.8rem;
+    }
+    .footer-brand p { color: #666; font-size: 0.88rem; line-height: 1.7; }
+    .footer-col h4 {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 1rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 0.5rem; }
+    .footer-col a {
+      color: #666;
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--gold-light); }
+    .footer-bottom {
+      background: #0a0704;
+      padding: 1.2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-bottom p { color: #444; font-size: 0.78rem; font-family: 'DM Mono', monospace; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-left > * { animation: fadeUp 0.7s ease both; }
+    .hero-tag { animation-delay: 0.1s; }
+    .hero h1 { animation-delay: 0.25s; }
+    .hero-desc { animation-delay: 0.4s; }
+    .hero-btns { animation-delay: 0.55s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left::after { display: none; }
+      .hero-right { padding: 3rem 2rem; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .lessons-grid { grid-template-columns: 1fr 1fr; }
+      .series-grid { grid-template-columns: 1fr; }
+      .section { padding: 3rem 1.5rem; }
+      footer { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .lessons-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { grid-template-columns: 1fr; }
+      .newsletter { padding: 2.5rem 1.5rem; }
+      .hero-left { padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" style="text-align: center;">Shared <span>Pearls</span> of Wisdom</div>
+  <img src="Images/logo.png" alt="Logo" style="height: 120px;width:auto; margin-left: 0.1rem; margin-top: 2%;">
+   <ul class="nav-links">
+    <li><a href="grammar-lesson-1.html">Grammar</a></li>
+    <li><a href="vocab-a1a2.html">Vocabulary</a></li>
+    <li><a href="pronunciation.html">Pronunciation</a></li>
+    <li><a href="listening.html">Listening</a></li>
+     <li><a href="business-a1a2.html">Business</a></li>
+    <li><a href="story-telling.html">Fiction</a></li>
+       <li><a href="masterclass.html" class="nav-cta" style="text-align: center;">Subscribe</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Free English Learning · All Levels Welcome</div>
+    <h1>Build Your English with <em>Wisdom</em> & Purpose</h1>
+    <p class="hero-desc">Curated lessons, real-world language, and timeless insights — all in one place. From grammar foundations to business English, grow at your own pace.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn btn-gold">Explore Lessons</a>
+      <a href="#" class="btn btn-outline">Take Level Test</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="featured-card">
+      <div class="card-level">⭐ Featured · Grammar</div>
+      <h3><a href="grammar-lesson-2.html">Mastering Conditional Sentences</a></h3>
+      <p>Understand all four conditionals with real examples drawn from literature and everyday speech.</p>
+    </div>
+    <div class="featured-card teal-card">
+      <div class="card-level">🎧 6-Minute Lesson · Vocabulary</div>
+      <h3><a href="words-that-changed-history.html">Words That Changed History</a></h3>
+      <p>Explore powerful English words rooted in historical events — and learn how to use them naturally today.</p>
+    </div>
+    <div class="featured-card rust-card">
+      <div class="card-level">📰 News English · Intermediate</div>
+      <h3><a href="reading-between-the-lines.html">Reading Between the Lines</a></h3>
+      <p>Develop critical reading skills using authentic BBC-style news texts with vocabulary breakdowns.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Grammar</span>
+    <span class="ticker-item">Vocabulary</span>
+    <span class="ticker-item">6-Minute Lessons</span>
+    <span class="ticker-item">Business English</span>
+    <span class="ticker-item">Pronunciation</span>
+    <span class="ticker-item">News Review</span>
+    <span class="ticker-item">The English We Speak</span>
+    <span class="ticker-item">Idioms & Phrases</span>
+    <span class="ticker-item">CEFR A1 – C2</span>
+    <span class="ticker-item">Free Forever</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">Grammar</span>
+    <span class="ticker-item">Vocabulary</span>
+    <span class="ticker-item">6-Minute Lessons</span>
+    <span class="ticker-item">Business English</span>
+    <span class="ticker-item">Pronunciation</span>
+    <span class="ticker-item">News Review</span>
+    <span class="ticker-item">The English We Speak</span>
+    <span class="ticker-item">Idioms & Phrases</span>
+    <span class="ticker-item">CEFR A1 – C2</span>
+    <span class="ticker-item">Free Forever</span>
+  </div>
+</div>
+
+<!-- SKILLS SECTION -->
+<section class="section">
+  <div class="section-header">
+    <h2 class="section-title">What Would You Like to Improve?</h2>
+    <a href="#" class="section-link">Browse all topics →</a>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-tile">
+      <div class="skill-icon">✍️</div>
+      <div class="skill-name">
+      <a href="grammar-lesson-1.html">Grammar</a>
+      </div>
+      <div class="skill-desc">Tenses, conditionals, sentence structure and more</div>
+    </div>
+       <div class="skill-tile">
+      <div class="skill-icon">📖</div>
+      <div class="skill-name">
+      <a href="vocab-b1.html">Vocabulary</a></div>
+      <div class="skill-desc">Word families, idioms, collocations & usage</div>
+    </div>
+    <div class="skill-tile">
+      <div class="skill-icon">🗣️</div>
+      <div class="skill-name">
+      <a href="pronunciation.html">Pronunciation</a></div>
+      <div class="skill-desc">Stress, intonation, sounds & connected speech</div>
+    </div>
+    <div class="skill-tile">
+      <div class="skill-icon">🎧</div>
+      <div class="skill-name">
+      <a href="Listening.html">Listening</a>
+      </div>
+      <div class="skill-desc">Audio dramas, interviews & comprehension practice</div>
+    </div>
+    <div class="skill-tile">
+      <div class="skill-icon">📰</div>
+      <div class="skill-name">
+      <a href="Newsa1a2.html">News English</a>
+      </div>
+      <div class="skill-desc">Real news stories adapted for English learners</div>
+    </div>
+    <div class="skill-tile">
+      <div class="skill-icon">💼</div>
+      <div class="skill-name">
+      <a href="business-a1a2.html">Business English</a>
+      </div>
+      <div class="skill-desc">Meetings, emails, negotiation & workplace language</div>
+    </div>
+    <div class="skill-tile">
+      <div class="skill-icon">📝</div>
+      <div class="skill-name">
+      <a href="Writinga1a2.html">Writing</a>
+            </div>
+      <div class="skill-desc">Essays, reports, emails & creative writing</div>
+    </div>
+    <div class="skill-tile">
+      <div class="skill-icon">🎥</div>
+      <div class="skill-name">Tutorials</div>
+      <div class="skill-desc">Unlimited video tutorials for premium subscribers</div>
+    </div>
+  </div>
+</section>
+
+<!-- LESSONS SECTION -->
+<section class="section section-alt">
+  <div class="section-header">
+    <h2 class="section-title">Latest Lessons</h2>
+    <a href="#" class="section-link">View all lessons →</a>
+  </div>
+  <div class="lessons-grid">
+    <div class="lesson-card">
+      <div class="lesson-thumb thumb-grammar">
+        <span>✍️</span>
+        <div class="lesson-tag-bar">
+          <span class="lesson-level">Intermediate · B1</span>
+          <span class="lesson-duration">⏱ 12 min</span>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="lesson-category">Grammar</div>
+        <div class="lesson-title"><a href="passive-voice.html" style="text-decoration: none;">Passive Voice: When the Action Matters More Than the Actor</a></div>
+        <div class="lesson-excerpt">Discover when and why English speakers use the passive, with exercises from real newspaper texts.</div>
+      </div>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-thumb thumb-vocab">
+        <span>📖</span>
+        <div class="lesson-tag-bar">
+          <span class="lesson-level">Upper-Int · B2</span>
+          <span class="lesson-duration">⏱ 8 min</span>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="lesson-category">Vocabulary</div>
+        <div class="lesson-title"></div>
+        <div class="lesson-title"><a href="Collocation.html" style="text-decoration: none;">Collocations with "Make" and "Do" — Once and For All</a></div>
+        <div class="lesson-excerpt">A practical guide to one of the most confusing areas of English vocabulary, with 40+ examples.</div>
+      </div>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-thumb thumb-pronun">
+        <span>🗣️</span>
+        <div class="lesson-tag-bar">
+          <span class="lesson-level">All Levels</span>
+          <span class="lesson-duration">⏱ 6 min</span>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="lesson-category">Pronunciation</div>
+        <div class="lesson-title"></div>
+        <div class="lesson-title"><a href="wordstressa1-c1.html" style="text-decoration: none; color: blue;">Word Stress Patterns That Will Transform Your English</a></div>
+        <div class="lesson-excerpt">Learn how shifting stress changes meaning — and how native speakers use rhythm naturally.</div>
+      </div>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-thumb thumb-listen">
+        <span>🎧</span>
+        <div class="lesson-tag-bar">
+          <span class="lesson-level">Advanced · C1</span>
+          <span class="lesson-duration">⏱ 15 min</span>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="lesson-category">Listening</div>
+        <div class="lesson-title"></div>
+        <a href="artificial-intelligence.html" style="text-decoration: none; color: blue; font-family: 'Playfair Display', serif;">A Conversation About Artificial Intelligence and the Future of Work</a>
+        <div class="lesson-excerpt">Authentic dialogue between two experts, with full transcript, glossary and comprehension questions.</div>
+      </div>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-thumb thumb-news">
+        <span>📰</span>
+        <div class="lesson-tag-bar">
+          <span class="lesson-level">Intermediate · B1</span>
+          <span class="lesson-duration">⏱ 10 min</span>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="lesson-category">Fiction</div>
+        <div class="lesson-title"></div>
+        <a href="story-telling.html" style="text-decoration: none; color: blue; font-family: 'Playfair Display', serif;">The Art of Storytelling & Inspirational Narratives</a>
+        <div class="lesson-excerpt">Learn an exceptional approach to crafting compelling stories with real-world examples.</div>
+      </div>
+    </div>
+    <div class="lesson-card">
+      <div class="lesson-thumb thumb-biz">
+        <span>💼</span>
+        <div class="lesson-tag-bar">
+          <span class="lesson-level">Advanced · C1</span>
+          <span class="lesson-duration">⏱ 18 min</span>
+        </div>
+      </div>
+      <div class="lesson-body">
+        <div class="lesson-category">Business English</div>
+        <div class="lesson-title"></div>
+        <a href="leadership-language.html" style="text-decoration: none; color: blue; font-family: 'Playfair Display', serif;">Leadership Language: How Great Leaders Communicate</a>
+        <div class="lesson-excerpt">Analyse speeches from global leaders and extract the vocabulary and rhetorical techniques they use.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE BAND -->
+<div class="quote-band">
+  <p class="quote-text">"The limits of my language mean the limits of my world."</p>
+  <p class="quote-attr">— Ludwig Wittgenstein</p>
+</div>
+
+<!-- POPULAR SERIES -->
+<section class="section section-dark">
+  <div class="section-header">
+    <h2 class="section-title">Popular Series</h2>
+    <a href="#" class="section-link">All series →</a>
+  </div>
+  <div class="series-grid">
+    <div class="series-card">
+      <div class="series-num">01</div>
+      <div class="series-info">
+        <h3><a href="6-minute-wisdom.html" style="text-decoration: none; color: white;">6-Minute Wisdom</a></h3>
+        <p>Short, focused lessons delivered in exactly six minutes. Vocabulary, dialogue, and comprehension — all in a single sitting.</p>
+        <span class="series-badge">All Levels</span>
+      </div>
+    </div>
+    <div class="series-card">
+      <div class="series-num">02</div>
+      <div class="series-info">
+        <h3><a href="the-english-we-speak.html" style="text-decoration: none; color: white;">The English We Speak</a></h3>
+        <p>British expressions, colloquialisms, and everyday phrases explained with context, examples, and a touch of humour.</p>
+        <span class="series-badge">2–3 min · Intermediate+</span>
+      </div>
+    </div>
+    <div class="series-card">
+      <div class="series-num">03</div>
+      <div class="series-info">
+        <h3><a href="riddles.html" style="text-decoration: none; color: white;">Riddles</a></h3>
+        <p>Riddles and brain teasers to challenge your mind while improving your English skills.</p>
+        <span class="series-badge">Levels · B1–C1</span>
+      </div>
+    </div>
+    <div class="series-card">
+      <div class="series-num">04</div>
+      <div class="series-info">
+        <h3><a href="proverbs.html" style="text-decoration: none; color: white;">Proverbs</a></h3>
+        <p>Discover the rich tapestry of English proverbs with real-life examples and cultural insights.</p>
+        <span class="series-badge">Levels· All Levels</span>
+      </div>
+    </div>
+    <div class="series-card">
+      <div class="series-num">05</div>
+      <div class="series-info">
+        <h3><a href="idioms.html" style="text-decoration: none; color: white;">Idioms</a></h3>
+        <p>Explore the world of English idioms with clear explanations and practical usage examples.</p>
+        <span class="series-badge">Levels · B1-C1</span>
+      </div>
+    </div>
+   <div class="series-card">
+    <div class="series-num">06</div>
+    <div class="series-info">
+      <h3><a href="lexical-laboratory.html" style="text-decoration: none; color: white;">Lexical Laboratory</a></h3>
+      <p>Expand your vocabulary with our collection of lexical resources, including word lists, flashcards, and interactive exercises.</p>
+      <span class="series-badge">Levels · B1-C1</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- LEVEL FINDER -->
+<section class="level-finder">
+  <h2>Find Your Level</h2>
+  <p>Not sure where to start? Select a level below or take our free placement test.</p>
+  <div class="levels-row">
+     
+<a class="level-btn active" href="find-your-level-a1-a2.html" style="text-decoration: none;">A1/A2 Elementary</a>
+<a class="level-btn active" href="find-your-level-b1.html" style="text-decoration: none;">B1 Intermediate</a>
+<a class="level-btn active" href="find-your-level-b2.html" style="text-decoration: none;">B2 Upper-Int</a>
+<a class="level-btn active" href="find-your-level-c1.html" style="text-decoration: none;">C1 Advanced</a>
+
+  </div>
+  <button class="level-test-btn">Take the Free Level Test</button>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <div class="newsletter-copy">
+    <h2>A New Pearl Every Week</h2>
+    <p>Get our best lesson, a quote, and one vocabulary tip delivered to your inbox.</p>
+  </div>
+  <form class="newsletter-form" onsubmit="event.preventDefault()">
+    <input type="email" placeholder="Your email address…" />
+    <button type="submit">Subscribe</button>
+  </form>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <h3>Shared Pearls of Wisdom</h3>
+    <p>A free English learning resource inspired by the best of public broadcasting — curated with care for learners at every level, everywhere in the world.</p>
+  </div>
+  <div class="footer-col">
+    <h4>Learn</h4>
+    <ul>
+      <li><a href="grammar-lesson-1.html">Grammar</a></li>
+      <li><a href="vocab-a1a2.html">Vocabulary</a></li>
+      <li><a href="Pronunciation.html">Pronunciation</a></li>
+      <li><a href="listening.html">Listening</a></li>
+      <li><a href="Writinga1a2.html">Writing</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Series</h4>
+    <ul>
+      <li><a href="6-minute-wisdom.html">6-Minute Wisdom</a></li>
+      <li><a href="riddles.html">Riddles</a></li>
+      <li><a href="the-english-we-speak.html">The English We Speak</a></li>
+      <li><a href="proverbs.html">Proverbs</a></li>
+      <li><a href="idioms.html">Idioms</a></li>
+       <li><a href="lexical-laboratory.html">Lexical Laboratory</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>About</h4>
+    <ul>
+      <li><a href="#">Our Mission</a></li>
+      <li><a href="#">CEFR Levels</a></li>
+      <li><a href="#">For Teachers</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <p>© 2026 Shared Pearls of Wisdom · Ramesh Mani Suvedi</p>
+  <p>Free to learn · Free forever</p>
+</div>
+
+<script>
+  // Level button toggle
+  document.querySelectorAll('.level-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

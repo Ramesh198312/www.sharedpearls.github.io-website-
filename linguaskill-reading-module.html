@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LinguaSkill Practice | Reading Module | Shared Pearls</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --midnight: #0B1D3A;
+      --crimson: #8B1A2E;
+      --ink: #1E1E1E;
+      --slate: #4A4A4A;
+      --parchment: #F9F7F1;
+      --paper: #FFFFFF;
+      --gold: #C4923E;
+      --gold-light: #E8D3A2;
+      --border: #E0DCD3;
+      --correct: #1e5c35;
+      --correct-bg: #e8f5e9;
+      --wrong: #9B2C2C;
+      --wrong-bg: #FEE2E2;
+      --notice-bg: #F0F4F8;
+    }
+
+    html { scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Crimson Pro', Georgia, serif; background: var(--parchment); color: var(--ink); line-height: 1.6; }
+.site-header {
+  display: flex;          
+  align-items: center;    
+  gap: 15px;              
+  padding: 20px;        
+}
+    .header-logo {
+  order: -1;
+  height: 60px;           
+  width: auto;            
+  border-radius: 50%;   
+}
+
+.header-title {
+  font-size: 24px;
+  margin: 0;             
+}
+    /* ── NAVIGATION ── */
+    nav { background: var(--midnight); padding: 0.8rem 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--gold); }
+    .nav-logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--gold); }
+    .logo-text span { color: var(--paper); font-style: italic; }
+    .nav-cta { background: var(--gold); color: var(--midnight); padding: 0.6rem 1.2rem; border-radius: 2px; font-weight: 700; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; }
+
+    /* ── HERO SECTION ── */
+    .hero { background: var(--midnight); padding: 4rem 2rem; text-align: center; color: var(--paper); border-bottom: 5px solid var(--gold);}
+    .hero-subtitle { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 1rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 600; margin-bottom: 1rem; }
+
+    /* ── LAYOUT (SIDEBAR & MAIN) ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 260px 1fr; gap: 4rem; align-items: start; }
+    
+    /* ── SIDEBAR ── */
+    .sidebar { position: toggle; top: 100px; background: var(--paper); border: 1px solid var(--border); padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .sidebar-title { font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    .tense-nav { list-style: rectangle; }
+    .tense-nav li { margin-bottom: 0.5rem; }
+    .tense-nav a { text-decoration: none; color: var(--slate); font-size: 1.05rem; display: block; padding: 0.4rem 0.8rem; border-left: 2px solid transparent; transition: 0.2s; }
+    .tense-nav a:hover, .tense-nav a.active { color: var(--midnight); border-left-color: var(--gold); background: var(--notice-bg); font-weight: 600; }
+    /* ── MAIN CONTENT ── */
+    .test-section { background: var(--paper); border: 1px solid var(--border); padding: 3rem; margin-bottom: 4rem; box-shadow: 0 8px 24px rgba(0,0,0,0.02); scroll-margin-top: 100px;}
+    .test-header { border-bottom: 2px solid var(--gold); padding-bottom: 1rem; margin-bottom: 2rem; }
+    .test-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--midnight); }
+    .instruction-note { background: var(--parchment); padding: 1.2rem; border-left: 4px solid var(--crimson); font-size: 1.05rem; color: var(--ink); margin-bottom: 2rem; font-family: 'DM Mono', monospace; font-size: 0.9rem;}
+    
+    /* ── EXERCISE STYLES ── */
+    .q-item { margin-bottom: 2.5rem; font-size: 1.15rem; }
+    .q-num { font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--crimson); font-weight: 700; margin-right: 10px; }
+    
+    /* Reading Notices (Task 1) */
+    .notice-box { background: var(--notice-bg); border: 1px solid #cdd6df; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 4px; }
+    .notice-title { font-weight: 600; font-family: 'DM Mono', monospace; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.8rem; color: var(--midnight); border-bottom: 1px solid #cdd6df; padding-bottom: 0.5rem;}
+    
+    /* Reading Texts (Task 3 & 4) */
+    .reading-text { background: var(--parchment); padding: 2rem; border: 1px solid var(--border); line-height: 1.8; margin-bottom: 2rem; font-size: 1.1rem;}
+    .text-title { text-align: center; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; color: var(--midnight); }
+    
+    .input-fill { font-family: 'Crimson Pro', serif; font-size: 1.1rem; padding: 0.2rem 0.5rem; border: none; border-bottom: 2px solid var(--slate); background: transparent; outline: none; min-width: 120px; text-align: center; color: var(--midnight); font-weight: 600; transition: 0.3s;}
+    .input-fill:focus { border-bottom-color: var(--gold); }
+    .select-inline { font-family: 'Crimson Pro', serif; font-size: 1.1rem; padding: 0.2rem 0.5rem; border: 1px solid var(--slate); background: var(--paper); outline: none; color: var(--midnight); font-weight: 600; cursor: pointer; border-radius: 2px;}
+    
+    .mcq-group { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 1rem; margin-left: 35px; width: 100%;}
+    .mcq-label { font-size: 1.05rem; cursor: pointer; display: flex; align-items: baseline; gap: 10px; padding: 0.5rem 1rem; border: 1px solid transparent; border-radius: 4px; transition: 0.2s;}
+    .mcq-label:hover { background: var(--parchment); }
+    .mcq-label input { accent-color: var(--midnight); transform: scale(1.1); margin-top: 5px;}
+    
+    .correct-ui { border-color: var(--correct) !important; background: var(--correct-bg) !important; color: var(--correct) !important; }
+    .wrong-ui { border-color: var(--wrong) !important; background: var(--wrong-bg) !important; color: var(--wrong) !important; }
+
+    .btn-evaluate { padding: 1rem 2rem; background: var(--midnight); color: var(--paper); border: none; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.3s; margin-top: 2rem; width: 100%; border-radius: 2px;}
+    .btn-evaluate:hover { background: var(--gold); color: var(--midnight); }
+    .feedback-box { margin-top: 1rem; padding: 1.5rem; display: none; font-weight: 600; text-align: center; border-radius: 2px; font-size: 1.2rem; }
+
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .sidebar { display: none; } }
+    
+  </style>
+</head>
+<body>
+<nav>
+  <header class="site-header">
+  <img src="Images/logo.png" alt="Shared Pearls Logo" class="header-logo"></img>
+    <div class="logo-text">Shared <span>Pearls</span> of Wisdom</div> 
+    </header>
+    </nav>
+
+<header class="hero">
+  
+  <h1>LinguaSkill: Reading Module</h1>
+</header>
+
+<div class="container">
+  <aside class="sidebar">
+    <div class="sidebar-title">Paper 1: Reading</div>
+    <ul class="tense-nav">
+      <li><a href="#task-1" class="active">Task 1: Read & Select</a></li>
+      <li><a href="#task-2">Task 2: Gapped Sentences</a></li>
+      <li><a href="#task-3">Task 3: Multiple-choice</a></li>
+      <li><a href="#task-4">Task 4: Open Gap-fill</a></li>
+      <li><a href="#task-5">Task 5: Extended Reading</a></li>
+    </ul>
+        <div class="s-card">
+    <h2>Modules</h2>
+        <h3><li><a href="linguaskill-reading-module.html" class="current" style="text-decoration: none;"><span class="ln-badge ln-a1"></span> Reading</a></li></h3>
+      <h3><li><a href="linguaskill-listening-module.html" style="text-decoration: none;"><span class="ln-badge ln-b1"></span> Listening</a></li></h3>
+      <h3><li><a href="linguaskill-writing-module.html" style="text-decoration: none;"><span class="ln-badge ln-b2"></span> Writing</a></li></h3>
+      <h3><li><a href="linguaskill-speaking-module.html" style="text-decoration: none;"><span class="ln-badge ln-c1"></span> Speaking</a></li></h3>
+    </ul>
+  </div>  
+</aside>
+  <main>
+    <section id="task-1" class="test-section">
+      <div class="test-header"><h2>Task 1: Read and Select</h2></div>
+      <div class="instruction-note">
+        INSTRUCTIONS: Read each notice, memo, or sign. Choose the sentence (A, B or C) that has the CLOSEST meaning to the text shown.
+      </div>
+      
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">1.</span>
+        <div class="notice-box">
+          <div class="notice-title">STAFF NOTICE — Car Park B</div>
+          Car Park B will be unavailable for use from Monday 14th to Friday 18th due to resurfacing works. Alternative parking is available at the Council car park on Bridge Street (5-minute walk). Staff will be reimbursed for parking costs on production of a receipt.
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q1" value="a"> A. Staff should not drive to work next week.</label>
+          <label class="mcq-label"><input type="radio" name="q1" value="b"> B. Staff can park elsewhere and will be paid back for the cost.</label>
+          <label class="mcq-label"><input type="radio" name="q1" value="c"> C. The car park will close permanently after the works are completed.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="c">
+        <span class="q-num">2.</span>
+        <div class="notice-box">
+          <div class="notice-title">To: All Team Members | From: Operations | Re: Kitchen facilities</div>
+          Please be advised that the microwave in the third-floor kitchen is out of order and awaiting repair. Staff wishing to heat food should use the facilities on the ground floor until further notice.
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q2" value="a"> A. A new microwave will be installed on the third floor next week.</label>
+          <label class="mcq-label"><input type="radio" name="q2" value="b"> B. Heating food in the building is no longer permitted.</label>
+          <label class="mcq-label"><input type="radio" name="q2" value="c"> C. Staff should use a different kitchen area while the microwave is being repaired.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="c">
+        <span class="q-num">3.</span>
+        <div class="notice-box">
+          <div class="notice-title">PRODUCT LABEL — QuickClean Surface Spray</div>
+          For best results, apply to surface and leave for 30 seconds before wiping. Not suitable for use on wooden or painted surfaces. Keep out of reach of children. Store below 25°C.
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q3" value="a"> A. The spray should be wiped off immediately after application.</label>
+          <label class="mcq-label"><input type="radio" name="q3" value="b"> B. The spray can be used on all types of surfaces in the home.</label>
+          <label class="mcq-label"><input type="radio" name="q3" value="c"> C. The spray should not be used on wood or painted areas.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">4.</span>
+        <div class="notice-box">
+          <div class="notice-title">Notice — Library Quiet Zone</div>
+          This area is designated for silent study only. Mobile phones must be switched to silent and telephone calls must not be made in this zone. Food and drink are not permitted. Please be considerate of other users at all times.
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q4" value="a"> A. Mobile phones may not be brought into the library.</label>
+          <label class="mcq-label"><input type="radio" name="q4" value="b"> B. This area is reserved for people who need a quiet environment to study.</label>
+          <label class="mcq-label"><input type="radio" name="q4" value="c"> C. Drinks in sealed containers are acceptable in the quiet zone.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">5.</span>
+        <div class="notice-box">
+          <div class="notice-title">Email subject: Friday's team meeting</div>
+          Hi everyone, just a reminder that Friday's meeting has been moved from 10:00 to 14:00. The agenda remains the same. Please ensure you have read the attached briefing document beforehand as we will be moving straight into the discussion. — Kathryn
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q5" value="a"> A. The meeting on Friday has been cancelled.</label>
+          <label class="mcq-label"><input type="radio" name="q5" value="b"> B. Participants should review the briefing document before the meeting.</label>
+          <label class="mcq-label"><input type="radio" name="q5" value="c"> C. The meeting agenda has changed due to the new time.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">6.</span>
+        <div class="notice-box">
+          <div class="notice-title">SIGN — Hotel Fitness Centre</div>
+          The fitness centre is open to hotel guests only. Guests under the age of 16 must be accompanied by an adult at all times. A maximum of 20 guests may use the facility simultaneously. Please shower before using the pool.
+        </div>
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q6" value="a"> A. Non-guests may use the fitness centre if accompanied by a hotel guest.</label>
+          <label class="mcq-label"><input type="radio" name="q6" value="b"> B. Children under 16 may use the centre if an adult is present.</label>
+          <label class="mcq-label"><input type="radio" name="q6" value="c"> C. The fitness centre closes when 20 guests are using it.</label>
+        </div>
+      </div>
+
+      <button class="btn-evaluate" onclick="evaluateSection('task-1')">Submit Task 1</button>
+      <div class="feedback-box"></div>
+    </section>
+
+    <section id="task-2" class="test-section">
+      <div class="test-header"><h2>Task 2: Gapped Sentences</h2></div>
+      <div class="instruction-note">
+        INSTRUCTIONS: Read each sentence. Choose the correct word to fill the gap.
+      </div>
+      
+      <div class="q-item" data-type="select" data-answer="locate">
+        <span class="q-num">14.</span> Despite the difficult conditions, the rescue team managed to <select class="select-inline"><option value="empty">---</option><option value="locate">locate</option><option value="indicate">indicate</option><option value="allocate">allocate</option></select> all survivors within 48 hours.
+      </div>
+      <div class="q-item" data-type="select" data-answer="postpone">
+        <span class="q-num">15.</span> The committee has agreed to <select class="select-inline"><option value="empty">---</option><option value="postpone">postpone</option><option value="oppose">oppose</option><option value="compose">compose</option></select> the decision until further evidence is available.
+      </div>
+      <div class="q-item" data-type="select" data-answer="creative">
+        <span class="q-num">16.</span> The manager praised her team for their <select class="select-inline"><option value="empty">---</option><option value="creative">creative</option><option value="sensitive">sensitive</option><option value="respective">respective</option></select> approach to solving the client's problem.
+      </div>
+      <div class="q-item" data-type="select" data-answer="overhead">
+        <span class="q-num">17.</span> Passengers are reminded that large items of luggage must be stored in the <select class="select-inline"><option value="empty">---</option><option value="overhead">overhead</option><option value="onboard">onboard</option><option value="outward">outward</option></select> compartment above their seat.
+      </div>
+      <div class="q-item" data-type="select" data-answer="range">
+        <span class="q-num">18.</span> The university offers a wide <select class="select-inline"><option value="empty">---</option><option value="scale">scale</option><option value="range">range</option><option value="extent">extent</option></select> of postgraduate programmes across all faculties.
+      </div>
+      <div class="q-item" data-type="select" data-answer="forbidden">
+        <span class="q-num">19.</span> It is <select class="select-inline"><option value="empty">---</option><option value="forbidden">forbidden</option><option value="suggested">suggested</option><option value="required">required</option></select> to bring food or drink into the examination hall.
+      </div>
+      <div class="q-item" data-type="select" data-answer="effect">
+        <span class="q-num">20.</span> The new policy will come into <select class="select-inline"><option value="empty">---</option><option value="effect">effect</option><option value="affect">affect</option><option value="effort">effort</option></select> from the first of next month.
+      </div>
+
+      <button class="btn-evaluate" onclick="evaluateSection('task-2')">Submit Task 2</button>
+      <div class="feedback-box"></div>
+    </section>
+
+    <section id="task-3" class="test-section">
+      <div class="test-header"><h2>Task 3: Multiple-choice Gap-fill</h2></div>
+      <div class="instruction-note">
+        INSTRUCTIONS: Read the text below. Choose the best word or phrase (A, B, C or D) for each gap (21–27).
+      </div>
+      
+      <div class="reading-text">
+        <div class="text-title">THE HISTORY OF THE COFFEE HOUSE</div>
+        The coffee house first (21) <select class="select-inline" id="gap21"><option value="empty">---</option><option value="appeared">appeared</option><option value="emerged">emerged</option><option value="arrived">arrived</option><option value="raised">raised</option></select> in the Ottoman Empire during the early sixteenth century and quickly became a central part of urban social life. By the time coffee houses reached London in the 1650s, they had already (22) <select class="select-inline" id="gap22"><option value="empty">---</option><option value="won">won</option><option value="earned">earned</option><option value="gained">gained</option><option value="collected">collected</option></select> a reputation as places where ideas were exchanged and business was conducted. 
+        <br><br>
+        In seventeenth-century London, coffee houses were (23) <select class="select-inline" id="gap23"><option value="empty">---</option><option value="referred">referred</option><option value="known">known</option><option value="called">called</option><option value="described">described</option></select> to as 'penny universities' because, for the price of a penny — the cost of admission and a cup of coffee — anyone could sit and listen to the lively debates taking place. This was (24) <select class="select-inline" id="gap24"><option value="empty">---</option><option value="particularly">particularly</option><option value="normally">normally</option><option value="strictly">strictly</option><option value="recently">recently</option></select> remarkable in an era when education was largely reserved for the wealthy. 
+        <br><br>
+        Many of London's most important institutions can (25) <select class="select-inline" id="gap25"><option value="empty">---</option><option value="follow">follow</option><option value="trace">trace</option><option value="find">find</option><option value="seek">seek</option></select> their origins to the coffee house. Lloyd's of London, now one of the world's largest insurance markets, began as a coffee house frequented by merchants and sailors. The London Stock Exchange similarly (26) <select class="select-inline" id="gap26"><option value="empty">---</option><option value="evolved">evolved</option><option value="resulted">resulted</option><option value="developed">developed</option><option value="produced">produced</option></select> from meetings held in Jonathan's Coffee House in Exchange Alley. 
+        <br><br>
+        Today, coffee houses have (27) <select class="select-inline" id="gap27"><option value="empty">---</option><option value="kept">kept</option><option value="retained">retained</option><option value="continued">continued</option><option value="maintained">maintained</option></select> their social function. Modern coffee shop chains serve as informal meeting places for remote workers, students, and friends — continuing a tradition that is now over five centuries old.
+      </div>
+
+      <button class="btn-evaluate" onclick="evaluateTask3()">Submit Task 3</button>
+      <div class="feedback-box"></div>
+    </section>
+
+    <section id="task-4" class="test-section">
+      <div class="test-header"><h2>Task 4: Open Gap-fill</h2></div>
+      <div class="instruction-note">
+        INSTRUCTIONS: Read the text below. Write ONE word in each gap (28–34). Contractions count as one word.
+      </div>
+ 
+      <div class="reading-text">
+        <div class="text-title">THE BENEFITS OF LEARNING A SECOND LANGUAGE</div>
+        Learning a second language is one of <span class="q-item" data-type="fill" data-answer="the" style="display:inline; margin:0;"><input type="text" class="input-fill" placeholder="(28)" style="min-width: 60px;"></span> most valuable investments a person can make in themselves. The benefits go far beyond simply being able to communicate in another language.
+        <br><br>
+        Research has shown that bilingual individuals tend to be more <span class="q-item" data-type="fill" data-answer="adept" style="display:inline; margin:0;"><input type="text" class="input-fill" placeholder="(29)" style="min-width: 80px;"></span> at switching between tasks and filtering out irrelevant information. This is because managing two languages simultaneously strengthens the parts of the brain responsible for attention and executive control.
+        <br><br>
+        There are also significant professional advantages. In a globalised economy, employees <span class="q-item" data-type="fill" data-answer="who" style="display:inline; margin:0;"><input type="text" class="input-fill" placeholder="(30)" style="min-width: 60px;"></span> speak more than one language are often more competitive in the job market. Many employers actively seek candidates with language skills, particularly in sectors such as finance, law, and international trade.
+        <br><br>
+        Socially, learning another language opens doors <span class="q-item" data-type="fill" data-answer="that" style="display:inline; margin:0;"><input type="text" class="input-fill" placeholder="(31)" style="min-width: 60px;"></span> would otherwise remain closed. It allows people to form genuine connections with speakers of other cultures and to understand the world from perspectives very different <span class="q-item" data-type="fill" data-answer="from" style="display:inline; margin:0;"><input type="text" class="input-fill" placeholder="(32)" style="min-width: 60px;"></span> their own.
+        <br><br>
+        It is never too late to start. <span class="q-item" data-type="fill" data-answer="although" style="display:inline; margin:0;"><input type="text" class="input-fill" placeholder="(33)" style="min-width: 80px;"></span> adults generally take longer to achieve fluency than young children, studies suggest that older learners can reach high levels of proficiency with consistent effort. The key is to practise regularly and to use the language <span class="q-item" data-type="fill" data-answer="in" style="display:inline; margin:0;"><input type="text" class="input-fill" placeholder="(34)" style="min-width: 60px;"></span> authentic, real-world situations as often as possible.
+      </div>
+
+      <button class="btn-evaluate" onclick="evaluateSection('task-4')">Submit Task 4</button>
+      <div class="feedback-box"></div>
+    </section>
+
+    <section id="task-5" class="test-section">
+      <div class="test-header"><h2>Task 5: Extended Reading</h2></div>
+      <div class="instruction-note">
+        INSTRUCTIONS: Read the article about modern workplace wellbeing. For questions 31–36, choose the correct answer (A, B, C or D).
+      </div>
+      
+      <div class="reading-text">
+        <div class="text-title">Modern Workplace Wellbeing: Beyond the Surface</div>
+        <p>In recent years, corporate approaches to employee wellbeing have undergone a significant transformation. Historically, companies viewed occupational health primarily through the lens of physical safety, ensuring that factory floors were free of hazards and office desks were ergonomically sound. Today, however, the focus has shifted toward psychological health. A recent study revealed that untreated mental health issues cost the global economy an estimated £56 billion per year in lost productivity and absenteeism.</p>
+        <br>
+        <p>In response, many corporations have introduced 'wellness programmes' featuring yoga classes, mindfulness apps, and complimentary fruit in the breakroom. While these initiatives are generally well-received, organisational psychologists argue they are merely a superficial layer that fails to address the structural causes of workplace stress. "If an employee is dealing with unmanageable workloads or toxic management," notes Dr. Sarah Jenkins, "a meditation app will not solve the underlying issue."</p>
+        <br>
+        <p>Forward-thinking companies are now experimenting with deeper structural changes. One such change is the implementation of flexible working hours and remote work options. Data from these trials is highly encouraging, with productivity either maintained or improved and employee satisfaction rising dramatically. Furthermore, some pioneering firms in Scandinavia have introduced policies allowing staff to take leave for psychological recovery without the immediate requirement of a medical certificate, trusting their workforce to manage their own mental health.</p>
+        <br>
+        <p>However, implementing these structural changes is not universally straightforward. In sectors like hospitality or manufacturing, where shift-based work and thin profit margins are the norm, flexibility is significantly harder to facilitate. Despite these challenges, the broader corporate world is slowly waking up to a fundamental truth: there is a direct correlation between worker happiness and long-term productivity.</p>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="d">
+        <span class="q-num">31.</span> What is the writer's main purpose in the first paragraph?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q31" value="a"> A. To criticize historical approaches to factory safety.</label>
+          <label class="mcq-label"><input type="radio" name="q31" value="b"> B. To explain why physical health is no longer important.</label>
+          <label class="mcq-label"><input type="radio" name="q31" value="c"> C. To demand more funding for global mental health initiatives.</label>
+          <label class="mcq-label"><input type="radio" name="q31" value="d"> D. To highlight the financial and evolutionary shift toward psychological health in business.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="c">
+        <span class="q-num">32.</span> What does Dr. Sarah Jenkins suggest about modern wellness programmes?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q32" value="a"> A. They are universally disliked by employees.</label>
+          <label class="mcq-label"><input type="radio" name="q32" value="b"> B. They are too expensive for most companies to implement.</label>
+          <label class="mcq-label"><input type="radio" name="q32" value="c"> C. They do not fix the root causes of stress, such as poor management.</label>
+          <label class="mcq-label"><input type="radio" name="q32" value="d"> D. They should be replaced entirely by medical interventions.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">33.</span> According to the third paragraph, what has been the result of allowing flexible working hours?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q33" value="a"> A. A slight decrease in overall company output.</label>
+          <label class="mcq-label"><input type="radio" name="q33" value="b"> B. Steady or better productivity alongside happier employees.</label>
+          <label class="mcq-label"><input type="radio" name="q33" value="c"> C. An increase in the number of medical certificates issued.</label>
+          <label class="mcq-label"><input type="radio" name="q33" value="d"> D. Employees taking advantage of the system to work less.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">34.</span> Why is flexibility difficult to achieve in the hospitality sector?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q34" value="a"> A. Because employees in this sector prefer traditional working hours.</label>
+          <label class="mcq-label"><input type="radio" name="q34" value="b"> B. Because it relies on shift patterns and operates on tight budgets.</label>
+          <label class="mcq-label"><input type="radio" name="q34" value="c"> C. Because managers in hospitality are resistant to modern psychology.</label>
+          <label class="mcq-label"><input type="radio" name="q34" value="d"> D. Because customers demand 24/7 service.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="a">
+        <span class="q-num">35.</span> What is the ultimate conclusion drawn by the corporate world?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q35" value="a"> A. A happy workforce directly leads to sustained productivity.</label>
+          <label class="mcq-label"><input type="radio" name="q35" value="b"> B. Scandinavian policies should be legally enforced globally.</label>
+          <label class="mcq-label"><input type="radio" name="q35" value="c"> C. Mental health costs will continue to rise regardless of intervention.</label>
+          <label class="mcq-label"><input type="radio" name="q35" value="d"> D. Structural changes are impossible in the modern economy.</label>
+        </div>
+      </div>
+
+      <button class="btn-evaluate" onclick="evaluateSection('task-5')">Submit Task 5</button>
+      <div class="feedback-box"></div>
+    </section>
+<section id="task-5" class="test-section">
+      <div class="test-header"><h2>Task 5: Extended Reading</h2></div>
+      <div class="instruction-note">
+        INSTRUCTIONS: Read the article below and answer Questions 43–50. Choose the best answer: A, B, C or D. Questions are in the same order as information in the text.
+      </div>
+  
+      <div class="reading-text">
+        <div class="text-title">THE QUIET REVOLUTION IN WORKPLACE WELLBEING</div>
+        <p>Over the past decade, workplace wellbeing has shifted from being a peripheral concern — the domain of HR departments and annual surveys — to occupying a central place in how organisations are led and managed. The change has been driven by a combination of factors: a growing body of evidence linking employee wellbeing to productivity, the visible impact of pandemic-era burnout, and the increasing bargaining power of workers in a competitive labour market.</p>
+        <br>
+        <p>At the heart of the movement is a recognition that wellbeing is not simply an absence of illness. The World Health Organisation defines mental health as 'a state of wellbeing in which an individual realises his or her own abilities, can cope with the normal stresses of life, can work productively and fruitfully, and is able to make a contribution to his or her community.' This holistic definition has begun to influence how progressive employers approach the subject.</p>
+        <br>
+        <p>Concrete changes are visible across a range of sectors. Some companies have introduced four-day working weeks on a trial or permanent basis — results from trials in the UK, Iceland, and Japan have been largely positive, with productivity either maintained or improved and employee satisfaction rising significantly. Others have taken a different approach, focusing on flexibility rather than reduced hours: allowing employees to choose when and where they work, provided that targets are met.</p>
+        <br>
+        <p>Mental health support has also become more prominent. A 2023 report by Deloitte found that poor mental health costs UK employers an estimated £56 billion per year, through absenteeism, reduced productivity, and staff turnover. In response, many organisations have expanded access to employee assistance programmes, trained mental health first aiders, and introduced dedicated mental health days — days on which employees may take leave for psychological recovery without the need to provide a medical certificate.</p>
+        <br>
+        <p>Not all employers have embraced these changes equally. Research suggests that wellbeing initiatives are more common in larger organisations and in certain sectors — particularly technology, finance, and professional services — than in industries such as retail, hospitality, and construction, where shift-based work and thin profit margins make flexibility harder to implement.</p>
+        <br>
+        <p>There is also the question of authenticity. Critics of the wellbeing movement argue that many initiatives amount to little more than 'wellbeing washing' — a superficial layer of yoga classes and mindfulness apps that fails to address the structural causes of workplace stress, such as excessive workloads, poor management, and lack of job security. Genuine wellbeing, they argue, requires systemic change rather than individual coping strategies.</p>
+        <br>
+        <p>The evidence, ultimately, is clear: organisations that invest genuinely in employee wellbeing outperform those that do not. A 2022 study by Oxford University's Saïd Business School found a direct correlation between worker happiness and productivity. The challenge for businesses is to move beyond token gestures and to treat wellbeing not as a cost, but as a long-term investment in organisational success.</p>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="c">
+        <span class="q-num">43.</span> According to paragraph 1, which factor is NOT mentioned as driving the shift in workplace wellbeing?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q43" value="a"> A. Research linking wellbeing to productivity</label>
+          <label class="mcq-label"><input type="radio" name="q43" value="b"> B. The effects of burnout during the pandemic period</label>
+          <label class="mcq-label"><input type="radio" name="q43" value="c"> C. Changes in government legislation on working hours</label>
+          <label class="mcq-label"><input type="radio" name="q43" value="d"> D. Greater competition for employees in the jobs market</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">44.</span> How does the WHO definition of mental health differ from a traditional view?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q44" value="a"> A. It focuses exclusively on physical fitness and illness prevention.</label>
+          <label class="mcq-label"><input type="radio" name="q44" value="b"> B. It defines health as more than just the absence of mental illness.</label>
+          <label class="mcq-label"><input type="radio" name="q44" value="c"> C. It was developed specifically to address workplace-related conditions.</label>
+          <label class="mcq-label"><input type="radio" name="q44" value="d"> D. It applies only to people who are in full-time employment.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="c">
+        <span class="q-num">45.</span> What did trials of the four-day working week generally show?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q45" value="a"> A. Productivity fell but employee satisfaction improved significantly.</label>
+          <label class="mcq-label"><input type="radio" name="q45" value="b"> B. Results varied too widely to draw any reliable conclusions.</label>
+          <label class="mcq-label"><input type="radio" name="q45" value="c"> C. Productivity stayed the same or improved and workers were happier.</label>
+          <label class="mcq-label"><input type="radio" name="q45" value="d"> D. The model was only successful in technology companies.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">46.</span> According to the Deloitte report (paragraph 4), what is the estimated annual cost of poor mental health to UK employers?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q46" value="a"> A. £5.6 billion</label>
+          <label class="mcq-label"><input type="radio" name="q46" value="b"> B. £56 billion</label>
+          <label class="mcq-label"><input type="radio" name="q46" value="c"> C. £560 million</label>
+          <label class="mcq-label"><input type="radio" name="q46" value="d"> D. £16 billion</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="c">
+        <span class="q-num">47.</span> What is a 'mental health day' as described in the article?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q47" value="a"> A. A day of training in mental health awareness for all staff</label>
+          <label class="mcq-label"><input type="radio" name="q47" value="b"> B. A company-wide day off to promote collective wellbeing</label>
+          <label class="mcq-label"><input type="radio" name="q47" value="c"> C. Leave taken for psychological reasons without requiring a medical note</label>
+          <label class="mcq-label"><input type="radio" name="q47" value="d"> D. A day when employees attend compulsory counselling sessions</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="b">
+        <span class="q-num">48.</span> Why are wellbeing initiatives harder to implement in retail, hospitality, and construction?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q48" value="a"> A. Workers in these sectors prefer traditional working arrangements.</label>
+          <label class="mcq-label"><input type="radio" name="q48" value="b"> B. Shift work patterns and low profit margins create practical barriers.</label>
+          <label class="mcq-label"><input type="radio" name="q48" value="c"> C. There is insufficient research on wellbeing in these industries.</label>
+          <label class="mcq-label"><input type="radio" name="q48" value="d"> D. Unions in these sectors actively oppose changes to working conditions.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="c">
+        <span class="q-num">49.</span> What do critics mean when they use the term 'wellbeing washing'?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q49" value="a"> A. Employers spending too much money on wellbeing initiatives.</label>
+          <label class="mcq-label"><input type="radio" name="q49" value="b"> B. Employees misusing wellbeing policies for personal gain.</label>
+          <label class="mcq-label"><input type="radio" name="q49" value="c"> C. Superficial wellbeing measures that don't tackle the root causes of stress.</label>
+          <label class="mcq-label"><input type="radio" name="q49" value="d"> D. The use of digital technology to replace face-to-face mental health support.</label>
+        </div>
+      </div>
+
+      <div class="q-item" data-type="radio" data-answer="a">
+        <span class="q-num">50.</span> What is the main conclusion of the Oxford University study mentioned in the final paragraph?
+        <div class="mcq-group">
+          <label class="mcq-label"><input type="radio" name="q50" value="a"> A. Happy employees are more productive, benefiting the organisation.</label>
+          <label class="mcq-label"><input type="radio" name="q50" value="b"> B. Wellbeing programmes are too expensive for most small businesses.</label>
+          <label class="mcq-label"><input type="radio" name="q50" value="c"> C. Managers need more training before wellbeing initiatives can succeed.</label>
+          <label class="mcq-label"><input type="radio" name="q50" value="d"> D. Employee satisfaction is unrelated to long-term organisational performance.</label>
+        </div>
+      </div>
+
+      <button class="btn-evaluate" onclick="evaluateSection('task-5')">Submit Task 5</button>
+      <div class="feedback-box"></div>
+    </section>
+  </main>
+</div>
+
+<script>
+  // Dynamic Sidebar Highlighting
+  document.addEventListener("DOMContentLoaded", () => {
+    const links = document.querySelectorAll(".tense-nav a");
+    const sections = document.querySelectorAll(".test-section");
+
+    window.addEventListener("scroll", () => {
+      let scrollY = window.pageYOffset;
+      sections.forEach(current => {
+        const sectionHeight = current.offsetHeight;
+        const sectionTop = current.offsetTop - 150;
+        const sectionId = current.getAttribute("id");
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+          links.forEach(a => {
+            a.classList.remove("active");
+            if (a.getAttribute("href") === "#" + sectionId) {
+              a.classList.add("active");
+            }
+          });
+        }
+      });
+    });
+  });
+
+  // Custom Evaluator for Task 3's inline selects
+  function evaluateTask3() {
+    const section = document.getElementById('task-3');
+    let score = 0;
+    const total = 7;
+    // Authorized answers for Task 3
+    const answers = { 
+      'gap21': 'appeared', 
+      'gap22': 'earned', 
+      'gap23': 'referred', 
+      'gap24': 'particularly', 
+      'gap25': 'trace', 
+      'gap26': 'evolved', 
+      'gap27': 'retained' 
+    };
+    
+    for (const [id, answer] of Object.entries(answers)) {
+      const select = document.getElementById(id);
+      select.classList.remove('correct-ui', 'wrong-ui');
+      if (select.value === answer) {
+        select.classList.add('correct-ui');
+        score++;
+      } else if (select.value !== 'empty') {
+        select.classList.add('wrong-ui');
+      }
+    }
+    
+    const feedbackBox = section.querySelector('.feedback-box');
+    feedbackBox.style.display = 'block';
+    if (score === total) {
+      feedbackBox.className = 'feedback-box correct-ui';
+      feedbackBox.innerHTML = `Perfect! Score: ${score}/${total}.`;
+    } else {
+      feedbackBox.className = 'feedback-box wrong-ui';
+      feedbackBox.innerHTML = `Score: ${score}/${total}. Please review the red errors.`;
+    }
+  }
+
+  // Master Evaluation Engine for Tasks 1, 2, 4, and 5
+  function evaluateSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    const questions = section.querySelectorAll('.q-item');
+    let score = 0;
+    let total = questions.length;
+
+    // Advanced Matrix for Task 4 Open Gap-Fill
+    const openGapAliases = {
+      'the': ['the'],
+      'adept': ['adept', 'skilled', 'good', 'efficient', 'proficient', 'capable', 'effective'],
+      'who': ['who', 'that'],
+      'that': ['that', 'which'],
+      'from': ['from', 'to', 'than'],
+      'although': ['although', 'while', 'though', 'even though'],
+      'in': ['in', 'into', 'during']
+    };
+
+    questions.forEach(q => {
+      const type = q.getAttribute('data-type');
+      const primaryAnswer = q.getAttribute('data-answer').toLowerCase();
+      let isCorrect = false;
+
+      if (type === 'fill') {
+        const input = q.querySelector('input');
+        input.classList.remove('correct-ui', 'wrong-ui');
+        
+        const validAnswers = openGapAliases[primaryAnswer] || [primaryAnswer];
+        const userValue = input.value.trim().toLowerCase();
+        
+        if (validAnswers.includes(userValue)) {
+          isCorrect = true;
+          input.classList.add('correct-ui');
+        } else if (userValue !== '') {
+          input.classList.add('wrong-ui');
+        }
+      }
+      else if (type === 'radio') {
+        const checked = q.querySelector('input[type="radio"]:checked');
+        q.querySelectorAll('.mcq-label').forEach(lbl => lbl.classList.remove('correct-ui', 'wrong-ui'));
+        if (checked) {
+          if (checked.value.toLowerCase() === primaryAnswer) {
+            isCorrect = true;
+            checked.parentElement.classList.add('correct-ui');
+          } else {
+            checked.parentElement.classList.add('wrong-ui');
+          }
+        }
+      }
+      else if (type === 'select') {
+        const select = q.querySelector('select');
+        select.classList.remove('correct-ui', 'wrong-ui');
+        if (select.value !== 'empty') {
+          if (select.value.toLowerCase() === primaryAnswer) {
+            isCorrect = true;
+            select.classList.add('correct-ui');
+          } else {
+            select.classList.add('wrong-ui');
+          }
+        }
+      }
+
+      if (isCorrect) score++;
+    });
+
+    const feedbackBox = section.querySelector('.feedback-box');
+    feedbackBox.style.display = 'block';
+    if (score === total) {
+      feedbackBox.className = 'feedback-box correct-ui';
+      feedbackBox.innerHTML = `Excellent execution. Score: ${score}/${total}.`;
+    } else {
+      feedbackBox.className = 'feedback-box wrong-ui';
+      feedbackBox.innerHTML = `Score: ${score}/${total}. Please review the red errors to improve your accuracy.`;
+    }
+  }
+</script>
+</body>
+</html>

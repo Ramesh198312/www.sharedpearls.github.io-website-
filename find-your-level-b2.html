@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>B2 Upper-Intermediate Assessment · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* Midnight Sapphire & Champagne Gold Palette (Ivy League Prestige) */
+  --midnight: #0B1D3A;
+  --midnight-light: #162E54;
+  --champagne: #D4AF37;
+  --champagne-light: #F4EEDD;
+  --silver: #F8F9FA;
+  --white: #ffffff;
+  --border: #D0D5DD;
+  --text-main: #1A202C;
+  --text-muted: #4A5568;
+  
+  --success: #276749;
+  --error: #C53030;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Source Serif 4', Georgia, serif; background:var(--silver); color:var(--text-main); min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden;}
+
+/* ── HEADER & TIMER ── */
+header { background:var(--midnight); color:var(--white); padding:1.2rem 2.5rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:200; border-bottom: 4px solid var(--champagne); box-shadow: 0 4px 15px rgba(0,0,0,0.2);}
+.brand-title { font-family:'Playfair Display', serif; font-size:1.7rem; color:var(--white); font-weight:700; letter-spacing: 0.5px;}
+.brand-title span { color:whitesmoke; font-style:italic; }
+.level-badge { background:var(--champagne); color:var(--midnight); font-family:'DM Mono', monospace; font-size:0.75rem; padding:0.3rem 0.8rem; vertical-align:middle; margin-left:12px; border-radius:3px; letter-spacing:0.15em; font-weight: 700;}
+.timer-container { display:flex; align-items:center; gap:1.2rem; background:rgba(255,255,255,0.08); padding:0.5rem 1.5rem; border-radius:4px; border:1px solid rgba(212,175,55,0.3); }
+.timer-label { font-family:'DM Mono', monospace; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--champagne); }
+.timer-clock { font-family:'DM Mono', monospace; font-size:1.6rem; font-weight:700; color:var(--white); }
+.timer-clock.warning { color:#FC8181; animation: pulse 1s infinite; }
+
+/* ── MAIN LAYOUT ── */
+.exam-container { max-width:1350px; margin:2.5rem auto; display:grid; grid-template-columns:260px 1fr; gap:2.5rem; width:100%; padding:0 2rem; flex-grow:1; }
+
+/* ── SIDEBAR NAVIGATION ── */
+.exam-nav { background:var(--white); border:1px solid var(--border); border-radius:6px; padding:1.5rem; height:fit-content; position:sticky; top:110px; box-shadow:0 8px 25px rgba(11,29,58,0.05); }
+.nav-btn { display:block; width:100%; text-align:left; background:none; border:none; padding:1.2rem 1rem; font-family:'DM Mono', monospace; font-size:0.9rem; font-weight:700; color:var(--text-muted); cursor:pointer; transition:all 0.3s ease; border-radius:4px; margin-bottom:0.5rem; border-left: 3px solid transparent;}
+.nav-btn:hover { background:var(--silver); color:var(--midnight); }
+.nav-btn.active { background:var(--champagne-light); color:var(--midnight); border-left-color:var(--champagne); }
+.submit-exam-btn { display:block; width:100%; padding:1.2rem; margin-top:2.5rem; background:var(--midnight); color:var(--champagne); border:none; font-family:'DM Mono', monospace; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; border-radius:4px; cursor:pointer; transition:0.3s; border: 1px solid var(--champagne);}
+.submit-exam-btn:hover { background:var(--champagne); color:var(--midnight); box-shadow: 0 4px 15px rgba(212,175,55,0.3);}
+
+/* ── EXAM PANELS ── */
+.exam-panel { display:none; background:var(--white); border:1px solid var(--border); border-radius:6px; padding:3.5rem; box-shadow:0 10px 40px rgba(11,29,58,0.06); animation:fadeIn 0.4s ease-out; }
+.exam-panel.active { display:block; }
+.panel-title { font-family:'Playfair Display', serif; font-size:2.5rem; color:var(--midnight); margin-bottom:0.5rem; padding-bottom:1rem; border-bottom: 2px solid var(--border);}
+.panel-desc { font-family:'DM Mono', monospace; font-size:0.85rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.15em; margin-bottom:3rem; font-weight:700;}
+
+/* ── SPLIT PANE READING UX ── */
+.split-layout { display: flex; gap: 3rem; align-items: flex-start; margin-bottom: 4rem; padding-bottom: 3.5rem; border-bottom: 1px dashed var(--border);}
+.split-layout:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
+.split-left { flex: 1.1; position: sticky; top: 110px; max-height: calc(100vh - 150px); overflow-y: auto; padding-right: 1.5rem; }
+.split-left::-webkit-scrollbar { width: 6px; }
+.split-left::-webkit-scrollbar-track { background: var(--silver); }
+.split-left::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.split-right { flex: 0.9; }
+
+.part-title { font-family:'Playfair Display', serif; font-size:1.6rem; color:var(--midnight); margin-bottom:1rem; }
+.instruction-text { margin-bottom:1.5rem; color:var(--text-muted); font-weight:600; font-family:'DM Mono', monospace; font-size: 0.85rem;}
+.reading-text { background:var(--champagne-light); padding:2.5rem; border-left:4px solid var(--champagne); font-size:1.15rem; line-height:1.85; color: var(--text-main); border-radius: 0 6px 6px 0;}
+.reading-text p { margin-bottom: 1.4rem; }
+.reading-text p:last-child { margin-bottom: 0; }
+
+/* ── QUESTION BLOCKS ── */
+.question-block { margin-bottom:2rem; font-size:1.05rem; background: var(--white); border: 1px solid var(--border); padding: 1.8rem; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.02);}
+.question-text { font-weight:600; margin-bottom:1.2rem; display:block; color: var(--midnight); line-height: 1.5;}
+.mcq-option { display:block; margin-bottom:0.8rem; cursor:pointer; padding: 0.9rem; border-radius: 4px; transition: 0.2s; border: 1px solid transparent; background: var(--silver);}
+.mcq-option:hover { border-color: var(--champagne); background: var(--white); box-shadow: 0 2px 6px rgba(212,175,55,0.1);}
+.mcq-option input { margin-right:12px; accent-color:var(--midnight); transform: scale(1.15);}
+.fill-input { font-family:'DM Mono', monospace; font-size:1.05rem; padding:0.4rem 0.8rem; border:none; border-bottom:2px solid var(--midnight); background:rgba(11,29,58,0.04); width:150px; outline:none; transition:0.3s; margin:0 5px; color: var(--midnight); font-weight: 700; text-align: center;}
+.fill-input:focus { border-bottom-color:var(--champagne); background:rgba(212,175,55,0.1); }
+
+/* ── LISTENING SPECIFICS ── */
+.audio-player-container { background:var(--midnight); padding:2rem; border-radius:6px; margin-bottom:2.5rem; display:flex; align-items:center; gap:2rem; box-shadow: 0 10px 25px rgba(11,29,58,0.15);}
+.audio-btn { background:var(--champagne); border:none; width:60px; height:60px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: 0.3s;}
+.audio-btn:hover { background:var(--white); transform: scale(1.05);}
+.audio-btn svg { fill: var(--midnight); }
+.audio-track { flex-grow:1; height:6px; background:rgba(255,255,255,0.2); border-radius:3px; position:relative; }
+.audio-progress { position:absolute; left:0; top:0; height:100%; width:0%; background:var(--champagne); border-radius:3px; transition: width 0.5s linear;}
+.audio-instruction { color:var(--white); font-family:'DM Mono', monospace; font-size:0.85rem; letter-spacing:0.1em; }
+.dev-transcript { display:none; background:var(--silver); padding:2rem; font-family:'DM Mono', monospace; font-size:0.9rem; border:1px solid var(--border); margin-bottom:2.5rem; white-space:pre-wrap; line-height: 1.7; border-left: 4px solid var(--text-muted);}
+
+/* ── WRITING SPECIFICS ── */
+.writing-area { width:100%; height:380px; padding:2rem; font-family:'Source Serif 4', serif; font-size:1.15rem; line-height:1.7; border:2px solid var(--border); border-radius:6px; resize:vertical; outline:none; transition: 0.3s; background: var(--white); }
+.writing-area:focus { border-color:var(--midnight); box-shadow:0 0 0 4px rgba(11,29,58,0.08); }
+.writing-area:disabled { background: var(--silver); color: #666; cursor: not-allowed; }
+.word-count { font-family:'DM Mono', monospace; font-size:0.95rem; color:var(--text-muted); margin-top:1rem; text-align:right; font-weight:700; }
+.submit-writing-btn { background: var(--midnight); color: var(--white); border: none; padding: 1.4rem 2rem; font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.12em; border-radius: 4px; cursor: pointer; transition: 0.3s; margin-top: 1.5rem; width: 100%; border: 1px solid var(--midnight);}
+.submit-writing-btn:hover { background: var(--champagne); color: var(--midnight); border-color: var(--champagne);}
+.submit-writing-btn:disabled { background: var(--success); border-color: var(--success); color: var(--white); cursor: default; }
+
+/* ── SPEAKING SPECIFICS ── */
+.speaking-prompt { background:var(--silver); color:var(--text-main); padding:2.5rem; border-radius:6px; margin-bottom:2.5rem; border-left: 6px solid var(--midnight); }
+.speaking-prompt h3 { font-family:'Playfair Display', serif; font-size:1.8rem; margin-bottom:1.2rem; color:var(--midnight); }
+.speaking-prompt p { font-size:1.15rem; line-height:1.7; margin-bottom:1rem;}
+.record-btn { background:var(--white); color:var(--midnight); border:2px solid var(--midnight); padding:1rem 2rem; font-family:'DM Mono', monospace; font-size:1rem; font-weight:700; border-radius:30px; cursor:pointer; margin-top:1.5rem; transition:0.3s; display:inline-flex; align-items:center; gap:10px; }
+.record-btn.recording { background:var(--error); color:var(--white); border-color:var(--error); animation:pulse 1.5s infinite; }
+.record-btn::before { content:''; display:inline-block; width:12px; height:12px; border-radius:50%; background:var(--error); transition: 0.3s;}
+.record-btn.recording::before { background:var(--white); border-radius: 2px;}
+
+/* ── RESULTS MODAL ── */
+#results-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(11,29,58,0.95); z-index:1000; align-items:center; justify-content:center; backdrop-filter: blur(5px);}
+.modal-content { background:var(--white); padding:5rem 4rem; border-radius:8px; max-width:650px; width:90%; text-align:center; position:relative; border-top:8px solid var(--champagne); box-shadow: 0 20px 60px rgba(0,0,0,0.5);}
+.score-circle { width:160px; height:160px; border-radius:50%; border:6px solid var(--midnight); margin:0 auto 2rem; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display', serif; font-size:3.5rem; font-weight:700; color:var(--midnight); box-shadow: 0 0 20px rgba(212,175,55,0.2);}
+.status-msg { font-size:1.15rem; line-height:1.8; margin-bottom:2.5rem; color: var(--text-muted); }
+
+@keyframes pulse { 0% { opacity:1; } 50% { opacity:0.7; } 100% { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .split-layout { flex-direction: column; gap: 2rem; }
+    .split-left { position: static; max-height: none; overflow-y: visible; padding-right: 0;}
+    .exam-container { grid-template-columns: 1fr; padding: 0 1rem; margin-top: 1rem;}
+    .exam-nav { position: static; display: flex; overflow-x: auto; gap: 0.5rem; padding: 1rem;}
+    .nav-btn { flex-shrink: 0; width: auto; margin-bottom: 0; border-left: none; border-bottom: 3px solid transparent;}
+    .nav-btn.active { border-bottom-color: var(--midnight); border-left-color: transparent;}
+    .exam-panel { padding: 2rem; }
+}
+
+footer { background:var(--midnight); padding:2.5rem; text-align:center; color:rgba(255,255,255,0.5); font-family:'DM Mono', monospace; font-size:0.85rem; margin-top:auto;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-title">Shared <span>Pearls</span> of Wisdom<span class="level-badge">B2 UPPER-INTERMEDIATE</span></div>
+  <div class="timer-container">
+    <span class="timer-label">Time Remaining</span>
+    <span class="timer-clock" id="exam-timer">90:00</span>
+  </div>
+</header>
+
+<div class="exam-container">
+  
+  <aside class="exam-nav">
+    <button class="nav-btn active" onclick="switchTab('reading')">1. Reading & Use of English</button>
+    <button class="nav-btn" onclick="switchTab('listening')">2. Listening</button>
+    <button class="nav-btn" onclick="switchTab('writing')">3. Writing</button>
+    <button class="nav-btn" onclick="switchTab('speaking')">4. Speaking</button>
+    <button class="submit-exam-btn" onclick="submitExam()">Submit Examination</button>
+  </aside>
+
+  <main>
+    <section id="panel-reading" class="exam-panel active">
+      <h1 class="panel-title">Paper 1: Reading & Use of English</h1>
+      <div class="panel-desc">Time Limit: 40 Minutes • Total Marks: 15</div>
+
+      <div class="split-layout">
+        <div class="split-left">
+          <h2 class="part-title">Part 1: The Rise of Digital Minimalism</h2>
+          <p class="instruction-text">Read the article. The text will remain static while you scroll through the questions on the right.</p>
+          <div class="reading-text">
+            <p>In an era characterised by hyper-connectivity, a growing counter-movement is gaining traction: digital minimalism. Unlike a digital detox, which involves completely abandoning technology for a short, intense period—often resulting in a massive binge once the detox ends—digital minimalism is a long-term philosophy. It advocates for the intentional and highly selective use of technology to support one's core values, rather than allowing devices to dictate how one's time is spent.</p>
+            <p>Proponents of this philosophy argue that the 'attention economy'—where tech companies generate revenue by keeping users endlessly scrolling—has fundamentally compromised human concentration. Cal Newport, a leading author on the subject, suggests that we are not naturally equipped to handle the psychological manipulation embedded in modern app design. The constant barrage of notifications triggers minor dopamine releases, creating a cycle of addiction that fragments our focus and elevates baseline anxiety levels.</p>
+            <p>Adopting digital minimalism isn't about discarding smartphones entirely; it is about reclaiming autonomy. Many minimalists begin with a 30-day declutter, aggressively removing any application that does not serve a vital, irreplaceable function. They replace passive scrolling with high-quality leisure activities, such as reading, learning an instrument, or engaging in face-to-face conversations. While the initial withdrawal can be jarring, those who persist report profound improvements in their mental clarity and a renewed appreciation for solitary reflection.</p>
+          </div>
+        </div>
+        
+        <div class="split-right">
+          <div class="question-block">
+            <span class="question-text">1. According to the text, how does digital minimalism differ from a 'digital detox'?</span>
+            <label class="mcq-option"><input type="radio" name="r1" value="A"> A) It requires giving up all modern technology permanently.</label>
+            <label class="mcq-option"><input type="radio" name="r1" value="B"> B) It is a sustainable, long-term approach to using technology.</label>
+            <label class="mcq-option"><input type="radio" name="r1" value="C"> C) It is only effective if done for short, intense periods.</label>
+            <label class="mcq-option"><input type="radio" name="r1" value="D"> D) It encourages people to binge on technology occasionally.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">2. What is meant by the 'attention economy' in the second paragraph?</span>
+            <label class="mcq-option"><input type="radio" name="r2" value="A"> A) A financial system where people pay for educational apps.</label>
+            <label class="mcq-option"><input type="radio" name="r2" value="B"> B) The fact that users have shorter attention spans than they used to.</label>
+            <label class="mcq-option"><input type="radio" name="r2" value="C"> C) A business model where companies profit from keeping users engaged.</label>
+            <label class="mcq-option"><input type="radio" name="r2" value="D"> D) An economic theory regarding how humans manage their time.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">3. Cal Newport suggests that modern app design is...</span>
+            <label class="mcq-option"><input type="radio" name="r3" value="A"> A) too complex for older generations to understand.</label>
+            <label class="mcq-option"><input type="radio" name="r3" value="B"> B) deliberately engineered to exploit human psychology.</label>
+            <label class="mcq-option"><input type="radio" name="r3" value="C"> C) designed to help people focus on their work.</label>
+            <label class="mcq-option"><input type="radio" name="r3" value="D"> D) failing to generate enough dopamine to keep users interested.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">4. What is the primary goal of the 30-day declutter mentioned in paragraph three?</span>
+            <label class="mcq-option"><input type="radio" name="r4" value="A"> A) To prove to friends that you can survive without a phone.</label>
+            <label class="mcq-option"><input type="radio" name="r4" value="B"> B) To learn how to use a computer instead of a smartphone.</label>
+            <label class="mcq-option"><input type="radio" name="r4" value="C"> C) To eliminate digital tools that aren't strictly necessary.</label>
+            <label class="mcq-option"><input type="radio" name="r4" value="D"> D) To save money on monthly internet subscriptions.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">5. Which word best describes the initial experience of adopting digital minimalism, according to the text?</span>
+            <label class="mcq-option"><input type="radio" name="r5" value="A"> A) Unsettling</label>
+            <label class="mcq-option"><input type="radio" name="r5" value="B"> B) Relaxing</label>
+            <label class="mcq-option"><input type="radio" name="r5" value="C"> C) Profound</label>
+            <label class="mcq-option"><input type="radio" name="r5" value="D"> D) Impossible</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="split-layout">
+        <div class="split-left">
+          <h2 class="part-title">Part 2: The Magic of Bioluminescence</h2>
+          <p class="instruction-text">Read the text below and think of the word which best fits each gap. Use only ONE word in each gap.</p>
+          <div class="reading-text" style="line-height:2.6;">
+            One of nature's most captivating phenomena is bioluminescence—the production and emission of light <strong>(6)</strong> <input type="text" id="r6" class="fill-input" autocomplete="off"> a living organism. While we occasionally see fireflies lighting up a summer evening, the vast majority of bioluminescent creatures live in the ocean, particularly in the deep sea <strong>(7)</strong> <input type="text" id="r7" class="fill-input" autocomplete="off"> sunlight cannot penetrate.<br><br>
+            Marine animals use this biological light for several vital reasons. For some, it is a mechanism to lure prey towards their mouths in the pitch-black water. For others, it serves <strong>(8)</strong> <input type="text" id="r8" class="fill-input" autocomplete="off"> a defence strategy. For instance, some species of squid eject a cloud of glowing liquid instead of dark ink to confuse predators, giving the squid time to escape. <br><br>
+            Scientists have been studying these chemical reactions for decades. They have discovered that the light is created when a light-emitting molecule called luciferin reacts with oxygen. What makes this process so remarkable is that it generates 'cold light', meaning that almost <strong>(9)</strong> <input type="text" id="r9" class="fill-input" autocomplete="off"> of the energy is wasted as heat. This level of efficiency is something human engineers have only recently <strong>(10)</strong> <input type="text" id="r10" class="fill-input" autocomplete="off"> able to replicate in modern LED technology.
+          </div>
+        </div>
+        
+        <div class="split-right">
+          <div class="question-block" style="background:var(--champagne-light); border-color:var(--champagne);">
+            <span class="question-text" style="color:var(--midnight); margin-bottom:0;">Instructions for Part 2:</span>
+            <p style="font-size:0.95rem; color:var(--text-muted); margin-top:0.5rem;">At B2 level, this section tests your grammatical mastery of prepositions, relative pronouns, quantifiers, and auxiliary verbs. Type your answers directly into the text on the left. Spelling must be exact.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="split-layout" style="border-bottom:none;">
+        <div class="split-left">
+          <h2 class="part-title">Part 3: The Science of Sleep</h2>
+          <p class="instruction-text">Read the text below and choose the correct word for each gap on the right.</p>
+          <div class="reading-text">
+            Despite spending nearly a third of our lives doing it, the exact biological purpose of sleep remains one of science's greatest mysteries. Historically, researchers believed that the brain simply <strong>(11)</strong> ______ down to rest, much like a machine being turned off. However, modern neuroscience has revealed that the sleeping brain is incredibly active.<br><br>
+            During deep sleep, the brain begins a process of consolidation. It sorts through the immense volume of information gathered during the day, <strong>(12)</strong> ______ useless data and strengthening important memories. Furthermore, recent studies have shown that the brain physically flushes out toxic proteins while we sleep. If these toxins are allowed to <strong>(13)</strong> ______ up over time, they are believed to contribute to neurological diseases.<br><br>
+            Unfortunately, chronic sleep deprivation has become an epidemic in modern society. People routinely sacrifice sleep in order to work longer hours or consume digital media. The consequences are severe; a lack of sleep severely <strong>(14)</strong> ______ cognitive function, reaction times, and emotional regulation. Health professionals warn that we must stop treating sleep as a luxury and start recognising it as a fundamental biological <strong>(15)</strong> ______.
+          </div>
+        </div>
+        
+        <div class="split-right">
+          <div class="question-block">
+            <span class="question-text">11.</span>
+            <label class="mcq-option"><input type="radio" name="r11" value="A"> A) shut</label>
+            <label class="mcq-option"><input type="radio" name="r11" value="B"> B) closed</label>
+            <label class="mcq-option"><input type="radio" name="r11" value="C"> C) turned</label>
+            <label class="mcq-option"><input type="radio" name="r11" value="D"> D) broke</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">12.</span>
+            <label class="mcq-option"><input type="radio" name="r12" value="A"> A) avoiding</label>
+            <label class="mcq-option"><input type="radio" name="r12" value="B"> B) declining</label>
+            <label class="mcq-option"><input type="radio" name="r12" value="C"> C) discarding</label>
+            <label class="mcq-option"><input type="radio" name="r12" value="D"> D) denying</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">13.</span>
+            <label class="mcq-option"><input type="radio" name="r13" value="A"> A) build</label>
+            <label class="mcq-option"><input type="radio" name="r13" value="B"> B) rise</label>
+            <label class="mcq-option"><input type="radio" name="r13" value="C"> C) gather</label>
+            <label class="mcq-option"><input type="radio" name="r13" value="D"> D) grow</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">14.</span>
+            <label class="mcq-option"><input type="radio" name="r14" value="A"> A) hurts</label>
+            <label class="mcq-option"><input type="radio" name="r14" value="B"> B) impairs</label>
+            <label class="mcq-option"><input type="radio" name="r14" value="C"> C) drops</label>
+            <label class="mcq-option"><input type="radio" name="r14" value="D"> D) ruins</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">15.</span>
+            <label class="mcq-option"><input type="radio" name="r15" value="A"> A) necessity</label>
+            <label class="mcq-option"><input type="radio" name="r15" value="B"> B) demand</label>
+            <label class="mcq-option"><input type="radio" name="r15" value="C"> C) urgency</label>
+            <label class="mcq-option"><input type="radio" name="r15" value="D"> D) request</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-listening" class="exam-panel">
+      <h1 class="panel-title">Paper 2: Listening</h1>
+      <div class="panel-desc">Audio Length: ~30 Minutes • Total Marks: 10</div>
+
+      <div class="audio-player-container">
+        <audio id="real-audio-player" src="find-your-level-listening-b2.m4a" preload="metadata"></audio>
+        <button class="audio-btn" onclick="toggleRealAudio()" id="play-btn">
+          <svg width="26" height="26" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <div class="audio-track">
+          <div class="audio-progress" id="audio-bar"></div>
+        </div>
+        <div class="audio-instruction">Listen to the recording to answer all parts.</div>
+      </div>
+
+      <button onclick="document.getElementById('dev-script').style.display='block'" style="font-size:0.8rem; color:var(--midnight); background:none; border:none; cursor:pointer; margin-bottom:1.5rem; text-decoration:underline; font-weight: bold;">[Developer: Show Audio Transcript]</button>
+      <div id="dev-script" class="dev-transcript">
+AUDIO SCRIPT:
+[Extract 1: Radio Podcast Promo]
+"Are you tired of the same old recipes? Join us this Thursday on 'Culinary Horizons' where we explore the forgotten spices of the Silk Road. We originally planned to interview Chef Marco Rossi about his new London restaurant, but due to a scheduling conflict, that episode has been pushed to next week. Instead, food historian Dr. Amina Khan will be taking us through the history of saffron. Don't miss it, right after the 6 o'clock news."
+
+[Extract 2: Interview with a Chef]
+Interviewer: Joining me today is Julia, a head chef who recently transitioned her restaurant to a entirely plant-based menu. Julia, was that a terrifying financial risk?
+Julia: Absolutely. We lost a few regular customers initially who were upset they couldn't get their usual steak. But honestly, the biggest challenge wasn't the customers; it was retraining the kitchen staff. They had to learn entirely new techniques to extract deep, savoury flavours without relying on meat or dairy.
+Interviewer: And has it paid off?
+Julia: Beyond my wildest dreams. We're now booked solid for three months. People are genuinely curious about innovative vegan cuisine, not just looking for a healthy option.
+
+[Extract 3: Conversation about a Book]
+Tom: I finally finished reading 'The Glass Horizon' that you recommended.
+Sarah: Oh, fantastic! What did you think? I know you usually prefer historical non-fiction.
+Tom: Well, you were right about the world-building; the author's description of the dystopian city was incredibly vivid. However, I felt the dialogue was a bit unnatural at times. People just don't speak in long, philosophical paragraphs during an action sequence.
+Sarah: I actually liked that! It gave the characters more depth. But I will agree with you that the pacing in the middle of the book was far too slow. It dragged on for chapters without anything actually happening.
+      </div>
+
+      <div class="part-container">
+        <h2 class="part-title">Extract 1: Radio Announcement</h2>
+        <p class="instruction-text">Listen to a promo for a radio show and answer questions 1–3.</p>
+        <div class="question-block">
+          <span class="question-text">1. What topic will this Thursday's show cover?</span>
+          <label class="mcq-option"><input type="radio" name="l1" value="A"> A) A new restaurant in London</label>
+          <label class="mcq-option"><input type="radio" name="l1" value="B"> B) The history of a specific spice</label>
+          <label class="mcq-option"><input type="radio" name="l1" value="C"> C) The daily news headlines</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">2. Why is Chef Marco Rossi NOT on this week's show?</span>
+          <label class="mcq-option"><input type="radio" name="l2" value="A"> A) He cancelled the interview completely.</label>
+          <label class="mcq-option"><input type="radio" name="l2" value="B"> B) His restaurant is not open yet.</label>
+          <label class="mcq-option"><input type="radio" name="l2" value="C"> C) There was an issue with his schedule.</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">3. When does the podcast air?</span>
+          <label class="mcq-option"><input type="radio" name="l3" value="A"> A) At exactly 6:00 PM</label>
+          <label class="mcq-option"><input type="radio" name="l3" value="B"> B) Immediately following the news</label>
+          <label class="mcq-option"><input type="radio" name="l3" value="C"> C) Next week</label>
+        </div>
+      </div>
+
+      <div class="part-container">
+        <h2 class="part-title">Extract 2: The Plant-Based Chef</h2>
+        <p class="instruction-text">Listen to an interview with Chef Julia and answer questions 4–7.</p>
+        <div class="question-block">
+          <span class="question-text">4. What was the biggest challenge when Julia changed her menu?</span>
+          <label class="mcq-option"><input type="radio" name="l4" value="A"> A) Losing her regular customers</label>
+          <label class="mcq-option"><input type="radio" name="l4" value="B"> B) Finding the right plant-based ingredients</label>
+          <label class="mcq-option"><input type="radio" name="l4" value="C"> C) Teaching her staff new cooking methods</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">5. How did some regular customers react initially?</span>
+          <label class="mcq-option"><input type="radio" name="l5" value="A"> A) They were angry about the high prices.</label>
+          <label class="mcq-option"><input type="radio" name="l5" value="B"> B) They were annoyed they couldn't order meat.</label>
+          <label class="mcq-option"><input type="radio" name="l5" value="C"> C) They were excited to try healthy options.</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">6. How is the restaurant doing now?</span>
+          <label class="mcq-option"><input type="radio" name="l6" value="A"> A) It is struggling financially.</label>
+          <label class="mcq-option"><input type="radio" name="l6" value="B"> B) It is extremely busy and fully booked.</label>
+          <label class="mcq-option"><input type="radio" name="l6" value="C"> C) It has returned to serving some dairy.</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">7. Why are people coming to her restaurant now, according to Julia?</span>
+          <label class="mcq-option"><input type="radio" name="l7" value="A"> A) Because they want to eat food that is good for their health.</label>
+          <label class="mcq-option"><input type="radio" name="l7" value="B"> B) Because they are intrigued by creative vegan cooking.</label>
+          <label class="mcq-option"><input type="radio" name="l7" value="C"> C) Because the restaurant is famous on television.</label>
+        </div>
+      </div>
+
+      <div class="part-container" style="border-bottom:none;">
+        <h2 class="part-title">Extract 3: Book Review</h2>
+        <p class="instruction-text">Listen to Tom and Sarah discussing a book. Answer questions 8–10.</p>
+        <div class="question-block">
+          <span class="question-text">8. What genre of books does Tom usually prefer to read?</span>
+          <label class="mcq-option"><input type="radio" name="l8" value="A"> A) Science fiction</label>
+          <label class="mcq-option"><input type="radio" name="l8" value="B"> B) Action thrillers</label>
+          <label class="mcq-option"><input type="radio" name="l8" value="C"> C) Historical non-fiction</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">9. What was Tom's main criticism of the book?</span>
+          <label class="mcq-option"><input type="radio" name="l9" value="A"> A) The descriptions of the city were boring.</label>
+          <label class="mcq-option"><input type="radio" name="l9" value="B"> B) The way the characters spoke was unrealistic.</label>
+          <label class="mcq-option"><input type="radio" name="l9" value="C"> C) The main characters lacked emotional depth.</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">10. On what point do Tom and Sarah agree?</span>
+          <label class="mcq-option"><input type="radio" name="l10" value="A"> A) The middle part of the story was too slow.</label>
+          <label class="mcq-option"><input type="radio" name="l10" value="B"> B) The philosophical dialogue was well written.</label>
+          <label class="mcq-option"><input type="radio" name="l10" value="C"> C) The world-building was confusing.</label>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-writing" class="exam-panel">
+      <h1 class="panel-title">Paper 3: Writing</h1>
+      <div class="panel-desc">Recommended Time: 40 Minutes • Required length: 140-190 words</div>
+
+      <div class="part-container" style="border-bottom:none;">
+        <h2 class="part-title">Task 1: Discursive Essay</h2>
+        <div class="reading-text" style="background:var(--silver); border-color:var(--midnight);">
+          In your English class, you have been discussing the impact of modern technology on human relationships. Now, your teacher has asked you to write an essay.<br><br>
+          <strong>Topic:</strong> <em>"Does social media make us more connected or more isolated?"</em><br><br>
+          <strong>Notes to include:</strong><br>
+          Write about:<br>
+          1. Staying in touch with people far away.<br>
+          2. The quality of face-to-face interactions.<br>
+          3. (Your own idea).
+        </div>
+        <p class="instruction-text" style="margin-top:1.5rem; color: var(--midnight);">Write your essay in <strong>140–190 words</strong>. You must structure your writing with clear paragraphs and use formal or semi-formal academic language.</p>
+        
+        <textarea id="writing-input" class="writing-area" placeholder="Structure your essay clearly with an introduction, body paragraphs, and a conclusion..." oninput="countWords()"></textarea>
+        <div class="word-count" id="word-count-display">Word count: 0</div>
+        
+        <button id="btn-submit-writing" class="submit-writing-btn" onclick="submitWritingTask()">Submit Writing Task</button>
+      </div>
+    </section>
+
+    <section id="panel-speaking" class="exam-panel">
+      <h1 class="panel-title">Paper 4: Speaking</h1>
+      <div class="panel-desc">Simulated Oral Examination • 14 Minutes</div>
+
+      <p class="instruction-text" style="font-size:1.05rem; margin-bottom:2rem; color: var(--text-main);">At the B2 level, examiners look for your ability to express opinions, compare subjects, and maintain a conversation with complex vocabulary. Press <strong>Record Answer</strong> to begin.</p>
+
+      <div class="speaking-prompt">
+        <h3>Part 1: Interview</h3>
+        <p>1. How do you usually keep up with the news, and why do you prefer that method?</p>
+        <p>2. If you had the opportunity to learn a completely new skill, what would it be?</p>
+        <p>3. Do you think people today have less free time than they did in the past? Why?</p>
+        <button class="record-btn" onclick="toggleRecord(this)">Record Answer</button>
+      </div>
+
+      <div class="speaking-prompt">
+        <h3>Part 2: Long Turn (Comparing & Speculating)</h3>
+        <p>Imagine I have given you two photographs. One shows a person working on a laptop at a kitchen table. The other shows a bustling corporate office with many people in suits.</p>
+        <p>Compare the two photographs. What might be the advantages and disadvantages for the people working in these two different environments?</p>
+        <button class="record-btn" onclick="toggleRecord(this)">Record Answer (Aim for 1 minute uninterrupted)</button>
+      </div>
+
+      <div class="speaking-prompt">
+        <h3>Part 3: Discussion</h3>
+        <p>Many cities are trying to reduce pollution by banning cars from the city centre.</p>
+        <p>Discuss the benefits and problems of this idea. Do you think it is the best way to protect the environment?</p>
+        <button class="record-btn" onclick="toggleRecord(this)">Record Answer</button>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<div id="results-modal">
+  <div class="modal-content">
+    <h2 class="panel-title" style="border:none; padding:0; margin-bottom:2rem; font-size: 2.5rem;">Examination Concluded</h2>
+    
+    <div class="score-circle" id="final-score">--/25</div>
+    
+    <div class="status-msg">
+      <strong>Receptive Skills (Reading/Listening):</strong> Auto-calculated above.<br><br>
+      <strong>Productive Skills (Writing/Speaking):</strong> Your responses have been secured in the Harvard-Tier Assessment Board for rigorous manual review by a certified examiner.<br><br>
+      A detailed CEFR B2 diagnostic report will be dispatched to your email address shortly.
+    </div>
+    
+    <button class="submit-exam-btn" style="margin-top:0;" onclick="location.reload()">Return to Main Portal</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom · Harvard-Tier B2 Examination Syndicate</p>
+</footer>
+
+<script>
+/* ── TIMER LOGIC (90 Mins for B2) ── */
+let timeLeft = 5400; 
+let timerId = setInterval(() => {
+  timeLeft--;
+  let m = Math.floor(timeLeft / 60);
+  let s = timeLeft % 60;
+  let display = document.getElementById('exam-timer');
+  display.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  
+  if(timeLeft < 300) display.classList.add('warning'); 
+  if(timeLeft <= 0) {
+    clearInterval(timerId);
+    submitExam();
+  }
+}, 1000);
+
+/* ── TAB NAVIGATION ── */
+function switchTab(tabId) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`button[onclick="switchTab('${tabId}')"]`).classList.add('active');
+  
+  document.querySelectorAll('.exam-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`panel-${tabId}`).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ── REAL AUDIO PLAYER ENGINE ── */
+const audioElement = document.getElementById('real-audio-player');
+const playBtn = document.getElementById('play-btn');
+const audioBar = document.getElementById('audio-bar');
+
+function toggleRealAudio() {
+  if (audioElement.paused) {
+    // Play the audio
+    audioElement.play();
+    
+    // Change icon to 'Pause'
+    playBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+  } else {
+    // Pause the audio
+    audioElement.pause();
+    
+    // Change icon to 'Play'
+    playBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M8 5v14l11-7z"/></svg>`;
+  }
+}
+
+// Automatically update the visual progress bar as the audio plays
+audioElement.addEventListener('timeupdate', () => {
+  if (audioElement.duration) {
+    const progressPercent = (audioElement.currentTime / audioElement.duration) * 100;
+    audioBar.style.width = progressPercent + '%';
+  }
+});
+
+// Reset the player when the audio finishes
+audioElement.addEventListener('ended', () => {
+  playBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M8 5v14l11-7z"/></svg>`;
+  audioBar.style.width = '0%';
+});
+/* ── WRITING SUBMISSION ENGINE (B2 Target: 140 - 190 words) ── */
+function countWords() {
+  const text = document.getElementById('writing-input').value.trim();
+  const words = text ? text.split(/\s+/) : [];
+  const counter = document.getElementById('word-count-display');
+  counter.innerText = `Word count: ${words.length}`;
+  
+  if(words.length < 140 || words.length > 190) {
+      counter.style.color = "var(--error)";
+  } else {
+      counter.style.color = "var(--success)";
+  }
+}
+
+function submitWritingTask() {
+    const textarea = document.getElementById('writing-input');
+    const text = textarea.value.trim();
+    const words = text ? text.split(/\s+/) : [];
+    
+    if(words.length < 70) {
+        alert("Your essay is too short to be evaluated at a B2 level. Please write at least 140 words.");
+        return;
+    }
+    
+    textarea.disabled = true;
+    const btn = document.getElementById('btn-submit-writing');
+    btn.innerHTML = "Essay Transmitted ✓";
+    btn.disabled = true;
+}
+
+/* ── SPEAKING RECORD BUTTON MOCK ── */
+function toggleRecord(btn) {
+  if(btn.classList.contains('recording')) {
+    btn.classList.remove('recording');
+    btn.innerText = "Audio Uploaded ✓";
+    btn.style.borderColor = "var(--success)";
+    btn.style.color = "var(--success)";
+  } else {
+    btn.classList.add('recording');
+    btn.innerText = "Recording... Click to Stop";
+  }
+}
+
+/* ── AUTO-GRADING ENGINE (B2 Level) ── */
+const answerKey = {
+  // Reading Part 1 (MCQs)
+  r1: 'B', r2: 'C', r3: 'B', r4: 'C', r5: 'A',
+  // Reading Part 2 (Open Cloze)
+  r6: ['by'],
+  r7: ['where'],
+  r8: ['as'],
+  r9: ['none', 'no'],
+  r10: ['been'],
+  // Reading Part 3 (Multiple Choice Cloze)
+  r11: 'A', r12: 'C', r13: 'A', r14: 'B', r15: 'A',
+  
+  // Listening MCQs (1-10)
+  l1: 'B', l2: 'C', l3: 'B', 
+  l4: 'C', l5: 'B', l6: 'B', l7: 'B',
+  l8: 'C', l9: 'B', l10: 'A'
+};
+
+function submitExam() {
+  clearInterval(timerId);
+  let score = 0;
+
+  // 20 MCQs (Reading 1, 3 & Listening)
+  const mcqs = ['r1','r2','r3','r4','r5', 'r11','r12','r13','r14','r15', 'l1','l2','l3','l4','l5','l6','l7','l8','l9','l10'];
+  mcqs.forEach(id => {
+    const selected = document.querySelector(`input[name="${id}"]:checked`);
+    if(selected && selected.value === answerKey[id]) {
+      score++;
+    }
+  });
+
+  // 5 Blanks (Reading 2)
+  const blanks = ['r6','r7','r8','r9','r10'];
+  blanks.forEach(id => {
+    const input = document.getElementById(id).value.toLowerCase().trim();
+    if(answerKey[id].includes(input)) {
+      score++;
+    }
+  });
+
+  document.getElementById('final-score').innerText = `${score}/25`; 
+  document.getElementById('results-modal').style.display = 'flex';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Between the Lines: Decoding News and Spin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8a2b2b; /* Deep Burgundy for News */
+            --secondary: #2c3e50; /* Slate Gray */
+            --bg-page: #fdfbf7;
+            --accent: #f5e6e6;
+            --text-main: #333333;
+            --correct: #27ae60;
+            --incorrect: #c0392b;
+            --hover-light: #fcebeb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lato', sans-serif; line-height: 1.8; color: var(--text-main); background: var(--bg-page); }
+        .container { max-width: 900px; margin: 0 auto; padding: 50px 20px; }
+        
+        /* Typography */
+        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; color: var(--primary); }
+        h1 { font-size: 2.8em; line-height: 1.2; margin-bottom: 10px; }
+        h2 { font-size: 2.2em; border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin: 40px 0 20px; }
+        .meta { font-size: 0.85em; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 30px; padding: 8px 15px; border-radius: 4px; display: inline-block; font-weight: bold; background: var(--primary); color: #fff; }
+        
+        /* Intro / Veteran's Voice */
+        .veteran-note { background: #fff; border-left: 4px solid var(--secondary); padding: 25px; font-style: italic; color: #555; margin-bottom: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+        
+        /* Reading Material */
+        .article-box { background: #fff; padding: 40px; border-top: 5px solid var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.05); margin-bottom: 40px; }
+        .article-headline { font-size: 2.2em; text-align: center; margin-bottom: 10px; color: #111; line-height: 1.1; }
+        .article-subhead { text-align: center; font-family: 'Lato', sans-serif; color: #666; font-size: 1.1em; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        .article-body p { margin-bottom: 20px; font-size: 1.1em; }
+        
+        /* Vocabulary Glossary */
+        .glossary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 50px; }
+        .vocab-card { background: #fff; border: 1px solid #e0e0e0; padding: 20px; border-radius: 6px; border-left: 4px solid var(--primary); }
+        .vocab-word { font-family: 'Cormorant Garamond', serif; font-size: 1.5em; font-weight: bold; color: var(--primary); display: block; }
+        .vocab-phonetics { color: #888; font-size: 0.9em; margin-bottom: 10px; display: block; }
+        .vocab-def { font-size: 0.95em; margin-bottom: 10px; }
+        .vocab-ex { font-style: italic; color: #555; font-size: 0.9em; background: var(--bg-page); padding: 8px; border-radius: 4px; }
+
+        /* Quiz UI */
+        .quiz-section { background: #fff; padding: 35px; border-radius: 8px; border: 1px solid #e0e0e0; margin-bottom: 50px; }
+        .q-block { padding: 20px; border-radius: 6px; background: #fafafa; border: 1px solid #eee; margin-bottom: 20px; }
+        .q-num { font-weight: bold; color: var(--primary); margin-right: 10px; font-family: 'Cormorant Garamond', serif; font-size: 1.3em; }
+        .q-instruction { font-size: 0.85em; text-transform: uppercase; color: #777; letter-spacing: 1px; margin-bottom: 10px; display: block; font-weight: bold; }
+
+        /* Q-Type 1: Loaded Words (Clickable Text) */
+        .lw-sentence { font-size: 1.15em; line-height: 1.8; color: #222; }
+        .lw-word { padding: 2px 5px; cursor: pointer; border-radius: 4px; transition: 0.2s; border: 1px solid transparent; display: inline-block; margin: 2px 0; }
+        .lw-word:hover { background: var(--hover-light); border-color: #f0caca; }
+        .lw-word.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        /* Q-Type 2: Spin Decoder (Multiple Choice Cards) */
+        .sd-quote { font-family: 'Cormorant Garamond', serif; font-size: 1.4em; color: var(--secondary); margin-bottom: 15px; font-style: italic; border-left: 3px solid var(--secondary); padding-left: 15px; }
+        .sd-options { display: flex; flex-direction: column; gap: 10px; }
+        .sd-btn { text-align: left; padding: 12px 20px; background: #fff; border: 2px solid #ddd; border-radius: 6px; cursor: pointer; font-family: 'Lato', sans-serif; font-size: 1em; transition: 0.2s; color: #444; }
+        .sd-btn:hover { border-color: var(--primary); background: var(--hover-light); }
+        .sd-btn.selected { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        /* Q-Type 3: Fact vs Spin (Binary Sorter) */
+        .fvs-statement { font-size: 1.15em; text-align: center; margin-bottom: 20px; font-weight: bold; color: #333; }
+        .fvs-controls { display: flex; justify-content: center; gap: 20px; }
+        .fvs-btn { padding: 10px 30px; font-size: 1.1em; font-weight: bold; border-radius: 30px; cursor: pointer; border: 2px solid var(--secondary); background: #fff; color: var(--secondary); transition: 0.2s; }
+        .fvs-btn:hover { background: var(--secondary); color: #fff; }
+        .fvs-btn.selected { background: var(--secondary); color: #fff; }
+
+        /* Check Answers Button & Feedback */
+        .check-btn { background: var(--primary); color: white; border: none; padding: 15px 35px; font-size: 1.1em; border-radius: 4px; cursor: pointer; font-weight: bold; display: block; margin: 40px auto 0; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .check-btn:hover { background: #6b1f1f; transform: translateY(-2px); }
+        
+        .feedback { display: block; margin-top: 15px; font-weight: bold; font-size: 1em; padding: 10px 15px; border-radius: 4px; display: none; }
+        .fc-correct { color: #1e824c; background: #e8f8f5; border-left: 4px solid #1e824c; display: block; }
+        .fc-incorrect { color: var(--incorrect); background: #fdedec; border-left: 4px solid var(--incorrect); display: block; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Reading Between the Lines</h1>
+    <div class="meta">B2 / C1 | Critical Reading & Journalistic Bias</div>
+
+    <div class="veteran-note">
+        <p><strong>A Note from Your Tutor:</strong> Welcome, astute learners. To truly master advanced British English, one must look far beyond the dictionary definition of words. In the UK press—from broadsheets to tabloids—journalists and politicians rarely lie outright. Instead, they use 'spin', loaded vocabulary, and euphemisms to gently nudge your opinion. Today, we are going to dissect a contentious news article. Your task is not just to read the news, but to translate it.</p>
+    </div>
+
+    <div class="article-box">
+        <h2 class="article-headline">The High-Speed Rail Debate: Progress or Vandalism?</h2>
+        <p class="article-subhead">By Alistair Sterling | Civic Affairs Correspondent</p>
+        
+        <div class="article-body">
+            <p>The government has today announced a "streamlined" timeline for the contentious HS8 rail link, pledging to definitively "unlock" the economic potential of the North. However, the proposed route, which carves relentlessly through pristine ancient woodland, has been met with fierce resistance from highly vocal local factions.</p>
+            
+            <p>Minister for Transport, Julian Hayes, defended the project vigorously this morning. "We cannot allow vital national infrastructure to be derailed by rigid NIMBYism," he stated. "There will, inevitably, be some collateral damage to the landscape, but we are taking unprecedented steps to mitigate the environmental impact. We are looking at the bigger picture."</p>
+            
+            <p>Conversely, environmental campaigners argue that the government’s rhetoric masks a brutal reality. "They speak of 'mitigation' and 'streamlining', but what they actually mean is bulldozing conservation areas to save time," said activist Elena Rostova. "The so-called economic benefits are entirely speculative, yet the destruction of our heritage is guaranteed."</p>
+        </div>
+    </div>
+
+    <h2>The Sub-Textual Lexicon</h2>
+    <div class="glossary-grid">
+        <div class="vocab-card">
+            <span class="vocab-word">Streamlined</span>
+            <span class="vocab-phonetics">/ˈstriːmlaɪnd/</span>
+            <p class="vocab-def"><em>(Adjective)</em> Officially: made more efficient. <strong>Subtext:</strong> Rushed, with vital checks or safety measures bypassed to save money.</p>
+            <p class="vocab-ex">"They introduced a streamlined application process that completely ignored safety protocols."</p>
+        </div>
+        <div class="vocab-card">
+            <span class="vocab-word">Contentious</span>
+            <span class="vocab-phonetics">/kənˈtɛnʃəs/</span>
+            <p class="vocab-def"><em>(Adjective)</em> Causing or likely to cause an argument. Journalists use this word to signal that a topic is politically toxic.</p>
+            <p class="vocab-ex">"The director's contentious decision to halve the marketing budget angered the team."</p>
+        </div>
+        <div class="vocab-card">
+            <span class="vocab-word">Vocal</span>
+            <span class="vocab-phonetics">/ˈvəʊkəl/</span>
+            <p class="vocab-def"><em>(Adjective)</em> Officially: expressing opinions freely. <strong>Subtext:</strong> Often used dismissively by politicians to imply a group is noisy, complaining, or irrational.</p>
+            <p class="vocab-ex">"A small but vocal minority of residents complained about the new parking rules."</p>
+        </div>
+        <div class="vocab-card">
+            <span class="vocab-word">NIMBYism</span>
+            <span class="vocab-phonetics">/ˈnɪmbi.ɪzəm/</span>
+            <p class="vocab-def"><em>(Noun)</em> An acronym for "Not In My Back Yard." Used as an insult against people who support a public project in theory, but oppose it being built near them.</p>
+            <p class="vocab-ex">"The wind farm was cancelled due to local NIMBYism."</p>
+        </div>
+        <div class="vocab-card">
+            <span class="vocab-word">Collateral damage</span>
+            <span class="vocab-phonetics">/kəˈlætərəl ˈdæmɪdʒ/</span>
+            <p class="vocab-def"><em>(Noun phrase)</em> A military term adopted by PR teams. <strong>Subtext:</strong> Unintended but accepted victims or destruction resulting from an action.</p>
+            <p class="vocab-ex">"The loss of the community centre was viewed as mere collateral damage by the developers."</p>
+        </div>
+        <div class="vocab-card">
+            <span class="vocab-word">So-called</span>
+            <span class="vocab-phonetics">/ˌsəʊˈkɔːld/</span>
+            <p class="vocab-def"><em>(Adjective)</em> Used to express one's view that a name or term is inappropriate. <strong>Subtext:</strong> Heavy sarcasm; implies the thing being described is fake or incompetent.</p>
+            <p class="vocab-ex">"The so-called experts couldn't even fix the server issue."</p>
+        </div>
+    </div>
+
+    <div class="quiz-section">
+        <h2>Critical Reading Analysis (25 Questions)</h2>
+        <p style="margin-bottom: 30px;">Can you see through the spin? Prove your C1 reading comprehension by tackling three unique analytical challenges.</p>
+        
+        <div id="quiz-container"></div>
+        
+        <button class="check-btn" onclick="checkAllAnswers()">Evaluate My Critical Reading</button>
+    </div>
+
+</div>
+
+<script>
+    /* =========================================
+       DATA STRUCTURE FOR 25 QUESTIONS
+    ========================================= */
+    const quizData = [
+        // TYPE 1: Find the Loaded Word (Q 1-10)
+        { id: 1, type: 'loaded', target: "militant", text: "The militant protesters blocked the high street for three hours." },
+        { id: 2, type: 'loaded', target: "paltry", text: "The council offered a paltry sum in compensation for the noise." },
+        { id: 3, type: 'loaded', target: "claimed", text: "The CEO claimed that he had not read the financial report." },
+        { id: 4, type: 'loaded', target: "so-called", text: "We will not listen to these so-called environmental experts." },
+        { id: 5, type: 'loaded', target: "boasted", text: "The mayor boasted about the new budget during the press conference." },
+        { id: 6, type: 'loaded', target: "drastic", text: "The headteacher introduced a drastic new policy regarding school uniforms." },
+        { id: 7, type: 'loaded', target: "bureaucrats", text: "Faceless bureaucrats in London delayed the planning permission." },
+        { id: 8, type: 'loaded', target: "feeble", text: "The minister gave a rather feeble excuse for missing the crucial vote." },
+        { id: 9, type: 'loaded', target: "exploited", text: "The corporation successfully exploited a loophole in the tax legislation." },
+        { id: 10, type: 'loaded', target: "stubborn", text: "A few stubborn locals are holding up the construction of the hospital." },
+
+        // TYPE 2: The Spin Decoder (Q 11-20)
+        { id: 11, type: 'decoder', quote: "We are experiencing a temporary negative cash flow.", answer: "We are actively losing money right now.", options: ["We are making a small profit.", "We are actively losing money right now.", "We are investing in new assets."] },
+        { id: 12, type: 'decoder', quote: "The team is undergoing a period of transition.", answer: "People are resigning or being fired.", options: ["We are moving to a new office.", "People are resigning or being fired.", "The team is learning new software."] },
+        { id: 13, type: 'decoder', quote: "We offer a highly competitive salary.", answer: "We pay the industry average, at best.", options: ["We pay much more than anyone else.", "We pay the industry average, at best.", "You have to compete with others to get paid."] },
+        { id: 14, type: 'decoder', quote: "It's a vibrant and up-and-coming neighbourhood.", answer: "It is currently quite rundown and noisy.", options: ["It is very quiet and peaceful.", "It is currently quite rundown and noisy.", "It is extremely wealthy and exclusive."] },
+        { id: 15, type: 'decoder', quote: "The product features a robust, vintage design.", answer: "It is old-fashioned, heavy, and bulky.", options: ["It is incredibly fragile and delicate.", "It is sleek and futuristic.", "It is old-fashioned, heavy, and bulky."] },
+        { id: 16, type: 'decoder', quote: "We are reviewing our pricing structure.", answer: "Prices are going up very soon.", options: ["Prices are going up very soon.", "We are going to offer huge discounts.", "Prices will remain exactly the same."] },
+        { id: 17, type: 'decoder', quote: "The schedule is highly ambitious.", answer: "It is almost impossible to finish on time.", options: ["It is very easy to accomplish.", "It is almost impossible to finish on time.", "The workers are highly motivated."] },
+        { id: 18, type: 'decoder', quote: "We are exploring strategic alternatives.", answer: "The company is likely for sale or going bankrupt.", options: ["We are launching a new marketing campaign.", "The company is likely for sale or going bankrupt.", "We are hiring a new CEO."] },
+        { id: 19, type: 'decoder', quote: "He is known for his frank and robust communication style.", answer: "He is frequently rude, blunt, and aggressive.", options: ["He is very polite and diplomatic.", "He is frequently rude, blunt, and aggressive.", "He speaks very quietly and shyly."] },
+        { id: 20, type: 'decoder', quote: "There were some unforeseen administrative anomalies.", answer: "We made a massive, embarrassing mistake.", options: ["We found extra money in the budget.", "We made a massive, embarrassing mistake.", "The paperwork was filed perfectly."] },
+
+        // TYPE 3: Fact vs Spin Sorter (Q 21-25)
+        { id: 21, type: 'factspin', text: "The railway will cost £5 billion to construct.", answer: "fact" },
+        { id: 22, type: 'factspin', text: "This railway is a disastrous waste of taxpayer money.", answer: "spin" },
+        { id: 23, type: 'factspin', text: "The construction phase will take 36 months to complete.", answer: "fact" },
+        { id: 24, type: 'factspin', text: "Only a few stubborn locals oppose the government's grand plan.", answer: "spin" },
+        { id: 25, type: 'factspin', text: "The new trains are capable of travelling at speeds up to 150mph.", answer: "fact" }
+    ];
+
+    /* =========================================
+       RENDER FUNCTIONS
+    ========================================= */
+    function renderQuiz() {
+        const container = document.getElementById('quiz-container');
+        let html = '';
+
+        // Add Section Headers dynamically
+        html += `<h3 style="margin-top:0;">Part 1: Find the Loaded Word</h3>
+                 <p style="margin-bottom:20px; color:#666;"><strong>Instruction:</strong> Read the sentence and click on the single word the writer used to inject bias, emotion, or opinion.</p>`;
+        
+        quizData.forEach(q => {
+            if (q.id === 11) {
+                html += `<h3 style="margin-top:40px;">Part 2: The Spin Decoder</h3>
+                         <p style="margin-bottom:20px; color:#666;"><strong>Instruction:</strong> Read the PR quote and select what the speaker is *actually* trying to say.</p>`;
+            }
+            if (q.id === 21) {
+                html += `<h3 style="margin-top:40px;">Part 3: Fact vs. Spin Sorter</h3>
+                         <p style="margin-bottom:20px; color:#666;"><strong>Instruction:</strong> Is the statement a verifiable FACT, or is it subjective SPIN?</p>`;
+            }
+
+            if (q.type === 'loaded') {
+                // Split sentence into words, wrap in spans
+                let wordsHtml = q.text.split(' ').map(word => {
+                    let cleanWord = word.replace(/[.,]/g, ''); // Strip punctuation for data-matching
+                    return `<span class="lw-word" data-clean="${cleanWord.toLowerCase()}" onclick="selectLoadedWord(this)">${word}</span>`;
+                }).join(' ');
+
+                html += `<div class="q-block" data-id="${q.id}" data-type="loaded" data-answer="${q.target.toLowerCase()}">
+                            <span class="q-instruction">Question ${q.id}</span>
+                            <div class="lw-sentence">${wordsHtml}</div>
+                            <div class="feedback"></div>
+                         </div>`;
+            } 
+            else if (q.type === 'decoder') {
+                let optionsHtml = q.options.sort(() => Math.random() - 0.5).map(opt => 
+                    `<button class="sd-btn" onclick="selectDecoderOption(this, '${opt}')">${opt}</button>`
+                ).join('');
+
+                html += `<div class="q-block" data-id="${q.id}" data-type="decoder" data-answer="${q.answer}">
+                            <span class="q-instruction">Question ${q.id}</span>
+                            <div class="sd-quote">"${q.quote}"</div>
+                            <div class="sd-options">${optionsHtml}</div>
+                            <div class="feedback"></div>
+                         </div>`;
+            }
+            else if (q.type === 'factspin') {
+                html += `<div class="q-block" data-id="${q.id}" data-type="factspin" data-answer="${q.answer}">
+                            <span class="q-instruction">Question ${q.id}</span>
+                            <div class="fvs-statement">"${q.text}"</div>
+                            <div class="fvs-controls">
+                                <button class="fvs-btn" onclick="selectFactSpin(this, 'fact')">It's a FACT</button>
+                                <button class="fvs-btn" onclick="selectFactSpin(this, 'spin')">It's SPIN</button>
+                            </div>
+                            <div class="feedback"></div>
+                         </div>`;
+            }
+        });
+
+        container.innerHTML = html;
+    }
+
+    /* =========================================
+       INTERACTION LOGIC
+    ========================================= */
+    function selectLoadedWord(el) {
+        let parent = el.closest('.q-block');
+        parent.querySelectorAll('.lw-word').forEach(w => w.classList.remove('selected'));
+        el.classList.add('selected');
+        parent.dataset.userAnswer = el.dataset.clean;
+    }
+
+    function selectDecoderOption(el, value) {
+        let parent = el.closest('.q-block');
+        parent.querySelectorAll('.sd-btn').forEach(b => b.classList.remove('selected'));
+        el.classList.add('selected');
+        parent.dataset.userAnswer = value;
+    }
+
+    function selectFactSpin(el, value) {
+        let parent = el.closest('.q-block');
+        parent.querySelectorAll('.fvs-btn').forEach(b => b.classList.remove('selected'));
+        el.classList.add('selected');
+        parent.dataset.userAnswer = value;
+    }
+
+    /* =========================================
+       GRADING LOGIC
+    ========================================= */
+    function checkAllAnswers() {
+        const blocks = document.querySelectorAll('.q-block');
+        let score = 0;
+
+        blocks.forEach(block => {
+            let correctAnswer = block.dataset.answer;
+            let userAnswer = block.dataset.userAnswer || "";
+            let feedback = block.querySelector('.feedback');
+
+            if (userAnswer === "") {
+                feedback.innerHTML = "❌ You missed this one!";
+                feedback.className = "feedback fc-incorrect";
+            } else if (userAnswer === correctAnswer) {
+                feedback.innerHTML = "✅ Excellent deduction.";
+                feedback.className = "feedback fc-correct";
+                score++;
+            } else {
+                feedback.innerHTML = `❌ Not quite. The correct answer was: <strong>${correctAnswer.toUpperCase()}</strong>`;
+                feedback.className = "feedback fc-incorrect";
+            }
+        });
+
+        alert(`Critical Analysis Complete! You scored ${score} out of 25. Review your feedback below to refine your reading skills.`);
+    }
+
+    // Initialize on load
+    window.onload = renderQuiz;
+</script>
+
+</body>
+</html>

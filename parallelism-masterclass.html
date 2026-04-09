@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Syntax: Parallel Construction – Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      /* Harvard Academic Palette */
+      --crimson: #A51C30;
+      --crimson-dark: #7a1520;
+      --ink: #1E1E1E;
+      --slate: #4A4A4A;
+      --parchment: #F9F7F1;
+      --paper: #FFFFFF;
+      --gold: #C4923E;
+      --gold-light: #E8D3A2;
+      --border: #E0DCD3;
+      --correct: #276749;
+      --correct-bg: #E6F4EA;
+      --wrong: #9B2C2C;
+      --wrong-bg: #FEE2E2;
+    }
+
+    html { scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Crimson Pro', Georgia, serif; background: var(--parchment); color: var(--ink); line-height: 1.6; }
+
+    /* ── NAVIGATION ── */
+    nav { background: var(--ink); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--gold); }
+    .nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--gold-light); text-decoration: none; letter-spacing: 0.03em; }
+    .nav-logo span { color: var(--paper); font-style: italic; }
+
+    /* ── HERO SECTION ── */
+    .hero { background: var(--crimson); padding: 5rem 2rem; text-align: center; color: var(--paper); position: relative; overflow: hidden; }
+    .hero-subtitle { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 1rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 600; margin-bottom: 1rem; line-height: 1.1; }
+    .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto; color: rgba(255,255,255,0.85); }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; display: grid; grid-template-columns: 1fr 300px; gap: 4rem; }
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
+
+    /* ── TYPOGRAPHY & CONTENT ── */
+    h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--crimson); margin: 2rem 0 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--ink); margin: 1.5rem 0 0.5rem; }
+    p.body-text { font-size: 1.15rem; color: var(--slate); margin-bottom: 1.5rem; }
+
+    /* ── RULE CARDS ── */
+    .rule-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+    .rule-card { background: var(--paper); border: 1px solid var(--border); padding: 1.5rem; border-left: 4px solid var(--crimson); box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+    .rule-card.correct { border-left-color: var(--correct); }
+    .rule-card h4 { font-family: 'DM Mono', monospace; font-size: 0.75rem; text-transform: uppercase; color: var(--slate); margin-bottom: 0.5rem; letter-spacing: 0.1em; }
+    .rule-card .bad-example { color: var(--wrong); text-decoration: line-through; margin-bottom: 0.5rem; }
+    .rule-card .good-example { color: var(--correct); font-weight: 600; }
+    .rule-card .explanation { font-size: 0.9rem; color: var(--slate); margin-top: 1rem; font-style: italic; }
+
+    /* ── INTERACTIVE PANELS ── */
+    .interactive-section { background: var(--paper); padding: 2.5rem; border: 1px solid var(--border); margin-bottom: 3rem; box-shadow: 0 8px 24px rgba(0,0,0,0.04); border-top: 4px solid var(--gold); }
+    .interactive-title { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--ink); margin-bottom: 0.5rem; }
+    .interactive-desc { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--slate); margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* ── MCQ STYLES ── */
+    .mcq-item { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px dashed var(--border); }
+    .mcq-item:last-of-type { border-bottom: none; }
+    .mcq-question { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--ink); }
+    .mcq-option { display: block; padding: 1rem; border: 1px solid var(--border); margin-bottom: 0.5rem; cursor: pointer; transition: 0.2s; background: var(--parchment); }
+    .mcq-option:hover { border-color: var(--gold); background: var(--paper); }
+    .mcq-option input { margin-right: 10px; accent-color: var(--crimson); }
+    
+    /* ── DRAG & DROP STYLES ── */
+    .dd-sentence { font-size: 1.15rem; padding: 1rem; background: var(--parchment); border: 1px dashed var(--slate); margin-bottom: 1rem; display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+    .drop-zone { display: inline-block; min-width: 220px; height: 40px; border: 2px dashed var(--crimson); background: var(--paper); vertical-align: middle; transition: 0.2s; padding: 0 0.5rem;}
+    .drop-zone.over { background: var(--gold-light); }
+    .drag-bank { display: flex; gap: 1rem; padding: 1.5rem; background: var(--paper); border: 1px solid var(--border); margin-bottom: 2rem; flex-wrap: wrap; justify-content: center; }
+    .draggable-item { padding: 0.5rem 1rem; background: var(--crimson); color: var(--paper); font-family: 'DM Mono', monospace; font-size: 0.9rem; cursor: grab; border-radius: 2px; text-align: center;}
+    .draggable-item:active { cursor: grabbing; }
+
+    /* ── INLINE SELECT STYLES ── */
+    .inline-sentence { font-size: 1.15rem; margin-bottom: 1.5rem; padding: 1rem; background: var(--parchment); border-left: 3px solid var(--gold); }
+    .inline-select { font-family: 'Crimson Pro', serif; font-size: 1.1rem; padding: 0.2rem 0.5rem; border: 1px solid var(--crimson); color: var(--crimson); font-weight: 600; background: var(--paper); outline: none; cursor: pointer; }
+    
+    /* ── BUTTONS & FEEDBACK ── */
+    .btn-check { padding: 0.8rem 2rem; background: var(--ink); color: var(--paper); font-family: 'DM Mono', monospace; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; border: none; cursor: pointer; transition: 0.3s; margin-top: 1rem; width: 100%;}
+    .btn-check:hover { background: var(--crimson); }
+    .feedback { margin-top: 1rem; padding: 1rem; display: none; font-weight: 600; font-size: 1.1rem; }
+    .feedback.success { display: block; background: var(--correct-bg); color: var(--correct); border-left: 4px solid var(--correct); }
+    .feedback.error { display: block; background: var(--wrong-bg); color: var(--wrong); border-left: 4px solid var(--wrong); }
+
+    /* ── SIDEBAR ── */
+    .sidebar-widget { background: var(--paper); border: 1px solid var(--border); padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); position: sticky; top: 100px;}
+    .widget-title { font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    .wotd-word { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--crimson); }
+    .wotd-pron { font-style: italic; color: var(--slate); font-size: 0.9rem; }
+    .wotd-def { margin-top: 1rem; font-size: 0.95rem; }
+
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
+  <div style="color: white; font-family: 'DM Mono', monospace; font-size: 0.8rem;">PREMIUM ACADEMIC SUITE</div>
+</nav>
+
+<header class="hero">
+  <div class="hero-subtitle">Syntax & Rhetoric Module</div>
+  <h1>Parallel Construction</h1>
+  <p>Mastering the similarity of structure in related words, phrases, and clauses to achieve rhetorical elegance.</p>
+</header>
+
+<div class="container">
+  <main>
+    <h2>The Architecture of Parallelism</h2>
+    <p class="body-text">Parallel structure is defined as the similarity of structure in a pair or series of related words, phrases, or clauses. By convention, items in a series must appear in parallel grammatical form: a noun is listed with other nouns, an ‘-ing’ form with other ‘-ing’ forms, and so on. Failure to express such items in a similar grammatical form is known as <strong>faulty parallelism</strong>.</p>
+
+    <h3>1. Consistency in Parts of Speech</h3>
+    <p class="body-text">Words in a series should belong to the same parts of speech.</p>
+    <div class="rule-grid">
+      <div class="rule-card">
+        <h4>Faulty Structure</h4>
+        <div class="bad-example">The town was small, quiet, and the atmosphere was peaceful.</div>
+        <div class="explanation">The series illegally mixes two adjectives with a noun clause.</div>
+      </div>
+      <div class="rule-card correct">
+        <h4>Parallel Structure</h4>
+        <div class="good-example">The town was small, quiet, and peaceful.</div>
+        <div class="explanation">Small, quiet, and peaceful are all adjectives.</div>
+      </div>
+    </div>
+
+    <h3>2. Consistency in Phrases & Clauses</h3>
+    <p class="body-text">Phrases in a series should be the same kinds of phrases (e.g., all prepositional, or all infinitive). Furthermore, clauses in a series should never be mixed with phrases.</p>
+    <div class="rule-grid">
+      <div class="rule-card">
+        <h4>Faulty Structure</h4>
+        <div class="bad-example">Her assignment is in her closet, on the floor and a pile of clothes is hiding it.</div>
+        <div class="explanation">Mixes two prepositional phrases with one clause.</div>
+      </div>
+      <div class="rule-card correct">
+        <h4>Parallel Structure</h4>
+        <div class="good-example">Her assignment is in her closet, on the floor and under a pile of clothes.</div>
+        <div class="explanation">Three consistent prepositional phrases.</div>
+      </div>
+    </div>
+
+    <h3>3. Advanced Nuances: Comparisons and Correlative Conjunctions</h3>
+    <p class="body-text">At the advanced level, parallelism is strictly enforced when comparing items or when using correlative conjunctions (e.g., <em>not only... but also, either... or, both... and</em>). The grammatical structure immediately following the first conjunction must precisely match the structure following the second.</p>
+    <div class="rule-grid">
+      <div class="rule-card">
+        <h4>Faulty Structure (Comparison)</h4>
+        <div class="bad-example">Swimming in a pool is more refreshing than to sleep on a bed.</div>
+        <div class="explanation">Mixes a gerund ("swimming") with an infinitive ("to sleep").</div>
+      </div>
+      <div class="rule-card correct">
+        <h4>Parallel Structure (Comparison)</h4>
+        <div class="good-example">Swimming in a pool is more refreshing than sleeping on a bed.</div>
+        <div class="explanation">Gerund ("swimming") matches gerund ("sleeping").</div>
+      </div>
+      <div class="rule-card">
+        <h4>Faulty Structure (Correlative)</h4>
+        <div class="bad-example">He is not only famous for his art, but also he is a brilliant scientist.</div>
+        <div class="explanation">"Not only" precedes an adjective, "but also" precedes a full clause.</div>
+      </div>
+      <div class="rule-card correct">
+        <h4>Parallel Structure (Correlative)</h4>
+        <div class="good-example">He is famous not only for his art but also for his science.</div>
+        <div class="explanation">Both conjunctions are immediately followed by prepositional phrases ("for his...").</div>
+      </div>
+    </div>
+
+    <section class="interactive-section">
+      <div class="interactive-title">Diagnostic Assessment: Identification</div>
+      <div class="interactive-desc">Select the grammatically parallel option for all 10 questions</div>
+
+      <div class="mcq-item">
+        <div class="mcq-question">1. Identify the sentence with correct parallel adverbs:</div>
+        <label class="mcq-option"><input type="radio" name="q1" value="wrong"> A) Athletes often move with grace, easily and powerfully.</label>
+        <label class="mcq-option"><input type="radio" name="q1" value="correct"> B) Athletes often move gracefully, easily and powerfully.</label>
+      </div>
+
+      <div class="mcq-item">
+        <div class="mcq-question">2. Identify the sentence with correct parallel gerunds:</div>
+        <label class="mcq-option"><input type="radio" name="q2" value="correct"> A) I enjoy shopping and keeping up with the latest styles, but not paying the bills.</label>
+        <label class="mcq-option"><input type="radio" name="q2" value="wrong"> B) I enjoy shopping and to keep up with the latest styles, but not to pay the bills.</label>
+      </div>
+
+      <div class="mcq-item">
+        <div class="mcq-question">3. Identify the sentence with correct correlative parallelism:</div>
+        <label class="mcq-option"><input type="radio" name="q3" value="wrong"> A) The politician was both respected by his allies and his enemies feared him.</label>
+        <label class="mcq-option"><input type="radio" name="q3" value="correct"> B) The politician was both respected by his allies and feared by his enemies.</label>
+      </div>
+
+      <div class="mcq-item">
+        <div class="mcq-question">4. Which comparison is structurally parallel?</div>
+        <label class="mcq-option"><input type="radio" name="q4" value="correct"> A) To write a novel is more difficult than to write a short story.</label>
+        <label class="mcq-option"><input type="radio" name="q4" value="wrong"> B) To write a novel is more difficult than writing a short story.</label>
+      </div>
+
+      <div class="mcq-item">
+        <div class="mcq-question">5. Identify the correct parallel verbs:</div>
+        <label class="mcq-option"><input type="radio" name="q5" value="correct"> A) We press a button, wait a short time, and remove the food from the microwave.</label>
+        <label class="mcq-option"><input type="radio" name="q5" value="wrong"> B) We press a button, wait a short time, and can remove the food from the microwave.</label>
+      </div>
+
+      <div class="mcq-item">
+        <div class="mcq-question">6. Which list of nouns maintains parallel structure?</div>
+        <label class="mcq-option"><input type="radio" name="q6" value="wrong"> A) The CEO requested a full report, an audit of the accounts, and that we analyze the data.</label>
+        <label class="mcq-option"><input type="radio" name="q6" value="correct"> B) The CEO requested a full report, an audit of the accounts, and an analysis of the data.</label>
+      </div>
+
+      <div class="mcq-item">
+        <div class="mcq-question">7. Identify the correct parallel subjects:</div>
+        <label class="mcq-option"><input type="radio" name="q7" value="correct"> A) Working and playing should be more evenly divided in my day.</label>
+        <label class="mcq-option"><input type="radio" name="q7" value="wrong"> B) Working and to play should be more evenly divided in my day.</label>
+      </div>
+
+      <div class="mcq-item">
+        <div class="mcq-question">8. Which sentence correctly uses "not only / but also"?</div>
+        <label class="mcq-option"><input type="radio" name="q8" value="wrong"> A) She not only bought a new car, but also she bought a new house.</label>
+        <label class="mcq-option"><input type="radio" name="q8" value="correct"> B) She bought not only a new car but also a new house.</label>
+      </div>
+
+      <div class="mcq-item">
+        <div class="mcq-question">9. Identify the correct parallel infinitives:</div>
+        <label class="mcq-option"><input type="radio" name="q9" value="correct"> A) He wanted to travel the world, to write a book, and to start a business.</label>
+        <label class="mcq-option"><input type="radio" name="q9" value="wrong"> B) He wanted to travel the world, writing a book, and start a business.</label>
+      </div>
+
+      <div class="mcq-item">
+        <div class="mcq-question">10. Which sentence correctly balances clauses?</div>
+        <label class="mcq-option"><input type="radio" name="q10" value="correct"> A) The street was narrow, the shops were charming, and the café was crowded.</label>
+        <label class="mcq-option"><input type="radio" name="q10" value="wrong"> B) The street was narrow, the shops were charming, and crowds in the café.</label>
+      </div>
+
+      <button class="btn-check" onclick="checkMCQ()">Evaluate All 10 Answers</button>
+      <div id="mcq-feedback" class="feedback"></div>
+    </section>
+
+    <section class="interactive-section">
+      <div class="interactive-title">Structural Reconstruction: Drag & Drop</div>
+      <div class="interactive-desc">Drag the correct parallel phrase from the bank into the drop zones</div>
+
+      <div class="drag-bank">
+        <div class="draggable-item" draggable="true" ondragstart="drag(event)" id="drag1">sewing her own clothes</div>
+        <div class="draggable-item" draggable="true" ondragstart="drag(event)" id="drag2">lonely</div>
+        <div class="draggable-item" draggable="true" ondragstart="drag(event)" id="drag3">having picnics</div>
+        <div class="draggable-item" draggable="true" ondragstart="drag(event)" id="drag4">launch a new product</div>
+        <div class="draggable-item" draggable="true" ondragstart="drag(event)" id="drag5">his engaging lectures</div>
+        <div class="draggable-item" draggable="true" ondragstart="drag(event)" id="drag6">painting landscapes</div>
+        <div class="draggable-item" draggable="true" ondragstart="drag(event)" id="drag7">easy to follow</div>
+        <div class="draggable-item" draggable="true" ondragstart="drag(event)" id="drag8">driving a car</div>
+      </div>
+
+      <div class="dd-sentence">
+        <strong>1.</strong> She enjoys reading novels, playing the flute, and 
+        <div class="drop-zone" id="dz1" ondrop="drop(event, 'drag1')" ondragover="allowDrop(event)"></div>.
+      </div>
+
+      <div class="dd-sentence">
+        <strong>2.</strong> That night the prisoner was sick, discouraged and 
+        <div class="drop-zone" id="dz2" ondrop="drop(event, 'drag2')" ondragover="allowDrop(event)"></div>.
+      </div>
+
+      <div class="dd-sentence">
+        <strong>3.</strong> She disliked going to the beach, hiking in the woods, and 
+        <div class="drop-zone" id="dz3" ondrop="drop(event, 'drag3')" ondragover="allowDrop(event)"></div>.
+      </div>
+
+      <div class="dd-sentence">
+        <strong>4.</strong> The CEO decided to expand the team, increase the budget, and 
+        <div class="drop-zone" id="dz4" ondrop="drop(event, 'drag4')" ondragover="allowDrop(event)"></div>.
+      </div>
+
+      <div class="dd-sentence">
+        <strong>5.</strong> He is famous not only for his brilliant research but also for 
+        <div class="drop-zone" id="dz5" ondrop="drop(event, 'drag5')" ondragover="allowDrop(event)"></div>.
+      </div>
+
+      <div class="dd-sentence">
+        <strong>6.</strong> She prefers reading poetry, listening to jazz, and 
+        <div class="drop-zone" id="dz6" ondrop="drop(event, 'drag6')" ondragover="allowDrop(event)"></div>.
+      </div>
+
+      <div class="dd-sentence">
+        <strong>7.</strong> The instructions were clear, concise, and 
+        <div class="drop-zone" id="dz7" ondrop="drop(event, 'drag7')" ondragover="allowDrop(event)"></div>.
+      </div>
+
+      <div class="dd-sentence">
+        <strong>8.</strong> You can get there by taking the train, catching a bus, or 
+        <div class="drop-zone" id="dz8" ondrop="drop(event, 'drag8')" ondragover="allowDrop(event)"></div>.
+      </div>
+
+      <button class="btn-check" onclick="checkDragDrop()">Evaluate Placement</button>
+      <div id="dd-feedback" class="feedback"></div>
+    </section>
+
+    <section class="interactive-section">
+      <div class="interactive-title">Syntax Correction: Inline Selection</div>
+      <div class="interactive-desc">Select the appropriate parallel form from the dropdown menus</div>
+
+      <div class="inline-sentence">
+        1. She must either cut back on her expenses or 
+        <select class="inline-select" id="sel1">
+          <option value="empty">...</option>
+          <option value="wrong">selling</option>
+          <option value="correct">sell</option>
+        </select> 
+        her car.
+      </div>
+
+      <div class="inline-sentence">
+        2. Dogs provide older people an important chance to learn or 
+        <select class="inline-select" id="sel2">
+          <option value="empty">...</option>
+          <option value="wrong">maintaining</option>
+          <option value="correct">maintain</option>
+        </select> 
+        social skills.
+      </div>
+
+      <div class="inline-sentence">
+        3. My parents didn’t have time to analyze their feelings or 
+        <select class="inline-select" id="sel3">
+          <option value="empty">...</option>
+          <option value="wrong">thinking</option>
+          <option value="correct">think</option>
+        </select> 
+        about themselves.
+      </div>
+
+      <div class="inline-sentence">
+        4. To learn a new language is to 
+        <select class="inline-select" id="sel4">
+          <option value="empty">...</option>
+          <option value="wrong">opening</option>
+          <option value="correct">open</option>
+        </select> 
+        a new window to the world.
+      </div>
+
+      <div class="inline-sentence">
+        5. The committee is responsible for reviewing applications, interviewing candidates, and 
+        <select class="inline-select" id="sel5">
+          <option value="empty">...</option>
+          <option value="wrong">to select</option>
+          <option value="correct">selecting</option>
+        </select> 
+        the winner.
+      </div>
+
+      <div class="inline-sentence">
+        6. He was respected both for his intellect and 
+        <select class="inline-select" id="sel6">
+          <option value="empty">...</option>
+          <option value="wrong">because he was honest</option>
+          <option value="correct">for his integrity</option>
+        </select>.
+      </div>
+
+      <div class="inline-sentence">
+        7. I would rather pay for my own meal than 
+        <select class="inline-select" id="sel7">
+          <option value="empty">...</option>
+          <option value="wrong">letting</option>
+          <option value="correct">let</option>
+        </select> 
+        you pay for it.
+      </div>
+
+      <div class="inline-sentence">
+        8. Her speech was passionate, articulate, and 
+        <select class="inline-select" id="sel8">
+          <option value="empty">...</option>
+          <option value="wrong">persuaded the audience</option>
+          <option value="correct">persuasive</option>
+        </select>.
+      </div>
+
+      <div class="inline-sentence">
+        9. The new software is designed to optimize workflow, enhance security, and 
+        <select class="inline-select" id="sel9">
+          <option value="empty">...</option>
+          <option value="wrong">reducing</option>
+          <option value="correct">reduce</option>
+        </select> 
+        errors.
+      </div>
+
+      <div class="inline-sentence">
+        10. We must either improve our sales strategy immediately or 
+        <select class="inline-select" id="sel10">
+          <option value="empty">...</option>
+          <option value="wrong">facing</option>
+          <option value="correct">face</option>
+        </select> 
+        bankruptcy.
+      </div>
+
+      <button class="btn-check" onclick="checkInlineSelect()">Evaluate All Selections</button>
+      <div id="sel-feedback" class="feedback"></div>
+    </section>
+
+  </main>
+
+  <aside>
+    <div class="sidebar-widget" style="background: var(--ink); color: var(--paper);">
+      <div class="widget-title" style="border-color: rgba(255,255,255,0.2);">Thought for the Day</div>
+      <p style="font-size: 1.1rem; font-style: italic;">"About the only thing that comes to us without effort is old age."</p>
+      <p style="text-align: right; margin-top: 1rem; color: var(--gold-light);">— Gloria Pitzer</p>
+    </div>
+
+    <div class="sidebar-widget">
+      <div class="widget-title">Word of the Day</div>
+      <div class="wotd-word">Dilettante</div>
+      <div class="wotd-pron">/deeleetaantee/ /n./</div>
+      <div class="wotd-def">
+        <strong>Definition:</strong> Aimless follower of an art or a field of knowledge.<br><br>
+        <strong>Synonym:</strong> apprentice, beginner.<br><br>
+        <strong>Example:</strong> He's a bit of a dilettante as far as wine is concerned.<br><br>
+        <span style="font-size: 0.8rem; color: var(--slate);"><strong>Origin:</strong> Mid 18th Century, Latin.</span>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+  // --- MCQ Logic ---
+  function checkMCQ() {
+    const totalQuestions = 10;
+    const feedback = document.getElementById('mcq-feedback');
+    let correctCount = 0;
+    let answeredCount = 0;
+
+    for (let i = 1; i <= totalQuestions; i++) {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      if (selected) {
+        answeredCount++;
+        if (selected.value === 'correct') {
+          correctCount++;
+        }
+      }
+    }
+    
+    if (answeredCount < totalQuestions) {
+      feedback.className = 'feedback error';
+      feedback.innerHTML = `You have answered ${answeredCount} of ${totalQuestions} questions. Please complete all before evaluating.`;
+      return;
+    }
+
+    if (correctCount === totalQuestions) {
+      feedback.className = 'feedback success';
+      feedback.innerHTML = `Score: ${correctCount}/${totalQuestions}. Excellent. All identifications are grammatically precise.`;
+    } else {
+      feedback.className = 'feedback error';
+      feedback.innerHTML = `Score: ${correctCount}/${totalQuestions}. Faulty parallelism detected. Please review the rules and try again.`;
+    }
+  }
+
+  // --- Drag and Drop Logic ---
+  function allowDrop(ev) {
+    ev.preventDefault();
+    ev.target.classList.add('over');
+  }
+
+  function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+
+  document.addEventListener('dragenter', function(event) {
+    if (event.target.className === 'drop-zone') { event.target.classList.add('over'); }
+  });
+
+  document.addEventListener('dragleave', function(event) {
+    if (event.target.className.includes('drop-zone')) { event.target.classList.remove('over'); }
+  });
+
+  function drop(ev, expectedId) {
+    ev.preventDefault();
+    ev.target.classList.remove('over');
+    var data = ev.dataTransfer.getData("text");
+    
+    // Only allow drop if the zone is empty
+    if(ev.target.classList.contains('drop-zone') && ev.target.children.length === 0) {
+      ev.target.appendChild(document.getElementById(data));
+      // Store whether it was correct directly on the drop zone
+      ev.target.setAttribute('data-is-correct', data === expectedId);
+    }
+  }
+
+  function checkDragDrop() {
+    const totalDZ = 8;
+    const feedback = document.getElementById('dd-feedback');
+    let correctCount = 0;
+    let filledCount = 0;
+
+    for (let i = 1; i <= totalDZ; i++) {
+      const dz = document.getElementById(`dz${i}`);
+      if (dz.children.length > 0) {
+        filledCount++;
+        if (dz.getAttribute('data-is-correct') === 'true') {
+          correctCount++;
+        }
+      }
+    }
+
+    if (filledCount < totalDZ) {
+      feedback.className = 'feedback error';
+      feedback.innerHTML = `Please fill all ${totalDZ} drop zones before evaluating.`;
+      return;
+    }
+
+    if (correctCount === totalDZ) {
+      feedback.className = 'feedback success';
+      feedback.innerHTML = 'Perfect structural reconstruction across all sentences.';
+    } else {
+      feedback.className = 'feedback error';
+      feedback.innerHTML = `${correctCount}/${totalDZ} correct. Faulty parallelism detected in some phrases. Please readjust.`;
+    }
+  }
+
+  // --- Inline Select Logic ---
+  function checkInlineSelect() {
+    const totalSelects = 10;
+    const feedback = document.getElementById('sel-feedback');
+    let correctCount = 0;
+    let answeredCount = 0;
+
+    for (let i = 1; i <= totalSelects; i++) {
+      const val = document.getElementById(`sel${i}`).value;
+      if (val !== 'empty') {
+        answeredCount++;
+        if (val === 'correct') {
+          correctCount++;
+        }
+      }
+    }
+
+    if (answeredCount < totalSelects) {
+      feedback.className = 'feedback error';
+      feedback.innerHTML = 'Please select an option for all sentences before evaluating.';
+      return;
+    }
+
+    if (correctCount === totalSelects) {
+      feedback.className = 'feedback success';
+      feedback.innerHTML = `Score: ${correctCount}/${totalSelects}. Outstanding. You have mastered inline syntactic parallelism.`;
+    } else {
+      feedback.className = 'feedback error';
+      feedback.innerHTML = `Score: ${correctCount}/${totalSelects}. Review your selections. Ensure parts of speech align strictly.`;
+    }
+  }
+</script>
+
+</body>
+</html>

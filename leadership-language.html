@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leadership Language: How Great Leaders Communicate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a365d; /* Executive Navy */
+            --secondary: #b07d2a; /* Gold */
+            --bg: #f8fafc;
+            --accent: #e2e8f0;
+            --text: #2d3748; 
+            --correct: #27ae60; 
+            --incorrect: #c0392b;
+            --drag-bg: #edf2f7; 
+            --drop-bg: #ffffff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lato', sans-serif; line-height: 1.7; color: var(--text); background: #fff; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        
+        /* Typography */
+        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; color: var(--primary); }
+        h1 { font-size: 2.8em; margin-bottom: 10px; line-height: 1.2; }
+        h2 { font-size: 2.2em; border-bottom: 2px solid var(--secondary); padding-bottom: 10px; margin: 40px 0 20px; }
+        .meta { font-size: 0.85em; color: #fff; background: var(--secondary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 30px; padding: 8px 15px; border-radius: 4px; display: inline-block; font-weight: bold; }
+        
+        /* Layout Elements */
+        .audio-box { background: var(--bg); padding: 30px; border-radius: 8px; text-align: center; border: 1px solid #cbd5e1; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        audio { width: 100%; max-width: 600px; margin-top: 15px; outline: none; }
+        .transcript { background: #fafafa; padding: 30px; border-left: 5px solid var(--primary); margin-bottom: 40px; font-size: 1.1em; line-height: 1.9; }
+        .spkr { font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 0.85em; letter-spacing: 0.5px; }
+        .annotation { color: var(--secondary); font-style: italic; font-size: 0.9em; font-weight: bold; }
+        
+        /* Pro Tips Section */
+        .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 50px; }
+        .tip-card { background: #fff; border: 1px solid var(--accent); padding: 25px; border-radius: 8px; border-top: 4px solid var(--secondary); box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .tip-card h3 { color: var(--primary); margin-bottom: 10px; font-family: 'Lato', sans-serif; font-size: 1.2em; }
+        
+        /* Quiz Container */
+        .quiz-section { background: var(--bg); padding: 35px; border-radius: 8px; border: 1px solid #cbd5e1; margin-bottom: 50px; }
+        .q-block { background: #fff; padding: 20px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.04); margin-bottom: 20px; border-left: 3px solid transparent; transition: 0.3s; }
+        .q-block:hover { border-left-color: var(--secondary); }
+        .q-num { font-weight: bold; color: var(--secondary); margin-right: 10px; font-family: 'Cormorant Garamond', serif; font-size: 1.2em; }
+        
+        /* 1. Dropdown */
+        select.q-drop { padding: 6px 12px; font-family: 'Lato', sans-serif; font-size: 0.95em; border: 2px solid #cbd5e1; border-radius: 4px; cursor: pointer; outline: none; background: #fff; font-weight: bold; color: var(--primary); transition: 0.2s; }
+        select.q-drop:focus { border-color: var(--secondary); }
+        
+        /* 2. Drag and Drop */
+        .dd-container { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; margin-top: 15px; }
+        .draggable { background: var(--primary); color: white; padding: 8px 16px; border-radius: 4px; cursor: grab; font-weight: bold; user-select: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .draggable:active { cursor: grabbing; opacity: 0.8; }
+        .dropzone { width: 180px; height: 45px; background: var(--drop-bg); border: 2px dashed #94a3b8; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .dropzone.hover { border-color: var(--secondary); background: #fdf6e3; }
+        .dropzone .draggable { margin: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 2px; box-shadow: none; }
+        
+        /* 3. Click and Match */
+        .cm-wordbank { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; padding: 20px; background: #fff; border: 1px solid var(--accent); border-radius: 6px; }
+        .cm-word { background: #fff; border: 2px solid var(--primary); color: var(--primary); padding: 6px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        .cm-word:hover { background: var(--bg); border-color: var(--secondary); color: var(--secondary); }
+        .cm-word.selected { background: var(--secondary); border-color: var(--secondary); color: white; transform: scale(1.05); }
+        .cm-word.used { opacity: 0.3; pointer-events: none; }
+        .cm-blank { display: inline-block; min-width: 120px; height: 32px; border-bottom: 2px solid var(--secondary); margin: 0 5px; cursor: pointer; text-align: center; font-weight: bold; color: var(--primary); vertical-align: middle; background: rgba(176, 125, 42, 0.05); transition: 0.2s; }
+        .cm-blank:hover { background: rgba(176, 125, 42, 0.15); }
+        
+        /* Buttons & Feedback */
+        .check-btn { background: var(--secondary); color: white; border: none; padding: 14px 30px; font-size: 1.1em; border-radius: 4px; cursor: pointer; font-family: 'Lato', sans-serif; font-weight: bold; transition: 0.2s; display: block; margin: 30px auto 0; text-transform: uppercase; letter-spacing: 1px; }
+        .check-btn:hover { background: var(--primary); }
+        .feedback { display: inline-block; margin-left: 15px; font-weight: bold; font-size: 0.95em; padding: 4px 8px; border-radius: 4px; }
+        .fc-correct { color: var(--correct); background: #e8f8f5; }
+        .fc-incorrect { color: var(--incorrect); background: #fdedec; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Leadership Language: How Great Leaders Communicate</h1>
+    <div class="meta">Level: B2 / C1 | Focus: Rhetoric, Persuasion & Delivery</div>
+
+   <div class="audio-box">
+    <h3 style="margin:0; border:none; color:var(--primary);">Audio Analysis: The Turnaround Speech</h3>
+    <p style="color:#666; font-size:0.95em; margin-top:5px;">Listen to this executive address during a company crisis. Pay close attention to the pacing, the strategic pauses, and the repetition of key phrases.</p>
+    
+    <audio controls preload="metadata">
+        <source src="leadership-language.mp3" type="audio/mp3"> Your browser does not support the audio element.
+    </audio>
+</div>
+
+    <h2>Transcript & Rhetorical Analysis</h2>
+    <div class="transcript">
+        <p><span class="spkr">CEO (Eleanor):</span> "Thank you all for being here. I know the past few weeks have been difficult. Rumours have circulated, markets have fluctuated, and uncertainty has grown. <span class="annotation">[Rule of Three - building a rhythm]</span></p>
+        
+        <p>But let me be absolutely clear. We are not retreating. We are not downsizing. We are restructuring for the future. <span class="annotation">[Anaphora - repetition of 'We are not/We are' for emphasis]</span></p>
+        
+        <p>Some have suggested that we lower our ambitions to survive this quarter. I reject that premise entirely. Survival is not a strategy; leadership is. <span class="annotation">[Contrast / Antithesis - juxtaposing two ideas to highlight the better one]</span></p>
+        
+        <p>To get there, I need three things from every person in this room: clarity of purpose, courage in execution, and absolute conviction in our product. <span class="annotation">[Tricolon / Rule of Three - makes the request memorable and authoritative]</span></p>
+        
+        <p>We will face headwinds. <em>(Pause for 3 seconds)</em> But we will face them together. Thank you." <span class="annotation">[The Strategic Pause - forces the audience to digest the weight of the statement]</span></p>
+    </div>
+
+    <h2>Pro-Tips: Speaking Boldly Without Hesitation</h2>
+    <div class="tips-grid">
+        <div class="tip-card">
+            <h3>1. Eliminate the "Hedging"</h3>
+            <p>Weak speakers soften their language to avoid taking responsibility. They say: <em>"I think we should maybe try to launch in May."</em> Bold leaders say: <strong>"We will launch in May."</strong> Remove 'just', 'maybe', 'hopefully', and 'I think'.</p>
+        </div>
+        <div class="tip-card">
+            <h3>2. The Downward Inflection</h3>
+            <p>When nervous, people end sentences with their voice going <em>up</em>, making every statement sound like a question? A leader ends their sentences with a <strong>downward inflection</strong>. It signals certainty, finality, and authority.</p>
+        </div>
+        <div class="tip-card">
+            <h3>3. Replace Fillers with Pauses</h3>
+            <p>Instead of saying "um", "ah", or "like" when searching for a word, simply close your mouth and pause. A moment of silence makes you look thoughtful and in control. "Um" makes you look unprepared.</p>
+        </div>
+        <div class="tip-card">
+            <h3>4. The Inclusive "We"</h3>
+            <p>When discussing successes or future plans, replace "I" with "We". "I will fix this" sounds arrogant or isolating. <strong>"We will overcome this"</strong> creates a unified team culture.</p>
+        </div>
+    </div>
+
+    <div class="quiz-section">
+        <h2 style="margin-top:0;">Leadership Language Masterclass (25 Questions)</h2>
+        <p style="margin-bottom: 25px;">Put your knowledge into practice. Transform weak statements into powerful leadership language, and identify key rhetorical devices.</p>
+        
+        <div id="quiz-container"></div>
+        <button class="check-btn" onclick="checkQuiz()">Check My Leadership Answers</button>
+    </div>
+
+</div>
+
+<script>
+    /* =========================================
+       DATA STRUCTURE FOR 25 QUESTIONS
+    ========================================= */
+    const quizData = [
+        // PART 1: ELIMINATING WEAK LANGUAGE (Dropdowns - 10 Qs)
+        { id: 1, type: 'drop', text: "Weak: I'm hoping we can finish by Friday. <br>Strong: We {will finish} by Friday.", options: ["might finish", "will finish", "are hoping to finish"] },
+        { id: 2, type: 'drop', text: "Weak: I think this is probably the best strategy. <br>Strong: This {is} the best strategy.", options: ["might be", "seems to be", "is"] },
+        { id: 3, type: 'drop', text: "Weak: I just wanted to ask if we could review the budget. <br>Strong: Let's {review} the budget.", options: ["try to review", "review", "possibly review"] },
+        { id: 4, type: 'drop', text: "Weak: It's sort of a big problem for the team. <br>Strong: This is a {critical} problem for the team.", options: ["sort of big", "critical", "somewhat major"] },
+        { id: 5, type: 'drop', text: "Weak: I was wondering if you could send the report. <br>Strong: Please {send} the report.", options: ["try to send", "send", "consider sending"] },
+        { id: 6, type: 'drop', text: "When taking responsibility for a mistake, a leader says: '{I take}' full responsibility.", options: ["We share", "I take", "It's partially my"] },
+        { id: 7, type: 'drop', text: "When sharing credit for a success, a leader says: '{We achieved}' this together.", options: ["I achieved", "We achieved", "You all helped me achieve"] },
+        { id: 8, type: 'drop', text: "Instead of 'I'll try to get it done', say: 'I will {ensure}' it gets done.", options: ["attempt to see", "ensure", "hope"] },
+        { id: 9, type: 'drop', text: "Instead of saying 'I don't know', a bold leader says: 'I will {find out}'.", options: ["guess that", "find out", "ask someone eventually"] },
+        { id: 10, type: 'drop', text: "To show authority, sentences should end with a {downward} vocal inflection.", options: ["upward", "downward", "flat"] },
+
+        // PART 2: RHETORICAL DEVICES (Drag and Drop - 5 Qs)
+        { id: 11, type: 'drag', text: "Repeating the same words at the beginning of successive sentences (e.g., 'We shall fight... We shall never surrender'):", answer: "Anaphora", dragItems: ["Anaphora", "Rule of Three", "Strategic Pause", "Contrast", "Inclusive Pronoun"] },
+        { id: 12, type: 'drag', text: "Grouping ideas in triplets because they are more memorable (e.g., 'Clarity, Courage, Conviction'):", answer: "Rule of Three", dragItems: [] },
+        { id: 13, type: 'drag', text: "Remaining completely silent for 2-3 seconds to make the audience lean in and pay attention:", answer: "Strategic Pause", dragItems: [] },
+        { id: 14, type: 'drag', text: "Highlighting the difference between two ideas to make your point stronger (e.g., 'Survival is not a strategy; leadership is.'):", answer: "Contrast", dragItems: [] },
+        { id: 15, type: 'drag', text: "Using 'We' and 'Us' to make the audience feel like they are part of the team:", answer: "Inclusive Pronoun", dragItems: [] },
+
+        // PART 3: CLICK AND MATCH - BUILDING A SPEECH (Click and Match - 10 Qs)
+        { type: 'clickBank', words: ["vision", "challenges", "overcome", "commit", "together", "unprecedented", "opportunity", "transparent", "momentum", "deliver"] },
+        { id: 16, type: 'click', text: "We are facing {unprecedented} market conditions this year." },
+        { id: 17, type: 'click', text: "However, I do not see these as threats; I see them as an {opportunity}." },
+        { id: 18, type: 'click', text: "To succeed, we must maintain a clear {vision} for the future." },
+        { id: 19, type: 'click', text: "I promise to always be {transparent} with you about our financials." },
+        { id: 20, type: 'click', text: "There will be {challenges} along the way, undoubtedly." },
+        { id: 21, type: 'click', text: "But I know we have the talent to {overcome} them." },
+        { id: 22, type: 'click', text: "We have built incredible {momentum} over the last three quarters." },
+        { id: 23, type: 'click', text: "I {commit} to giving you the resources you need." },
+        { id: 24, type: 'click', text: "In return, I need you to {deliver} excellence every single day." },
+        { id: 25, type: 'click', text: "We will win, and we will win {together}." }
+    ];
+
+    /* =========================================
+       ENGINE LOGIC
+    ========================================= */
+    let selectedClickWord = null;
+
+    function renderDropdown(q) {
+        let parts = q.text.split(/\{|\}/);
+        let correctAnswer = parts[1];
+        let optionsHtml = q.options.sort(() => Math.random() - 0.5).map(opt => `<option value="${opt}">${opt}</option>`).join('');
+        return `<div class="q-block" data-id="${q.id}" data-type="drop" data-answer="${correctAnswer}">
+                    <span class="q-num">${q.id}.</span> ${parts[0]} 
+                    <select class="q-drop"><option value="">-- Select --</option>${optionsHtml}</select> ${parts[2] || ''}
+                    <span class="feedback"></span>
+                </div>`;
+    }
+
+    function renderDragDrop(q) {
+        let html = `<div class="q-block" data-id="${q.id}" data-type="drag" data-answer="${q.answer}">
+                        <span class="q-num">${q.id}.</span> ${q.text}
+                        <div class="dd-container">
+                            <div class="dropzone" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)" ondrop="drop(event, this)"></div>
+                        </div>
+                        <span class="feedback"></span>
+                    </div>`;
+        return html;
+    }
+
+    function renderClickMatch(q) {
+        let parts = q.text.split(/\{|\}/);
+        let correctAnswer = parts[1];
+        return `<div class="q-block" data-id="${q.id}" data-type="click" data-answer="${correctAnswer}">
+                    <span class="q-num">${q.id}.</span> ${parts[0]} 
+                    <span class="cm-blank" onclick="fillBlank(this)">______</span> ${parts[2] || ''}
+                    <span class="feedback"></span>
+                </div>`;
+    }
+
+    function initQuiz() {
+        const container = document.getElementById('quiz-container');
+        let html = '';
+        let dragItemsHtml = '';
+        
+        quizData.forEach(q => {
+            if (q.type === 'drop') {
+                html += renderDropdown(q);
+            } else if (q.type === 'drag') {
+                if(q.dragItems && q.dragItems.length > 0) {
+                    dragItemsHtml = `<div class="q-block" style="background:var(--bg); border-left: 4px solid var(--primary);"><p style="color:var(--primary); font-weight:bold; margin-bottom:10px;">Drag the correct rhetorical device into the boxes below:</p><div class="dd-container" id="drag-bank">`;
+                    q.dragItems.forEach(item => {
+                        dragItemsHtml += `<div class="draggable" draggable="true" ondragstart="drag(event)" id="drag-${Math.random().toString(36).substr(2,9)}">${item}</div>`;
+                    });
+                    dragItemsHtml += `</div></div>`;
+                    html += dragItemsHtml;
+                }
+                html += renderDragDrop(q);
+            } else if (q.type === 'clickBank') {
+                html += `<div class="q-block" style="background:var(--bg); border-left: 4px solid var(--primary);"><p style="color:var(--primary); font-weight:bold; margin-bottom:10px;">Word Bank: Click a strong vocabulary word, then click a blank space below to complete the speech.</p><div class="cm-wordbank">`;
+                q.words.forEach(word => {
+                    html += `<div class="cm-word" onclick="selectWord(this)">${word}</div>`;
+                });
+                html += `</div></div>`;
+            } else if (q.type === 'click') {
+                html += renderClickMatch(q);
+            }
+        });
+        container.innerHTML = html;
+    }
+
+    /* Drag and Drop Events */
+    function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+    function allowDrop(ev) { ev.preventDefault(); ev.currentTarget.classList.add('hover'); }
+    function leaveDrop(ev) { ev.currentTarget.classList.remove('hover'); }
+    function drop(ev, el) {
+        ev.preventDefault();
+        el.classList.remove('hover');
+        if(el.children.length > 0) {
+            document.getElementById('drag-bank').appendChild(el.children[0]);
+        }
+        var data = ev.dataTransfer.getData("text");
+        el.appendChild(document.getElementById(data));
+    }
+
+    /* Click and Match Events */
+    function selectWord(el) {
+        document.querySelectorAll('.cm-word').forEach(w => w.classList.remove('selected'));
+        if(!el.classList.contains('used')) {
+            el.classList.add('selected');
+            selectedClickWord = el;
+        }
+    }
+    function fillBlank(el) {
+        if(selectedClickWord) {
+            if(el.dataset.linkedWordId) {
+                document.getElementById(el.dataset.linkedWordId).classList.remove('used');
+            }
+            if(!selectedClickWord.id) selectedClickWord.id = 'cw-' + Math.random().toString(36).substr(2,9);
+            
+            el.innerText = selectedClickWord.innerText;
+            el.dataset.linkedWordId = selectedClickWord.id;
+            selectedClickWord.classList.add('used');
+            selectedClickWord.classList.remove('selected');
+            selectedClickWord = null;
+        } else if (el.innerText !== '______') {
+            document.getElementById(el.dataset.linkedWordId).classList.remove('used');
+            el.innerText = '______';
+            delete el.dataset.linkedWordId;
+        }
+    }
+
+    /* Grading Logic */
+    function checkQuiz() {
+        const container = document.getElementById('quiz-container');
+        const blocks = container.querySelectorAll('.q-block[data-id]');
+        let score = 0;
+
+        blocks.forEach(block => {
+            let type = block.dataset.type;
+            let correctAnswer = block.dataset.answer.toLowerCase();
+            let feedback = block.querySelector('.feedback');
+            let userAnswer = "";
+
+            if (type === 'drop') {
+                userAnswer = block.querySelector('select').value.toLowerCase();
+            } else if (type === 'drag') {
+                let dropped = block.querySelector('.dropzone .draggable');
+                userAnswer = dropped ? dropped.innerText.toLowerCase().trim() : "";
+            } else if (type === 'click') {
+                let blank = block.querySelector('.cm-blank');
+                userAnswer = blank.innerText !== '______' ? blank.innerText.toLowerCase().trim() : "";
+            }
+
+            if (userAnswer === "") {
+                feedback.innerHTML = "❌ Please answer.";
+                feedback.className = "feedback fc-incorrect";
+            } else if (userAnswer === correctAnswer) {
+                feedback.innerHTML = "✅ Correct!";
+                feedback.className = "feedback fc-correct";
+                score++;
+            } else {
+                feedback.innerHTML = `❌ Incorrect. (Answer: ${block.dataset.answer})`;
+                feedback.className = "feedback fc-incorrect";
+            }
+        });
+
+        alert(`Masterclass Completed! You scored ${score} out of ${blocks.length}. Scroll through to see your corrections and review the strong leadership phrases.`);
+    }
+
+    // Initialize Quiz
+    window.onload = initQuiz;
+</script>
+
+</body>
+</html>

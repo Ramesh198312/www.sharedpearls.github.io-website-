@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Art of Storytelling & Inspirational Narratives</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4a2c5a; --secondary: #2c3e50; --bg: #f9fbfd;
+            --accent: #ebdff0; --text: #333; --correct: #27ae60; --incorrect: #c0392b;
+            --drag-bg: #e2e8f0; --drop-bg: #f1f5f9;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lato', sans-serif; line-height: 1.7; color: var(--text); background: #fff; padding: 0; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        
+        /* Typography */
+        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; color: var(--primary); }
+        h1 { font-size: 2.8em; margin-bottom: 10px; line-height: 1.2; }
+        h2 { font-size: 2em; border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin: 40px 0 20px; }
+        .meta { font-size: 0.85em; color: #666; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 30px; background: var(--accent); padding: 8px 12px; border-radius: 4px; display: inline-block; font-weight: bold; }
+        
+        /* Layout Elements */
+        .audio-box { background: var(--bg); padding: 25px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; margin-bottom: 30px; }
+        audio { width: 100%; max-width: 600px; margin-top: 15px; outline: none; }
+        .transcript { background: #fafafa; padding: 30px; border-left: 5px solid var(--primary); margin-bottom: 40px; font-size: 1.05em; }
+        .spkr { font-weight: 700; color: var(--primary); text-transform: uppercase; font-size: 0.85em; letter-spacing: 0.5px; }
+        
+        /* Quiz Container */
+        .quiz-section { background: var(--bg); padding: 30px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 50px; }
+        .q-block { background: #fff; padding: 20px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .q-num { font-weight: bold; color: var(--primary); margin-right: 10px; }
+        
+        /* Formats */
+        /* 1. Dropdown */
+        select.q-drop { padding: 5px 10px; font-family: 'Lato', sans-serif; font-size: 1em; border: 2px solid #cbd5e1; border-radius: 4px; cursor: pointer; outline: none; background: #fff; font-weight: bold; color: var(--primary); }
+        select.q-drop:focus { border-color: var(--primary); }
+        
+        /* 2. Drag and Drop */
+        .dd-container { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+        .draggable { background: var(--primary); color: white; padding: 8px 15px; border-radius: 4px; cursor: grab; font-weight: bold; user-select: none; }
+        .draggable:active { cursor: grabbing; opacity: 0.8; }
+        .dropzone { width: 150px; height: 40px; background: var(--drop-bg); border: 2px dashed #cbd5e1; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .dropzone.hover { border-color: var(--primary); background: var(--accent); }
+        .dropzone .draggable { margin: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 2px; }
+        
+        /* 3. Click and Match */
+        .cm-wordbank { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; padding: 15px; background: #f1f5f9; border-radius: 6px; }
+        .cm-word { background: #fff; border: 2px solid var(--primary); color: var(--primary); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: all 0.2s; }
+        .cm-word:hover { background: var(--accent); }
+        .cm-word.selected { background: var(--primary); color: white; }
+        .cm-word.used { opacity: 0.3; pointer-events: none; }
+        .cm-blank { display: inline-block; min-width: 100px; height: 30px; border-bottom: 2px solid var(--primary); margin: 0 5px; cursor: pointer; text-align: center; font-weight: bold; color: var(--secondary); vertical-align: middle; background: rgba(74, 44, 90, 0.05); }
+        .cm-blank:hover { background: rgba(74, 44, 90, 0.15); }
+        
+        /* Buttons & Feedback */
+        .check-btn { background: var(--primary); color: white; border: none; padding: 12px 25px; font-size: 1.1em; border-radius: 4px; cursor: pointer; font-family: 'Lato', sans-serif; font-weight: bold; transition: 0.2s; display: block; margin: 30px auto 0; }
+        .check-btn:hover { background: var(--secondary); }
+        .feedback { display: inline-block; margin-left: 15px; font-weight: bold; font-size: 0.9em; }
+        .fc-correct { color: var(--correct); }
+        .fc-incorrect { color: var(--incorrect); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Keeping Them Hooked: The Language of Great Anecdotes</h1>
+    <div class="meta">Level: Intermediate (B1) | Skill: Speaking & Grammar | Activities: 45 Questions</div>
+
+    <div class="audio-box">
+        <h3 style="margin:0; border:none; color:var(--primary);">Part 1: Storytelling Masterclass</h3>
+        <p style="color:#666; font-size:0.9em; margin-top:5px;">Listen to the dialogue on how to use narrative tenses to build an engaging story.</p>
+        <audio controls>
+            <source src="story-telling-audio-1.m4a" type="audio/mpeg">
+            Your browser does not support audio.</audio>
+    </div>
+
+    <h2>Transcript: The Secret to Anecdotes</h2>
+    <div class="transcript">
+        <p><span class="spkr">Host (Sophie):</span> We’ve all been at a dinner party where someone tells a story that has everyone on the edge of their seats. How do they do it? Joining me is communication coach, Marcus Thorne.</p>
+        <p><span class="spkr">Marcus:</span> Thanks, Sophie. The secret to a captivating anecdote isn't just a crazy experience; it's your grammar. Specifically, how you mix your 'narrative tenses'. We use the <strong>Past Continuous</strong> to set the scene. Example: <em>"It was raining heavily, and I was waiting for the bus."</em> It paints the background.</p>
+        <p><span class="spkr">Host (Sophie):</span> Right, so it creates the setting. Then what?</p>
+        <p><span class="spkr">Marcus:</span> Then, you need an interruption. For that, use the <strong>Past Simple</strong>. <em>"Suddenly, a car drove past and splashed me."</em> It drives the story forward. Finally, the <strong>Past Perfect</strong> is your secret weapon for adding drama. We use it for an action that happened <em>before</em> the main story. <em>"To make matters worse, I realised I had left my keys at home."</em></p>
+    </div>
+
+    <div class="quiz-section">
+        <h2 style="margin-top:0;">Quiz 1: Masterclass Challenge (25 Questions)</h2>
+        <p style="margin-bottom: 20px;">Test your knowledge of narrative tenses using the interactive formats below.</p>
+        <div id="quiz1-container"></div>
+        <button class="check-btn" onclick="checkQuiz(1)">Check Quiz 1 Answers</button>
+    </div>
+
+    <div class="audio-box">
+        <h3 style="margin:0; border:none; color:var(--primary);">Part 2: The Coral Guardian</h3>
+        <p style="color:#666; font-size:0.9em; margin-top:5px;">Listen to the inspirational story of Elara, and pay attention to how the tenses map the timeline.</p>
+        <audio controls><source src="story-telling-audio-2.m4a" type="audio/mpeg">
+            Your browser does not support audio.</audio>
+    </div>
+
+    <h2>Transcript: The Coral Guardian</h2>
+    <div class="transcript">
+        <p>Ten years ago, the vibrant reef off the coast of Maya Bay was dying. While tourists <strong>were taking</strong> photos on the beach, the underwater ecosystem was collapsing. Elara, a local marine biologist, decided she had to act. She <strong>started</strong> a community project out of the blue. Prior to this, fishermen <strong>had abandoned</strong> the bay because the fish populations had plummeted.</p>
+        <p>At first, progress was slow. She <strong>was planting</strong> tiny coral fragments every day while her friends thought she was crazy. Eventually, the hard work paid off. One morning, she <strong>dived</strong> into the water and saw a miracle. The coral <strong>had grown</strong> rapidly, and schools of fish had returned. By changing her small corner of the world, Elara proved that nature can heal if we give it a chance.</p>
+    </div>
+
+    <div class="quiz-section">
+        <h2 style="margin-top:0;">Quiz 2: Story Comprehension (20 Questions)</h2>
+        <p style="margin-bottom: 20px;">Complete the interactive challenges based on Elara's story.</p>
+        <div id="quiz2-container"></div>
+        <button class="check-btn" onclick="checkQuiz(2)">Check Quiz 2 Answers</button>
+    </div>
+
+</div>
+
+<script>
+    /* =========================================
+       DATA STRUCTURE FOR 45 QUESTIONS
+       Types: 'drop' (Dropdown), 'drag' (Drag & Drop), 'click' (Click & Match)
+    ========================================= */
+    const quiz1Data = [
+        // Dropdowns (1-10)
+        { id: 1, type: 'drop', text: "I {was walking} down the street when the accident happened.", options: ["walked", "was walking", "had walked"] },
+        { id: 2, type: 'drop', text: "Suddenly, a huge dog {jumped} out from behind the wall.", options: ["jumped", "was jumping", "had jumped"] },
+        { id: 3, type: 'drop', text: "I couldn't open the door because I {had lost} my keys earlier.", options: ["lost", "was losing", "had lost"] },
+        { id: 4, type: 'drop', text: "While we {were eating} dinner, the power went out.", options: ["ate", "were eating", "had eaten"] },
+        { id: 5, type: 'drop', text: "When I arrived at the station, the train {had already left}.", options: ["already left", "was already leaving", "had already left"] },
+        { id: 6, type: 'drop', text: "The sun {was shining} and the birds were singing as I stepped outside.", options: ["shone", "was shining", "had shone"] },
+        { id: 7, type: 'drop', text: "He {looked} at his watch and realised he was late.", options: ["looked", "was looking", "had looked"] },
+        { id: 8, type: 'drop', text: "She was exhausted because she {had run} ten miles that morning.", options: ["ran", "was running", "had run"] },
+        { id: 9, type: 'drop', text: "I {was sleeping} peacefully when the phone rang out of the blue.", options: ["slept", "was sleeping", "had slept"] },
+        { id: 10, type: 'drop', text: "After they {had finished} the project, they went out to celebrate.", options: ["finished", "were finishing", "had finished"] },
+        
+        // Drag and Drop (11-15) - Match term to definition
+        { id: 11, type: 'drag', text: "Used to set the background scene:", answer: "Past Continuous", dragItems: ["Past Simple", "Past Continuous", "Past Perfect"] },
+        { id: 12, type: 'drag', text: "Used for the main, interrupting action:", answer: "Past Simple", dragItems: [] }, // Reuses wordbank globally for this section
+        { id: 13, type: 'drag', text: "Used for actions that happened BEFORE the story started:", answer: "Past Perfect", dragItems: [] },
+        { id: 14, type: 'drag', text: "Example: 'I was waiting for the bus.' ->", answer: "Past Continuous", dragItems: [] },
+        { id: 15, type: 'drag', text: "Example: 'Suddenly, a car splashed me.' ->", answer: "Past Simple", dragItems: [] },
+
+        // Click and Match (16-25) - Fill in the blanks with linking words
+        { type: 'clickBank', words: ["Suddenly", "Eventually", "Meanwhile", "Out of the blue", "Prior to that", "At first", "Finally", "Unfortunately", "Luckily", "In the end"] },
+        { id: 16, type: 'click', text: "I was reading a book when {Suddenly} the lights went out." },
+        { id: 17, type: 'click', text: "I hadn't seen him for years, and then he called me {Out of the blue}." },
+        { id: 18, type: 'click', text: "{Prior to that} day, I had never eaten sushi before." },
+        { id: 19, type: 'click', text: "We waited for three hours. {Eventually}, the bus arrived." },
+        { id: 20, type: 'click', text: "John was cooking. {Meanwhile}, Sarah was setting the table." },
+        { id: 21, type: 'click', text: "{At first}, I didn't like the city, but I grew to love it." },
+        { id: 22, type: 'click', text: "After weeks of searching, I {Finally} found my missing ring." },
+        { id: 23, type: 'click', text: "I tried to fix the car myself. {Unfortunately}, I made it worse." },
+        { id: 24, type: 'click', text: "{Luckily}, I had brought an umbrella, so I didn't get wet." },
+        { id: 25, type: 'click', text: "{In the end}, we decided to stay home instead of going to the cinema." }
+    ];
+
+    const quiz2Data = [
+        // Dropdowns (1-10)
+        { id: 1, type: 'drop', text: "Ten years ago, the reef {was dying}.", options: ["died", "was dying", "had died"] },
+        { id: 2, type: 'drop', text: "Tourists {were taking} photos on the beach.", options: ["took", "were taking", "had taken"] },
+        { id: 3, type: 'drop', text: "Elara {decided} she had to act.", options: ["decided", "was deciding", "had decided"] },
+        { id: 4, type: 'drop', text: "Fishermen {had abandoned} the bay prior to her arrival.", options: ["abandoned", "were abandoning", "had abandoned"] },
+        { id: 5, type: 'drop', text: "She {was planting} coral fragments every day.", options: ["planted", "was planting", "had planted"] },
+        { id: 6, type: 'drop', text: "Her friends {thought} she was crazy.", options: ["thought", "were thinking", "had thought"] },
+        { id: 7, type: 'drop', text: "One morning, she {dived} into the water.", options: ["dived", "was diving", "had dived"] },
+        { id: 8, type: 'drop', text: "She saw that the coral {had grown} rapidly.", options: ["grew", "was growing", "had grown"] },
+        { id: 9, type: 'drop', text: "Schools of fish {had returned} to the area.", options: ["returned", "were returning", "had returned"] },
+        { id: 10, type: 'drop', text: "Elara {proved} that nature can heal.", options: ["proved", "was proving", "had proved"] },
+
+        // Click and Match (11-20) - Vocabulary from the story
+        { type: 'clickBank', words: ["vibrant", "ecosystem", "collapsing", "abandoned", "plummeted", "fragments", "miracle", "rapidly", "heal", "guardian"] },
+        { id: 11, type: 'click', text: "The coral reef used to be incredibly colourful and {vibrant}." },
+        { id: 12, type: 'click', text: "Pollution causes the underwater {ecosystem} to fail." },
+        { id: 13, type: 'click', text: "Without intervention, the marine life was {collapsing}." },
+        { id: 14, type: 'click', text: "The fishermen left the area; it was completely {abandoned}." },
+        { id: 15, type: 'click', text: "Fish numbers fell drastically; they {plummeted}." },
+        { id: 16, type: 'click', text: "Elara worked with tiny pieces, or {fragments}, of coral." },
+        { id: 17, type: 'click', text: "The sudden recovery of the reef felt like a {miracle}." },
+        { id: 18, type: 'click', text: "Once protected, the coral grew very {rapidly}." },
+        { id: 19, type: 'click', text: "Nature has an incredible ability to {heal} itself." },
+        { id: 20, type: 'click', text: "Elara became known as the coral {guardian}." }
+    ];
+
+    /* =========================================
+       ENGINE LOGIC
+    ========================================= */
+    let selectedClickWord = null;
+
+    function renderDropdown(q) {
+        let parts = q.text.split(/\{|\}/);
+        let correctAnswer = parts[1];
+        let optionsHtml = q.options.sort(() => Math.random() - 0.5).map(opt => `<option value="${opt}">${opt}</option>`).join('');
+        return `<div class="q-block" data-id="${q.id}" data-type="drop" data-answer="${correctAnswer}">
+                    <span class="q-num">Q${q.id}.</span> ${parts[0]} 
+                    <select class="q-drop"><option value="">--Select--</option>${optionsHtml}</select> ${parts[2]}
+                    <span class="feedback"></span>
+                </div>`;
+    }
+
+    function renderDragDrop(q) {
+        let html = `<div class="q-block" data-id="${q.id}" data-type="drag" data-answer="${q.answer}">
+                        <span class="q-num">Q${q.id}.</span> ${q.text}
+                        <div class="dd-container">
+                            <div class="dropzone" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)" ondrop="drop(event, this)"></div>
+                        </div>
+                        <span class="feedback"></span>
+                    </div>`;
+        return html;
+    }
+
+    function renderClickMatch(q) {
+        let parts = q.text.split(/\{|\}/);
+        let correctAnswer = parts[1];
+        return `<div class="q-block" data-id="${q.id}" data-type="click" data-answer="${correctAnswer}">
+                    <span class="q-num">Q${q.id}.</span> ${parts[0]} 
+                    <span class="cm-blank" onclick="fillBlank(this)">______</span> ${parts[2]}
+                    <span class="feedback"></span>
+                </div>`;
+    }
+
+    function buildQuiz(quizData, containerId) {
+        const container = document.getElementById(containerId);
+        let html = '';
+        let dragItemsHtml = '';
+        
+        quizData.forEach(q => {
+            if (q.type === 'drop') {
+                html += renderDropdown(q);
+            } else if (q.type === 'drag') {
+                if(q.dragItems && q.dragItems.length > 0) {
+                    dragItemsHtml = `<div class="q-block" style="background:var(--accent);"><p><strong>Drag these terms into the boxes below:</strong></p><div class="dd-container" id="drag-bank-${containerId}">`;
+                    q.dragItems.forEach(item => {
+                        dragItemsHtml += `<div class="draggable" draggable="true" ondragstart="drag(event)" id="drag-${Math.random().toString(36).substr(2,9)}">${item}</div>`;
+                    });
+                    dragItemsHtml += `</div></div>`;
+                    html += dragItemsHtml;
+                }
+                html += renderDragDrop(q);
+            } else if (q.type === 'clickBank') {
+                html += `<div class="q-block" style="background:var(--accent);"><p><strong>Word Bank (Click a word, then click a blank):</strong></p><div class="cm-wordbank">`;
+                q.words.forEach(word => {
+                    html += `<div class="cm-word" onclick="selectWord(this)">${word}</div>`;
+                });
+                html += `</div></div>`;
+            } else if (q.type === 'click') {
+                html += renderClickMatch(q);
+            }
+        });
+        container.innerHTML = html;
+    }
+
+    /* Drag and Drop Events */
+    function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+    function allowDrop(ev) { ev.preventDefault(); ev.currentTarget.classList.add('hover'); }
+    function leaveDrop(ev) { ev.currentTarget.classList.remove('hover'); }
+    function drop(ev, el) {
+        ev.preventDefault();
+        el.classList.remove('hover');
+        if(el.children.length > 0) {
+            // Move existing child back to bank (simplified: just replace it)
+            document.getElementById(el.closest('.quiz-section').querySelector('.dd-container[id^="drag-bank"]').id).appendChild(el.children[0]);
+        }
+        var data = ev.dataTransfer.getData("text");
+        el.appendChild(document.getElementById(data));
+    }
+
+    /* Click and Match Events */
+    function selectWord(el) {
+        document.querySelectorAll('.cm-word').forEach(w => w.classList.remove('selected'));
+        if(!el.classList.contains('used')) {
+            el.classList.add('selected');
+            selectedClickWord = el;
+        }
+    }
+    function fillBlank(el) {
+        if(selectedClickWord) {
+            // If blank already has a word, un-use it
+            if(el.dataset.linkedWordId) {
+                document.getElementById(el.dataset.linkedWordId).classList.remove('used');
+            }
+            
+            // Generate ID for word if missing
+            if(!selectedClickWord.id) selectedClickWord.id = 'cw-' + Math.random().toString(36).substr(2,9);
+            
+            el.innerText = selectedClickWord.innerText;
+            el.dataset.linkedWordId = selectedClickWord.id;
+            selectedClickWord.classList.add('used');
+            selectedClickWord.classList.remove('selected');
+            selectedClickWord = null;
+        } else if (el.innerText !== '______') {
+            // Clear blank
+            document.getElementById(el.dataset.linkedWordId).classList.remove('used');
+            el.innerText = '______';
+            delete el.dataset.linkedWordId;
+        }
+    }
+
+    /* Grading Logic */
+    function checkQuiz(quizNum) {
+        const container = document.getElementById('quiz' + quizNum + '-container');
+        const blocks = container.querySelectorAll('.q-block[data-id]');
+        let score = 0;
+
+        blocks.forEach(block => {
+            let type = block.dataset.type;
+            let correctAnswer = block.dataset.answer.toLowerCase();
+            let feedback = block.querySelector('.feedback');
+            let userAnswer = "";
+
+            if (type === 'drop') {
+                userAnswer = block.querySelector('select').value.toLowerCase();
+            } else if (type === 'drag') {
+                let dropped = block.querySelector('.dropzone .draggable');
+                userAnswer = dropped ? dropped.innerText.toLowerCase() : "";
+            } else if (type === 'click') {
+                let blank = block.querySelector('.cm-blank');
+                userAnswer = blank.innerText !== '______' ? blank.innerText.toLowerCase() : "";
+            }
+
+            if (userAnswer === "") {
+                feedback.innerHTML = "❌ Please answer.";
+                feedback.className = "feedback fc-incorrect";
+            } else if (userAnswer === correctAnswer) {
+                feedback.innerHTML = "✅ Correct!";
+                feedback.className = "feedback fc-correct";
+                score++;
+            } else {
+                feedback.innerHTML = `❌ Incorrect. (Answer: ${block.dataset.answer})`;
+                feedback.className = "feedback fc-incorrect";
+            }
+        });
+
+        alert(`Quiz ${quizNum} Completed! You scored ${score} out of ${blocks.length}. Scroll through to see your corrections.`);
+    }
+
+    // Initialize Quizzes
+    window.onload = () => {
+        buildQuiz(quiz1Data, 'quiz1-container');
+        buildQuiz(quiz2Data, 'quiz2-container');
+    };
+</script>
+
+</body>
+</html>

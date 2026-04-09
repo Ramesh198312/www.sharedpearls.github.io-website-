@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>A1/A2 Elementary Assessment · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* Oxford Blue & Warm Cream Palette (Calming & Legible for Beginners) */
+  --oxford-blue: #002147;
+  --oxford-light: #1A3A5E;
+  --cream: #FDFBF7;
+  --white: #ffffff;
+  --gold: #C4923E;
+  --border: #E2E6EB;
+  --highlight-blue: #F0F5FA;
+  
+  --success: #2e7d32;
+  --error: #c0392b;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Source Serif 4', Georgia, serif; background:var(--cream); color:var(--oxford-blue); min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden;}
+
+/* ── HEADER & TIMER ── */
+header { background:var(--oxford-blue); color:var(--white); padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:200; border-bottom: 4px solid var(--gold);}
+.brand-title { font-family:'Playfair Display', serif; font-size:1.6rem; color:var(--white); font-weight:700; }
+.brand-title span { color:var(--gold); font-style:italic; }
+.level-badge { background:var(--white); color:var(--oxford-blue); font-family:'DM Mono', monospace; font-size:0.7rem; padding:0.3rem 0.6rem; vertical-align:middle; margin-left:10px; border-radius:3px; letter-spacing:0.1em; font-weight: bold;}
+.timer-container { display:flex; align-items:center; gap:1rem; background:rgba(0,0,0,0.2); padding:0.5rem 1.5rem; border-radius:4px; border:1px solid rgba(255,255,255,0.1); }
+.timer-label { font-family:'DM Mono', monospace; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--gold); }
+.timer-clock { font-family:'DM Mono', monospace; font-size:1.5rem; font-weight:700; color:var(--white); }
+.timer-clock.warning { color:#ff6b6b; animation: pulse 1s infinite; }
+
+/* ── MAIN LAYOUT ── */
+.exam-container { max-width:1300px; margin:2rem auto; display:grid; grid-template-columns:250px 1fr; gap:2rem; width:100%; padding:0 2rem; flex-grow:1; }
+
+/* ── SIDEBAR NAVIGATION ── */
+.exam-nav { background:var(--white); border:1px solid var(--border); border-radius:6px; padding:1.5rem; height:fit-content; position:sticky; top:100px; box-shadow:0 4px 15px rgba(0,33,71,0.05); }
+.nav-btn { display:block; width:100%; text-align:left; background:none; border:none; padding:1rem; font-family:'DM Mono', monospace; font-size:0.85rem; font-weight:700; color:var(--oxford-light); cursor:pointer; transition:0.2s; border-radius:4px; margin-bottom:0.5rem; border-left: 3px solid transparent;}
+.nav-btn:hover { background:var(--highlight-blue); color:var(--oxford-blue); }
+.nav-btn.active { background:var(--highlight-blue); color:var(--oxford-blue); border-left-color:var(--oxford-blue); }
+.submit-exam-btn { display:block; width:100%; padding:1rem; margin-top:2rem; background:var(--gold); color:var(--white); border:none; font-family:'DM Mono', monospace; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; border-radius:4px; cursor:pointer; transition:0.3s; }
+.submit-exam-btn:hover { background:var(--oxford-blue); box-shadow: 0 4px 12px rgba(0,33,71,0.2);}
+
+/* ── EXAM PANELS ── */
+.exam-panel { display:none; background:var(--white); border:1px solid var(--border); border-radius:6px; padding:3rem; box-shadow:0 8px 30px rgba(0,0,0,0.04); animation:fadeIn 0.4s ease-out; }
+.exam-panel.active { display:block; }
+.panel-title { font-family:'Playfair Display', serif; font-size:2.2rem; color:var(--oxford-blue); margin-bottom:0.5rem; padding-bottom:1rem; border-bottom: 2px solid var(--border);}
+.panel-desc { font-family:'DM Mono', monospace; font-size:0.8rem; color:var(--oxford-light); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:2.5rem; font-weight:700; opacity: 0.8;}
+
+/* ── SPLIT PANE READING UX (Slightly smaller fonts for A1/A2) ── */
+.split-layout { display: flex; gap: 2.5rem; align-items: flex-start; margin-bottom: 3rem; padding-bottom: 2.5rem; border-bottom: 1px dashed var(--border);}
+.split-layout:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
+.split-left { flex: 1; position: sticky; top: 100px; max-height: calc(100vh - 140px); overflow-y: auto; padding-right: 1.5rem; }
+.split-left::-webkit-scrollbar { width: 6px; }
+.split-left::-webkit-scrollbar-track { background: var(--cream); }
+.split-left::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.split-right { flex: 1; }
+
+.part-title { font-family:'Playfair Display', serif; font-size:1.4rem; color:var(--oxford-blue); margin-bottom:1rem; }
+.instruction-text { margin-bottom:1.2rem; color:var(--oxford-light); font-weight:600; font-family:'DM Mono', monospace; font-size: 0.8rem;}
+.reading-text { background:var(--highlight-blue); padding:1.8rem; border-left:4px solid var(--oxford-blue); font-size:1.05rem; line-height:1.7; color: var(--oxford-blue); border-radius: 0 4px 4px 0;}
+.reading-text p { margin-bottom: 1rem; }
+
+/* ── QUESTION BLOCKS ── */
+.question-block { margin-bottom:1.5rem; font-size:1rem; background: var(--white); border: 1px solid var(--border); padding: 1.2rem; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.02);}
+.question-text { font-weight:600; margin-bottom:0.8rem; display:block; color: var(--oxford-blue);}
+.mcq-option { display:block; margin-bottom:0.6rem; cursor:pointer; padding: 0.6rem; border-radius: 4px; transition: 0.2s; border: 1px solid transparent; background: var(--cream);}
+.mcq-option:hover { border-color: var(--gold); background: var(--white);}
+.mcq-option input { margin-right:10px; accent-color:var(--oxford-blue); transform: scale(1.1);}
+.fill-input { font-family:'DM Mono', monospace; font-size:0.95rem; padding:0.3rem 0.6rem; border:none; border-bottom:2px solid var(--oxford-blue); background:rgba(0,33,71,0.04); width:130px; outline:none; transition:0.3s; margin:0 5px; color: var(--oxford-blue); font-weight: 700; text-align: center;}
+.fill-input:focus { border-bottom-color:var(--gold); background:rgba(196,146,62,0.1); }
+
+/* ── LISTENING SPECIFICS ── */
+.audio-player-container { background:var(--oxford-light); padding:1.5rem; border-radius:6px; margin-bottom:2rem; display:flex; align-items:center; gap:1.5rem; }
+.audio-btn { background:var(--gold); border:none; width:50px; height:50px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: 0.3s;}
+.audio-btn:hover { background:var(--oxford-blue); transform: scale(1.05);}
+.audio-track { flex-grow:1; height:6px; background:rgba(255,255,255,0.2); border-radius:3px; position:relative; }
+.audio-progress { position:absolute; left:0; top:0; height:100%; width:0%; background:var(--white); border-radius:3px; }
+.audio-instruction { color:var(--white); font-family:'DM Mono', monospace; font-size:0.8rem; letter-spacing:0.1em; }
+.dev-transcript { display:none; background:#f8f9fa; padding:1.2rem; font-family:'DM Mono', monospace; font-size:0.85rem; border:1px solid var(--border); margin-bottom:2rem; white-space:pre-wrap; line-height: 1.5;}
+
+/* ── WRITING SPECIFICS ── */
+.writing-area { width:100%; height:250px; padding:1.5rem; font-family:'Source Serif 4', serif; font-size:1.1rem; line-height:1.6; border:2px solid var(--border); border-radius:4px; resize:vertical; outline:none; transition: 0.3s; background: var(--white); }
+.writing-area:focus { border-color:var(--oxford-blue); box-shadow:0 0 0 4px rgba(0,33,71,0.1); }
+.writing-area:disabled { background: var(--cream); color: #666; cursor: not-allowed; }
+.word-count { font-family:'DM Mono', monospace; font-size:0.85rem; color:var(--oxford-light); margin-top:0.8rem; text-align:right; font-weight:700; }
+.submit-writing-btn { background: var(--oxford-blue); color: var(--white); border: none; padding: 1rem 2rem; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 4px; cursor: pointer; transition: 0.3s; margin-top: 1rem; width: 100%; }
+.submit-writing-btn:hover { background: var(--gold); }
+.submit-writing-btn:disabled { background: var(--success); cursor: default; }
+
+/* ── SPEAKING SPECIFICS ── */
+.speaking-prompt { background:var(--highlight-blue); color:var(--oxford-blue); padding:2rem; border-radius:6px; margin-bottom:2rem; border-left: 4px solid var(--oxford-blue); }
+.speaking-prompt h3 { font-family:'Playfair Display', serif; font-size:1.5rem; margin-bottom:1rem; color:var(--oxford-blue); }
+.speaking-prompt p { font-size:1.05rem; line-height:1.6; margin-bottom:0.8rem;}
+.record-btn { background:var(--white); color:var(--oxford-blue); border:2px solid var(--oxford-blue); padding:0.8rem 1.5rem; font-family:'DM Mono', monospace; font-size:0.9rem; font-weight:700; border-radius:30px; cursor:pointer; margin-top:1rem; transition:0.3s; display:inline-flex; align-items:center; gap:10px; }
+.record-btn.recording { background:var(--error); color:var(--white); border-color:var(--error); animation:pulse 1.5s infinite; }
+.record-btn::before { content:''; display:inline-block; width:10px; height:10px; border-radius:50%; background:var(--error); }
+.record-btn.recording::before { background:var(--white); }
+
+/* ── RESULTS MODAL ── */
+#results-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,33,71,0.9); z-index:1000; align-items:center; justify-content:center; }
+.modal-content { background:var(--white); padding:3rem; border-radius:8px; max-width:600px; width:90%; text-align:center; position:relative; border-top:6px solid var(--gold); box-shadow: 0 10px 40px rgba(0,0,0,0.4);}
+.score-circle { width:130px; height:130px; border-radius:50%; border:6px solid var(--oxford-blue); margin:0 auto 1.5rem; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display', serif; font-size:2.8rem; font-weight:700; color:var(--oxford-blue); }
+.status-msg { font-size:1.05rem; line-height:1.6; margin-bottom:2rem; color: var(--oxford-blue); }
+
+@keyframes pulse { 0% { opacity:1; } 50% { opacity:0.6; } 100% { opacity:1; } }
+@keyframes fadeIn { from { opacity:0; transform:translateY(15px); } to { opacity:1; transform:translateY(0); } }
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    .split-layout { flex-direction: column; gap: 1rem; }
+    .split-left { position: static; max-height: none; overflow-y: visible; padding-right: 0;}
+    .exam-container { grid-template-columns: 1fr; }
+    .exam-nav { position: static; display: flex; overflow-x: auto; gap: 0.5rem; padding: 1rem;}
+    .nav-btn { flex-shrink: 0; width: auto; margin-bottom: 0; border-left: none; border-bottom: 3px solid transparent;}
+    .nav-btn.active { border-bottom-color: var(--oxford-blue); border-left-color: transparent;}
+}
+
+footer { background:var(--oxford-blue); padding:1.5rem; text-align:center; color:rgba(255,255,255,0.7); font-family:'DM Mono', monospace; font-size:0.8rem; margin-top:auto;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-title">Shared <span>Pearls</span> of Wisdom<span class="level-badge">A1/A2 Elementary</span></a></div>
+  <div class="timer-container">
+    <span class="timer-label">Time Remaining</span>
+    <span class="timer-clock" id="exam-timer">60:00</span>
+  </div>
+</header>
+
+<div class="exam-container">
+  
+  <aside class="exam-nav">
+    <button class="nav-btn active" onclick="switchTab('reading')">1. Reading</button>
+    <button class="nav-btn" onclick="switchTab('listening')">2. Listening</button>
+    <button class="nav-btn" onclick="switchTab('writing')">3. Writing</button>
+    <button class="nav-btn" onclick="switchTab('speaking')">4. Speaking</button>
+    <button class="submit-exam-btn" onclick="submitExam()">Submit Exam</button>
+  </aside>
+
+  <main>
+    <section id="panel-reading" class="exam-panel active">
+      <h1 class="panel-title">Paper 1: Reading</h1>
+      <div class="panel-desc">Time Limit: 20 Minutes • Total Marks: 15</div>
+
+      <div class="split-layout">
+        <div class="split-left">
+          <h2 class="part-title">Part 1: The Museum Trip</h2>
+          <p class="instruction-text">Read the email. The text will stay here while you answer the questions on the right.</p>
+          <div class="reading-text">
+            <strong>To:</strong> All English Students<br>
+            <strong>From:</strong> Mr. Davis<br>
+            <strong>Subject:</strong> Friday's Trip to the Museum<br><br>
+            <p>Hello everyone,</p>
+            <p>Please remember that this Friday we are going to the City History Museum. We will not meet in the classroom. Please meet me next to the main train station at 8:30 AM. The train leaves at 8:45 AM, so do not be late!</p>
+            <p>You do not need to bring money for the museum ticket, because the school is paying. However, please bring £5 for the bus in the afternoon. Also, bring a sandwich and some water for lunch. We will eat in the park because the museum café is very expensive.</p>
+            <p>See you on Friday!</p>
+          </div>
+        </div>
+        
+        <div class="split-right">
+          <div class="question-block">
+            <span class="question-text">1. Where are the students meeting Mr. Davis on Friday?</span>
+            <label class="mcq-option"><input type="radio" name="r1" value="A"> A) In the classroom</label>
+            <label class="mcq-option"><input type="radio" name="r1" value="B"> B) At the museum</label>
+            <label class="mcq-option"><input type="radio" name="r1" value="C"> C) Next to the train station</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">2. What time does the train leave?</span>
+            <label class="mcq-option"><input type="radio" name="r2" value="A"> A) 8:30 AM</label>
+            <label class="mcq-option"><input type="radio" name="r2" value="B"> B) 8:45 AM</label>
+            <label class="mcq-option"><input type="radio" name="r2" value="C"> C) 9:00 AM</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">3. What do the students need to pay for?</span>
+            <label class="mcq-option"><input type="radio" name="r3" value="A"> A) The museum ticket</label>
+            <label class="mcq-option"><input type="radio" name="r3" value="B"> B) The bus</label>
+            <label class="mcq-option"><input type="radio" name="r3" value="C"> C) Lunch at the café</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">4. Where will they eat lunch?</span>
+            <label class="mcq-option"><input type="radio" name="r4" value="A"> A) In the park</label>
+            <label class="mcq-option"><input type="radio" name="r4" value="B"> B) On the train</label>
+            <label class="mcq-option"><input type="radio" name="r4" value="C"> C) In the museum café</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">5. How much money should they bring?</span>
+            <label class="mcq-option"><input type="radio" name="r5" value="A"> A) Nothing</label>
+            <label class="mcq-option"><input type="radio" name="r5" value="B"> B) £5</label>
+            <label class="mcq-option"><input type="radio" name="r5" value="C"> C) £8.45</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="split-layout">
+        <div class="split-left">
+          <h2 class="part-title">Part 2: Local Sports Club</h2>
+          <p class="instruction-text">Read the notice and fill in the missing information. Write ONE word or number in each gap.</p>
+          <div class="reading-text" style="text-align:center;">
+            <h3 style="font-family:'DM Mono'; margin-bottom:10px;">WESTSIDE SPORTS CENTRE</h3>
+            <p>Do you want to get fit? Join our new classes!</p>
+            <p><strong>Swimming:</strong> Every Tuesday at 18:00.<br>
+            <strong>Tennis:</strong> Every Thursday at 19:30.</p>
+            <p>Classes are £8 each, or £25 for the whole month.</p>
+            <p>Please wear sports shoes. Do not bring food into the sports hall.</p>
+            <p>Call Maria on 07700 900412 to book your place.</p>
+          </div>
+        </div>
+        
+        <div class="split-right">
+          <div class="question-block">
+            <span class="question-text" style="color:var(--gold);">Fill in the forms below based on the text.</span>
+            <div style="margin-bottom:1rem;">6. Tennis classes are on <input type="text" id="r6" class="fill-input" autocomplete="off"></div>
+            <div style="margin-bottom:1rem;">7. Swimming starts at <input type="text" id="r7" class="fill-input" autocomplete="off"></div>
+            <div style="margin-bottom:1rem;">8. One class costs £ <input type="text" id="r8" class="fill-input" autocomplete="off"></div>
+            <div style="margin-bottom:1rem;">9. Students must wear sports <input type="text" id="r9" class="fill-input" autocomplete="off"></div>
+            <div style="margin-bottom:1rem;">10. To book, phone <input type="text" id="r10" class="fill-input" autocomplete="off"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="split-layout" style="border-bottom:none;">
+        <div class="split-left">
+          <h2 class="part-title">Part 3: Maria's Busy Day</h2>
+          <p class="instruction-text">Read the article and answer the questions.</p>
+          <div class="reading-text">
+            <p>Maria is a nurse at the city hospital. Her day starts very early. She wakes up at 5:30 AM and has a quick breakfast of coffee and toast. She leaves the house at 6:00 AM. She doesn't drive to work because parking is too expensive. She takes the bus, which takes 40 minutes.</p>
+            <p>Maria's work is very hard, but she loves helping people. At 1:00 PM, she has a short break. She usually eats an apple and a cheese sandwich. She finishes work at 4:00 PM and goes to the supermarket to buy dinner.</p>
+            <p>In the evening, she doesn't watch television. She is studying Spanish at a language school. Her class starts at 7:00 PM. She goes to bed at 10:30 PM, very tired but happy.</p>
+          </div>
+        </div>
+        
+        <div class="split-right">
+          <div class="question-block">
+            <span class="question-text">11. What is Maria's job?</span>
+            <label class="mcq-option"><input type="radio" name="r11" value="A"> A) A Spanish teacher</label>
+            <label class="mcq-option"><input type="radio" name="r11" value="B"> B) A nurse</label>
+            <label class="mcq-option"><input type="radio" name="r11" value="C"> C) A bus driver</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">12. Why doesn't she drive to work?</span>
+            <label class="mcq-option"><input type="radio" name="r12" value="A"> A) She doesn't have a car.</label>
+            <label class="mcq-option"><input type="radio" name="r12" value="B"> B) She likes the bus.</label>
+            <label class="mcq-option"><input type="radio" name="r12" value="C"> C) Parking costs too much money.</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">13. What does she eat for lunch?</span>
+            <label class="mcq-option"><input type="radio" name="r13" value="A"> A) Coffee and toast</label>
+            <label class="mcq-option"><input type="radio" name="r13" value="B"> B) An apple and a cheese sandwich</label>
+            <label class="mcq-option"><input type="radio" name="r13" value="C"> C) Food from the supermarket</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">14. What time does she finish work?</span>
+            <label class="mcq-option"><input type="radio" name="r14" value="A"> A) 1:00 PM</label>
+            <label class="mcq-option"><input type="radio" name="r14" value="B"> B) 4:00 PM</label>
+            <label class="mcq-option"><input type="radio" name="r14" value="C"> C) 7:00 PM</label>
+          </div>
+          <div class="question-block">
+            <span class="question-text">15. What does Maria do in the evening?</span>
+            <label class="mcq-option"><input type="radio" name="r15" value="A"> A) Learns a language</label>
+            <label class="mcq-option"><input type="radio" name="r15" value="B"> B) Watches television</label>
+            <label class="mcq-option"><input type="radio" name="r15" value="C"> C) Works at the hospital</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-listening" class="exam-panel">
+      <h1 class="panel-title">Paper 2: Listening</h1>
+      <div class="panel-desc">Audio Length: ~15 Minutes • Total Marks: 15</div>
+
+     <div class="audio-player-container">
+  <audio id="real-audio-player" src="find-your-level-listening-a1-a2.m4a" preload="metadata"></audio>
+
+  <button class="audio-btn" onclick="toggleRealAudio()" id="play-btn">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M8 5v14l11-7z"/></svg>
+  </button>
+  
+  <div class="audio-track">
+    <div class="audio-progress" id="audio-bar"></div>
+  </div>
+  <div class="audio-instruction">Listen to the recording to answer all parts.</div>
+</div>
+
+      <button onclick="document.getElementById('dev-script').style.display='block'" style="font-size:0.75rem; color:var(--oxford-blue); background:none; border:none; cursor:pointer; margin-bottom:1rem; text-decoration:underline;"></button>
+      <div id="dev-script" class="dev-transcript">
+AUDIO SCRIPT:
+[Part 1]
+"Hi, it’s Sarah calling. I’m phoning about our trip to the cinema on Saturday. The new action film starts at 7:15 PM, but we need to buy our tickets first. Let’s meet at 6:45 PM outside the Italian restaurant next to the cinema. The tickets are a bit more expensive on weekends; they cost £9.50 each. Don't forget your student card! Call me back. Bye!"
+
+[Part 2]
+"Attention all passengers. The 10:30 train to London Victoria is delayed. It will now depart from platform 4, not platform 2. The delay is approximately 15 minutes due to bad weather on the track. We apologize for the inconvenience. Passengers can get free coffee at the snack bar located near the main exit. Thank you."
+
+[Part 3]
+Man: Hi Emma! Are you ready for David's birthday party this weekend?
+Woman: Yes! But I don't know what present to buy him. Do you think he wants a book?
+Man: No, he doesn't read much. Buy him a music CD. He loves rock music.
+Woman: Good idea. What time are we meeting on Sunday?
+Man: Let's meet at 2:00 PM. The weather is going to be sunny, so we are having a barbecue in the garden.
+Woman: Great. Should I bring some food? 
+Man: We have meat and bread. Can you bring a salad?
+Woman: Yes, no problem. See you Sunday!
+      </div>
+
+      <div class="part-container">
+        <h2 class="part-title">Part 1: The Cinema Trip</h2>
+        <p class="instruction-text">Listen to the voicemail and complete the notes. Write ONE word or number for questions 1–5.</p>
+        <div class="question-block" style="background:var(--highlight-blue); border:none;">
+          <div style="margin-bottom:0.8rem;">1. Day of the trip: <input type="text" id="l1" class="fill-input" style="background:var(--white);" autocomplete="off"></div>
+          <div style="margin-bottom:0.8rem;">2. Time to meet: <input type="text" id="l2" class="fill-input" style="background:var(--white);" autocomplete="off"> PM</div>
+          <div style="margin-bottom:0.8rem;">3. Meet outside the Italian: <input type="text" id="l3" class="fill-input" style="background:var(--white);" autocomplete="off"></div>
+          <div style="margin-bottom:0.8rem;">4. Ticket cost: £ <input type="text" id="l4" class="fill-input" style="background:var(--white);" autocomplete="off"></div>
+          <div style="margin-bottom:0.8rem;">5. Bring your student: <input type="text" id="l5" class="fill-input" style="background:var(--white);" autocomplete="off"></div>
+        </div>
+      </div>
+
+      <div class="part-container">
+        <h2 class="part-title">Part 2: Station Announcement</h2>
+        <p class="instruction-text">Listen to the station announcement and answer questions 6–10.</p>
+        <div class="question-block">
+          <span class="question-text">6. Where is the train going?</span>
+          <label class="mcq-option"><input type="radio" name="l6" value="A"> A) Manchester</label>
+          <label class="mcq-option"><input type="radio" name="l6" value="B"> B) London Victoria</label>
+          <label class="mcq-option"><input type="radio" name="l6" value="C"> C) Liverpool</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">7. Which platform is the train leaving from now?</span>
+          <label class="mcq-option"><input type="radio" name="l7" value="A"> A) Platform 2</label>
+          <label class="mcq-option"><input type="radio" name="l7" value="B"> B) Platform 4</label>
+          <label class="mcq-option"><input type="radio" name="l7" value="C"> C) Platform 10</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">8. How late is the train?</span>
+          <label class="mcq-option"><input type="radio" name="l8" value="A"> A) 10 minutes</label>
+          <label class="mcq-option"><input type="radio" name="l8" value="B"> B) 15 minutes</label>
+          <label class="mcq-option"><input type="radio" name="l8" value="C"> C) 30 minutes</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">9. Why is the train delayed?</span>
+          <label class="mcq-option"><input type="radio" name="l9" value="A"> A) Bad weather</label>
+          <label class="mcq-option"><input type="radio" name="l9" value="B"> B) A broken engine</label>
+          <label class="mcq-option"><input type="radio" name="l9" value="C"> C) Staff problems</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">10. Where is the snack bar?</span>
+          <label class="mcq-option"><input type="radio" name="l10" value="A"> A) On the train</label>
+          <label class="mcq-option"><input type="radio" name="l10" value="B"> B) Near platform 4</label>
+          <label class="mcq-option"><input type="radio" name="l10" value="C"> C) Near the main exit</label>
+        </div>
+      </div>
+
+      <div class="part-container" style="border-bottom:none;">
+        <h2 class="part-title">Part 3: The Birthday Party</h2>
+        <p class="instruction-text">Listen to a man and woman talking about a party. Answer questions 11–15.</p>
+        <div class="question-block">
+          <span class="question-text">11. Whose birthday is it?</span>
+          <label class="mcq-option"><input type="radio" name="l11" value="A"> A) Emma's</label>
+          <label class="mcq-option"><input type="radio" name="l11" value="B"> B) David's</label>
+          <label class="mcq-option"><input type="radio" name="l11" value="C"> C) The man's</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">12. What present will the woman buy?</span>
+          <label class="mcq-option"><input type="radio" name="l12" value="A"> A) A book</label>
+          <label class="mcq-option"><input type="radio" name="l12" value="B"> B) Clothes</label>
+          <label class="mcq-option"><input type="radio" name="l12" value="C"> C) A music CD</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">13. What time are they meeting on Sunday?</span>
+          <label class="mcq-option"><input type="radio" name="l13" value="A"> A) 12:00 PM</label>
+          <label class="mcq-option"><input type="radio" name="l13" value="B"> B) 2:00 PM</label>
+          <label class="mcq-option"><input type="radio" name="l13" value="C"> C) 4:00 PM</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">14. What will the weather be like?</span>
+          <label class="mcq-option"><input type="radio" name="l14" value="A"> A) Raining</label>
+          <label class="mcq-option"><input type="radio" name="l14" value="B"> B) Cold</label>
+          <label class="mcq-option"><input type="radio" name="l14" value="C"> C) Sunny</label>
+        </div>
+        <div class="question-block">
+          <span class="question-text">15. What food is the woman going to bring?</span>
+          <label class="mcq-option"><input type="radio" name="l15" value="A"> A) Meat</label>
+          <label class="mcq-option"><input type="radio" name="l15" value="B"> B) A salad</label>
+          <label class="mcq-option"><input type="radio" name="l15" value="C"> C) Bread</label>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-writing" class="exam-panel">
+      <h1 class="panel-title">Paper 3: Writing</h1>
+      <div class="panel-desc">Recommended Time: 10 Minutes • Required length: 25-35 words</div>
+
+      <div class="part-container" style="border-bottom:none;">
+        <h2 class="part-title">Task 1: Email to a Friend</h2>
+        <div class="reading-text" style="background:var(--highlight-blue); border-color:var(--gold);">
+          You want to go shopping this weekend with your English friend, Alex. Write an email to Alex. In your email, you must:<br><br>
+          • Ask Alex to go shopping with you.<br>
+          • Say <strong>what</strong> you need to buy.<br>
+          • Suggest a <strong>time</strong> and <strong>place</strong> to meet.
+        </div>
+        <p class="instruction-text" style="margin-top:1rem;">Write <strong>25 – 35 words</strong>.</p>
+        
+        <textarea id="writing-input" class="writing-area" placeholder="Start typing your email here..." oninput="countWords()"></textarea>
+        <div class="word-count" id="word-count-display">Word count: 0</div>
+        
+        <button id="btn-submit-writing" class="submit-writing-btn" onclick="submitWritingTask()">Submit Writing Task</button>
+      </div>
+    </section>
+
+    <section id="panel-speaking" class="exam-panel">
+      <h1 class="panel-title">Paper 4: Speaking</h1>
+      <div class="panel-desc">Simulated Oral Examination • 8–10 Minutes</div>
+
+      <p class="instruction-text" style="font-size:1rem; margin-bottom:2rem;">In a live exam, an examiner would ask you questions. Read the prompts below and press <strong>Record Answer</strong> to speak your response into your microphone.</p>
+
+      <div class="speaking-prompt">
+        <h3>Part 1: Personal Information</h3>
+        <p>1. What is your name?</p>
+        <p>2. Where are you from?</p>
+        <p>3. Do you work, or are you a student?</p>
+        <button class="record-btn" onclick="toggleRecord(this)">Record Answer</button>
+      </div>
+
+      <div class="speaking-prompt">
+        <h3>Part 2: Daily Life</h3>
+        <p>1. Please tell me about what you usually do on the weekends.</p>
+        <p>2. What is your favourite food, and who cooks it?</p>
+        <p>3. Tell me about your best friend.</p>
+        <button class="record-btn" onclick="toggleRecord(this)">Record Answer</button>
+      </div>
+
+      <div class="speaking-prompt">
+        <h3>Part 3: Making Plans</h3>
+        <p>Imagine your friend from London is visiting your city for the first time this weekend.</p>
+        <p>Where will you take them? What will you eat? Explain your plans.</p>
+        <button class="record-btn" onclick="toggleRecord(this)">Record Answer</button>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<div id="results-modal">
+  <div class="modal-content">
+    <h2 class="panel-title" style="border:none; padding:0; margin-bottom:2rem;">Assessment Complete</h2>
+    
+    <div class="score-circle" id="final-score">--/30</div>
+    
+    <div class="status-msg">
+      <strong>Reading & Listening Score:</strong> Auto-calculated above.<br><br>
+      <strong>Writing & Speaking:</strong> Your responses have been submitted to the Shared Pearls evaluation team for manual review by an instructor.<br><br>
+      You will receive your final A1/A2 certification via email.
+    </div>
+    
+    <button class="submit-exam-btn" style="margin-top:0;" onclick="location.reload()">Return to Dashboard</button>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom · A1/A2 Foundation Examination Center</p>
+</footer>
+
+<script>
+/* ── TIMER LOGIC ── */
+let timeLeft = 3600; // 60 minutes
+let timerId = setInterval(() => {
+  timeLeft--;
+  let m = Math.floor(timeLeft / 60);
+  let s = timeLeft % 60;
+  let display = document.getElementById('exam-timer');
+  display.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  
+  if(timeLeft < 300) display.classList.add('warning'); 
+  if(timeLeft <= 0) {
+    clearInterval(timerId);
+    submitExam();
+  }
+}, 1000);
+
+/* ── TAB NAVIGATION ── */
+function switchTab(tabId) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`button[onclick="switchTab('${tabId}')"]`).classList.add('active');
+  
+  document.querySelectorAll('.exam-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`panel-${tabId}`).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ── REAL AUDIO PLAYER ENGINE ── */
+const audioElement = document.getElementById('real-audio-player');
+const playBtn = document.getElementById('play-btn');
+const audioBar = document.getElementById('audio-bar');
+
+function toggleRealAudio() {
+  if (audioElement.paused) {
+    // Play the audio
+    audioElement.play();
+    
+    // Change icon to 'Pause'
+    playBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+  } else {
+    // Pause the audio
+    audioElement.pause();
+    
+    // Change icon to 'Play'
+    playBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M8 5v14l11-7z"/></svg>`;
+  }
+}
+
+// Automatically update the visual progress bar as the audio plays
+audioElement.addEventListener('timeupdate', () => {
+  if (audioElement.duration) {
+    const progressPercent = (audioElement.currentTime / audioElement.duration) * 100;
+    audioBar.style.width = progressPercent + '%';
+  }
+});
+
+// Reset the player when the audio finishes
+audioElement.addEventListener('ended', () => {
+  playBtn.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="var(--white)"><path d="M8 5v14l11-7z"/></svg>`;
+  audioBar.style.width = '0%';
+});
+/* ── WRITING SUBMISSION ENGINE (A1/A2) ── */
+function countWords() {
+  const text = document.getElementById('writing-input').value.trim();
+  const words = text ? text.split(/\s+/) : [];
+  const counter = document.getElementById('word-count-display');
+  counter.innerText = `Word count: ${words.length}`;
+  
+  // A1/A2 Target: 25-35 words
+  if(words.length < 25 || words.length > 35) {
+      counter.style.color = "var(--error)";
+  } else {
+      counter.style.color = "var(--success)";
+  }
+}
+
+function submitWritingTask() {
+    const textarea = document.getElementById('writing-input');
+    const text = textarea.value.trim();
+    const words = text ? text.split(/\s+/) : [];
+    
+    if(words.length < 10) {
+        alert("Your email is too short. Please write at least 25 words.");
+        return;
+    }
+    
+    textarea.disabled = true;
+    const btn = document.getElementById('btn-submit-writing');
+    btn.innerHTML = "Task Submitted ✓";
+    btn.disabled = true;
+}
+
+/* ── SPEAKING RECORD BUTTON MOCK ── */
+function toggleRecord(btn) {
+  if(btn.classList.contains('recording')) {
+    btn.classList.remove('recording');
+    btn.innerText = "Response Recorded ✓";
+    btn.style.borderColor = "var(--success)";
+    btn.style.color = "var(--success)";
+  } else {
+    btn.classList.add('recording');
+    btn.innerText = "Recording... Click to Stop";
+  }
+}
+
+/* ── AUTO-GRADING ENGINE (A1/A2) ── */
+const answerKey = {
+  // Reading MCQs
+  r1: 'C', r2: 'B', r3: 'B', r4: 'A', r5: 'B',
+  // Reading Fill Blanks
+  r6: ['thursday'],
+  r7: ['18:00', '6:00', '1800', 'six'],
+  r8: ['8', 'eight'],
+  r9: ['shoes', 'trainers'],
+  r10: ['07700900412', '07700 900412'],
+  // Reading MCQs 
+  r11: 'B', r12: 'C', r13: 'B', r14: 'B', r15: 'A',
+  
+  // Listening Fill Blanks
+  l1: ['saturday'],
+  l2: ['6:45', '6.45'],
+  l3: ['restaurant'],
+  l4: ['9.50', '9.5'],
+  l5: ['card', 'id'],
+  // Listening MCQs
+  l6: 'B', l7: 'B', l8: 'B', l9: 'A', l10: 'C',
+  l11: 'B', l12: 'C', l13: 'B', l14: 'C', l15: 'B'
+};
+
+function submitExam() {
+  clearInterval(timerId);
+  let score = 0;
+
+  const mcqs = ['r1','r2','r3','r4','r5', 'r11','r12','r13','r14','r15', 'l6','l7','l8','l9','l10', 'l11','l12','l13','l14','l15'];
+  mcqs.forEach(id => {
+    const selected = document.querySelector(`input[name="${id}"]:checked`);
+    if(selected && selected.value === answerKey[id]) {
+      score++;
+    }
+  });
+
+  const blanks = ['r6','r7','r8','r9','r10', 'l1','l2','l3','l4','l5'];
+  blanks.forEach(id => {
+    const input = document.getElementById(id).value.toLowerCase().trim();
+    if(answerKey[id].includes(input)) {
+      score++;
+    }
+  });
+
+  document.getElementById('final-score').innerText = `${score}/30`;
+  document.getElementById('results-modal').style.display = 'flex';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pronunciation 1: British English Sounds – Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --ink: #0e0c0a;
+      --paper: #f7f3ed;
+      --warm: #ede5d8;
+      --gold: #b8873a;
+      --gold-light: #d4a855;
+      --crimson: #8b1a2e;
+      --navy: #1a2744;
+      --slate: #3d4a5c;
+      --pearl: #ddd5c8;
+      --shadow: rgba(14,12,10,0.10);
+      --correct: #1e5c35;
+      --wrong: #7a1520;
+    }
+    
+    html { scroll-behavior: smooth; } /* Enables elegant scrolling to sections */
+    
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Crimson Pro',Georgia,serif; background:var(--paper); color:var(--ink); }
+
+    /* ── NAV ── */
+    nav { background:var(--navy); padding:0 2rem; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; box-shadow:0 2px 20px rgba(0,0,0,0.25); }
+    .nav-logo { font-family:'Cormorant Garamond',serif; font-size:1.35rem; color:var(--gold-light); padding:1rem 0; text-decoration:none; display:block; letter-spacing:0.03em; }
+    .nav-logo span { color:#fff; font-style:italic; }
+    .nav-back { font-family:'DM Mono',monospace; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; color:#8899bb; text-decoration:none; transition:color 0.2s; }
+    .nav-back:hover { color:var(--gold-light); }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      min-height: 70vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-pattern {
+      position: absolute; inset:0;
+      background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 12px);
+      pointer-events:none;
+    }
+    .hero-left { padding:5rem 3rem 4rem 4rem; display:flex; flex-direction:column; justify-content:center; position:relative; z-index:1; }
+    .hero-eyebrow { font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; display:flex; align-items:center; gap:0.8rem; }
+    .hero-eyebrow::before { content:''; display:block; width:28px; height:1px; background:var(--gold); }
+    .hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.2rem,4.5vw,3.8rem); color:#fff; line-height:1.1; margin-bottom:1.2rem; font-weight:600; }
+    .hero h1 em { color:var(--gold-light); font-style:italic; }
+    .hero-desc { color:#8899bb; font-size:1.05rem; line-height:1.8; max-width:420px; font-weight:300; margin-bottom:2rem; }
+    .hero-stats { display:flex; gap:2rem; }
+    .h-stat { }
+    .h-stat-num { font-family:'Cormorant Garamond',serif; font-size:2rem; color:var(--gold-light); display:block; line-height:1; }
+    .h-stat-label { font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; color:#667; margin-top:0.2rem; }
+    .hero-right { display:flex; align-items:center; justify-content:center; padding:3rem; position:relative; z-index:1; }
+    .ipa-showcase {
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);
+      padding:2.5rem;
+      width:100%;
+      max-width:380px;
+    }
+    .ipa-showcase-title { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; }
+    .ipa-row { display:flex; align-items:center; gap:1.2rem; padding:0.7rem 0; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .ipa-row:last-child { border-bottom:none; }
+    .ipa-symbol { font-family:'Crimson Pro',serif; font-size:1.6rem; color:var(--gold-light); width:40px; text-align:center; flex-shrink:0; }
+    .ipa-example { }
+    .ipa-word { font-family:'Cormorant Garamond',serif; font-size:1rem; color:#fff; }
+    .ipa-note { font-family:'DM Mono',monospace; font-size:0.68rem; color:#667; margin-top:0.1rem; }
+    .progress-bar { height:2px; background:rgba(255,255,255,0.08); margin-top:0; }
+    .progress-fill { height:100%; width:0; background:var(--gold); transition:width 0.3s; }
+
+    /* ── CONTENT LAYOUT ── */
+    .page-wrap { max-width:1060px; margin:0 auto; padding:4rem 2rem; display:grid; grid-template-columns:1fr 270px; gap:3rem; }
+    section { scroll-margin-top: 100px; } /* Prevents nav from covering section titles */
+
+    /* ── SECTION HEADINGS ── */
+    .sec-heading { font-family:'Cormorant Garamond',serif; font-size:1.9rem; color:var(--navy); margin:3rem 0 0.5rem; font-weight:600; }
+    .sec-sub { font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; }
+    .body-text { font-size:1.05rem; line-height:1.9; color:#333; margin-bottom:1.2rem; }
+
+    /* ── SOUND CARDS ── */
+    .sound-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--pearl); border:1px solid var(--pearl); margin:1.5rem 0; }
+    .sound-card { background:var(--paper); padding:1.4rem 1.2rem; text-align:center; cursor:pointer; transition:all 0.2s; position:relative; }
+    .sound-card:hover { background:var(--navy); }
+    .sound-card:hover .sc-symbol { color:var(--gold-light); }
+    .sound-card:hover .sc-label, .sound-card:hover .sc-examples { color:#aaa; }
+    .sc-type { font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:0.5rem; }
+    .sc-symbol { font-family:'Crimson Pro',serif; font-size:2.5rem; color:var(--navy); line-height:1; margin-bottom:0.4rem; transition:color 0.2s; }
+    .sc-label { font-family:'DM Mono',monospace; font-size:0.7rem; color:#888; margin-bottom:0.5rem; transition:color 0.2s; }
+    .sc-examples { font-size:0.88rem; color:#555; line-height:1.6; font-style:italic; transition:color 0.2s; }
+    .sc-brit { font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--crimson); margin-top:0.4rem; }
+
+    /* ── VOWEL CHART ── */
+    .vowel-section { background:var(--navy); padding:2.5rem; margin:2rem 0; }
+    .vowel-title { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--gold-light); margin-bottom:0.5rem; }
+    .vowel-sub { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:#667; margin-bottom:1.5rem; }
+    .vowel-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; }
+    .vowel-item { background:rgba(255,255,255,0.05); padding:1rem 1.2rem; border-left:3px solid var(--gold); }
+    .vowel-ipa { font-family:'Crimson Pro',serif; font-size:1.4rem; color:var(--gold-light); }
+    .vowel-desc { font-family:'DM Mono',monospace; font-size:0.65rem; color:#667; letter-spacing:0.08em; text-transform:uppercase; margin:0.2rem 0; }
+    .vowel-words { font-size:0.9rem; color:#ccc; font-style:italic; line-height:1.6; }
+    .vowel-brit-note { font-size:0.82rem; color:#8899bb; margin-top:0.4rem; }
+
+    /* ── COMPARISON TABLE ── */
+    .compare-table { width:100%; border-collapse:collapse; margin:1.5rem 0; font-size:0.93rem; }
+    .compare-table th { background:var(--navy); color:var(--gold-light); font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; padding:0.8rem 1rem; text-align:left; }
+    .compare-table td { padding:0.75rem 1rem; border-bottom:1px solid var(--pearl); color:#444; line-height:1.6; vertical-align:top; }
+    .compare-table tr:nth-child(even) td { background:rgba(0,0,0,0.02); }
+    .compare-table tr:last-child td { border-bottom:none; }
+    .brit { color:var(--crimson); font-family:'DM Mono',monospace; font-size:0.88rem; }
+    .amer { color:var(--slate); font-family:'DM Mono',monospace; font-size:0.88rem; }
+
+    /* ── STRESS PATTERNS ── */
+    .stress-block { background:#fff; padding:1.8rem; box-shadow:0 2px 12px var(--shadow); margin:1.5rem 0; }
+    .stress-label { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; }
+    .stress-word { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--navy); margin-bottom:0.3rem; }
+    .stress-ipa { font-family:'Crimson Pro',serif; font-size:1.1rem; color:var(--crimson); margin-bottom:0.5rem; }
+    .stress-dots { display:flex; gap:0.4rem; margin-bottom:0.5rem; align-items:center; }
+    .dot { width:10px; height:10px; border-radius:50%; background:var(--pearl); flex-shrink:0; }
+    .dot.stress { width:16px; height:16px; background:var(--gold); }
+    .stress-ex { font-size:0.9rem; color:#555; font-style:italic; line-height:1.7; }
+    .stress-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; margin:1.5rem 0; }
+
+    /* ── CONNECTED SPEECH SPECIFICS ── */
+    .connected-box { border-left: 3px solid var(--crimson); padding: 1.5rem; background: rgba(139,26,46,0.03); margin-bottom: 1.5rem; }
+    .connected-box h4 { font-family:'Cormorant Garamond',serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 0.5rem; }
+    .connected-box p { font-size: 1rem; line-height: 1.6; color: #444; margin-bottom: 0.8rem; }
+    .cs-example { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--crimson); background: #fff; padding: 0.8rem; border: 1px solid var(--pearl); }
+    .cs-example span { color: var(--slate); font-size: 0.8rem; display: block; margin-top: 0.4rem; }
+
+    /* ── EXERCISES ── */
+    .ex-wrap { background:#fff; padding:2rem; box-shadow:0 2px 12px var(--shadow); margin:2rem 0; }
+    .ex-title { font-family:'Cormorant Garamond',serif; font-size:1.3rem; color:var(--navy); margin-bottom:0.3rem; }
+    .ex-sub { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold); margin-bottom:1.5rem; }
+    .ex-item { margin-bottom:1.4rem; padding-bottom:1.4rem; border-bottom:1px solid var(--pearl); }
+    .ex-item:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+    .ex-q { font-size:0.97rem; color:#333; line-height:1.75; margin-bottom:0.7rem; }
+    .ex-q strong { color:var(--navy); }
+    .ex-q .ipa-inline { font-family:'Crimson Pro',serif; font-size:1rem; color:var(--crimson); }
+    .ex-select { padding:0.65rem 1rem; border:1px solid var(--pearl); background:var(--paper); font-family:'Crimson Pro',serif; font-size:0.95rem; color:var(--ink); cursor:pointer; outline:none; min-width:220px; transition:border-color 0.2s; }
+    .ex-select:focus { border-color:var(--navy); }
+    .ex-select.correct { border-color:var(--correct); background:rgba(30,92,53,0.05); color:var(--correct); }
+    .ex-select.wrong { border-color:var(--wrong); background:rgba(122,21,32,0.04); }
+    .ex-input { width:100%; padding:0.65rem 1rem; border:1px solid var(--pearl); background:var(--paper); font-family:'DM Mono',monospace; font-size:0.9rem; color:var(--ink); outline:none; transition:border-color 0.2s; }
+    .ex-input:focus { border-color:var(--navy); }
+    .ex-input.correct { border-color:var(--correct); background:rgba(30,92,53,0.05); color:var(--correct); }
+    .ex-input.wrong { border-color:var(--wrong); }
+    .ex-fb { font-family:'DM Mono',monospace; font-size:0.75rem; margin-top:0.4rem; display:none; line-height:1.6; }
+    .ex-fb.ok { color:var(--correct); }
+    .ex-fb.no { color:var(--wrong); }
+    .check-btn { padding:0.8rem 2rem; background:var(--navy); color:#fff; border:none; font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; margin-top:1rem; transition:all 0.2s; }
+    .check-btn:hover { background:var(--crimson); }
+    .score-box { display:none; margin-top:1rem; padding:1.2rem; background:var(--navy); text-align:center; }
+    .score-box .big { font-family:'Cormorant Garamond',serif; font-size:2.2rem; color:var(--gold-light); display:block; }
+    .score-box p { color:#8899bb; font-size:0.85rem; margin-top:0.3rem; font-family:'DM Mono',monospace; }
+
+    /* ── SIDEBAR ── */
+    .sidebar { display:flex; flex-direction:column; gap:1.5rem; }
+    .s-card { background:#fff; padding:1.4rem; box-shadow:0 2px 12px var(--shadow); position: sticky; top: 100px; }
+    .s-card h4 { font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:1rem; padding-bottom:0.6rem; border-bottom:1px solid var(--pearl); }
+    .lesson-nav { list-style:none; }
+    .lesson-nav li { border-bottom:1px solid var(--pearl); }
+    .lesson-nav li:last-child { border-bottom:none; }
+    .lesson-nav a { display:block; padding:0.65rem 0; font-size:0.95rem; color:#555; text-decoration:none; transition:color 0.2s; font-family:'Crimson Pro',serif; }
+    .lesson-nav a:hover { color:var(--gold); }
+    .lesson-nav a.current { color:var(--navy); font-weight:700; }
+    .brit-note { background:rgba(139,26,46,0.05); border:1px solid rgba(139,26,46,0.15); padding:1rem; font-size:0.88rem; line-height:1.75; color:#444; font-family:'Crimson Pro',serif; }
+    .brit-note strong { color:var(--crimson); }
+
+    /* ── FOOTER ── */
+    footer { background:var(--navy); padding:2rem 4rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+    footer p { color:#667; font-size:0.78rem; font-family:'DM Mono',monospace; }
+    footer a { color:var(--gold); text-decoration:none; font-family:'DM Mono',monospace; font-size:0.78rem; }
+
+    @media (max-width:900px) { .hero { grid-template-columns:1fr; } .hero-right { display:none; } .page-wrap { grid-template-columns:1fr; } .sound-grid { grid-template-columns:repeat(2,1fr); } .stress-grid { grid-template-columns:1fr; } .vowel-grid { grid-template-columns:1fr; } footer { padding:2rem 1.5rem; } .s-card { position: relative; top: 0;} }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
+  <a href="index.html" class="nav-back">← All Lessons</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">Pronunciation · Masterclass · British English</div>
+    <h1>The Sounds of<br/><em>British English</em></h1>
+    <p class="hero-desc">A complete guide to the British English sound system — vowels, consonants, the IPA, and the features that make Received Pronunciation (RP) distinct from other accents.</p>
+    <div class="hero-stats">
+      <div class="h-stat"><span class="h-stat-num">44</span><div class="h-stat-label">Sounds in English</div></div>
+      <div class="h-stat"><span class="h-stat-num">20</span><div class="h-stat-label">British vowel sounds</div></div>
+      <div class="h-stat"><span class="h-stat-num">24</span><div class="h-stat-label">Consonant sounds</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="ipa-showcase">
+      <div class="ipa-showcase-title">Key British English Sounds</div>
+      <div class="ipa-row"><span class="ipa-symbol">/ɑː/</span><div class="ipa-example"><div class="ipa-word">b<u>a</u>th · c<u>a</u>r · st<u>ar</u>t</div><div class="ipa-note">Long open back vowel — distinctly British</div></div></div>
+      <div class="ipa-row"><span class="ipa-symbol">/ɒ/</span><div class="ipa-example"><div class="ipa-word">l<u>o</u>t · h<u>o</u>t · cl<u>o</u>ck</div><div class="ipa-note">Short rounded back vowel</div></div></div>
+      <div class="ipa-row"><span class="ipa-symbol">/əʊ/</span><div class="ipa-example"><div class="ipa-word">g<u>o</u> · sh<u>ow</u> · c<u>oa</u>t</div><div class="ipa-note">British diphthong — not /oʊ/</div></div></div>
+      <div class="ipa-row"><span class="ipa-symbol">/r/</span><div class="ipa-example"><div class="ipa-word">Non-rhotic: ca<u>r</u>, far</div><div class="ipa-note">R is silent before consonants &amp; at word end</div></div></div>
+      <div class="ipa-row"><span class="ipa-symbol">/t/</span><div class="ipa-example"><div class="ipa-word">bu<u>tt</u>er · wa<u>t</u>er · ci<u>t</u>y</div><div class="ipa-note">Clear /t/ — not flapped like American</div></div></div>
+    </div>
+  </div>
+  <div class="progress-bar" style="position:absolute;bottom:0;left:0;right:0;"><div class="progress-fill" id="pf"></div></div>
+</div>
+
+<div class="page-wrap">
+<main>
+
+  <section id="part1">
+    <div class="sec-heading">Part 1: British English Sounds & IPA</div>
+    <div class="sec-sub">Received Pronunciation · Standard Southern British English</div>
+    <p class="body-text"><strong>Received Pronunciation (RP)</strong> — sometimes called "BBC English" or "the Queen's English" — is the prestige accent of British English. It is non-regional, meaning it does not strongly reveal the speaker's geographical origin. RP is the accent taught in most English language schools worldwide and used as the standard in British broadcasting, theatre, and formal public life.</p>
+    <p class="body-text">English has <strong>44 sounds</strong> — 20 vowel sounds and 24 consonant sounds — yet only 26 letters in the alphabet. This gap is why the <strong>International Phonetic Alphabet (IPA)</strong> is essential: it gives each sound its own unique symbol, removing any ambiguity. At this level, becoming familiar with IPA notation will dramatically accelerate your pronunciation accuracy.</p>
+
+    <div class="sec-heading" style="font-size: 1.6rem;">The British English Vowel System</div>
+    <div class="sec-sub">12 Pure Vowels + 8 Diphthongs = 20 Vowel Sounds</div>
+    <p class="body-text">British English is famous for its rich vowel system. Unlike American English, British RP maintains clear distinctions between short and long vowels, and uses <em>diphthongs</em> (gliding vowels that move between two positions) extensively. The chart below covers all 20 vowel sounds.</p>
+
+    <div class="vowel-section">
+      <div class="vowel-title">Pure Vowels (Monophthongs)</div>
+      <div class="vowel-sub">The 12 single vowel sounds of British RP</div>
+      <div class="vowel-grid">
+        <div class="vowel-item"><div class="vowel-ipa">/iː/</div><div class="vowel-desc">Long "ee"</div><div class="vowel-words">s<u>ee</u>, t<u>ea</u>, m<u>e</u>, mach<u>ine</u></div><div class="vowel-brit-note">Held longer than in other accents</div></div>
+        <div class="vowel-item"><div class="vowel-ipa">/ɪ/</div><div class="vowel-desc">Short "i"</div><div class="vowel-words">s<u>i</u>t, k<u>i</u>t, b<u>i</u>g, wh<u>i</u>ch</div><div class="vowel-brit-note">Relaxed, central — distinct from /iː/</div></div>
+        <div class="vowel-item"><div class="vowel-ipa">/e/</div><div class="vowel-desc">Short "e"</div><div class="vowel-words">s<u>e</u>t, b<u>e</u>d, h<u>ea</u>d, s<u>ai</u>d</div><div class="vowel-brit-note">Mid-front, unrounded</div></div>
+        <div class="vowel-item"><div class="vowel-ipa">/æ/</div><div class="vowel-desc">Short "a"</div><div class="vowel-words">c<u>a</u>t, tr<u>a</u>p, h<u>a</u>nd, m<u>a</u>n</div><div class="vowel-brit-note">Low front — not raised as in some dialects</div></div>
+        <div class="vowel-item"><div class="vowel-ipa">/ɑː/</div><div class="vowel-desc">Long "ah"</div><div class="vowel-words">b<u>a</u>th, c<u>a</u>r, st<u>ar</u>t, f<u>a</u>ther</div><div class="vowel-brit-note">★ Key British feature — "bath" vowel</div></div>
+        <div class="vowel-item"><div class="vowel-ipa">/ɒ/</div><div class="vowel-desc">Short "o"</div><div class="vowel-words">l<u>o</u>t, h<u>o</u>t, cl<u>o</u>ck, d<u>o</u>g</div><div class="vowel-brit-note">Rounded — absent in American English</div></div>
+        <div class="vowel-item"><div class="vowel-ipa">/ɔː/</div><div class="vowel-desc">Long "aw"</div><div class="vowel-words">th<u>ough</u>t, l<u>aw</u>, n<u>or</u>th, w<u>ar</u></div><div class="vowel-brit-note">Long back rounded vowel</div></div>
+        <div class="vowel-item"><div class="vowel-ipa">/ʊ/</div><div class="vowel-desc">Short "oo"</div><div class="vowel-words">f<u>oo</u>t, p<u>u</u>t, h<u>oo</u>k, b<u>oo</u>k</div><div class="vowel-brit-note">Short, lax — distinct from /uː/</div></div>
+        <div class="vowel-item"><div class="vowel-ipa">/uː/</div><div class="vowel-desc">Long "oo"</div><div class="vowel-words">g<u>oo</u>se, t<u>oo</u>, m<u>oo</u>n, bl<u>ue</u></div><div class="vowel-brit-note">Often with /j/ onset: /njuː/ = "new"</div></div>
+        <div class="vowel-item"><div class="vowel-ipa">/ʌ/</div><div class="vowel-desc">Short "uh"</div><div class="vowel-words">str<u>u</u>t, c<u>u</u>p, m<u>u</u>ch, bl<u>oo</u>d</div><div class="vowel-brit-note">Open-mid central — "strut" vowel</div></div>
+        <div class="vowel-item"><div class="vowel-ipa">/ɜː/</div><div class="vowel-desc">Long "er"</div><div class="vowel-words">n<u>ur</u>se, b<u>ir</u>d, w<u>or</u>k, h<u>er</u>d</div><div class="vowel-brit-note">No /r/ sound — purely a long vowel</div></div>
+        <div class="vowel-item"><div class="vowel-ipa">/ə/</div><div class="vowel-desc">Schwa</div><div class="vowel-words"><u>a</u>bout, moth<u>er</u>, sug<u>ar</u></div><div class="vowel-brit-note">★ Most common English vowel sound</div></div>
+      </div>
+
+      <div class="vowel-title" style="margin-top:2rem;">Diphthongs (Gliding Vowels)</div>
+      <div class="vowel-sub">The 8 diphthong sounds of British RP</div>
+      <div class="vowel-grid">
+        <div class="vowel-item" style="border-left-color:#5ecece;"><div class="vowel-ipa" style="color:#5ecece;">/eɪ/</div><div class="vowel-desc">face diphthong</div><div class="vowel-words">f<u>ace</u>, d<u>ay</u>, gr<u>ea</u>t, w<u>eight</u></div></div>
+        <div class="vowel-item" style="border-left-color:#5ecece;"><div class="vowel-ipa" style="color:#5ecece;">/aɪ/</div><div class="vowel-desc">price diphthong</div><div class="vowel-words">pr<u>ice</u>, h<u>igh</u>, fl<u>y</u>, t<u>i</u>me</div></div>
+        <div class="vowel-item" style="border-left-color:#5ecece;"><div class="vowel-ipa" style="color:#5ecece;">/ɔɪ/</div><div class="vowel-desc">choice diphthong</div><div class="vowel-words">ch<u>oi</u>ce, b<u>oy</u>, j<u>oin</u>, v<u>oi</u>ce</div></div>
+        <div class="vowel-item" style="border-left-color:#5ecece;"><div class="vowel-ipa" style="color:#5ecece;">/əʊ/</div><div class="vowel-desc">goat diphthong</div><div class="vowel-words">g<u>o</u>, sh<u>ow</u>, c<u>oa</u>t, kn<u>ow</u></div></div>
+        <div class="vowel-item" style="border-left-color:#5ecece;"><div class="vowel-ipa" style="color:#5ecece;">/aʊ/</div><div class="vowel-desc">mouth diphthong</div><div class="vowel-words">m<u>ou</u>th, t<u>ow</u>n, n<u>ow</u>, cl<u>ou</u>d</div></div>
+        <div class="vowel-item" style="border-left-color:#5ecece;"><div class="vowel-ipa" style="color:#5ecece;">/ɪə/</div><div class="vowel-desc">near diphthong</div><div class="vowel-words">n<u>ear</u>, h<u>ere</u>, b<u>ear</u>d, id<u>ea</u></div></div>
+        <div class="vowel-item" style="border-left-color:#5ecece;"><div class="vowel-ipa" style="color:#5ecece;">/eə/</div><div class="vowel-desc">square diphthong</div><div class="vowel-words">squ<u>are</u>, h<u>air</u>, th<u>ere</u>, b<u>ear</u></div></div>
+        <div class="vowel-item" style="border-left-color:#5ecece;"><div class="vowel-ipa" style="color:#5ecece;">/ʊə/</div><div class="vowel-desc">cure diphthong</div><div class="vowel-words">c<u>ure</u>, t<u>our</u>, p<u>oor</u>, s<u>ure</u></div></div>
+      </div>
+    </div>
+
+    <div class="sec-heading" style="font-size: 1.6rem;">5 Defining Features of British RP</div>
+    <div class="sec-sub">What makes British English sound distinctly British</div>
+    <p class="body-text">These five features distinguish British RP most clearly from other varieties of English — particularly General American. Mastering them is the key to developing an authentic British accent.</p>
+
+    <div class="sound-grid">
+      <div class="sound-card">
+        <div class="sc-type">Feature 01</div>
+        <div class="sc-symbol">Non-rhotic</div>
+        <div class="sc-label">/r/ before consonants is silent</div>
+        <div class="sc-examples">"car" /kɑː/ not /kɑːr/<br/>"bird" /bɜːd/ not /bɜːrd/</div>
+        <div class="sc-brit">★ Most defining British feature</div>
+      </div>
+      <div class="sound-card">
+        <div class="sc-type">Feature 02</div>
+        <div class="sc-symbol">Bath–Trap Split</div>
+        <div class="sc-label">/ɑː/ vs /æ/ distinction</div>
+        <div class="sc-examples">"bath" /bɑːθ/ — long vowel<br/>"trap" /træp/ — short vowel</div>
+        <div class="sc-brit">★ Key class/regional marker</div>
+      </div>
+      <div class="sound-card">
+        <div class="sc-type">Feature 03</div>
+        <div class="sc-symbol">Clear /t/</div>
+        <div class="sc-label">No t-flapping between vowels</div>
+        <div class="sc-examples">"butter" /ˈbʌtə/ — clear /t/<br/>Not flapped like "budder"</div>
+        <div class="sc-brit">★ Crisp articulation throughout</div>
+      </div>
+      <div class="sound-card">
+        <div class="sc-type">Feature 04</div>
+        <div class="sc-symbol">/juː/ clusters</div>
+        <div class="sc-label">Yod retention after /n, d, t/</div>
+        <div class="sc-examples">"new" /njuː/ not /nuː/<br/>"Tuesday" /ˈtjuːzdeɪ/</div>
+        <div class="sc-brit">★ Absent in most American English</div>
+      </div>
+      <div class="sound-card">
+        <div class="sc-type">Feature 05</div>
+        <div class="sc-symbol">Falling Tone</div>
+        <div class="sc-label">Statements end with falling intonation</div>
+        <div class="sc-examples">British: "Really." ↘<br/>American: "Really?" ↗</div>
+        <div class="sc-brit">★ Key intonation pattern</div>
+      </div>
+      <div class="sound-card">
+        <div class="sc-type">Bonus · Schwa</div>
+        <div class="sc-symbol">/ə/</div>
+        <div class="sc-label">The most common sound in English</div>
+        <div class="sc-examples">"about" /əˈbaʊt/<br/>"butter" /ˈbʌtə/</div>
+        <div class="sc-brit">★ Reduces unstressed vowels</div>
+      </div>
+    </div>
+
+    <div class="sec-heading" style="font-size: 1.6rem;">British vs American Pronunciation</div>
+    <div class="sec-sub">Key differences in vowels, consonants and stress</div>
+    <table class="compare-table">
+      <thead><tr><th>Word</th><th>British RP</th><th>American General</th><th>Key Difference</th></tr></thead>
+      <tbody>
+        <tr><td><strong>bath</strong></td><td class="brit">/bɑːθ/</td><td class="amer">/bæθ/</td><td>Bath–Trap split: long /ɑː/ vs short /æ/</td></tr>
+        <tr><td><strong>car</strong></td><td class="brit">/kɑː/</td><td class="amer">/kɑːr/</td><td>Non-rhotic: British /r/ is silent</td></tr>
+        <tr><td><strong>new</strong></td><td class="brit">/njuː/</td><td class="amer">/nuː/</td><td>Yod retention: British keeps /j/ sound</td></tr>
+        <tr><td><strong>butter</strong></td><td class="brit">/ˈbʌtə/</td><td class="amer">/ˈbʌɾər/</td><td>Clear /t/ vs flapped /ɾ/ in American</td></tr>
+        <tr><td><strong>schedule</strong></td><td class="brit">/ˈʃedjuːl/</td><td class="amer">/ˈskedʒuːl/</td><td>Completely different initial consonant</td></tr>
+        <tr><td><strong>either</strong></td><td class="brit">/ˈaɪðə/</td><td class="amer">/ˈiːðər/</td><td>Different vowel AND rhotic difference</td></tr>
+        <tr><td><strong>advertisement</strong></td><td class="brit">/ədˈvɜːtɪsmənt/</td><td class="amer">/ˌædvərˈtaɪzmənt/</td><td>Completely different stress pattern</td></tr>
+        <tr><td><strong>laboratory</strong></td><td class="brit">/ləˈbɒrətri/</td><td class="amer">/ˈlæbrəˌtɔːri/</td><td>Stress on 2nd syllable vs 1st syllable</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sec-heading" style="font-size: 1.6rem;">Exercises</div>
+    <div class="sec-sub">10 pronunciation comprehension questions</div>
+
+    <div class="ex-wrap">
+      <div class="ex-title">Exercise 1 — Match the IPA Symbol</div>
+      <div class="ex-sub">Select the correct word that matches the British English IPA transcription</div>
+      <div class="ex-item">
+        <div class="ex-q">1. Which word is transcribed as <span class="ipa-inline">/bɑːθ/</span> in British English?</div>
+        <select class="ex-select" id="e1_1"><option value="">— Choose —</option><option>bat</option><option>bath</option><option>both</option><option>birth</option></select>
+        <div class="ex-fb" id="f1_1"></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-q">2. The symbol <span class="ipa-inline">/ə/</span> is known as the ___. It is the most common sound in English.</div>
+        <select class="ex-select" id="e1_2"><option value="">— Choose —</option><option>diphthong</option><option>glottal stop</option><option>schwa</option><option>fricative</option></select>
+        <div class="ex-fb" id="f1_2"></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-q">3. British English is called "non-rhotic" because ___.</div>
+        <select class="ex-select" id="e1_3"><option value="">— Choose —</option><option>it has no /r/ sound at all</option><option>the /r/ is silent before consonants and at word ends</option><option>the /r/ is always strongly pronounced</option><option>it replaces /r/ with /l/</option></select>
+        <div class="ex-fb" id="f1_3"></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-q">4. Which of these words contains the British diphthong <span class="ipa-inline">/əʊ/</span>?</div>
+        <select class="ex-select" id="e1_4"><option value="">— Choose —</option><option>boot</option><option>bout</option><option>boat</option><option>beat</option></select>
+        <div class="ex-fb" id="f1_4"></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-q">5. The word "new" is pronounced <span class="ipa-inline">/njuː/</span> in British English. What does this show?</div>
+        <select class="ex-select" id="e1_5"><option value="">— Choose —</option><option>T-flapping</option><option>Yod retention</option><option>The Bath–Trap split</option><option>Non-rhoticity</option></select>
+        <div class="ex-fb" id="f1_5"></div>
+      </div>
+      <button class="check-btn" onclick="checkEx(1,{e1_1:'bath',e1_2:'schwa',e1_3:'the /r/ is silent before consonants and at word ends',e1_4:'boat',e1_5:'Yod retention'})">Check Answers</button>
+      <div class="score-box" id="sc1"><span class="big" id="sc1v"></span><p id="sc1m"></p></div>
+    </div>
+
+    <div class="ex-wrap">
+      <div class="ex-title">Exercise 2 — British or American?</div>
+      <div class="ex-sub">Identify which variety of English each transcription represents</div>
+      <div class="ex-item">
+        <div class="ex-q">6. "car" transcribed as <span class="ipa-inline">/kɑː/</span> — which variety is this?</div>
+        <select class="ex-select" id="e2_1"><option value="">— Choose —</option><option>American English</option><option>British English</option><option>Australian English</option><option>Both the same</option></select>
+        <div class="ex-fb" id="f2_1"></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-q">7. "butter" said as "budder" with a soft middle sound — which variety does this?</div>
+        <select class="ex-select" id="e2_2"><option value="">— Choose —</option><option>British English</option><option>American English</option><option>Scottish English</option><option>Irish English</option></select>
+        <div class="ex-fb" id="f2_2"></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-q">8. How many vowel sounds does British English have?</div>
+        <select class="ex-select" id="e2_3"><option value="">— Choose —</option><option>12</option><option>15</option><option>20</option><option>26</option></select>
+        <div class="ex-fb" id="f2_3"></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-q">9. In British RP, which word is stressed on the SECOND syllable?</div>
+        <select class="ex-select" id="e2_4"><option value="">— Choose —</option><option>laboratory (British)</option><option>advertisement (British)</option><option>Both words</option><option>Neither word</option></select>
+        <div class="ex-fb" id="f2_4"></div>
+      </div>
+      <div class="ex-item">
+        <div class="ex-q">10. A diphthong is ___.</div>
+        <select class="ex-select" id="e2_5"><option value="">— Choose —</option><option>a silent letter</option><option>a vowel sound that glides between two positions</option><option>a type of consonant cluster</option><option>the same as a schwa</option></select>
+        <div class="ex-fb" id="f2_5"></div>
+      </div>
+      <button class="check-btn" onclick="checkEx(2,{e2_1:'British English',e2_2:'American English',e2_3:'20',e2_4:'advertisement (British)',e2_5:'a vowel sound that glides between two positions'})">Check Answers</button>
+      <div class="score-box" id="sc2"><span class="big" id="sc2v"></span><p id="sc2m"></p></div>
+    </div>
+  </section>
+
+  <hr style="border: 0; height: 1px; background: var(--pearl); margin: 5rem 0;">
+
+  <section id="part2">
+    <div class="sec-heading">Part 2: Word Stress & Sentence Rhythm</div>
+    <div class="sec-sub">Isochrony · Lexical Stress · Weak Forms</div>
+    <p class="body-text">While mastering individual phonemes is vital, achieving true native fluency requires an understanding of <strong>suprasegmentals</strong>—the musicality and rhythm of the language overlaying the words themselves.</p>
+    
+    <p class="body-text">English is a <em>stress-timed</em> language. This creates a rhythm known in linguistics as <strong>isochrony</strong>. Unlike syllable-timed languages (such as Spanish or French) where every syllable takes roughly the same amount of time to articulate, English native speakers compress unstressed syllables, rushing them together to land heavily on the stressed syllables on the beat. The engine that allows this compression is the neutralisation of unstressed vowels into the <strong>schwa /ə/</strong>.</p>
+
+    <div class="sec-heading" style="font-size: 1.6rem; margin-top: 2rem;">Lexical Stress Patterns</div>
+    <p class="body-text">In polysyllabic words, one syllable inherently carries the <strong>Primary Stress</strong> (marked with /ˈ/ in the IPA). It is articulated louder, longer, and slightly higher in pitch. Some multisyllabic words also feature <strong>Secondary Stress</strong>. Placing the stress incorrectly can render a word entirely incomprehensible to a British ear.</p>
+
+    <div class="stress-grid">
+      <div class="stress-block">
+        <div class="stress-label">Trochaic (Stress on 1st)</div>
+        <div class="stress-word">PHO-to-graph</div>
+        <div class="stress-ipa">/ˈfəʊ.tə.ɡrɑːf/</div>
+        <div class="stress-dots">
+          <div class="dot stress"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="stress-ex">Notice how the vowels in the unstressed syllables completely reduce to a schwa /ə/.</div>
+      </div>
+      
+      <div class="stress-block">
+        <div class="stress-label">Amphibrachic (Stress on 2nd)</div>
+        <div class="stress-word">pho-TO-gra-pher</div>
+        <div class="stress-ipa">/fəˈtɒ.ɡrə.fə/</div>
+        <div class="stress-dots">
+          <div class="dot"></div><div class="dot stress"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        <div class="stress-ex">The primary stress shifts to the second syllable, completely altering the pronunciation of the 'o' vowels.</div>
+      </div>
+
+      <div class="stress-block">
+        <div class="stress-label">Noun/Verb Alternation</div>
+        <div class="stress-word">RE-cord vs re-CORD</div>
+        <div class="stress-ipa">/ˈrek.ɔːd/ vs /rɪˈkɔːd/</div>
+        <div class="stress-dots">
+          <div style="display:flex; align-items:center; gap:0.4rem;">
+            <div class="dot stress"></div><div class="dot"></div>
+            <span style="color:#aaa; font-size:0.8rem; margin:0 0.5rem;">vs</span>
+            <div class="dot"></div><div class="dot stress"></div>
+          </div>
+        </div>
+        <div class="stress-ex">Many words act as nouns when stressed on the first syllable, and verbs when stressed on the second.</div>
+      </div>
+
+      <div class="stress-block">
+        <div class="stress-label">Weak Forms in Syntax</div>
+        <div class="stress-word">Fish and Chips</div>
+        <div class="stress-ipa">/fɪʃ ən tʃɪps/</div>
+        <div class="stress-dots">
+          <div class="dot stress"></div><div class="dot" style="background:#eee; width:6px; height:6px;"></div><div class="dot stress"></div>
+        </div>
+        <div class="stress-ex">Function words (and, to, for, at) are deliberately weakened in connected speech so the content words stand out.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr style="border: 0; height: 1px; background: var(--pearl); margin: 5rem 0;">
+
+  <section id="part3">
+    <div class="sec-heading">Part 3: Connected Speech & Intonation</div>
+    <div class="sec-sub">Catenation · Elision · Assimilation · Pitch Contours</div>
+    <p class="body-text">In authentic, unscripted discourse, word boundaries evaporate. Native speakers do not pronounce sentences as a series of isolated, dictionary-perfect words. This fluid blending is known as <strong>Connected Speech</strong>. Understanding these mechanisms is vital not only for achieving a natural British cadence but for decoding fast, native-speed audio.</p>
+
+    <div class="connected-box">
+      <h4>1. Catenation (Consonant-to-Vowel Linking)</h4>
+      <p>When a word ends in a consonant sound and the subsequent word begins with a vowel sound, the consonant "jumps" across the boundary to attach to the vowel.</p>
+      <div class="cs-example">
+        "An apple" ➔ /ə ˈnæ.pəl/
+        <span>(It sounds like "a napple")</span>
+      </div>
+    </div>
+
+    <div class="connected-box">
+      <h4>2. The Intrusive /r/ (Vowel-to-Vowel Linking)</h4>
+      <p>A highly distinctive feature of British RP. When two vowel sounds meet across a word boundary, an extra consonant is naturally inserted to bridge the gap and maintain the vocal flow.</p>
+      <div class="cs-example">
+        "Law and order" ➔ /lɔː <strong>r</strong> ən ˈɔː.də/
+        <span>(An intrusive /r/ appears between 'law' and 'and', despite no 'r' in the spelling).</span>
+      </div>
+    </div>
+
+    <div class="connected-box">
+      <h4>3. Elision (Sound Deletion)</h4>
+      <p>To speak efficiently, complex consonant clusters are simplified by entirely dropping sounds (most commonly the alveolar stops /t/ or /d/).</p>
+      <div class="cs-example">
+        "Next door" ➔ /neks dɔː/
+        <span>(The /t/ in 'next' is elided completely to make the transition to /d/ smoother).</span>
+      </div>
+    </div>
+
+    <div class="connected-box">
+      <h4>4. Assimilation (Sound Mutation)</h4>
+      <p>Sounds mutate to become more like their neighboring sounds, making the physical movement of the tongue and lips faster.</p>
+      <div class="cs-example">
+        "Ten pairs" ➔ /te<strong>m</strong> peəz/
+        <span>(The alveolar /n/ anticipates the bilabial /p/ and becomes a bilabial /m/).</span>
+      </div>
+    </div>
+
+    <div class="sec-heading" style="font-size: 1.6rem; margin-top: 3rem;">The Pragmatics of Intonation</div>
+    <p class="body-text">Intonation is the underlying melody of speech. It carries the speaker's attitude, emotion, and the grammatical function of the utterance. In British English, the <strong>Nuclear Tone</strong> (the main pitch movement on the most stressed word) dictates the underlying meaning.</p>
+    
+    <table class="compare-table" style="margin-top: 1rem;">
+      <thead><tr><th>Intonation Contour</th><th>Linguistic Function</th><th>Example Scenario</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Falling Tone ( ↘ )</strong></td>
+          <td>Finality, certainty, commands, and Wh- questions.</td>
+          <td>"What is your name?" ↘<br/>"Put that down." ↘</td>
+        </tr>
+        <tr>
+          <td><strong>Rising Tone ( ↗ )</strong></td>
+          <td>Uncertainty, surprise, and Yes/No questions.</td>
+          <td>"Are you coming?" ↗<br/>"You did what?" ↗</td>
+        </tr>
+        <tr>
+          <td><strong>Fall-Rise Tone ( ↘↗ )</strong></td>
+          <td>Partial agreement, polite correction, or implying unstated negative information.</td>
+          <td>"Well, the ↘food was ↗good..." <br/>(Implies the service was terrible).</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</main>
+
+<aside class="sidebar">
+  <div class="s-card">
+    <h4>Phonology Modules</h4>
+    <ul class="lesson-nav">
+      <li><a href="#part1" class="current">① British English Sounds &amp; IPA</a></li>
+      <li><a href="#part2">② Word Stress &amp; Sentence Rhythm</a></li>
+      <li><a href="#part3">③ Connected Speech &amp; Intonation</a></li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <h4>British English Note</h4>
+    <div class="brit-note"><strong>Received Pronunciation (RP)</strong> is the prestige accent taught in language schools worldwide. It is non-regional — it does not reveal where in Britain the speaker is from — and is the standard for British broadcasting, theatre, and public life.</div>
+  </div>
+  <div class="s-card">
+    <h4>IPA Quick Reference</h4>
+    <div style="font-size:0.88rem;line-height:2;color:#444;font-family:'Crimson Pro',serif;">
+      <span style="font-family:'Crimson Pro',serif;color:var(--crimson);">/iː/</span> — see &nbsp;
+      <span style="font-family:'Crimson Pro',serif;color:var(--crimson);">/ɪ/</span> — sit<br/>
+      <span style="font-family:'Crimson Pro',serif;color:var(--crimson);">/e/</span> — bed &nbsp;
+      <span style="font-family:'Crimson Pro',serif;color:var(--crimson);">/æ/</span> — cat<br/>
+      <span style="font-family:'Crimson Pro',serif;color:var(--crimson);">/ɑː/</span> — bath &nbsp;
+      <span style="font-family:'Crimson Pro',serif;color:var(--crimson);">/ɒ/</span> — hot<br/>
+      <span style="font-family:'Crimson Pro',serif;color:var(--crimson);">/ʌ/</span> — cup &nbsp;
+      <span style="font-family:'Crimson Pro',serif;color:var(--crimson);">/ə/</span> — about<br/>
+      <span style="font-family:'Crimson Pro',serif;color:var(--crimson);">/uː/</span> — food &nbsp;
+      <span style="font-family:'Crimson Pro',serif;color:var(--crimson);">/ʊ/</span> — book
+    </div>
+  </div>
+  <a href="#part2" class="next-btn">Next: Word Stress &amp; Rhythm →</a>
+</aside>
+</div>
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom · Advanced Phonetics Division</p>
+  <a href="index.html">← Back to Dashboard</a>
+</footer>
+
+<script>
+  // Progress Bar Logic
+  window.addEventListener('scroll',()=>{
+    const d=document.documentElement;
+    document.getElementById('pf').style.width=((d.scrollTop||document.body.scrollTop)/(d.scrollHeight-d.clientHeight)*100)+'%';
+  });
+
+  // Grading Logic for existing exercises
+  function checkEx(n,answers){
+    let score=0,total=Object.keys(answers).length;
+    for(let id in answers){
+      const el=document.getElementById(id);
+      const fb=document.getElementById('f'+id.slice(1));
+      const val=el.tagName==='SELECT'?el.options[el.selectedIndex].text:el.value.trim();
+      const correct=answers[id];
+      el.classList.remove('correct','wrong');
+      fb.style.display='block';
+      if(val.toLowerCase()===correct.toLowerCase()){
+        el.classList.add('correct');fb.className='ex-fb ok';fb.textContent='✓ Correct!';score++;
+      } else {
+        el.classList.add('wrong');fb.className='ex-fb no';fb.textContent='✗ Answer: '+correct;
+      }
+    }
+    const sb=document.getElementById('sc'+n);sb.style.display='block';
+    document.getElementById('sc'+n+'v').textContent=score+'/'+total;
+    const msgs=['Review the lesson content above.','Keep studying!','Good effort!','Well done!','Excellent!','Perfect score!'];
+    document.getElementById('sc'+n+'m').textContent=msgs[Math.min(score,5)];
+  }
+
+  // Active Link Highlighting logic for Sidebar Navigation
+  document.addEventListener("DOMContentLoaded", () => {
+    const links = document.querySelectorAll(".lesson-nav a");
+    const sections = document.querySelectorAll("section[id]");
+
+    const highlightNavigation = () => {
+      let scrollY = window.pageYOffset;
+
+      sections.forEach((current) => {
+        const sectionHeight = current.offsetHeight;
+        // Adjust threshold based on your layout
+        const sectionTop = current.offsetTop - 150; 
+        const sectionId = current.getAttribute("id");
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+          links.forEach((a) => {
+            a.classList.remove("current");
+            if (a.getAttribute("href") === "#" + sectionId) {
+              a.classList.add("current");
+            }
+          });
+        }
+      });
+    };
+
+    window.addEventListener("scroll", highlightNavigation);
+  });
+</script>
+</body>
+</html>

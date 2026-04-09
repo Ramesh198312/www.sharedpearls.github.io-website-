@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vocabulary B2 – Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--ink:#1a1209;--parchment:#fdf8f0;--cream:#f5ede0;--gold:#c8922a;--gold-light:#e8b84b;--teal:#1e6b6b;--pearl:#e8ddd0;--shadow:rgba(26,18,9,0.12);--correct:#1e6b3a;--wrong:#8b1a1a;--level:#8b3a10;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Source Serif 4',Georgia,serif;background:var(--parchment);color:var(--ink);}
+    nav{background:var(--ink);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold-light);padding:1.1rem 0;text-decoration:none;display:block;}
+    .nav-logo span{color:#fff;font-style:italic;}
+    .nav-back{font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;text-decoration:none;}
+    .nav-back:hover{color:var(--gold-light);}
+    .hero{background:linear-gradient(135deg,#3d1a06 0%,#8b3a10 100%);padding:4rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;}
+    .hero::before{content:'🔥';font-size:18rem;position:absolute;opacity:0.05;top:-3rem;left:50%;transform:translateX(-50%);pointer-events:none;}
+    .level-badge{display:inline-block;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.4);border-radius:50%;width:80px;height:80px;line-height:80px;font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff;margin-bottom:1.5rem;}
+    .meta{display:flex;justify-content:center;gap:0.8rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+    .pill{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.35rem 0.9rem;border-radius:2px;}
+    .pill-light{background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.25);}
+    .pill-gold{background:rgba(200,146,42,0.35);color:var(--gold-light);border:1px solid rgba(200,146,42,0.4);}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);color:#fff;line-height:1.15;max-width:780px;margin:0 auto 1rem;}
+    .hero h1 em{color:var(--gold-light);font-style:italic;}
+    .hero p{color:rgba(255,255,255,0.8);font-size:1rem;max-width:600px;margin:0 auto;line-height:1.7;}
+    .progress-bar{height:3px;background:rgba(255,255,255,0.15);margin-top:2.5rem;}
+    .progress-fill{height:100%;width:0;background:var(--gold-light);transition:width 0.3s;}
+    .cefr-def{background:#fff;max-width:900px;margin:-2rem auto 0;position:relative;z-index:2;padding:2rem 2.5rem;box-shadow:0 8px 40px rgba(0,0,0,0.12);display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:start;}
+    .cefr-icon{font-size:3rem;line-height:1;}
+    .cefr-def h2{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:0.5rem;color:var(--level);}
+    .cefr-def p{font-size:0.95rem;line-height:1.8;color:#444;}
+    .cefr-traits{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem;}
+    .cefr-trait{background:rgba(139,58,16,0.07);border:1px solid rgba(139,58,16,0.2);color:var(--level);font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 0.7rem;}
+    .layout{max-width:1000px;margin:3rem auto;padding:0 2rem;display:grid;grid-template-columns:1fr 260px;gap:3rem;}
+    .vocab-section-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin:2.5rem 0 1.5rem;padding-bottom:0.5rem;border-bottom:2px solid var(--level);display:inline-block;}
+    .body p{font-size:1rem;line-height:1.9;color:#333;margin-bottom:1.2rem;}
+    .word-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin:1.5rem 0;}
+    .word-card{background:#fff;padding:1.4rem;box-shadow:0 2px 10px var(--shadow);border-top:3px solid var(--level);transition:transform 0.2s,box-shadow 0.2s;}
+    .word-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px var(--shadow);}
+    .wc-word{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ink);margin-bottom:0.2rem;}
+    .wc-pos{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;margin-bottom:0.5rem;}
+    .wc-def{font-size:0.88rem;color:#555;line-height:1.6;margin-bottom:0.6rem;}
+    .wc-ex{font-size:0.85rem;color:var(--level);font-style:italic;border-left:2px solid var(--level);padding-left:0.7rem;line-height:1.6;}
+    .wc-ex2{font-size:0.82rem;color:#888;font-style:italic;padding-left:0.9rem;margin-top:0.3rem;line-height:1.5;}
+    /* collocation tags */
+    .wc-colloc{display:flex;flex-wrap:wrap;gap:0.3rem;margin-top:0.6rem;}
+    .colloc-tag{background:rgba(139,58,16,0.07);border:1px solid rgba(139,58,16,0.15);font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--level);padding:0.2rem 0.5rem;}
+    .ex-section{background:#fff;padding:2rem;box-shadow:0 2px 12px var(--shadow);margin:2rem 0;}
+    .ex-title{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:0.3rem;}
+    .ex-sub{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--level);margin-bottom:1.5rem;}
+    .ex-item{margin-bottom:1.3rem;padding-bottom:1.3rem;border-bottom:1px solid var(--pearl);}
+    .ex-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+    .ex-q{font-size:0.97rem;color:#333;line-height:1.7;margin-bottom:0.6rem;}
+    .ex-q strong{color:var(--level);}
+    .ex-input{width:100%;padding:0.6rem 0.9rem;border:1px solid var(--pearl);background:var(--parchment);font-family:'Source Serif 4',serif;font-size:0.9rem;color:var(--ink);outline:none;transition:border-color 0.2s;}
+    .ex-input:focus{border-color:var(--level);}
+    .ex-input.correct{border-color:var(--correct);background:rgba(30,107,58,0.05);color:var(--correct);}
+    .ex-input.wrong{border-color:var(--wrong);background:rgba(139,26,26,0.05);}
+    .ex-select{padding:0.6rem 0.9rem;border:1px solid var(--pearl);background:#fff;font-family:'Source Serif 4',serif;font-size:0.9rem;color:var(--ink);cursor:pointer;outline:none;min-width:200px;}
+    .ex-select.correct{border-color:var(--correct);background:rgba(30,107,58,0.05);}
+    .ex-select.wrong{border-color:var(--wrong);}
+    .ex-fb{font-family:'DM Mono',monospace;font-size:0.75rem;margin-top:0.4rem;display:none;}
+    .ex-fb.ok{color:var(--correct);}
+    .ex-fb.no{color:var(--wrong);}
+    .check-btn{padding:0.75rem 1.8rem;background:var(--level);color:#fff;border:none;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:1rem;transition:all 0.2s;}
+    .check-btn:hover{background:#3d1a06;}
+    .score-box{display:none;margin-top:1rem;padding:1rem;background:var(--ink);text-align:center;}
+    .score-box .big{font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-light);display:block;}
+    .score-box p{color:#aaa;font-size:0.85rem;margin-top:0.3rem;}
+    .sidebar{display:flex;flex-direction:column;gap:1.5rem;}
+    .s-card{background:#fff;padding:1.4rem;box-shadow:0 2px 12px var(--shadow);}
+    .s-card h4{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid var(--pearl);}
+    .level-nav{list-style:none;}
+    .level-nav li{border-bottom:1px solid var(--pearl);}
+    .level-nav li:last-child{border-bottom:none;}
+    .level-nav a{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0;font-size:0.88rem;color:#555;text-decoration:none;transition:color 0.2s;}
+    .level-nav a:hover{color:var(--gold);}
+    .level-nav a.current{color:var(--level);font-weight:600;}
+    .ln-badge{font-family:'DM Mono',monospace;font-size:0.62rem;padding:0.2rem 0.5rem;border-radius:2px;flex-shrink:0;}
+    .ln-a1{background:rgba(42,100,150,0.1);color:#2a6496;}
+    .ln-b1{background:rgba(30,107,107,0.1);color:var(--teal);}
+    .ln-b2{background:rgba(139,58,16,0.1);color:var(--level);}
+    .ln-c1{background:rgba(107,63,160,0.1);color:#6b3fa0;}
+    .tip-box{background:rgba(139,58,16,0.06);border:1px solid rgba(139,58,16,0.2);padding:1rem;font-size:0.88rem;line-height:1.7;color:#555;}
+    .tip-box strong{color:var(--level);}
+    .next-btn{display:block;background:var(--gold);color:var(--ink);padding:1rem;text-align:center;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;font-weight:500;transition:all 0.2s;}
+    .next-btn:hover{background:var(--gold-light);}
+    .prev-btn{display:block;background:transparent;color:var(--level);border:1px solid var(--level);padding:0.8rem;text-align:center;font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;}
+    .prev-btn:hover{background:var(--level);color:#fff;}
+    footer{background:var(--ink);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    footer p{color:#666;font-size:0.82rem;font-family:'DM Mono',monospace;}
+    footer a{color:var(--gold);text-decoration:none;font-family:'DM Mono',monospace;font-size:0.82rem;}
+    @media(max-width:800px){.layout{grid-template-columns:1fr;}.word-grid{grid-template-columns:1fr;}.cefr-def{grid-template-columns:1fr;}footer{padding:2rem 1.5rem;}}
+  </style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
+  <a href="vocab-b1.html" class="nav-back">← B1</a>
+</nav>
+<div class="hero">
+  <div class="level-badge">B2</div>
+  <div class="meta">
+    <span class="pill pill-gold">📖 Vocabulary · Level 3 of 4</span>
+    <span class="pill pill-light">🔥 Upper-Intermediate</span>
+    <span class="pill pill-light">⏱ 30 min</span>
+  </div>
+  <h1>CEFR B2:<br/><em>Upper-Intermediate Vocabulary</em></h1>
+  <p>Master sophisticated vocabulary used in academic writing, professional discussions, debate, and nuanced communication across complex topics.</p>
+  <div class="progress-bar"><div class="progress-fill" id="pf"></div></div>
+</div>
+
+<div class="cefr-def">
+  <div class="cefr-icon">🔥</div>
+  <div>
+    <h2>What is CEFR B2?</h2>
+    <p>At <strong>B2 (Upper-Intermediate)</strong>, learners can understand the main ideas of complex text on both concrete and abstract topics, including technical discussions in their field of specialisation. They can interact with a degree of fluency and spontaneity that makes regular interaction with native speakers quite possible without strain for either party. B2 vocabulary is marked by <em>precision</em> — learners move beyond basic synonyms and begin using nuanced, context-sensitive words. This includes <em>formal register vocabulary, academic word list (AWL) words, idiomatic expressions, and sophisticated collocations</em>. They can distinguish subtle differences in meaning between near-synonyms.</p>
+    <div class="cefr-traits">
+      <span class="cefr-trait">~4,000–6,000 words</span>
+      <span class="cefr-trait">Academic vocabulary</span>
+      <span class="cefr-trait">Near-synonyms</span>
+      <span class="cefr-trait">Formal register</span>
+      <span class="cefr-trait">Complex collocations</span>
+      <span class="cefr-trait">Idiomatic usage</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+<article>
+  <div class="vocab-section-title">Core Vocabulary — 20 Upper-Intermediate Words</div>
+  <p>At B2 level, we include common collocations for each word — natural word combinations that demonstrate real fluency. Learning collocations is what separates good English from great English.</p>
+
+  <div class="word-grid">
+    <div class="word-card"><div class="wc-word">acknowledge</div><div class="wc-pos">verb</div><div class="wc-def">To accept or admit that something is true or exists; to recognise someone's contribution.</div><div class="wc-ex">"The report acknowledges that there are significant gaps in the current policy."</div><div class="wc-ex2">"She acknowledged his help with a brief mention in the report."</div><div class="wc-colloc"><span class="colloc-tag">acknowledge a fact</span><span class="colloc-tag">acknowledge receipt</span></div></div>
+    <div class="word-card"><div class="wc-word">ambiguous</div><div class="wc-pos">adjective</div><div class="wc-def">Open to more than one interpretation; not having one clear meaning.</div><div class="wc-ex">"The contract terms were ambiguous, leading to a legal dispute."</div><div class="wc-ex2">"Her response was deliberately ambiguous to avoid committing to either side."</div><div class="wc-colloc"><span class="colloc-tag">deliberately ambiguous</span><span class="colloc-tag">remain ambiguous</span></div></div>
+    <div class="word-card"><div class="wc-word">assess</div><div class="wc-pos">verb</div><div class="wc-def">To evaluate or estimate the nature, ability, or quality of something.</div><div class="wc-ex">"We need to assess the risks before making a final decision."</div><div class="wc-ex2">"The committee will assess all applications by the end of the month."</div><div class="wc-colloc"><span class="colloc-tag">assess the risk</span><span class="colloc-tag">carefully assess</span></div></div>
+    <div class="word-card"><div class="wc-word">assumption</div><div class="wc-pos">noun</div><div class="wc-def">A belief or statement taken for granted without proof; a presumption.</div><div class="wc-ex">"The plan was based on the assumption that costs would remain stable."</div><div class="wc-ex2">"Do not make assumptions about a client's budget without asking."</div><div class="wc-colloc"><span class="colloc-tag">false assumption</span><span class="colloc-tag">underlying assumption</span></div></div>
+    <div class="word-card"><div class="wc-word">consequently</div><div class="wc-pos">adverb</div><div class="wc-def">As a result; therefore — used to show cause and effect.</div><div class="wc-ex">"The system failed; consequently, all data was lost."</div><div class="wc-ex2">"She did not meet the deadline and consequently lost the contract."</div><div class="wc-colloc"><span class="colloc-tag">and consequently</span><span class="colloc-tag">consequently led to</span></div></div>
+    <div class="word-card"><div class="wc-word">constraint</div><div class="wc-pos">noun</div><div class="wc-def">A limitation or restriction that controls what you can do.</div><div class="wc-ex">"Budget constraints prevented the company from expanding its team."</div><div class="wc-ex2">"Working within time constraints requires excellent planning skills."</div><div class="wc-colloc"><span class="colloc-tag">budget constraint</span><span class="colloc-tag">time constraint</span></div></div>
+    <div class="word-card"><div class="wc-word">controversial</div><div class="wc-pos">adjective</div><div class="wc-def">Causing strong disagreement or debate; not universally accepted.</div><div class="wc-ex">"The new tax policy proved highly controversial among business owners."</div><div class="wc-ex2">"It is a controversial topic that divides experts worldwide."</div><div class="wc-colloc"><span class="colloc-tag">highly controversial</span><span class="colloc-tag">controversial issue</span></div></div>
+    <div class="word-card"><div class="wc-word">deduce</div><div class="wc-pos">verb</div><div class="wc-def">To reach a conclusion by reasoning from available evidence.</div><div class="wc-ex">"From the data, we can deduce that sales are declining."</div><div class="wc-ex2">"Sherlock Holmes could deduce a great deal from very small details."</div><div class="wc-colloc"><span class="colloc-tag">deduce from</span><span class="colloc-tag">logically deduce</span></div></div>
+    <div class="word-card"><div class="wc-word">elaborate</div><div class="wc-pos">verb / adjective</div><div class="wc-def">(v) To explain something in more detail; (adj) complex and detailed in design.</div><div class="wc-ex">"Could you elaborate on your second point? I would like more detail."</div><div class="wc-ex2">"The plan involved an elaborate series of steps spread over six months."</div><div class="wc-colloc"><span class="colloc-tag">elaborate on</span><span class="colloc-tag">elaborate plan</span></div></div>
+    <div class="word-card"><div class="wc-word">implication</div><div class="wc-pos">noun</div><div class="wc-def">A possible consequence or effect that is not directly stated; a suggestion.</div><div class="wc-ex">"The implications of this decision are far-reaching and must be considered carefully."</div><div class="wc-ex2">"There are serious financial implications to this proposed merger."</div><div class="wc-colloc"><span class="colloc-tag">serious implications</span><span class="colloc-tag">implications for</span></div></div>
+    <div class="word-card"><div class="wc-word">insight</div><div class="wc-pos">noun</div><div class="wc-def">A deep and clear understanding of a complex situation or issue.</div><div class="wc-ex">"The research provides valuable insight into consumer behaviour."</div><div class="wc-ex2">"Her years of experience gave her unique insight into the problem."</div><div class="wc-colloc"><span class="colloc-tag">valuable insight</span><span class="colloc-tag">gain insight into</span></div></div>
+    <div class="word-card"><div class="wc-word">jeopardise</div><div class="wc-pos">verb</div><div class="wc-def">To put something at risk of being harmed, damaged, or destroyed.</div><div class="wc-ex">"Failing to meet the deadline could jeopardise the entire project."</div><div class="wc-ex2">"His reckless decision jeopardised the company's reputation."</div><div class="wc-colloc"><span class="colloc-tag">jeopardise the future</span><span class="colloc-tag">jeopardise chances</span></div></div>
+    <div class="word-card"><div class="wc-word">mitigate</div><div class="wc-pos">verb</div><div class="wc-def">To make something less severe, harmful, or serious.</div><div class="wc-ex">"Better training can help mitigate the risk of workplace accidents."</div><div class="wc-ex2">"The company took steps to mitigate the financial damage caused by the delay."</div><div class="wc-colloc"><span class="colloc-tag">mitigate risk</span><span class="colloc-tag">mitigate the impact</span></div></div>
+    <div class="word-card"><div class="wc-word">nuance</div><div class="wc-pos">noun</div><div class="wc-def">A very subtle difference in meaning, feeling, or tone.</div><div class="wc-ex">"Understanding the cultural nuances of a language is essential for fluency."</div><div class="wc-ex2">"Her translation captured every nuance of the original text beautifully."</div><div class="wc-colloc"><span class="colloc-tag">cultural nuance</span><span class="colloc-tag">subtle nuance</span></div></div>
+    <div class="word-card"><div class="wc-word">pragmatic</div><div class="wc-pos">adjective</div><div class="wc-def">Dealing with things in a realistic and practical way rather than theoretically.</div><div class="wc-ex">"We need a pragmatic approach to solving this problem, not an idealistic one."</div><div class="wc-ex2">"Her pragmatic leadership style made her very effective under pressure."</div><div class="wc-colloc"><span class="colloc-tag">pragmatic approach</span><span class="colloc-tag">pragmatic solution</span></div></div>
+    <div class="word-card"><div class="wc-word">prevalent</div><div class="wc-pos">adjective</div><div class="wc-def">Existing very commonly or widely in a particular area or at a particular time.</div><div class="wc-ex">"Stress-related illness is increasingly prevalent in modern workplaces."</div><div class="wc-ex2">"This misconception is prevalent among first-year students."</div><div class="wc-colloc"><span class="colloc-tag">increasingly prevalent</span><span class="colloc-tag">widely prevalent</span></div></div>
+    <div class="word-card"><div class="wc-word">scrutinise</div><div class="wc-pos">verb</div><div class="wc-def">To examine something very carefully and critically.</div><div class="wc-ex">"The auditors will scrutinise every financial record from the past two years."</div><div class="wc-ex2">"Journalists began to scrutinise the minister's decision closely."</div><div class="wc-colloc"><span class="colloc-tag">closely scrutinise</span><span class="colloc-tag">scrutinise a policy</span></div></div>
+    <div class="word-card"><div class="wc-word">substantiate</div><div class="wc-pos">verb</div><div class="wc-def">To provide evidence to support or prove the truth of a statement or claim.</div><div class="wc-ex">"You must substantiate your claims with credible data and sources."</div><div class="wc-ex2">"The investigation failed to substantiate the allegations."</div><div class="wc-colloc"><span class="colloc-tag">substantiate a claim</span><span class="colloc-tag">fully substantiate</span></div></div>
+    <div class="word-card"><div class="wc-word">undermined</div><div class="wc-pos">verb (past)</div><div class="wc-def">Weakened or damaged something gradually and often secretly.</div><div class="wc-ex">"Repeated delays have undermined the team's confidence in the leadership."</div><div class="wc-ex2">"The scandal undermined years of trust the company had built."</div><div class="wc-colloc"><span class="colloc-tag">undermine confidence</span><span class="colloc-tag">undermine authority</span></div></div>
+    <div class="word-card"><div class="wc-word">viable</div><div class="wc-pos">adjective</div><div class="wc-def">Capable of working successfully; feasible and practical.</div><div class="wc-ex">"Is this a commercially viable product, or just an interesting concept?"</div><div class="wc-ex2">"The committee decided that the proposal was not financially viable."</div><div class="wc-colloc"><span class="colloc-tag">commercially viable</span><span class="colloc-tag">viable option</span></div></div>
+  </div>
+
+  <!-- EXERCISES -->
+  <div class="vocab-section-title">10 Exercises</div>
+
+  <!-- EX 1 -->
+  <div class="ex-section">
+    <div class="ex-title">Exercise 1 — Fill in the Blank</div>
+    <div class="ex-sub">Use: assess / constraint / implication / mitigate / viable</div>
+    <div class="ex-item"><div class="ex-q">1. Before launching the product, we need to <strong>___</strong> the potential risks carefully.</div><input class="ex-input" id="e1_1" placeholder="Your answer…"/><div class="ex-fb" id="f1_1"></div></div>
+    <div class="ex-item"><div class="ex-q">2. The main <strong>___</strong> preventing expansion is the lack of funding available.</div><input class="ex-input" id="e1_2" placeholder="Your answer…"/><div class="ex-fb" id="f1_2"></div></div>
+    <div class="ex-item"><div class="ex-q">3. The <strong>___</strong> of this policy change for small businesses are very serious indeed.</div><input class="ex-input" id="e1_3" placeholder="Your answer…"/><div class="ex-fb" id="f1_3"></div></div>
+    <div class="ex-item"><div class="ex-q">4. Better training programmes will help <strong>___</strong> the risk of errors in the production line.</div><input class="ex-input" id="e1_4" placeholder="Your answer…"/><div class="ex-fb" id="f1_4"></div></div>
+    <div class="ex-item"><div class="ex-q">5. The team concluded that only one option was financially <strong>___</strong>.</div><input class="ex-input" id="e1_5" placeholder="Your answer…"/><div class="ex-fb" id="f1_5"></div></div>
+    <button class="check-btn" onclick="checkEx(1,{e1_1:'assess',e1_2:'constraint',e1_3:'implications',e1_4:'mitigate',e1_5:'viable'})">Check Answers</button>
+    <div class="score-box" id="sc1"><span class="big" id="sc1v"></span><p id="sc1m"></p></div>
+  </div>
+
+  <!-- EX 2 -->
+  <div class="ex-section">
+    <div class="ex-title">Exercise 2 — Choose the Correct Word</div>
+    <div class="ex-sub">Select the most precise and appropriate word for each context</div>
+    <div class="ex-item">
+      <div class="ex-q">6. The auditors were asked to <strong>___</strong> every financial transaction from the last three years.</div>
+      <select class="ex-select" id="e2_1"><option value="">— Choose —</option><option>deduce</option><option>scrutinise</option><option>elaborate</option><option>acknowledge</option></select>
+      <div class="ex-fb" id="f2_1"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">7. His <strong>___</strong> response made it impossible to know whether he agreed with the proposal.</div>
+      <select class="ex-select" id="e2_2"><option value="">— Choose —</option><option>pragmatic</option><option>prevalent</option><option>ambiguous</option><option>viable</option></select>
+      <div class="ex-fb" id="f2_2"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">8. The data gives us valuable <strong>___</strong> into why customers are leaving the platform.</div>
+      <select class="ex-select" id="e2_3"><option value="">— Choose —</option><option>nuance</option><option>insight</option><option>assumption</option><option>constraint</option></select>
+      <div class="ex-fb" id="f2_3"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">9. We need a more <strong>___</strong> solution — something that actually works in the real world.</div>
+      <select class="ex-select" id="e2_4"><option value="">— Choose —</option><option>controversial</option><option>ambiguous</option><option>prevalent</option><option>pragmatic</option></select>
+      <div class="ex-fb" id="f2_4"></div>
+    </div>
+    <div class="ex-item">
+      <div class="ex-q">10. You cannot make such a bold claim without evidence to <strong>___</strong> it.</div>
+      <select class="ex-select" id="e2_5"><option value="">— Choose —</option><option>deduce</option><option>undermine</option><option>substantiate</option><option>jeopardise</option></select>
+      <div class="ex-fb" id="f2_5"></div>
+    </div>
+    <button class="check-btn" onclick="checkEx(2,{e2_1:'scrutinise',e2_2:'ambiguous',e2_3:'insight',e2_4:'pragmatic',e2_5:'substantiate'})">Check Answers</button>
+    <div class="score-box" id="sc2"><span class="big" id="sc2v"></span><p id="sc2m"></p></div>
+  </div>
+
+</article>
+<aside class="sidebar">
+  <div class="s-card">
+    <h4>Vocabulary Levels</h4>
+    <ul class="level-nav">
+      <li><a href="vocab-a1a2.html"><span class="ln-badge ln-a1">A1/A2</span> Beginner</a></li>
+      <li><a href="vocab-b1.html"><span class="ln-badge ln-b1">B1</span> Intermediate</a></li>
+      <li><a href="vocab-b2.html" class="current"><span class="ln-badge ln-b2">B2</span> Upper-Int</a></li>
+      <li><a href="vocab-c1.html"><span class="ln-badge ln-c1">C1</span> Advanced</a></li>
+    </ul>
+  </div>
+  <div class="s-card">
+    <h4>Study Tip</h4>
+    <div class="tip-box"><strong>At B2 level</strong>, focus on collocations highlighted in each word card. The tags show the most natural word combinations. Practise by writing your own sentences using two collocations per word — this ingrains the pattern deeply.</div>
+  </div>
+  <a href="vocab-b1.html" class="prev-btn">← B1 Intermediate</a>
+  <a href="vocab-c1.html" class="next-btn">Next Level: C1 Advanced →</a>
+</aside>
+</div>
+
+<footer>
+  <p>© 2025 Shared Pearls of Wisdom · Ramesh198312</p>
+  <a href="index.html">← Back to all lessons</a>
+</footer>
+<script>
+  window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('pf').style.width=((d.scrollTop||document.body.scrollTop)/(d.scrollHeight-d.clientHeight)*100)+'%';});
+  function checkEx(n,answers){
+    let score=0,total=Object.keys(answers).length;
+    for(let id in answers){
+      const inp=document.getElementById(id);
+      const fb=document.getElementById('f'+id.slice(1));
+      const val=inp.tagName==='SELECT'?inp.options[inp.selectedIndex].text.toLowerCase():inp.value.trim().toLowerCase();
+      const correct=answers[id].toLowerCase();
+      inp.classList.remove('correct','wrong');
+      fb.style.display='block';
+      if(val===correct){inp.classList.add('correct');fb.className='ex-fb ok';fb.textContent='✓ Correct!';score++;}
+      else{inp.classList.add('wrong');fb.className='ex-fb no';fb.textContent='✗ Answer: '+answers[id];}
+    }
+    const sb=document.getElementById('sc'+n);sb.style.display='block';
+    document.getElementById('sc'+n+'v').textContent=score+'/'+total;
+    const msgs=['Review the word cards above.','Keep going!','Good effort!','Well done!','Excellent!','Perfect!'];
+    document.getElementById('sc'+n+'m').textContent=msgs[Math.min(score,5)];
+  }
+</script>
+</body>
+</html>

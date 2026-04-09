@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IELTS Grammar Masterclass | Shared Pearls</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --midnight: #0B1D3A;
+      --crimson: #8B1A2E;
+      --ink: #1E1E1E;
+      --slate: #4A4A4A;
+      --parchment: #F9F7F1;
+      --paper: #FFFFFF;
+      --gold: #C4923E;
+      --gold-light: #E8D3A2;
+      --border: #E0DCD3;
+      --correct: #1e5c35;
+      --correct-bg: #e8f5e9;
+      --wrong: #9B2C2C;
+      --wrong-bg: #FEE2E2;
+    }
+
+    html { scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Crimson Pro', Georgia, serif; background: var(--parchment); color: var(--ink); line-height: 1.6; }
+
+    /* ── NAVIGATION ── */
+    nav { background: var(--midnight); padding: 0.8rem 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--gold); }
+    .nav-logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--gold); }
+    .logo-text span { color: var(--paper); font-style: italic; }
+    .nav-cta { background: var(--gold); color: var(--midnight); padding: 0.6rem 1.2rem; border-radius: 2px; font-weight: 700; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; }
+
+    /* ── HERO SECTION ── */
+    .hero { background: var(--crimson); padding: 4rem 2rem; text-align: center; color: var(--paper); border-bottom: 5px solid var(--midnight);}
+    .hero-subtitle { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 1rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 600; margin-bottom: 1rem; }
+
+    /* ── LAYOUT (SIDEBAR & MAIN) ── */
+    .container { max-width: 1300px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 280px 1fr; gap: 4rem; align-items: start; }
+    
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 100px; background: var(--paper); border: 1px solid var(--border); padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .sidebar-title { font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    .tense-nav { list-style: none; }
+    .tense-nav li { margin-bottom: 0.5rem; }
+    .tense-nav a { text-decoration: none; color: var(--slate); font-size: 1.05rem; display: block; padding: 0.4rem 0.8rem; border-left: 2px solid transparent; transition: 0.2s; }
+    .tense-nav a:hover, .tense-nav a.active { color: var(--crimson); border-left-color: var(--crimson); background: rgba(139,26,46,0.03); font-weight: 600; }
+
+    /* ── MAIN CONTENT ── */
+    .tense-section { background: var(--paper); border: 1px solid var(--border); padding: 3rem; margin-bottom: 4rem; box-shadow: 0 8px 24px rgba(0,0,0,0.02); scroll-margin-top: 100px;}
+    .tense-header { border-bottom: 2px solid var(--gold); padding-bottom: 1rem; margin-bottom: 2rem; }
+    .tense-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--midnight); }
+    .linguist-note { background: var(--parchment); padding: 1.5rem; border-left: 4px solid var(--midnight); font-size: 1.1rem; color: var(--ink); margin-bottom: 2rem; }
+    .citation { font-size: 0.8rem; color: var(--slate); vertical-align: super; font-family: 'DM Mono', monospace;}
+    
+    /* ── EXERCISE STYLES ── */
+    .exercise-block { margin-top: 3rem; border-top: 1px dashed var(--border); padding-top: 2rem; }
+    .ex-title { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--crimson); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+    .q-item { margin-bottom: 1.8rem; font-size: 1.15rem; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;}
+    .q-num { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--gold); font-weight: 700; width: 25px; }
+    
+    .input-fill { font-family: 'Crimson Pro', serif; font-size: 1.1rem; padding: 0.2rem 0.5rem; border: none; border-bottom: 2px solid var(--slate); background: transparent; outline: none; min-width: 120px; text-align: center; color: var(--crimson); font-weight: 600; transition: 0.3s;}
+    .input-fill:focus { border-bottom-color: var(--gold); }
+    .select-inline { font-family: 'Crimson Pro', serif; font-size: 1.1rem; padding: 0.2rem 0.5rem; border: 1px solid var(--slate); background: var(--parchment); outline: none; color: var(--crimson); font-weight: 600; cursor: pointer; border-radius: 2px;}
+    .mcq-group { display: flex; gap: 1.5rem; margin-top: 0.5rem; margin-left: 35px; width: 100%; flex-wrap: wrap;}
+    .mcq-label { font-size: 1rem; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+    .mcq-label input { accent-color: var(--crimson); transform: scale(1.1); }
+    
+    .dd-container { margin-left: 35px; width: 100%; margin-top: 0.5rem;}
+    .drop-zone { display: inline-block; min-width: 120px; height: 35px; border: 2px dashed var(--slate); vertical-align: middle; transition: 0.2s; padding: 0 0.5rem; background: var(--parchment); text-align: center; line-height: 35px; color: var(--crimson); font-weight: 600;}
+    .drop-zone.over { background: var(--gold-light); border-color: var(--gold); }
+    .drag-bank { display: flex; gap: 1rem; padding: 1rem; background: var(--parchment); border: 1px solid var(--border); margin-top: 1rem; border-radius: 4px; flex-wrap: wrap;}
+    .draggable { padding: 0.3rem 0.8rem; background: var(--midnight); color: var(--paper); font-size: 1rem; cursor: grab; border-radius: 2px; }
+
+    .correct-ui { border-color: var(--correct) !important; background: var(--correct-bg) !important; color: var(--correct) !important; }
+    .wrong-ui { border-color: var(--wrong) !important; background: var(--wrong-bg) !important; color: var(--wrong) !important; }
+
+    .btn-evaluate { padding: 1rem 2rem; background: var(--midnight); color: var(--paper); border: none; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.3s; margin-top: 2rem; width: 100%; border-radius: 2px;}
+    .btn-evaluate:hover { background: var(--gold); color: var(--midnight); }
+    .feedback-box { margin-top: 1rem; padding: 1rem; display: none; font-weight: 600; text-align: center; border-radius: 2px; }
+
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .sidebar { display: none; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <div style="width: 35px; height: 35px; background: var(--gold); display: flex; align-items: center; justify-content: center; color: var(--midnight); font-weight: bold;">S</div>
+    <div class="logo-text">Shared <span>Pearls</span></div> 
+  </a>
+  <a href="#" class="nav-cta">Return to Dashboard</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-subtitle">IELTS Masterclass</div>
+  <h1>Advanced Syntax & Semantics</h1>
+</header>
+
+<div class="container">
+  <aside class="sidebar">
+    <div class="sidebar-title">Grammar Index</div>
+    <ul class="tense-nav">
+      <li><a href="#t-quantifiers" class="active">1. Quantifiers</a></li>
+      <li><a href="#t-determiners">2. Determiners</a></li>
+      <li><a href="#t-modifiers">3. Noun Modifiers</a></li>
+    </ul>
+  </aside>
+
+  <main>
+
+    <section id="t-quantifiers" class="tense-section">
+      <div class="tense-header"><h2>1. Quantifiers</h2></div>
+      <div class="linguist-note">
+        <strong>The Linguist's Perspective:</strong> We use quantifiers when we want to give someone information about the number of something: how much or how many[cite: 89]. To master English quantification, you must distinguish between count nouns (discrete items) and non-count nouns (masses/concepts). Some quantifiers, like 'plenty of' or 'loads of', are highly versatile and work with both[cite: 122, 126, 127]. Conversely, quantifiers like 'a great deal of' are strictly reserved for abstract, non-count entities like time or money[cite: 149, 150]. If we are speaking about a specific group, we must use 'of the' (e.g., 'most of the boys')[cite: 160, 163].
+      </div>
+      
+      <div class="exercise-block" id="ex-quantifiers">
+        <div class="ex-title">Assessment Module: Quantifiers (10 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="no"><span class="q-num">1.</span> I can't go out tonight. I've got <input type="text" class="input-fill" placeholder="..."> money. <span class="citation">[cite: 109]</span></div>
+        <div class="q-item" data-type="fill" data-answer="some"><span class="q-num">2.</span> Excuse me, would you like <input type="text" class="input-fill" placeholder="..."> tea? <span class="citation">[cite: 119]</span></div>
+        
+        <div class="q-item" data-type="select" data-answer="both"><span class="q-num">3.</span> <select class="select-inline"><option value="empty">---</option><option value="all">All</option><option value="both">Both</option></select> the supermarkets were closed. <span class="citation">[cite: 171]</span></div>
+        <div class="q-item" data-type="select" data-answer="either"><span class="q-num">4.</span> I don't think <select class="select-inline"><option value="empty">---</option><option value="either">either</option><option value="neither">neither</option></select> of the supermarkets was open. <span class="citation">[cite: 177]</span></div>
+        <div class="q-item" data-type="select" data-answer="neither"><span class="q-num">5.</span> Do you want white wine or red? <select class="select-inline"><option value="empty">---</option><option value="either">Either</option><option value="neither">Neither</option></select>, thanks. Can I just have some water? <span class="citation">[cite: 289, 310]</span></div>
+        
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">6.</span> What type of verb agreement is used with the quantifiers 'either' and 'neither'? <span class="citation">[cite: 179]</span>
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="q6" value="a"> Singular verb</label><label class="mcq-label"><input type="radio" name="q6" value="b"> Plural verb</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">7.</span> Do we use a determiner (like 'the') directly after 'every' and 'each'? <span class="citation">[cite: 190]</span>
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="q7" value="a"> Yes</label><label class="mcq-label"><input type="radio" name="q7" value="b"> No</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="couple"><span class="q-num">8.</span> I’ll be back in a <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> of minutes. <span class="citation">[cite: 143]</span>
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="couple">couple</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="few">few</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="each"><span class="q-num">9.</span> There was a prize in <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> competition. <span class="citation">[cite: 185]</span>
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="each">each</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="all">all</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="money"><span class="q-num">10.</span> He spent all of the <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> that we gave him. <span class="citation">[cite: 161]</span>
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="money">money</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="moneys">moneys</div></div></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-quantifiers')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+
+    <section id="t-determiners" class="tense-section">
+      <div class="tense-header"><h2>2. Specific & General Determiners</h2></div>
+      <div class="linguist-note">
+        <strong>The Linguist's Perspective:</strong> Determiners are words which come at the beginning of noun phrases. They tell us whether a noun phrase is specific or general[cite: 194, 195]. We use a specific determiner (the, my, those) when we believe the listener knows exactly what we are referring to[cite: 197, 198, 199, 200, 201]. Conversely, we use a general determiner (a/an, any, another, or zero determiner) when talking about things in general and the listener does not know exactly what we are referring to[cite: 207, 208, 209, 210, 211, 212].
+      </div>
+      
+      <div class="exercise-block" id="ex-determiners">
+        <div class="ex-title">Assessment Module: Determiners (10 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="any"><span class="q-num">1.</span> With a full licence you are allowed to drive <input type="text" class="input-fill" placeholder="..."> car. <span class="citation">[cite: 223]</span></div>
+        <div class="q-item" data-type="fill" data-answer="another"><span class="q-num">2.</span> Would you like <input type="text" class="input-fill" placeholder="..."> glass of wine? <span class="citation">[cite: 227]</span></div>
+        
+        <div class="q-item" data-type="select" data-answer="whose"><span class="q-num">3.</span> <select class="select-inline"><option value="empty">---</option><option value="who's">Who's</option><option value="whose">Whose</option></select> coat is this? <span class="citation">[cite: 204]</span></div>
+        <div class="q-item" data-type="select" data-answer="those"><span class="q-num">4.</span> Look at <select class="select-inline"><option value="empty">---</option><option value="that">that</option><option value="those">those</option></select> lovely flowers. <span class="citation">[cite: 205]</span></div>
+        <div class="q-item" data-type="select" data-answer="your"><span class="q-num">5.</span> Thank you very much for <select class="select-inline"><option value="empty">---</option><option value="you">you</option><option value="your">your</option></select> letter. <span class="citation">[cite: 203]</span></div>
+
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">6.</span> When do we use a specific determiner? <span class="citation">[cite: 201]</span>
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="d6" value="a"> When talking about things in general.</label><label class="mcq-label"><input type="radio" name="d6" value="b"> When we believe the listener knows exactly what we are referring to.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">7.</span> Which determiner is generally used with plural and non-count nouns for a general meaning? <span class="citation">[cite: 217, 218, 219]</span>
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="d7" value="a"> No determiner (0)</label><label class="mcq-label"><input type="radio" name="d7" value="b"> The definite article (the)</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="parcel"><span class="q-num">8.</span> A man came this morning and left a <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>. <span class="citation">[cite: 215]</span>
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="parcels">parcels</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="parcel">parcel</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="girls"><span class="q-num">9.</span> <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> normally do better in school than boys. <span class="citation">[cite: 218]</span>
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="girls">Girls</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="the girls">The girls</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="other"><span class="q-num">10.</span> I spoke to John, Helen and a few <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div> friends. <span class="citation">[cite: 229]</span>
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="other">other</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="another">another</div></div></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-determiners')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+
+    <section id="t-modifiers" class="tense-section">
+      <div class="tense-header"><h2>3. Noun Modifiers</h2></div>
+      <div class="linguist-note">
+        <strong>The Linguist's Perspective:</strong> In advanced academic English, we often use two nouns together to show that one thing is a part of something else[cite: 231]. The first noun functions grammatically as a "noun modifier"[cite: 238]. A critical rule for high-level writers: we do NOT use a possessive form ('s) for inanimate objects in these combinations (e.g., it is a "car door", never a "car's door")[cite: 240, 241]. We also utilize noun modifiers to express measurements, age, value, or material composition[cite: 244, 252]. When stacking descriptions, remember that noun modifiers must always come <em>after</em> adjectives[cite: 265].
+      </div>
+      
+      <div class="exercise-block" id="ex-modifiers">
+        <div class="ex-title">Assessment Module: Modifiers (10 Questions)</div>
+        
+        <div class="q-item" data-type="fill" data-answer="suitcase"><span class="q-num">1.</span> We struggled to carry the thirty-kilogram <input type="text" class="input-fill" placeholder="..."> up the stairs. <span class="citation">[cite: 253]</span></div>
+        <div class="q-item" data-type="fill" data-answer="seller"><span class="q-num">2.</span> I bought a magazine from the old newspaper <input type="text" class="input-fill" placeholder="...">. <span class="citation">[cite: 266]</span></div>
+        
+        <div class="q-item" data-type="select" data-answer="car"><span class="q-num">3.</span> Please ensure you lock the <select class="select-inline"><option value="empty">---</option><option value="car's">car's</option><option value="car">car</option></select> door before leaving. <span class="citation">[cite: 240, 241]</span></div>
+        <div class="q-item" data-type="select" data-answer="swimming"><span class="q-num">4.</span> The children are currently attending a <select class="select-inline"><option value="empty">---</option><option value="swimming">swimming</option><option value="swim">swim</option></select> lesson. <span class="citation">[cite: 259]</span></div>
+        <div class="q-item" data-type="select" data-answer="gold"><span class="q-num">5.</span> He inherited a beautiful <select class="select-inline"><option value="empty">---</option><option value="gold's">gold's</option><option value="gold">gold</option></select> watch from his grandfather. <span class="citation">[cite: 244, 245]</span></div>
+
+        <div class="q-item" data-type="radio" data-answer="b"><span class="q-num">6.</span> What do noun modifiers typically show when using two nouns together? <span class="citation">[cite: 231]</span>
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="m6" value="a"> That the first noun owns the second noun.</label><label class="mcq-label"><input type="radio" name="m6" value="b"> That one thing is a part of something else.</label></div></div>
+        <div class="q-item" data-type="radio" data-answer="a"><span class="q-num">7.</span> Where do noun modifiers come in relation to adjectives? <span class="citation">[cite: 265]</span>
+          <div class="mcq-group"><label class="mcq-label"><input type="radio" name="m7" value="a"> After adjectives</label><label class="mcq-label"><input type="radio" name="m7" value="b"> Before adjectives</label></div></div>
+
+        <div class="q-item" data-type="drag" data-answer="rest"><span class="q-num">8.</span> The athletes were only allowed a two-minute <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>. <span class="citation">[cite: 254]</span>
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="rests">rests</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="rest">rest</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="journey"><span class="q-num">9.</span> It was an incredibly tiring fifty-kilometre <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>. <span class="citation">[cite: 256, 267]</span>
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="journey">journey</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="journeys">journeys</div></div></div></div>
+        <div class="q-item" data-type="drag" data-answer="workers"><span class="q-num">10.</span> The café is heavily frequented by London office <div class="drop-zone" ondrop="drop(event)" ondragover="allowDrop(event)"></div>. <span class="citation">[cite: 263]</span>
+          <div class="dd-container"><div class="drag-bank"><div class="draggable" draggable="true" ondragstart="drag(event)" id="worker">worker</div><div class="draggable" draggable="true" ondragstart="drag(event)" id="workers">workers</div></div></div></div>
+
+        <button class="btn-evaluate" onclick="evaluateSection('ex-modifiers')">Evaluate Responses</button>
+        <div class="feedback-box"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // Dynamic Sidebar Highlighting
+  document.addEventListener("DOMContentLoaded", () => {
+    const links = document.querySelectorAll(".tense-nav a");
+    const sections = document.querySelectorAll(".tense-section");
+
+    window.addEventListener("scroll", () => {
+      let scrollY = window.pageYOffset;
+      sections.forEach(current => {
+        const sectionHeight = current.offsetHeight;
+        const sectionTop = current.offsetTop - 150;
+        const sectionId = current.getAttribute("id");
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+          links.forEach(a => {
+            a.classList.remove("active");
+            if (a.getAttribute("href") === "#" + sectionId) {
+              a.classList.add("active");
+            }
+          });
+        }
+      });
+    });
+  });
+
+  // Drag and Drop Logic
+  function allowDrop(ev) { ev.preventDefault(); ev.target.classList.add('over'); }
+  function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+  document.addEventListener('dragenter', function(e) { if(e.target.className.includes('drop-zone')) e.target.classList.add('over'); });
+  document.addEventListener('dragleave', function(e) { if(e.target.className.includes('drop-zone')) e.target.classList.remove('over'); });
+
+  function drop(ev) {
+    ev.preventDefault();
+    ev.target.classList.remove('over');
+    var data = ev.dataTransfer.getData("text");
+    if(ev.target.classList.contains('drop-zone')) {
+      ev.target.innerHTML = '';
+      const draggedElement = document.getElementById(data);
+      const clone = draggedElement.cloneNode(true);
+      clone.removeAttribute('id'); 
+      clone.style.margin = "0";
+      ev.target.appendChild(clone);
+      ev.target.setAttribute('data-dropped-id', data); 
+    }
+  }
+
+  // Master Evaluation Engine
+  function evaluateSection(sectionId) {
+    const section = document.getElementById(sectionId);
+    const questions = section.querySelectorAll('.q-item');
+    let score = 0;
+    let total = questions.length;
+
+    questions.forEach(q => {
+      const type = q.getAttribute('data-type');
+      const correctAnswer = q.getAttribute('data-answer').toLowerCase();
+      let isCorrect = false;
+
+      if (type === 'fill') {
+        const input = q.querySelector('input');
+        input.classList.remove('correct-ui', 'wrong-ui');
+        if (input.value.trim().toLowerCase() === correctAnswer) {
+          isCorrect = true;
+          input.classList.add('correct-ui');
+        } else if (input.value.trim() !== '') {
+          input.classList.add('wrong-ui');
+        }
+      }
+      else if (type === 'radio') {
+        const checked = q.querySelector('input[type="radio"]:checked');
+        q.querySelectorAll('.mcq-label').forEach(lbl => lbl.classList.remove('correct-ui', 'wrong-ui'));
+        if (checked) {
+          if (checked.value.toLowerCase() === correctAnswer) {
+            isCorrect = true;
+            checked.parentElement.classList.add('correct-ui');
+          } else {
+            checked.parentElement.classList.add('wrong-ui');
+          }
+        }
+      }
+      else if (type === 'select') {
+        const select = q.querySelector('select');
+        select.classList.remove('correct-ui', 'wrong-ui');
+        if (select.value !== 'empty') {
+          if (select.value.toLowerCase() === correctAnswer) {
+            isCorrect = true;
+            select.classList.add('correct-ui');
+          } else {
+            select.classList.add('wrong-ui');
+          }
+        }
+      }
+      else if (type === 'drag') {
+        const dropZone = q.querySelector('.drop-zone');
+        dropZone.classList.remove('correct-ui', 'wrong-ui');
+        const droppedId = dropZone.getAttribute('data-dropped-id');
+        if (droppedId) {
+          if (droppedId.toLowerCase() === correctAnswer) {
+            isCorrect = true;
+            dropZone.classList.add('correct-ui');
+          } else {
+            dropZone.classList.add('wrong-ui');
+          }
+        }
+      }
+
+      if (isCorrect) score++;
+    });
+
+    const feedbackBox = section.querySelector('.feedback-box');
+    feedbackBox.style.display = 'block';
+    if (score === total) {
+      feedbackBox.className = 'feedback-box correct-ui';
+      feedbackBox.innerHTML = `Flawless execution. Score: ${score}/${total}.`;
+    } else {
+      feedbackBox.className = 'feedback-box wrong-ui';
+      feedbackBox.innerHTML = `Score: ${score}/${total}. Please review the red errors to improve your accuracy.`;
+    }
+  }
+</script>
+</body>
+</html>

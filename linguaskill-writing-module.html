@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LinguaSkill Practice | Writing Module | Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --midnight: #0B1D3A;
+      --crimson: #8B1A2E;
+      --ink: #1E1E1E;
+      --slate: #4A4A4A;
+      --parchment: #F9F7F1;
+      --paper: #FFFFFF;
+      --gold: #C4923E;
+      --gold-light: #E8D3A2;
+      --border: #E0DCD3;
+      --correct: #1e5c35;
+      --correct-bg: #e8f5e9;
+      --wrong: #9B2C2C;
+      --wrong-bg: #FEE2E2;
+      --notice-bg: #F0F4F8;
+    }
+
+    html { scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Crimson Pro', Georgia, serif; background: var(--parchment); color: var(--ink); line-height: 1.6; }
+    .site-header {
+  display: flex;          
+  align-items: center;    
+  gap: 15px;              
+  padding: 20px;        
+}
+    .header-logo {
+  order: -1;
+  height: 60px;           
+  width: auto;            
+  border-radius: 50%;   
+}
+
+.header-title {
+  font-size: 24px;
+  margin: 0;             
+}
+    /* ── NAVIGATION ── */
+    nav { background: var(--midnight); padding: 0.8rem 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--gold); }
+    .nav-logo { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+    .logo-text { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--gold); }
+    .logo-text span { color: var(--paper); font-style: italic; }
+    .nav-cta { background: var(--gold); color: var(--midnight); padding: 0.6rem 1.2rem; border-radius: 2px; font-weight: 700; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; }
+
+    /* ── TIMER BAR ── */
+    .exam-timer-bar { position: sticky; top: 58px; z-index: 99; background: var(--midnight); color: var(--paper); display: flex; justify-content: center; align-items: center; padding: 0.6rem; gap: 15px; border-bottom: 3px solid var(--gold); box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-family: 'DM Mono', monospace; transition: background 0.3s; }
+    .timer-label { font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; color: var(--gold-light); }
+    .timer-countdown { font-size: 1.5rem; font-weight: 700; background: var(--paper); color: var(--midnight); padding: 0.2rem 1rem; border-radius: 2px; border: 2px solid var(--gold); min-width: 110px; text-align: center;}
+    .timer-warning { background: var(--wrong) !important; border-color: var(--wrong) !important; color: var(--paper); }
+    
+    @keyframes pulseWarning { 0% { opacity: 1; } 50% { opacity: 0.85; } 100% { opacity: 1; } }
+    .bar-warning { background: var(--wrong) !important; border-bottom-color: #6a1b1b !important; animation: pulseWarning 1.5s infinite; }
+
+    /* ── HERO SECTION ── */
+    .hero { background: var(--crimson); padding: 3rem 2rem; text-align: center; color: var(--paper); border-bottom: 5px solid var(--midnight);}
+    .hero-subtitle { font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 0.5rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 600; margin-bottom: 0; }
+
+    /* ── LAYOUT (SIDEBAR & MAIN) ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: grid; grid-template-columns: 260px 1fr; gap: 4rem; align-items: start; }
+    
+    /* ── SIDEBAR ── */
+    .sidebar { position: sticky; top: 130px; background: var(--paper); border: 1px solid var(--border); padding: 2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .sidebar-title { font-family: 'DM Mono', monospace; font-size: 0.8rem; text-transform: uppercase; color: var(--gold); letter-spacing: 0.15em; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    .tense-nav { list-style: none; }
+    .tense-nav li { margin-bottom: 0.5rem; }
+    .tense-nav a { text-decoration: none; color: var(--slate); font-size: 1.05rem; display: block; padding: 0.4rem 0.8rem; border-left: 2px solid transparent; transition: 0.2s; }
+    .tense-nav a:hover, .tense-nav a.active { color: var(--midnight); border-left-color: var(--gold); background: var(--notice-bg); font-weight: 600; }
+
+    /* ── MAIN CONTENT ── */
+    .test-section { background: var(--paper); border: 1px solid var(--border); padding: 3rem; margin-bottom: 4rem; box-shadow: 0 8px 24px rgba(0,0,0,0.02); scroll-margin-top: 140px;}
+    .test-header { border-bottom: 2px solid var(--gold); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+    .test-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; color: var(--midnight); }
+    
+    .instruction-note { background: var(--parchment); padding: 1.2rem; border-left: 4px solid var(--crimson); font-size: 1.05rem; color: var(--ink); margin-bottom: 2rem; font-family: 'DM Mono', monospace; font-size: 0.9rem; line-height: 1.6;}
+    .instruction-note ul { margin-top: 0.5rem; margin-left: 1.5rem;}
+    
+    /* ── STIMULUS STYLING ── */
+    .email-prompt { border: 1px solid #cdd6df; border-radius: 4px; overflow: hidden; margin-bottom: 2rem; }
+    .email-header { background: var(--notice-bg); padding: 1rem 1.5rem; border-bottom: 1px solid #cdd6df; font-family: 'DM Mono', monospace; font-size: 0.9rem;}
+    .email-body { padding: 1.5rem; background: var(--paper); font-size: 1.1rem; line-height: 1.6;}
+    
+    .notice-prompt { background: var(--notice-bg); border-left: 4px solid var(--gold); padding: 1.5rem; margin-bottom: 2rem; font-size: 1.1rem; font-style: italic;}
+
+    /* ── WRITING AREA ── */
+    .writing-area { background: var(--parchment); padding: 2rem; border: 1px solid var(--border); border-radius: 4px;}
+    .input-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;}
+    .input-label { font-family: 'DM Mono', monospace; font-weight: 600; font-size: 0.9rem; color: var(--slate);}
+    .input-text { flex-grow: 1; padding: 0.8rem; font-family: 'Crimson Pro', serif; font-size: 1.1rem; border: 1px solid #cdd6df; outline: none; border-radius: 2px;}
+    .input-text:focus { border-color: var(--midnight); }
+    
+    .text-box { width: 100%; height: 250px; padding: 1rem; font-family: 'Crimson Pro', serif; font-size: 1.15rem; line-height: 1.6; border: 1px solid #cdd6df; border-radius: 2px; outline: none; resize: vertical; margin-bottom: 1rem;}
+    .text-box:focus { border-color: var(--midnight); box-shadow: 0 0 5px rgba(11, 29, 58, 0.1);}
+    .text-box:disabled { background: #eef2f5; cursor: not-allowed; }
+    
+    .word-count-bar { display: flex; justify-content: space-between; align-items: center; font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--slate);}
+    .count-display { font-weight: 700; color: var(--midnight); font-size: 1.1rem;}
+
+    .btn-evaluate { padding: 1rem 2rem; background: var(--midnight); color: var(--paper); border: none; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.3s; margin-top: 1.5rem; width: 100%; border-radius: 2px;}
+    .btn-evaluate:hover { background: var(--gold); color: var(--midnight); }
+    
+    /* ── FEEDBACK UI ── */
+    .feedback-box { margin-top: 2rem; border-top: 2px solid var(--border); padding-top: 1.5rem; display: none; }
+    .score-badge { display: inline-block; padding: 0.5rem 1rem; background: var(--gold); color: var(--midnight); font-family: 'DM Mono', monospace; font-weight: bold; font-size: 1.2rem; margin-bottom: 1rem; border-radius: 2px;}
+    .feedback-list { list-style: none; margin-bottom: 1rem;}
+    .feedback-list li { margin-bottom: 0.5rem; display: flex; gap: 10px; align-items: start; font-size: 1.1rem;}
+    .status-icon { font-weight: bold; }
+    .status-pass { color: var(--correct); }
+    .status-fail { color: var(--wrong); }
+
+    @media (max-width: 900px) { .container { grid-template-columns: 1fr; } .sidebar { display: none; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <header class="site-header">
+  <img src="Images/logo.png" alt="Shared Pearls Logo" class="header-logo"></img>
+    <div class="logo-text">Shared <span>Pearls</span> of Wisdom</div> 
+    </header>
+  </nav>
+
+<div class="exam-timer-bar" id="exam-timer-bar">
+  <div class="timer-label">Writing Time Remaining:</div>
+  <div class="timer-countdown" id="time-display">55:00</div>
+</div>
+
+<header class="hero">
+    <h1>LinguaSkill: Writing Module</h1>
+</header>
+
+<div class="container">
+  <aside class="sidebar">
+    <div class="sidebar-title">Paper 2: Writing</div>
+    <ul class="tense-nav">
+      <li><a href="#part-1" class="active">Part 1: Email</a></li>
+      <li><a href="#part-2">Part 2: Long Text</a></li>
+    </ul>
+    <!-- line break -->
+    <div class="s-card">
+    <h2>Modules</h2>
+        <h3><li><a href="linguaskill-reading-module.html" class="current" style="text-decoration: none;"><span class="ln-badge ln-a1"></span> Reading</a></li></h3>
+      <h3><li><a href="linguaskill-listening-module.html" style="text-decoration: none;"><span class="ln-badge ln-b1"></span> Listening</a></li></h3>
+      <h3><li><a href="linguaskill-writing-module.html" style="text-decoration: none;"><span class="ln-badge ln-b2"></span> Writing</a></li></h3>
+      <h3><li><a href="linguaskill-speaking-module.html" style="text-decoration: none;"><span class="ln-badge ln-c1"></span> Speaking</a></li></h3>
+    </ul>
+  </div>  
+  </aside>
+
+  <main>
+    
+    <div class="instruction-note" style="border-color: var(--midnight);">
+      <strong>WRITING INSTRUCTIONS:</strong>
+      <ul>
+        <li>Complete BOTH parts. Do NOT spend more than 20 minutes on Part 1.</li>
+        <li>You will be assessed on: Task Achievement, Coherence & Cohesion, Vocabulary, and Grammar.</li>
+        <li>Part 1 and Part 2 each carry equal marks.</li>
+        <li><strong>The 55-minute timer will begin automatically when you start typing.</strong></li>
+      </ul>
+    </div>
+
+    <section id="part-1" class="test-section">
+      <div class="test-header"><h2>Part 1: Email (Min. 50 words)</h2></div>
+      
+      <div class="email-prompt">
+        <div class="email-header">
+          <strong>From:</strong> Sandra Obi &lt;s.obi@brightfuture.org&gt;<br>
+          <strong>To:</strong> You<br>
+          <strong>Subject:</strong> Invitation to speak at our Annual Volunteer Conference
+        </div>
+        <div class="email-body">
+          <p>Dear Colleague,</p><br>
+          <p>I am writing on behalf of BrightFuture, a charitable organisation supporting young people in education. We are hosting our Annual Volunteer Conference on Saturday, 14 June at the Riverside Convention Centre in the city centre, and we would be delighted if you could join us as a guest speaker.</p><br>
+          <p>We would like you to speak for approximately 20 minutes on a topic of your choice related to education, youth development, or community support. The event begins at 10:00 am and concludes at 4:00 pm. Lunch and refreshments will be provided.</p><br>
+          <p>Could you please let us know:</p>
+          <ul style="margin-left: 20px;">
+            <li>whether you are able to attend and speak at the event</li>
+            <li>what topic you would like to speak about</li>
+            <li>whether you have any requirements we should be aware of</li>
+          </ul><br>
+          <p>We look forward to hearing from you. Please do not hesitate to contact me if you have any questions.</p><br>
+          <p>Kind regards,<br>Sandra Obi<br>Events Coordinator, BrightFuture</p>
+        </div>
+      </div>
+
+      <div class="instruction-note">
+        <strong>TASK:</strong> Now write a reply to Sandra Obi's email. In your email, you must:<br>
+        • Confirm that you are able to attend and speak at the conference.<br>
+        • State the topic you would like to speak about and briefly explain why.<br>
+        • Mention ONE practical requirement you have (e.g. equipment, dietary, or accessibility).<br>
+        <em>Write a minimum of 50 words. Use an appropriate email format.</em>
+      </div>
+
+      <div class="writing-area">
+        <div class="input-row">
+          <span class="input-label">To:</span>
+          <span style="font-family: 'Crimson Pro', serif; font-size: 1.1rem;">s.obi@brightfuture.org</span>
+        </div>
+        <div class="input-row">
+          <span class="input-label">Subject:</span>
+          <input type="text" class="input-text" id="email-subject" placeholder="Enter your subject line here...">
+        </div>
+        
+        <textarea id="email-body" class="text-box" placeholder="Dear Sandra..."></textarea>
+        
+        <div class="word-count-bar">
+          <span>Target: 50+ words</span>
+          <span>Word count: <span id="email-count" class="count-display">0</span></span>
+        </div>
+        
+        <button class="btn-evaluate" id="btn-eval-email" onclick="evaluateEmail()">Submit & Analyse Email</button>
+      </div>
+
+      <div id="email-feedback" class="feedback-box"></div>
+    </section>
+
+    <section id="part-2" class="test-section">
+      <div class="test-header"><h2>Part 2: Long Text (Min. 250 words)</h2></div>
+      
+      <p style="font-size: 1.1rem; margin-bottom: 1rem;">You have seen the following notice on your local community website:</p>
+      
+      <div class="notice-prompt">
+        "We are collecting opinions from residents about the proposed development of the old town market site. The council is considering two options: (A) converting the site into a modern shopping centre, or (B) developing it as a community park and green space. We invite residents to submit a written response sharing their views."
+      </div>
+
+      <div class="instruction-note">
+        <strong>TASK:</strong> Write a response to submit to your local council. In your response, you should:<br>
+        • briefly introduce your reason for writing<br>
+        • give at least TWO reasons why you support or oppose Option A (shopping centre)<br>
+        • give at least TWO reasons why you support or oppose Option B (community park)<br>
+        • clearly state which option you prefer and why<br>
+        <em>Write a minimum of 180 words. You may write a review, a web post, or a formal response.</em>
+      </div>
+
+      <div class="writing-area">
+        <div class="input-row">
+          <span class="input-label">Title / Heading (optional):</span>
+          <input type="text" class="input-text" id="essay-title" placeholder="Enter a title...">
+        </div>
+        
+        <textarea id="essay-body" class="text-box" style="height: 400px;" placeholder="Start writing your response here..."></textarea>
+        
+        <div class="word-count-bar">
+          <span>Target: 250 words</span>
+          <span>Word count: <span id="essay-count" class="count-display">0</span></span>
+        </div>
+        
+        <button class="btn-evaluate" id="btn-eval-essay" onclick="evaluateEssay()">Submit & Analyse Response</button>
+      </div>
+
+      <div id="essay-feedback" class="feedback-box"></div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // ── TIMER LOGIC ──
+  let timeInSeconds = 55 * 60; // 55 Minutes
+  const display = document.getElementById('time-display');
+  const timerBar = document.getElementById('exam-timer-bar');
+  let timerInterval;
+  let timerStarted = false;
+
+  function startTimer() {
+    timerInterval = setInterval(() => {
+      let minutes = parseInt(timeInSeconds / 60, 10);
+      let seconds = parseInt(timeInSeconds % 60, 10);
+
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      display.textContent = minutes + ":" + seconds;
+
+      // 5-Minute Warning
+      if (timeInSeconds === 300) {
+        timerBar.classList.add('bar-warning');
+        display.classList.add('timer-warning');
+      }
+
+      // Time Up
+      if (--timeInSeconds < 0) {
+        clearInterval(timerInterval);
+        display.textContent = "00:00";
+        alert("Time is up! Your responses have been locked and will now be evaluated.");
+        
+        // Lock inputs
+        document.getElementById('email-body').disabled = true;
+        document.getElementById('email-subject').disabled = true;
+        document.getElementById('essay-body').disabled = true;
+        document.getElementById('essay-title').disabled = true;
+        document.getElementById('btn-eval-email').style.display = 'none';
+        document.getElementById('btn-eval-essay').style.display = 'none';
+        
+        // Auto-grade
+        evaluateEmail();
+        evaluateEssay();
+      }
+    }, 1000);
+  }
+
+  function initTimer() {
+    if (!timerStarted) {
+      timerStarted = true;
+      startTimer();
+      // Visual indicator that timer has started
+      display.style.color = "var(--correct)";
+      setTimeout(() => { display.style.color = "var(--midnight)"; }, 1000);
+    }
+  }
+
+  // Trigger timer on first interaction
+  document.getElementById('email-body').addEventListener('focus', initTimer);
+  document.getElementById('email-subject').addEventListener('focus', initTimer);
+  document.getElementById('essay-body').addEventListener('focus', initTimer);
+  document.getElementById('essay-title').addEventListener('focus', initTimer);
+
+
+  // ── SIDEBAR HIGHLIGHTING ──
+  document.addEventListener("DOMContentLoaded", () => {
+    const links = document.querySelectorAll(".tense-nav a");
+    const sections = document.querySelectorAll(".test-section");
+
+    window.addEventListener("scroll", () => {
+      let scrollY = window.pageYOffset;
+      sections.forEach(current => {
+        const sectionHeight = current.offsetHeight;
+        const sectionTop = current.offsetTop - 200;
+        const sectionId = current.getAttribute("id");
+
+        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+          links.forEach(a => {
+            a.classList.remove("active");
+            if (a.getAttribute("href") === "#" + sectionId) {
+              a.classList.add("active");
+            }
+          });
+        }
+      });
+    });
+  });
+
+  // ── WORD COUNTING ──
+  function countWords(str) {
+    return str.trim().split(/\s+/).filter(word => word.length > 0).length;
+  }
+
+  document.getElementById('email-body').addEventListener('input', function() {
+    document.getElementById('email-count').innerText = countWords(this.value);
+  });
+
+  document.getElementById('essay-body').addEventListener('input', function() {
+    document.getElementById('essay-count').innerText = countWords(this.value);
+  });
+
+  // ── EVALUATION ENGINES ──
+  function evaluateEmail() {
+    const text = document.getElementById('email-body').value;
+    const words = countWords(text);
+    const feedbackBox = document.getElementById('email-feedback');
+    
+    let checks = [];
+    let score = 0;
+
+    if (words >= 50) { checks.push({msg: `Word count achieved (${words} words).`, pass: true}); score++; } 
+    else { checks.push({msg: `Under word count (${words}/50 words).`, pass: false}); }
+
+    if (/^(dear|hi|hello|to )/i.test(text.trim())) { checks.push({msg: "Appropriate opening greeting detected.", pass: true}); score++; }
+    else { checks.push({msg: "Missing formal/appropriate opening greeting.", pass: false}); }
+
+    if (/(regards|best|sincerely|yours|thanks|wishes|from)/i.test(text)) { checks.push({msg: "Appropriate sign-off detected.", pass: true}); score++; }
+    else { checks.push({msg: "Missing formal sign-off.", pass: false}); }
+
+    if (/(attend|join|speak|talk|present|topic|education|youth|development)/i.test(text)) { checks.push({msg: "Task Achievement: Addressed attendance and topic.", pass: true}); score++; }
+    else { checks.push({msg: "Task Achievement: Did not clearly state topic or attendance.", pass: false}); }
+
+    if (/(require|need|diet|allergy|projector|screen|equipment|laptop|vegetarian|vegan|accessible)/i.test(text)) { checks.push({msg: "Task Achievement: Addressed practical requirements.", pass: true}); score++; }
+    else { checks.push({msg: "Task Achievement: Forgot to state a practical requirement.", pass: false}); }
+
+    renderFeedback(feedbackBox, checks, score, 5, words);
+  }
+
+  function evaluateEssay() {
+    const text = document.getElementById('essay-body').value;
+    const words = countWords(text);
+    const feedbackBox = document.getElementById('essay-feedback');
+    
+    let checks = [];
+    let score = 0;
+
+    if (words >= 180) { checks.push({msg: `Word count achieved (${words} words).`, pass: true}); score++; } 
+    else { checks.push({msg: `Under word count (${words}/180 words). Expand your arguments.`, pass: false}); }
+
+    const paragraphs = text.split(/\n+/).filter(p => p.trim().length > 0).length;
+    if (paragraphs >= 3) { checks.push({msg: `Good paragraphing detected (${paragraphs} paragraphs).`, pass: true}); score++; }
+    else { checks.push({msg: `Poor coherence. You only have ${paragraphs} paragraph(s). Divide intro, body, and conclusion.`, pass: false}); }
+
+    if (/(shop|shopping|centre|retail|economy|jobs|modern|traffic|noise|pollution|commercial)/i.test(text)) { checks.push({msg: "Addressed Option A (Shopping Centre).", pass: true}); score++; }
+    else { checks.push({msg: "Missing arguments regarding Option A.", pass: false}); }
+
+    if (/(park|green|space|nature|relax|community|health|environment|trees|children)/i.test(text)) { checks.push({msg: "Addressed Option B (Community Park).", pass: true}); score++; }
+    else { checks.push({msg: "Missing arguments regarding Option B.", pass: false}); }
+
+    if (/(prefer|support|choose|recommend|my view|my opinion|in conclusion)/i.test(text)) { checks.push({msg: "Stated a clear preference/conclusion.", pass: true}); score++; }
+    else { checks.push({msg: "Did not clearly state a final preference.", pass: false}); }
+
+    renderFeedback(feedbackBox, checks, score, 5, words);
+  }
+
+  function renderFeedback(box, checks, score, maxScore, words) {
+    box.style.display = 'block';
+    
+    let cefr = "A2 (Below Standard)";
+    if (words < 10) cefr = "Ungradable";
+    else if (score === maxScore) cefr = "B2 / C1 (Excellent)";
+    else if (score >= maxScore - 1) cefr = "B1+ (Good)";
+    else if (score >= maxScore - 2) cefr = "B1 (Adequate)";
+
+    let html = `<div class="score-badge">Estimated Output: ${cefr}</div>`;
+    html += `<ul class="feedback-list">`;
+    
+    checks.forEach(c => {
+      if (c.pass) {
+        html += `<li><span class="status-icon status-pass">✔</span> ${c.msg}</li>`;
+      } else {
+        html += `<li><span class="status-icon status-fail">✖</span> ${c.msg}</li>`;
+      }
+    });
+    
+    html += `</ul>`;
+    html += `<p style="font-size: 0.9rem; color: var(--slate); margin-top: 1rem;"><em>*Note: This is an automated heuristic analysis focusing on Task Achievement, Word Count, and Structure. A human examiner will also grade vocabulary range and complex grammar.</em></p>`;
+    
+    box.innerHTML = html;
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pronunciation – Word Stress Patterns</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --ink:#0d0f14; --paper:#f4f6f9; --warm:#eaedf2;
+      --gold:#b07d2a; --gold-lt:#d4a445;
+      --navy:#1c3d6e; --navy-md:#2a5298; --navy-lt:#4a7abf;
+      --a1:#2a6496; --b1:#1a5c5c; --b2:#7a3010; --c1:#3d1a60;
+      --pearl:#d5d9e2; --shadow:rgba(13,15,20,.10);
+      --ok:#1a5c35; --no:#7a1520;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Crimson Pro',Georgia,serif;background:var(--paper);color:var(--ink);}
+
+    /* NAV */
+    nav{background:var(--navy);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 24px rgba(0,0,0,.3);}
+    .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold-lt);padding:1rem 0;text-decoration:none;letter-spacing:.03em;}
+    .nav-logo span{color:#fff;font-style:italic;}
+    .nav-back{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#7899cc;text-decoration:none;transition:color .2s;}
+    .nav-back:hover{color:var(--gold-lt);}
+
+    /* HERO */
+    .hero{background:linear-gradient(160deg,#1e0a06 0%,#7a3010 55%,#4a1505 100%);padding:5rem 3rem 5rem;position:relative;overflow:hidden;}
+    .hero-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.05) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;}
+    .hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:1;}
+    .hero-eyebrow{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:1.4rem;display:flex;align-items:center;gap:.7rem;}
+    .hero-eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--gold-lt);}
+    .hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3.8rem);color:#fff;line-height:1.1;margin-bottom:1rem;font-weight:600;}
+    .hero h1 em{color:var(--gold-lt);font-style:italic;}
+    .hero-desc{color:rgba(255,255,255,.75);font-size:1.05rem;line-height:1.85;max-width:680px;margin-bottom:2.5rem;}
+
+    /* LEVEL TABS in hero */
+    .level-jump{display:flex;gap:.6rem;flex-wrap:wrap;}
+    .lj-btn{padding:.55rem 1.3rem;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#ffccaa;cursor:pointer;transition:all .2s;text-decoration:none;}
+    .lj-btn:hover{border-color:var(--gold-lt);color:var(--gold-lt);}
+    .lj-btn.a1{border-color:rgba(42,100,150,.6);color:#7bbce0;}
+    .lj-btn.b1{border-color:rgba(26,92,92,.6);color:#5ecece;}
+    .lj-btn.b2{border-color:rgba(122,48,16,.6);color:#e09060;}
+    .lj-btn.c1{border-color:rgba(61,26,96,.6);color:#c090f0;}
+
+    /* WHY PRONUNCIATION */
+    .why-band{background:#fff;border-top:4px solid var(--b2);}
+    .why-inner{max-width:960px;margin:0 auto;padding:3rem 2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+    .why-card{padding:1.2rem 1.4rem;}
+    .why-icon{font-size:1.6rem;margin-bottom:.8rem;}
+    .why-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:var(--navy);margin-bottom:.5rem;font-weight:600;}
+    .why-text{font-size:.9rem;color:#555;line-height:1.75;}
+    .why-header{max-width:960px;margin:0 auto;padding:2.5rem 2rem 0;}
+    .why-header h2{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--navy);margin-bottom:.4rem;}
+    .why-header p{font-size:1rem;color:#555;line-height:1.8;max-width:700px;}
+
+    /* PAGE */
+    .page{max-width:960px;margin:0 auto;padding:2.5rem 2rem 5rem;}
+
+    /* LEVEL SECTION HEADER */
+    .level-header{padding:2rem 0 1rem;margin-top:2rem;border-top:3px solid var(--pearl);}
+    .level-header:first-of-type{border-top:none;margin-top:0;}
+    .lh-badge{display:inline-flex;align-items:center;gap:.8rem;margin-bottom:.8rem;}
+    .lh-level{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;padding:.3rem .9rem;border-radius:2px;}
+    .lh-level.a1{background:rgba(42,100,150,.1);color:var(--a1);border:1px solid rgba(42,100,150,.25);}
+    .lh-level.b1{background:rgba(26,92,92,.1);color:var(--b1);border:1px solid rgba(26,92,92,.25);}
+    .lh-level.b2{background:rgba(122,48,16,.1);color:var(--b2);border:1px solid rgba(122,48,16,.25);}
+    .lh-level.c1{background:rgba(61,26,96,.1);color:var(--c1);border:1px solid rgba(61,26,96,.25);}
+    .lh-title{font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:var(--ink);font-weight:600;margin-bottom:.4rem;}
+    .lh-desc{font-size:.97rem;color:#555;line-height:1.8;max-width:720px;margin-bottom:.3rem;}
+    .lh-cefr-def{background:#fff;padding:1.2rem 1.5rem;border-left:3px solid var(--pearl);margin:1rem 0;font-size:.92rem;color:#444;line-height:1.8;}
+    .lh-cefr-def strong{color:var(--navy);}
+
+    /* LISTEN CARD */
+    .listen-card{background:#fff;box-shadow:0 3px 20px var(--shadow);margin:1.5rem 0 2.5rem;overflow:hidden;}
+    .lc-top{padding:1.3rem 1.8rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.8rem;}
+    .lc-top.a1{background:var(--a1);}
+    .lc-top.b1{background:var(--b1);}
+    .lc-top.b2{background:var(--b2);}
+    .lc-top.c1{background:var(--c1);}
+    .lc-left{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .lc-num{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:.25rem .7rem;}
+    .lc-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#fff;font-weight:600;}
+    .lc-pills{display:flex;gap:.4rem;flex-wrap:wrap;}
+    .lc-pill{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:.22rem .6rem;background:rgba(255,255,255,.12);color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.15);}
+
+    /* PLAYER */
+    .player-ui{padding:1.2rem 1.8rem;background:#eef0f5;border-bottom:1px solid var(--pearl);}
+    .player-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+    .play-btn{width:48px;height:48px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;box-shadow:0 2px 10px rgba(0,0,0,.2);}
+    .play-btn.a1{background:var(--a1);}
+    .play-btn.b1{background:var(--b1);}
+    .play-btn.b2{background:var(--b2);}
+    .play-btn.c1{background:var(--c1);}
+    .play-btn:hover{filter:brightness(1.2);transform:scale(1.05);}
+    .play-btn svg{width:16px;height:16px;fill:#fff;margin-left:2px;}
+    .play-btn.playing .pi{display:none;}
+    .play-btn.playing .pai{display:block!important;}
+    .pai{display:none;}
+    .prog-wrap{flex:1;min-width:160px;}
+    .prog-track{height:5px;background:var(--pearl);border-radius:3px;cursor:pointer;position:relative;margin-bottom:.4rem;}
+    .prog-fill{height:100%;border-radius:3px;width:0%;transition:width .1s linear;pointer-events:none;}
+    .prog-fill.a1{background:var(--a1);}
+    .prog-fill.b1{background:var(--b1);}
+    .prog-fill.b2{background:var(--b2);}
+    .prog-fill.c1{background:var(--c1);}
+    .time-row{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:.65rem;color:#999;}
+    .spd-btn{font-family:'DM Mono',monospace;font-size:.68rem;padding:.35rem .75rem;border:1px solid var(--pearl);background:#fff;cursor:pointer;color:#777;transition:all .2s;}
+    .spd-btn:hover{border-color:var(--navy-md);color:var(--navy);}
+    .spd-btn.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+    .voice-sel{font-family:'DM Mono',monospace;font-size:.65rem;padding:.32rem .55rem;border:1px solid var(--pearl);background:#fff;color:#666;cursor:pointer;outline:none;max-width:130px;}
+    .play-hint{font-family:'DM Mono',monospace;font-size:.62rem;color:#aaa;letter-spacing:.06em;margin-top:.35rem;}
+
+    /* TRANSCRIPT */
+    .trans-wrap{padding:1.4rem 1.8rem 0;}
+    .trans-toggle{display:flex;align-items:center;gap:.6rem;cursor:pointer;user-select:none;margin-bottom:.8rem;}
+    .trans-toggle span{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy-md);}
+    .t-arr{font-size:.7rem;color:var(--navy-md);transition:transform .2s;}
+    .trans-box{display:none;background:var(--warm);padding:1.3rem 1.5rem;border-left:3px solid var(--navy-lt);margin-bottom:1.2rem;}
+    .trans-box.open{display:block;}
+    .trans-box p{font-size:.95rem;line-height:2;color:#333;margin-bottom:.5rem;}
+    .trans-box p:last-child{margin-bottom:0;}
+    .spkr{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--navy-md);letter-spacing:.08em;text-transform:uppercase;margin-right:.4rem;}
+    .vh{background:rgba(176,125,42,.12);border-bottom:1px solid var(--gold);cursor:help;}
+
+    /* QUESTIONS */
+    .qs-wrap{padding:.5rem 1.8rem 1.8rem;}
+    .qs-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
+    .q-item{margin-bottom:1.2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--pearl);}
+    .q-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+    .q-text{font-size:.97rem;color:#333;line-height:1.75;margin-bottom:.7rem;}
+    .q-text strong{color:var(--navy);}
+    .q-text em{font-family:'DM Mono',monospace;font-size:.85rem;color:var(--b2);font-style:normal;}
+    .q-opts{display:flex;flex-direction:column;gap:.35rem;}
+    .q-opt{display:flex;align-items:flex-start;gap:.75rem;padding:.55rem .9rem;border:1px solid var(--pearl);cursor:pointer;background:var(--paper);transition:all .2s;font-size:.93rem;color:#444;line-height:1.5;}
+    .q-opt:hover{border-color:var(--navy-lt);background:rgba(74,122,191,.04);}
+    .q-opt.sel{border-color:var(--navy-md);background:rgba(42,82,152,.05);}
+    .q-opt.ok-ans{border-color:var(--ok);background:rgba(26,92,53,.07);color:var(--ok);}
+    .q-opt.no-ans{border-color:var(--no);background:rgba(122,21,32,.05);color:var(--no);}
+    .opt-l{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--navy-md);flex-shrink:0;margin-top:1px;font-weight:500;}
+    .q-opt.ok-ans .opt-l{color:var(--ok);}
+    .q-opt.no-ans .opt-l{color:var(--no);}
+    .q-fb{font-family:'DM Mono',monospace;font-size:.72rem;margin-top:.5rem;display:none;padding:.5rem .8rem;line-height:1.55;}
+    .q-fb.ok{background:rgba(26,92,53,.08);color:var(--ok);}
+    .q-fb.no{background:rgba(122,21,32,.06);color:var(--no);}
+    .sub-btn{padding:.75rem 1.8rem;border:none;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-top:1.2rem;color:#fff;transition:all .2s;}
+    .sub-btn.a1{background:var(--a1);}
+    .sub-btn.b1{background:var(--b1);}
+    .sub-btn.b2{background:var(--b2);}
+    .sub-btn.c1{background:var(--c1);}
+    .sub-btn:hover{filter:brightness(1.15);}
+    .score-band{display:none;margin-top:1rem;padding:1rem 1.4rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
+    .score-band.a1{background:var(--a1);}
+    .score-band.b1{background:var(--b1);}
+    .score-band.b2{background:var(--b2);}
+    .score-band.c1{background:var(--c1);}
+    .sc-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:var(--gold-lt);}
+    .sc-msg{font-family:'DM Mono',monospace;font-size:.72rem;color:rgba(255,255,255,.7);line-height:1.6;}
+
+    footer{background:var(--navy);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    footer p{color:#4a6a99;font-size:.78rem;font-family:'DM Mono',monospace;}
+    footer a{color:var(--gold);text-decoration:none;font-family:'DM Mono',monospace;font-size:.78rem;}
+    @media(max-width:800px){.why-inner{grid-template-columns:1fr;}.player-row{gap:.6rem;}.hero{padding:3rem 1.5rem 4rem;}.page{padding:2rem 1rem 4rem;}footer{padding:2rem 1.5rem;}}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
+  <a href="index.html" class="nav-back">← All Lessons</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Pronunciation · British English · All CEFR Levels</div>
+    <h1>Word Stress Patterns <br><em>That Will Transform Your English</em></h1>
+    <p class="hero-desc">Learn how shifting stress changes meaning — and how native speakers use rhythm naturally. This module takes you from basic syllables to advanced contrastive sentence stress, complete with listening tasks and detailed quizzes.</p>
+    <div class="level-jump">
+      <a href="#a1a2" class="lj-btn a1">🌱 A1/A2 Beginner</a>
+      <a href="#b1" class="lj-btn b1">🌿 B1 Intermediate</a>
+      <a href="#b2" class="lj-btn b2">🔥 B2 Upper-Int</a>
+      <a href="#c1" class="lj-btn c1">💎 C1 Advanced</a>
+    </div>
+  </div>
+</div>
+
+<div class="why-band">
+  <div class="why-header">
+    <h2>Why Word Stress is Crucial for Fluency</h2>
+    <p>In English, we do not say each syllable with the same force. The way we emphasize specific parts of a word is called <strong>Word Stress</strong>. If you use the incorrect stress, native speakers may not understand you, even if your grammar is perfect.</p>
+  </div>
+  <div class="why-inner">
+    <div class="why-card">
+      <div class="why-icon">🎵</div>
+      <div class="why-title">The Rhythm of English</div>
+      <div class="why-text">English is a stress-timed language. Native speakers glide over unstressed syllables and punch the stressed ones. Mastering this creates a natural, easy-to-understand rhythm.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🔀</div>
+      <div class="why-title">Meaning Makers</div>
+      <div class="why-text">A simple shift in stress can change a word from a noun to a verb. For example, a <em>RE-cord</em> is something you listen to, but to <em>re-CORD</em> is an action you take.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🗣️</div>
+      <div class="why-title">Clarity Over Accent</div>
+      <div class="why-text">You do not need to lose your accent to be perfectly understood. You simply need to hit the correct stress patterns. Word stress is the most important factor in clear English pronunciation.</div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+<div class="level-header" id="a1a2">
+  <div class="lh-badge"><span class="lh-level a1">A1/A2 · Beginner</span></div>
+  <div class="lh-title">The Basics of Syllables and Stress</div>
+  <div class="lh-cefr-def"><strong>CEFR A1/A2:</strong> Learners at this level need to identify basic syllables and understand that one syllable in a word sounds louder, longer, and higher in pitch. We will focus on everyday two and three-syllable words.</div>
+  <p class="lh-desc">Listen to a short lesson by an English teacher named Sarah. She explains how to find the stressed syllable in simple, everyday words. Pay close attention to the examples she gives.</p>
+</div>
+
+<div class="listen-card">
+  <div class="lc-top a1">
+    <div class="lc-left">
+      <span class="lc-num">Level A1/A2</span>
+      <span class="lc-title">Everyday Word Stress</span>
+    </div>
+    <div class="lc-pills">
+      <span class="lc-pill">🌱 Beginner</span>
+      <span class="lc-pill">⏱ ~1 min 30s</span>
+      <span class="lc-pill">10 Questions</span>
+    </div>
+  </div>
+  <div class="player-ui">
+    <div class="player-row">
+      <button class="play-btn a1" id="btn_a1" onclick="togglePlay('a1')" title="Play">
+        <svg class="pi" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg class="pai" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+      <div class="prog-wrap">
+        <div class="prog-track" onclick="seekAudio(event,'a1')"><div class="prog-fill a1" id="pf_a1"></div></div>
+        <div class="time-row"><span id="ct_a1">0:00</span><span id="dt_a1">1:30</span></div>
+      </div>
+      <button class="spd-btn on" id="s1_a1" onclick="setSpd('a1',1)">1×</button>
+      <button class="spd-btn" id="s75_a1" onclick="setSpd('a1',.75)">0.75×</button>
+      <select class="voice-sel" id="vc_a1" onchange="chVoice('a1')"></select>
+    </div>
+    <div class="play-hint">▶ Press Play to hear the text read aloud.</div>
+  </div>
+  
+  <div class="trans-wrap">
+    <div class="trans-toggle" onclick="togTrans('tb_a1','ta_a1')">
+      <span>📄 Show Transcript</span><span class="t-arr" id="ta_a1">▼</span>
+    </div>
+    <div class="trans-box" id="tb_a1">
+      <p><span class="spkr">Sarah:</span> Hello class! My name is Sarah, and today we are talking about word stress. In English, words are made of parts called syllables. When a word has two or more syllables, we do not say them all exactly the same.</p>
+      <p><span class="spkr">Sarah:</span> One syllable is always stronger. It is a little bit louder and longer. This is called 'stress'.</p>
+      <p><span class="spkr">Sarah:</span> Listen to the word 'apple'. We say AP-ple. The stress is on the first part. We do not say ap-PLE.</p>
+      <p><span class="spkr">Sarah:</span> Now listen to the word 'today'. We say to-DAY. The stress is on the second part. We do not say TO-day.</p>
+      <p><span class="spkr">Sarah:</span> Let's practice some common words. Listen carefully. 'Water'. WA-ter. 'Guitar'. gui-TAR. 'Banana'. ba-NA-na. Notice how 'banana' has three syllables, and the stress is in the middle.</p>
+      <p><span class="spkr">Sarah:</span> Getting the stress right is very important. If you stress the wrong part, people might not understand you. Practice these words at home: MORN-ing, ho-TEL, and po-LICE.</p>
+    </div>
+    
+    <div class="qs-wrap">
+      <div class="qs-label">10 Comprehension Questions — A1/A2</div>
+      <div id="QS_a1">
+        
+        <div class="q-item">
+          <div class="q-text"><strong>Q1.</strong> What does Sarah say words are made of?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q1')"><span class="opt-l">A</span>Letters only</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q1')"><span class="opt-l">B</span>Parts called syllables</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q1')"><span class="opt-l">C</span>Sentences</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q1')"><span class="opt-l">D</span>Accents</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q1"></div>
+        </div>
+        
+        <div class="q-item">
+          <div class="q-text"><strong>Q2.</strong> How does a stressed syllable sound compared to an unstressed one?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q2')"><span class="opt-l">A</span>Quieter and shorter</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q2')"><span class="opt-l">B</span>Louder and longer</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q2')"><span class="opt-l">C</span>Faster and higher</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q2')"><span class="opt-l">D</span>Exactly the same</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q2"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q3.</strong> Where is the stress in the word <em>'apple'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q3')"><span class="opt-l">A</span>First syllable (AP-ple)</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q3')"><span class="opt-l">B</span>Second syllable (ap-PLE)</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q3')"><span class="opt-l">C</span>Both syllables equally</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q3')"><span class="opt-l">D</span>It has no stress</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q3"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q4.</strong> Where is the stress in the word <em>'today'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q4')"><span class="opt-l">A</span>First syllable (TO-day)</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q4')"><span class="opt-l">B</span>Second syllable (to-DAY)</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q4')"><span class="opt-l">C</span>Both syllables equally</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q4')"><span class="opt-l">D</span>It has no stress</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q4"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q5.</strong> Which part of the word <em>'water'</em> is stressed?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q5')"><span class="opt-l">A</span>wa-TER</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q5')"><span class="opt-l">B</span>WA-ter</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q5')"><span class="opt-l">C</span>Both syllables</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q5')"><span class="opt-l">D</span>Neither</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q5"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q6.</strong> Which part of the word <em>'guitar'</em> is stressed?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q6')"><span class="opt-l">A</span>GUI-tar</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q6')"><span class="opt-l">B</span>gui-TAR</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q6')"><span class="opt-l">C</span>Both syllables</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q6')"><span class="opt-l">D</span>Neither</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q6"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q7.</strong> How many syllables are in the word <em>'banana'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q7')"><span class="opt-l">A</span>One</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q7')"><span class="opt-l">B</span>Two</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q7')"><span class="opt-l">C</span>Three</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q7')"><span class="opt-l">D</span>Four</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q7"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q8.</strong> Where is the stress in the word <em>'banana'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q8')"><span class="opt-l">A</span>First syllable (BA-na-na)</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q8')"><span class="opt-l">B</span>Second syllable (ba-NA-na)</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q8')"><span class="opt-l">C</span>Third syllable (ba-na-NA)</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q8')"><span class="opt-l">D</span>It has no stress</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q8"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q9.</strong> What might happen if you use the wrong word stress?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q9')"><span class="opt-l">A</span>People will understand you better</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q9')"><span class="opt-l">B</span>It sounds like perfect English</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q9')"><span class="opt-l">C</span>People might not understand you</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q9')"><span class="opt-l">D</span>You will speak faster</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q9"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q10.</strong> Based on Sarah's final examples, which is the correct stress for <em>'hotel'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_a1','q10')"><span class="opt-l">A</span>HO-tel</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q10')"><span class="opt-l">B</span>ho-TEL</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q10')"><span class="opt-l">C</span>It has no stress</div>
+            <div class="q-opt" onclick="pick(this,'QS_a1','q10')"><span class="opt-l">D</span>Both syllables equally</div>
+          </div>
+          <div class="q-fb" id="fb_QS_a1_q10"></div>
+        </div>
+
+      </div>
+      <button class="sub-btn a1" onclick="submitQ('QS_a1','a1',{q1:'B',q2:'B',q3:'A',q4:'B',q5:'B',q6:'B',q7:'C',q8:'B',q9:'C',q10:'B'})">Submit Answers</button>
+      <div class="score-band a1" id="sc_QS_a1" style="display:none;"><div class="sc-num" id="sn_QS_a1"></div><div class="sc-msg" id="sm_QS_a1"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="level-header" id="b1">
+  <div class="lh-badge"><span class="lh-level b1">B1 · Intermediate</span></div>
+  <div class="lh-title">Noun vs. Verb Stress Shifts</div>
+  <div class="lh-cefr-def"><strong>CEFR B1:</strong> At the intermediate level, learners explore words that change grammatical category based entirely on stress. You will learn the 'Noun=First Syllable, Verb=Second Syllable' rule.</div>
+  <p class="lh-desc">Listen to Mark, a podcast host, explain how stress can completely alter the meaning of a word, turning it from an object (noun) into an action (verb).</p>
+</div>
+
+<div class="listen-card">
+  <div class="lc-top b1">
+    <div class="lc-left">
+      <span class="lc-num">Level B1</span>
+      <span class="lc-title">Is it a Noun or a Verb?</span>
+    </div>
+    <div class="lc-pills">
+      <span class="lc-pill">🌿 Intermediate</span>
+      <span class="lc-pill">⏱ ~2 min</span>
+      <span class="lc-pill">10 Questions</span>
+    </div>
+  </div>
+  <div class="player-ui">
+    <div class="player-row">
+      <button class="play-btn b1" id="btn_b1" onclick="togglePlay('b1')" title="Play">
+        <svg class="pi" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg class="pai" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+      <div class="prog-wrap">
+        <div class="prog-track" onclick="seekAudio(event,'b1')"><div class="prog-fill b1" id="pf_b1"></div></div>
+        <div class="time-row"><span id="ct_b1">0:00</span><span id="dt_b1">2:00</span></div>
+      </div>
+      <button class="spd-btn on" id="s1_b1" onclick="setSpd('b1',1)">1×</button>
+      <button class="spd-btn" id="s75_b1" onclick="setSpd('b1',.75)">0.75×</button>
+      <select class="voice-sel" id="vc_b1" onchange="chVoice('b1')"></select>
+    </div>
+    <div class="play-hint">▶ Press Play to hear the text read aloud.</div>
+  </div>
+  
+  <div class="trans-wrap">
+    <div class="trans-toggle" onclick="togTrans('tb_b1','ta_b1')">
+      <span>📄 Show Transcript</span><span class="t-arr" id="ta_b1">▼</span>
+    </div>
+    <div class="trans-box" id="tb_b1">
+      <p><span class="spkr">Mark:</span> Welcome back to English Masterclass. I'm Mark. Today, let's look at words that change their meaning when the stress changes.</p>
+      <p><span class="spkr">Mark:</span> Many two-syllable words in English can be both nouns and verbs. When they are nouns—things or objects—the stress is usually on the first syllable. But when they are verbs—actions—the stress shifts to the second syllable.</p>
+      <p><span class="spkr">Mark:</span> For example, take the word spelled R-E-C-O-R-D. If I buy a vinyl album, I buy a RE-cord. The stress is on RE. But if I use my phone to save some audio, I re-CORD my voice. The stress is on CORD. RE-cord... re-CORD.</p>
+      <p><span class="spkr">Mark:</span> Another great example is the word 'present'. When you give someone a gift, you give them a PRE-sent. First syllable. But tomorrow, at work, I have to stand up and pre-SENT my project to the boss. Second syllable.</p>
+      <p><span class="spkr">Mark:</span> Let's try one more. 'Export'. A country might sell goods overseas; those goods are an EX-port. But the action of sending them is to ex-PORT. Paying attention to this simple shift will instantly make your English sound more natural and accurate.</p>
+    </div>
+    
+    <div class="qs-wrap">
+      <div class="qs-label">10 Comprehension Questions — B1</div>
+      <div id="QS_b1">
+        
+        <div class="q-item">
+          <div class="q-text"><strong>Q1.</strong> According to Mark, what happens when the stress changes in some two-syllable words?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q1')"><span class="opt-l">A</span>The spelling changes</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q1')"><span class="opt-l">B</span>The word becomes an adjective</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q1')"><span class="opt-l">C</span>The meaning and grammatical type change</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q1')"><span class="opt-l">D</span>The word sounds exactly the same</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q1"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q2.</strong> What is the general rule for two-syllable words that can be both nouns and verbs?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q2')"><span class="opt-l">A</span>Nouns stress syllable 2, verbs stress syllable 1</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q2')"><span class="opt-l">B</span>Nouns stress syllable 1, verbs stress syllable 2</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q2')"><span class="opt-l">C</span>Both always stress syllable 1</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q2')"><span class="opt-l">D</span>Both always stress syllable 2</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q2"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q3.</strong> If you buy a music album (noun), how do you pronounce the word <em>R-E-C-O-R-D</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q3')"><span class="opt-l">A</span>re-CORD</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q3')"><span class="opt-l">B</span>RE-cord</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q3')"><span class="opt-l">C</span>Both are correct</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q3')"><span class="opt-l">D</span>Neither</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q3"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q4.</strong> If you save audio on your phone (verb), how do you pronounce the word <em>R-E-C-O-R-D</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q4')"><span class="opt-l">A</span>re-CORD</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q4')"><span class="opt-l">B</span>RE-cord</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q4')"><span class="opt-l">C</span>With three syllables</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q4')"><span class="opt-l">D</span>You don't pronounce the 'd'</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q4"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q5.</strong> What is the meaning of <em>PRE-sent</em> (with stress on the first syllable)?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q5')"><span class="opt-l">A</span>To show a project to a boss</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q5')"><span class="opt-l">B</span>A gift</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q5')"><span class="opt-l">C</span>To speak loudly</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q5')"><span class="opt-l">D</span>To be absent</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q5"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q6.</strong> Which of these is the correct pronunciation for the verb meaning 'to show a project'?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q6')"><span class="opt-l">A</span>PRE-sent</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q6')"><span class="opt-l">B</span>pre-SENT</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q6')"><span class="opt-l">C</span>PRES-ent</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q6')"><span class="opt-l">D</span>pre-ZENT (with stress on first syllable)</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q6"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q7.</strong> Goods sold overseas are called an...</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q7')"><span class="opt-l">A</span>ex-PORT</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q7')"><span class="opt-l">B</span>EX-port</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q7')"><span class="opt-l">C</span>im-PORT</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q7')"><span class="opt-l">D</span>EX-pert</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q7"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q8.</strong> The action of sending goods overseas is to...</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q8')"><span class="opt-l">A</span>ex-PORT</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q8')"><span class="opt-l">B</span>EX-port</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q8')"><span class="opt-l">C</span>IM-port</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q8')"><span class="opt-l">D</span>ex-PERT</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q8"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q9.</strong> Why does Mark say paying attention to this rule is important?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q9')"><span class="opt-l">A</span>It helps you read faster</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q9')"><span class="opt-l">B</span>It makes your English sound more natural and accurate</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q9')"><span class="opt-l">C</span>It improves your spelling</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q9')"><span class="opt-l">D</span>It helps you learn new grammar tenses</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q9"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q10.</strong> Apply the rule: How would you pronounce the NOUN form of 'suspect' (a person who might have committed a crime)?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b1','q10')"><span class="opt-l">A</span>sus-PECT</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q10')"><span class="opt-l">B</span>SUS-pect</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q10')"><span class="opt-l">C</span>It doesn't follow the rule</div>
+            <div class="q-opt" onclick="pick(this,'QS_b1','q10')"><span class="opt-l">D</span>Both are correct</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b1_q10"></div>
+        </div>
+
+      </div>
+      <button class="sub-btn b1" onclick="submitQ('QS_b1','b1',{q1:'C',q2:'B',q3:'B',q4:'A',q5:'B',q6:'B',q7:'B',q8:'A',q9:'B',q10:'B'})">Submit Answers</button>
+      <div class="score-band b1" id="sc_QS_b1" style="display:none;"><div class="sc-num" id="sn_QS_b1"></div><div class="sc-msg" id="sm_QS_b1"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="level-header" id="b2">
+  <div class="lh-badge"><span class="lh-level b2">B2 · Upper-Int</span></div>
+  <div class="lh-title">Suffixes and Stress Shifting</div>
+  <div class="lh-cefr-def"><strong>CEFR B2:</strong> Upper-intermediate learners must handle multi-syllable words and word families. At this level, you will learn how adding specific endings (suffixes) to a root word forces the primary stress to move to a different syllable.</div>
+  <p class="lh-desc">Listen to Dr. Lewis, a linguist, explain how suffixes like '-y', '-ic', and '-tion' pull the stress around within word families. This is a vital skill for academic and professional English.</p>
+</div>
+
+<div class="listen-card">
+  <div class="lc-top b2">
+    <div class="lc-left">
+      <span class="lc-num">Level B2</span>
+      <span class="lc-title">The "Photograph" Family</span>
+    </div>
+    <div class="lc-pills">
+      <span class="lc-pill">🔥 Upper-Int</span>
+      <span class="lc-pill">⏱ ~2 min 15s</span>
+      <span class="lc-pill">10 Questions</span>
+    </div>
+  </div>
+  <div class="player-ui">
+    <div class="player-row">
+      <button class="play-btn b2" id="btn_b2" onclick="togglePlay('b2')" title="Play">
+        <svg class="pi" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg class="pai" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+      <div class="prog-wrap">
+        <div class="prog-track" onclick="seekAudio(event,'b2')"><div class="prog-fill b2" id="pf_b2"></div></div>
+        <div class="time-row"><span id="ct_b2">0:00</span><span id="dt_b2">2:15</span></div>
+      </div>
+      <button class="spd-btn on" id="s1_b2" onclick="setSpd('b2',1)">1×</button>
+      <button class="spd-btn" id="s75_b2" onclick="setSpd('b2',.75)">0.75×</button>
+      <select class="voice-sel" id="vc_b2" onchange="chVoice('b2')"></select>
+    </div>
+    <div class="play-hint">▶ Press Play to hear the text read aloud.</div>
+  </div>
+  
+  <div class="trans-wrap">
+    <div class="trans-toggle" onclick="togTrans('tb_b2','ta_b2')">
+      <span>📄 Show Transcript</span><span class="t-arr" id="ta_b2">▼</span>
+    </div>
+    <div class="trans-box" id="tb_b2">
+      <p><span class="spkr">Dr. Lewis:</span> Hello everyone, I'm Dr. Lewis. Today we are delving into how word endings, or suffixes, can completely shift the stress in English words. This often happens within word families, which can be quite tricky for learners.</p>
+      <p><span class="spkr">Dr. Lewis:</span> Let's take a classic example: the root word 'photograph'. PHO-to-graph. The primary stress is strong on the very first syllable.</p>
+      <p><span class="spkr">Dr. Lewis:</span> But look what happens when we add the suffix '-y' or '-er' to talk about the person who takes the picture or the art itself: pho-TOG-ra-pher, pho-TOG-ra-phy. The stress shifts entirely to the second syllable.</p>
+      <p><span class="spkr">Dr. Lewis:</span> Now, let's make it an adjective by adding '-ic': pho-to-GRAPH-ic. The stress shifts again, this time to the third syllable! PHO-to-graph, pho-TOG-ra-phy, pho-to-GRAPH-ic.</p>
+      <p><span class="spkr">Dr. Lewis:</span> There is a golden rule here: words ending in '-tion', '-sion', or '-ic' almost always have their primary stress on the syllable immediately before the suffix. For example, 'inform' becomes in-for-MA-tion. 'Economy' becomes eco-NOM-ic. 'Educate' becomes ed-u-CA-tion. Master this rule, and you'll master thousands of advanced words.</p>
+    </div>
+    
+    <div class="qs-wrap">
+      <div class="qs-label">10 Comprehension Questions — B2</div>
+      <div id="QS_b2">
+        
+        <div class="q-item">
+          <div class="q-text"><strong>Q1.</strong> What does Dr. Lewis say suffixes can do to a word?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q1')"><span class="opt-l">A</span>Make the word shorter</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q1')"><span class="opt-l">B</span>Completely shift the stress</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q1')"><span class="opt-l">C</span>Change the vowel spelling</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q1')"><span class="opt-l">D</span>Remove all stress from the word</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q1"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q2.</strong> Where is the primary stress in the word <em>'photograph'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q2')"><span class="opt-l">A</span>First syllable (PHO-to-graph)</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q2')"><span class="opt-l">B</span>Second syllable (pho-TO-graph)</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q2')"><span class="opt-l">C</span>Third syllable (pho-to-GRAPH)</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q2')"><span class="opt-l">D</span>It has equal stress on all syllables</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q2"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q3.</strong> Where does the stress move to in the word <em>'photographer'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q3')"><span class="opt-l">A</span>It stays on the first syllable</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q3')"><span class="opt-l">B</span>Second syllable (pho-TOG-ra-pher)</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q3')"><span class="opt-l">C</span>Third syllable (pho-to-GRAPH-er)</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q3')"><span class="opt-l">D</span>Fourth syllable</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q3"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q4.</strong> Where is the stress in the adjective <em>'photographic'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q4')"><span class="opt-l">A</span>First syllable</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q4')"><span class="opt-l">B</span>Second syllable</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q4')"><span class="opt-l">C</span>Third syllable (pho-to-GRAPH-ic)</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q4')"><span class="opt-l">D</span>Fourth syllable</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q4"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q5.</strong> What is the "golden rule" for words ending in <em>'-tion'</em> or <em>'-ic'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q5')"><span class="opt-l">A</span>Stress the first syllable of the word</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q5')"><span class="opt-l">B</span>Stress the syllable immediately before the suffix</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q5')"><span class="opt-l">C</span>Stress the suffix itself</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q5')"><span class="opt-l">D</span>Stress the last syllable</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q5"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q6.</strong> Based on the rule, where is the stress in <em>'information'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q6')"><span class="opt-l">A</span>IN-for-ma-tion</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q6')"><span class="opt-l">B</span>in-FOR-ma-tion</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q6')"><span class="opt-l">C</span>in-for-MA-tion</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q6')"><span class="opt-l">D</span>in-for-ma-TION</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q6"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q7.</strong> Based on the rule, where is the stress in <em>'economic'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q7')"><span class="opt-l">A</span>E-co-nom-ic</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q7')"><span class="opt-l">B</span>e-CON-o-mic</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q7')"><span class="opt-l">C</span>eco-NOM-ic</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q7')"><span class="opt-l">D</span>eco-nom-IC</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q7"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q8.</strong> Apply the rule: How would you pronounce <em>'education'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q8')"><span class="opt-l">A</span>ED-u-ca-tion</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q8')"><span class="opt-l">B</span>ed-U-ca-tion</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q8')"><span class="opt-l">C</span>ed-u-CA-tion</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q8')"><span class="opt-l">D</span>ed-u-ca-TION</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q8"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q9.</strong> Apply the rule: Where is the stress in the word <em>'romantic'</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q9')"><span class="opt-l">A</span>RO-man-tic</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q9')"><span class="opt-l">B</span>ro-MAN-tic</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q9')"><span class="opt-l">C</span>ro-man-TIC</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q9')"><span class="opt-l">D</span>The rule doesn't apply to this word</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q9"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q10.</strong> According to Dr. Lewis, why is mastering this rule beneficial?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_b2','q10')"><span class="opt-l">A</span>You will master thousands of advanced words</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q10')"><span class="opt-l">B</span>You won't have to learn grammar anymore</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q10')"><span class="opt-l">C</span>It makes speaking much faster</div>
+            <div class="q-opt" onclick="pick(this,'QS_b2','q10')"><span class="opt-l">D</span>It helps you understand slang better</div>
+          </div>
+          <div class="q-fb" id="fb_QS_b2_q10"></div>
+        </div>
+
+      </div>
+      <button class="sub-btn b2" onclick="submitQ('QS_b2','b2',{q1:'B',q2:'A',q3:'B',q4:'C',q5:'B',q6:'C',q7:'C',q8:'C',q9:'B',q10:'A'})">Submit Answers</button>
+      <div class="score-band b2" id="sc_QS_b2" style="display:none;"><div class="sc-num" id="sn_QS_b2"></div><div class="sc-msg" id="sm_QS_b2"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="level-header" id="c1">
+  <div class="lh-badge"><span class="lh-level c1">C1 · Advanced</span></div>
+  <div class="lh-title">Phrasal Verbs vs Compounds & Contrastive Stress</div>
+  <div class="lh-cefr-def"><strong>CEFR C1:</strong> Advanced learners deal with subtle stress differences at the phrase and sentence level. Here, stress distinguishes between phrasal verbs and compound nouns, and 'contrastive stress' is used to correct or highlight information without changing the vocabulary.</div>
+  <p class="lh-desc">Listen to Professor Sterling discuss advanced phonology. Pay attention to how sentence meaning entirely changes based on which word the speaker chooses to emphasize.</p>
+</div>
+
+<div class="listen-card">
+  <div class="lc-top c1">
+    <div class="lc-left">
+      <span class="lc-num">Level C1</span>
+      <span class="lc-title">Meaning Beyond the Words</span>
+    </div>
+    <div class="lc-pills">
+      <span class="lc-pill">💎 Advanced</span>
+      <span class="lc-pill">⏱ ~2 min 30s</span>
+      <span class="lc-pill">10 Questions</span>
+    </div>
+  </div>
+  <div class="player-ui">
+    <div class="player-row">
+      <button class="play-btn c1" id="btn_c1" onclick="togglePlay('c1')" title="Play">
+        <svg class="pi" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        <svg class="pai" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+      </button>
+      <div class="prog-wrap">
+        <div class="prog-track" onclick="seekAudio(event,'c1')"><div class="prog-fill c1" id="pf_c1"></div></div>
+        <div class="time-row"><span id="ct_c1">0:00</span><span id="dt_c1">2:30</span></div>
+      </div>
+      <button class="spd-btn on" id="s1_c1" onclick="setSpd('c1',1)">1×</button>
+      <button class="spd-btn" id="s75_c1" onclick="setSpd('c1',.75)">0.75×</button>
+      <select class="voice-sel" id="vc_c1" onchange="chVoice('c1')"></select>
+    </div>
+    <div class="play-hint">▶ Press Play to hear the text read aloud.</div>
+  </div>
+  
+  <div class="trans-wrap">
+    <div class="trans-toggle" onclick="togTrans('tb_c1','ta_c1')">
+      <span>📄 Show Transcript</span><span class="t-arr" id="ta_c1">▼</span>
+    </div>
+    <div class="trans-box" id="tb_c1">
+      <p><span class="spkr">Prof. Sterling:</span> Welcome to Advanced Phonology. I'm Professor Sterling. At the C1 level, we move beyond individual word stress into phrasal stress and contrastive stress, which are crucial for nuance.</p>
+      <p><span class="spkr">Prof. Sterling:</span> Firstly, consider the difference between phrasal verbs and compound nouns. If you arrange something, you 'set UP' a meeting. It's a verb phrase, and the stress falls heavily on the second word, the particle 'UP'. However, the arrangement itself is a 'SET-up' — a compound noun — with stress strictly on the first syllable.</p>
+      <p><span class="spkr">Prof. Sterling:</span> You might hear a manager say: "We need to set UP the new SET-up." Notice the rhythm there?</p>
+      <p><span class="spkr">Prof. Sterling:</span> Furthermore, native speakers constantly use contrastive sentence stress to correct or clarify information without changing the vocabulary. Imagine someone asks, "Did you drive to London yesterday?"</p>
+      <p><span class="spkr">Prof. Sterling:</span> You might reply, "No, I TOOK THE TRAIN to London yesterday," heavily stressing the mode of transport to correct their assumption. Or you might say, "No, I drove to MANCHESTER yesterday," stressing the destination. Alternatively: "No, *I* didn't drive to London yesterday, my WIFE did."</p>
+      <p><span class="spkr">Prof. Sterling:</span> The grammar remains identical in each response, but the shifted stress entirely alters the pragmatic meaning of the utterance.</p>
+    </div>
+    
+    <div class="qs-wrap">
+      <div class="qs-label">10 Comprehension Questions — C1</div>
+      <div id="QS_c1">
+        
+        <div class="q-item">
+          <div class="q-text"><strong>Q1.</strong> According to Professor Sterling, what do advanced learners need to move beyond?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q1')"><span class="opt-l">A</span>Learning new vocabulary</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q1')"><span class="opt-l">B</span>Basic grammar rules</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q1')"><span class="opt-l">C</span>Individual word stress</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q1')"><span class="opt-l">D</span>Listening to podcasts</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q1"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q2.</strong> Where does the stress fall in a two-part phrasal verb like <em>'set up'</em> (meaning to arrange)?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q2')"><span class="opt-l">A</span>On the first word (SET up)</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q2')"><span class="opt-l">B</span>On the second word, the particle (set UP)</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q2')"><span class="opt-l">C</span>Equally on both words</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q2')"><span class="opt-l">D</span>Neither word receives stress</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q2"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q3.</strong> Where does the stress fall in the compound noun <em>'setup'</em> (meaning an arrangement)?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q3')"><span class="opt-l">A</span>On the first syllable (SET-up)</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q3')"><span class="opt-l">B</span>On the second syllable (set-UP)</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q3')"><span class="opt-l">C</span>Equally on both</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q3')"><span class="opt-l">D</span>It depends on the dialect</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q3"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q4.</strong> Apply the rule: How would you pronounce the phrasal verb in the sentence: <em>"She needs to log in to the computer"</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q4')"><span class="opt-l">A</span>LOG in</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q4')"><span class="opt-l">B</span>log IN</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q4')"><span class="opt-l">C</span>Log-in</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q4')"><span class="opt-l">D</span>L-O-G I-N</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q4"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q5.</strong> Apply the rule: How would you pronounce the compound noun in: <em>"I forgot my login details"</em>?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q5')"><span class="opt-l">A</span>LOG-in</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q5')"><span class="opt-l">B</span>log-IN</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q5')"><span class="opt-l">C</span>Log in</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q5')"><span class="opt-l">D</span>None of the above</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q5"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q6.</strong> What is the main purpose of "contrastive sentence stress"?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q6')"><span class="opt-l">A</span>To sound more aggressive</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q6')"><span class="opt-l">B</span>To ask a question politely</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q6')"><span class="opt-l">C</span>To correct or clarify specific information</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q6')"><span class="opt-l">D</span>To change the grammatical tense of the sentence</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q6"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q7.</strong> If someone asks, "Did you drive to London yesterday?", and you reply "No, I drove to <strong>MANCHESTER</strong> yesterday," what are you correcting?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q7')"><span class="opt-l">A</span>The time (yesterday)</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q7')"><span class="opt-l">B</span>The mode of transport (drive)</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q7')"><span class="opt-l">C</span>The destination (London)</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q7')"><span class="opt-l">D</span>The person who drove (you)</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q7"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q8.</strong> If someone asks, "Did you drive to London yesterday?", and you reply "No, I <strong>TOOK THE TRAIN</strong> to London yesterday," what are you correcting?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q8')"><span class="opt-l">A</span>The time</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q8')"><span class="opt-l">B</span>The mode of transport</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q8')"><span class="opt-l">C</span>The destination</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q8')"><span class="opt-l">D</span>The person</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q8"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q9.</strong> In the response "No, <strong>MY WIFE</strong> drove to London yesterday", what was the wrong assumption in the question?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q9')"><span class="opt-l">A</span>That the speaker was the one driving</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q9')"><span class="opt-l">B</span>That they went to London</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q9')"><span class="opt-l">C</span>That they drove a car</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q9')"><span class="opt-l">D</span>That it happened yesterday</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q9"></div>
+        </div>
+
+        <div class="q-item">
+          <div class="q-text"><strong>Q10.</strong> According to the professor, what entirely alters the "pragmatic meaning of the utterance" in these examples?</div>
+          <div class="q-opts">
+            <div class="q-opt" onclick="pick(this,'QS_c1','q10')"><span class="opt-l">A</span>Changing the vocabulary words</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q10')"><span class="opt-l">B</span>Using a different grammatical tense</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q10')"><span class="opt-l">C</span>The shifted stress</div>
+            <div class="q-opt" onclick="pick(this,'QS_c1','q10')"><span class="opt-l">D</span>Speaking at a faster pace</div>
+          </div>
+          <div class="q-fb" id="fb_QS_c1_q10"></div>
+        </div>
+
+      </div>
+      <button class="sub-btn c1" onclick="submitQ('QS_c1','c1',{q1:'C',q2:'B',q3:'A',q4:'B',q5:'A',q6:'C',q7:'C',q8:'B',q9:'A',q10:'C'})">Submit Answers</button>
+      <div class="score-band c1" id="sc_QS_c1" style="display:none;"><div class="sc-num" id="sn_QS_c1"></div><div class="sc-msg" id="sm_QS_c1"></div></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  <p>© 2026 Shared Pearls of Wisdom. Designed for Cambridge English Learners.</p>
+  <a href="#">Back to Top ↑</a>
+</footer>
+
+<script>
+  // 1. Transcript Toggle
+  function togTrans(boxId, arrowId) {
+    const box = document.getElementById(boxId);
+    const arr = document.getElementById(arrowId);
+    if (box.classList.contains('open')) {
+      box.classList.remove('open');
+      arr.style.transform = 'rotate(0deg)';
+    } else {
+      box.classList.add('open');
+      arr.style.transform = 'rotate(180deg)';
+    }
+  }
+
+  // 2. Quiz Selection
+  function pick(el, qsId, qId) {
+    // Only allow picking if not yet submitted
+    const parentItem = el.closest('.q-item');
+    if(parentItem.classList.contains('locked')) return;
+
+    // Remove 'sel' from all siblings
+    const opts = parentItem.querySelectorAll('.q-opt');
+    opts.forEach(opt => opt.classList.remove('sel'));
+    
+    // Add 'sel' to clicked
+    el.classList.add('sel');
+    // Store answer on the parent item dataset
+    const answerLetter = el.querySelector('.opt-l').innerText;
+    parentItem.dataset.userAns = answerLetter;
+  }
+
+  // 3. Quiz Submit
+  function submitQ(qsId, level, answers) {
+    const qsContainer = document.getElementById(qsId);
+    const items = qsContainer.querySelectorAll('.q-item');
+    let score = 0;
+    let total = Object.keys(answers).length;
+
+    items.forEach((item, index) => {
+      item.classList.add('locked'); // prevent changing answers
+      const qKey = 'q' + (index + 1);
+      const correctAns = answers[qKey];
+      const userAns = item.dataset.userAns;
+      const fbBox = document.getElementById(`fb_${qsId}_${qKey}`);
+
+      const opts = item.querySelectorAll('.q-opt');
+      
+      if (!userAns) {
+        fbBox.innerText = `You didn't answer this. The correct answer is ${correctAns}.`;
+        fbBox.className = 'q-fb no';
+        fbBox.style.display = 'block';
+      } else if (userAns === correctAns) {
+        score++;
+        fbBox.innerText = "Correct! Well done.";
+        fbBox.className = 'q-fb ok';
+        fbBox.style.display = 'block';
+        opts.forEach(opt => {
+          if(opt.querySelector('.opt-l').innerText === correctAns) {
+            opt.classList.add('ok-ans');
+          }
+        });
+      } else {
+        fbBox.innerText = `Incorrect. The correct answer is ${correctAns}.`;
+        fbBox.className = 'q-fb no';
+        fbBox.style.display = 'block';
+        opts.forEach(opt => {
+          if(opt.querySelector('.opt-l').innerText === userAns) opt.classList.add('no-ans');
+          if(opt.querySelector('.opt-l').innerText === correctAns) opt.classList.add('ok-ans');
+        });
+      }
+    });
+
+    // Show Score Band
+    const scBand = document.getElementById(`sc_${qsId}`);
+    const scNum = document.getElementById(`sn_${qsId}`);
+    const scMsg = document.getElementById(`sm_${qsId}`);
+    
+    scBand.style.display = 'flex';
+    scNum.innerText = `${score} / ${total}`;
+    
+    if(score === total) {
+      scMsg.innerText = "Flawless! You have fully mastered this level's pronunciation rules.";
+    } else if (score >= total * 0.7) {
+      scMsg.innerText = "Great job. You have a solid grasp of these stress patterns.";
+    } else {
+      scMsg.innerText = "Keep practicing! Review the transcript and listen to the audio again to catch the subtleties.";
+    }
+  }
+
+  // 4. Audio Simulation (Using Web Speech API Synthesis for demo purposes since no audio files provided)
+  const audios = {}; 
+  let voices = [];
+
+  function populateVoiceList() {
+    voices = speechSynthesis.getVoices().filter(v => v.lang.includes('en-GB') || v.lang.includes('en-US'));
+    ['a1', 'b1', 'b2', 'c1'].forEach(lvl => {
+      const sel = document.getElementById(`vc_${lvl}`);
+      if(!sel) return;
+      sel.innerHTML = '';
+      voices.forEach((voice, i) => {
+        const option = document.createElement('option');
+        option.textContent = `${voice.name} (${voice.lang})`;
+        option.value = i;
+        sel.appendChild(option);
+      });
+    });
+  }
+
+  populateVoiceList();
+  if (speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = populateVoiceList;
+  }
+
+  function togglePlay(lvl) {
+    const btn = document.getElementById(`btn_${lvl}`);
+    const boxId = `tb_${lvl}`;
+    const textToRead = document.getElementById(boxId).innerText.replace(/[\n\r]+/g, ' ').replace(/(Sarah:|Mark:|Dr\. Lewis:|Prof\. Sterling:)/g, '');
+
+    if(btn.classList.contains('playing')) {
+      speechSynthesis.cancel();
+      btn.classList.remove('playing');
+      resetProgress(lvl);
+    } else {
+      speechSynthesis.cancel(); // Stop anything else
+      document.querySelectorAll('.play-btn').forEach(b => b.classList.remove('playing'));
+      
+      const utterance = new SpeechSynthesisUtterance(textToRead);
+      const voiceIdx = document.getElementById(`vc_${lvl}`).value;
+      if(voices[voiceIdx]) utterance.voice = voices[voiceIdx];
+      
+      // Speed
+      utterance.rate = audios[lvl]?.rate || 1;
+
+      utterance.onend = function() {
+        btn.classList.remove('playing');
+        resetProgress(lvl);
+      };
+
+      // Fake progress bar for visual effect during synthesis
+      audios[lvl] = { utterance: utterance, rate: utterance.rate, interval: null, time: 0 };
+      btn.classList.add('playing');
+      speechSynthesis.speak(utterance);
+      simulateProgress(lvl);
+    }
+  }
+
+  function setSpd(lvl, rate) {
+    document.getElementById(`s1_${lvl}`).classList.remove('on');
+    document.getElementById(`s75_${lvl}`).classList.remove('on');
+    if(rate === 1) document.getElementById(`s1_${lvl}`).classList.add('on');
+    else document.getElementById(`s75_${lvl}`).classList.add('on');
+    
+    if(audios[lvl]) audios[lvl].rate = rate;
+  }
+
+  function chVoice(lvl) {
+    if(document.getElementById(`btn_${lvl}`).classList.contains('playing')) {
+       togglePlay(lvl); // Stop
+       setTimeout(() => togglePlay(lvl), 100); // Restart with new voice
+    }
+  }
+
+  function simulateProgress(lvl) {
+    const fill = document.getElementById(`pf_${lvl}`);
+    const timeDisp = document.getElementById(`ct_${lvl}`);
+    let p = 0;
+    clearInterval(audios[lvl].interval);
+    audios[lvl].interval = setInterval(() => {
+      p += 0.5 * (audios[lvl].rate || 1); // rough visual progression
+      if(p > 100) p = 100;
+      fill.style.width = p + '%';
+      
+      // Fake time update
+      let sec = Math.floor((p/100) * 120); // assume 2 mins for demo
+      let m = Math.floor(sec/60);
+      let s = sec % 60;
+      timeDisp.innerText = `${m}:${s<10?'0':''}${s}`;
+
+      if(p === 100) clearInterval(audios[lvl].interval);
+    }, 500);
+  }
+
+  function resetProgress(lvl) {
+    const fill = document.getElementById(`pf_${lvl}`);
+    const timeDisp = document.getElementById(`ct_${lvl}`);
+    if(audios[lvl]) clearInterval(audios[lvl].interval);
+    fill.style.width = '0%';
+    timeDisp.innerText = '0:00';
+  }
+
+  function seekAudio(e, lvl) {
+     // Web Speech Synthesis doesn't support seeking. Added function stub to prevent console errors from template.
+     console.log("Seeking not supported in Voice Synthesis demo.");
+  }
+</script>
+
+</body>
+</html>

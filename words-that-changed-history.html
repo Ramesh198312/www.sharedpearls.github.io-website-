@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary & News English Modules</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #111;
+            --bg-page: #fdfbf7;
+            --text-main: #333;
+            
+            /* Module 1 Colors (Vocabulary - Teal) */
+            --mod1-prim: #1e6b6b;
+            --mod1-sec: #2a9494;
+            --mod1-bg: #eef7f7;
+            
+            /* Module 2 Colors (News - Rust/Terracotta) */
+            --mod2-prim: #9c3f27;
+            --mod2-sec: #c45537;
+            --mod2-bg: #fdf0ec;
+
+            --correct: #27ae60;
+            --incorrect: #c0392b;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lato', sans-serif; line-height: 1.8; color: var(--text-main); background: var(--bg-page); }
+        .container { max-width: 1000px; margin: 0 auto; padding: 50px 20px; }
+        
+        /* Typography */
+        h1, h2, h3 { font-family: 'Cormorant Garamond', serif; }
+        h1 { font-size: 2.8em; line-height: 1.2; margin-bottom: 15px; }
+        h2 { font-size: 2em; margin: 40px 0 20px; padding-bottom: 10px; }
+        .module-divider { height: 4px; background: #ddd; margin: 80px 0; border-radius: 2px; }
+        
+        /* Meta Tags */
+        .meta { font-size: 0.85em; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 30px; padding: 8px 15px; border-radius: 4px; display: inline-block; font-weight: bold; color: #fff; }
+        .meta.m1 { background: var(--mod1-prim); }
+        .meta.m2 { background: var(--mod2-prim); }
+
+        /* Content Boxes */
+        .audio-box { padding: 30px; border-radius: 8px; text-align: center; border: 1px solid #ddd; margin-bottom: 30px; }
+        .audio-box.m1 { background: var(--mod1-bg); border-color: var(--mod1-sec); }
+        .audio-box.m2 { background: var(--mod2-bg); border-color: var(--mod2-sec); }
+        audio { width: 100%; max-width: 600px; margin-top: 15px; outline: none; }
+        
+        .reading-text { background: #fff; padding: 35px; border-left: 5px solid; margin-bottom: 40px; font-size: 1.1em; line-height: 1.9; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .reading-text.m1 { border-color: var(--mod1-prim); }
+        .reading-text.m2 { border-color: var(--mod2-prim); }
+        
+        .speaker { font-weight: 700; text-transform: uppercase; font-size: 0.85em; letter-spacing: 0.5px; }
+        .m1 .speaker { color: var(--mod1-prim); }
+        .m2 .speaker { color: var(--mod2-prim); }
+
+        .highlight { font-weight: bold; padding: 0 4px; border-radius: 3px; }
+        .m1 .highlight { background: #d0efef; color: var(--mod1-prim); }
+        .m2 .highlight { background: #fbdacx; color: var(--mod2-prim); }
+
+        /* Quiz UI */
+        .quiz-section { padding: 35px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 50px; background: #fff; }
+        .q-block { background: #fafafa; padding: 20px; border-radius: 6px; border: 1px solid #eee; margin-bottom: 20px; transition: 0.3s; }
+        .q-block:hover { border-color: #ccc; }
+        .q-num { font-weight: bold; margin-right: 10px; font-family: 'Cormorant Garamond', serif; font-size: 1.2em; }
+        .m1 .q-num { color: var(--mod1-prim); }
+        .m2 .q-num { color: var(--mod2-prim); }
+
+        /* Formats */
+        select.q-drop { padding: 6px 12px; font-family: 'Lato', sans-serif; font-size: 0.95em; border: 2px solid #ccc; border-radius: 4px; cursor: pointer; background: #fff; font-weight: bold; }
+        
+        .dd-container { display: flex; gap: 15px; align-items: center; flex-wrap: wrap; margin-top: 15px; }
+        .draggable { color: white; padding: 8px 16px; border-radius: 4px; cursor: grab; font-weight: bold; user-select: none; }
+        .m1 .draggable { background: var(--mod1-prim); }
+        .m2 .draggable { background: var(--mod2-prim); }
+        .dropzone { width: 180px; height: 45px; background: #fff; border: 2px dashed #999; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+        .dropzone.hover { border-color: #333; background: #eee; }
+        .dropzone .draggable { margin: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; border-radius: 2px; }
+
+        .cm-wordbank { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; padding: 20px; background: #fff; border: 1px solid #ddd; border-radius: 6px; }
+        .cm-word { background: #fff; border: 2px solid; padding: 6px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .m1 .cm-word { border-color: var(--mod1-prim); color: var(--mod1-prim); }
+        .m2 .cm-word { border-color: var(--mod2-prim); color: var(--mod2-prim); }
+        .m1 .cm-word.selected { background: var(--mod1-prim); color: #fff; }
+        .m2 .cm-word.selected { background: var(--mod2-prim); color: #fff; }
+        .cm-word.used { opacity: 0.3; pointer-events: none; }
+        
+        .cm-blank { display: inline-block; min-width: 120px; height: 32px; border-bottom: 2px solid #333; margin: 0 5px; cursor: pointer; text-align: center; font-weight: bold; vertical-align: middle; background: rgba(0,0,0,0.03); }
+        
+        .check-btn { color: white; border: none; padding: 14px 30px; font-size: 1.1em; border-radius: 4px; cursor: pointer; font-weight: bold; display: block; margin: 30px auto 0; text-transform: uppercase; }
+        .m1 .check-btn { background: var(--mod1-prim); }
+        .m2 .check-btn { background: var(--mod2-prim); }
+        .check-btn:hover { opacity: 0.9; }
+
+        .feedback { display: inline-block; margin-left: 15px; font-weight: bold; font-size: 0.95em; padding: 4px 8px; border-radius: 4px; }
+        .fc-correct { color: var(--correct); background: #e8f8f5; }
+        .fc-incorrect { color: var(--incorrect); background: #fdedec; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="m1">
+        <h1 style="color: var(--mod1-prim);">Words That Changed History</h1>
+        <div class="meta m1">Vocabulary | 6-Minute Lesson | All Levels</div>
+
+        <div class="audio-box m1">
+            <h3 style="margin:0; color:var(--mod1-prim);">Listen to the Episode</h3>
+            <p style="color:#555; font-size:0.95em; margin-top:5px;">Explore how historical figures and events gave birth to words we use every single day.</p>
+            <audio controls><source src="words-that-changed-history.m4a" type="audio/mpeg">Your browser does not support audio.</audio>
+        </div>
+
+        <h2 style="border-bottom: 2px solid var(--mod1-sec); color: var(--mod1-prim);">Episode Transcript</h2>
+        <div class="reading-text m1">
+            <p><span class="speaker">Host:</span> Welcome to <em>Words That Changed History</em>. Today, we're looking at eponyms—words derived from the names of real people.</p>
+            
+            <p><span class="speaker">Host:</span> Let's start with <span class="highlight">Boycott</span>. In 1880, Captain Charles Boycott was a British land agent in Ireland. When he refused to lower rents for poor farmers, the entire community socially and economically isolated him. Shops wouldn't serve him, and farmhands wouldn't work for him. Today, to <em>boycott</em> means to withdraw from commercial or social relations as a protest.</p>
+            
+            <p><span class="speaker">Host:</span> Next is <span class="highlight">Draconian</span>. Draco was a lawmaker in Ancient Greece (7th century BC) whose laws were notoriously unforgiving. Stealing a cabbage was punishable by death! Today, we use <em>draconian</em> to describe rules or measures that are excessively harsh or severe.</p>
+            
+            <p><span class="speaker">Host:</span> Have you ever called someone a <span class="highlight">Maverick</span>? Samuel Maverick was a Texan rancher in the 1800s who famously refused to brand his cattle. While others followed the rules, he did things his own way. Now, a <em>maverick</em> is an independent-minded person who refuses to follow the crowd.</p>
+
+            <p><span class="speaker">Host:</span> Finally, a <span class="highlight">Pyrrhic victory</span>. King Pyrrhus of Epirus defeated the Romans in 279 BC, but he lost so many of his own soldiers that the win was basically a defeat. A <em>Pyrrhic victory</em> today is a success that comes at such a devastating cost that it ruins the victor.</p>
+        </div>
+
+        <div class="quiz-section" style="background: var(--mod1-bg); border-color: var(--mod1-prim);">
+            <h2 style="margin-top:0; color: var(--mod1-prim);">Vocabulary Check (20 Questions)</h2>
+            <p style="margin-bottom: 25px;">Test your grasp of these historical terms using the interactive exercises below.</p>
+            <div id="quiz1-container"></div>
+            <button class="check-btn" onclick="checkQuiz(1)">Check Answers</button>
+        </div>
+    </div>
+
+    <div class="module-divider"></div>
+
+    <div class="m2">
+                   
+        <h1 style="border-bottom: 2px solid var(--mod2-sec); color: var(--mod2-prim);">News Text: Council Pushes Forward</h1>
+        <div class="reading-text m2">
+            <p><strong>The City Council has announced an "ambitious streamlining" of local heritage services, sparking backlash from residents.</strong></p>
+            
+            <p>Councillor Jenkins defended the plans to redevelop the historic Victoria Park into a commercial hub. "We are simply looking to <span class="highlight">modernise our assets</span>," he stated yesterday. "We have entered a <span class="highlight">consultation period</span> to ensure all voices are heard, but we must be realistic about <span class="highlight">optimising resources</span> in the current economic climate."</p>
+
+            <p>Critics argue that the Council's terminology hides their true intent. When the Council speaks of "optimising resources", unions fear it translates directly to <span class="highlight">job redundancies</span>. Furthermore, local heritage groups claim the so-called "consultation period" is merely a <span class="highlight">box-ticking exercise</span>, noting that the building contracts were quietly signed two weeks ago.</p>
+
+            <p>"They aren't modernising," said local activist Sarah Vance. "They are completely <span class="highlight">bulldozing</span> our history for quick profit."</p>
+        </div>
+
+        <div class="quiz-section" style="background: var(--mod2-bg); border-color: var(--mod2-prim);">
+            <h2 style="margin-top:0; color: var(--mod2-prim);">Sub-text Analysis (20 Questions)</h2>
+            <p style="margin-bottom: 25px;">Can you decode the political spin? Complete the exercises to reveal what the journalists and politicians really mean.</p>
+            <div id="quiz2-container"></div>
+            <button class="check-btn" onclick="checkQuiz(2)">Check Answers</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    /* =========================================
+       DATA STRUCTURES (20 Questions Per Module)
+    ========================================= */
+
+    // MODULE 1: WORDS THAT CHANGED HISTORY
+    const quiz1Data = [
+        // Dropdowns (Contextual Usage)
+        { id: 1, type: 'drop', text: "The new tax laws were described by the opposition as completely {draconian}.", options: ["maverick", "draconian", "pyrrhic"] },
+        { id: 2, type: 'drop', text: "Consumers decided to {boycott} the brand after the scandal broke.", options: ["boycott", "luddite", "draconian"] },
+        { id: 3, type: 'drop', text: "He doesn't follow the company rules; he's a bit of a {maverick}.", options: ["luddite", "boycott", "maverick"] },
+        { id: 4, type: 'drop', text: "She won the court case, but her legal fees bankrupted her. It was a {pyrrhic} victory.", options: ["draconian", "pyrrhic", "maverick"] },
+        { id: 5, type: 'drop', text: "My grandfather refuses to buy a smartphone; he is a proud {luddite}.", options: ["maverick", "luddite", "boycott"] },
+        { id: 6, type: 'drop', text: "The school introduced {draconian} measures, banning all talking in the hallways.", options: ["draconian", "pyrrhic", "luddite"] },
+        
+        // Drag & Drop (Match to Origin)
+        { id: 7, type: 'drag', text: "Origin: An Irish land agent who was socially isolated.", answer: "Boycott", dragItems: ["Boycott", "Draconian", "Maverick", "Pyrrhic", "Luddite"] },
+        { id: 8, type: 'drag', text: "Origin: A Greek lawmaker with severe punishments.", answer: "Draconian", dragItems: [] },
+        { id: 9, type: 'drag', text: "Origin: A Texas rancher who didn't brand his cattle.", answer: "Maverick", dragItems: [] },
+        { id: 10, type: 'drag', text: "Origin: A King whose battlefield wins cost too many lives.", answer: "Pyrrhic", dragItems: [] },
+        { id: 11, type: 'drag', text: "Origin: 19th-century workers who destroyed machinery.", answer: "Luddite", dragItems: [] },
+
+        // Click & Match (Synonyms & Collocations)
+        { type: 'clickBank', words: ["harsh", "independent", "protest", "technology", "costly", "unorthodox", "severe", "rebel", "avoid"] },
+        { id: 12, type: 'click', text: "A synonym for Draconian is {harsh}." },
+        { id: 13, type: 'click', text: "To boycott something is a form of {protest}." },
+        { id: 14, type: 'click', text: "A Luddite is someone who fears or hates new {technology}." },
+        { id: 15, type: 'click', text: "A Pyrrhic victory is ultimately too {costly} to be worth it." },
+        { id: 16, type: 'click', text: "A Maverick is known for having {unorthodox} methods." },
+        { id: 17, type: 'click', text: "Draconian rules are extremely {severe}." },
+        { id: 18, type: 'click', text: "Another word for a Maverick is a {rebel}." },
+        { id: 19, type: 'click', text: "If you boycott a shop, you completely {avoid} buying from it." },
+        { id: 20, type: 'click', text: "A Maverick prefers to be {independent} rather than follow the crowd." }
+    ];
+
+    // MODULE 2: READING BETWEEN THE LINES
+    const quiz2Data = [
+        // Dropdowns (Decoding News Speak)
+        { id: 1, type: 'drop', text: "When the council says 'streamlining', they usually mean {cutting jobs and services}.", options: ["improving quality", "cutting jobs and services", "hiring more staff"] },
+        { id: 2, type: 'drop', text: "A 'consultation period' is often criticized as a {box-ticking exercise} if the decision is already made.", options: ["genuine discussion", "box-ticking exercise", "legal requirement"] },
+        { id: 3, type: 'drop', text: "To 'modernise an asset' often translates to {selling or destroying} historical property for profit.", options: ["painting and cleaning", "selling or destroying", "protecting"] },
+        { id: 4, type: 'drop', text: "When politicians talk about 'optimising resources', unions worry about {redundancies}.", options: ["redundancies", "promotions", "bonuses"] },
+        { id: 5, type: 'drop', text: "The term 'backlash' refers to a strong {negative} reaction from the public.", options: ["positive", "negative", "confused"] },
+        { id: 6, type: 'drop', text: "If a contract is signed 'quietly', it means it was done {secretly to avoid protests}.", options: ["loudly in public", "secretly to avoid protests", "very efficiently"] },
+
+        // Drag & Drop (Match Euphemism to Reality)
+        { id: 7, type: 'drag', text: "Euphemism: 'Letting someone go'", answer: "Firing an employee", dragItems: ["Firing an employee", "Destroying old buildings", "Ignoring public opinion", "Cutting the budget", "Making excuses"] },
+        { id: 8, type: 'drag', text: "Euphemism: 'Urban renewal'", answer: "Destroying old buildings", dragItems: [] },
+        { id: 9, type: 'drag', text: "Euphemism: 'Fiscal restructuring'", answer: "Cutting the budget", dragItems: [] },
+        { id: 10, type: 'drag', text: "Euphemism: 'A box-ticking exercise'", answer: "Ignoring public opinion", dragItems: [] },
+        { id: 11, type: 'drag', text: "Euphemism: 'Alternative facts'", answer: "Making excuses", dragItems: [] },
+
+        // Click & Match (Journalistic Vocabulary)
+        { type: 'clickBank', words: ["allegedly", "sparking", "defended", "critics", "claims", "intent", "hub", "terminology", "activist"] },
+        { id: 12, type: 'click', text: "The new policy is {sparking} anger among local business owners." },
+        { id: 13, type: 'click', text: "The mayor {defended} his actions during the press conference." },
+        { id: 14, type: 'click', text: "{Critics} of the plan say it will harm the environment." },
+        { id: 15, type: 'click', text: "The politician's true {intent} was hidden behind clever words." },
+        { id: 16, type: 'click', text: "They want to turn the quiet park into a loud commercial {hub}." },
+        { id: 17, type: 'click', text: "The news report stated that the money was {allegedly} stolen." },
+        { id: 18, type: 'click', text: "The opposition party {claims} the budget is completely fake." },
+        { id: 19, type: 'click', text: "You have to look past the political {terminology} to see the truth." },
+        { id: 20, type: 'click', text: "An environmental {activist} chained herself to the bulldozer." }
+    ];
+
+    /* =========================================
+       ENGINE LOGIC (Handles both modules dynamically)
+    ========================================= */
+    let selectedClickWord = null;
+
+    function renderDropdown(q) {
+        let parts = q.text.split(/\{|\}/);
+        let correctAnswer = parts[1];
+        let optionsHtml = q.options.sort(() => Math.random() - 0.5).map(opt => `<option value="${opt}">${opt}</option>`).join('');
+        return `<div class="q-block" data-id="${q.id}" data-type="drop" data-answer="${correctAnswer}">
+                    <span class="q-num">${q.id}.</span> ${parts[0]} 
+                    <select class="q-drop"><option value="">-- Select --</option>${optionsHtml}</select> ${parts[2] || ''}
+                    <span class="feedback"></span>
+                </div>`;
+    }
+
+    function renderDragDrop(q, moduleNum) {
+        return `<div class="q-block" data-id="${q.id}" data-type="drag" data-answer="${q.answer}">
+                    <span class="q-num">${q.id}.</span> ${q.text}
+                    <div class="dd-container">
+                        <div class="dropzone" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)" ondrop="drop(event, this)"></div>
+                    </div>
+                    <span class="feedback"></span>
+                </div>`;
+    }
+
+    function renderClickMatch(q) {
+        let parts = q.text.split(/\{|\}/);
+        let correctAnswer = parts[1];
+        return `<div class="q-block" data-id="${q.id}" data-type="click" data-answer="${correctAnswer}">
+                    <span class="q-num">${q.id}.</span> ${parts[0]} 
+                    <span class="cm-blank" onclick="fillBlank(this)">______</span> ${parts[2] || ''}
+                    <span class="feedback"></span>
+                </div>`;
+    }
+
+    function buildQuiz(quizData, containerId, moduleNum) {
+        const container = document.getElementById(containerId);
+        let html = '';
+        
+        quizData.forEach(q => {
+            if (q.type === 'drop') {
+                html += renderDropdown(q);
+            } else if (q.type === 'drag') {
+                if(q.dragItems && q.dragItems.length > 0) {
+                    html += `<div class="q-block" style="background: rgba(0,0,0,0.02);"><p style="font-weight:bold; margin-bottom:10px;">Drag the correct terms into the boxes below:</p><div class="dd-container" id="drag-bank-m${moduleNum}">`;
+                    q.dragItems.forEach(item => {
+                        html += `<div class="draggable" draggable="true" ondragstart="drag(event)" id="drag-${Math.random().toString(36).substr(2,9)}">${item}</div>`;
+                    });
+                    html += `</div></div>`;
+                }
+                html += renderDragDrop(q, moduleNum);
+            } else if (q.type === 'clickBank') {
+                html += `<div class="q-block" style="background: rgba(0,0,0,0.02);"><p style="font-weight:bold; margin-bottom:10px;">Word Bank: Click a word, then click a blank space below.</p><div class="cm-wordbank">`;
+                q.words.forEach(word => {
+                    html += `<div class="cm-word" onclick="selectWord(this)">${word}</div>`;
+                });
+                html += `</div></div>`;
+            } else if (q.type === 'click') {
+                html += renderClickMatch(q);
+            }
+        });
+        container.innerHTML = html;
+    }
+
+    /* Drag and Drop Events */
+    function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+    function allowDrop(ev) { ev.preventDefault(); ev.currentTarget.classList.add('hover'); }
+    function leaveDrop(ev) { ev.currentTarget.classList.remove('hover'); }
+    function drop(ev, el) {
+        ev.preventDefault();
+        el.classList.remove('hover');
+        if(el.children.length > 0) {
+            // Find the bank for this specific module
+            let bankId = el.closest('.m1') ? 'drag-bank-m1' : 'drag-bank-m2';
+            document.getElementById(bankId).appendChild(el.children[0]);
+        }
+        var data = ev.dataTransfer.getData("text");
+        el.appendChild(document.getElementById(data));
+    }
+
+    /* Click and Match Events */
+    function selectWord(el) {
+        // Only deselect words in the same module to prevent cross-module bugs
+        let moduleContainer = el.closest('.m1') ? '.m1' : '.m2';
+        document.querySelector(moduleContainer).querySelectorAll('.cm-word').forEach(w => w.classList.remove('selected'));
+        
+        if(!el.classList.contains('used')) {
+            el.classList.add('selected');
+            selectedClickWord = el;
+        }
+    }
+    
+    function fillBlank(el) {
+        if(selectedClickWord) {
+            // Ensure word belongs to the same module as the blank
+            let isSameModule = (el.closest('.m1') && selectedClickWord.closest('.m1')) || (el.closest('.m2') && selectedClickWord.closest('.m2'));
+            if (!isSameModule) return;
+
+            if(el.dataset.linkedWordId) {
+                document.getElementById(el.dataset.linkedWordId).classList.remove('used');
+            }
+            if(!selectedClickWord.id) selectedClickWord.id = 'cw-' + Math.random().toString(36).substr(2,9);
+            
+            el.innerText = selectedClickWord.innerText;
+            el.dataset.linkedWordId = selectedClickWord.id;
+            selectedClickWord.classList.add('used');
+            selectedClickWord.classList.remove('selected');
+            selectedClickWord = null;
+        } else if (el.innerText !== '______') {
+            document.getElementById(el.dataset.linkedWordId).classList.remove('used');
+            el.innerText = '______';
+            delete el.dataset.linkedWordId;
+        }
+    }
+
+    /* Grading Logic */
+    function checkQuiz(moduleNum) {
+        const container = document.getElementById('quiz' + moduleNum + '-container');
+        const blocks = container.querySelectorAll('.q-block[data-id]');
+        let score = 0;
+
+        blocks.forEach(block => {
+            let type = block.dataset.type;
+            let correctAnswer = block.dataset.answer.toLowerCase();
+            let feedback = block.querySelector('.feedback');
+            let userAnswer = "";
+
+            if (type === 'drop') {
+                userAnswer = block.querySelector('select').value.toLowerCase();
+            } else if (type === 'drag') {
+                let dropped = block.querySelector('.dropzone .draggable');
+                userAnswer = dropped ? dropped.innerText.toLowerCase().trim() : "";
+            } else if (type === 'click') {
+                let blank = block.querySelector('.cm-blank');
+                userAnswer = blank.innerText !== '______' ? blank.innerText.toLowerCase().trim() : "";
+            }
+
+            if (userAnswer === "") {
+                feedback.innerHTML = "❌ Please answer.";
+                feedback.className = "feedback fc-incorrect";
+            } else if (userAnswer === correctAnswer) {
+                feedback.innerHTML = "✅ Correct!";
+                feedback.className = "feedback fc-correct";
+                score++;
+            } else {
+                feedback.innerHTML = `❌ Incorrect. (Answer: ${block.dataset.answer})`;
+                feedback.className = "feedback fc-incorrect";
+            }
+        });
+
+        alert(`Module ${moduleNum} Completed! You scored ${score} out of 20.`);
+    }
+
+    // Initialize Quizzes on Load
+    window.onload = () => {
+        buildQuiz(quiz1Data, 'quiz1-container', 1);
+        buildQuiz(quiz2Data, 'quiz2-container', 2);
+    };
+</script>
+
+</body>
+</html>
