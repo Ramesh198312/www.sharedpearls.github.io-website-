@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drag & Drop Mastery | Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700&family=Crimson+Pro:wght@400;600&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    /* ─── HARVARD UNIVERSITY COLOR PALETTE ─── */
+    :root {
+      --harvard-crimson: #A51C30; --midnight: hwb(90 1% 74%); --paper: #FFFFFF;
+      --parchment: #F9F7F1; --slate: #4A4A4A; --border: #E0DCD3;
+      --correct: #1e5c35; --wrong: #9B2C2C; --notice-bg: #F8F3F4;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Crimson Pro', serif; background: var(--parchment); color: var(--midnight); }
+
+    /* Header */
+    header { background: var(--midnight); padding: 2rem; text-align: center; color: var(--paper); border-bottom: 4px solid var(--harvard-crimson); }
+    header h1 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; }
+    .subtitle { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--harvard-crimson); text-transform: uppercase; letter-spacing: 2px; }
+
+    /* Layout & Navigation */
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; padding: 0.0rem 0; }
+    .logo-img { height: 40px; width: auto; object-fit: contain; border-radius: 4px; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold); letter-spacing: 0.02em; line-height: 1; }
+    .logo-text span { color: var(--paper); font-style: italic; }
+    .container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
+    .exercise-nav { display: flex; flex-wrap: wrap; gap: 10px; padding-bottom: 15px; margin-bottom: 2rem; border-bottom: 2px solid var(--border); }
+    .nav-btn { background: var(--paper); border: 1px solid var(--slate); color: var(--midnight); padding: 0.6rem 1.2rem; border-radius: 30px; font-family: 'DM Mono', monospace; font-size: 0.9rem; white-space: nowrap; cursor: pointer; transition: 0.2s; }
+    .nav-btn.active, .nav-btn:hover { background: var(--harvard-crimson); color: var(--paper); border-color: var(--harvard-crimson); }
+    
+    /* ─── NEW: COMPLETED BUTTON STYLE ─── */
+    .nav-btn.completed { border-color: var(--correct); color: var(--correct); font-weight: bold; background: #e8f5e9; }
+    .nav-btn.completed.active { background: var(--correct); color: var(--paper); }
+
+    .exercise-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; margin-bottom: 1.5rem; color: var(--harvard-crimson); }
+    
+    /* ─── NEW: TITLE AND CERTIFICATE NOTE LAYOUT ─── */
+    .title-header { display: flex; align-items: center; gap: 20px; margin-bottom: 1.5rem; flex-wrap: wrap;}
+    .exercise-title { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--harvard-crimson); margin: 0; }
+    .cert-note { background: var(--paper); border: 0px solid var(--harvard-crimson); color: #f0e00b; padding: 0.5rem 1rem; border-radius: 3px; font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;}
+    
+    .drag-drop-grid { display: grid; grid-template-columns: 280px 1fr; gap: 3rem; align-items: start; }
+
+    /* Word Bank */
+    .word-bank { background: var(--notice-bg); border: 2px dashed var(--harvard-crimson); padding: 1.5rem; border-radius: 8px; min-height: 400px; position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow-y: auto; }
+    .word-bank h3 { font-family: 'DM Mono', monospace; font-size: 1rem; margin-bottom: 1.5rem; text-transform: uppercase; text-align: center; color: var(--harvard-crimson); font-weight: bold;}
+    .draggable-word { background: var(--paper); border: 1px solid var(--midnight); padding: 0.8rem 1rem; margin-bottom: 0.8rem; border-radius: 4px; font-weight: 600; font-size: 1.1rem; cursor: grab; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s; }
+    .draggable-word:active { cursor: grabbing; transform: scale(0.95); }
+
+    /* Definitions */
+    .definitions-list { display: flex; flex-direction: column; gap: 1rem; padding-bottom: 2rem; }
+    .def-row { display: grid; grid-template-columns: 180px 1fr; gap: 1.5rem; align-items: center; background: var(--paper); padding: 1rem; border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    .drop-zone { background: var(--parchment); border: 2px dashed var(--slate); height: 50px; border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+    .drop-zone.drag-over { background: #fca5a5; border-color: var(--harvard-crimson); }
+    .drop-zone .draggable-word { margin: 0; box-shadow: none; border: none; background: transparent; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--harvard-crimson);}
+    .def-text { font-size: 1.2rem; line-height: 1.5; color: var(--midnight); }
+
+    /* Controls */
+    .controls { text-align: center; margin-top: 1rem; padding-bottom: 4rem; display: flex; flex-direction: column; align-items: center; gap: 15px;}
+    
+    .button-group { display: flex; gap: 15px; }
+    .btn-grade { background: var(--midnight); color: var(--paper); border: none; padding: 1rem 3rem; font-family: 'DM Mono', monospace; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: 0.3s; }
+    .btn-grade:hover { background: var(--harvard-crimson); }
+    
+    /* ─── NEW: NEXT EXERCISE BUTTON ─── */
+    .btn-next { background: var(--correct); color: white; border: none; padding: 1rem 3rem; font-family: 'DM Mono', monospace; font-size: 1.2rem; font-weight: bold; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: 0.3s; display: none; }
+    .btn-next:hover { background: #154226; }
+
+    #score-display { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: bold; color: var(--midnight); display: none; }
+    .correct-zone { border-color: var(--correct) !important; background: #e8f5e9 !important; color: var(--correct); }
+    .wrong-zone { border-color: var(--wrong) !important; background: #ffebee !important; }
+
+    /* Certificate Modal */
+    .cert-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+    .cert-container { background: var(--paper); width: 800px; padding: 3rem; border: 15px solid var(--harvard-crimson); text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .cert-logo { width: 120px; height: auto; margin-bottom: 1rem; }
+    .cert-title { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; color: var(--harvard-crimson); margin-bottom: 0.5rem; text-transform: uppercase; }
+    .cert-sub { font-family: 'DM Mono', monospace; font-size: 1.2rem; color: var(--slate); margin-bottom: 2rem; letter-spacing: 2px; }
+    .cert-text { font-family: 'Crimson Pro', serif; font-size: 1.5rem; color: var(--midnight); margin-bottom: 1rem; }
+    .cert-name { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-style: italic; color: var(--midnight); border-bottom: 2px solid var(--slate); display: inline-block; padding: 0 2rem; margin-bottom: 2rem; }
+    .cert-footer { display: flex; justify-content: space-between; margin-top: 3rem; font-family: 'DM Mono', monospace; font-size: 1rem; color: var(--slate); border-top: 1px solid var(--border); padding-top: 1rem; }
+    .btn-print { margin-top: 2rem; background: var(--harvard-crimson); color: white; border: none; padding: 0.8rem 2rem; font-size: 1.1rem; cursor: pointer; border-radius: 4px; font-family: 'DM Mono', monospace; }
+  </style>
+</head>
+<body>
+
+<header>
+ <a href="index.html" class="nav-logo">
+    <img src="Images/logo.png" alt="Shared Pearls Logo" class="logo-img">
+    <div class="logo-text" style="color: yellowgreen; font-size: x-large;">Shared <span>Pearls</span> of Wisdom</div> 
+  </a>
+  <h1>Vocabulary Mastery</h1>
+</header>
+
+<div class="container">
+  <div class="exercise-nav" id="exercise-nav-container"></div>
+    <div class="cert-note" style="background-color: #1e5c35; text-align:center; font-size: large;">Complete all exercises to receive a certificate of Vocabulary Mastery</div>
+  
+  <div class="exercise-title" id="exercise-name">Exercise 1</div>
+  <div class="drag-drop-grid">
+    <div class="word-bank" id="word-bank" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <h3>Word Bank</h3>
+      <div id="word-bank-words"></div>
+    </div>
+    <div class="definitions-list" id="definitions-container"></div>
+  </div>
+
+  <div class="controls">
+    <div id="score-display">Score: <span>0</span> / 10</div>
+    <div class="button-group">
+      <button class="btn-grade" id="btn-grade" onclick="gradeExercise()">Grade My Mastery</button>
+      <button class="btn-next" id="btn-next-ex" onclick="goToNextExercise()">Next Exercise →</button>
+    </div>
+  </div>
+</div>
+
+<div class="cert-modal" id="certificate-modal">
+  <div class="cert-container" id="printable-certificate">
+    <img src="Images/logo.png" alt="Shared Pearls Logo" class="cert-logo" onerror="this.style.display='none'"> 
+    <div class="cert-title">Certificate of Achievement</div>
+    <div class="cert-sub">Shared Pearls of Wisdom</div>
+    <div class="cert-text">This certifies that</div>
+    <div class="cert-name" id="cert-student-name">Student Name</div>
+    <div class="cert-text">has successfully completed the rigorous</div>
+    <div class="cert-text" style="font-weight: bold; color: var(--harvard-crimson);">Vocabulary Mastery Curriculum</div>
+    <div class="cert-footer">
+      <div>Date: <span id="cert-date"></span></div>
+      <div>Ramesh Mani Suvedi<br>Instructor</div>
+    </div>
+    <div style="margin-top: 2rem;" data-html2canvas-ignore="true">
+      <button class="btn-print" onclick="downloadPDF()">Download as PDF</button>
+      <button class="btn-print" style="background: var(--slate); margin-left: 10px;" onclick="closeCert()">Close</button>
+    </div>
+  </div>
+</div>
+<script>
+ 
+  const exercises = {
+    "Exercise 1": [
+      { word: "abase", def: "To behave in a way so as to belittle or degrade (someone).", matchId: "w1" },
+      { word: "abash", def: "Make (someone) feel embarrassed, disconcerted, or ashamed.", matchId: "w2" },
+      { word: "abate", def: "Become less intense or widespread.", matchId: "w3" },
+      { word: "abbreviate", def: "Shorten (a word, phrase, or text).", matchId: "w4" },
+      { word: "abdicate", def: "Renounce one's throne or fail to fulfill a responsibility.", matchId: "w5" },
+      { word: "aberration", def: "A departure from what is normal, usual, or expected.", matchId: "w6" },
+      { word: "abhor", def: "Regard with disgust and hatred.", matchId: "w7" },
+      { word: "abridge", def: "Shorten (a piece of writing) without losing the sense.", matchId: "w8" },
+      { word: "abrogate", def: "Repeal or do away with (a law, right, or formal agreement).", matchId: "w9" },
+      { word: "abeyance", def: "A state of temporary disuse or suspension.", matchId: "w10" }
+    ],
+    "Exercise 2": [
+      { word: "abscond", def: "Leave hurriedly and secretly, typically to avoid detection of or arrest for an unlawful action.", matchId: "w1" },
+      { word: "absolve", def: "Set or declare (someone) free from blame, guilt, or responsibility.", matchId: "w2" },
+      { word: "abstemious", def: "Not self-indulgent, especially when eating and drinking.", matchId: "w3" },
+      { word: "abstruse", def: "Difficult to understand; obscure.", matchId: "w4" },
+      { word: "abysmal", def: "Extremely bad; appalling.", matchId: "w5" },
+      { word: "accolade", def: "An award or privilege granted as a special honor or as an acknowledgment of merit.", matchId: "w6" },
+      { word: "acerbic", def: "(Especially of a comment or style of speaking) sharp and forthright.", matchId: "w7" },
+      { word: "acme", def: "The point at which someone or something is best, perfect, or most successful.", matchId: "w8" },
+      { word: "acquiesce", def: "Accept something reluctantly but without protest.", matchId: "w9" },
+      { word: "acrimonious", def: "(Typically of speech or a debate) angry and bitter.", matchId: "w10" }
+    ],
+    "Exercise 3": [
+      { word: "somnambulist", def: "A person who walks in their sleep.", matchId: "w1" },
+      { word: "sophomoric", def: "Conceited and overconfident of knowledge but poorly informed.", matchId: "w2" },
+      { word: "soporific", def: "Tending to induce drowsiness or sleep.", matchId: "w3" },
+      { word: "sordid", def: "Involving ignoble actions and motives; arousing moral distaste.", matchId: "w4" },
+      { word: "specious", def: "Superficially plausible, but actually wrong.", matchId: "w5" },
+      { word: "squander", def: "To waste (something) in a reckless and foolish manner.", matchId: "w6" },
+      { word: "solace", def: "Comfort or consolation in a time of distress or sadness.", matchId: "w7" },
+      { word: "stagnant", def: "Having no current or flow and often having an unpleasant smell.", matchId: "w8" },
+      { word: "sturdy", def: "Strongly and solidly built.", matchId: "w9" },
+      { word: "succor", def: "Assistance and support in times of hardship and distress.", matchId: "w10" }
+    ],
+    "Exercise 4": [
+      { word: "superfluous", def: "Unnecessary, especially through being more than enough.", matchId: "w1" },
+      { word: "supersede", def: "Take the place of (a person or thing previously in authority or use).", matchId: "w2" },
+      { word: "supposititious", def: "Substituted for the real thing; not genuine.", matchId: "w3" },
+      { word: "tarnish", def: "Lose or cause to lose luster, especially as a result of exposure to air or moisture.", matchId: "w4" },
+      { word: "tenacity", def: "The quality or fact of being very determined; determination.", matchId: "w5" },
+      { word: "tertiary", def: "Third in order or level.", matchId: "w6" },
+      { word: "throes", def: "Intense or violent pain and struggle, especially accompanying birth, death, or great change.", matchId: "w7" },
+      { word: "toady", def: "A person who behaves obsequiously to someone important.", matchId: "w8" },
+      { word: "torpor", def: "A state of physical or mental inactivity; lethargy.", matchId: "w9" },
+      { word: "tranquility", def: "The quality or state of being calm.", matchId: "w10" }
+    ],
+    "Exercise 5": [
+      { word: "transient", def: "Lasting only for a short time; impermanent.", matchId: "w1" },
+      { word: "transmute", def: "Change in form, nature, or substance.", matchId: "w2" },
+      { word: "transpire", def: "Occur; happen.", matchId: "w3" },
+      { word: "trepidation", def: "A feeling of fear or agitation about something that may happen.", matchId: "w4" },
+      { word: "truculence", def: "Eager or quick to argue or fight; aggressively defiant.", matchId: "w5" },
+      { word: "turbulence", def: "Violent or unsteady movement of air or water, or of some other fluid.", matchId: "w6" },
+      { word: "tutelage", def: "Protection of or authority over someone or something; guardianship.", matchId: "w7" },
+      { word: "uncanny", def: "Strange or mysterious, especially in an unsettling way.", matchId: "w8" },
+      { word: "veracity", def: "Conformity to facts; accuracy.", matchId: "w9" },
+      { word: "vacillate", def: "Alternate or waver between different opinions or actions; be indecisive.", matchId: "w10" },
+    ],
+    "Exercise 6": [
+      { word: "agglomeration", def: "A mass or collection of things.", matchId: "w1" },
+      { word: "aghast", def: "Filled with horror or shock.", matchId: "w2" },
+      { word: "allegiance", def: "Loyalty or commitment to a superior or to a group or cause.", matchId: "w3" },
+      { word: "altercation", def: "A noisy argument or disagreement, especially in public.", matchId: "w4" },
+      { word: "altruistic", def: "Showing a disinterested and selfless concern for the well-being of others.", matchId: "w5" },
+      { word: "ambulatory", def: "Relating to or adapted for walking.", matchId: "w6" },
+      { word: "ameliorate", def: "Make (something bad or unsatisfactory) better.", matchId: "w7" },
+      { word: "amicable", def: "(Of relations between people) having a spirit of friendliness.", matchId: "w8" },
+      { word: "amorphous", def: "Without a clearly defined shape or form.", matchId: "w9" },
+      { word: "amorous", def: "Showing, feeling, or relating to sexual desire.", matchId: "w10" }
+    ],
+    "Exercise 7": [
+      { word: "austere", def: "Severe or strict in manner, attitude, or appearance.", matchId: "w1" },
+      { word: "bacchanal", def: "An occasion of wild and drunken revelry.", matchId: "w2" },
+      { word: "baleful", def: "Threatening harm; menacing.", matchId: "w3" },
+      { word: "banal", def: "So lacking in originality as to be obvious and boring.", matchId: "w4" },
+      { word: "beguile", def: "Charm or enchant (someone), sometimes in a deceptive way.", matchId: "w5" },
+      { word: "belligerent", def: "Hostile and aggressive.", matchId: "w6" },
+      { word: "bemused", def: "Puzzled, confused, or bewildered.", matchId: "w7" },
+      { word: "bequeath", def: "Leave (a personal estate or one's body) to a person or other beneficiary by a will.", matchId: "w8" },
+      { word: "bifurcated", def: "Divided into two branches or forks.", matchId: "w9" },
+      { word: "braggadocio", def: "Boastful or arrogant behavior.", matchId: "w10" }
+    ],
+    "Exercise 8": [
+      { word: "cacophony", def: "A harsh discordant mixture of sounds.", matchId: "w1" },
+      { word: "cajole", def: "Persuade (someone) to do something by sustained coaxing or flattery.", matchId: "w2" },
+      { word: "callous", def: "Showing or having an insensitive and cruel disregard for others.", matchId: "w3" },
+      { word: "calumny", def: "The making of false and defamatory statements about someone to damage their reputation.", matchId: "w4" },
+      { word: "camaraderie", def: "Mutual trust and friendship among people who spend a lot of time together.", matchId: "w5" },
+      { word: "candid", def: "Truthful and straightforward; frank.", matchId: "w6" },
+      { word: "cantankerous", def: "Bad-tempered, argumentative, and uncooperative.", matchId: "w7" },
+      { word: "capitulate", def: "Cease to resist an opponent or an unwelcome demand; surrender.", matchId: "w8" },
+      { word: "capricious", def: "Given to sudden and unaccountable changes of mood or behavior.", matchId: "w9" },
+      { word: "captious", def: "(Of a person) tending to find fault or raise petty objections.", matchId: "w10" }
+    ],
+    "Exercise 9": [
+      { word: "castigate", def: "Reprimand (someone) severely.", matchId: "w1" },
+      { word: "catalyst", def: "A person or thing that precipitates an event.", matchId: "w2" },
+      { word: "caustic", def: "Sarcastic in a scathing and bitter way.", matchId: "w3" },
+      { word: "censure", def: "Express severe disapproval of (someone or something), especially in a formal statement.", matchId: "w4" },
+      { word: "charlatan", def: "A person falsely claiming to have a special knowledge or skill; a fraud.", matchId: "w5" },
+      { word: "chicanery", def: "The use of trickery to achieve a political, financial, or legal purpose.", matchId: "w6" },
+      { word: "choleric", def: "Bad-tempered or irritable.", matchId: "w7" },
+      { word: "circumlocution", def: "The use of many words where fewer would do, especially in a deliberate attempt to be vague.", matchId: "w8" },
+      { word: "circumspect", def: "Wary and unwilling to take risks.", matchId: "w9" },
+      { word: "clandestine", def: "Kept secret or done secretively, especially because illicit.", matchId: "w10" }
+    ],
+    "Exercise 10": [
+      { word: "consolidation", def: "The action or process of making something stronger or more solid.", matchId: "w1" },
+      { word: "consternation", def: "Feelings of anxiety or dismay, typically at something unexpected.", matchId: "w2" },
+      { word: "consummate", def: "Showing a high degree of skill and flair; complete or perfect.", matchId: "w3" },
+      { word: "contumacious", def: "Stubbornly or willfully disobedient to authority.", matchId: "w4" },
+      { word: "convivial", def: "(Of an atmosphere or event) friendly, lively, and enjoyable.", matchId: "w5" },
+      { word: "corollary", def: "A proposition that follows from (and is often appended to) one already proved.", matchId: "w6" },
+      { word: "culpable", def: "Deserving blame.", matchId: "w7" },
+      { word: "cumbersome", def: "Large or heavy and therefore difficult to carry or use.", matchId: "w8" },
+      { word: "debauchery", def: "Excessive indulgence in sensual pleasures.", matchId: "w9" },
+      { word: "demeanor", def: "Outward behavior or bearing.", matchId: "w10" }
+    ],
+    "Exercise 11": [
+      { word: "denizen", def: "An inhabitant or occupant of a particular place.", matchId: "w1" },
+      { word: "denouement", def: "The final part of a play, movie, or narrative in which the strands of the plot are drawn together.", matchId: "w2" },
+      { word: "deprecate", def: "Express disapproval of.", matchId: "w3" },
+      { word: "deride", def: "Express contempt for; ridicule.", matchId: "w4" },
+      { word: "desiccate", def: "Remove the moisture from (something); cause to become completely dry.", matchId: "w5" },
+      { word: "despondent", def: "In low spirits from loss of hope or courage.", matchId: "w6" },
+      { word: "despot", def: "A ruler or other person who holds absolute power, typically one who exercises it cruelly.", matchId: "w7" },
+      { word: "desultory", def: "Lacking a plan, purpose, or enthusiasm.", matchId: "w8" },
+      { word: "diatribe", def: "A forceful and bitter verbal attack against someone or something.", matchId: "w9" },
+      { word: "dichotomy", def: "A division or contrast between two things that are represented as being entirely different.", matchId: "w10" }
+    ],
+    "Exercise 12": [
+      { word: "didactic", def: "Intended to teach, particularly in having moral instruction as an ulterior motive.", matchId: "w1" },
+      { word: "diffident", def: "Modest or shy because of a lack of self-confidence.", matchId: "w2" },
+      { word: "digress", def: "Leave the main subject temporarily in speech or writing.", matchId: "w3" },
+      { word: "dilettante", def: "A person who cultivates an area of interest without real commitment or knowledge.", matchId: "w4" },
+      { word: "dirge", def: "A lament for the dead, especially one forming part of a funeral rite.", matchId: "w5" },
+      { word: "disabuse", def: "Persuade (someone) that an idea or belief is mistaken.", matchId: "w6" },
+      { word: "discern", def: "Perceive or recognize (something).", matchId: "w7" },
+      { word: "discordant", def: "Disagreeing or incongruous.", matchId: "w8" },
+      { word: "discredit", def: "Harm the good reputation of (someone or something).", matchId: "w9" },
+      { word: "discrepancy", def: "A lack of compatibility or similarity between two or more facts.", matchId: "w10" }
+    ],
+    "Exercise 13": [
+      { word: "facsimile", def: "An exact copy, especially of written or printed material.", matchId: "w1" },
+      { word: "fallacious", def: "Based on a mistaken belief.", matchId: "w2" },
+      { word: "fastidious", def: "Very attentive to and concerned about accuracy and detail.", matchId: "w3" },
+      { word: "fatuous", def: "Silly and pointless.", matchId: "w4" },
+      { word: "fecundity", def: "The ability to produce an abundance of offspring or new growth; fertility.", matchId: "w5" },
+      { word: "fortuitous", def: "Happening by accident or chance rather than design.", matchId: "w6" },
+      { word: "fraudulent", def: "Obtained, done by, or involving deception, especially criminal deception.", matchId: "w7" },
+      { word: "gainsay", def: "Deny or contradict (a fact or statement).", matchId: "w8" },
+      { word: "garrulous", def: "Excessively talkative, especially on trivial matters.", matchId: "w9" },
+      { word: "gerontocracy", def: "A state, society, or group governed by old people.", matchId: "w10" }
+    ],
+    "Exercise 14": [
+      { word: "gregarious", def: "Fond of company; sociable.", matchId: "w1" },
+      { word: "hackneyed", def: "Lacking significance through having been overused; unoriginal.", matchId: "w2" },
+      { word: "harangue", def: "A lengthy and aggressive speech.", matchId: "w3" },
+      { word: "hegemony", def: "Leadership or dominance, especially by one country or social group.", matchId: "w4" },
+      { word: "hubris", def: "Excessive pride or self-confidence.", matchId: "w5" },
+      { word: "iconoclast", def: "A person who attacks cherished beliefs or institutions.", matchId: "w6" },
+      { word: "idiosyncrasy", def: "A mode of behavior or way of thought peculiar to an individual.", matchId: "w7" },
+      { word: "ignominious", def: "Deserving or causing public disgrace or shame.", matchId: "w8" },
+      { word: "immutable", def: "Unchanging over time or unable to be changed.", matchId: "w9" },
+      { word: "impassive", def: "Not feeling or showing emotion.", matchId: "w10" }
+    ],
+    "Exercise 15": [
+      { word: "impecunious", def: "Having little or no money.", matchId: "w1" },
+      { word: "imperious", def: "Assuming power or authority without justification; arrogant.", matchId: "w2" },
+      { word: "impertinent", def: "Not showing proper respect; rude.", matchId: "w3" },
+      { word: "impervious", def: "Unable to be affected by.", matchId: "w4" },
+      { word: "impetuous", def: "Acting or done quickly and without thought or care.", matchId: "w5" },
+      { word: "implacable", def: "Unable to be appeased or placated.", matchId: "w6" },
+      { word: "importune", def: "To ask someone pressingly and persistently for or to do something.", matchId: "w7" },
+      { word: "inchoate", def: "Just begun and so not fully formed or developed.", matchId: "w8" },
+      { word: "incontrovertible", def: "Not able to be denied or disputed.", matchId: "w9" },
+      { word: "indefatigable", def: "(Of a person or their efforts) persisting tirelessly.", matchId: "w10" }
+    ],
+    "Exercise 16": [
+      { word: "ineffable", def: "Too great or extreme to be expressed or described in words.", matchId: "w1" },
+      { word: "inexorable", def: "Impossible to stop or prevent.", matchId: "w2" },
+      { word: "ingenuous", def: "(Of a person or action) innocent and unsuspecting.", matchId: "w3" },
+      { word: "inimical", def: "Tending to obstruct or harm; unfriendly.", matchId: "w4" },
+      { word: "iniquity", def: "Immoral or grossly unfair behavior.", matchId: "w5" },
+      { word: "innocuous", def: "Not harmful or offensive.", matchId: "w6" },
+      { word: "inscrutable", def: "Impossible to understand or interpret.", matchId: "w7" },
+      { word: "insipid", def: "Lacking flavor, vigor, or interest.", matchId: "w8" },
+      { word: "insular", def: "Ignorant of or uninterested in cultures outside one's own experience.", matchId: "w9" },
+      { word: "intractable", def: "Hard to control or deal with.", matchId: "w10" }
+    ],
+    "Exercise 17": [
+      { word: "intransigent", def: "Unwilling or refusing to change one's views or to agree.", matchId: "w1" },
+      { word: "intrepid", def: "Fearless; adventurous.", matchId: "w2" },
+      { word: "inveterate", def: "Having a particular habit or interest that is long-established.", matchId: "w3" },
+      { word: "irascible", def: "Having or showing a tendency to be easily angered.", matchId: "w4" },
+      { word: "laconic", def: "(Of a person, speech, or style of writing) using very few words.", matchId: "w5" },
+      { word: "lethargic", def: "Affected by lethargy; sluggish and apathetic.", matchId: "w6" },
+      { word: "litany", def: "A tedious recital or repetitive series.", matchId: "w7" },
+      { word: "lucid", def: "Expressed clearly; easy to understand.", matchId: "w8" },
+      { word: "machination", def: "A plot or scheme.", matchId: "w9" },
+      { word: "magnanimous", def: "Generous or forgiving, especially toward a rival.", matchId: "w10" }
+    ],
+    "Exercise 18": [
+      { word: "malfeasance", def: "Wrongdoing, especially by a public official.", matchId: "w1" },
+      { word: "malevolent", def: "Having or showing a wish to do evil to others.", matchId: "w2" },
+      { word: "malleable", def: "Easily influenced; pliable.", matchId: "w3" },
+      { word: "martial", def: "Of or appropriate to war; warlike.", matchId: "w4" },
+      { word: "maverick", def: "An unorthodox or independent-minded person.", matchId: "w5" },
+      { word: "melancholy", def: "A feeling of pensive sadness, typically with no obvious cause.", matchId: "w6" },
+      { word: "mendacious", def: "Not telling the truth; lying.", matchId: "w7" },
+      { word: "mercurial", def: "Subject to sudden or unpredictable changes of mood or mind.", matchId: "w8" },
+      { word: "meticulous", def: "Showing great attention to detail; very careful and precise.", matchId: "w9" },
+      { word: "misanthrope", def: "A person who dislikes humankind and avoids human society.", matchId: "w10" }
+    ],
+    "Exercise 19": [
+      { word: "pejorative", def: "Expressing contempt or disapproval.", matchId: "w1" },
+      { word: "pellucid", def: "Translucently clear; easily understood.", matchId: "w2" },
+      { word: "penurious", def: "Extremely poor; poverty-stricken.", matchId: "w3" },
+      { word: "perfidious", def: "Deceitful and untrustworthy.", matchId: "w4" },
+      { word: "perfunctory", def: "Carried out with a minimum of effort or reflection.", matchId: "w5" },
+      { word: "peripatetic", def: "Traveling from place to place, especially working in various places.", matchId: "w6" },
+      { word: "perspicacious", def: "Having a ready insight into and understanding of things.", matchId: "w7" },
+      { word: "petulant", def: "Childishly sulky or bad-tempered.", matchId: "w8" },
+      { word: "phlegmatic", def: "Having an unemotional and stolidly calm disposition.", matchId: "w9" },
+      { word: "platitude", def: "A remark or statement that has been used too often to be interesting.", matchId: "w10" }
+    ],
+    "Exercise 20": [
+      { word: "plethora", def: "A large or excessive amount of something.", matchId: "w1" },
+      { word: "polemic", def: "A strong verbal or written attack on someone or something.", matchId: "w2" },
+      { word: "ponderous", def: "Slow and clumsy because of great weight.", matchId: "w3" },
+      { word: "portentous", def: "Of momentous or ominous significance.", matchId: "w4" },
+      { word: "pragmatic", def: "Dealing with things sensibly and realistically.", matchId: "w5" },
+      { word: "precipitate", def: "Cause an undesirable event to happen suddenly or prematurely.", matchId: "w6" },
+      { word: "precursor", def: "A person or thing that comes before another of the same kind.", matchId: "w7" },
+      { word: "predilection", def: "A preference or special liking for something.", matchId: "w8" },
+      { word: "prescient", def: "Having or showing knowledge of events before they take place.", matchId: "w9" },
+      { word: "prevaricate", def: "Speak or act in an evasive way.", matchId: "w10" }
+    ],
+    "Exercise 21": [
+      { word: "probity", def: "The quality of having strong moral principles; honesty and decency.", matchId: "w1" },
+      { word: "proclivity", def: "A tendency to choose or do something regularly.", matchId: "w2" },
+      { word: "prodigal", def: "Spending money or resources freely and recklessly.", matchId: "w3" },
+      { word: "prodigious", def: "Remarkably or impressively great in extent, size, or degree.", matchId: "w4" },
+      { word: "profligate", def: "Recklessly extravagant or wasteful in the use of resources.", matchId: "w5" },
+      { word: "prolix", def: "Using or containing too many words; lengthy and tedious.", matchId: "w6" },
+      { word: "propitious", def: "Giving or indicating a good chance of success; favorable.", matchId: "w7" },
+      { word: "prosaic", def: "Having the style or diction of prose; lacking poetic beauty.", matchId: "w8" },
+      { word: "proscribe", def: "Forbid, especially by law.", matchId: "w9" },
+      { word: "pugnacious", def: "Eager or quick to argue, quarrel, or fight.", matchId: "w10" }
+    ],
+    "Exercise 22": [
+      { word: "punctilious", def: "Showing great attention to detail or correct behavior.", matchId: "w1" },
+      { word: "pundit", def: "An expert in a particular subject who frequently gives opinions.", matchId: "w2" },
+      { word: "pusillanimous", def: "Showing a lack of courage or determination; timid.", matchId: "w3" },
+      { word: "querulous", def: "Complaining in a petulant or whining manner.", matchId: "w4" },
+      { word: "quixotic", def: "Exceedingly idealistic; unrealistic and impractical.", matchId: "w5" },
+      { word: "rancorous", def: "Characterized by bitterness or resentment.", matchId: "w6" },
+      { word: "recalcitrant", def: "Having an obstinately uncooperative attitude toward authority.", matchId: "w7" },
+      { word: "recondite", def: "Little known; highly abstruse.", matchId: "w8" },
+      { word: "redoubtable", def: "Formidable, especially as an opponent.", matchId: "w9" },
+      { word: "relegate", def: "Consign or dismiss to an inferior rank or position.", matchId: "w10" }
+    ],
+    "Exercise 23": [
+      { word: "remonstrate", def: "Make a forcefully reproachful protest.", matchId: "w1" },
+      { word: "renege", def: "Go back on a promise, undertaking, or contract.", matchId: "w2" },
+      { word: "repudiate", def: "Refuse to accept or be associated with.", matchId: "w3" },
+      { word: "rescind", def: "Revoke, cancel, or repeal a law, order, or agreement.", matchId: "w4" },
+      { word: "resolution", def: "A firm decision to do or not to do something.", matchId: "w5" },
+      { word: "reticent", def: "Not revealing one's thoughts or feelings readily.", matchId: "w6" },
+      { word: "reverent", def: "Feeling or showing deep and solemn respect.", matchId: "w7" },
+      { word: "rhetoric", def: "The art of effective or persuasive speaking or writing.", matchId: "w8" },
+      { word: "ribald", def: "Referring to sexual matters in an amusingly coarse or irreverent way.", matchId: "w9" },
+      { word: "ruminate", def: "Think deeply about something.", matchId: "w10" }
+    ],
+    "Exercise 24": [
+      { word: "sacrosanct", def: "Regarded as too important or valuable to be interfered with.", matchId: "w1" },
+      { word: "sagacious", def: "Having or showing keen mental discernment and good judgment.", matchId: "w2" },
+      { word: "salient", def: "Most noticeable or important.", matchId: "w3" },
+      { word: "salubrious", def: "Health-giving; healthy.", matchId: "w4" },
+      { word: "sanctimonious", def: "Making a show of being morally superior to other people.", matchId: "w5" },
+      { word: "sanguine", def: "Optimistic or positive, especially in a difficult situation.", matchId: "w6" },
+      { word: "sardonic", def: "Grimly mocking or cynical.", matchId: "w7" },
+      { word: "scrupulous", def: "Diligent, thorough, and extremely attentive to details.", matchId: "w8" },
+      { word: "sedulous", def: "Showing dedication and diligence.", matchId: "w9" },
+      { word: "solipsism", def: "The view or theory that the self is all that can be known to exist.", matchId: "w10" }
+    ],
+    "Exercise 25": [
+      { word: "sinecure", def: "A position requiring little work but giving the holder financial benefit.", matchId: "w1" },
+      { word: "solicitous", def: "Characterized by or showing interest or concern.", matchId: "w2" },
+      { word: "solvent", def: "Having assets in excess of liabilities; able to pay one's debts.", matchId: "w3" },
+      { word: "sophistry", def: "The use of fallacious arguments with the intention of deceiving.", matchId: "w4" },
+      { word: "sparse", def: "Thinly dispersed or scattered.", matchId: "w5" },
+      { word: "spurious", def: "Not being what it purports to be; false or fake.", matchId: "w6" },
+      { word: "squalor", def: "A state of being extremely dirty and unpleasant.", matchId: "w7" },
+      { word: "stolid", def: "Calm, dependable, and showing little emotion.", matchId: "w8" },
+      { word: "strident", def: "Loud and harsh; grating.", matchId: "w9" },
+      { word: "stupefy", def: "Make someone unable to think or feel properly.", matchId: "w10" }
+    ],
+    "Exercise 26": [
+      { word: "stymie", def: "Prevent or hinder the progress of.", matchId: "w1" },
+      { word: "subjugate", def: "Bring under domination or control, especially by conquest.", matchId: "w2" },
+      { word: "sublime", def: "Of such excellence, grandeur, or beauty as to inspire great admiration.", matchId: "w3" },
+      { word: "subvert", def: "Undermine the power and authority of an established system.", matchId: "w4" },
+      { word: "supercilious", def: "Behaving as though one thinks one is superior to others.", matchId: "w5" },
+      { word: "surfeit", def: "An excessive amount of something.", matchId: "w6" },
+      { word: "surreptitious", def: "Kept secret, especially because it would not be approved of.", matchId: "w7" },
+      { word: "sybarite", def: "A person who is self-indulgent in their fondness for luxury.", matchId: "w8" },
+      { word: "sycophant", def: "A person who acts obsequiously toward someone important to gain advantage.", matchId: "w9" },
+      { word: "taciturn", def: "Reserved or uncommunicative in speech; saying little.", matchId: "w10" }
+    ],
+    "Exercise 27": [
+      { word: "mitigate", def: "Make less severe, serious, or painful.", matchId: "w1" },
+      { word: "mollify", def: "Appease the anger or anxiety of (someone).", matchId: "w2" },
+      { word: "morose", def: "Sullen and ill-tempered.", matchId: "w3" },
+      { word: "mundane", def: "Lacking interest or excitement; dull.", matchId: "w4" },
+      { word: "munificent", def: "Larger or more generous than is usual or necessary.", matchId: "w5" },
+      { word: "nascent", def: "Just coming into existence and beginning to display signs of future potential.", matchId: "w6" },
+      { word: "nefarious", def: "Wicked or criminal.", matchId: "w7" },
+      { word: "neophyte", def: "A person who is new to a subject, skill, or belief.", matchId: "w8" },
+      { word: "obdurate", def: "Stubbornly refusing to change one's opinion or course of action.", matchId: "w9" },
+      { word: "obfuscate", def: "Render obscure, unclear, or unintelligible.", matchId: "w10" }
+    ],
+    "Exercise 28": [
+      { word: "obsequious", def: "Obedient or attentive to an excessive or servile degree.", matchId: "w1" },
+      { word: "obstinate", def: "Stubbornly refusing to change one's opinion.", matchId: "w2" },
+      { word: "obviate", def: "Remove (a need or difficulty).", matchId: "w3" },
+      { word: "occlude", def: "Stop, close up, or obstruct.", matchId: "w4" },
+      { word: "officious", def: "Assertive of authority in an annoyingly domineering way.", matchId: "w5" },
+      { word: "onerous", def: "(Of a task, duty, or responsibility) involving an amount of effort that is oppressively burdensome.", matchId: "w6" },
+      { word: "opaque", def: "Not able to be seen through; not transparent.", matchId: "w7" },
+      { word: "opprobrium", def: "Harsh criticism or censure.", matchId: "w8" },
+      { word: "ostentatious", def: "Characterized by vulgar or pretentious display.", matchId: "w9" },
+      { word: "ostracize", def: "Exclude (someone) from a society or group.", matchId: "w10" }
+    ],
+    "Exercise 29": [
+      { word: "panacea", def: "A solution or remedy for all difficulties or diseases.", matchId: "w1" },
+      { word: "paradigm", def: "A typical example or pattern of something; a model.", matchId: "w2" },
+      { word: "paradox", def: "A seemingly absurd or self-contradictory statement.", matchId: "w3" },
+      { word: "paragon", def: "A person or thing regarded as a perfect example of a particular quality.", matchId: "w4" },
+      { word: "pariah", def: "An outcast.", matchId: "w5" },
+      { word: "parsimonious", def: "Unwilling to spend money or use resources; stingy.", matchId: "w6" },
+      { word: "partisan", def: "A strong supporter of a party, cause, or person.", matchId: "w7" },
+      { word: "paucity", def: "The presence of something only in small or insufficient quantities.", matchId: "w8" },
+      { word: "pedantic", def: "Excessively concerned with minor details and rules.", matchId: "w9" },
+      { word: "pedestrian", def: "Lacking inspiration or excitement; dull.", matchId: "w10" }
+    ],
+  };
+
+  let currentEx = "Exercise 1";
+  let perfectScores = new Set(); // Tracks completed exercises
+
+  function buildNavigation() {
+    const navContainer = document.getElementById('exercise-nav-container');
+    navContainer.innerHTML = ''; // Clear to prevent duplicates
+    
+    // Dynamically build buttons based on how many exercises are in your database
+    const totalExercises = Object.keys(exercises).length;
+    
+    for (let i = 1; i <= totalExercises; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'nav-btn';
+      btn.innerText = `Exercise ${i}`;
+      
+      // If it's the current active exercise
+      if(`Exercise ${i}` === currentEx) btn.classList.add('active');
+      
+      // If it was already completed perfectly, keep the checkmark
+      if(perfectScores.has(`Exercise ${i}`)) {
+        btn.classList.add('completed');
+        btn.innerHTML += ' ✓';
+      }
+
+      btn.onclick = () => {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        loadExercise(`Exercise ${i}`);
+      };
+      navContainer.appendChild(btn);
+    }
+  }
+
+  function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+  function allowDrop(ev) { ev.preventDefault(); if(ev.target.classList.contains('drop-zone')) ev.target.classList.add('drag-over'); }
+  function handleDragLeave(ev) { if(ev.target.classList.contains('drop-zone')) ev.target.classList.remove('drag-over'); }
+  function drop(ev) {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData("text");
+    const elementToMove = document.getElementById(data);
+    if(ev.target.classList.contains('drop-zone')) ev.target.classList.remove('drag-over');
+    if (ev.target.classList.contains('drop-zone') && ev.target.children.length === 0) {
+      ev.target.appendChild(elementToMove);
+    } else if (ev.target.id === 'word-bank' || ev.target.id === 'word-bank-words') {
+      document.getElementById('word-bank-words').appendChild(elementToMove);
+    }
+  }
+
+  function loadExercise(exerciseName) {
+    currentEx = exerciseName;
+    document.getElementById('exercise-name').innerText = exerciseName;
+    const bank = document.getElementById('word-bank-words');
+    const defContainer = document.getElementById('definitions-container');
+    
+    // Reset UI states for new exercise
+    document.getElementById('score-display').style.display = 'none';
+    document.getElementById('btn-next-ex').style.display = 'none';
+    document.getElementById('btn-grade').style.display = 'inline-block';
+    
+    bank.innerHTML = '';
+    defContainer.innerHTML = '';
+
+    if (!exercises[exerciseName]) return;
+
+    const data = exercises[exerciseName];
+
+    let words = data.map(item => ({ word: item.word, id: item.matchId })).sort(() => Math.random() - 0.5); 
+    let definitions = data.map(item => ({ def: item.def, id: item.matchId })).sort(() => Math.random() - 0.5); 
+
+    words.forEach(w => {
+      const el = document.createElement('div');
+      el.className = 'draggable-word'; el.draggable = true;
+      el.id = `${exerciseName.replace(/\s+/g, '')}-${w.id}`;
+      el.innerText = w.word; el.ondragstart = drag;
+      bank.appendChild(el);
+    });
+
+    definitions.forEach((d, index) => {
+      const row = document.createElement('div');
+      row.className = 'def-row';
+      const uniqueId = `${exerciseName.replace(/\s+/g, '')}-${d.id}`;
+      row.innerHTML = `
+        <div class="drop-zone" id="zone-${uniqueId}" data-correct-id="${uniqueId}" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="handleDragLeave(event)"></div>
+        <div class="def-text">${index + 1}. ${d.def}</div>
+      `;
+      defContainer.appendChild(row);
+    });
+  }
+
+  function gradeExercise() {
+    let score = 0;
+    const zones = document.querySelectorAll('.drop-zone');
+    const bank = document.getElementById('word-bank-words');
+    const totalExercises = Object.keys(exercises).length;
+
+    zones.forEach(zone => {
+      zone.classList.remove('correct-zone', 'wrong-zone');
+      if (zone.children.length > 0) {
+        const wordElement = zone.children[0];
+        if (wordElement.id === zone.getAttribute('data-correct-id')) {
+          zone.classList.add('correct-zone');
+          wordElement.draggable = false; 
+          score++;
+        } else {
+          zone.classList.add('wrong-zone');
+          bank.appendChild(wordElement); 
+          setTimeout(() => zone.classList.remove('wrong-zone'), 1000); 
+        }
+      }
+    });
+
+    const scoreBox = document.getElementById('score-display');
+    scoreBox.style.display = 'block';
+
+    if(score === 10) {
+      perfectScores.add(currentEx);
+      buildNavigation(); // Rebuilds the top nav to show the new checkmark!
+
+      if(perfectScores.size === totalExercises) {
+        // ALL EXERCISES COMPLETED
+        scoreBox.innerHTML = `Score: <span>10</span> / 10<br><span style='font-size:1.2rem; color:var(--correct); font-weight:bold;'>You have successfully completed this exercise!</span><br><span style='font-size:1rem; color:var(--slate);'>Curriculum 100% Mastered!</span>`;
+        document.getElementById('btn-grade').style.display = 'none';
+        setTimeout(triggerCertificate, 1000);
+      } else {
+        // EXERCISE COMPLETED, BUT MORE REMAIN
+        scoreBox.innerHTML = `Score: <span>10</span> / 10<br><span style='font-size:1.2rem; color:var(--correct); font-weight:bold;'>You have successfully completed this exercise!</span>`;
+        
+        // Hide Grade button, Show Next button
+        document.getElementById('btn-grade').style.display = 'none';
+        
+        // Only show "Next" if a next exercise actually exists
+        const currentNum = parseInt(currentEx.replace("Exercise ", ""));
+        const nextExName = "Exercise " + (currentNum + 1);
+        if(exercises[nextExName]) {
+          document.getElementById('btn-next-ex').style.display = 'inline-block';
+        }
+      }
+    } else {
+      // NOT 10/10 YET
+      scoreBox.innerHTML = `Score: <span style="color:var(--wrong)">${score}</span> / 10`;
+    }
+  }
+
+  // ─── NEW: NEXT EXERCISE LOGIC ───
+  function goToNextExercise() {
+    const currentNum = parseInt(currentEx.replace("Exercise ", ""));
+    const nextExName = "Exercise " + (currentNum + 1);
+    
+    if(exercises[nextExName]) {
+      // Find the button in the nav and click it (simulates user clicking the next tab)
+      const buttons = document.querySelectorAll('.nav-btn');
+      buttons.forEach(b => {
+        // We split by ' ✓' just in case the next button already has a checkmark
+        if(b.innerText.split(' ✓')[0] === nextExName) {
+          b.click(); 
+        }
+      });
+      // Scroll smoothly back to top of the exercise area
+      document.getElementById('exercise-name').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function triggerCertificate() {
+    const studentName = prompt("Congratulations! You have completed the Vocabulary Mastery Curriculum.\n\nPlease enter your name exactly as you want it to appear on your certificate:");
+    if(studentName) {
+      document.getElementById('cert-student-name').innerText = studentName;
+      const today = new Date();
+      document.getElementById('cert-date').innerText = today.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('certificate-modal').style.display = 'flex';
+    }
+  }
+
+  // ─── NEW: PDF DOWNLOAD ENGINE ───
+  function downloadPDF() {
+    const certElement = document.getElementById('printable-certificate');
+    const studentName = document.getElementById('cert-student-name').innerText;
+    
+    const opt = {
+      margin:       0.2,
+      filename:     `Vocabulary_Mastery_${studentName.replace(/\s+/g, '_')}.pdf`,
+      image:        { type: 'jpeg', quality: 1 },
+      html2canvas:  { scale: 3, useCORS: true }, 
+      jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+    };
+
+    html2pdf().set(opt).from(certElement).save();
+  }
+
+  function closeCert() {
+    document.getElementById('certificate-modal').style.display = 'none';
+  }
+
+  // Initialize
+  buildNavigation();
+  loadExercise("Exercise 1");
+</script>
+</body>
+</html>
