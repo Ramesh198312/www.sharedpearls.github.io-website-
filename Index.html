@@ -630,6 +630,57 @@
       .newsletter { padding: 2.5rem 1.5rem; }
       .hero-left { padding: 3rem 1.5rem; }
     }
+    /* ==========================================
+   MOBILE FIX FOR HERO BUTTONS
+   ========================================== */
+@media screen and (max-width: 768px) {
+    .hero-buttons-container { 
+    display: flex !important; 
+    flex-direction: column; 
+    align-items: center;    
+    gap: 15px;              
+    width: 100%;
+    margin-top: 20px;
+  }
+
+    .hero-button {
+    display: inline-block !important; 
+    width: 90%;                       
+    max-width: 300px;
+    text-align: center;
+    padding: 12px 20px;
+  }
+}
+/* ==========================================
+   MOBILE DROPDOWN MENU FIX
+   ========================================== */
+@media screen and (max-width: 768px) {
+  
+  /* 1. Hide the links by default on mobile */
+  .nav-links {
+    display: none; 
+    flex-direction: column;
+    position: absolute; 
+    top: 70px;          
+    left: 0;
+    width: 100%;
+    background-color: #1E1E1E; /* Harvard Ink Black */
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
+    z-index: 999;
+  }
+
+  /* 2. Style the individual links for easy tapping */
+  .nav-links li {
+    margin: 15px 0;
+  }
+
+  /* 3. THIS IS THE MAGIC: When the JS adds the 'active' class, show the menu! */
+  .nav-links.active {
+    display: flex !important;
+  }
+}
   </style>
 </head>
 <body>
@@ -1001,6 +1052,11 @@
 </div>
 
 <script>
+  // This listens for a click on the hamburger menu
+  document.querySelector('.nav-links').addEventListener('click', function() {
+    // This adds or removes an 'active' class on your links to show/hide them
+    document.querySelector('.nav-links').classList.toggle('active');
+  });
   // Level button toggle
   document.querySelectorAll('.level-btn').forEach(btn => {
     btn.addEventListener('click', () => {
