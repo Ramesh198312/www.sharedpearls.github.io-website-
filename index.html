@@ -53,6 +53,16 @@
       display: none;
       gap: 0;
       list-style: none;
+      <!--FOR MOBILE MENUS-->
+  .nav-links {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background: white;
+  width: 100%;
+  z-index: 999;
+}
+``
     }
     .nav-links a {
       color: #ccc;
@@ -1073,29 +1083,38 @@
     // This adds or removes an 'active' class on your links to show/hide them
     document.querySelector('.nav-links').classList.remove('active');
   });
+  
+document.addEventListener('DOMContentLoaded', () => {
+
   // LEVEL BUTTON TOGGLE
-document.querySelectorAll('.level-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.level-btn')
-      .forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
+  document.querySelectorAll('.level-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.level-btn')
+        .forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
   });
+
+  // HAMBURGER MENU TOGGLE
+  const hamburger = document.getElementById('hamburger-btn');
+  const navLinks = document.querySelector('.nav-links');
+
+  if (hamburger && navLinks) {
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+  }
+
+  // CLOSE MENU WHEN LINK IS CLICKED
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+    });
+  });
+
 });
+``
 
-// HAMBURGER MENU TOGGLE
-document.getElementById('hamburger-btn')
-  .addEventListener('click', () => {
-    const navLinks = document.querySelector('.nav-links');
-    navLinks.classList.toggle('active');
-  });
-
-// CLOSE MENU WHEN LINK IS CLICKED
-document.querySelectorAll('.nav-links a').forEach(link => {
-  link.addEventListener('click', () => {
-    document.querySelector('.nav-links')
-      .classList.remove('active');
-  });
-  });
 </script>
 </body>
 </html>
