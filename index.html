@@ -27,20 +27,6 @@
       color: var(--ink);
       overflow-x: hidden;
     }
-
-    /* ── NAV ── */
-    nav {
-      background: green;
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 16px var(--shadow);
-      <button class="hamburger" id="hamburger-btn">☰</button>
-    }
     .nav-logo {
       font-family: 'Playfair Display', serif;
       font-size: 1.5rem;
@@ -50,21 +36,25 @@
     }
     .nav-logo span { color: #fff; font-style: italic; }
     .nav-links {
-      display: none;
-      gap: 0;
+      list-style: none
+      display: flex;
+      gap: 1rem;
       list-style: none;
-      <!--FOR MOBILE MENUS-->
+    }
+      /* MOBILE */
+    @media (max-width: 900px) {
   .nav-links {
+  display: none;
+  flex-direction: column;
   position: absolute;
-  top: 60px;
-  right: 0;
+  top: 70px;
+  left: 0;
   background: white;
   width: 100%;
   z-index: 999;
 }
-``
-    }
-    .nav-links a {
+    .nav-links.active {
+      display: flex;
       color: #ccc;
       text-decoration: none;
       font-family: 'DM Mono', monospace;
@@ -715,6 +705,7 @@
 <nav>
   <img src="logo.png" alt="Logo" style="height: 120px;width:auto; margin-left: 0.1rem; margin-top: 2%;">
   <div class="nav-logo" style="text-align: center;">Shared <span>Pearls</span> of Wisdom</div>
+   <button class="hamburger" id="hamburger-btn" aria-label="Menu">☰</button>
   <ul class="nav-links">
     <li><a href="grammar-lesson-1.html">Grammar</a></li>
     <li><a href="vocab-a1a2.html">Vocabulary</a></li>
@@ -724,9 +715,7 @@
     <li><a href="story-telling.html">Fiction</a></li>
        <li><a href="masterclass.html" class="nav-cta" style="text-align: center;">Subscribe</a></li>
   </ul>
-</nav>
-
-<!-- HERO -->
+   <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
     <div class="hero-tag">Free English Learning · All Levels Welcome</div>
@@ -1102,18 +1091,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (hamburger && navLinks) {
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('active');
-    });
   }
-
-  // CLOSE MENU WHEN LINK IS CLICKED
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      navLinks.classList.remove('active');
-    });
-  });
-
 });
-``
+});
 
 </script>
 </body>
