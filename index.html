@@ -40,6 +40,17 @@
       top: 0;
       z-index: 100;
       box-shadow: 0 2px 16px var(--shadow);
+      /* ── HAMBURGER MENU ── */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--gold-light);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      margin-right: 1rem;
+      z-index: 101;
     }
     .nav-logo {
       font-family: 'Playfair Display', serif;
@@ -611,7 +622,34 @@
       .series-grid { grid-template-columns: 1fr; }
       .section { padding: 3rem 1.5rem; }
       footer { grid-template-columns: 1fr 1fr; }
-      .nav-links { display: none; }
+      }
+   /* Mobile hamburger menu */
+      .hamburger {
+        display: block;
+      }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        background-color: #064306;
+        padding: 1rem 0;
+        text-align: center;
+        box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+        z-index: 100;
+      }
+      .nav-links.active {
+        display: flex !important;
+      }
+      .nav-links li {
+        margin: 0.5rem 0;
+      }
+      .nav-links a {
+        padding: 0.8rem 1rem;
+        display: block;
+      }
     }
     @media (max-width: 600px) {
       .lessons-grid { grid-template-columns: 1fr; }
@@ -619,57 +657,6 @@
       footer { grid-template-columns: 1fr; }
       .newsletter { padding: 2.5rem 1.5rem; }
       .hero-left { padding: 3rem 1.5rem; }
-    }
-    /* ==========================================
-   MOBILE FIX FOR HERO BUTTONS
-   ========================================== */
-@media screen and (max-width: 768px) {
-    .hero-buttons-container { 
-    display: flex !important; 
-    flex-direction: column; 
-    align-items: center;    
-    gap: 15px;              
-    width: 100%;
-    margin-top: 20px;
-  }
-
-    .hero-button {
-    display: inline-block !important; 
-    width: 90%;                       
-    max-width: 300px;
-    text-align: center;
-    padding: 12px 20px;
-  }
-}
-/* ==========================================
-   MOBILE DROPDOWN MENU FIX
-   ========================================== */
-@media screen and (max-width: 768px) {
-  
-  /* 1. Hide the links by default on mobile */
-  .nav-links {
-    display: none; 
-    flex-direction: column;
-    position: absolute; 
-    top: 70px;          
-    left: 0;
-    width: 100%;
-    background-color: #1E1E1E; /* Harvard Ink Black */
-    padding: 20px 0;
-    text-align: center;
-    box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
-    z-index: 999;
-  }
-
-  /* 2. Style the individual links for easy tapping */
-  .nav-links li {
-    margin: 15px 0;
-  }
-
-  /* 3. THIS IS THE MAGIC: When the JS adds the 'active' class, show the menu! */
-  .nav-links.active {
-    display: flex !important;
-  }
 }
   </style>
 </head>
