@@ -1075,26 +1075,22 @@
   
 document.addEventListener('DOMContentLoaded', () => {
 
-  // LEVEL BUTTON TOGGLE
-  document.querySelectorAll('.level-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.level-btn')
-        .forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
-
-  // HAMBURGER MENU TOGGLE
   const hamburger = document.getElementById('hamburger-btn');
   const navLinks = document.querySelector('.nav-links');
 
   if (hamburger && navLinks) {
     hamburger.addEventListener('click', () => {
       navLinks.classList.toggle('active');
+    });
   }
-});
-});
 
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+    });
+  });
+
+});
 </script>
 </body>
 </html>
