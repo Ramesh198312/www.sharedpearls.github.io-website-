@@ -39,6 +39,7 @@
       top: 0;
       z-index: 100;
       box-shadow: 0 2px 16px var(--shadow);
+      <button class="hamburger" id="hamburger-btn">☰</button>
     }
     .nav-logo {
       font-family: 'Playfair Display', serif;
@@ -654,7 +655,22 @@
 /* ==========================================
    MOBILE DROPDOWN MENU FIX
    ========================================== */
-@media screen and (max-width: 768px) {
+      /* ── HAMBURGER MENU ── */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--gold-light);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 1rem;
+  z-index: 101;
+}
+
+@media (max-width: 900px) {
+  .hamburger {
+    display: block; }
   
   /* 1. Hide the links by default on mobile */
   .nav-links {
@@ -1055,7 +1071,7 @@
   // This listens for a click on the hamburger menu
   document.querySelector('.nav-links').addEventListener('click', function() {
     // This adds or removes an 'active' class on your links to show/hide them
-    document.querySelector('.nav-links').classList.toggle('active');
+    document.querySelector('.nav-links').classList.remove('active');
   });
   // Level button toggle
   document.querySelectorAll('.level-btn').forEach(btn => {
