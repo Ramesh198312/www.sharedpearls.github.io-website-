@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Checkout | Shared Pearls</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700&family=Crimson+Pro:wght@400;600&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+  
+  <style>
+    /* ─── COLOR PALETTE ─── */
+    :root {
+      --trust-blue: #1A365D;       
+      --accent-blue: #3182CE;      
+      --action-green: #38A169;     
+      --hover-green: #2F855A;      
+      --highlight-red: #E53E3E;    
+      --paper: #FFFFFF;
+      --bg-color: #F0F4F8;         
+      --text-main: #2D3748;
+      --text-muted: #718096;
+      --border-light: #E2E8F0;
+    }
+
+    body { 
+      font-family: 'Crimson Pro', serif; 
+      background: linear-gradient(135deg, #F0F4F8 0%, #D9E2EC 100%); 
+      color: var(--text-main); 
+      display: flex; justify-content: center; align-items: center; 
+      min-height: 100vh; margin: 0; padding: 2rem; 
+    }
+    
+    /* ─── NEW TWO-COLUMN LAYOUT ─── */
+    .page-wrapper {
+      display: grid;
+      grid-template-columns: 1fr; /* Stacks on mobile */
+      gap: 2rem;
+      max-width: 1000px;
+      width: 100%;
+      align-items: center;
+    }
+
+    @media(min-width: 850px) {
+      .page-wrapper { grid-template-columns: 1.2fr 1fr; } /* Side-by-side on desktop */
+    }
+
+    /* ─── LEFT COLUMN: FEATURES PANEL ─── */
+    .features-panel {
+      padding: 2rem;
+    }
+
+    .features-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      color: var(--trust-blue);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .features-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      line-height: 1.5;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .benefit-icon {
+      background: rgba(49, 130, 206, 0.1);
+      color: var(--accent-blue);
+      width: 40px; height: 40px;
+      border-radius: 8px;
+      display: flex; justify-content: center; align-items: center;
+      margin-right: 15px; flex-shrink: 0;
+      font-size: 1.2rem;
+    }
+
+    .benefit-text h4 {
+      margin: 0 0 4px 0;
+      font-family: 'DM Mono', monospace;
+      font-size: 1rem;
+      color: var(--trust-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .benefit-text p {
+      margin: 0;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    /* ─── RIGHT COLUMN: CHECKOUT CARD ─── */
+    .checkout-container {
+      background: var(--paper);
+      border-radius: 12px;
+      padding: 3rem 2.5rem;
+      box-shadow: 0 20px 40px rgba(26, 54, 93, 0.15);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .badge-popular {
+      position: absolute; top: 20px; right: -35px;
+      background: var(--highlight-red); color: white;
+      font-family: 'DM Mono', monospace; font-size: 0.8rem; font-weight: bold;
+      text-transform: uppercase; padding: 8px 40px; transform: rotate(45deg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2); letter-spacing: 1px;
+    }
+    
+    .card-title { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; color: var(--trust-blue); margin-bottom: 0.2rem; }
+    .card-subtitle { font-family: 'DM Mono', monospace; font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1.5rem; }
+    
+    .price { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: bold; color: var(--accent-blue); line-height: 1; margin-bottom: 2rem; }
+    .price span { font-size: 1.1rem; color: var(--text-muted); font-family: 'DM Mono', monospace; font-weight: normal;}
+
+    .payment-divider {
+      display: flex; align-items: center; text-align: center; color: var(--text-muted); margin: 2rem 0;
+      font-family: 'DM Mono', monospace; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .payment-divider::before, .payment-divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border-light); }
+    .payment-divider:not(:empty)::before { margin-right: 1em; }
+    .payment-divider:not(:empty)::after { margin-left: 1em; }
+
+    .btn-stripe {
+      display: block; width: 100%; background: var(--action-green); color: var(--paper); text-decoration: none;
+      padding: 1.2rem; font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: bold;
+      text-transform: uppercase; border-radius: 6px; transition: all 0.3s ease; box-sizing: border-box;
+      box-shadow: 0 4px 10px rgba(56, 161, 105, 0.3);
+    }
+    .btn-stripe:hover { background: var(--hover-green); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(47, 133, 90, 0.4); }
+    .btn-stripe span { display: block; font-size: 0.8rem; font-weight: normal; margin-top: 6px; opacity: 0.9; text-transform: none;}
+    
+    .secure-note { font-size: 0.9rem; color: var(--trust-blue); margin-top: 2rem; display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 600;}
+    .secure-note svg { width: 16px; height: 16px; fill: var(--trust-blue); }
+  </style>
+</head>
+<body>
+
+  <div class="page-wrapper">
+    
+    <div class="features-panel">
+      <h1 class="features-title">Unlock Real English Mastery</h1>
+      <p class="features-subtitle">Join the premium community at Shared Pearls of Wisdom and accelerate your learning with our exclusive, high-impact toolset.</p>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">⚡</div>
+        <div class="benefit-text">
+          <h4>Interactive Grammar & Feedback</h4>
+          <p>Practice with hands-on questions and engines. Receive immediate, actionable feedback to correct mistakes instantly.</p>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">🎓</div>
+        <div class="benefit-text">
+          <h4>Downloadable Certificates</h4>
+          <p>Validate your hard work. Earn and download official PDF mastery certificates as you conquer curriculum modules.</p>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">🤖</div>
+        <div class="benefit-text">
+          <h4>AI-Enabled Instructions & CV Builder</h4>
+          <p>Leverage cutting-edge AI for smart tutoring and use our responsive, AI-assisted tool to build a professional CV.</p>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">🎬</div>
+        <div class="benefit-text">
+          <h4>Premium Video Tutorials</h4>
+          <p>Access our exclusive library of video lessons. Discover real educational gems to achieve true mastery in record time.</p>
+        </div>
+      </div>
+
+      <div class="benefit-item">
+        <div class="benefit-icon">🔄</div>
+        <div class="benefit-text">
+          <h4>Timely, Updated Content</h4>
+          <p>Never study outdated material. Our curriculum is strictly maintained and constantly updated for modern fluency.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-container">
+      <div class="badge-popular">Best Value</div>
+      <div class="card-title">Mastery Pass</div>
+      <div class="card-subtitle">Shared Pearls of Wisdom</div>
+      
+      <div class="price">$10<span>/month</span></div>
+      
+      <a href="YOUR_STRIPE_LINK_HERE" class="btn-stripe">
+        Pay Securely Now
+        <span>Includes Cards, Touch 'n Go, & Apple Pay</span>
+      </a>
+
+      <div class="payment-divider">Or pay with</div>
+
+      <div id="paypal-button-container"></div>
+      
+      <div class="secure-note">
+        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        <span>256-bit Secure Encrypted Checkout</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // PAYPAL CONFIGURATION
+    paypal.Buttons({
+      style: { shape: 'rect', color: 'blue', layout: 'vertical', label: 'subscribe' },
+      createSubscription: function(data, actions) {
+        return actions.subscription.create({
+          'plan_id': 'P-YOUR_PLAN_ID_HERE' 
+        });
+      },
+      onApprove: function(data, actions) {
+        alert('Thank you for subscribing! Your transaction ID is ' + data.subscriptionID);
+        window.location.href = "success.html"; 
+      }
+    }).render('#paypal-button-container'); 
+  </script>
+
+</body>
+</html>
