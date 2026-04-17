@@ -20,7 +20,7 @@
     }
 
     body { 
-      font-family: 'Inter', sans-serif; /* Clean, modern streaming font */
+      font-family: 'Inter', sans-serif; 
       background: var(--parchment); 
       color: var(--text-main); 
       margin: 0; padding: 0; 
@@ -53,8 +53,7 @@
     }
     .video-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(26, 54, 93, 0.15); }
     
-    /* Thumbnail Area */
-    .thumbnail-container { position: relative; width: 100%; padding-top: 56.25%; /* 16:9 Aspect Ratio */ background: #000; overflow: hidden; }
+    .thumbnail-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; overflow: hidden; }
     .thumbnail-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 0.3s;}
     .video-card:hover .thumbnail-img { opacity: 0.6; }
     
@@ -71,7 +70,6 @@
       padding: 4px 8px; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 0.8rem;
     }
 
-    /* Info Area */
     .card-info { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
     .category-tag { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--harvard-crimson); text-transform: uppercase; margin-bottom: 8px; font-weight: bold;}
     .video-title { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--trust-blue); margin: 0 0 10px 0; line-height: 1.2; }
@@ -87,10 +85,12 @@
       width: 100%; max-width: 900px; background: black; border-radius: 12px; overflow: hidden;
       box-shadow: 0 25px 50px rgba(0,0,0,0.5); position: relative;
     }
-    .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; }
-    .video-wrapper video { 
-      position: relative; padding-bottom: 56.25%; height: 0; 
-      background-color: black; border-radius: 0 0 12px 12px;
+    
+    /* CRITICAL CSS FOR IFRAME HEIGHT */
+    .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+    .video-wrapper iframe { 
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+      background-color: black; border-radius: 0 0 12px 12px; border: none;
     }
     
     .close-btn {
@@ -125,32 +125,30 @@
     <div class="modal-content">
       <button class="close-btn" onclick="closeModal(event, true)">&times;</button>
       <div class="video-wrapper">
-        <video id="local-player" controls controlsList="nodownload">
-          Your browser does not support HTML5 video.
-        </video>
+        <iframe id="local-player" src="" allowfullscreen></iframe>
       </div>
     </div>
   </div>
 
   <script>
-      const videos = [
+    const videos = [
       {
         id: "1",
         title: "The Art of Expression: Mastering Figures of Speech",
-        desc: "From the persuasive power of metaphors to the vivid imagery of personification, you will learn to wield words like a native speaker. Elevate your IELTS essays, captivate your listeners in speaking exams, and add undeniable flair to your everyday communication.",
+        desc: "From the persuasive power of metaphors to the vivid imagery of personification, you will learn to wield words like a native speaker.",
         category: "Academic",
         duration: "7:17",
         thumbUrl: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-        videoFile: "Videos/video-tutorial-1.mp4"
+        videoFile: "https://drive.google.com/file/d/1TvGMbs5olYOLAk9RCkBK8jw0g5Qj3r0h/preview"
       },
-           {
+      {
         id: "2",
         title: "The Power of Nuance: Sophomoric vs. Fatuous",
         desc: "Elevate your vocabulary beyond basic synonyms. Learn the exact contexts required to score a Band 9 in Lexical Resource.",
         category: "Vocabulary",
         duration: "08:45",
         thumbUrl: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-        youtubeId: "dQw4w9WgXcQ"
+        videoFile: "https://drive.google.com/file/d/1TvGMbs5olYOLAk9RCkBK8jw0g5Qj3r0h/preview"
       },
       {
         id: "3",
@@ -159,7 +157,7 @@
         category: "Academic",
         duration: "18:10",
         thumbUrl: "https://images.unsplash.com/photo-1513475382585-d06e73926c92?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-        youtubeId: "dQw4w9WgXcQ"
+        videoFile: "https://drive.google.com/file/d/1TvGMbs5olYOLAk9RCkBK8jw0g5Qj3r0h/preview"
       },
       {
         id: "4",
@@ -168,7 +166,7 @@
         category: "Tenses",
         duration: "11:30",
         thumbUrl: "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-        youtubeId: "dQw4w9WgXcQ"
+        videoFile: "https://drive.google.com/file/d/1TvGMbs5olYOLAk9RCkBK8jw0g5Qj3r0h/preview"
       },
       {
         id: "5",
@@ -177,7 +175,7 @@
         category: "Vocabulary",
         duration: "09:15",
         thumbUrl: "https://images.unsplash.com/photo-1455390582262-044cdead2708?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-        youtubeId: "dQw4w9WgXcQ"
+        videoFile: "https://drive.google.com/file/d/1TvGMbs5olYOLAk9RCkBK8jw0g5Qj3r0h/preview"
       },
       {
         id: "6",
@@ -186,17 +184,17 @@
         category: "Academic",
         duration: "22:00",
         thumbUrl: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-        youtubeId: "dQw4w9WgXcQ"
+        videoFile: "https://drive.google.com/file/d/1TvGMbs5olYOLAk9RCkBK8jw0g5Qj3r0h/preview"
       },
-            {
+      {
         id: "8",
         title: "Demystifying the Present Perfect Continuous",
         desc: "Master the subtle difference between actions that have finished and actions that are still bleeding into the present moment.",
         category: "Tenses",
         duration: "14:20",
         thumbUrl: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
-        youtubeId: "dQw4w9WgXcQ" 
-      },
+        videoFile: "https://drive.google.com/file/d/1TvGMbs5olYOLAk9RCkBK8jw0g5Qj3r0h/preview"
+      }
     ];
 
     function renderVideos(categoryToFilter = 'All') {
@@ -208,7 +206,6 @@
           const card = document.createElement('div');
           card.className = 'video-card';
           
-          // THIS IS THE CRUCIAL LINE:
           card.onclick = () => openModal(video.videoFile);
 
           card.innerHTML = `
@@ -228,7 +225,6 @@
       });
     }
 
-    // 3. FILTER NAVIGATION
     function filterVideos(category) {
       const buttons = document.querySelectorAll('.filter-btn');
       buttons.forEach(btn => btn.classList.remove('active'));
@@ -236,14 +232,12 @@
       renderVideos(category);
     }
 
-    // 4. LOCAL VIDEO MODAL LOGIC
     function openModal(videoFilePath) {
       const modal = document.getElementById('video-modal');
       const player = document.getElementById('local-player');
       
       player.src = videoFilePath;
       modal.style.display = 'flex';
-      player.play(); // Auto-plays the video
     }
 
     function closeModal(event, forceClose = false) {
@@ -252,12 +246,10 @@
         const player = document.getElementById('local-player');
         
         modal.style.display = 'none';
-        player.pause(); // Stops the audio
-        player.src = ''; // Resets the player
+        player.src = ''; 
       }
     }
 
-    // START THE PAGE
     renderVideos();
   </script>
 </body>
