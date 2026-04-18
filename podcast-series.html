@@ -1,123 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>English Podcasts</title>
 <head>
-    <meta charset="UTF-8">
-    <meta name=""viewport" content="width=device-width iniatial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Podcasts | Shared Pearls of Wisdom</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700&family=Inter:wght@400;500;600;700&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --trust-blue: #1A365D;       
+      --harvard-crimson: #A51C30;  
+      --paper: #FFFFFF;
+      --parchment: #F9F7F1;         
+      --text-main: #2D3748;
+      --text-muted: #718096;
+      --border-light: #E2E8F0;
+      --accent-gold: #D4AF37;
+    }
+
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: var(--parchment); 
+      color: var(--text-main); 
+      margin: 0; padding: 0 0 100px 0; /* Padding for sticky player */
+    }
+
+    /* ─── HEADER ─── */
+    header { 
+      background: linear-gradient(135deg, var(--trust-blue) 0%, #0F203B 100%); 
+      padding: 4rem 2rem; 
+      text-align: center; 
+      color: var(--paper); 
+      border-bottom: 4px solid var(--harvard-crimson); 
+    }
+    header h1 { font-family:'Source Serif 4', Georgia, serif; font-size:4rem; color:var(--white); font-weight:700; letter-spacing: 0.5px;}
+    .subtitle { font-family: 'DM Mono', monospace; font-size: 1rem; color: hsl(29, 89%, 49%); text-transform: uppercase; letter-spacing: 4px; margin-bottom: 15px; }
+    .header-desc { max-width: 600px; margin: 1.5rem auto 0; font-size: 1.1rem; color: hwb(87 11% 3%); line-height: 1.6;}
+
+    .container { max-width: 1000px; margin: 4rem auto; padding: 0 2rem; }
+
+    /* ─── PODCAST LIST ─── */
+    .podcast-list { display: flex; flex-direction: column; gap: 1rem; }
     
-    <title>English Podcasts</title>
-</head>
-<Style>
-       /* ── NAV ── */
-    nav {
-    <div class="nav-logo" style="text-align: center;">Shared <span>Pearls</span> of Wisdom</div>  
-    <img src="Images/logo.png" alt="Logo" style="height: 120px;width:auto; margin-left: 0.1rem; margin-top: 2%;">
-    margin:0;
-    padding: 0 2rem;
-   background: hsl(350, 93%, 64%);
-      display: flex;
+    .podcast-card {
+      background: var(--paper); 
+      border-radius: 12px; 
+      padding: 1.5rem 2rem;
+      display: flex; 
       align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 16px var(--shadow);
+      gap: 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02); 
+      border: 1px solid var(--border-light);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
     }
+
+    .podcast-card:hover { 
+      transform: translateX(10px); 
+      box-shadow: 0 15px 30px rgba(26, 54, 93, 0.08); 
+      border-color: #CBD5E0;
+    }
+
+    /* Play Button Hover Effect */
+    .play-btn-circle {
+      width: 50px; height: 50px; 
+      background: rgba(26, 54, 93, 0.05); 
+      border-radius: 50%;
+      display: flex; justify-content: center; align-items: center;
+      flex-shrink: 0; transition: all 0.3s ease;
+    }
+    .podcast-card:hover .play-btn-circle { background: var(--harvard-crimson); }
     
-        }
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 1.3rem 1.1rem;
-      display: block;
-      transition: color 0.2s, background 0.2s;
+    .play-btn-circle::after { 
+      content: ''; width: 0; height: 0; 
+      border-style: solid; border-width: 8px 0 8px 12px; 
+      border-color: transparent transparent transparent var(--trust-blue); 
+      margin-left: 4px; transition: all 0.3s ease;
     }
-    .nav-links a:hover { color: var(--gold-light); background: rgba(255, 255, 255, 0.153); }
-    .nav-cta {
-      background: var(--gold);
-      color: var(--ink) !important;
-      border-radius: 2px;
-      font-weight: 500 !important;
-    }
-    .nav-cta:hover { background: var(--gold-light) !important; color: var(--ink) !important; }
+    .podcast-card:hover .play-btn-circle::after { border-color: transparent transparent transparent var(--paper); }
 
-    body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-        background-color: #f0f0f0;
+    /* Card Content */
+    .ep-number { font-family: 'DM Mono', monospace; font-size: 1.2rem; color: var(--text-muted); font-weight: bold; width: 40px;}
+    
+    .card-info { flex-grow: 1; }
+    .card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--trust-blue); margin: 0 0 8px 0; }
+    .card-desc { font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; margin: 0; max-width: 600px;}
+    
+    .duration-tag { 
+      font-family: 'DM Mono', monospace; 
+      font-size: 0.85rem; color: var(--text-muted); 
+      background: #F7FAFC; padding: 6px 12px; 
+      border-radius: 20px; white-space: nowrap;
     }
-    h1 {
-        color: #333;
-    }
-    p {
-        font-size: 18px;
-        color: #555;
-    }
-    ul {
-        list-style-type: square;
-        padding-left: 20px;
-    }
-    li {
-        margin-bottom: 10px;
-        font-size: 16px;
-        color: #333;
-    }
-    /* ── LOGO ALIGNMENT ── */
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 15px; /* Creates perfect, consistent spacing between the image and text */
-  text-decoration: none; /* Removes any default link underlines */
-  padding: 0.8rem 0;
-}
 
-.logo-img {
-  height: 50px; /* A much sleeker height for a sticky navbar */
-  width: auto;
-  border-radius: 4px; /* Optional: adds a slight, premium rounding to the image corners */
-  object-fit: contain; /* Ensures the image doesn't stretch or distort */
-}
+    /* ─── STICKY BOTTOM PLAYER ─── */
+    .sticky-player {
+      position: fixed; bottom: -120px; left: 0; width: 100%;
+      background: rgba(26, 54, 93, 0.98);
+      backdrop-filter: blur(10px);
+      border-top: 3px solid var(--harvard-crimson);
+      padding: 1rem 2rem;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+      display: flex; justify-content: center; align-items: center; gap: 3rem;
+      transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy slide up */
+      z-index: 1000;
+      box-sizing: border-box;
+    }
 
-.logo-text {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
-  color: var(--gold-light);
-  letter-spacing: 0.02em;
-  line-height: 1; /* Keeps the text block tight */
-}
+    .sticky-player.active { bottom: 0; }
 
-.logo-text span { 
-  color: #fff; 
-  font-style: italic; 
-}
-  </Style>
+    .player-info { color: var(--paper); max-width: 400px; }
+    .player-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; margin: 0 0 5px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+    .player-subtitle { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: #90CDF4; text-transform: uppercase;}
+
+    .audio-controls { width: 100%; max-width: 600px; }
+    audio { width: 100%; height: 40px; outline: none; }
+    
+    /* Customizing the native audio player colors slightly for Webkit */
+    audio::-webkit-media-controls-panel { background-color: #F7FAFC; }
+
+    .close-player {
+      background: none; border: none; color: white; font-size: 2rem; 
+      cursor: pointer; opacity: 0.6; transition: opacity 0.3s;
+    }
+    .close-player:hover { opacity: 1; color: var(--harvard-crimson); }
+
+  </style>
+</head>
 <body>
-    <h1>English Podcasts</h1>
-    <p>You will enjoy a series of podcasts</p>
-    <ul>
-        <li><a href="podcast-1.m4a">The Future of Humanity</a></li>
-        <li>The Artificial Intelligence & Society</li>
-        <li>The Future of Work</li>
-        <li>The Future of Education</li>
-        <li>Wellness and Mental Work</li>
-        <li>Climate Change and Sustainability</li>
-        <li>Travel & Hidden Gems</li>
-        <li>Culinary Journeys & Food Culture</li>
-        <li>Cinema & Storytelling</li>
-        <li>Leadership & Psychology</li>
-        <li>Global Economy & Finance</li>
-        <li>University Life and Academy</li>
-        <li>The Start-up and Tech Boom</li>
-        <li>Corporate Strategy & Innovation</li>
-        <li>Corporate Diplomacy and Negotiation</li>
-        <li>Corporate Social Responsibility</li>
-        <li>Humour, Irony, & Sarcasm</li>
-            
-    
 
+  <header>
+    <div class="subtitle">Premium Audio Series</div>
+    <h1>The English Podcasts</h1>
+    <p class="header-desc">Immerse yourself in high-level discourse. Elevate your vocabulary, improve your listening comprehension, and explore the ideas shaping our modern world.</p>
+  </header>
+
+  <div class="container">
+    <div class="podcast-list" id="podcast-list">
+      </div>
+  </div>
+
+  <div class="sticky-player" id="sticky-player">
+    <div class="player-info">
+      <div class="player-subtitle">Now Playing</div>
+      <h3 class="player-title" id="now-playing-title">Select an episode</h3>
+    </div>
+    
+    <div class="audio-controls">
+      <audio id="main-audio-player" controls controlsList="nodownload">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+
+    <button class="close-player" onclick="closePlayer()">&times;</button>
+  </div>
+
+  <script>
+    // 1. YOUR PREMIUM PODCAST DATABASE
+    // Note: Replace the 'audioFile' links with your actual Google Drive audio links!
+    const episodes = [
+      { id: "01", title: "The Future of Humanity", duration: "04:17", audioFile: "https://www.dropbox.com/scl/fi/ztxdzckgz301aqhlu3s7m/podcast-1.mp3?rlkey=mwenx07o9euap1a8aj3hft9e7&st=jvkbsb49&dl=1",
+        desc: "An exploration of transhumanism, ethical boundaries, and what it means to be human in the 22nd century." },
+      { id: "02", title: "The Artificial Intelligence & Society", duration: "07:40", audioFile: "https://www.dropbox.com/scl/fi/agtpn1uou9bdeqpcv4htu/podcast-2.mp3?rlkey=ckdrx8cdq0u6qd6hac6hc0xt1&st=ii3td2hp&dl=1",
+        desc: "How generative models are rewriting the social contract, from deepfakes to democratized education." },
+      { id: "03", title: "The Future of Work", duration: "06:41", audioFile: "https://www.dropbox.com/scl/fi/5z7oypg0lxk6a4c1fxuhk/podcast-3.mp3?rlkey=oy9a7q67dqnqert2qhk8bxhkx&st=wbnfvmux&dl=1",
+        desc: "Navigating the gig economy, remote collaboration, and the skills required to survive automation." },
+      { id: "04", title: "The Future of Education", duration: "39:20", audioFile: "",
+        desc: "Moving beyond the classroom: micro-credentials, lifelong learning, and AI-assisted pedagogy." },
+      { id: "05", title: "Wellness and Mental Work", duration: "33:50", audioFile: "",
+        desc: "The psychology of burnout, cognitive load management, and maintaining peace in a hyper-connected era." },
+      { id: "06", title: "Climate Change and Sustainability", duration: "47:10", audioFile: "",
+        desc: "Analyzing green-tech innovations, corporate accountability, and the economic shift toward net-zero." },
+      { id: "07", title: "Travel & Hidden Gems", duration: "29:15", audioFile: "",
+        desc: "A linguistic journey through off-the-beaten-path destinations and the vocabulary of exploration." },
+      { id: "08", title: "Culinary Journeys & Food Culture", duration: "31:45", audioFile: "",
+        desc: "How history, geography, and language intersect on the plate. Mastering the lexicon of gastronomy." },
+      { id: "09", title: "Cinema & Storytelling", duration: "41:30", audioFile: "",
+        desc: "Deconstructing narrative arcs, visual metaphors, and the global impact of modern filmmaking." },
+      { id: "10", title: "Leadership & Psychology", duration: "36:20", audioFile: "",
+        desc: "The traits of effective modern leaders, emotional intelligence, and mastering executive presence." },
+      { id: "11", title: "Global Economy & Finance", duration: "44:05", audioFile: "",
+        desc: "Cryptocurrency, inflation, and the shifting power dynamics of international trade markets." },
+      { id: "12", title: "University Life and Academy", duration: "35:50", audioFile: "",
+        desc: "Navigating academic rigor, peer review, and the evolving landscape of higher education." },
+      { id: "13", title: "The Start-up and Tech Boom", duration: "38:15", audioFile: "",
+        desc: "Venture capital lexicon, disruptive innovation, and the mindset of successful entrepreneurs." },
+      { id: "14", title: "Corporate Strategy & Innovation", duration: "40:25", audioFile: "",
+        desc: "How legacy companies pivot, the innovator's dilemma, and long-term business sustainability." },
+      { id: "15", title: "Corporate Diplomacy and Negotiation", duration: "34:40", audioFile: "",
+        desc: "The high-stakes language of mediation, compromise, and securing multi-national agreements." },
+      { id: "16", title: "Corporate Social Responsibility", duration: "32:10", audioFile: "",
+        desc: "Moving beyond profit: how modern corporations are addressing social equity and environmental impact." },
+      { id: "17", title: "Humour, Irony, & Sarcasm", duration: "28:55", audioFile: "",
+        desc: "The most difficult aspects of English fluency. Decoding cultural jokes and mastering dry wit." }
+    ];
+
+    // 2. RENDER THE PODCAST LIST
+    function renderPodcasts() {
+      const list = document.getElementById('podcast-list');
+      
+      episodes.forEach(ep => {
+        const card = document.createElement('div');
+        card.className = 'podcast-card';
+        
+        // When a card is clicked, load the audio!
+        card.onclick = () => playEpisode(ep.title, ep.audioFile);
+
+        card.innerHTML = `
+          <div class="ep-number">${ep.id}</div>
+          <div class="play-btn-circle"></div>
+          <div class="card-info">
+            <h3 class="card-title">${ep.title}</h3>
+            <p class="card-desc">${ep.desc}</p>
+          </div>
+          <div class="duration-tag">${ep.duration}</div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    // 3. PLAYER LOGIC
+    function playEpisode(title, audioUrl) {
+      const playerContainer = document.getElementById('sticky-player');
+      const audioTag = document.getElementById('main-audio-player');
+      const titleTag = document.getElementById('now-playing-title');
+
+      // Update UI
+      titleTag.innerText = title;
+      
+      // Load and play audio
+      if(audioUrl) {
+        audioTag.src = audioUrl;
+        audioTag.play();
+      } else {
+        alert("Audio file coming soon! (Link not yet added to database)");
+      }
+
+      // Slide the player up
+      playerContainer.classList.add('active');
+    }
+
+    function closePlayer() {
+      const playerContainer = document.getElementById('sticky-player');
+      const audioTag = document.getElementById('main-audio-player');
+      
+      // Slide player down and stop audio
+      playerContainer.classList.remove('active');
+      audioTag.pause();
+      audioTag.src = '';
+    }
+
+    // Initialize Page
+    renderPodcasts();
+  </script>
 </body>
 </html>
