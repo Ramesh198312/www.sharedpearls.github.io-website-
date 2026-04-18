@@ -486,11 +486,10 @@
       flex-wrap: wrap;
       margin-bottom: 2rem;
     }
-    .level-btn:hover, .level-btn.active { background: var(--cream); color: var(--gold-light); border-color: var(--ink); }
-    .level-btn { 
+      .level-btn { 
       padding: 0.7rem 1.4rem;
       border: 1px solid var(--pearl);
-      background: var(--cream);
+      background: var(--gold);
       font-family: 'DM Mono', monospace;
       font-size: 0.8rem;
       letter-spacing: 0.1em;
@@ -498,9 +497,19 @@
       border: none;
       cursor: pointer;
       transition: all 0.2s;
-      transform: translateY(-2px);
+      transform: translateY(0);
+      }
+      .level-btn:hover { 
+      background-color: var(--gold); 
+      color: black; 
+      transform: translateY(-3px); /* Smoothly lifts up */
     }
-    .level-test-btn:hover, .level-btn.active { background: var(--ink); color: var(--gold-light); border-color: var(--ink); }
+    .level-btn.active { 
+      background: var(--ink); 
+      color: var(--gold-light); 
+      border-color: var(--ink); 
+    }
+    /* ─── 4. BIG RUST BUTTON BASE ─── */
     .level-test-btn {
       background: var(--rust);
       color: #fff;
@@ -511,21 +520,34 @@
       text-transform: uppercase;
       border: none;
       cursor: pointer;
-      transition: all 0.2s;
-      transform: translateY(-2px);
+      transition: all 0.3s ease;
+      transform: translateY(0);
     }
-    .level-test-btn:hover { background: #c4501f; transform: translateY(-2px); scrollbar-shadow-color:var(--gold)}
+
+    /* ─── 5. BIG RUST BUTTON HOVER ─── */
+    .level-test-btn:hover { 
+      background: #c4501f; 
+      transform: translateY(-3px); 
+    }
 
     /* ── NEWSLETTER ── */
-    .newsletter {
-      background: var(--gold);
-      padding: 4rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
+  .newsletter-btn {
+  padding: 1rem 2rem; 
+  background-color: #1A1A1A; 
+  color: #C19A2B; /* The Gold text */
+  border: none; 
+  font-family: 'DM Mono', monospace; 
+  font-size: 0.9rem; 
+  letter-spacing: 2px; 
+  cursor: pointer; 
+  transition: all 0.3s ease;
+  transform: translateY(0);
+}
+.newsletter-btn:hover {
+  background-color: hsl(139, 92%, 20%); /* Swaps to gold */
+  color: hsl(0, 12%, 97%); /* Swaps text to black */
+  transform: translateY(0px);
+}
     .newsletter-copy h2 {
       font-family: 'Playfair Display', serif;
       font-size: 1.8rem;
@@ -1058,13 +1080,13 @@
   <p>Not sure where to start? Select a level below or take our free placement test.</p>
   <div class="levels-row">
      
-<a class="level-btn active" href="find-your-level-a1-a2.html" style="text-decoration: none;">A1/A2 Elementary</a>
-<a class="level-btn active" href="find-your-level-b1.html" style="text-decoration: none;">B1 Intermediate</a>
-<a class="level-btn active" href="find-your-level-b2.html" style="text-decoration: none;">B2 Upper-Int</a>
-<a class="level-btn active" href="find-your-level-c1.html" style="text-decoration: none;">C1 Advanced</a>
+<a class="level-btn" href="find-your-level-a1-a2.html" style="text-decoration: none;">A1/A2 Elementary</a>
+<a class="level-btn" href="find-your-level-b1.html" style="text-decoration: none;">B1 Intermediate</a>
+<a class="level-btn" href="find-your-level-b2.html" style="text-decoration: none;">B2 Upper-Int</a>
+<a class="level-btn" href="find-your-level-c1.html" style="text-decoration: none;">C1 Advanced</a>
 
   </div>
-  <a class="level-test-btn active" href="inside-file-placement-engine-find-your-level.html" style="text-decoration: none;">Take the Free Level Test</a>
+  <a class="level-test-btn" href="inside-file-placement-engine-find-your-level.html" style="text-decoration: none;">Take the Free Level Test</a>
 </section>
 
 <!-- NEWSLETTER -->
@@ -1077,9 +1099,7 @@
   <form id="subscribe-form" style="display: flex; width: 100%; max-width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
     <input type="email" id="email-input" name="email" placeholder="Your email address..." required 
            style="flex-grow: 1; padding: 1rem 1.5rem; border: none; font-family: 'Inter', sans-serif; font-size: 1rem; background: #F9F7F1; outline: none;">
-    <button type="submit" id="submit-btn" 
-            style="padding: 1rem 2rem; background: #1A1A1A; color: #C19A2B; border: none; font-family: 'DM Mono', monospace; font-size: 0.9rem; letter-spacing: 2px; cursor: pointer; transition: background 0.3s;">
-      SUBSCRIBE
+    <button type="submit" id="submit-btn" class="newsletter-btn">SUBSCRIBE</button>
     </button>
     
   </form>
