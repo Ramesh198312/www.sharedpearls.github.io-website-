@@ -30,7 +30,7 @@
 
     /* ── NAV ── */
     nav {
-      background: hsl(96, 97%, 26%);
+      background: green;
       padding: 0 2rem;
       display: flex;
       align-items: center;
@@ -47,7 +47,7 @@
       padding: 1.1rem 0;
       letter-spacing: 0.02em;
     }
-    .nav-logo span {color: #fff; font-style: italic;}
+    .nav-logo span { color: #fff; font-style: italic; }
     .nav-links {
       display: flex;
       gap: 0;
@@ -353,7 +353,7 @@
       position: absolute;
       bottom: 0; left: 0; right: 0;
       padding: 0.5rem 1rem;
-      background: rgba(8, 181, 100, 0.6);
+      background: hsl(96, 97%, 26%);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -469,7 +469,7 @@
 
     /* ── LEVEL FINDER ── */
     .level-finder {
-      background: #fff;
+      background: var(--cream);
       padding: 4rem;
       text-align: center;
     }
@@ -478,7 +478,7 @@
       font-size: 2rem;
       margin-bottom: 0.8rem;
     }
-    .level-finder p { color: #777; margin-bottom: 2.5rem; font-size: 1rem; }
+    .level-finder p { color: #777; margin-bottom: 2.5rem; font-size: 1rem;}
     .levels-row {
       display: flex;
       justify-content: center;
@@ -486,18 +486,21 @@
       flex-wrap: wrap;
       margin-bottom: 2rem;
     }
-    .level-btn {
+    .level-btn:hover, .level-btn.active { background: var(--cream); color: var(--gold-light); border-color: var(--ink); }
+    .level-btn { 
       padding: 0.7rem 1.4rem;
       border: 1px solid var(--pearl);
-      background: var(--parchment);
+      background: var(--cream);
       font-family: 'DM Mono', monospace;
       font-size: 0.8rem;
       letter-spacing: 0.1em;
+      text-transform:uppercase;
+      border: none;
       cursor: pointer;
       transition: all 0.2s;
-      color: var(--ink);
+      transform: translateY(-2px);
     }
-    .level-btn:hover, .level-btn.active { background: var(--ink); color: var(--gold-light); border-color: var(--ink); }
+    .level-test-btn:hover, .level-btn.active { background: var(--ink); color: var(--gold-light); border-color: var(--ink); }
     .level-test-btn {
       background: var(--rust);
       color: #fff;
@@ -509,8 +512,9 @@
       border: none;
       cursor: pointer;
       transition: all 0.2s;
+      transform: translateY(-2px);
     }
-    .level-test-btn:hover { background: #c4501f; transform: translateY(-2px); }
+    .level-test-btn:hover { background: #c4501f; transform: translateY(-2px); scrollbar-shadow-color:var(--gold)}
 
     /* ── NEWSLETTER ── */
     .newsletter {
@@ -559,47 +563,111 @@
     }
     .newsletter-form button:hover { background: #2d2010; }
 
-    /* ── FOOTER ── */
-    footer {
-      background: hsl(96, 97%, 26%);
-      padding: 3rem 4rem;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 3rem;
+    /* ─── PREMIUM FOOTER (4-COLUMN LAYOUT) ─── */
+    .site-footer { 
+      background-color: #357A1D; /* Academic Green */
+      color: var(--paper); 
+      font-family: 'Inter', sans-serif;
+      margin-top: 4rem;
     }
-    .footer-brand h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      color: var(--gold-light);
-      margin-bottom: 0.8rem;
+
+    .footer-container { 
+      max-width: 1200px; 
+      margin: 0 auto; 
+      padding: 4rem 2rem; 
+      display: flex; 
+      justify-content: space-between; 
+      flex-wrap: wrap; 
+      gap: 2rem; 
     }
-    .footer-brand p { color: hsl(0, 100%, 100%); font-size: 0.88rem; line-height: 1.7; }
-    .footer-col h4 {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.68rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: hsl(0, 0%, 96%);
-      margin-bottom: 1rem;
+
+    /* Make the brand column slightly wider than the link columns */
+    .footer-brand-col { 
+      flex: 2; 
+      min-width: 300px; 
+      padding-right: 2rem;
     }
-    .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 0.5rem; }
-    .footer-col a {
-      color: hwb(0 96% 4% / 0.854);
-      text-decoration: none;
-      font-size: 0.88rem;
-      transition: color 0.2s;
+    
+    .footer-links-col { 
+      flex: 1; 
+      min-width: 150px; 
     }
-    .footer-col a:hover { color: var(--gold); }
-    .footer-bottom {
-      background: var(--gold);
-      padding: 1.2rem 4rem;
+
+    /* Brand Column Text */
+    .footer-brand-title { 
+      font-family: 'Cormorant Garamond', serif; 
+      font-size: 2.2rem; 
+      margin: 0 0 1rem 0; 
+      font-weight: 700;
+      color: #D4A345; /* Gold matching your image */
+    }
+    
+    .footer-brand-col p { 
+      font-size: 1rem; 
+      line-height: 1.6; 
+      color: var(--parchment); 
+      margin: 0;
+    }
+
+    /* Link Column Headers */
+    .footer-links-col h4 { 
+      font-family: 'Inter', sans-serif; 
+      font-size: 0.9rem; 
+      letter-spacing: 2px; 
+      text-transform: uppercase; 
+      color: var(--gold-light); 
+      margin: 0 0 1.5rem 0; 
+      font-weight: 700;
+    }
+    
+    /* Link Styling */
+    .footer-links-col ul { 
+      list-style: none; 
+      padding: 0; 
+      margin: 0; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 1.2rem; 
+    }
+    
+    .footer-links-col a { 
+      font-family: 'Cormorant Garamond', serif; 
+      font-size: 1.25rem; 
+      color: whitesmoke; 
+      text-decoration: none; 
+      transition: color 0.3s ease, padding-left 0.3s ease; 
+    }
+    
+    .footer-links-col a:hover { 
+      color: #D4A345; 
+      padding-left: 5px; 
+    }
+
+    /* The Gold Bottom Bar - Split Left/Right */
+    .footer-bottom { 
+      background-color: #CD9242; /* Gold Bar */
+      padding: 1.2rem 2rem; 
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
-    .footer-bottom p { color: #444; font-size: 0.78rem; font-family: 'DM Mono', monospace; }
+    
+    .footer-bottom p { 
+      font-family: 'DM Mono', monospace; 
+      font-size: 0.95rem; 
+      color: #2D3748; 
+      margin: 0; 
+      letter-spacing: 1px;
+    }
 
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .footer-container { flex-direction: column; padding: 3rem 1.5rem; gap: 3rem;}
+      .footer-brand-col { padding-right: 0; }
+      .footer-bottom { flex-direction: column; text-align: center; justify-content: center; }
+    }
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
@@ -687,7 +755,7 @@
 
 <!-- NAV -->
 <nav>
-  <img src="logo.png" alt="Logo" style="height: 100px;width:auto; margin-left: 0.1rem; margin-top: 2%;">
+  <img src="logo.png" alt="Logo" style="height: 120px;width:auto; margin-left: 0.1rem; margin-top: 2%;">
    <div class="nav-logo" style="text-align: center;">Shared <span>Pearls</span> of Wisdom</div>
     <ul class="nav-links">
     <li><a href="grammar-lesson-1.html">Grammar</a></li>
@@ -1006,12 +1074,9 @@
     <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: #1A1A1A; margin: 0;">A New Pearl Every Week</h2>
     <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #333333; margin-top: 5px;">Get our best lesson, a quote, and one vocabulary tip delivered to your inbox.</p>
   </div>
-
   <form id="subscribe-form" style="display: flex; width: 100%; max-width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-    
     <input type="email" id="email-input" name="email" placeholder="Your email address..." required 
            style="flex-grow: 1; padding: 1rem 1.5rem; border: none; font-family: 'Inter', sans-serif; font-size: 1rem; background: #F9F7F1; outline: none;">
-    
     <button type="submit" id="submit-btn" 
             style="padding: 1rem 2rem; background: #1A1A1A; color: #C19A2B; border: none; font-family: 'DM Mono', monospace; font-size: 0.9rem; letter-spacing: 2px; cursor: pointer; transition: background 0.3s;">
       SUBSCRIBE
@@ -1024,14 +1089,15 @@
 </div>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-brand">
-    <h3>Shared Pearls of Wisdom</h3>
-    <p>A free English learning resource inspired by the best of public broadcasting — curated with care for learners at every level, everywhere in the world.</p>
-  </div>
-  <div class="footer-col">
-    <h4>Learn</h4>
-    <ul>
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="footer-brand-col">
+        <h3 class="footer-brand-title">Shared Pearls of Wisdom</h3>
+        <p>A free English learning resource inspired by the best of public broadcasting — curated with care for learners at every level, everywhere in the world.</p>
+      </div>
+      <div class="footer-links-col">
+        <h4>LEARN</h4>
+        <ul>
       <li><a href="grammar-lesson-1.html">Grammar</a></li>
       <li><a href="vocab-a1a2.html">Vocabulary</a></li>
       <li><a href="pronunciation.html">Pronunciation</a></li>
@@ -1039,7 +1105,7 @@
       <li><a href="writinga1a2.html">Writing</a></li>
     </ul>
   </div>
-  <div class="footer-col">
+  <div class="footer-links-col">
     <h4>Series</h4>
     <ul>
       <li><a href="6-minute-wisdom.html">6-Minute Wisdom</a></li>
@@ -1049,22 +1115,24 @@
       <li><a href="idioms.html">Idioms</a></li>
        <li><a href="lexical-laboratory.html">Lexical Laboratory</a></li>
     </ul>
-  </div>
-  <div class="footer-col">
-    <h4>About</h4>
-    <ul>
-      <li><a href="#">Our Mission</a></li>
-      <li><a href="#">CEFR Levels</a></li>
-      <li><a href="#">For Teachers</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </div>
-</footer>
-<div class="footer-bottom">
-  <p>© 2026 Shared Pearls of Wisdom</p>
-  <p>Get inspired to learn · Inspire others</p>
-</div>
+    </div>
+  <div class="footer-links-col">
+        <h4>ABOUT</h4>
+        <ul>
+          <li><a href="#">Our Mission</a></li>
+          <li><a href="#">CEFR Levels</a></li>
+          <li><a href="#">For Teachers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      
+    </div>
 
+    <div class="footer-bottom">
+      <p>&copy; 2026 Shared Pearls of Wisdom</p>
+      <p>Get inspired to learn &bull; Inspire others</p>
+    </div>
+  </footer>
 <script>
   document.getElementById('subscribe-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Stops the page from refreshing
