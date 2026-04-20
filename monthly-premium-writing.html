@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Information Synthesis · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --sidebar-bg: lab(5.19% 16.24 -31.04);
+  --sidebar-hover: #1E1E1E;
+  --main-bg: #FAF9F6;
+  --crimson: #A51C30;
+  --crimson-dark: #7A1523;
+  --gold: #C4923E;
+  --charcoal: #222222;
+  --text-muted: #666666;
+  --white: #ffffff;
+  --border-light: #EAEAEA;
+  --success: #2e7d32;
+  --error: #c0392b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Source Serif 4', Georgia, serif; background: var(--main-bg); color: var(--charcoal); display: flex; min-height: 100vh; overflow-x: hidden; }
+
+/* ── SIDEBAR NAVIGATION (Matches Dashboard) ── */
+.sidebar { width: 280px; background: var(--sidebar-bg); color: var(--white); display: flex; flex-direction: column; position: fixed; height: 100vh; top: 0; left: 0; z-index: 100; border-right: 2px solid var(--gold); }
+.brand { padding: 2rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.brand h1 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--white); line-height: 1.2; }
+.brand span { color: var(--gold); font-style: italic; }
+.tier-badge { display: inline-block; margin-top: 0.5rem; background: var(--gold); color: var(--sidebar-bg); font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 3px; letter-spacing: 0.1em; text-transform: uppercase; }
+.nav-links { padding: 2rem 1rem; flex-grow: 1; display: flex; flex-direction: column; gap: 0.5rem; }
+.nav-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; color: #A0A0A0; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 500; border-radius: 6px; transition: 0.3s; border-left: 3px solid transparent; }
+.nav-item:hover { background: var(--sidebar-hover); color: var(--white); }
+.nav-item.active { background: rgba(196, 146, 62, 0.1); color: var(--gold); border-left-color: var(--gold); }
+.nav-icon { width: 20px; height: 20px; fill: currentColor; }
+
+/* ── MAIN CONTENT AREA ── */
+.main-wrapper { margin-left: 280px; flex-grow: 1; display: flex; flex-direction: column; min-height: 100vh; }
+.top-nav { background: var(--white); padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-light); position: sticky; top: 0; z-index: 90; }
+.page-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 600; color: var(--charcoal); }
+.back-link { font-family: 'DM Mono', monospace; font-size: 0.85rem; color: var(--crimson); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-weight: 700; text-transform: uppercase; }
+.back-link:hover { text-decoration: underline; }
+
+/* ── SPLIT LAYOUT FOR WRITING TASK ── */
+.content-area { padding: 3rem; max-width: 1600px; margin: 0 auto; width: 100%; display: flex; gap: 3rem; align-items: flex-start; }
+.task-materials { flex: 1; position: sticky; top: 120px; max-height: calc(100vh - 160px); overflow-y: auto; padding-right: 1.5rem; }
+.task-materials::-webkit-scrollbar { width: 6px; }
+.task-materials::-webkit-scrollbar-track { background: var(--main-bg); }
+.task-materials::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+.submission-area { flex: 1.2; background: var(--white); padding: 3rem; border-radius: 8px; border: 1px solid var(--border-light); box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+
+/* ── TASK CONTENT STYLING ── */
+.task-header { margin-bottom: 2rem; border-bottom: 2px solid var(--gold); padding-bottom: 1rem; }
+.task-tag { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--crimson); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; display: block; margin-bottom: 0.5rem; }
+.task-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--charcoal); line-height: 1.2; }
+.source-text { background: var(--white); padding: 2rem; border-left: 4px solid var(--charcoal); margin-bottom: 2rem; font-size: 1.05rem; line-height: 1.8; color: var(--charcoal); border-top: 1px solid var(--border-light); border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+.source-title { font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; display: block; }
+
+/* ── FORM STYLING ── */
+.form-group { margin-bottom: 1.5rem; }
+.form-label { display: block; font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 700; color: var(--charcoal); margin-bottom: 0.5rem; text-transform: uppercase; }
+.form-input { width: 100%; padding: 1rem; font-family: 'Source Serif 4', serif; font-size: 1.1rem; border: 1px solid var(--border-light); border-radius: 4px; outline: none; transition: 0.3s; background: var(--main-bg); }
+.form-input:focus { border-color: var(--crimson); background: var(--white); }
+.essay-box { height: 400px; resize: vertical; line-height: 1.8; }
+.word-count-wrapper { display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.85rem; font-weight: 700; }
+.target-length { color: var(--text-muted); }
+
+.submit-btn { background: var(--crimson); color: var(--white); border: none; padding: 1.2rem 2rem; font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 4px; cursor: pointer; transition: 0.3s; width: 100%; margin-top: 1rem; }
+.submit-btn:hover { background: var(--crimson-dark); box-shadow: 0 4px 15px rgba(165,28,48,0.3); }
+
+.instructor-note { margin-top: 2rem; padding-top: 2rem; border-top: 1px dashed var(--border-light); font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
+
+@media (max-width: 1024px) {
+  .sidebar { transform: translateX(-100%); }
+  .main-wrapper { margin-left: 0; }
+  .content-area { flex-direction: column; }
+  .task-materials { position: static; max-height: none; overflow-y: visible; padding-right: 0; }
+}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="brand">
+    <h1>Shared <span>Pearls</span><br>of Wisdom</h1>
+    <span class="tier-badge">Premium Scholar</span>
+  </div>
+  <div class="nav-links">
+    <a href="monthly-premium-dashboard.html" class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+      Dashboard
+    </a>
+    <a href="monthly-premium-writing.html" class="nav-item active">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      Assignments
+    </a>
+  </div>
+</nav>
+
+<main class="main-wrapper">
+  
+  <header class="top-nav">
+    <a href="monthly-premium-dashboard.html" class="back-link">← Return to Dashboard</a>
+    <div class="page-title">C1 Writing Submission</div>
+  </header>
+
+  <div class="content-area">
+    
+    <div class="task-materials">
+      <div class="task-header">
+        <span class="task-tag">Academic Synthesis Task</span>
+        <h2 class="task-title">The Role of Artificial Intelligence in Continuous Professional Development</h2>
+      </div>
+      
+      <p style="margin-bottom: 2rem; line-height: 1.6;">Read the two academic abstracts below regarding pedagogical interventions. You must write an essay synthesizing the arguments from both texts, evaluating their validity, and offering a reasoned conclusion on the future of professional development.</p>
+
+      <div class="source-text">
+        <span class="source-title">Source Text A: The Algorithmic Moderator</span>
+        <p>Recent studies suggest that integrating Artificial Intelligence as a moderating variable in Continuous Professional Development (CPD) drastically alters performance outcomes among language educators. Proponents argue that AI-driven feedback loops provide hyper-personalized pedagogical interventions, removing the inefficiencies of traditional, one-size-fits-all training seminars. By autonomously identifying specific gaps in a teacher’s methodological approach, AI systems can dynamically assign targeted literature and practice scenarios, accelerating the journey to instructional mastery.</p>
+      </div>
+
+      <div class="source-text" style="border-left-color: var(--gold);">
+        <span class="source-title">Source Text B: The Human Element in Pedagogy</span>
+        <p>While the gamification and automation of professional development offer undeniable logistical benefits, over-reliance on AI frameworks risks standardizing pedagogical thought. Teaching is inherently sociolinguistic; it requires empathy, cultural adaptability, and intuitive interventions that algorithms currently fail to replicate. Detractors warn that routing CPD exclusively through digital platforms may create highly technical instructors who lack the nuanced interpersonal skills required to motivate diverse student demographics, particularly in multicultural language centres.</p>
+      </div>
+    </div>
+
+    <div class="submission-area">
+      
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="essay-form">
+        
+        <div class="form-group">
+          <label class="form-label" for="student-email">Your Registered Email</label>
+          <input type="email" id="student-email" name="email" class="form-input" placeholder="scholar@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="essay-text">Formal Essay Proposition</label>
+          <textarea id="essay-text" name="essay" class="form-input essay-box" placeholder="Begin your synthesis here. Ensure complex syntactic structures and formal register..." required oninput="countWords()"></textarea>
+          
+          <div class="word-count-wrapper">
+            <span id="word-count" style="color: var(--charcoal);">Word count: 0</span>
+            <span class="target-length">Target: 240 - 280 words</span>
+          </div>
+        </div>
+
+        <input type="hidden" name="Assignment" value="Information Synthesis: AI and CPD">
+
+        <button type="submit" class="submit-btn" id="submit-btn">Transmit to Academic Board</button>
+      </form>
+
+      <div class="instructor-note">
+        <strong>Note from Ramesh Mani Suvedi:</strong><br>
+        Your submission will be manually evaluated against C1/C2 Scopus-tier academic standards. Pay specific attention to discourse markers and epistemic modality. Feedback will be returned via your registered email within 48 hours.
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<script>
+function countWords() {
+  const text = document.getElementById('essay-text').value.trim();
+  const words = text ? text.split(/\s+/) : [];
+  const countSpan = document.getElementById('word-count');
+  const btn = document.getElementById('submit-btn');
+  
+  countSpan.innerText = `Word count: ${words.length}`;
+  
+  if(words.length < 240) {
+    countSpan.style.color = "var(--error)";
+  } else if (words.length > 280) {
+    countSpan.style.color = "var(--error)";
+  } else {
+    countSpan.style.color = "var(--success)";
+  }
+}
+
+// Optional: Prevent submission if word count is too low
+document.getElementById('essay-form').addEventListener('submit', function(e) {
+  const text = document.getElementById('essay-text').value.trim();
+  const words = text ? text.split(/\s+/) : [];
+  
+  if(words.length < 150) {
+    e.preventDefault();
+    alert("Submission rejected. Your essay is significantly below the academic word count threshold.");
+  }
+});
+</script>
+</body>
+</html>
