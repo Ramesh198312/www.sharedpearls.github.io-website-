@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IELTS Reading Simulator · Test 02 · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   PREMIUM ACADEMIC VARIABLES
+═══════════════════════════════════════════ */
+:root {
+  --crimson: #A51C30;
+  --crimson-dark: #7A1523;
+  --charcoal: #222222;
+  --charcoal-light: #4B525A;
+  --ivory: #FAF9F6;
+  --white: #ffffff;
+  --gold: #C4923E;
+  --gold-light: rgba(196, 146, 62, 0.3);
+  --border: #E0E0E0;
+  --muted: #888888;
+  --success: #2e7d32;
+  --success-bg: rgba(46,125,50,0.08);
+  --error: #c0392b;
+  --error-bg: rgba(192,57,43,0.08);
+  --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
+  --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Source Serif 4', Georgia, serif; background: var(--ivory); color: var(--charcoal); line-height: 1.65; overflow: hidden; }
+
+/* ═══════════════════════════════════════════
+   NAVIGATION & TIMER BAR
+═══════════════════════════════════════════ */
+.nav { background: var(--white); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--crimson); height: 75px; box-shadow: var(--shadow-sm); z-index: 100; position: relative; }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; text-decoration: none; color: var(--charcoal);}
+.nav-logo em { color: var(--gold); font-style: italic; }
+
+.exam-controls { display: flex; align-items: center; gap: 3rem; }
+.timer-block { display: flex; align-items: center; gap: 1rem; font-family: 'DM Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--charcoal); }
+.timer-icon { color: var(--crimson); font-size: 1.2rem; }
+.timer-warning { color: var(--error); animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0.5; } }
+
+.btn-submit { background: var(--charcoal); color: var(--white); border: none; padding: .8rem 2.5rem; font-family: 'DM Mono', monospace; font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; border-radius: 4px; cursor: pointer; transition: all .2s; }
+.btn-submit:hover { background: var(--crimson); }
+
+/* ═══════════════════════════════════════════
+   PASSAGE TABS
+═══════════════════════════════════════════ */
+.tab-bar { background: var(--charcoal); display: flex; justify-content: center; padding: 0; }
+.tab-btn { background: transparent; border: none; color: #aaa; padding: 1rem 3rem; font-family: 'DM Mono', monospace; font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; cursor: pointer; transition: all .2s; border-bottom: 3px solid transparent; outline: none;}
+.tab-btn:hover { color: var(--white); }
+.tab-btn.active { color: var(--white); border-bottom-color: var(--gold); background: rgba(255,255,255,0.05); }
+
+/* ═══════════════════════════════════════════
+   SPLIT PANE ARCHITECTURE
+═══════════════════════════════════════════ */
+.workspace { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 126px); }
+
+.pane { overflow-y: auto; padding: 3rem; position: relative; }
+.pane-left { background: var(--white); border-right: 1px solid var(--border); }
+.pane-right { background: var(--ivory); }
+
+.pane::-webkit-scrollbar { width: 8px; }
+.pane::-webkit-scrollbar-track { background: var(--ivory); }
+.pane::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+.pane::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ── TEXT STYLING ── */
+.reading-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--charcoal); margin-bottom: 2rem; line-height: 1.2; }
+.reading-paragraph { font-size: 1.15rem; color: var(--charcoal); margin-bottom: 1.5rem; line-height: 1.8; text-align: justify; }
+.reading-paragraph strong { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--crimson); }
+mark.highlight { background-color: var(--gold-light); color: inherit; padding: 0 2px; border-radius: 2px; }
+
+.highlighter-hint { font-family: 'DM Mono', monospace; font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 2rem; padding: 1rem; background: var(--ivory); border-left: 3px solid var(--gold); }
+
+/* ── QUESTION STYLING ── */
+.q-section-title { font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--charcoal); text-transform: uppercase; letter-spacing: .1em; margin-bottom: .5rem; padding-bottom: .5rem; border-bottom: 2px solid var(--charcoal); }
+.q-instruction { font-style: italic; color: var(--charcoal-light); margin-bottom: 2rem; font-size: 1rem; background: var(--white); padding: 1rem; border: 1px solid var(--border); border-radius: 4px;}
+
+.q-block { margin-bottom: 3rem; }
+.q-row { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.5rem; }
+.q-num { font-family: 'DM Mono', monospace; font-weight: 700; color: var(--crimson); font-size: 1.1rem; min-width: 2.5rem; }
+.q-text { font-size: 1.05rem; color: var(--charcoal); flex-grow: 1; line-height: 1.6;}
+
+.gap-fill { border: none; border-bottom: 2px solid var(--charcoal-light); background: transparent; padding: .2rem .5rem; font-family: 'Source Serif 4', serif; font-size: 1.1rem; outline: none; transition: all .2s; width: 200px; text-align: center; color: var(--crimson); font-weight: 600;}
+.gap-fill:focus { border-bottom-color: var(--crimson); background: var(--white); }
+
+select.dropdown-ans { appearance: none; background: var(--white); border: 1px solid var(--border); padding: .4rem 1rem; font-family: 'DM Mono', monospace; font-size: .9rem; font-weight: 700; color: var(--charcoal); border-radius: 4px; cursor: pointer; outline: none; width: 120px; text-align: center;}
+select.dropdown-ans:focus { border-color: var(--crimson); }
+
+.mcq-options { display: flex; flex-direction: column; gap: .6rem; margin-top: .8rem; margin-left: 3.5rem; }
+.mcq-label { display: flex; align-items: center; gap: 1rem; padding: .6rem 1rem; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; transition: all .2s; background: var(--white); font-size: 1rem;}
+.mcq-label:hover { border-color: var(--gold); }
+.mcq-label input { accent-color: var(--crimson); transform: scale(1.1); }
+.mcq-label.selected { border-color: var(--gold); background: rgba(196,146,62,0.05); }
+
+/* Evaluation & Feedback */
+.input-success { border-color: var(--success) !important; background: var(--success-bg) !important; color: var(--success) !important; }
+.input-error { border-color: var(--error) !important; background: var(--error-bg) !important; color: var(--error) !important; }
+.mcq-success { border-color: var(--success) !important; background: var(--success-bg) !important; }
+.mcq-error { border-color: var(--error) !important; background: var(--error-bg) !important; }
+.ans-reveal { font-family: 'DM Mono', monospace; font-size: .85rem; color: var(--error); margin-left: .5rem; display: none; }
+.input-error + .ans-reveal { display: inline-block; }
+
+/* Dashboard Modal for Results */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 1000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
+.modal-overlay.active { display: flex; opacity: 1; }
+.modal-box { background: var(--white); padding: 4rem; border-radius: 8px; text-align: center; max-width: 600px; width: 90%; box-shadow: var(--shadow-md); border-top: 6px solid var(--crimson);}
+.mb-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--charcoal); margin-bottom: 1rem; }
+.mb-score { font-family: 'DM Mono', monospace; font-size: 6rem; font-weight: 700; color: var(--crimson); line-height: 1; margin-bottom: 1rem; }
+.mb-raw { font-size: 1.2rem; color: var(--muted); margin-bottom: 2rem; }
+.btn-close-modal { background: var(--charcoal); color: var(--white); border: none; padding: 1rem 3rem; font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; border-radius: 4px; cursor: pointer; }
+
+@media (max-width: 1024px) {
+  .workspace { grid-template-columns: 1fr; grid-template-rows: 50vh 50vh; }
+  .pane { padding: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="premium-lrsw-dashboard.html" class="nav-logo">Shared <em>Pearls</em> of Wisdom</a>
+  <div class="exam-controls">
+    <div class="timer-block" id="timer-display">
+      <span class="timer-icon">⏱</span> <span id="time-text">60:00</span>
+    </div>
+    <button class="btn-submit" onclick="gradeExam()">Submit Assessment</button>
+  </div>
+</nav>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchPassage(1)">Passage 1</button>
+  <button class="tab-btn" onclick="switchPassage(2)">Passage 2</button>
+  <button class="tab-btn" onclick="switchPassage(3)">Passage 3</button>
+</div>
+
+<main class="workspace">
+  
+  <div class="pane pane-left" id="text-pane">
+    <div class="highlighter-hint">💡 Pro Tip: Select any text with your mouse to highlight it. Click the highlight again to remove it.</div>
+    <div id="passage-content"></div>
+  </div>
+
+  <div class="pane pane-right" id="question-pane">
+    <div id="questions-content"></div>
+  </div>
+
+</main>
+
+<div class="modal-overlay" id="results-modal">
+  <div class="modal-box">
+    <div class="mb-title">Assessment Complete</div>
+    <div class="mb-score" id="final-band">0.0</div>
+    <div class="mb-raw" id="final-raw">0 / 40 Correct</div>
+    <p style="font-size: 1.1rem; color: var(--charcoal); margin-bottom: 2rem;" id="final-feedback"></p>
+    <button class="btn-close-modal" onclick="closeModal()">Review Answers</button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA ENGINE: TEXT & QUESTIONS
+═══════════════════════════════════════════ */
+const passageData = {
+  1: {
+    title: "The Evolution of ELT and the AI Disruption",
+    text: `
+      <p class="reading-paragraph">The historical trajectory of English Language Teaching (ELT) is marked by distinct pedagogical shifts. In the mid-20th century, the Grammar-Translation method reigned supreme, demanding strict syntactic accuracy and the rote memorization of vocabulary. This gave way in the 1970s to Communicative Language Teaching (CLT), a paradigm that fundamentally decentered grammatical perfection in favor of functional fluency and authentic interaction. The primary objective became ensuring the learner could successfully negotiate meaning in real-world contexts, even if their utterances were structurally flawed.</p>
+      <p class="reading-paragraph">Today, ELT faces a disruption more profound than any methodological shift: the advent of Generative Artificial Intelligence (AI) and Large Language Models (LLMs). For non-native speakers, particularly international students operating at B2 or C1 levels, these tools act as unprecedented linguistic scaffolding. An international student drafting a Scopus-indexed journal article can now feed rough, structurally imperfect propositions into an LLM and receive a polished, academically rigorous output in seconds. The AI bridges the gap between the student's cognitive intent and their current linguistic capability.</p>
+      <p class="reading-paragraph">However, this technological intervention introduces a severe pedagogical dilemma. While the LLM ameliorates immediate deficits in vocabulary and grammar, it risks cultivating a profound dependence. Educators are observing a phenomenon termed 'syntactic atrophy,' wherein learners rely so heavily on external algorithms to structure their discourse that their independent writing skills begin to degrade. Furthermore, because LLMs are trained on vast corpuses of standardized text, they tend to aggressively homogenize writing, effectively erasing the unique stylistic idiosyncrasies that constitute a learner's authentic voice.</p>
+    `,
+    questionsHTML: `
+      <div class="q-block">
+        <div class="q-section-title">Questions 1–6</div>
+        <div class="q-instruction">Do the following statements agree with the information given in Reading Passage 1?<br><br><b>TRUE</b> if the statement agrees<br><b>FALSE</b> if the statement contradicts<br><b>NOT GIVEN</b> if there is no information</div>
+        
+        ${generateDropdownQ(1, "Communicative Language Teaching prioritised structural perfection over the ability to convey meaning.", "FALSE")}
+        ${generateDropdownQ(2, "The introduction of Generative AI is considered a minor methodological shift in ELT history.", "FALSE")}
+        ${generateDropdownQ(3, "LLMs assist international students by improving the academic tone of their research writing.", "TRUE")}
+        ${generateDropdownQ(4, "Students using LLMs frequently score higher on verbal speaking examinations.", "NOT GIVEN")}
+        ${generateDropdownQ(5, "Over-reliance on AI tools can lead to a decline in a student's ability to write independently.", "TRUE")}
+        ${generateDropdownQ(6, "Generative AI encourages the development of highly unique and individualized writing styles.", "FALSE")}
+      </div>
+      <div class="q-block">
+        <div class="q-section-title">Questions 7–13</div>
+        <div class="q-instruction">Complete the notes below. Choose <b>NO MORE THAN TWO WORDS</b> from the passage for each answer.</div>
+        
+        <div class="q-row"><div class="q-num">7.</div><div class="q-text">The mid-20th century Grammar-Translation method required learners to engage in the <input type="text" class="gap-fill" data-ans="rote memorization"> of new words. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">8.</div><div class="q-text">CLT focused on allowing students to <input type="text" class="gap-fill" data-ans="negotiate meaning"> during real-world interactions. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">9.</div><div class="q-text">Modern AI tools serve as a form of <input type="text" class="gap-fill" data-ans="linguistic scaffolding|scaffolding"> for higher-level learners. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">10.</div><div class="q-text">LLMs successfully connect a student's <input type="text" class="gap-fill" data-ans="cognitive intent"> with their actual language skills. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">11.</div><div class="q-text">The condition where independent writing abilities deteriorate due to AI reliance is called <input type="text" class="gap-fill" data-ans="syntactic atrophy">. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">12.</div><div class="q-text">Because LLMs learn from standardized text, they tend to <input type="text" class="gap-fill" data-ans="homogenize|aggressively homogenize"> student writing. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">13.</div><div class="q-text">Consequently, the student's <input type="text" class="gap-fill" data-ans="authentic voice"> is often lost in the generated text. <span class="ans-reveal"></span></div></div>
+      </div>
+    `
+  },
+  2: {
+    title: "The Dichotomy of Authentic Voice vs. Syntactic Perfection",
+    text: `
+      <p class="reading-paragraph"><strong>A.</strong> The integration of Large Language Models (LLMs) into academic writing has surfaced a profound paradox for university educators. Previously, a tutor reading an international student's essay would navigate various grammatical infelicities—awkward phrasing, incorrect prepositional usage, or flawed subject-verb agreement. While these errors required correction, they also provided a transparent window into the student's cognitive process. The struggle with syntax was inseparable from the struggle with the subject matter. Today, tutors are increasingly presented with essays that exhibit flawless, native-level grammatical perfection, yet entirely lack original critical analysis.</p>
+      <p class="reading-paragraph"><strong>B.</strong> This phenomenon has created what some linguists term the 'uncanny valley' of student writing. The text reads beautifully, employing advanced cohesive devices and sophisticated lexical resources, but it possesses a sterile, algorithmic quality. It lacks the idiosyncratic 'voice' that naturally develops as a learner wrestles with complex concepts. The danger here is twofold: the student receives high marks for linguistic accuracy while simultaneously failing to develop the deep, structural comprehension that the writing process is designed to foster.</p>
+      <p class="reading-paragraph"><strong>C.</strong> Consequently, this shift has triggered a crisis of professional identity among English language educators. For decades, the core metric of an ESL teacher's effectiveness was their ability to eradicate errors from student output. If a machine can now instantly correct all syntactic and lexical errors with a single prompt, what remains of the teacher's role? Educators are being forced to transition from being 'correctors of language' to 'facilitators of thought,' a pivot that requires entirely new continuous professional development (CPD) frameworks.</p>
+      <p class="reading-paragraph"><strong>D.</strong> The proposed solution among progressive applied linguists is not to ban generative AI—an impossible endeavor—but to re-engineer how it is utilized. This involves implementing a 'heuristic pedagogy'. Instead of using the LLM to generate or rewrite text, students are taught to use it diagnostically. They might prompt the AI to analyze their argument structure, suggest counter-arguments, or explain *why* a specific grammatical rule applies to their draft. By shifting the AI's role from a 'ghostwriter' to an 'interactive tutor', the cognitive heavy lifting remains firmly with the student, preserving their authentic voice while leveraging the technology's analytical power.</p>
+    `,
+    questionsHTML: `
+      <div class="q-block">
+        <div class="q-section-title">Questions 14–17</div>
+        <div class="q-instruction">Choose the correct heading for each paragraph from the list of headings below.<br><br><b>i.</b> The necessity for new teacher training models<br><b>ii.</b> Changing the tool's function to preserve learning<br><b>iii.</b> The financial cost of implementing AI in schools<br><b>iv.</b> Flawless language masking a lack of deep thought<br><b>v.</b> The unnatural perfection of AI-generated text<br><b>vi.</b> How traditional errors revealed student understanding</div>
+        
+        <div class="q-row"><div class="q-num">14.</div><div class="q-text">Paragraph A: <input type="text" class="gap-fill" data-ans="vi" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">15.</div><div class="q-text">Paragraph B: <input type="text" class="gap-fill" data-ans="v" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">16.</div><div class="q-text">Paragraph C: <input type="text" class="gap-fill" data-ans="i" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">17.</div><div class="q-text">Paragraph D: <input type="text" class="gap-fill" data-ans="ii" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-section-title">Questions 18–22</div>
+        <div class="q-instruction">Complete the sentences below. Choose <b>ONE WORD ONLY</b> from the passage for each answer.</div>
+        
+        <div class="q-row"><div class="q-num">18.</div><div class="q-text">In the past, grammatical mistakes offered tutors a clear <input type="text" class="gap-fill" data-ans="window"> into how a student was thinking. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">19.</div><div class="q-text">Current AI-assisted essays often exhibit a <input type="text" class="gap-fill" data-ans="sterile"> quality, despite using advanced vocabulary. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">20.</div><div class="q-text">Teachers are experiencing a <input type="text" class="gap-fill" data-ans="crisis"> regarding their professional purpose in the modern classroom. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">21.</div><div class="q-text">Educators must stop merely correcting language and instead become <input type="text" class="gap-fill" data-ans="facilitators"> of student thought. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">22.</div><div class="q-text">Under a heuristic approach, students use AI <input type="text" class="gap-fill" data-ans="diagnostically"> rather than having it write the text for them. <span class="ans-reveal"></span></div></div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-section-title">Questions 23–26</div>
+        <div class="q-instruction">Match each statement with the correct entity: <b>A</b> (Traditional Tutors), <b>B</b> (Generative AI/LLMs), or <b>C</b> (Progressive Linguists).</div>
+        
+        <div class="q-row"><div class="q-num">23.</div><div class="q-text">Advocates for the transformation of technology into an interactive diagnostic tool: <input type="text" class="gap-fill" data-ans="c" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">24.</div><div class="q-text">Has the capability to instantly eradicate all syntactic errors from an essay: <input type="text" class="gap-fill" data-ans="b" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">25.</div><div class="q-text">Historically judged their own effectiveness by the reduction of student errors: <input type="text" class="gap-fill" data-ans="a" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">26.</div><div class="q-text">Strips away the unique stylistic quirks that define a writer's authentic personality: <input type="text" class="gap-fill" data-ans="b" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
+      </div>
+    `
+  },
+  3: {
+    title: "Epistemological Shifts in Language Assessment",
+    text: `
+      <p class="reading-paragraph">The ubiquitous presence of Generative AI necessitates a radical epistemological shift in how academic institutions assess linguistic proficiency. Historically, high-stakes assessments like the IELTS or university entrance exams have relied heavily on evaluating 'surface-level' features: syntactic variety, lexical resource, and grammatical accuracy. However, when students transition into digital environments where these features can be outsourced to an algorithm with near-perfect reliability, traditional metrics rapidly lose their evaluative credibility.</p>
+      <p class="reading-paragraph">This outsourcing is a form of 'cognitive offloading'—transferring mental effort to external devices. While critics decry this as academic laziness, proponents argue it mimics the realities of the modern professional workplace. A 21st-century professional does not draft corporate communications without digital assistance; they utilize spellcheckers, predictive text, and now, LLMs. Consequently, penalizing students for utilizing these tools creates an artificial testing environment that fails to measure the competencies actually required in post-graduate employment.</p>
+      <p class="reading-paragraph">To maintain relevance, academic assessment must evolve to measure what the machine cannot easily replicate: propositional density, critical synthesis, and epistemic modality. Rather than grading a student on whether they can perfectly construct a past-perfect continuous sentence, evaluators must assess the depth of the argument. Did the student evaluate competing literature effectively? Did they identify methodological flaws in the source material? This paradigm shift moves the focus of language assessment away from 'how' the student communicates, and focuses intensely on 'what' they are attempting to communicate.</p>
+      <p class="reading-paragraph">Furthermore, this necessitates a reimagining of digital credentialing. E-portfolios, previously used merely as static repositories of student work, must evolve into dynamic, AI-enabled ecosystems. In these future platforms, the AI does not merely grade the final essay; it tracks the entire developmental journey. It records the student's initial prompts, their subsequent revisions, and their engagement with counter-arguments. Ultimately, verifying a student's capability will rely less on the final polished document, which is easily spoofed, and more on the verified, longitudinal data of their cognitive engagement throughout the drafting process.</p>
+    `,
+    questionsHTML: `
+      <div class="q-block">
+        <div class="q-section-title">Questions 27–31</div>
+        <div class="q-instruction">Do the following statements agree with the claims of the writer in Reading Passage 3?<br><br><b>YES</b> if the statement agrees<br><b>NO</b> if the statement contradicts<br><b>NOT GIVEN</b> if it is impossible to say</div>
+        
+        ${generateDropdownQ2(27, "Traditional exams like IELTS effectively measure the skills needed for modern workplaces.", "NO")}
+        ${generateDropdownQ2(28, "Cognitive offloading is universally viewed as detrimental to student learning.", "NO")}
+        ${generateDropdownQ2(29, "Modern professionals frequently rely on digital assistance when writing communications.", "YES")}
+        ${generateDropdownQ2(30, "Future assessments will prioritize the evaluation of complex grammatical structures.", "NO")}
+        ${generateDropdownQ2(31, "AI-enabled e-portfolios are currently too expensive for most universities to implement.", "NOT GIVEN")}
+      </div>
+
+      <div class="q-block">
+        <div class="q-section-title">Questions 32–36</div>
+        <div class="q-instruction">Complete the summary using the list of letters, <b>A–I</b>, below.</div>
+        <p style="background: var(--white); padding: 1rem; border: 1px solid var(--border); margin-bottom: 2rem; font-family: 'DM Mono', monospace; font-size: .9rem;">
+          A. cognitive offloading &nbsp; B. propositional density &nbsp; C. syntactic accuracy<br>
+          D. traditional metrics &nbsp; E. workplace realities &nbsp; F. final document<br>
+          G. developmental journey &nbsp; H. grammatical flaws &nbsp; I. epistemic modality
+        </p>
+
+        <div class="q-row"><div class="q-num">32.</div><div class="q-text">Because AI can easily handle grammar and vocabulary, the reliability of <input type="text" class="gap-fill" data-ans="d" placeholder="Letter A-I"> is severely compromised. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">33.</div><div class="q-text">Transferring the effort of writing to external algorithms is known as <input type="text" class="gap-fill" data-ans="a" placeholder="Letter A-I">. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">34.</div><div class="q-text">Some argue that testing without digital tools ignores modern <input type="text" class="gap-fill" data-ans="e" placeholder="Letter A-I">. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">35.</div><div class="q-text">New evaluation systems must focus on deep argumentation, such as <input type="text" class="gap-fill" data-ans="b" placeholder="Letter A-I"> and critical synthesis. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">36.</div><div class="q-text">In the future, a student's capability will be judged by their <input type="text" class="gap-fill" data-ans="g" placeholder="Letter A-I">, rather than just the polished essay. <span class="ans-reveal"></span></div></div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-section-title">Questions 37–40</div>
+        <div class="q-instruction">Complete each sentence with the correct ending, <b>A–F</b>.</div>
+        <p style="background: var(--white); padding: 1rem; border: 1px solid var(--border); margin-bottom: 2rem; font-family: 'DM Mono', monospace; font-size: .85rem; line-height: 1.6;">
+          <b>A.</b> ...measure the depth of the argument rather than the surface-level grammar.<br>
+          <b>B.</b> ...outsource their grammatical corrections to external algorithms.<br>
+          <b>C.</b> ...serve as static repositories for finished student assignments.<br>
+          <b>D.</b> ...track a student's initial prompts and subsequent revisions.<br>
+          <b>E.</b> ...penalise students for attempting to negotiate complex meanings.<br>
+          <b>F.</b> ...lose their evaluative credibility in the digital age.
+        </p>
+
+        <div class="q-row"><div class="q-num">37.</div><div class="q-text">Assessments that only test lexical resource and syntax will quickly <input type="text" class="gap-fill" data-ans="f" placeholder="Letter A-F">. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">38.</div><div class="q-text">A modern academic evaluation system must <input type="text" class="gap-fill" data-ans="a" placeholder="Letter A-F">. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">39.</div><div class="q-text">Previously, the primary function of e-portfolios was to <input type="text" class="gap-fill" data-ans="c" placeholder="Letter A-F">. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">40.</div><div class="q-text">Future AI-enabled credentialing platforms will <input type="text" class="gap-fill" data-ans="d" placeholder="Letter A-F">. <span class="ans-reveal"></span></div></div>
+      </div>
+    `
+  }
+};
+
+// Helpers for HTML generation
+function generateDropdownQ(num, text, ans) {
+  return `
+    <div class="q-row">
+      <div class="q-num">${num}.</div>
+      <div class="q-text">${text}</div>
+      <select class="dropdown-ans" data-ans="${ans}">
+        <option value="">Select...</option>
+        <option value="TRUE">TRUE</option>
+        <option value="FALSE">FALSE</option>
+        <option value="NOT GIVEN">NOT GIVEN</option>
+      </select>
+    </div>
+  `;
+}
+function generateDropdownQ2(num, text, ans) {
+  return `
+    <div class="q-row">
+      <div class="q-num">${num}.</div>
+      <div class="q-text">${text}</div>
+      <select class="dropdown-ans" data-ans="${ans}">
+        <option value="">Select...</option>
+        <option value="YES">YES</option>
+        <option value="NO">NO</option>
+        <option value="NOT GIVEN">NOT GIVEN</option>
+      </select>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════
+   UI CONTROLLERS
+═══════════════════════════════════════════ */
+const textPane = document.getElementById('passage-content');
+const qPane = document.getElementById('questions-content');
+
+function switchPassage(id) {
+  document.querySelectorAll('.tab-btn').forEach((btn, index) => {
+    btn.classList.toggle('active', index + 1 === id);
+  });
+  
+  textPane.innerHTML = `<h2 class="reading-title">${passageData[id].title}</h2>` + passageData[id].text;
+  qPane.innerHTML = passageData[id].questionsHTML;
+  
+  document.getElementById('text-pane').scrollTop = 0;
+  document.getElementById('question-pane').scrollTop = 0;
+}
+
+switchPassage(1); // Init
+
+/* ═══════════════════════════════════════════
+   HIGHLIGHTER API
+═══════════════════════════════════════════ */
+document.getElementById('text-pane').addEventListener('mouseup', function() {
+  const selection = window.getSelection();
+  if (!selection.isCollapsed && selection.toString().trim().length > 0) {
+    const range = selection.getRangeAt(0);
+    const mark = document.createElement('mark');
+    mark.className = 'highlight';
+    try {
+      range.surroundContents(mark);
+      selection.removeAllRanges();
+    } catch (e) {
+      console.log("Cross-block highlighting restricted.");
+    }
+  }
+});
+
+document.getElementById('text-pane').addEventListener('click', function(e) {
+  if (e.target.tagName.toLowerCase() === 'mark' && e.target.classList.contains('highlight')) {
+    const parent = e.target.parentNode;
+    while (e.target.firstChild) {
+      parent.insertBefore(e.target.firstChild, e.target);
+    }
+    parent.removeChild(e.target);
+  }
+});
+
+/* ═══════════════════════════════════════════
+   COUNTDOWN TIMER
+═══════════════════════════════════════════ */
+let totalSeconds = 3600; // 60 mins
+const timerEl = document.getElementById('time-text');
+
+const timerInterval = setInterval(() => {
+  totalSeconds--;
+  let m = Math.floor(totalSeconds / 60);
+  let s = totalSeconds % 60;
+  timerEl.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  
+  if (totalSeconds <= 300) timerEl.classList.add('timer-warning');
+  if (totalSeconds <= 0) {
+    clearInterval(timerInterval);
+    gradeExam();
+  }
+}, 1000);
+
+/* ═══════════════════════════════════════════
+   GRADING ENGINE (Evaluates current visible pane)
+═══════════════════════════════════════════ */
+function gradeExam() {
+  let score = 0;
+  let totalQuestionsInView = 0;
+  
+  // Gap Fills
+  const gapFills = document.querySelectorAll('.gap-fill');
+  gapFills.forEach(input => {
+    totalQuestionsInView++;
+    const userAns = input.value.trim().toLowerCase();
+    const validAnswers = input.getAttribute('data-ans').toLowerCase().split('|');
+    const revealSpan = input.nextElementSibling;
+    
+    input.classList.remove('input-success', 'input-error');
+    revealSpan.innerText = "";
+    
+    if(validAnswers.includes(userAns) && userAns !== "") {
+      input.classList.add('input-success');
+      score++;
+    } else {
+      input.classList.add('input-error');
+      revealSpan.innerText = `(Correct: ${validAnswers[0].toUpperCase()})`; 
+    }
+  });
+
+  // Dropdowns
+  const dropdowns = document.querySelectorAll('.dropdown-ans');
+  dropdowns.forEach(select => {
+    totalQuestionsInView++;
+    const userAns = select.value;
+    const correctAns = select.getAttribute('data-ans');
+    
+    select.classList.remove('input-success', 'input-error');
+    if(userAns === correctAns) {
+      select.classList.add('input-success');
+      score++;
+    } else {
+      select.classList.add('input-error');
+      let reveal = select.nextElementSibling;
+      if (!reveal || !reveal.classList.contains('ans-reveal')) {
+        reveal = document.createElement('span');
+        reveal.className = 'ans-reveal';
+        reveal.style.display = 'inline-block';
+        select.parentNode.appendChild(reveal);
+      }
+      reveal.innerText = `(Correct: ${correctAns})`;
+    }
+  });
+
+  let percentage = score / totalQuestionsInView;
+  let band = 0;
+  if(percentage >= 0.95) band = "9.0";
+  else if(percentage >= 0.85) band = "8.0";
+  else if(percentage >= 0.75) band = "7.0";
+  else if(percentage >= 0.60) band = "6.0";
+  else band = "< 6.0";
+
+  document.getElementById('final-band').innerText = band;
+  document.getElementById('final-raw').innerText = `${score} / ${totalQuestionsInView} Correct (Active Section)`;
+  document.getElementById('final-feedback').innerText = "To achieve an official Band Score, ensure you complete and submit all three reading passages.";
+  
+  document.getElementById('results-modal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('results-modal').classList.remove('active');
+}
+</script>
+
+</body>
+</html>

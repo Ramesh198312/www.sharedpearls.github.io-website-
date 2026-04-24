@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IELTS Listening Simulator · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   PREMIUM ACADEMIC VARIABLES
+═══════════════════════════════════════════ */
+:root {
+  --crimson: #A51C30;
+  --crimson-dark: #7A1523;
+  --charcoal: #222222;
+  --charcoal-light: #4B525A;
+  --ivory: #FAF9F6;
+  --white: #ffffff;
+  --gold: #C4923E;
+  --border: #E0E0E0;
+  --muted: #888888;
+  --success: #2e7d32;
+  --success-bg: rgba(46,125,50,0.08);
+  --error: #c0392b;
+  --error-bg: rgba(192,57,43,0.08);
+  --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
+  --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Source Serif 4', Georgia, serif; background: var(--ivory); color: var(--charcoal); line-height: 1.65; overflow-x: hidden; }
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+.nav { background: var(--white); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--crimson); position: sticky; top: 0; z-index: 999; height: 75px; box-shadow: var(--shadow-sm); }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; }
+.nav-logo em { color: var(--gold); font-style: italic; }
+.nav-links { display: flex; align-items: center; gap: 1rem; }
+.nav-link { font-family: 'DM Mono', monospace; font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--charcoal-light); padding: .5rem .8rem; transition: all .2s; cursor: pointer;}
+.nav-link.active { color: var(--crimson); border-bottom: 2px solid var(--crimson); }
+
+/* ═══════════════════════════════════════════
+   EXAM LAYOUT (SPLIT PANE)
+═══════════════════════════════════════════ */
+.simulator-container { max-width: 1400px; margin: 0 auto; padding: 3rem; display: grid; grid-template-columns: 380px 1fr; gap: 4rem; align-items: start; }
+
+/* ── LEFT PANE: MASTER AUDIO COMMAND ── */
+.audio-deck { 
+  position: sticky; 
+  top: 100px; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 1.5rem; 
+  /* Failsafe Independent Scrolling */
+  max-height: calc(100vh - 120px); 
+  overflow-y: auto; 
+  padding-right: 1rem; 
+  padding-bottom: 1rem;
+}
+
+/* Custom sleek scrollbar for the left pane */
+.audio-deck::-webkit-scrollbar { width: 6px; }
+.audio-deck::-webkit-scrollbar-track { background: transparent; }
+.audio-deck::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; transition: background 0.2s;}
+.audio-deck::-webkit-scrollbar-thumb:hover { background: var(--charcoal-light); }
+
+.deck-header { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--charcoal); border-bottom: 2px solid var(--border); padding-bottom: 1rem; margin-bottom: 1rem; }
+.deck-header em { color: var(--crimson); font-style: italic; }
+
+.master-track-card { background: var(--charcoal); border-radius: 12px; padding: 2rem; color: var(--white); box-shadow: var(--shadow-md); display: flex; flex-direction: column; align-items: center; text-align: center; border-top: 5px solid var(--gold); }
+.mtc-badge { font-family: 'DM Mono', monospace; font-size: .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; border: 1px solid var(--gold); padding: .3rem .8rem; border-radius: 4px;}
+.mtc-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 2rem; line-height: 1.2;}
+
+/* Giant Premium Play Button - Shifted UP */
+.play-btn-large { width: 85px; height: 85px; background: var(--crimson); border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 10px 25px rgba(165, 28, 48, 0.4); outline: none; margin-bottom: 1.5rem; }
+.play-btn-large:hover { background: var(--crimson-dark); transform: scale(1.08); box-shadow: 0 15px 35px rgba(165, 28, 48, 0.6); }
+.play-icon-large { width: 0; height: 0; border-top: 14px solid transparent; border-bottom: 14px solid transparent; border-left: 22px solid var(--white); margin-left: 6px; }
+.pause-icon-large { width: 18px; height: 24px; border-left: 6px solid var(--white); border-right: 6px solid var(--white); display: none; }
+
+.play-btn-large.playing .play-icon-large { display: none; }
+.play-btn-large.playing .pause-icon-large { display: block; }
+
+.audio-waves-large { display: flex; gap: 4px; align-items: center; height: 35px; opacity: 0.2; justify-content: center; width: 100%; transition: opacity 0.3s; margin-bottom: 2rem;}
+.audio-waves-large.active { opacity: 1; }
+.wave-large { width: 4px; background: var(--gold); border-radius: 2px; height: 4px; transition: height 0.1s ease; }
+
+.mtc-desc { font-size: .95rem; color: #ccc; line-height: 1.5; margin-bottom: 0; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
+
+/* ── RIGHT PANE: EXAM PAPER ── */
+.exam-paper { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 4rem; box-shadow: var(--shadow-sm); }
+.paper-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--charcoal); padding-bottom: 1rem; margin-bottom: 3rem; }
+.ph-title { font-family: 'DM Mono', monospace; font-size: 1.2rem; font-weight: 700; color: var(--charcoal); text-transform: uppercase; letter-spacing: .1em; }
+
+.section-block { margin-bottom: 4rem; padding-bottom: 2rem; border-bottom: 1px dashed var(--border); }
+.sb-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--charcoal); margin-bottom: .5rem; }
+.sb-instruction { font-style: italic; color: var(--muted); margin-bottom: 2rem; font-size: 1rem; background: var(--ivory); padding: 1rem; border-left: 4px solid var(--gold); }
+
+/* Question Layouts */
+.q-row { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.5rem; }
+.q-num { font-family: 'DM Mono', monospace; font-weight: 700; color: var(--crimson); font-size: 1.1rem; min-width: 2rem; }
+.q-text { font-size: 1.1rem; color: var(--charcoal); flex-grow: 1; line-height: 1.8;}
+
+.gap-fill { border: none; border-bottom: 2px solid var(--charcoal-light); background: var(--ivory); padding: .2rem .5rem; font-family: 'Source Serif 4', serif; font-size: 1.1rem; outline: none; transition: all .2s; width: 220px; text-align: center; color: var(--charcoal); font-weight: 600;}
+.gap-fill:focus { border-bottom-color: var(--crimson); background: var(--white); }
+.gap-fill::placeholder { font-weight: 400; color: #ccc; }
+
+.mcq-options { display: flex; flex-direction: column; gap: .8rem; margin-top: .8rem; margin-left: 3rem; }
+.mcq-label { display: flex; align-items: center; gap: 1rem; padding: .8rem 1rem; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; transition: all .2s; }
+.mcq-label:hover { background: var(--ivory); border-color: var(--gold); }
+.mcq-label input { accent-color: var(--crimson); transform: scale(1.1); }
+.mcq-label.selected { border-color: var(--gold); background: rgba(196,146,62,0.05); }
+
+/* Evaluation UI */
+.input-success { border-color: var(--success) !important; background: var(--success-bg) !important; color: var(--success) !important; }
+.input-error { border-color: var(--error) !important; background: var(--error-bg) !important; color: var(--error) !important; }
+.mcq-success { border-color: var(--success) !important; background: var(--success-bg) !important; }
+.mcq-error { border-color: var(--error) !important; background: var(--error-bg) !important; }
+.ans-reveal { font-family: 'DM Mono', monospace; font-size: .85rem; color: var(--error); margin-left: .5rem; display: none; }
+.input-error + .ans-reveal { display: inline-block; }
+
+.submit-area { text-align: center; margin-top: 2rem; border-top: 2px solid var(--charcoal); padding-top: 3rem; }
+.btn-submit { background: var(--charcoal); color: var(--white); border: none; padding: 1.2rem 4rem; font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; border-radius: 4px; cursor: pointer; transition: all .2s; box-shadow: var(--shadow-sm); }
+.btn-submit:hover { background: var(--crimson); transform: translateY(-2px); }
+
+.band-score-display { display: none; margin-top: 3rem; padding: 3rem; background: var(--charcoal); color: var(--white); border-radius: 8px; text-align: center; box-shadow: var(--shadow-md); }
+.bs-kicker { font-family: 'DM Mono', monospace; font-size: .9rem; color: var(--gold); text-transform: uppercase; letter-spacing: .15em; margin-bottom: 1rem; }
+.bs-score { font-family: 'Playfair Display', serif; font-size: 5.5rem; font-weight: 700; color: var(--white); line-height: 1; margin-bottom: 1rem; }
+.bs-raw { font-size: 1.3rem; color: #ccc; }
+
+@media (max-width: 1024px) {
+  .simulator-container { grid-template-columns: 1fr; }
+  .audio-deck { position: static; max-height: none; overflow-y: visible; padding-right: 0; }
+  .mcq-options { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">Shared <em>Pearls</em> of Wisdom</div>
+  <div class="nav-links">
+    <a class="nav-link active">Listening Assessment</a>
+  </div>
+</nav>
+
+<main class="simulator-container">
+  
+  <aside class="audio-deck">
+    <div class="deck-header">Listening <em>C1/C2</em></div>
+    
+    <div class="master-track-card">
+      <span class="mtc-badge">Full Assessment</span>
+      <h2 class="mtc-title">Continuous Audio</h2>
+      
+      <audio id="exam-audio" src="Premium Listening File/premium-listening-combined.m4a"></audio>
+
+      <button class="play-btn-large" id="master-btn" onclick="toggleAudio()">
+        <div class="play-icon-large"></div>
+        <div class="pause-icon-large"></div>
+      </button>
+
+      <div class="audio-waves-large" id="master-waves">
+        </div>
+      
+      <p class="mtc-desc">This is an uninterrupted recording covering all four sections. Read the questions carefully. You will hear the recording only once.</p>
+    </div>
+  </aside>
+
+  <div class="exam-paper">
+    <div class="paper-header">
+      <div class="ph-title">C1/C2 Mock Assessment</div>
+      <div class="ph-title" style="color:var(--crimson)">40 Questions</div>
+    </div>
+
+    <div id="exam-render-target">
+      </div>
+
+    <div class="submit-area">
+      <button class="btn-submit" onclick="gradeExam()">Evaluate & Calculate Band</button>
+    </div>
+
+    <div class="band-score-display" id="band-score-board">
+      <div class="bs-kicker">Diagnostic Result</div>
+      <div class="bs-score" id="final-band">8.5</div>
+      <div class="bs-raw" id="final-raw">37 / 40 Correct</div>
+      <p style="margin-top:1.5rem; font-size:1.1rem; color:#aaa;" id="final-feedback"></p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+/* ═══════════════════════════════════════════
+   THE C1/C2 40-QUESTION DATA ENGINE
+═══════════════════════════════════════════ */
+const examData = [
+  {
+    section: 1,
+    title: "Section 1: Corporate Retreat Negotiation",
+    instruction: "Questions 1-10: Complete the notes below. Write NO MORE THAN TWO WORDS.",
+    questions: [
+      { qNum: 1, text: "Reason for schedule alteration: Delay of the <input type='text' class='gap-fill' data-ans='keynote speaker'> <span class='ans-reveal'></span>" },
+      { qNum: 2, text: "Revised event commencement date: <input type='text' class='gap-fill' data-ans='16th|sixteenth'> <span class='ans-reveal'></span>" },
+      { qNum: 3, text: "Dietary restriction: Venue must guarantee a <input type='text' class='gap-fill' data-ans='gluten-free|gluten free'> environment. <span class='ans-reveal'></span>" },
+      { qNum: 4, text: "The hotel must accept full <input type='text' class='gap-fill' data-ans='liability'> for potential health risks. <span class='ans-reveal'></span>" },
+      { qNum: 5, text: "Method of initial payment: <input type='text' class='gap-fill' data-ans='wire transfer'> <span class='ans-reveal'></span>" },
+      { qNum: 6, text: "Specialized equipment needed to prevent echo: <input type='text' class='gap-fill' data-ans='acoustic panel|acoustic panels'> <span class='ans-reveal'></span>" },
+      { qNum: 7, text: "Transport arrangement requested by delegates: <input type='text' class='gap-fill' data-ans='charter bus'> <span class='ans-reveal'></span>" },
+      { qNum: 8, text: "Absolute deadline for attendee numbers: <input type='text' class='gap-fill' data-ans='thursday'> <span class='ans-reveal'></span>" },
+      { qNum: 9, text: "Discount type applicable to the invoice: <input type='text' class='gap-fill' data-ans='non-profit|non profit'> <span class='ans-reveal'></span>" },
+      { qNum: 10, text: "Additional room required specifically for: <input type='text' class='gap-fill' data-ans='breakout sessions'> <span class='ans-reveal'></span>" }
+    ]
+  },
+  {
+    section: 2,
+    title: "Section 2: Campus Infrastructure",
+    instruction: "Questions 11-20: Choose the correct letter, A, B, or C.",
+    questions: [
+      { qNum: 11, text: "The main research archive is currently shut to students because...", type: "mcq", options: ["A. the building sustained structural water damage.", "B. printed materials are being electronically backed up.", "C. postgraduate access is being exclusively prioritized."], ans: 1 },
+      { qNum: 12, text: "Under the new environmental policy, students buying subsidized food must...", type: "mcq", options: ["A. use their own personal storage vessels.", "B. pay an unavoidable premium environmental tax.", "C. eat strictly within the designated quad area."], ans: 0 },
+      { qNum: 13, text: "To successfully join the debate society, prospective members are required to...", type: "mcq", options: ["A. pass a rigorous written entrance examination.", "B. pay a one-off annual membership fee.", "C. demonstrate their skills in a practice debate."], ans: 2 },
+      { qNum: 14, text: "Who should international students contact first regarding visa complications?", type: "mcq", options: ["A. A dedicated university registry representative.", "B. The regional immigration authority office.", "C. Their specific academic department head."], ans: 0 },
+      { qNum: 15, text: "The IT helpdesk has reduced its physical opening hours primarily as a result of...", type: "mcq", options: ["A. an unprecedented reduction in financial funding.", "B. the implementation of remote, cloud-based software.", "C. critical staff retention issues in the late afternoon."], ans: 1 },
+      { qNum: 16, text: "The newly constructed engineering faculty building was primarily funded by...", type: "mcq", options: ["A. increased student tuition fees.", "B. a substantial government grant.", "C. private corporate sponsorships."], ans: 2 },
+      { qNum: 17, text: "Students wishing to use the Olympic-sized swimming pool must...", type: "mcq", options: ["A. book a slot 24 hours in advance.", "B. present a valid medical certificate.", "C. undergo a brief safety orientation."], ans: 0 },
+      { qNum: 18, text: "The campus shuttle bus schedule was altered to...", type: "mcq", options: ["A. align better with the local train timetable.", "B. reduce noise pollution near the dormitories.", "C. accommodate the extended library hours."], ans: 0 },
+      { qNum: 19, text: "The university's counseling services have recently introduced...", type: "mcq", options: ["A. mandatory mental health workshops.", "B. anonymous text-based support lines.", "C. off-campus residential retreats."], ans: 1 },
+      { qNum: 20, text: "The guided tour will officially conclude at the...", type: "mcq", options: ["A. historical botanical gardens.", "B. central alumni exhibition hall.", "C. main decorative fountain."], ans: 2 }
+    ]
+  },
+  {
+    section: 3,
+    title: "Section 3: Academic Dispute on Methodology",
+    instruction: "Questions 21-30: Complete the sentences. Write NO MORE THAN TWO WORDS.",
+    questions: [
+      { qNum: 21, text: "The tutor argues that the foundation of the student's research is flawed due to <input type='text' class='gap-fill' data-ans='survivorship bias'>. <span class='ans-reveal'></span>" },
+      { qNum: 22, text: "The student admits they did not adequately isolate the <input type='text' class='gap-fill' data-ans='confounding variables'>. <span class='ans-reveal'></span>" },
+      { qNum: 23, text: "The current cross-sectional approach must be replaced with a <input type='text' class='gap-fill' data-ans='longitudinal study|longitudinal'> framework. <span class='ans-reveal'></span>" },
+      { qNum: 24, text: "The research has drawn criticism from the ethics board over missing <input type='text' class='gap-fill' data-ans='informed consent'>. <span class='ans-reveal'></span>" },
+      { qNum: 25, text: "The statistical model needs to prove a <input type='text' class='gap-fill' data-ans='causal relationship'> instead of just a correlation. <span class='ans-reveal'></span>" },
+      { qNum: 26, text: "Data collection was compromised because of unexpectedly high <input type='text' class='gap-fill' data-ans='attrition rates'>. <span class='ans-reveal'></span>" },
+      { qNum: 27, text: "The tutor suggests applying <input type='text' class='gap-fill' data-ans='regression analysis'> to better predict outcomes. <span class='ans-reveal'></span>" },
+      { qNum: 28, text: "The final chapter must provide more than a <input type='text' class='gap-fill' data-ans='descriptive summary'> of previous works. <span class='ans-reveal'></span>" },
+      { qNum: 29, text: "The major weakness of the current theoretical model is a lack of <input type='text' class='gap-fill' data-ans='predictive validity'>. <span class='ans-reveal'></span>" },
+      { qNum: 30, text: "The revised draft must be handed in prior to the start of the <input type='text' class='gap-fill' data-ans='symposium'>. <span class='ans-reveal'></span>" }
+    ]
+  },
+  {
+    section: 4,
+    title: "Section 4: The Efficacy of Asynchronous Linguistics",
+    instruction: "Questions 31-40: Complete the summary below. Write ONE WORD ONLY.",
+    questions: [
+      { qNum: 31, text: "Remote learning formats typically suffer from an absence of prompt <input type='text' class='gap-fill' data-ans='scaffolding'>. <span class='ans-reveal'></span>" },
+      { qNum: 32, text: "Students experience a sharp <input type='text' class='gap-fill' data-ans='dichotomy'> separating their independence from feelings of isolation. <span class='ans-reveal'></span>" },
+      { qNum: 33, text: "Over-dependence on AI writing assistants can easily <input type='text' class='gap-fill' data-ans='obfuscate'> a learner's actual grammatical ability. <span class='ans-reveal'></span>" },
+      { qNum: 34, text: "Teachers must help learners in the <input type='text' class='gap-fill' data-ans='negotiation'> of their academic persona. <span class='ans-reveal'></span>" },
+      { qNum: 35, text: "It is vital to implement a <input type='text' class='gap-fill' data-ans='heuristic'> approach, enabling self-discovery of language rules. <span class='ans-reveal'></span>" },
+      { qNum: 36, text: "Traditional educational frameworks require the smooth inclusion of modern <input type='text' class='gap-fill' data-ans='pedagogy'>. <span class='ans-reveal'></span>" },
+      { qNum: 37, text: "Assessment criteria should move beyond strict <input type='text' class='gap-fill' data-ans='syntactic'> accuracy. <span class='ans-reveal'></span>" },
+      { qNum: 38, text: "The primary goal of this educational shift is to guarantee lasting cognitive <input type='text' class='gap-fill' data-ans='retention'>. <span class='ans-reveal'></span>" },
+      { qNum: 39, text: "A lack of strict monitoring destroys the <input type='text' class='gap-fill' data-ans='credibility'> of online qualifications. <span class='ans-reveal'></span>" },
+      { qNum: 40, text: "Solving these deep-rooted issues demands a complete <input type='text' class='gap-fill' data-ans='paradigm'> shift across the sector. <span class='ans-reveal'></span>" }
+    ]
+  }
+];
+
+// Render the 40 Questions
+const target = document.getElementById('exam-render-target');
+examData.forEach((sec) => {
+  let html = `<div class="section-block"><h2 class="sb-title">${sec.title}</h2><p class="sb-instruction">${sec.instruction}</p>`;
+  sec.questions.forEach(q => {
+    if (q.type === 'mcq') {
+      html += `<div class="q-row"><div class="q-num">${q.qNum}.</div><div class="q-text">${q.text}<div class="mcq-options" data-correct="${q.ans}" data-qnum="${q.qNum}">${q.options.map((opt, i) => `<label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q${q.qNum}" value="${i}"> ${opt}</label>`).join('')}</div></div></div>`;
+    } else {
+      html += `<div class="q-row"><div class="q-num">${q.qNum}.</div><div class="q-text">${q.text}</div></div>`;
+    }
+  });
+  html += `</div>`;
+  target.insertAdjacentHTML('beforeend', html);
+});
+
+function selectRadio(label) {
+  const siblings = label.parentElement.querySelectorAll('.mcq-label');
+  siblings.forEach(s => s.classList.remove('selected'));
+  label.classList.add('selected');
+  label.querySelector('input').checked = true;
+}
+
+/* ═══════════════════════════════════════════
+   HTML5 AUDIO CONTROLLER
+═══════════════════════════════════════════ */
+const audioEl = document.getElementById('exam-audio');
+const playBtn = document.getElementById('master-btn');
+const wavesContainer = document.getElementById('master-waves');
+let waveInterval;
+
+// Generate Visual Waves
+for(let i=0; i<15; i++) {
+  wavesContainer.innerHTML += `<div class="wave-large"></div>`;
+}
+
+function toggleAudio() {
+  // Warn if audio file is missing
+  if(audioEl.src.includes('YOUR_COMBINED_AUDIO_FILE.mp3') || !audioEl.src) {
+    alert("System Notice: Please replace 'YOUR_COMBINED_AUDIO_FILE.mp3' in the <audio> tag with the actual URL of your TTS recording.");
+    return;
+  }
+
+  if (audioEl.paused) {
+    audioEl.play();
+    playBtn.classList.add('playing');
+    wavesContainer.classList.add('active');
+    
+    // Animate Waves
+    const waveElements = wavesContainer.querySelectorAll('.wave-large');
+    waveInterval = setInterval(() => {
+      waveElements.forEach(w => w.style.height = `${Math.floor(Math.random() * 30) + 5}px`);
+    }, 150);
+  } else {
+    audioEl.pause();
+    playBtn.classList.remove('playing');
+    wavesContainer.classList.remove('active');
+    clearInterval(waveInterval);
+  }
+}
+
+// Automatically reset UI when audio finishes
+audioEl.onended = function() {
+    playBtn.classList.remove('playing');
+    wavesContainer.classList.remove('active');
+    clearInterval(waveInterval);
+};
+
+/* ═══════════════════════════════════════════
+   IELTS BAND SCORE GRADING ENGINE (FUZZY LOGIC)
+═══════════════════════════════════════════ */
+function gradeExam() {
+  let score = 0;
+  
+  // Grade Gap Fills
+  const gapFills = document.querySelectorAll('.gap-fill');
+  gapFills.forEach(input => {
+    const userAns = input.value.trim().toLowerCase();
+    const validAnswers = input.getAttribute('data-ans').toLowerCase().split('|');
+    const revealSpan = input.nextElementSibling;
+    
+    input.classList.remove('input-success', 'input-error');
+    revealSpan.innerText = "";
+    
+    if(validAnswers.includes(userAns) && userAns !== "") {
+      input.classList.add('input-success');
+      score++;
+    } else {
+      input.classList.add('input-error');
+      revealSpan.innerText = `(Correct: ${validAnswers[0]})`; 
+    }
+  });
+
+  // Grade MCQs
+  const mcqContainers = document.querySelectorAll('.mcq-options');
+  mcqContainers.forEach(container => {
+    const correctIdx = container.getAttribute('data-correct');
+    const qNum = container.getAttribute('data-qnum');
+    const selected = document.querySelector(`input[name="q${qNum}"]:checked`);
+    
+    const labels = container.querySelectorAll('.mcq-label');
+    labels.forEach(l => l.classList.remove('mcq-success', 'mcq-error'));
+
+    if(selected) {
+      if(selected.value === correctIdx) {
+        selected.parentElement.classList.add('mcq-success');
+        score++;
+      } else {
+        selected.parentElement.classList.add('mcq-error');
+        labels[correctIdx].classList.add('mcq-success');
+      }
+    } else {
+      labels[correctIdx].classList.add('mcq-success'); 
+    }
+  });
+
+  // Calculate Band Score
+  let band = 0;
+  if(score >= 39) band = "9.0";
+  else if(score >= 37) band = "8.5";
+  else if(score >= 35) band = "8.0";
+  else if(score >= 32) band = "7.5";
+  else if(score >= 30) band = "7.0";
+  else if(score >= 26) band = "6.5";
+  else if(score >= 23) band = "6.0";
+  else if(score >= 18) band = "5.5";
+  else if(score >= 16) band = "5.0";
+  else band = "< 5.0";
+
+  // Render Display
+  const board = document.getElementById('band-score-board');
+  document.getElementById('final-band').innerText = band;
+  document.getElementById('final-raw').innerText = `${score} / 40 Correct`;
+  
+  let feedback = "";
+  if(score >= 35) feedback = "C2 Mastery Achieved. Your semantic mapping is elite.";
+  else if(score >= 30) feedback = "C1 Standard. Solid academic comprehension, but vulnerable to distractors.";
+  else feedback = "B2 Threshold. Heavy clinical practice recommended; the paraphrasing disrupted your flow.";
+  document.getElementById('final-feedback').innerText = feedback;
+
+  board.style.display = "block";
+  board.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+</body>
+</html>

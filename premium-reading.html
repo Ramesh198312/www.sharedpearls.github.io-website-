@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IELTS Reading Simulator · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   PREMIUM ACADEMIC VARIABLES
+═══════════════════════════════════════════ */
+:root {
+  --crimson: #A51C30;
+  --crimson-dark: #7A1523;
+  --charcoal: #222222;
+  --charcoal-light: #4B525A;
+  --ivory: #FAF9F6;
+  --white: #ffffff;
+  --gold: #C4923E;
+  --gold-light: rgba(196, 146, 62, 0.3);
+  --border: #E0E0E0;
+  --muted: #888888;
+  --success: #2e7d32;
+  --success-bg: rgba(46,125,50,0.08);
+  --error: #c0392b;
+  --error-bg: rgba(192,57,43,0.08);
+  --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
+  --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Source Serif 4', Georgia, serif; background: var(--ivory); color: var(--charcoal); line-height: 1.65; overflow: hidden; /* Prevent body scroll */ }
+
+/* ═══════════════════════════════════════════
+   NAVIGATION & TIMER BAR
+═══════════════════════════════════════════ */
+.nav { background: var(--white); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--crimson); height: 75px; box-shadow: var(--shadow-sm); z-index: 100; position: relative; }
+.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; }
+.nav-logo em { color: var(--gold); font-style: italic; }
+
+.exam-controls { display: flex; align-items: center; gap: 3rem; }
+.timer-block { display: flex; align-items: center; gap: 1rem; font-family: 'DM Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--charcoal); }
+.timer-icon { color: var(--crimson); font-size: 1.2rem; }
+.timer-warning { color: var(--error); animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0.5; } }
+
+.btn-submit { background: var(--charcoal); color: var(--white); border: none; padding: .8rem 2.5rem; font-family: 'DM Mono', monospace; font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; border-radius: 4px; cursor: pointer; transition: all .2s; }
+.btn-submit:hover { background: var(--crimson); }
+
+/* ═══════════════════════════════════════════
+   PASSAGE TABS
+═══════════════════════════════════════════ */
+.tab-bar { background: var(--charcoal); display: flex; justify-content: center; padding: 0; }
+.tab-btn { background: transparent; border: none; color: #aaa; padding: 1rem 3rem; font-family: 'DM Mono', monospace; font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; cursor: pointer; transition: all .2s; border-bottom: 3px solid transparent; outline: none;}
+.tab-btn:hover { color: var(--white); }
+.tab-btn.active { color: var(--white); border-bottom-color: var(--gold); background: rgba(255,255,255,0.05); }
+
+/* ═══════════════════════════════════════════
+   SPLIT PANE ARCHITECTURE
+═══════════════════════════════════════════ */
+.workspace { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 126px); } /* 75px nav + 51px tabs */
+
+.pane { overflow-y: auto; padding: 3rem; position: relative; }
+.pane-left { background: var(--white); border-right: 1px solid var(--border); }
+.pane-right { background: var(--ivory); }
+
+/* Custom Scrollbars */
+.pane::-webkit-scrollbar { width: 8px; }
+.pane::-webkit-scrollbar-track { background: var(--ivory); }
+.pane::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+.pane::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ── TEXT STYLING (LEFT PANE) ── */
+.reading-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--charcoal); margin-bottom: 2rem; line-height: 1.2; }
+.reading-paragraph { font-size: 1.15rem; color: var(--charcoal); margin-bottom: 1.5rem; line-height: 1.8; text-align: justify; }
+.reading-paragraph strong { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--crimson); }
+mark.highlight { background-color: var(--gold-light); color: inherit; padding: 0 2px; border-radius: 2px; }
+
+.highlighter-hint { font-family: 'DM Mono', monospace; font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 2rem; padding: 1rem; background: var(--ivory); border-left: 3px solid var(--gold); }
+
+/* ── QUESTION STYLING (RIGHT PANE) ── */
+.q-section-title { font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--charcoal); text-transform: uppercase; letter-spacing: .1em; margin-bottom: .5rem; padding-bottom: .5rem; border-bottom: 2px solid var(--charcoal); }
+.q-instruction { font-style: italic; color: var(--charcoal-light); margin-bottom: 2rem; font-size: 1rem; background: var(--white); padding: 1rem; border: 1px solid var(--border); border-radius: 4px;}
+
+.q-block { margin-bottom: 3rem; }
+.q-row { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.5rem; }
+.q-num { font-family: 'DM Mono', monospace; font-weight: 700; color: var(--crimson); font-size: 1.1rem; min-width: 2.5rem; }
+.q-text { font-size: 1.05rem; color: var(--charcoal); flex-grow: 1; line-height: 1.6;}
+
+/* Input Types */
+.gap-fill { border: none; border-bottom: 2px solid var(--charcoal-light); background: transparent; padding: .2rem .5rem; font-family: 'Source Serif 4', serif; font-size: 1.1rem; outline: none; transition: all .2s; width: 200px; text-align: center; color: var(--crimson); font-weight: 600;}
+.gap-fill:focus { border-bottom-color: var(--crimson); background: var(--white); }
+
+select.dropdown-ans { appearance: none; background: var(--white); border: 1px solid var(--border); padding: .4rem 1rem; font-family: 'DM Mono', monospace; font-size: .9rem; font-weight: 700; color: var(--charcoal); border-radius: 4px; cursor: pointer; outline: none; width: 120px; text-align: center;}
+select.dropdown-ans:focus { border-color: var(--crimson); }
+
+.mcq-options { display: flex; flex-direction: column; gap: .6rem; margin-top: .8rem; margin-left: 3.5rem; }
+.mcq-label { display: flex; align-items: center; gap: 1rem; padding: .6rem 1rem; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; transition: all .2s; background: var(--white); font-size: 1rem;}
+.mcq-label:hover { border-color: var(--gold); }
+.mcq-label input { accent-color: var(--crimson); transform: scale(1.1); }
+.mcq-label.selected { border-color: var(--gold); background: rgba(196,146,62,0.05); }
+
+/* Evaluation & Feedback */
+.input-success { border-color: var(--success) !important; background: var(--success-bg) !important; color: var(--success) !important; }
+.input-error { border-color: var(--error) !important; background: var(--error-bg) !important; color: var(--error) !important; }
+.mcq-success { border-color: var(--success) !important; background: var(--success-bg) !important; }
+.mcq-error { border-color: var(--error) !important; background: var(--error-bg) !important; }
+.ans-reveal { font-family: 'DM Mono', monospace; font-size: .85rem; color: var(--error); margin-left: .5rem; display: none; }
+.input-error + .ans-reveal { display: inline-block; }
+
+/* Dashboard Modal for Results */
+.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 1000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
+.modal-overlay.active { display: flex; opacity: 1; }
+.modal-box { background: var(--white); padding: 4rem; border-radius: 8px; text-align: center; max-width: 600px; width: 90%; box-shadow: var(--shadow-md); border-top: 6px solid var(--crimson);}
+.mb-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--charcoal); margin-bottom: 1rem; }
+.mb-score { font-family: 'DM Mono', monospace; font-size: 6rem; font-weight: 700; color: var(--crimson); line-height: 1; margin-bottom: 1rem; }
+.mb-raw { font-size: 1.2rem; color: var(--muted); margin-bottom: 2rem; }
+.btn-close-modal { background: var(--charcoal); color: var(--white); border: none; padding: 1rem 3rem; font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; border-radius: 4px; cursor: pointer; }
+
+/* Utilities */
+.hidden { display: none; }
+
+@media (max-width: 1024px) {
+  .workspace { grid-template-columns: 1fr; grid-template-rows: 50vh 50vh; }
+  .pane { padding: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">Shared <em>Pearls</em> of Wisdom</div>
+  <div class="exam-controls">
+    <div class="timer-block" id="timer-display">
+      <span class="timer-icon">⏱</span> <span id="time-text">60:00</span>
+    </div>
+    <button class="btn-submit" onclick="gradeExam()">Submit Assessment</button>
+  </div>
+</nav>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchPassage(1)">Passage 1</button>
+  <button class="tab-btn" onclick="switchPassage(2)">Passage 2</button>
+  <button class="tab-btn" onclick="switchPassage(3)">Passage 3</button>
+</div>
+
+<main class="workspace">
+  
+  <div class="pane pane-left" id="text-pane">
+    <div class="highlighter-hint">💡 Pro Tip: Select any text with your mouse to highlight it. Click the highlight again to remove it.</div>
+    <div id="passage-content">
+      </div>
+  </div>
+
+  <div class="pane pane-right" id="question-pane">
+    <div id="questions-content">
+      </div>
+  </div>
+
+</main>
+
+<div class="modal-overlay" id="results-modal">
+  <div class="modal-box">
+    <div class="mb-title">Assessment Complete</div>
+    <div class="mb-score" id="final-band">0.0</div>
+    <div class="mb-raw" id="final-raw">0 / 40 Correct</div>
+    <p style="font-size: 1.1rem; color: var(--charcoal); margin-bottom: 2rem;" id="final-feedback"></p>
+    <button class="btn-close-modal" onclick="closeModal()">Review Answers</button>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA ENGINE: TEXT & QUESTIONS
+═══════════════════════════════════════════ */
+const passageData = {
+  1: {
+    title: "The Economics of Control: Epictetus in the Modern Market",
+    text: `
+      <p class="reading-paragraph">The intersection of ancient philosophy and contemporary financial management may appear, at first glance, inherently contradictory. Modern finance is driven by quantitative easing, algorithmic trading, and predictive analytics—a frantic pursuit of exerting control over macroeconomic variables. Stoicism, conversely, was born in the bustling, unpredictable agora of ancient Athens, preaching the absolute relinquishment of control over external events. Yet, an increasing cohort of modern economists and portfolio managers are turning to the teachings of Epictetus, a formerly enslaved Stoic philosopher, to navigate the psychological turbulence of modern wealth accumulation.</p>
+      <p class="reading-paragraph">At the core of Epictetus’s philosophy is the ‘Dichotomy of Control’. He postulated that human anxiety stems fundamentally from a cognitive misallocation of resources: expending mental energy on variables outside our jurisdiction while neglecting our internal responses. In financial terms, an investor cannot dictate interest rate hikes, geopolitical supply chain disruptions, or quarterly corporate earnings. These are external variables. What remains entirely within the investor's jurisdiction—the internal variables—are asset allocation, risk tolerance, and the emotional response to a market downturn.</p>
+      <p class="reading-paragraph">Historically, financial education has over-indexed on attempting to predict the unpredictable. Early 20th-century economic models, such as the Efficient Market Hypothesis (EMH), assumed that all investors acted as perfectly rational agents, systematically digesting all available information to price assets correctly. However, the burgeoning field of behavioral finance has thoroughly debunked this, demonstrating that markets are frequently driven by irrational panic and euphoric greed. It is within this psychological vulnerability that the Stoic financial framework offers a distinct competitive advantage. By internalizing the Dichotomy of Control, investors insulate themselves against the panic-selling that historically devastates retail portfolios during recessionary periods.</p>
+    `,
+    questionsHTML: `
+      <div class="q-block">
+        <div class="q-section-title">Questions 1–6</div>
+        <div class="q-instruction">Do the following statements agree with the information given in Reading Passage 1?<br><br><b>TRUE</b> if the statement agrees with the information<br><b>FALSE</b> if the statement contradicts the information<br><b>NOT GIVEN</b> if there is no information on this</div>
+        
+        ${generateDropdownQ(1, "The principles of modern algorithmic trading align perfectly with early Stoic philosophies.", "FALSE")}
+        ${generateDropdownQ(2, "Epictetus believed that psychological distress is caused by focusing on factors we cannot influence.", "TRUE")}
+        ${generateDropdownQ(3, "The Dichotomy of Control dictates that investors should entirely ignore macroeconomic variables like interest rates.", "NOT GIVEN")}
+        ${generateDropdownQ(4, "The Efficient Market Hypothesis accurately accounts for the emotional reactions of retail investors.", "FALSE")}
+        ${generateDropdownQ(5, "Behavioral finance suggests that financial markets are often influenced by irrational human emotions.", "TRUE")}
+        ${generateDropdownQ(6, "Retail investors are more likely to adopt Stoic principles than institutional portfolio managers.", "NOT GIVEN")}
+      </div>
+      <div class="q-block">
+        <div class="q-section-title">Questions 7–13</div>
+        <div class="q-instruction">Complete the notes below. Choose <b>NO MORE THAN TWO WORDS</b> from the passage for each answer.</div>
+        
+        <div class="q-row"><div class="q-num">7.</div><div class="q-text">Modern finance attempts to predict variables, whereas Stoicism advocates for the relinquishment of control over <input type="text" class="gap-fill" data-ans="external|external events"> events. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">8.</div><div class="q-text">The 'Dichotomy of Control' suggests anxiety is a <input type="text" class="gap-fill" data-ans="misallocation"> of mental energy. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">9.</div><div class="q-text">Investors cannot control corporate earnings, but they retain complete authority over their own <input type="text" class="gap-fill" data-ans="asset allocation"> and emotional reactions. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">10.</div><div class="q-text">The <input type="text" class="gap-fill" data-ans="efficient market hypothesis|emh"> relied on the false premise that humans are entirely rational agents. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">11.</div><div class="q-text">Real-world trading is frequently affected by panic and <input type="text" class="gap-fill" data-ans="euphoric greed">. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">12.</div><div class="q-text">Applying Epictetus's teachings helps protect individuals from the <input type="text" class="gap-fill" data-ans="panic-selling|panic selling"> that typically destroys wealth... <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">13.</div><div class="q-text">...during an economic downturn or <input type="text" class="gap-fill" data-ans="recessionary periods|recessionary period">. <span class="ans-reveal"></span></div></div>
+      </div>
+    `
+  },
+  2: {
+    title: "Embracing the Inevitable Decline",
+    text: `
+      <p class="reading-paragraph"><strong>A.</strong> While the Dichotomy of Control establishes a defensive perimeter around an investor's psychology, the concept of <em>Amor Fati</em>—a Latin phrase translating to "a love of one's fate"—provides an offensive strategy. Coined largely in its modern usage by Friedrich Nietzsche but deeply rooted in Stoic determinism, <em>Amor Fati</em> demands not merely passive acceptance of negative events, but an active, enthusiastic embrace of them. In the context of global markets, this translates to fundamentally reframing how one perceives market volatility and inevitable financial losses.</p>
+      <p class="reading-paragraph"><strong>B.</strong> To the uninitiated investor, a market crash is a catastrophe—a theft of accumulated wealth. To the Stoic investor applying <em>Amor Fati</em>, volatility is recognized as the inherent "tax" required to achieve long-term compounding returns. Historically, equity markets experience a correction (a drop of 10% or more) roughly once every two years. Rather than viewing these drawdowns as anomalies to be feared, the Stoic perceives them as systemic features. By expecting and welcoming these corrections, the investor removes the shock value that typically triggers irrational liquidation of assets.</p>
+      <p class="reading-paragraph"><strong>C.</strong> This cognitive reframing extends to individual asset failures. When a meticulously researched investment thesis collapses due to unforeseen technological disruption or regulatory changes, the natural human response is regret and self-recrimination. <em>Amor Fati</em> dictates that the investor must view the loss as a necessary pedagogical fee. The capital lost purchased a vital lesson in risk management or sector analysis that will theoretically yield dividends in future macroeconomic cycles. The obstacle, as the Stoic emperor Marcus Aurelius famously noted, becomes the way.</p>
+      <p class="reading-paragraph"><strong>D.</strong> Critics of integrating ancient philosophy with aggressive wealth generation argue that Stoicism inherently promotes fatalism. If one must love whatever fate delivers, why strive for financial independence at all? Why optimize a portfolio or negotiate a higher salary? This critique, however, fundamentally misunderstands the Stoic posture. Stoics are incredibly active in the pursuit of their goals; they are simply detached from the final outcome. The Stoic investor researches relentlessly, diversifies optimally, and saves aggressively. Their <em>Amor Fati</em> only activates <em>after</em> the market has rendered its verdict.</p>
+    `,
+    questionsHTML: `
+      <div class="q-block">
+        <div class="q-section-title">Questions 14–17</div>
+        <div class="q-instruction">Choose the correct heading for each paragraph from the list of headings below.<br><br><b>i.</b> The psychological cost of unpredicted market crashes<br><b>ii.</b> Transforming financial loss into educational value<br><b>iii.</b> Why active participation does not contradict acceptance<br><b>iv.</b> Welcoming volatility as a required payment for growth<br><b>v.</b> The origins of a philosophical phrase in modern literature<br><b>vi.</b> A radical shift in reacting to unavoidable circumstances</div>
+        
+        <div class="q-row"><div class="q-num">14.</div><div class="q-text">Paragraph A: <input type="text" class="gap-fill" data-ans="vi" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">15.</div><div class="q-text">Paragraph B: <input type="text" class="gap-fill" data-ans="iv" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">16.</div><div class="q-text">Paragraph C: <input type="text" class="gap-fill" data-ans="ii" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">17.</div><div class="q-text">Paragraph D: <input type="text" class="gap-fill" data-ans="iii" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-section-title">Questions 18–22</div>
+        <div class="q-instruction">Complete the sentences below. Choose <b>ONE WORD ONLY</b> from the passage for each answer.</div>
+        
+        <div class="q-row"><div class="q-num">18.</div><div class="q-text">The concept of Amor Fati requires individuals to show an active <input type="text" class="gap-fill" data-ans="embrace"> of their circumstances... <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">19.</div><div class="q-text">Stoic investors view a 10% market drop not as a disaster, but as an unavoidable <input type="text" class="gap-fill" data-ans="tax"> for long-term gains. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">20.</div><div class="q-text">Experiencing an unexpected financial loss should be viewed as a <input type="text" class="gap-fill" data-ans="pedagogical"> fee that improves future decision-making. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">21.</div><div class="q-text">A common misconception is that Stoicism encourages <input type="text" class="gap-fill" data-ans="fatalism">, leading to a lack of ambition. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">22.</div><div class="q-text">A true Stoic works hard to optimize their portfolio, but remains emotionally <input type="text" class="gap-fill" data-ans="detached"> from the final financial result. <span class="ans-reveal"></span></div></div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-section-title">Questions 23–26</div>
+        <div class="q-instruction">Match each statement with the correct concept: <b>A</b> (Dichotomy of Control), <b>B</b> (Amor Fati), or <b>C</b> (Efficient Market Hypothesis).</div>
+        
+        <div class="q-row"><div class="q-num">23.</div><div class="q-text">Operates as an offensive strategy to actively appreciate outcomes: <input type="text" class="gap-fill" data-ans="b" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">24.</div><div class="q-text">Acts as a defensive mental barrier separating what can be influenced: <input type="text" class="gap-fill" data-ans="a" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">25.</div><div class="q-text">Suggests that every financial obstacle should be enthusiastically embraced: <input type="text" class="gap-fill" data-ans="b" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">26.</div><div class="q-text">Focuses exclusively on variables such as asset allocation and risk tolerance: <input type="text" class="gap-fill" data-ans="a" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
+      </div>
+    `
+  },
+  3: {
+    title: "The Wisdom Path: Redefining Financial Freedom",
+    text: `
+      <p class="reading-paragraph">The modern financial industry profits immensely from obfuscation and the perpetuation of anxiety. A multi-billion-dollar apparatus of 24-hour financial news networks, aggressive brokerage advertising, and complex derivative products is designed to convince the retail investor that wealth requires constant, frenetic activity. However, a counter-movement, increasingly referred to as 'The Wisdom Path', is gaining traction. This paradigm synthesizes the austere resilience of ancient philosophies with modern index-fund investing, proposing that true financial freedom is derived not from maximizing alpha (market outperformance), but from minimizing desire and structural complexity.</p>
+      <p class="reading-paragraph">At the heart of the Wisdom Path is the realization that 'wealth' is a highly subjective ratio between what one possesses and what one desires. The conventional societal metric focuses exclusively on expanding the numerator: acquiring more capital, larger properties, and higher-yielding assets. The Stoic approach, conversely, argues that it is vastly more efficient to shrink the denominator: the relentless expansion of desires. By rigorously examining and curbing lifestyle inflation—the tendency for expenditures to rise in tandem with income—individuals can achieve functional financial independence decades earlier than traditional models predict.</p>
+      <p class="reading-paragraph">This philosophical framework fundamentally alters the metrics of investing success. In the standard paradigm, the ultimate objective is to beat the benchmark index, a pursuit that statistically fails for the vast majority of active fund managers over a 20-year horizon. The Wisdom Path abandons this unwinnable arms race. Instead, it advocates for radical simplicity: broad-market, low-cost index funds held in perpetuity. The time and cognitive bandwidth previously squandered on attempting to time the market or select winning equities are reallocated to pursuits of genuine intrinsic value—community, intellectual development, and physical health.</p>
+      <p class="reading-paragraph">Critics of the Wisdom Path often deride it as an ascetic retreat from the capitalist engine that drives societal progress. They argue that if the entire populace adopted this philosophy of minimized consumption and passive investment, macroeconomic growth would stagnate, stifling innovation. Proponents counter that this perspective is shortsighted. By liberating individuals from the precarious cycle of debt and hyper-consumption, the Wisdom Path creates a highly resilient populace capable of taking calculated entrepreneurial risks. When a citizen is no longer terrified of losing their primary income stream because their lifestyle costs are minimal and subsidized by robust, passive investments, they are ironically empowered to engage in the very innovation critics fear will be lost.</p>
+    `,
+    questionsHTML: `
+      <div class="q-block">
+        <div class="q-section-title">Questions 27–31</div>
+        <div class="q-instruction">Do the following statements agree with the claims of the writer in Reading Passage 3?<br><br><b>YES</b> if the statement agrees<br><b>NO</b> if the statement contradicts<br><b>NOT GIVEN</b> if it is impossible to say</div>
+        
+        ${generateDropdownQ2(27, "The financial media industry intentionally creates stress to generate revenue.", "YES")}
+        ${generateDropdownQ2(28, "The 'Wisdom Path' suggests that investors should actively trade complex derivative products.", "NO")}
+        ${generateDropdownQ2(29, "Shrinking the denominator in the wealth equation refers to decreasing one's income.", "NO")}
+        ${generateDropdownQ2(30, "The majority of active fund managers are unable to consistently outperform the market.", "YES")}
+        ${generateDropdownQ2(31, "Widespread adoption of the Wisdom Path would immediately cause a global economic recession.", "NOT GIVEN")}
+      </div>
+
+      <div class="q-block">
+        <div class="q-section-title">Questions 32–36</div>
+        <div class="q-instruction">Complete the summary using the list of letters, <b>A–I</b>, below.</div>
+        <p style="background: var(--white); padding: 1rem; border: 1px solid var(--border); margin-bottom: 2rem; font-family: 'DM Mono', monospace; font-size: .9rem;">
+          A. lifestyle inflation &nbsp; B. outperform &nbsp; C. intrinsic value<br>
+          D. desires &nbsp; E. active trading &nbsp; F. cognitive bandwidth<br>
+          G. passive investments &nbsp; H. societal progress &nbsp; I. debt
+        </p>
+
+        <div class="q-row"><div class="q-num">32.</div><div class="q-text">Rather than engaging in the relentless pursuit of more capital, individuals are encouraged to control their <input type="text" class="gap-fill" data-ans="d" placeholder="Letter A-I">. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">33.</div><div class="q-text">By avoiding the trap of <input type="text" class="gap-fill" data-ans="a" placeholder="Letter A-I">, where spending increases alongside earnings... <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">34.</div><div class="q-text">Furthermore, the philosophy advises against trying to <input type="text" class="gap-fill" data-ans="b" placeholder="Letter A-I"> the stock market... <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">35.</div><div class="q-text">Instead, investors should rely on <input type="text" class="gap-fill" data-ans="g" placeholder="Letter A-I">... <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">36.</div><div class="q-text">...and use their freed mental energy to focus on activities offering true <input type="text" class="gap-fill" data-ans="c" placeholder="Letter A-I">. <span class="ans-reveal"></span></div></div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-section-title">Questions 37–40</div>
+        <div class="q-instruction">Complete each sentence with the correct ending, <b>A–F</b>.</div>
+        <p style="background: var(--white); padding: 1rem; border: 1px solid var(--border); margin-bottom: 2rem; font-family: 'DM Mono', monospace; font-size: .85rem; line-height: 1.6;">
+          <b>A.</b> ...lead to a stagnation in macroeconomic growth.<br>
+          <b>B.</b> ...empower individuals to take greater entrepreneurial risks.<br>
+          <b>C.</b> ...the continuous expansion of capital and acquisition of assets.<br>
+          <b>D.</b> ...guarantee a higher rate of return than active fund managers.<br>
+          <b>E.</b> ...reclaim the time and mental energy previously wasted.<br>
+          <b>F.</b> ...obfuscate the true nature of modern derivative markets.
+        </p>
+
+        <div class="q-row"><div class="q-num">37.</div><div class="q-text">The conventional metric of wealth creation relies heavily on <input type="text" class="gap-fill" data-ans="c" placeholder="Letter A-F">. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">38.</div><div class="q-text">Investing in broad-market, low-cost index funds allows individuals to <input type="text" class="gap-fill" data-ans="e" placeholder="Letter A-F">. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">39.</div><div class="q-text">Critics of the Stoic financial approach worry that it might <input type="text" class="gap-fill" data-ans="a" placeholder="Letter A-F">. <span class="ans-reveal"></span></div></div>
+        <div class="q-row"><div class="q-num">40.</div><div class="q-text">Having a minimal lifestyle supported by passive investments can actually <input type="text" class="gap-fill" data-ans="b" placeholder="Letter A-F">. <span class="ans-reveal"></span></div></div>
+      </div>
+    `
+  }
+};
+
+// Helpers for HTML generation
+function generateDropdownQ(num, text, ans) {
+  return `
+    <div class="q-row">
+      <div class="q-num">${num}.</div>
+      <div class="q-text">${text}</div>
+      <select class="dropdown-ans" data-ans="${ans}">
+        <option value="">Select...</option>
+        <option value="TRUE">TRUE</option>
+        <option value="FALSE">FALSE</option>
+        <option value="NOT GIVEN">NOT GIVEN</option>
+      </select>
+    </div>
+  `;
+}
+function generateDropdownQ2(num, text, ans) {
+  return `
+    <div class="q-row">
+      <div class="q-num">${num}.</div>
+      <div class="q-text">${text}</div>
+      <select class="dropdown-ans" data-ans="${ans}">
+        <option value="">Select...</option>
+        <option value="YES">YES</option>
+        <option value="NO">NO</option>
+        <option value="NOT GIVEN">NOT GIVEN</option>
+      </select>
+    </div>
+  `;
+}
+
+/* ═══════════════════════════════════════════
+   UI CONTROLLERS
+═══════════════════════════════════════════ */
+const textPane = document.getElementById('passage-content');
+const qPane = document.getElementById('questions-content');
+
+function switchPassage(id) {
+  // Update Tabs
+  document.querySelectorAll('.tab-btn').forEach((btn, index) => {
+    btn.classList.toggle('active', index + 1 === id);
+  });
+
+  // Save user inputs before switching (Simplified for prototype: we just inject HTML, but real apps use data binding)
+  // For this prototype, we will just inject the raw HTML each time, meaning they should finish P1 before P2. 
+  // In a full production React/Vue app, state is preserved. 
+  
+  textPane.innerHTML = `<h2 class="reading-title">${passageData[id].title}</h2>` + passageData[id].text;
+  qPane.innerHTML = passageData[id].questionsHTML;
+  
+  // Scroll to top
+  document.getElementById('text-pane').scrollTop = 0;
+  document.getElementById('question-pane').scrollTop = 0;
+}
+
+// Initialize with Passage 1
+switchPassage(1);
+
+/* ═══════════════════════════════════════════
+   HIGHLIGHTER API
+═══════════════════════════════════════════ */
+document.getElementById('text-pane').addEventListener('mouseup', function() {
+  const selection = window.getSelection();
+  if (!selection.isCollapsed && selection.toString().trim().length > 0) {
+    const range = selection.getRangeAt(0);
+    const mark = document.createElement('mark');
+    mark.className = 'highlight';
+    
+    // Simple implementation: wrap selected text
+    try {
+      range.surroundContents(mark);
+      selection.removeAllRanges(); // Deselect
+    } catch (e) {
+      console.log("Cannot highlight across block elements easily in standard JS without a complex library.");
+    }
+  }
+});
+
+// Click to remove highlight
+document.getElementById('text-pane').addEventListener('click', function(e) {
+  if (e.target.tagName.toLowerCase() === 'mark' && e.target.classList.contains('highlight')) {
+    const parent = e.target.parentNode;
+    while (e.target.firstChild) {
+      parent.insertBefore(e.target.firstChild, e.target);
+    }
+    parent.removeChild(e.target);
+  }
+});
+
+/* ═══════════════════════════════════════════
+   COUNTDOWN TIMER
+═══════════════════════════════════════════ */
+let totalSeconds = 3600; // 60 mins
+const timerEl = document.getElementById('time-text');
+
+const timerInterval = setInterval(() => {
+  totalSeconds--;
+  let m = Math.floor(totalSeconds / 60);
+  let s = totalSeconds % 60;
+  timerEl.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  
+  if (totalSeconds <= 300) timerEl.classList.add('timer-warning'); // 5 min warning
+  if (totalSeconds <= 0) {
+    clearInterval(timerInterval);
+    gradeExam();
+  }
+}, 1000);
+
+/* ═══════════════════════════════════════════
+   GRADING ENGINE (Evaluates current visible pane)
+═══════════════════════════════════════════ */
+function gradeExam() {
+  let score = 0;
+  let totalQuestionsInView = 0;
+  
+  // Grade Gap Fills (Fuzzy matching using pipe |)
+  const gapFills = document.querySelectorAll('.gap-fill');
+  gapFills.forEach(input => {
+    totalQuestionsInView++;
+    const userAns = input.value.trim().toLowerCase();
+    const validAnswers = input.getAttribute('data-ans').toLowerCase().split('|');
+    const revealSpan = input.nextElementSibling;
+    
+    input.classList.remove('input-success', 'input-error');
+    revealSpan.innerText = "";
+    
+    if(validAnswers.includes(userAns) && userAns !== "") {
+      input.classList.add('input-success');
+      score++;
+    } else {
+      input.classList.add('input-error');
+      revealSpan.innerText = `(Correct: ${validAnswers[0].toUpperCase()})`; 
+    }
+  });
+
+  // Grade Dropdowns (T/F/NG)
+  const dropdowns = document.querySelectorAll('.dropdown-ans');
+  dropdowns.forEach(select => {
+    totalQuestionsInView++;
+    const userAns = select.value;
+    const correctAns = select.getAttribute('data-ans');
+    
+    select.classList.remove('input-success', 'input-error');
+    if(userAns === correctAns) {
+      select.classList.add('input-success');
+      score++;
+    } else {
+      select.classList.add('input-error');
+      // Create or update reveal span
+      let reveal = select.nextElementSibling;
+      if (!reveal || !reveal.classList.contains('ans-reveal')) {
+        reveal = document.createElement('span');
+        reveal.className = 'ans-reveal';
+        reveal.style.display = 'inline-block';
+        select.parentNode.appendChild(reveal);
+      }
+      reveal.innerText = `(Correct: ${correctAns})`;
+    }
+  });
+
+  // Estimate Band Score based on the 13/14 questions visible per passage
+  // (In a full app, you would sum the state across all 3 passages. Here we grade the active tab).
+  let percentage = score / totalQuestionsInView;
+  let band = 0;
+  if(percentage >= 0.95) band = "9.0";
+  else if(percentage >= 0.85) band = "8.0";
+  else if(percentage >= 0.75) band = "7.0";
+  else if(percentage >= 0.60) band = "6.0";
+  else band = "< 6.0";
+
+  document.getElementById('final-band').innerText = band;
+  document.getElementById('final-raw').innerText = `${score} / ${totalQuestionsInView} Correct (Active Section)`;
+  document.getElementById('final-feedback').innerText = "To achieve an official Band Score, ensure you complete and submit all three reading passages.";
+  
+  document.getElementById('results-modal').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('results-modal').classList.remove('active');
+}
+</script>
+</body>
+</html>

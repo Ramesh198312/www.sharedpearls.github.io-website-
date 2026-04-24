@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LRSW Clinics Dashboard · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500;700;1,400&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   PREMIUM ACADEMIC VARIABLES
+═══════════════════════════════════════════ */
+:root {
+  --crimson: #A51C30;
+  --crimson-dark: #7A1523;
+  --charcoal: #222222;
+  --charcoal-light: #4B525A;
+  --ivory: #FAF9F6;
+  --white: #ffffff;
+  --gold: #C4923E;
+  --border: #E0E0E0;
+  --muted: #888888;
+  --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
+  --shadow-md: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Source Serif 4', Georgia, serif; background: var(--ivory); color: var(--charcoal); line-height: 1.65; overflow-x: hidden; }
+
+/* ═══════════════════════════════════════════
+   EXACT NAVIGATION FROM SCREENSHOTS
+═══════════════════════════════════════════ */
+.top-accent { height: 6px; background: var(--crimson); width: 100%; }
+.nav { background: var(--white); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; height: 85px; box-shadow: var(--shadow-sm); border-bottom: 1px solid var(--border); }
+
+.nav-logo { display: flex; align-items: center; gap: .5rem; text-decoration: none; }
+.logo-main { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--charcoal); }
+.logo-main em { color: var(--gold); font-style: italic; }
+.logo-sub { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--charcoal); line-height: 1; display: flex; flex-direction: column; }
+
+.nav-links { display: flex; align-items: center; gap: 2rem; height: 100%; }
+.nav-link { font-family: 'DM Mono', monospace; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--charcoal-light); text-decoration: none; height: 100%; display: flex; align-items: center; position: relative; transition: color 0.2s; }
+.nav-link:hover { color: var(--crimson); }
+.nav-link.active { color: var(--crimson); }
+.nav-link.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--crimson); }
+.nav-link.active::before { content: '•'; position: absolute; left: -15px; color: var(--crimson); font-size: 1.2rem; }
+
+.nav-actions { display: flex; align-items: center; gap: 1rem; }
+.btn-outline { border: 1px solid var(--crimson); color: var(--crimson); padding: .6rem 1.2rem; font-family: 'DM Mono', monospace; font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; }
+.btn-outline:hover { background: rgba(165,28,48,0.05); }
+.btn-solid { background: var(--charcoal); color: var(--white); padding: .6rem 1.5rem; font-family: 'DM Mono', monospace; font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; transition: background 0.2s; }
+.btn-solid:hover { background: var(--crimson); }
+
+/* ═══════════════════════════════════════════
+   DASHBOARD LAYOUT
+═══════════════════════════════════════════ */
+.dashboard-container { max-width: 1500px; margin: 0 auto; padding: 4rem 3rem; display: grid; grid-template-columns: 1fr 350px; gap: 4rem; align-items: start; }
+
+/* ── HEADER ── */
+.page-header { margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 2rem; }
+.ph-kicker { font-family: 'DM Mono', monospace; font-size: .85rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+.ph-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: var(--charcoal); line-height: 1.1; margin-bottom: 1rem; }
+.ph-title em { color: var(--crimson); font-style: italic; }
+
+/* ── TAB SYSTEM ── */
+.tab-controls { display: flex; gap: 1rem; margin-bottom: 3rem; background: var(--white); padding: .5rem; border-radius: 8px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+.tab-btn { flex: 1; background: transparent; border: none; padding: 1rem; font-family: 'DM Mono', monospace; font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); cursor: pointer; border-radius: 4px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: .5rem;}
+.tab-btn:hover { color: var(--charcoal); }
+.tab-btn.active { background: var(--charcoal); color: var(--white); box-shadow: var(--shadow-sm); }
+.tab-btn.active .tab-icon { opacity: 1; }
+.tab-icon { font-size: 1.2rem; opacity: 0.5; }
+
+/* ── EXAM GRID ── */
+.module-content { display: none; animation: fadeIn 0.3s ease; }
+.module-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.exam-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+
+.exam-card { background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 2rem; transition: all 0.3s; position: relative; overflow: hidden; display: flex; flex-direction: column; }
+.exam-card:hover { border-color: var(--gold); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.exam-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--charcoal-light); transition: background 0.3s; }
+.exam-card:hover::before { background: var(--gold); }
+
+.ec-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+.ec-number { font-family: 'DM Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--charcoal); line-height: 1; }
+.ec-status { font-family: 'DM Mono', monospace; font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; padding: .3rem .6rem; border-radius: 3px; }
+.status-available { background: rgba(196,146,62,0.1); color: var(--gold); border: 1px solid var(--gold); }
+.status-new { background: rgba(165,28,48,0.1); color: var(--crimson); border: 1px solid var(--crimson); }
+.status-locked { background: var(--border); color: var(--muted); }
+
+.ec-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--charcoal); margin-bottom: .5rem; line-height: 1.3; }
+.ec-desc { font-size: .95rem; color: var(--charcoal-light); margin-bottom: 2rem; flex-grow: 1; }
+
+.ec-btn { width: 100%; background: transparent; border: 1px solid var(--charcoal); color: var(--charcoal); padding: .8rem; font-family: 'DM Mono', monospace; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; cursor: pointer; transition: all 0.2s; border-radius: 3px; }
+.exam-card:hover .ec-btn { background: var(--charcoal); color: var(--white); }
+.exam-card.locked .ec-btn { border-color: var(--border); color: var(--muted); cursor: not-allowed; }
+.exam-card.locked:hover .ec-btn { background: transparent; }
+.exam-card.locked:hover::before { background: var(--border); }
+.exam-card.locked:hover { border-color: var(--border); transform: none; box-shadow: none; }
+
+/* ── RIGHT SIDEBAR: UPDATE LOG ── */
+.sidebar { display: flex; flex-direction: column; gap: 2.5rem; }
+
+.update-widget { background: var(--charcoal); color: var(--white); border-radius: 8px; padding: 2.5rem; box-shadow: var(--shadow-md); }
+.uw-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+.uw-title { font-family: 'DM Mono', monospace; font-size: .9rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); }
+.uw-pulse { width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); animation: pulse 2s infinite; }
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+.update-item { border-left: 2px solid rgba(255,255,255,0.2); padding-left: 1.5rem; margin-bottom: 1.5rem; position: relative; }
+.update-item::before { content: ''; position: absolute; left: -5px; top: 5px; width: 8px; height: 8px; background: var(--charcoal); border: 2px solid var(--gold); border-radius: 50%; }
+.ui-date { font-family: 'DM Mono', monospace; font-size: .7rem; color: #aaa; margin-bottom: .3rem; }
+.ui-title { font-weight: 600; font-size: 1rem; margin-bottom: .3rem; }
+.ui-desc { font-size: .85rem; color: #ccc; line-height: 1.5; font-style: italic;}
+
+.progress-widget { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 2.5rem; }
+.pw-title { font-family: 'DM Mono', monospace; font-size: .85rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 1.5rem; }
+.stat-row { display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: .95rem; font-weight: 600;}
+.stat-val { font-family: 'DM Mono', monospace; color: var(--crimson); }
+.progress-bar { width: 100%; height: 6px; background: var(--ivory); border-radius: 3px; overflow: hidden; margin-bottom: 1.5rem;}
+.progress-fill { height: 100%; background: var(--crimson); width: 15%; }
+
+@media (max-width: 1024px) {
+  .dashboard-container { grid-template-columns: 1fr; }
+  .nav-links { display: none; /* Mobile menu needed in production */ }
+  .tab-controls { flex-wrap: wrap; }
+  .tab-btn { min-width: 45%; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-accent"></div>
+<nav class="nav">
+  <a href="#" class="nav-logo">
+    <div class="logo-main">Shared <em>Pearls</em></div>
+    <div class="logo-sub">of Wisdom</div>
+  </a>
+  
+  <div class="nav-links">
+    <a href="#" class="nav-link">Command Centre</a>
+    <a href="#" class="nav-link">Grammar Architecture</a>
+    <a href="#" class="nav-link">Lexical Vault</a>
+    <a href="#" class="nav-link active">LRSW Clinic</a>
+    <a href="#" class="nav-link">Masterclasses</a>
+  </div>
+  
+  <div class="nav-actions">
+    <a href="#" class="btn-outline">C1/C2 Premium Scholar</a>
+    <a href="#" class="btn-solid">Resume Module</a>
+  </div>
+</nav>
+
+<main class="dashboard-container">
+  
+  <div class="main-feed">
+    <header class="page-header">
+      <div class="ph-kicker">Diagnostic Assessment Vault</div>
+      <h1 class="ph-title">The LRSW <em>Clinic</em></h1>
+      <p style="font-size: 1.15rem; color: var(--charcoal-light); max-width: 800px;">
+        Access your suite of 40 rigorously engineered C1/C2 assessments. Each module dynamically tests your semantic mapping, academic production, and syntactic accuracy.
+      </p>
+    </header>
+
+    <div class="tab-controls">
+      <button class="tab-btn active" onclick="switchTab('listening')"><span class="tab-icon">🎧</span> Listening</button>
+      <button class="tab-btn" onclick="switchTab('reading')"><span class="tab-icon">📖</span> Reading</button>
+      <button class="tab-btn" onclick="switchTab('writing')"><span class="tab-icon">✍️</span> Writing</button>
+      <button class="tab-btn" onclick="switchTab('speaking')"><span class="tab-icon">🎙️</span> Speaking</button>
+    </div>
+
+    <div id="listening-content" class="module-content active">
+      <div class="exam-grid" id="grid-listening"></div>
+    </div>
+    
+    <div id="reading-content" class="module-content">
+      <div class="exam-grid" id="grid-reading"></div>
+    </div>
+
+    <div id="writing-content" class="module-content">
+      <div class="exam-grid" id="grid-writing"></div>
+    </div>
+
+    <div id="speaking-content" class="module-content">
+      <div class="exam-grid" id="grid-speaking"></div>
+    </div>
+  </div>
+
+  <aside class="sidebar">
+    
+    <div class="update-widget">
+      <div class="uw-header">
+        <span class="uw-title">Development Pipeline</span>
+        <div class="uw-pulse" title="System Live"></div>
+      </div>
+      
+      <div class="update-item">
+        <div class="ui-date">LIVE THIS WEEK</div>
+        <div class="ui-title">Reading Tests 08-10 Added</div>
+        <div class="ui-desc">Added dense Q1 journal abstracts focusing on Epistemology and Methodology.</div>
+      </div>
+
+      <div class="update-item">
+        <div class="ui-date">SCHEDULED: NEXT WEEK</div>
+        <div class="ui-title">Speaking Simulator V2</div>
+        <div class="ui-desc">Integrating real-time acoustic analysis for pronunciation feedback on Tests 05-08.</div>
+      </div>
+
+      <div class="update-item">
+        <div class="ui-date">IN PRODUCTION</div>
+        <div class="ui-title">Writing Task 2 Heuristics</div>
+        <div class="ui-desc">Expanding the automated essay grader to recognize Stoic philosophy arguments.</div>
+      </div>
+    </div>
+
+    <div class="progress-widget">
+      <div class="pw-title">Clinical Progress</div>
+      
+      <div class="stat-row">
+        <span>Listening Mastered</span>
+        <span class="stat-val">2 / 10</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 20%;"></div></div>
+
+      <div class="stat-row">
+        <span>Reading Mastered</span>
+        <span class="stat-val">0 / 10</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width: 0%;"></div></div>
+      
+      <button class="btn-solid" style="width: 100%; text-align: center; margin-top: 1rem; padding: 1rem;">View Detailed Analytics</button>
+    </div>
+
+  </aside>
+
+</main>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA ENGINE: 40-TEST INJECTOR
+═══════════════════════════════════════════ */
+// This script dynamically generates the 40 test cards so your HTML remains clean.
+
+const testTopics = {
+  listening: [
+    "Corporate Retreats & Campus Tours", "Methodological Flaws & AI Linguistics", "Environmental Policies & Startups", 
+    "Urban Planning & Demographic Shifts", "Neuroplasticity & Pedagogy", "Historical Archives & Digitization",
+    "Supply Chain Logistics", "Cognitive Behavioral Therapy", "Advanced Microeconomics", "Astrophysics & Deep Space"
+  ],
+  reading: [
+    "The Stoic Approach to Modern Finance", "Generative AI in ELT Frameworks", "Syntactic Inversion in Academic Text",
+    "The Epistemology of Digital Credentials", "Attrition Rates in Longitudinal Studies", "Linguistic Scaffolding for A2 Learners",
+    "The Heuristics of Problem Solving", "Survivorship Bias in Tech Startups", "Pragmatics of International Communication", "The Architecture of Band 9.0 Essays"
+  ],
+  writing: [
+    "Task 1: Demographic Data Synthesis", "Task 2: AI vs Traditional Pedagogy", "Task 1: Flowchart Analysis",
+    "Task 2: The Philosophy of Wealth", "Task 1: Process Diagram Evaluation", "Task 2: Globalization & Culture",
+    "Task 1: Comparative Bar Charts", "Task 2: Government vs Private Funding", "Task 1: Map Evolution", "Task 2: Technological Determinism"
+  ],
+  speaking: [
+    "Part 1: Habits & Consistency", "Part 2: Describe an Academic Mentor", "Part 3: The Future of Education",
+    "Part 1: Digital Content Creation", "Part 2: A Book that Changed Your View", "Part 3: Ethical Implications of AI",
+    "Part 1: Travel & Global Perspectives", "Part 2: A Time You Overcame Failure", "Part 3: Societal Resilience", "Full Mock Interview: The Examiner's Desk"
+  ]
+};
+
+function generateCards(domain) {
+  const grid = document.getElementById(`grid-${domain}`);
+  let html = '';
+  
+  for (let i = 0; i < 10; i++) {
+    const testNum = (i + 1).toString().padStart(2, '0');
+    let statusClass = 'status-available';
+    let statusText = 'Available';
+    let lockedClass = '';
+    let btnText = 'Initiate Protocol →';
+
+    // Simulate some "New" and "Locked" modules to show updates
+    if (i === 0 || i === 1) {
+      // Keep standard available
+    } else if (i === 8 || i === 9) {
+      statusClass = 'status-new';
+      statusText = 'New Update';
+    } else if (i > 3) {
+      statusClass = 'status-locked';
+      statusText = 'Requires Level Up';
+      lockedClass = 'locked';
+      btnText = 'Module Locked';
+    }
+
+    // Default action for all unlinked tests
+    let linkAction = `onclick="alert('Loading ${domain.toUpperCase()} Test ${testNum}... Content in development.')"`;
+
+    // ── ROUTING ENGINE ──
+    // Link to Listening Test 01
+    if (domain === 'listening' && i === 0) {
+        linkAction = `onclick="window.location.href='premium-listening-01.html'"`;
+    } 
+    else if (domain === 'listening' && i === 1) { 
+      linkAction = `onclick="window.location.href='premium-listening-02.html'"`; 
+      }
+    // Link to Reading Test 01 (Stoic Finance)
+    else if (domain === 'reading' && i === 0) {
+      linkAction = `onclick="window.location.href='premium-reading.html'"`;
+            }
+else if (domain === 'reading' && i === 1) {
+        linkAction = `onclick="window.location.href='premium-reading-02.html'"`;
+    }
+    else if (domain === 'reading' && i === 2) {
+        linkAction = `onclick="window.location.href='premium-reading-03.html'"`;
+    }
+    html += `
+      <div class="exam-card ${lockedClass}">
+        <div class="ec-header">
+          <span class="ec-number">${testNum}</span>
+          <span class="ec-status ${statusClass}">${statusText}</span>
+        </div>
+        <h3 class="ec-title">${testTopics[domain][i]}</h3>
+        <p class="ec-desc">C1/C2 intensive simulation focusing on complex distractors and semantic mapping.</p>
+        <button class="ec-btn" ${lockedClass ? '' : linkAction}>${btnText}</button>
+      </div>
+    `;
+  }
+  grid.innerHTML = html;
+}
+
+// Generate all 40 cards on load
+generateCards('listening');
+generateCards('reading');
+generateCards('writing');
+generateCards('speaking');
+
+/* ═══════════════════════════════════════════
+   TAB SWITCHING LOGIC
+═══════════════════════════════════════════ */
+function switchTab(domain) {
+  // Update Tab Buttons
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+
+  // Update Content Grids
+  document.querySelectorAll('.module-content').forEach(content => content.classList.remove('active'));
+  document.getElementById(`${domain}-content`).classList.add('active');
+}
+</script>
+</body>
+</html>
