@@ -37,18 +37,37 @@
     .reveal.active { opacity: 1; transform: translateY(0) translateX(0); }
 
     /* ── NAVIGATION ── */
-    nav { background: var(--midnight); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--gold); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+    nav { background: var(--midnight); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 1000; border-bottom: 3px solid var(--gold); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
     
     .nav-logo { display: flex; align-items: center; gap: 15px; text-decoration: none; padding: 0.8rem 0; }
-    .logo-img { height: 45px; width: auto; object-fit: contain; border-radius: 4px; }
-    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--gold); letter-spacing: 0.02em; line-height: 1; }
+    .logo-img { height: 45px; width: auto; object-fit: contain; border-radius: 4px; transition: height 0.3s; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--gold); letter-spacing: 0.02em; line-height: 1; transition: font-size 0.3s; }
     .logo-text span { color: var(--paper); font-style: italic; }
 
     .nav-links { display: flex; list-style: none; gap: 1.8rem; align-items: center; }
     .nav-links a { color: var(--paper); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; }
     .nav-links a:hover { color: var(--gold); }
-    .nav-cta { background: var(--gold); color: var(--midnight) !important; padding: 0.8rem 1.5rem; border-radius: 2px; font-weight: 700; transition: all 0.3s !important; }
+    .nav-cta { background: var(--gold); color: var(--midnight) !important; padding: 0.8rem 1.5rem; border-radius: 2px; font-weight: 700; transition: all 0.3s !important; text-align: center;}
     .nav-cta:hover { background: var(--paper); box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+
+    /* Hamburger Menu Icon (Hidden on Desktop) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 6px;
+      z-index: 1001;
+    }
+    .hamburger span {
+      width: 28px;
+      height: 3px;
+      background-color: var(--gold);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .hamburger.toggle span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .hamburger.toggle span:nth-child(2) { opacity: 0; }
+    .hamburger.toggle span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
     /* ── HERO SECTION ── */
     .hero { background: linear-gradient(135deg, var(--midnight) 0%, #051024 100%); color: var(--paper); padding: 8rem 2rem; text-align: center; position: relative; overflow: hidden; }
@@ -109,14 +128,43 @@
 
     .footer-bottom { text-align: center; color: #718096; font-family: 'DM Mono', monospace; font-size: 0.8rem; }
 
+    /* ── MOBILE RESPONSIVENESS ── */
     @media (max-width: 1024px) {
       .nav-links { gap: 1rem; }
     }
 
     @media (max-width: 900px) {
+      nav { padding: 0 1.5rem; }
+      
+      /* Hamburger Menu Setup */
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--midnight);
+        padding: 2rem 0;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        align-items: center;
+        gap: 1.5rem;
+      }
+      .nav-links.active { display: flex; }
+      .nav-links a { font-size: 1.1rem; padding: 0.5rem; }
+      
+      /* Adjust Logo for Mobile */
+      .logo-img { height: 35px; }
+      .logo-text { font-size: 1.3rem; }
+
+      .hero { padding: 5rem 1.5rem; }
       .hero-buttons { flex-direction: column; }
+      .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+      
       .features-grid, .gateway-grid, .footer-content { grid-template-columns: 1fr; }
-      .nav-links { display: none; } /* Add a hamburger menu later for mobile */
+      .newsletter-form { flex-direction: column; }
+      .gateway-card { padding: 2rem; }
     }
   </style>
 </head>
@@ -127,7 +175,14 @@
     <img src="logo.png" alt="Shared Pearls Logo" class="logo-img">
     <div class="logo-text">Shared <span>Pearls</span> of Wisdom</div> 
   </a>
-  <ul class="nav-links">
+  
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <ul class="nav-links" id="nav-links">
     <li><a href="vocabulary-builder-inner-page.html">Vocabulary</a></li>
     <li><a href="determiners-quantifiers-modifiers.html">Grammar</a></li>
     <li><a href="tenses-masterclass.html">Tenses</a></li>
@@ -184,10 +239,10 @@
       <h3>Vocabulary Assessments</h3>
       <p>Evaluate how well learners know, understand, and use words accurately and effectively in different contexts.</p>
       <span class="gw-link">Enter Examination Hall →</span>
-          </a>
+    </a>
 
     <a href="#" class="gateway-card reveal" style="transition-delay: 0.2s;">
-            <span class="gw-badge crimson">Linguistics Lab</span>
+      <span class="gw-badge crimson">Linguistics Lab</span>
       <h3>Phonetics & Pronunciation Masterclass</h3>
       <p>Deconstruct the British accent. Learn the International Phonetic Alphabet (IPA), master the schwa, and unlock the secrets of connected speech.</p>
       <span class="gw-link">Begin Masterclass →</span>
@@ -200,7 +255,7 @@
       <span class="gw-link">Start Interactive Lesson →</span>
     </a>
 
-    <a href="podcast-series.html" id="podcasts" class="gateway-card reveal" style="transition-delay: 0.4s;">
+    <a href="#" id="podcasts" class="gateway-card reveal" style="transition-delay: 0.4s;">
       <span class="gw-badge">Audio Immersion</span>
       <h3>The Podcast Lounge</h3>
       <p>Listen to "The Future of Humanity" and other high-fidelity dialogues designed to train your ear for real-world British fluency and advanced vocabulary.</p>
@@ -234,32 +289,35 @@
 </footer>
 
 <script>
+  // ── HAMBURGER MENU LOGIC ──
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    hamburger.classList.toggle('toggle');
+  });
+
+  // ── SCROLL ANIMATIONS ──
   document.addEventListener("DOMContentLoaded", () => {
-    // 1. Target all elements with the 'reveal' class
     const reveals = document.querySelectorAll(".reveal");
 
-    // 2. Set the observer options
     const observerOptions = {
       root: null,
       rootMargin: "0px",
-      threshold: 0.15 // Triggers when 15% of the element is visible
+      threshold: 0.15
     };
 
-    // 3. The Observer logic
     const revealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add("active");
-          // Optional: If you only want the animation to happen ONCE, uncomment the line below:
-          // observer.unobserve(entry.target);
         } else {
-          // Removes the class when scrolling back up so it re-animates on the way down
           entry.target.classList.remove("active");
         }
       });
     }, observerOptions);
 
-    // 4. Attach observer to each element
     reveals.forEach(reveal => {
       revealObserver.observe(reveal);
     });
