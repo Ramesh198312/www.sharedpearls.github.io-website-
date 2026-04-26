@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Resume Builder | Shared Pearls</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Roboto+Mono:wght@400;500&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ui-bg: #F0F4F8;
+      --ui-panel: #FFFFFF;
+      --ui-text: #0B1D3A;
+      --ui-accent: #C4923E;
+      --ui-border: #E0DCD3;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--ui-bg); color: var(--ui-text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+    /* ── UI HEADER ── */
+    header.builder-header { background: #0B1D3A; color: #FFF; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--ui-accent); flex-shrink: 0;}
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px;}
+    .btn-export { background: var(--ui-accent); color: #0B1D3A; border: none; padding: 0.6rem 1.5rem; font-family: 'Roboto Mono', monospace; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
+    .btn-export:hover { background: #dcb36b; transform: translateY(-1px); }
+
+    /* ── LAYOUT ── */
+    .builder-container { display: flex; flex: 1; overflow: hidden; }
+    
+    /* ── EDITOR PANEL (LEFT) ── */
+    .editor-panel { width: 38%; background: var(--ui-panel); border-right: 1px solid var(--ui-border); overflow-y: auto; padding: 2rem; }
+    .section-title { font-family: 'Roboto Mono', monospace; font-size: 0.9rem; text-transform: uppercase; color: #666; border-bottom: 2px solid var(--ui-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem; margin-top: 2.5rem; font-weight: bold;}
+    .section-title:first-child { margin-top: 0; }
+    
+    .form-group { margin-bottom: 1.2rem; }
+    label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--ui-text); }
+    input[type="text"], input[type="email"], input[type="tel"], textarea { width: 100%; padding: 0.7rem; border: 1px solid #cdd6df; border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; transition: 0.3s; background: #fafbfc;}
+    input:focus, textarea:focus { border-color: #0B1D3A; background: #fff;}
+    textarea { resize: vertical; min-height: 120px; }
+    .hint { font-size: 0.75rem; color: #777; margin-top: 4px; display: block; }
+
+    .photo-upload-label { display: inline-block; padding: 0.8rem 1.2rem; background: var(--ui-bg); border: 2px dashed #999; cursor: pointer; font-size: 0.9rem; font-weight: 600; border-radius: 4px; text-align: center; width: 100%; transition: 0.3s;}
+    .photo-upload-label:hover { border-color: var(--ui-accent); color: var(--ui-accent); }
+    input[type="file"] { display: none; }
+
+    /* ── PREVIEW PANEL (RIGHT) ── */
+    .preview-panel { width: 62%; background: #cfd8dc; padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+    
+    /* Template Switcher Grid */
+    .template-switcher { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 2rem; width: 100%; max-width: 210mm; background: var(--ui-panel); padding: 1rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);}
+    .btn-template { background: #f0f4f8; border: 1px solid #cdd6df; padding: 0.6rem; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; border-radius: 4px; transition: 0.2s; text-align: center; color: #444;}
+    .btn-template:hover { background: #e2e8f0; border-color: #94a3b8; }
+    .btn-template.active { background: var(--ui-text); color: #FFF; border-color: var(--ui-text); box-shadow: 0 2px 8px rgba(11,29,58,0.2);}
+
+    /* ── MASTER RESUME ARCHITECTURE (CSS GRID) ── */
+    .resume-sheet { 
+      width: 210mm; 
+      min-height: 297mm; 
+      background: var(--bg-main, #FFFFFF); 
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+      position: relative; 
+      overflow: hidden; 
+      transition: all 0.4s ease;
+      display: grid;
+      /* Dynamic Grid Variables controlled by template classes */
+      grid-template-columns: var(--grid-cols, 1fr);
+      grid-template-rows: var(--grid-rows, auto auto auto);
+      grid-template-areas: var(--grid-areas, "header" "main" "sidebar");
+      color: var(--text-main, #333);
+      font-family: var(--font-body, 'Inter', sans-serif);
+      line-height: 1.6;
+    }
+
+    /* Resume Regions */
+    .res-header { grid-area: header; background: var(--bg-header, transparent); color: var(--text-header, inherit); padding: var(--pad-header, 40px); display: flex; flex-direction: var(--dir-header, row); align-items: var(--align-header, center); gap: 20px; border-bottom: var(--border-header, none); }
+    .res-sidebar { grid-area: sidebar; background: var(--bg-sidebar, transparent); color: var(--text-sidebar, inherit); padding: var(--pad-sidebar, 40px 30px); border-right: var(--border-sidebar, none); }
+    .res-main { grid-area: main; padding: var(--pad-main, 40px); background: var(--bg-main, transparent); }
+
+    /* Resume Elements */
+    .res-photo-wrapper { display: var(--show-photo, block); flex-shrink: 0; }
+    .res-photo { width: var(--photo-size, 120px); height: var(--photo-size, 120px); border-radius: var(--photo-radius, 50%); object-fit: cover; border: var(--photo-border, none); display: none; }
+    
+    .res-name { font-family: var(--font-heading, 'Playfair Display', serif); font-size: var(--size-name, 2.8rem); font-weight: var(--weight-name, 700); color: var(--color-name, inherit); margin-bottom: 5px; line-height: 1.1; text-transform: var(--transform-name, none); letter-spacing: var(--letter-name, normal);}
+    .res-title { font-family: var(--font-body, 'Inter', sans-serif); font-size: var(--size-title, 1.1rem); font-weight: 600; color: var(--color-title, #666); text-transform: var(--transform-title, uppercase); letter-spacing: 1px; margin-bottom: 15px;}
+    
+    .res-contact-bar { display: flex; flex-wrap: wrap; gap: 15px; font-size: 0.85rem; font-family: 'Inter', sans-serif; opacity: 0.9; flex-direction: var(--dir-contact, row); }
+    
+    .res-heading { font-family: var(--font-heading, 'Playfair Display', serif); font-size: var(--size-heading, 1.3rem); color: var(--color-heading, #111); font-weight: 700; text-transform: var(--transform-heading, uppercase); border-bottom: var(--border-heading, 2px solid #111); padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; letter-spacing: 1px;}
+    .res-heading:first-child { margin-top: 0; }
+    .res-sidebar .res-heading { color: var(--color-heading-side, inherit); border-color: var(--border-heading-side, currentColor); }
+    
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem;}
+    .tag { background: var(--bg-tag, #eee); color: var(--text-tag, #333); padding: 5px 12px; border-radius: var(--rad-tag, 4px); font-size: 0.85rem; font-weight: 600; border: var(--border-tag, none);}
+
+    /* ── TEXT FORMATTING (BULLETS & PARAGRAPHS) ── */
+    .res-text-block { font-size: 0.95rem; margin-bottom: 1.5rem; color: var(--text-body, #444); }
+    .res-sidebar .res-text-block { color: var(--text-sidebar-body, inherit); }
+    
+    .res-p { margin-bottom: 6px; }
+    .res-p strong { color: var(--color-heading, #111); font-size: 1.05rem;}
+    .res-sidebar .res-p strong { color: var(--color-heading-side, inherit); }
+    
+    .res-list { padding-left: 20px; margin-bottom: 12px; margin-top: 4px;}
+    .res-list li { margin-bottom: 4px; list-style-type: disc; }
+    .res-spacer { height: 12px; }
+
+    /* =========================================================
+       THE 10 PREMIUM TEMPLATES (CSS VARIABLE INJECTIONS)
+       ========================================================= */
+
+    /* 1. The Executive (Classic, Centered, Serif) */
+    .tpl-executive {
+      --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+      --dir-header: column; --align-header: center; --text-header: #111; --pad-header: 50px 50px 20px 50px;
+      --border-header: 1px solid #ccc; --dir-contact: row;
+      --show-photo: none; --transform-name: uppercase; --letter-name: 2px;
+      --color-title: #C4923E; --transform-heading: uppercase; --border-heading: 1px solid #C4923E;
+      --pad-main: 30px 60px 10px 60px; --pad-sidebar: 10px 60px 50px 60px;
+      --bg-tag: transparent; --border-tag: 1px solid #333;
+    }
+
+    /* 2. The Creative (Left Sidebar, Dark/Light Contrast) */
+    .tpl-creative {
+      --grid-cols: 32% 68%; --grid-rows: auto 1fr; --grid-areas: "sidebar header" "sidebar main";
+      --font-heading: 'Montserrat', sans-serif; --font-body: 'Inter', sans-serif;
+      --bg-sidebar: #2C3E50; --text-sidebar: #FFF; --text-sidebar-body: #D5D8DC;
+      --bg-main: #FFF; --pad-main: 10px 50px 50px 50px; --pad-sidebar: 50px 30px; --pad-header: 50px 50px 20px 50px;
+      --show-photo: block; --photo-radius: 50%; --photo-border: 4px solid #E74C3C;
+      --color-name: #2C3E50; --color-title: #E74C3C; --size-name: 2.5rem; --weight-name: 800;
+      --color-heading: #2C3E50; --border-heading: 3px solid #E74C3C;
+      --color-heading-side: #FFF; --border-heading-side: 2px solid #E74C3C;
+      --dir-contact: column; --bg-tag: #E74C3C; --text-tag: #FFF; --rad-tag: 20px;
+    }
+
+    /* 3. The Minimalist (Clean, Lots of Whitespace) */
+    .tpl-minimalist {
+      --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --font-heading: 'Inter', sans-serif; --font-body: 'Inter', sans-serif;
+      --pad-header: 50px 50px 10px 50px; --dir-header: row; --align-header: flex-end;
+      --show-photo: none; --color-name: #222; --weight-name: 300; --letter-name: -1px; --size-name: 3.5rem;
+      --color-title: #888; --border-heading: none; --color-heading: #222;
+      --pad-main: 10px 50px 20px 50px; --pad-sidebar: 10px 50px 50px 50px;
+      --bg-tag: #f1f5f9; --text-tag: #475569;
+    }
+    .tpl-minimalist .res-heading { font-weight: 600; text-transform: none; font-size: 1.5rem; }
+
+    /* 4. The Startup (Vibrant Header, 2 Columns) */
+    .tpl-startup {
+      --grid-cols: 65% 35%; --grid-rows: auto 1fr; --grid-areas: "header header" "main sidebar";
+      --font-heading: 'Montserrat', sans-serif; --font-body: 'Inter', sans-serif;
+      --bg-header: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); --text-header: #FFF;
+      --color-name: #FFF; --color-title: #E2E8F0; --dir-contact: row;
+      --show-photo: block; --photo-radius: 8px; --photo-border: 3px solid #FFF; --photo-size: 100px;
+      --pad-header: 40px 50px; --pad-main: 40px 30px 40px 50px; --pad-sidebar: 40px 50px 40px 20px;
+      --border-sidebar: none; --bg-sidebar: #F8FAFC;
+      --color-heading: #764BA2; --border-heading: 2px solid #667EEA; --color-heading-side: #764BA2;
+      --bg-tag: #E2E8F0; --text-tag: #334155;
+    }
+
+    /* 5. The Academic (Traditional, Standard margins) */
+    .tpl-academic {
+      --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --font-heading: 'Playfair Display', serif; --font-body: 'Playfair Display', serif;
+      --dir-header: column; --align-header: center; --pad-header: 40px 60px 10px 60px;
+      --show-photo: none; --color-name: #000; --size-name: 2.5rem; --color-title: #333;
+      --border-heading: 1px solid #000; --color-heading: #000; --transform-heading: uppercase;
+      --pad-main: 10px 60px 10px 60px; --pad-sidebar: 10px 60px 50px 60px;
+      --bg-tag: transparent; --text-tag: #000;
+    }
+    .tpl-academic .tag:not(:last-child):after { content: ", "; }
+
+    /* 6. The Tech Dark (Monospace accents, Dark Top) */
+    .tpl-tech {
+      --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --font-heading: 'Roboto Mono', monospace; --font-body: 'Inter', sans-serif;
+      --bg-header: #1E293B; --text-header: #38BDF8; --dir-header: row; --align-header: center;
+      --color-name: #F8FAFC; --color-title: #94A3B8; --show-photo: none;
+      --pad-header: 40px 50px; --pad-main: 30px 50px 10px 50px; --pad-sidebar: 10px 50px 40px 50px;
+      --color-heading: #0F172A; --border-heading: 2px dashed #CBD5E1;
+      --bg-tag: #E0F2FE; --text-tag: #0369A1; --rad-tag: 2px;
+    }
+
+    /* 7. The Elegant (Gold & Navy, graceful) */
+    .tpl-elegant {
+      --grid-cols: 35% 65%; --grid-rows: auto 1fr; --grid-areas: "header header" "sidebar main";
+      --bg-header: #0B1D3A; --text-header: #FFF; --color-title: #C4923E;
+      --font-heading: 'Playfair Display', serif; --pad-header: 50px;
+      --dir-header: row; --align-header: center; --show-photo: block; --photo-radius: 50%; --photo-border: 2px solid #C4923E;
+      --bg-sidebar: #F9F7F1; --pad-sidebar: 40px; --pad-main: 40px;
+      --color-heading: #0B1D3A; --border-heading: 1px solid #C4923E;
+      --color-heading-side: #0B1D3A; --border-heading-side: 1px solid #C4923E;
+      --bg-tag: #0B1D3A; --text-tag: #FFF; --rad-tag: 0px;
+    }
+
+    /* 8. The Modern Profile (Large image, Right align sidebar) */
+    .tpl-modern {
+      --grid-cols: 70% 30%; --grid-rows: auto 1fr; --grid-areas: "header sidebar" "main sidebar";
+      --font-heading: 'Montserrat', sans-serif; --font-body: 'Inter', sans-serif;
+      --bg-sidebar: #111827; --text-sidebar: #F3F4F6; --text-sidebar-body: #9CA3AF;
+      --pad-header: 50px 40px 10px 50px; --pad-main: 10px 40px 50px 50px; --pad-sidebar: 50px 30px;
+      --show-photo: block; --photo-radius: 10px; --photo-size: 150px; --photo-border: none;
+      --color-name: #111827; --color-title: #10B981; --size-name: 3rem; --weight-name: 800; --letter-name: -1px;
+      --color-heading: #111827; --border-heading: 4px solid #10B981;
+      --color-heading-side: #FFF; --border-heading-side: 2px solid #10B981;
+      --dir-contact: column; --bg-tag: #374151; --text-tag: #10B981;
+    }
+
+    /* 9. The Split Screen (50/50 approach) */
+    .tpl-split {
+      --grid-cols: 50% 50%; --grid-rows: auto 1fr; --grid-areas: "header header" "sidebar main";
+      --bg-header: #000; --text-header: #FFF; --color-title: #A8A8A8;
+      --pad-header: 40px 50px; --pad-sidebar: 40px 50px; --pad-main: 40px 50px;
+      --bg-sidebar: #F5F5F5; --border-heading: 2px solid #000; --color-heading: #000;
+      --show-photo: none; --dir-contact: row; --bg-tag: #000; --text-tag: #FFF;
+    }
+
+    /* 10. The Corporate Trust (Blue top, reliable) */
+    .tpl-corporate {
+      --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --font-heading: 'Montserrat', sans-serif;
+      --bg-header: #0A66C2; --text-header: #FFF; --color-title: #E1E9F1;
+      --pad-header: 40px 60px; --dir-header: column; --align-header: flex-start;
+      --show-photo: none; --pad-main: 30px 60px 10px 60px; --pad-sidebar: 10px 60px 40px 60px;
+      --color-heading: #0A66C2; --border-heading: 2px solid #0A66C2;
+      --bg-tag: #E1E9F1; --text-tag: #0A66C2; --rad-tag: 15px;
+    }
+
+    /* Print Styles */
+    @media print {
+      body * { visibility: hidden; }
+      .resume-sheet, .resume-sheet * { visibility: visible; }
+      .resume-sheet { position: absolute; left: 0; top: 0; margin: 0; box-shadow: none; padding: 0; width: 210mm; height: 297mm;}
+      .resume-sheet { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="builder-header">
+  <div class="logo"><span style="color:var(--ui-accent)">S</span> Shared Pearls Premium</div>
+  <button class="btn-export" onclick="window.print()">Export to PDF</button>
+</header>
+
+<div class="builder-container">
+  
+  <div class="editor-panel">
+    
+    <div class="section-title">1. Personal Profile</div>
+    <div class="form-group">
+      <label class="photo-upload-label">
+        📷 Upload Professional Photo
+        <input type="file" id="input-photo" accept="image/*">
+      </label>
+    </div>
+    <div class="form-group"><label>Full Name</label><input type="text" id="input-name" value="Ramesh Mani Suvedi"></div>
+    <div class="form-group"><label>Profile Title</label><input type="text" id="input-title" value="English Language Educator & PhD Researcher"></div>
+    <div class="form-group">
+      <label>Profile Summary</label>
+      <textarea id="input-summary">Dedicated educator and researcher exploring the role of Artificial Intelligence in moderating the relationship between Continuous Professional Development and performance among English language teachers. Passionate about leveraging technology to improve pedagogical outcomes across diverse student populations. Author of "The Wisdom Path: Ancient Philosophies for Modern Financial Freedom".</textarea>
+    </div>
+
+    <div class="section-title">2. Contact Information</div>
+    <div class="form-group"><label>Email</label><input type="email" id="input-email" value="ramesh@example.com"></div>
+    <div class="form-group"><label>Phone</label><input type="tel" id="input-phone" value="+60 12-345 6789"></div>
+    <div class="form-group"><label>Location</label><input type="text" id="input-location" value="Shah Alam, Selangor, Malaysia"></div>
+    <div class="form-group"><label>Portfolio / LinkedIn</label><input type="text" id="input-web" value="miragesoflife.wordpress.com"></div>
+
+    <div class="section-title">3. Skills & Languages</div>
+    <div class="form-group">
+      <label>Core Skills</label>
+      <span class="hint">Separate with commas (e.g., AI Prompting, Curriculum Design)</span>
+      <input type="text" id="input-skills" value="Curriculum Design, AI Educational Integration, CEFR Framework, Stoic Philosophy, Content Creation, IELTS Preparation">
+    </div>
+    <div class="form-group">
+      <label>Language Skills</label>
+      <span class="hint">Use a dash or bullet for a new line</span>
+      <textarea id="input-langs">- English: Advanced (Speaking/Writing/Reading)
+- Nepali: Native
+- Malay: Beginner</textarea>
+    </div>
+
+    <div class="section-title">4. Experience & Education</div>
+    <div class="form-group">
+      <label>Work Experience (Newest to Oldest)</label>
+      <span class="hint">Use the format: <strong>Title | Date</strong> on one line, and use bullets (-) underneath.</span>
+      <textarea id="input-exp">Content Creator & Author | 2023 – Present
+- Authored "The Wisdom Path", focusing on financial freedom and Stoicism.
+- Produced educational multimedia content for YouTube and social platforms.
+
+English Language Instructor | 2021 – Present
+- Designed customized English curricula for Arabic, African, and Asian students.
+- Integrated AI tools into lesson planning, elevating learners to CEFR A2 proficiency.
+- Prepared students for IELTS listening and writing examinations.</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label>Education</label>
+      <textarea id="input-edu">Ph.D. in Education (Ongoing) | Malaysia
+- Thesis: Exploring the role of AI in moderating the relationship between CPD and performance among English language teachers in Nepal.
+
+Master's Degree in English Literature | Nepal
+- Graduated with Distinction.</textarea>
+    </div>
+
+    <div class="section-title">5. Additional Sections</div>
+    <div class="form-group"><label>Training</label><textarea id="input-training">- Advanced AI Prompt Engineering for Educators (2025)
+- Cambridge Assessment English Teaching Workshop (2024)</textarea></div>
+    
+    <div class="form-group"><label>Achievements</label><textarea id="input-achieve">- Successfully conducted a six-month AI integration experiment with CEFR A2 level English learners, leading to a Q1 journal publication (2026).</textarea></div>
+    
+    <div class="form-group"><label>Certifications</label><textarea id="input-certs">- TEFL / TESOL Certified Instructor
+- Google Certified Educator Level 2</textarea></div>
+
+  </div>
+
+  <div class="preview-panel">
+    
+    <div class="template-switcher">
+      <button class="btn-template active" onclick="switchTemplate('tpl-executive', this)">1. Executive</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-creative', this)">2. Creative Pro</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-minimalist', this)">3. Minimalist</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-startup', this)">4. Startup Hub</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-academic', this)">5. Academic</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-tech', this)">6. Tech Dark</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-elegant', this)">7. Elegant Gold</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-modern', this)">8. Modern Bold</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-split', this)">9. Split Screen</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-corporate', this)">10. Corporate</button>
+    </div>
+
+    <div id="resume-document" class="resume-sheet tpl-executive">
+      
+      <header class="res-header">
+        <div class="res-photo-wrapper">
+          <img id="out-photo" class="res-photo" src="" alt="Profile Photo">
+        </div>
+        <div class="res-header-text">
+          <div class="res-name" id="out-name"></div>
+          <div class="res-title" id="out-title"></div>
+          <div class="res-contact-bar">
+            <span id="out-email"></span>
+            <span id="out-phone"></span>
+            <span id="out-location"></span>
+            <span id="out-web"></span>
+          </div>
+        </div>
+      </header>
+
+      <aside class="res-sidebar">
+        <div class="res-heading">Skills</div>
+        <div class="tag-list" id="out-skills"></div>
+
+        <div class="res-heading">Languages</div>
+        <div class="res-text-block" id="out-langs"></div>
+
+        <div class="res-heading">Certifications</div>
+        <div class="res-text-block" id="out-certs"></div>
+
+        <div class="res-heading">Training</div>
+        <div class="res-text-block" id="out-training"></div>
+      </aside>
+
+      <main class="res-main">
+        <div class="res-heading">Profile Summary</div>
+        <div class="res-text-block" id="out-summary"></div>
+
+        <div class="res-heading">Work Experience</div>
+        <div class="res-text-block" id="out-exp"></div>
+
+        <div class="res-heading">Education</div>
+        <div class="res-text-block" id="out-edu"></div>
+
+        <div class="res-heading">Key Achievements</div>
+        <div class="res-text-block" id="out-achieve"></div>
+      </main>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ── TEXT FORMATTING PARSER (Fixes Indentation & Layout) ──
+  function formatText(text) {
+    if (!text) return "";
+    const lines = text.split('\n');
+    let html = '';
+    let inList = false;
+    
+    lines.forEach(line => {
+      let t = line.trim();
+      // If line starts with a bullet marker, parse it as a <ul><li>
+      if (t.startsWith('•') || t.startsWith('-') || t.startsWith('*')) {
+        if (!inList) { html += '<ul class="res-list">'; inList = true; }
+        html += `<li>${t.substring(1).trim()}</li>`;
+      } else {
+        if (inList) { html += '</ul>'; inList = false; }
+        if (t !== '') {
+          // If the line contains a pipe | character, format it as a bold Title
+          if (t.includes('|')) {
+             const parts = t.split('|');
+             html += `<div class="res-p"><strong>${parts[0].trim()}</strong> | ${parts[1].trim()}</div>`;
+          } else {
+             html += `<div class="res-p">${t}</div>`;
+          }
+        } else {
+          // Preserve empty lines as spacers
+          html += `<div class="res-spacer"></div>`;
+        }
+      }
+    });
+    if (inList) html += '</ul>';
+    return html;
+  }
+
+  // ── DATA BINDING ENGINE ──
+  const standardFields = ['name', 'title', 'email', 'phone', 'location', 'web'];
+  const textAreaFields = ['summary', 'exp', 'edu', 'training', 'achieve', 'certs', 'langs'];
+  
+  function updatePreview() {
+    // 1. Handle Standard One-Line Fields
+    standardFields.forEach(id => {
+      const el = document.getElementById(`input-${id}`);
+      const out = document.getElementById(`out-${id}`);
+      if(el && out) {
+        if(el.value !== "") {
+          if(id==='email') out.innerText = `✉ ${el.value}`;
+          else if(id==='phone') out.innerText = `☎ ${el.value}`;
+          else if(id==='location') out.innerText = `📍 ${el.value}`;
+          else if(id==='web') out.innerText = `🌐 ${el.value}`;
+          else out.innerText = el.value;
+        } else {
+          out.innerText = "";
+        }
+      }
+    });
+
+    // 2. Handle TextAreas using the new Indentation Parser
+    textAreaFields.forEach(id => {
+      const el = document.getElementById(`input-${id}`);
+      const out = document.getElementById(`out-${id}`);
+      if(el && out) {
+        out.innerHTML = formatText(el.value);
+      }
+    });
+
+    // 3. Handle Special Skills Tag Generation
+    const skills = document.getElementById('input-skills').value;
+    const skillsOut = document.getElementById('out-skills');
+    skillsOut.innerHTML = skills.split(',').filter(s => s.trim() !== "").map(s => `<span class="tag">${s.trim()}</span>`).join('');
+  }
+
+  // Attach event listeners to all inputs
+  standardFields.forEach(id => document.getElementById(`input-${id}`).addEventListener('input', updatePreview));
+  textAreaFields.forEach(id => document.getElementById(`input-${id}`).addEventListener('input', updatePreview));
+  document.getElementById('input-skills').addEventListener('input', updatePreview);
+
+  // ── PHOTO UPLOAD ENGINE ──
+  document.getElementById('input-photo').addEventListener('change', function(e) {
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = document.getElementById('out-photo');
+        img.src = e.target.result;
+        img.style.display = 'block'; 
+      }
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  });
+
+  // ── TEMPLATE SWITCHER ENGINE ──
+  function switchTemplate(templateClass, btnElement) {
+    document.querySelectorAll('.btn-template').forEach(b => b.classList.remove('active'));
+    btnElement.classList.add('active');
+    
+    const doc = document.getElementById('resume-document');
+    doc.className = `resume-sheet ${templateClass}`;
+  }
+
+  // Initialize
+  updatePreview();
+</script>
+</body>
+</html>
