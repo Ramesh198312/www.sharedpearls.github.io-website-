@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Resume  | Shared Pearls of Wisdom</title>
+  <title>Premium Resume | Shared Pearls of Wisdom</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Roboto+Mono:wght@400;500&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -12,12 +12,16 @@
       --ui-text: #0B1D3A;
       --ui-accent: #C4923E;
       --ui-border: #E0DCD3;
+      --midnight: #0B1D3A;
+      --gold: #D4AF37;
     }
+    
     nav { background: var(--midnight); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--gold); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
     .nav-logo { display: flex; align-items: center; gap: 15px; text-decoration: none; padding: 0.8rem 0; }
     .logo-img { height: 45px; width: auto; object-fit: contain; border-radius: 4px; }
     .logo-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: whitesmoke; letter-spacing: 0.02em; line-height: 1; }
     .logo-text span { color: wheat; font-style: italic; }
+    
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Inter', sans-serif; background: var(--ui-bg); color: var(--ui-text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
@@ -58,64 +62,91 @@
     /* ── MASTER RESUME ARCHITECTURE (CSS GRID) ── */
     .resume-sheet { 
       width: 210mm; 
-      min-height: 297mm; 
-      background: var(--bg-main, #FFFFFF); 
+      min-height: 297mm;
+      height: auto; 
+      background: transparent !important; 
       box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
       position: relative; 
-      overflow: hidden; 
+      overflow: visible; 
       transition: all 0.4s ease;
       display: grid;
-      /* Dynamic Grid Variables controlled by template classes */
       grid-template-columns: var(--grid-cols, 1fr);
       grid-template-rows: var(--grid-rows, auto auto auto);
       grid-template-areas: var(--grid-areas, "header" "main" "sidebar");
       color: var(--text-main, #333);
       font-family: var(--font-body, 'Inter', sans-serif);
       line-height: 1.6;
+      z-index: 1;
+    }
+
+    /* ── DYNAMIC SIDEBAR BACKGROUND PAINTER ── */
+    .resume-sheet::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--sheet-bg, #FFFFFF);
+      z-index: -1;
     }
 
     /* Resume Regions */
     .res-header { grid-area: header; background: var(--bg-header, transparent); color: var(--text-header, inherit); padding: var(--pad-header, 40px); display: flex; flex-direction: var(--dir-header, row); align-items: var(--align-header, center); gap: 20px; border-bottom: var(--border-header, none); }
-    .res-sidebar { grid-area: sidebar; background: var(--bg-sidebar, transparent); color: var(--text-sidebar, inherit); padding: var(--pad-sidebar, 40px 30px); border-right: var(--border-sidebar, none); }
-    .res-main { grid-area: main; padding: var(--pad-main, 40px); background: var(--bg-main, transparent); }
+    .res-sidebar { grid-area: sidebar; background: transparent; color: var(--text-sidebar, inherit); padding: var(--pad-sidebar, 40px 30px); border-right: var(--border-sidebar, none); }
+    .res-main { grid-area: main; padding: var(--pad-main, 40px); background: transparent; }
 
     /* Resume Elements */
     .res-photo-wrapper { display: var(--show-photo, block); flex-shrink: 0; }
     .res-photo { width: var(--photo-size, 120px); height: var(--photo-size, 120px); border-radius: var(--photo-radius, 50%); object-fit: cover; border: var(--photo-border, none); display: none; }
     
-    .res-name { font-family: var(--font-heading, 'Playfair Display', serif); font-size: var(--size-name, 2.8rem); font-weight: var(--weight-name, 700); color: var(--color-name, inherit); margin-bottom: 5px; line-height: 1.1; text-transform: var(--transform-name, none); letter-spacing: var(--letter-name, normal);}
-    .res-title { font-family: var(--font-body, 'Inter', sans-serif); font-size: var(--size-title, 1.1rem); font-weight: 600; color: var(--color-title, #666); text-transform: var(--transform-title, uppercase); letter-spacing: 1px; margin-bottom: 15px;}
+    .res-name { text-align: var(--text-align-header, left); font-family: var(--font-heading, 'Playfair Display', serif); font-size: var(--size-name, 2.8rem); font-weight: var(--weight-name, 700); color: var(--color-name, inherit); margin-bottom: 5px; line-height: 1.1; text-transform: var(--transform-name, none); letter-spacing: var(--letter-name, normal);}
+    .res-title { text-align: var(--text-align-header, left); font-family: var(--font-body, 'Inter', sans-serif); font-size: var(--size-title, 1.1rem); font-weight: 600; color: var(--color-title, #666); text-transform: var(--transform-title, uppercase); letter-spacing: 1px; margin-bottom: 15px;}
     
     .res-contact-bar { display: flex; flex-wrap: wrap; gap: 15px; font-size: 0.85rem; font-family: 'Inter', sans-serif; opacity: 0.9; flex-direction: var(--dir-contact, row); }
     
-    .res-heading { font-family: var(--font-heading, 'Playfair Display', serif); font-size: var(--size-heading, 1.3rem); color: var(--color-heading, #111); font-weight: 700; text-transform: var(--transform-heading, uppercase); border-bottom: var(--border-heading, 2px solid #111); padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; letter-spacing: 1px;}
+    .res-heading { text-align: left; font-family: var(--font-heading, 'Playfair Display', serif); font-size: var(--size-heading, 1.3rem); color: var(--color-heading, #111); font-weight: 700; text-transform: var(--transform-heading, uppercase); border-bottom: var(--border-heading, 2px solid #111); padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; letter-spacing: 1px;}
     .res-heading:first-child { margin-top: 0; }
     .res-sidebar .res-heading { color: var(--color-heading-side, inherit); border-color: var(--border-heading-side, currentColor); }
     
     .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem;}
     .tag { background: var(--bg-tag, #eee); color: var(--text-tag, #333); padding: 5px 12px; border-radius: var(--rad-tag, 4px); font-size: 0.85rem; font-weight: 600; border: var(--border-tag, none);}
 
-    /* ── TEXT FORMATTING (BULLETS & PARAGRAPHS) ── */
-    .res-text-block { font-size: 0.95rem; margin-bottom: 1.5rem; color: var(--text-body, #444); }
+    /* ── TEXT FORMATTING (PREMIUM JUSTIFY FOR PARAGRAPHS ONLY) ── */
+    .res-text-block { 
+      font-size: 0.95rem; 
+      margin-bottom: 1.5rem; 
+      color: var(--text-body, #444); 
+      text-align: justify; 
+      text-justify: inter-word;
+      hyphens: auto;
+      -webkit-hyphens: auto;
+    }
     .res-sidebar .res-text-block { color: var(--text-sidebar-body, inherit); }
     
     .res-p { margin-bottom: 6px; }
-    .res-p strong { color: var(--color-heading, #111); font-size: 1.05rem;}
-    .res-sidebar .res-p strong { color: var(--color-heading-side, inherit); }
     
-    .res-list { padding-left: 20px; margin-bottom: 12px; margin-top: 4px;}
+    /* Disables Justify for Job Titles and Degrees to prevent awkward stretching */
+    .res-title-line {
+      text-align: left !important;
+      hyphens: none !important;
+      -webkit-hyphens: none !important;
+    }
+    .res-title-line strong { color: var(--color-heading, #111); font-size: 1.05rem;}
+    .res-sidebar .res-title-line strong { color: var(--color-heading-side, inherit); }
+    
+    .res-list { padding-left: 20px; margin-bottom: 12px; margin-top: 4px; text-align: justify; }
     .res-list li { margin-bottom: 4px; list-style-type: disc; }
     .res-spacer { height: 12px; }
 
     /* =========================================================
        THE 10 PREMIUM TEMPLATES (CSS VARIABLE INJECTIONS)
        ========================================================= */
-
-    /* 1. The Executive (Classic, Centered, Serif) */
+    /* 1. The Executive */
     .tpl-executive {
       --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --sheet-bg: #FFFFFF;
       --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
-      --dir-header: column; --align-header: center; --text-header: #111; --pad-header: 50px 50px 20px 50px;
+      --dir-header: column; --align-header: center; --text-header: #111; 
+      --pad-header: 0.25in 50px 20px 50px; /* 0.25in precise top spacing */
+      --text-align-header: center;
       --border-header: 1px solid #ccc; --dir-contact: row;
       --show-photo: none; --transform-name: uppercase; --letter-name: 2px;
       --color-title: #C4923E; --transform-heading: uppercase; --border-heading: 1px solid #C4923E;
@@ -123,24 +154,28 @@
       --bg-tag: transparent; --border-tag: 1px solid #333;
     }
 
-    /* 2. The Creative (Left Sidebar, Dark/Light Contrast) */
+    /* 2. The Creative (Rich Navy & Gold) */
     .tpl-creative {
       --grid-cols: 32% 68%; --grid-rows: auto 1fr; --grid-areas: "sidebar header" "sidebar main";
+      --sheet-bg: linear-gradient(to right, #1A2A3A 0%, #1A2A3A 32%, #FFFFFF 32%, #FFFFFF 100%);
       --font-heading: 'Montserrat', sans-serif; --font-body: 'Inter', sans-serif;
-      --bg-sidebar: #2C3E50; --text-sidebar: #FFF; --text-sidebar-body: #D5D8DC;
-      --bg-main: #FFF; --pad-main: 10px 50px 50px 50px; --pad-sidebar: 50px 30px; --pad-header: 50px 50px 20px 50px;
-      --show-photo: block; --photo-radius: 50%; --photo-border: 4px solid #E74C3C;
-      --color-name: #2C3E50; --color-title: #E74C3C; --size-name: 2.5rem; --weight-name: 800;
-      --color-heading: #2C3E50; --border-heading: 3px solid #E74C3C;
-      --color-heading-side: #FFF; --border-heading-side: 2px solid #E74C3C;
-      --dir-contact: column; --bg-tag: #E74C3C; --text-tag: #FFF; --rad-tag: 20px;
+      --text-sidebar: #FFF; --text-sidebar-body: #E2E8F0;
+      --pad-main: 10px 50px 50px 50px; --pad-sidebar: 50px 30px; 
+      --pad-header: 0.25in 50px 20px 50px; /* 0.25in precise top spacing */
+      --show-photo: block; --photo-radius: 50%; --photo-border: 4px solid #D4AF37;
+      --color-name: #1A2A3A; --color-title: #D4AF37; --size-name: 2.5rem; --weight-name: 800;
+      --color-heading: #1A2A3A; --border-heading: 3px solid #D4AF37;
+      --color-heading-side: #FFF; --border-heading-side: 2px solid #D4AF37;
+      --dir-contact: column; --bg-tag: #D4AF37; --text-tag: #1A2A3A; --rad-tag: 20px;
     }
 
-    /* 3. The Minimalist (Clean, Lots of Whitespace) */
+    /* 3. The Minimalist */
     .tpl-minimalist {
       --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --sheet-bg: #FFFFFF;
       --font-heading: 'Inter', sans-serif; --font-body: 'Inter', sans-serif;
-      --pad-header: 50px 50px 10px 50px; --dir-header: row; --align-header: flex-end;
+      --pad-header: 0.25in 50px 10px 50px; /* 0.25in precise top spacing */
+      --dir-header: row; --align-header: flex-end;
       --show-photo: none; --color-name: #222; --weight-name: 300; --letter-name: -1px; --size-name: 3.5rem;
       --color-title: #888; --border-heading: none; --color-heading: #222;
       --pad-main: 10px 50px 20px 50px; --pad-sidebar: 10px 50px 50px 50px;
@@ -148,24 +183,28 @@
     }
     .tpl-minimalist .res-heading { font-weight: 600; text-transform: none; font-size: 1.5rem; }
 
-    /* 4. The Startup (Vibrant Header, 2 Columns) */
+    /* 4. The Startup (Midnight Gradient & Gold) */
     .tpl-startup {
       --grid-cols: 65% 35%; --grid-rows: auto 1fr; --grid-areas: "header header" "main sidebar";
+      --sheet-bg: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 65%, #F8FAFC 65%, #F8FAFC 100%);
       --font-heading: 'Montserrat', sans-serif; --font-body: 'Inter', sans-serif;
-      --bg-header: linear-gradient(135deg, #667EEA 0%, #764BA2 100%); --text-header: #FFF;
+      --bg-header: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%); --text-header: #FFF;
       --color-name: #FFF; --color-title: #E2E8F0; --dir-contact: row;
-      --show-photo: block; --photo-radius: 8px; --photo-border: 3px solid #FFF; --photo-size: 100px;
-      --pad-header: 40px 50px; --pad-main: 40px 30px 40px 50px; --pad-sidebar: 40px 50px 40px 20px;
-      --border-sidebar: none; --bg-sidebar: #F8FAFC;
-      --color-heading: #764BA2; --border-heading: 2px solid #667EEA; --color-heading-side: #764BA2;
-      --bg-tag: #E2E8F0; --text-tag: #334155;
+      --show-photo: block; --photo-radius: 8px; --photo-border: 3px solid #D4AF37; --photo-size: 100px;
+      --pad-header: 40px 50px; /* Internal box padding maintained */
+      --pad-main: 40px 30px 40px 50px; --pad-sidebar: 40px 50px 40px 20px;
+      --border-sidebar: none;
+      --color-heading: #0F2027; --border-heading: 2px solid #D4AF37; --color-heading-side: #0F2027;
+      --bg-tag: #E2E8F0; --text-tag: #0F2027;
     }
 
-    /* 5. The Academic (Traditional, Standard margins) */
+    /* 5. The Academic */
     .tpl-academic {
       --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --sheet-bg: #FFFFFF;
       --font-heading: 'Playfair Display', serif; --font-body: 'Playfair Display', serif;
-      --dir-header: column; --align-header: center; --pad-header: 40px 60px 10px 60px;
+      --dir-header: column; --align-header: center; --text-align-header: center;
+      --pad-header: 0.25in 60px 10px 60px; /* 0.25in precise top spacing */
       --show-photo: none; --color-name: #000; --size-name: 2.5rem; --color-title: #333;
       --border-heading: 1px solid #000; --color-heading: #000; --transform-heading: uppercase;
       --pad-main: 10px 60px 10px 60px; --pad-sidebar: 10px 60px 50px 60px;
@@ -173,35 +212,41 @@
     }
     .tpl-academic .tag:not(:last-child):after { content: ", "; }
 
-    /* 6. The Tech Dark (Monospace accents, Dark Top) */
+    /* 6. The Tech Dark */
     .tpl-tech {
       --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --sheet-bg: #FFFFFF;
       --font-heading: 'Roboto Mono', monospace; --font-body: 'Inter', sans-serif;
-      --bg-header: #1E293B; --text-header: #38BDF8; --dir-header: row; --align-header: center;
+      --bg-header: #1E293B; --text-header: #E2E8F0; --dir-header: row; --align-header: center;
       --color-name: #F8FAFC; --color-title: #94A3B8; --show-photo: none;
-      --pad-header: 40px 50px; --pad-main: 30px 50px 10px 50px; --pad-sidebar: 10px 50px 40px 50px;
-      --color-heading: #0F172A; --border-heading: 2px dashed #CBD5E1;
-      --bg-tag: #E0F2FE; --text-tag: #0369A1; --rad-tag: 2px;
+      --pad-header: 40px 50px; /* Internal box padding maintained */
+      --pad-main: 30px 50px 10px 50px; --pad-sidebar: 10px 50px 40px 50px;
+      --color-heading: #0F172A; --border-heading: 2px dashed #D4AF37;
+      --bg-tag: #F1F5F9; --text-tag: #0F172A; --rad-tag: 2px;
     }
 
-    /* 7. The Elegant (Gold & Navy, graceful) */
+    /* 7. The Elegant (Refined Navy & Parchment) */
     .tpl-elegant {
       --grid-cols: 35% 65%; --grid-rows: auto 1fr; --grid-areas: "header header" "sidebar main";
-      --bg-header: #0B1D3A; --text-header: #FFF; --color-title: #C4923E;
-      --font-heading: 'Playfair Display', serif; --pad-header: 50px;
-      --dir-header: row; --align-header: center; --show-photo: block; --photo-radius: 50%; --photo-border: 2px solid #C4923E;
-      --bg-sidebar: #F9F7F1; --pad-sidebar: 40px; --pad-main: 40px;
-      --color-heading: #0B1D3A; --border-heading: 1px solid #C4923E;
-      --color-heading-side: #0B1D3A; --border-heading-side: 1px solid #C4923E;
+      --sheet-bg: linear-gradient(to right, #FAFAF8 0%, #FAFAF8 35%, #FFFFFF 35%, #FFFFFF 100%);
+      --bg-header: #0B1D3A; --text-header: #FFF; --color-title: #D4AF37;
+      --font-heading: 'Playfair Display', serif; 
+      --pad-header: 50px; /* Internal box padding maintained */
+      --dir-header: row; --align-header: center; --show-photo: block; --photo-radius: 50%; --photo-border: 2px solid #D4AF37;
+      --pad-sidebar: 40px; --pad-main: 40px;
+      --color-heading: #0B1D3A; --border-heading: 1px solid #D4AF37;
+      --color-heading-side: #0B1D3A; --border-heading-side: 1px solid #D4AF37;
       --bg-tag: #0B1D3A; --text-tag: #FFF; --rad-tag: 0px;
     }
 
-    /* 8. The Modern Profile (Large image, Right align sidebar) */
+    /* 8. The Modern Profile */
     .tpl-modern {
       --grid-cols: 70% 30%; --grid-rows: auto 1fr; --grid-areas: "header sidebar" "main sidebar";
+      --sheet-bg: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 70%, #111827 70%, #111827 100%);
       --font-heading: 'Montserrat', sans-serif; --font-body: 'Inter', sans-serif;
-      --bg-sidebar: #111827; --text-sidebar: #F3F4F6; --text-sidebar-body: #9CA3AF;
-      --pad-header: 50px 40px 10px 50px; --pad-main: 10px 40px 50px 50px; --pad-sidebar: 50px 30px;
+      --text-sidebar: #F3F4F6; --text-sidebar-body: #9CA3AF;
+      --pad-header: 0.25in 40px 10px 50px; /* 0.25in precise top spacing */
+      --pad-main: 10px 40px 50px 50px; --pad-sidebar: 50px 30px;
       --show-photo: block; --photo-radius: 10px; --photo-size: 150px; --photo-border: none;
       --color-name: #111827; --color-title: #10B981; --size-name: 3rem; --weight-name: 800; --letter-name: -1px;
       --color-heading: #111827; --border-heading: 4px solid #10B981;
@@ -209,32 +254,94 @@
       --dir-contact: column; --bg-tag: #374151; --text-tag: #10B981;
     }
 
-    /* 9. The Split Screen (50/50 approach) */
+    /* 9. The Split Screen */
     .tpl-split {
       --grid-cols: 50% 50%; --grid-rows: auto 1fr; --grid-areas: "header header" "sidebar main";
+      --sheet-bg: linear-gradient(to right, #F5F5F5 0%, #F5F5F5 50%, #FFFFFF 50%, #FFFFFF 100%);
       --bg-header: #000; --text-header: #FFF; --color-title: #A8A8A8;
-      --pad-header: 40px 50px; --pad-sidebar: 40px 50px; --pad-main: 40px 50px;
-      --bg-sidebar: #F5F5F5; --border-heading: 2px solid #000; --color-heading: #000;
+      --pad-header: 40px 50px; /* Internal box padding maintained */
+      --pad-sidebar: 40px 50px; --pad-main: 40px 50px;
+      --border-heading: 2px solid #000; --color-heading: #000;
       --show-photo: none; --dir-contact: row; --bg-tag: #000; --text-tag: #FFF;
     }
 
-    /* 10. The Corporate Trust (Blue top, reliable) */
+    /* 10. The Corporate Trust (Deep Executive Slate) */
     .tpl-corporate {
       --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --sheet-bg: #FFFFFF;
       --font-heading: 'Montserrat', sans-serif;
-      --bg-header: #0A66C2; --text-header: #FFF; --color-title: #E1E9F1;
-      --pad-header: 40px 60px; --dir-header: column; --align-header: flex-start;
+      --bg-header: #1E3A8A; --text-header: #FFF; --color-title: #E0E7FF;
+      --pad-header: 40px 60px; /* Internal box padding maintained */
+      --dir-header: column; --align-header: flex-start;
       --show-photo: none; --pad-main: 30px 60px 10px 60px; --pad-sidebar: 10px 60px 40px 60px;
-      --color-heading: #0A66C2; --border-heading: 2px solid #0A66C2;
-      --bg-tag: #E1E9F1; --text-tag: #0A66C2; --rad-tag: 15px;
+      --color-heading: #1E3A8A; --border-heading: 2px solid #1E3A8A;
+      --bg-tag: #E0E7FF; --text-tag: #1E3A8A; --rad-tag: 15px;
     }
-
-    /* Print Styles */
+    
+    /* ── MULTI-PAGE PRINT LOGIC & BROWSER OVERRIDE ── */
     @media print {
-      body * { visibility: hidden; }
-      .resume-sheet, .resume-sheet * { visibility: visible; }
-      .resume-sheet { position: absolute; left: 0; top: 0; margin: 0; box-shadow: none; padding: 0; width: 210mm; height: 297mm;}
-      .resume-sheet { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      /* PERFECT 0.5-INCH (12.7mm) PRINT MARGINS EVERYWHERE... */
+      @page { 
+        margin: 12.7mm 0; 
+        size: A4; 
+      }
+      
+      /* ...EXCEPT THE FIRST PAGE (Allows boxes and sidebars to touch the paper edge) */
+      @page :first {
+        margin-top: 0;
+      }
+      
+      html, body { 
+        background: #fff; 
+        height: auto !important;
+        overflow: visible !important;
+        -webkit-print-color-adjust: exact; 
+        print-color-adjust: exact; 
+      }
+      
+      /* Hide all interface elements from the final PDF */
+      .builder-header, .editor-panel, .template-switcher { 
+        display: none !important; 
+      }
+      
+      /* Allow the container to naturally expand down the page */
+      .builder-container, .preview-panel { 
+        display: block !important; 
+        width: 100% !important; 
+        height: auto !important;
+        padding: 0 !important; 
+        margin: 0 !important; 
+        overflow: visible !important; 
+        background: none !important;
+      }
+      
+      /* Allow multi-page flowing */
+      .resume-sheet { 
+        position: relative !important; 
+        left: 0; 
+        top: 0; 
+        margin: 0; 
+        box-shadow: none; 
+        width: 210mm; 
+        height: auto !important;
+        min-height: 297mm;
+        overflow: visible !important;
+      }
+
+      /* Fixed pseudo-element ensures sidebars reach the absolute bottom of EVERY page */
+      .resume-sheet::before {
+        position: fixed;
+        top: 0; 
+        left: 0;
+        width: 210mm;
+        height: 100vh;
+      }
+
+      /* Prevent paragraphs and lists from getting awkwardly chopped across two pages */
+      .res-p, .res-heading, .res-list {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
     }
   </style>
 </head>
@@ -249,9 +356,7 @@
 </header>
 
 <div class="builder-container">
-  
   <div class="editor-panel">
-    
     <div class="section-title">1. Personal Profile</div>
     <div class="form-group">
       <label class="photo-upload-label">
@@ -270,7 +375,7 @@
     <div class="form-group"><label>Email</label><input type="email" id="input-email" value="ramesh@example.com"></div>
     <div class="form-group"><label>Phone</label><input type="tel" id="input-phone" value="+60 12-345 6789"></div>
     <div class="form-group"><label>Location</label><input type="text" id="input-location" value="Shah Alam, Selangor, Malaysia"></div>
-    <div class="form-group"><label>Portfolio / LinkedIn</label><input type="text" id="input-web" value="miragesoflife.wordpress.com"></div>
+    <div class="form-group"><label>Portfolio / Website</label><input type="text" id="input-web" value="miragesoflife.wordpress.com"></div>
 
     <div class="section-title">3. Skills & Languages</div>
     <div class="form-group">
@@ -299,7 +404,6 @@ English Language Instructor | 2021 – Present
 - Integrated AI tools into lesson planning, elevating learners to CEFR A2 proficiency.
 - Prepared students for IELTS listening and writing examinations.</textarea>
     </div>
-    
     <div class="form-group">
       <label>Education</label>
       <textarea id="input-edu">Ph.D. in Education (Ongoing) | Malaysia
@@ -312,16 +416,22 @@ Master's Degree in English Literature | Nepal
     <div class="section-title">5. Additional Sections</div>
     <div class="form-group"><label>Training</label><textarea id="input-training">- Advanced AI Prompt Engineering for Educators (2025)
 - Cambridge Assessment English Teaching Workshop (2024)</textarea></div>
-    
     <div class="form-group"><label>Achievements</label><textarea id="input-achieve">- Successfully conducted a six-month AI integration experiment with CEFR A2 level English learners, leading to a Q1 journal publication (2026).</textarea></div>
-    
     <div class="form-group"><label>Certifications</label><textarea id="input-certs">- TEFL / TESOL Certified Instructor
 - Google Certified Educator Level 2</textarea></div>
+
+    <div class="section-title">6. Social Profiles</div>
+    <div class="form-group">
+      <label>Professional Networks</label>
+      <span class="hint">Use the format: <strong>Platform | @handle or URL</strong> on one line.</span>
+      <textarea id="input-socials">LinkedIn | linkedin.com/in/rameshmani
+X (Twitter) | @ramesh_edu
+GitHub | github.com/rmsuvedi</textarea>
+    </div>
 
   </div>
 
   <div class="preview-panel">
-    
     <div class="template-switcher">
       <button class="btn-template active" onclick="switchTemplate('tpl-executive', this)">1. Executive</button>
       <button class="btn-template" onclick="switchTemplate('tpl-creative', this)">2. Creative Pro</button>
@@ -336,7 +446,6 @@ Master's Degree in English Literature | Nepal
     </div>
 
     <div id="resume-document" class="resume-sheet tpl-executive">
-      
       <header class="res-header">
         <div class="res-photo-wrapper">
           <img id="out-photo" class="res-photo" src="" alt="Profile Photo">
@@ -356,38 +465,40 @@ Master's Degree in English Literature | Nepal
       <aside class="res-sidebar">
         <div class="res-heading">Skills</div>
         <div class="tag-list" id="out-skills"></div>
-
+        
         <div class="res-heading">Languages</div>
         <div class="res-text-block" id="out-langs"></div>
-
+        
         <div class="res-heading">Certifications</div>
         <div class="res-text-block" id="out-certs"></div>
-
+        
         <div class="res-heading">Training</div>
         <div class="res-text-block" id="out-training"></div>
+        
+        <div class="res-heading" id="heading-socials">Social Profiles</div>
+        <div class="res-text-block" id="out-socials"></div>
       </aside>
 
       <main class="res-main">
         <div class="res-heading">Profile Summary</div>
         <div class="res-text-block" id="out-summary"></div>
-
+        
         <div class="res-heading">Work Experience</div>
         <div class="res-text-block" id="out-exp"></div>
-
+        
         <div class="res-heading">Education</div>
         <div class="res-text-block" id="out-edu"></div>
-
+        
         <div class="res-heading">Key Achievements</div>
         <div class="res-text-block" id="out-achieve"></div>
       </main>
 
     </div>
   </div>
-
 </div>
 
 <script>
-  // ── TEXT FORMATTING PARSER (Fixes Indentation & Layout) ──
+  // ── TEXT FORMATTING PARSER (Fixes Indentation & Title Layout) ──
   function formatText(text) {
     if (!text) return "";
     const lines = text.split('\n');
@@ -396,22 +507,20 @@ Master's Degree in English Literature | Nepal
     
     lines.forEach(line => {
       let t = line.trim();
-      // If line starts with a bullet marker, parse it as a <ul><li>
       if (t.startsWith('•') || t.startsWith('-') || t.startsWith('*')) {
         if (!inList) { html += '<ul class="res-list">'; inList = true; }
         html += `<li>${t.substring(1).trim()}</li>`;
       } else {
         if (inList) { html += '</ul>'; inList = false; }
         if (t !== '') {
-          // If the line contains a pipe | character, format it as a bold Title
-          if (t.includes('|')) {
-             const parts = t.split('|');
-             html += `<div class="res-p"><strong>${parts[0].trim()}</strong> | ${parts[1].trim()}</div>`;
-          } else {
+          if (t.includes('|')) { 
+             // Wraps titles in a special class to PREVENT unwanted justification
+             const parts = t.split('|'); 
+             html += `<div class="res-p res-title-line"><strong>${parts[0].trim()}</strong> | ${parts[1].trim()}</div>`;
+          } else { 
              html += `<div class="res-p">${t}</div>`;
           }
         } else {
-          // Preserve empty lines as spacers
           html += `<div class="res-spacer"></div>`;
         }
       }
@@ -422,7 +531,7 @@ Master's Degree in English Literature | Nepal
 
   // ── DATA BINDING ENGINE ──
   const standardFields = ['name', 'title', 'email', 'phone', 'location', 'web'];
-  const textAreaFields = ['summary', 'exp', 'edu', 'training', 'achieve', 'certs', 'langs'];
+  const textAreaFields = ['summary', 'exp', 'edu', 'training', 'achieve', 'certs', 'langs', 'socials'];
   
   function updatePreview() {
     // 1. Handle Standard One-Line Fields
@@ -448,6 +557,18 @@ Master's Degree in English Literature | Nepal
       const out = document.getElementById(`out-${id}`);
       if(el && out) {
         out.innerHTML = formatText(el.value);
+        
+        // Hide empty sections dynamically (specifically for Socials)
+        if(id === 'socials') {
+            const heading = document.getElementById('heading-socials');
+            if(el.value.trim() === "") {
+                heading.style.display = 'none';
+                out.style.display = 'none';
+            } else {
+                heading.style.display = 'block';
+                out.style.display = 'block';
+            }
+        }
       }
     });
 
