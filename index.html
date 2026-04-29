@@ -1,1124 +1,614 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shared Pearls of Wisdom – Learn English</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Resume | Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Roboto+Mono:wght@400;500&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink: #1a1209;
-      --parchment: #fdf8f0;
-      --cream: #f5ede0;
-      --gold: #c8922a;
-      --gold-light: #e8b84b;
-      --rust: #a0401a;
-      --teal: #1e6b6b;
-      --teal-light: #2d9e9e;
-      --pearl: #e8ddd0;
-      --shadow: rgba(26,18,9,0.12); /* Fixed invalid color syntax */
+      --ui-bg: #F0F4F8;
+      --ui-panel: #FFFFFF;
+      --ui-text: #0B1D3A;
+      --ui-accent: #C4923E;
+      --ui-border: #E0DCD3;
+      --midnight: #0B1D3A;
+      --gold: #D4AF37;
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Source Serif 4', Georgia, serif;
-      background: var(--parchment);
-      color: var(--ink);
-      overflow-x: hidden;
-    }
-
-    /* ── NAV ── */
-    nav {
-      background: green;
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 16px var(--shadow);
-    }
-    .nav-logo-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .nav-logo-img {
-      height: 100px; /* Reduced from 120px for better proportions */
-      width: auto;
-    }
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      color: var(--gold-light);
-      padding: 1.1rem 0;
-      letter-spacing: 0.02em;
-    }
-    .nav-logo span { color: #fff; font-style: italic; }
     
-    .nav-links {
-      display: flex;
-      gap: 0;
-      list-style: none;
-      align-items: center;
-    }
-    .nav-links a {
-      color: #ccc;
-      text-decoration: none;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 1.3rem 1.1rem;
-      display: block;
-      transition: color 0.2s, background 0.2s;
-    }
-    .nav-links a:hover { color: var(--gold-light); background: rgba(255, 255, 255, 0.153); }
-    .nav-cta {
-      background: var(--gold);
-      color: var(--ink) !important;
-      border-radius: 2px;
-      font-weight: 500 !important;
-      margin-left: 10px;
-    }
-    .nav-cta:hover { background: var(--gold-light) !important; color: var(--ink) !important; }
+    nav { background: var(--midnight); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--gold); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+    .nav-logo { display: flex; align-items: center; gap: 15px; text-decoration: none; padding: 0.8rem 0; }
+    .logo-img { height: 45px; width: auto; object-fit: contain; border-radius: 4px; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: whitesmoke; letter-spacing: 0.02em; line-height: 1; }
+    .logo-text span { color: wheat; font-style: italic; }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: var(--ui-bg); color: var(--ui-text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-    /* Hamburger Menu Icon (Hidden on Desktop) */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 6px;
-      z-index: 1001;
-    }
-    .hamburger span {
-      width: 30px;
-      height: 3px;
-      background-color: var(--gold-light);
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
+    /* ── UI HEADER ── */
+    header.builder-header { background: #0B1D3A; color: #FFF; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--ui-accent); flex-shrink: 0;}
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px;}
+    .btn-export { background: var(--ui-accent); color: #0B1D3A; border: none; padding: 0.6rem 1.5rem; font-family: 'Roboto Mono', monospace; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
+    .btn-export:hover { background: #dcb36b; transform: translateY(-1px); }
 
-    /* Hamburger Animation to 'X' */
-    .hamburger.toggle span:nth-child(1) {
-      transform: translateY(9px) rotate(45deg);
-    }
-    .hamburger.toggle span:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger.toggle span:nth-child(3) {
-      transform: translateY(-9px) rotate(-45deg);
-    }
+    /* ── LAYOUT ── */
+    .builder-container { display: flex; flex: 1; overflow: hidden; }
+    
+    /* ── EDITOR PANEL (LEFT) ── */
+    .editor-panel { width: 38%; background: var(--ui-panel); border-right: 1px solid var(--ui-border); overflow-y: auto; padding: 2rem; }
+    .section-title { font-family: 'Roboto Mono', monospace; font-size: 0.9rem; text-transform: uppercase; color: #666; border-bottom: 2px solid var(--ui-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem; margin-top: 2.5rem; font-weight: bold;}
+    .section-title:first-child { margin-top: 0; }
+    
+    .form-group { margin-bottom: 1.2rem; }
+    label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--ui-text); }
+    input[type="text"], input[type="email"], input[type="tel"], textarea { width: 100%; padding: 0.7rem; border: 1px solid #cdd6df; border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; transition: 0.3s; background: #fafbfc;}
+    input:focus, textarea:focus { border-color: #0B1D3A; background: #fff;}
+    textarea { resize: vertical; min-height: 120px; }
+    .hint { font-size: 0.75rem; color: #777; margin-top: 4px; display: block; }
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 88vh;
+    .photo-upload-label { display: inline-block; padding: 0.8rem 1.2rem; background: var(--ui-bg); border: 2px dashed #999; cursor: pointer; font-size: 0.9rem; font-weight: 600; border-radius: 4px; text-align: center; width: 100%; transition: 0.3s;}
+    .photo-upload-label:hover { border-color: var(--ui-accent); color: var(--ui-accent); }
+    input[type="file"] { display: none; }
+
+    /* ── PREVIEW PANEL (RIGHT) ── */
+    .preview-panel { width: 62%; background: #cfd8dc; padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+    
+    /* Template Switcher Grid */
+    .template-switcher { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 2rem; width: 100%; max-width: 210mm; background: var(--ui-panel); padding: 1rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);}
+    .btn-template { background: #f0f4f8; border: 1px solid #cdd6df; padding: 0.6rem; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; border-radius: 4px; transition: 0.2s; text-align: center; color: #444;}
+    .btn-template:hover { background: #e2e8f0; border-color: #94a3b8; }
+    .btn-template.active { background: var(--ui-text); color: #FFF; border-color: var(--ui-text); box-shadow: 0 2px 8px rgba(11,29,58,0.2);}
+
+    /* ── MASTER RESUME ARCHITECTURE (CSS GRID) ── */
+    .resume-sheet { 
+      width: 210mm; 
+      min-height: 297mm;
+      height: auto; 
+      background: transparent !important; 
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+      position: relative; 
+      overflow: visible; 
+      transition: all 0.4s ease;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-left {
-      background: var(--ink);
-      padding: 6rem 4rem 4rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-    }
-    .hero-left::after {
-      content: '';
-      position: absolute;
-      right: -40px;
-      top: 0; bottom: 0;
-      width: 80px;
-      background: var(--ink);
-      clip-path: polygon(0 0, 0 100%, 100% 100%);
-      z-index: 2;
-    }
-    .hero-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-    .hero-tag::before {
-      content: '';
-      display: block;
-      width: 32px;
-      height: 1px;
-      background: var(--gold);
-    }
-    .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.8rem, 5vw, 4.2rem);
-      color: #fff;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-    }
-    .hero h1 em {
-      color: var(--gold-light);
-      font-style: italic;
-    }
-    .hero-desc {
-      color: #aaa;
-      font-size: 1.1rem;
-      line-height: 1.8;
-      max-width: 440px;
-      margin-bottom: 2.5rem;
-      font-weight: 300;
-    }
-    .hero-btns {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-    .btn {
-      display: inline-block;
-      padding: 0.85rem 1.8rem;
-      border-radius: 2px;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: none;
-    }
-    .btn-gold { background: var(--gold); color: var(--ink); font-weight: 500; }
-    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200,146,42,0.3); }
-    .btn-outline { background: transparent; color: #ccc; border: 1px solid rgba(255,255,255,0.2); }
-    .btn-outline:hover { border-color: var(--gold); color: var(--gold-light); }
-
-    .hero-right {
-      background: var(--cream);
-      padding: 4rem 3rem 4rem 5rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 1.5rem;
-      position: relative;
-    }
-    .hero-right::before {
-      content: '"';
-      font-family: 'Playfair Display', serif;
-      font-size: 20rem;
-      color: var(--pearl);
-      position: absolute;
-      top: -2rem;
-      right: 2rem;
-      line-height: 1;
-      pointer-events: none;
-    }
-    .featured-card {
-      background: #fff;
-      border-left: 4px solid var(--gold);
-      padding: 1.5rem 1.8rem;
-      box-shadow: 0 4px 24px var(--shadow);
-      position: relative;
-      z-index: 1;
-      transition: transform 0.2s, box-shadow 0.2s;
-      cursor: pointer;
-    }
-    .featured-card:hover { transform: translateX(6px); box-shadow: 0 8px 32px var(--shadow); }
-    .card-level {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.6rem;
-    }
-    .featured-card h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.15rem;
-      margin-bottom: 0.5rem;
-      color: var(--ink);
-    }
-    .featured-card h3 a {
-      text-decoration: none;
-      color: inherit;
-    }
-    .featured-card p {
-      font-size: 0.9rem;
-      color: #666;
+      grid-template-columns: var(--grid-cols, 1fr);
+      grid-template-rows: var(--grid-rows, auto auto auto);
+      grid-template-areas: var(--grid-areas, "header" "main" "sidebar");
+      color: var(--text-main, #333);
+      font-family: var(--font-body, 'Inter', sans-serif);
       line-height: 1.6;
+      z-index: 1;
     }
-    .teal-card { border-left-color: var(--teal); }
-    .teal-card .card-level { color: var(--teal); }
-    .rust-card { border-left-color: var(--rust); }
-    .rust-card .card-level { color: var(--rust); }
 
-    /* ── TICKER ── */
-    .ticker {
-      background: var(--gold);
-      padding: 0.7rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .ticker-inner {
-      display: inline-block;
-      animation: ticker 30s linear infinite;
-    }
-    .ticker-item {
-      display: inline-block;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.78rem;
-      letter-spacing: 0.06em;
-      color: var(--ink);
-      margin: 0 2.5rem;
-    }
-    .ticker-item::before { content: '◆ '; opacity: 0.5; }
-    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-    /* ── SECTION HEADER ── */
-    .section { padding: 5rem 4rem; }
-    .section-alt { background: var(--cream); }
-    .section-dark { background: var(--ink); }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 3rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--pearl);
-    }
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      color: var(--ink);
-    }
-    .section-dark .section-title { color: #fff; }
-    .section-dark .section-header { border-bottom-color: rgba(173, 205, 12, 0.1); }
-    .section-link {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold);
-      text-decoration: none;
-    }
-    .section-link:hover { text-decoration: none; }
-
-    /* ── SKILLS GRID ── */
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--pearl);
-      border: 1px solid var(--pearl);
-    }
-    .skill-tile {
-      background: #fff;
-      padding: 2rem 1.5rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .skill-tile:hover { background: #008a00; transform: scale(1.02); z-index: 1; position: relative; }
-    .skill-tile:hover .skill-icon { filter: brightness(10); }
-    .skill-tile:hover .skill-name { color: var(--gold-light); }
-    .skill-tile:hover .skill-desc { color: #aaa; }
-    .skill-icon { font-size: 2.2rem; margin-bottom: 1rem; }
-    .skill-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.05rem;
-      margin-bottom: 0.4rem;
-      transition: color 0.2s;
-    }
-    .skill-name a {
-      text-decoration: none;
-      color: #272727;
-    }
-    .skill-tile:hover .skill-name a { color: var(--gold-light); }
-    .skill-desc { font-size: 0.85rem; color: #888; line-height: 1.5; transition: color 0.2s; }
-
-    /* ── LESSONS CARDS ── */
-    .lessons-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-    .lesson-card {
-      background: #fff;
-      border-radius: 2px;
-      overflow: hidden;
-      box-shadow: 0 2px 12px var(--shadow);
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .lesson-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(2, 79, 2, 0.4); }
-    .lesson-thumb {
-      height: 140px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .thumb-grammar { background: linear-gradient(135deg, #1a1209 60%, #3d2b10); }
-    .thumb-vocab { background: linear-gradient(135deg, #1e4d4d, #1e6b6b); }
-    .thumb-pronun { background: linear-gradient(135deg, #5c1a0a, #a0401a); }
-    .thumb-listen { background: linear-gradient(135deg, #1a2a4d, #2a4a8a); }
-    .thumb-news { background: linear-gradient(135deg, #2d1a4d, #5a3a8a); }
-    .thumb-biz { background: linear-gradient(135deg, #1a3320, #2d6640); }
-
-    .lesson-tag-bar {
+    /* ── DYNAMIC SIDEBAR BACKGROUND PAINTER ── */
+    .resume-sheet::before {
+      content: "";
       position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 0.5rem 1rem;
-      background: hsl(96, 97%, 26%);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .lesson-level {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--gold-light);
-    }
-    .lesson-duration {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      color: #fff;
-    }
-    .lesson-body { padding: 1.2rem 1.4rem 1.5rem; }
-    .lesson-category {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 0.5rem;
-    }
-    .lesson-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.05rem;
-      line-height: 1.35;
-      margin-bottom: 0.5rem;
-    }
-    .lesson-title a { text-decoration: none; color: inherit; }
-    .lesson-excerpt { font-size: 0.85rem; color: #777; line-height: 1.6; }
-
-    /* ── QUOTE BAND ── */
-    .quote-band {
-      background: var(--teal);
-      padding: 4rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .quote-band::before {
-      content: '❝';
-      font-size: 16rem;
-      color: rgba(255,255,255,0.06);
-      position: absolute;
-      left: 3rem;
-      top: -3rem;
-      font-family: 'Playfair Display', serif;
-      pointer-events: none;
-    }
-    .quote-text {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.4rem, 3vw, 2.2rem);
-      color: #fff;
-      font-style: italic;
-      max-width: 800px;
-      margin: 0 auto 1.2rem;
-      line-height: 1.5;
-      position: relative;
-    }
-    .quote-attr {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.6);
-      text-transform: uppercase;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--sheet-bg, #FFFFFF);
+      z-index: -1;
     }
 
-    /* ── SERIES DARK ── */
-    .series-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.5rem;
-    }
-    .series-card {
-      border: 1px solid rgba(255, 255, 255, 0.788);
-      padding: 2rem;
-      display: flex;
-      gap: 1.5rem;
-      align-items: flex-start;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .series-card:hover { border-color: var(--gold); background: #014f0be7; }
-    .series-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
-      color: rgba(200,146,42,0.25);
-      line-height: 1;
-      flex-shrink: 0;
-      transition: color 0.2s;
-    }
-    .series-card:hover .series-num { color: rgba(232,184,75,0.5); }
-    .series-info h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      color: #fff;
-      margin-bottom: 0.5rem;
-    }
-    .series-info p { font-size: 0.88rem; color: #888; line-height: 1.6; }
-    .series-badge {
-      display: inline-block;
-      margin-top: 0.8rem;
-      padding: 0.25rem 0.7rem;
-      background: rgba(200,146,42,0.15);
-      color: var(--gold-light);
-      font-family: 'DM Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
+    /* Resume Regions */
+    .res-header { grid-area: header; background: var(--bg-header, transparent); color: var(--text-header, inherit); padding: var(--pad-header, 40px); display: flex; flex-direction: var(--dir-header, row); align-items: var(--align-header, center); gap: 20px; border-bottom: var(--border-header, none); }
+    .res-sidebar { grid-area: sidebar; background: transparent; color: var(--text-sidebar, inherit); padding: var(--pad-sidebar, 40px 30px); border-right: var(--border-sidebar, none); }
+    .res-main { grid-area: main; padding: var(--pad-main, 40px); background: transparent; }
 
-    /* ── LEVEL FINDER ── */
-    .level-finder {
-      background: var(--cream);
-      padding: 4rem;
-      text-align: center;
-    }
-    .level-finder h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      margin-bottom: 0.8rem;
-    }
-    .level-finder p { color: #777; margin-bottom: 2.5rem; font-size: 1rem;}
-    .levels-row {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-    .level-btn { 
-      padding: 0.7rem 1.4rem;
-      border: 1px solid var(--pearl);
-      background: var(--gold);
-      color: #000;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-      text-transform:uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .level-btn:hover { 
-      background-color: var(--gold-light); 
-      transform: translateY(-3px);
-    }
-    .level-test-btn {
-      background: var(--rust);
-      color: #fff;
-      padding: 0.9rem 2.5rem;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: inline-block;
-    }
-    .level-test-btn:hover { 
-      background: #c4501f; 
-      transform: translateY(-3px); 
-    }
+    /* Resume Elements */
+    .res-photo-wrapper { display: var(--show-photo, block); flex-shrink: 0; }
+    .res-photo { width: var(--photo-size, 120px); height: var(--photo-size, 120px); border-radius: var(--photo-radius, 50%); object-fit: cover; border: var(--photo-border, none); display: none; }
+    
+    .res-name { text-align: var(--text-align-header, left); font-family: var(--font-heading, 'Playfair Display', serif); font-size: var(--size-name, 2.8rem); font-weight: var(--weight-name, 700); color: var(--color-name, inherit); margin-bottom: 5px; line-height: 1.1; text-transform: var(--transform-name, none); letter-spacing: var(--letter-name, normal);}
+    .res-title { text-align: var(--text-align-header, left); font-family: var(--font-body, 'Inter', sans-serif); font-size: var(--size-title, 1.1rem); font-weight: 600; color: var(--color-title, #666); text-transform: var(--transform-title, uppercase); letter-spacing: 1px; margin-bottom: 15px;}
+    
+    .res-contact-bar { display: flex; flex-wrap: wrap; gap: 15px; font-size: 0.85rem; font-family: 'Inter', sans-serif; opacity: 0.9; flex-direction: var(--dir-contact, row); }
+    
+    .res-heading { text-align: left; font-family: var(--font-heading, 'Playfair Display', serif); font-size: var(--size-heading, 1.3rem); color: var(--color-heading, #111); font-weight: 700; text-transform: var(--transform-heading, uppercase); border-bottom: var(--border-heading, 2px solid #111); padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; letter-spacing: 1px;}
+    .res-heading:first-child { margin-top: 0; }
+    .res-sidebar .res-heading { color: var(--color-heading-side, inherit); border-color: var(--border-heading-side, currentColor); }
+    
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem;}
+    .tag { background: var(--bg-tag, #eee); color: var(--text-tag, #333); padding: 5px 12px; border-radius: var(--rad-tag, 4px); font-size: 0.85rem; font-weight: 600; border: var(--border-tag, none);}
 
-    /* ── NEWSLETTER ── */
-    .newsletter-btn {
-      padding: 1rem 2rem; 
-      background-color: #1A1A1A; 
-      color: #C19A2B; 
-      border: none; 
-      font-family: 'DM Mono', monospace; 
-      font-size: 0.9rem; 
-      letter-spacing: 2px; 
-      cursor: pointer; 
-      transition: all 0.3s ease;
-    }
-    .newsletter-btn:hover {
-      background-color: hsl(139, 92%, 20%);
-      color: hsl(0, 12%, 97%);
-    }
-
-    /* ─── PREMIUM FOOTER ─── */
-    .site-footer { 
-      background-color: #357A1D;
-      color: var(--pearl); 
-      font-family: 'Inter', sans-serif;
-    }
-    .footer-container { 
-      max-width: 1200px; 
-      margin: 0 auto; 
-      padding: 4rem 2rem; 
-      display: flex; 
-      justify-content: space-between; 
-      flex-wrap: wrap; 
-      gap: 2rem; 
-    }
-    .footer-brand-col { 
-      flex: 2; 
-      min-width: 300px; 
-      padding-right: 2rem;
-    }
-    .footer-links-col { 
-      flex: 1; 
-      min-width: 150px; 
-    }
-    .footer-brand-title { 
-      font-family: 'Playfair Display', serif; 
-      font-size: 2.2rem; 
-      margin: 0 0 1rem 0; 
-      font-weight: 700;
-      color: #D4A345;
-    }
-    .footer-brand-col p { 
-      font-size: 1rem; 
-      line-height: 1.6; 
-      margin: 0;
-    }
-    .footer-links-col h4 { 
-      font-family: 'DM Mono', monospace; 
-      font-size: 0.9rem; 
-      letter-spacing: 2px; 
-      text-transform: uppercase; 
-      color: var(--gold-light); 
-      margin: 0 0 1.5rem 0; 
-    }
-    .footer-links-col ul { 
-      list-style: none; 
-      padding: 0; 
-      margin: 0; 
-      display: flex; 
-      flex-direction: column; 
-      gap: 1.2rem; 
-    }
-    .footer-links-col a { 
-      font-family: 'Playfair Display', serif; 
-      font-size: 1.25rem; 
-      color: whitesmoke; 
-      text-decoration: none; 
-      transition: color 0.3s ease, padding-left 0.3s ease; 
-    }
-    .footer-links-col a:hover { 
-      color: #D4A345; 
-      padding-left: 5px; 
-    }
-    .footer-bottom { 
-      background-color: #CD9242;
-      padding: 1.2rem 2rem; 
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .footer-bottom p { 
-      font-family: 'DM Mono', monospace; 
+    /* ── TEXT FORMATTING (PREMIUM JUSTIFY FOR PARAGRAPHS ONLY) ── */
+    .res-text-block { 
       font-size: 0.95rem; 
-      color: #2D3748; 
-      margin: 0; 
+      margin-bottom: 1.5rem; 
+      color: var(--text-body, #444); 
+      text-align: justify; 
+      text-justify: inter-word;
+      hyphens: auto;
+      -webkit-hyphens: auto;
+    }
+    .res-sidebar .res-text-block { color: var(--text-sidebar-body, inherit); }
+    
+    .res-p { margin-bottom: 6px; }
+    
+    /* Disables Justify for Job Titles and Degrees to prevent awkward stretching */
+    .res-title-line {
+      text-align: left !important;
+      hyphens: none !important;
+      -webkit-hyphens: none !important;
+    }
+    .res-title-line strong { color: var(--color-heading, #111); font-size: 1.05rem;}
+    .res-sidebar .res-title-line strong { color: var(--color-heading-side, inherit); }
+    
+    .res-list { padding-left: 20px; margin-bottom: 12px; margin-top: 4px; text-align: justify; }
+    .res-list li { margin-bottom: 4px; list-style-type: disc; }
+    .res-spacer { height: 12px; }
+
+    /* =========================================================
+       THE 10 PREMIUM TEMPLATES (CSS VARIABLE INJECTIONS)
+       ========================================================= */
+    /* 1. The Executive */
+    .tpl-executive {
+      --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --sheet-bg: #FFFFFF;
+      --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
+      --dir-header: column; --align-header: center; --text-header: #111; 
+      --pad-header: 0.25in 50px 20px 50px; /* 0.25in precise top spacing */
+      --text-align-header: center;
+      --border-header: 1px solid #ccc; --dir-contact: row;
+      --show-photo: none; --transform-name: uppercase; --letter-name: 2px;
+      --color-title: #C4923E; --transform-heading: uppercase; --border-heading: 1px solid #C4923E;
+      --pad-main: 30px 60px 10px 60px; --pad-sidebar: 10px 60px 50px 60px;
+      --bg-tag: transparent; --border-tag: 1px solid #333;
     }
 
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* 2. The Creative (Rich Navy & Gold) */
+    .tpl-creative {
+      --grid-cols: 32% 68%; --grid-rows: auto 1fr; --grid-areas: "sidebar header" "sidebar main";
+      --sheet-bg: linear-gradient(to right, #1A2A3A 0%, #1A2A3A 32%, #FFFFFF 32%, #FFFFFF 100%);
+      --font-heading: 'Montserrat', sans-serif; --font-body: 'Inter', sans-serif;
+      --text-sidebar: #FFF; --text-sidebar-body: #E2E8F0;
+      --pad-main: 10px 50px 50px 50px; --pad-sidebar: 50px 30px; 
+      --pad-header: 0.25in 50px 20px 50px; /* 0.25in precise top spacing */
+      --show-photo: block; --photo-radius: 50%; --photo-border: 4px solid #D4AF37;
+      --color-name: #1A2A3A; --color-title: #D4AF37; --size-name: 2.5rem; --weight-name: 800;
+      --color-heading: #1A2A3A; --border-heading: 3px solid #D4AF37;
+      --color-heading-side: #FFF; --border-heading-side: 2px solid #D4AF37;
+      --dir-contact: column; --bg-tag: #D4AF37; --text-tag: #1A2A3A; --rad-tag: 20px;
     }
-    .hero-left > * { animation: fadeUp 0.7s ease both; }
-    .hero-tag { animation-delay: 0.1s; }
-    .hero h1 { animation-delay: 0.25s; }
-    .hero-desc { animation-delay: 0.4s; }
-    .hero-btns { animation-delay: 0.55s; }
 
-    /* ==========================================
-       MOBILE RESPONSIVENESS & NAV FIX
-       ========================================== */
-    @media (max-width: 950px) {
-      .hamburger {
-        display: flex; /* Show Hamburger */
+    /* 3. The Minimalist */
+    .tpl-minimalist {
+      --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --sheet-bg: #FFFFFF;
+      --font-heading: 'Inter', sans-serif; --font-body: 'Inter', sans-serif;
+      --pad-header: 0.25in 50px 10px 50px; /* 0.25in precise top spacing */
+      --dir-header: row; --align-header: flex-end;
+      --show-photo: none; --color-name: #222; --weight-name: 300; --letter-name: -1px; --size-name: 3.5rem;
+      --color-title: #888; --border-heading: none; --color-heading: #222;
+      --pad-main: 10px 50px 20px 50px; --pad-sidebar: 10px 50px 50px 50px;
+      --bg-tag: #f1f5f9; --text-tag: #475569;
+    }
+    .tpl-minimalist .res-heading { font-weight: 600; text-transform: none; font-size: 1.5rem; }
+
+    /* 4. The Startup (Midnight Gradient & Gold) */
+    .tpl-startup {
+      --grid-cols: 65% 35%; --grid-rows: auto 1fr; --grid-areas: "header header" "main sidebar";
+      --sheet-bg: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 65%, #F8FAFC 65%, #F8FAFC 100%);
+      --font-heading: 'Montserrat', sans-serif; --font-body: 'Inter', sans-serif;
+      --bg-header: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%); --text-header: #FFF;
+      --color-name: #FFF; --color-title: #E2E8F0; --dir-contact: row;
+      --show-photo: block; --photo-radius: 8px; --photo-border: 3px solid #D4AF37; --photo-size: 100px;
+      --pad-header: 40px 50px; /* Internal box padding maintained */
+      --pad-main: 40px 30px 40px 50px; --pad-sidebar: 40px 50px 40px 20px;
+      --border-sidebar: none;
+      --color-heading: #0F2027; --border-heading: 2px solid #D4AF37; --color-heading-side: #0F2027;
+      --bg-tag: #E2E8F0; --text-tag: #0F2027;
+    }
+
+    /* 5. The Academic */
+    .tpl-academic {
+      --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --sheet-bg: #FFFFFF;
+      --font-heading: 'Playfair Display', serif; --font-body: 'Playfair Display', serif;
+      --dir-header: column; --align-header: center; --text-align-header: center;
+      --pad-header: 0.25in 60px 10px 60px; /* 0.25in precise top spacing */
+      --show-photo: none; --color-name: #000; --size-name: 2.5rem; --color-title: #333;
+      --border-heading: 1px solid #000; --color-heading: #000; --transform-heading: uppercase;
+      --pad-main: 10px 60px 10px 60px; --pad-sidebar: 10px 60px 50px 60px;
+      --bg-tag: transparent; --text-tag: #000;
+    }
+    .tpl-academic .tag:not(:last-child):after { content: ", "; }
+
+    /* 6. The Tech Dark */
+    .tpl-tech {
+      --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --sheet-bg: #FFFFFF;
+      --font-heading: 'Roboto Mono', monospace; --font-body: 'Inter', sans-serif;
+      --bg-header: #1E293B; --text-header: #E2E8F0; --dir-header: row; --align-header: center;
+      --color-name: #F8FAFC; --color-title: #94A3B8; --show-photo: none;
+      --pad-header: 40px 50px; /* Internal box padding maintained */
+      --pad-main: 30px 50px 10px 50px; --pad-sidebar: 10px 50px 40px 50px;
+      --color-heading: #0F172A; --border-heading: 2px dashed #D4AF37;
+      --bg-tag: #F1F5F9; --text-tag: #0F172A; --rad-tag: 2px;
+    }
+
+    /* 7. The Elegant (Refined Navy & Parchment) */
+    .tpl-elegant {
+      --grid-cols: 35% 65%; --grid-rows: auto 1fr; --grid-areas: "header header" "sidebar main";
+      --sheet-bg: linear-gradient(to right, #FAFAF8 0%, #FAFAF8 35%, #FFFFFF 35%, #FFFFFF 100%);
+      --bg-header: #0B1D3A; --text-header: #FFF; --color-title: #D4AF37;
+      --font-heading: 'Playfair Display', serif; 
+      --pad-header: 50px; /* Internal box padding maintained */
+      --dir-header: row; --align-header: center; --show-photo: block; --photo-radius: 50%; --photo-border: 2px solid #D4AF37;
+      --pad-sidebar: 40px; --pad-main: 40px;
+      --color-heading: #0B1D3A; --border-heading: 1px solid #D4AF37;
+      --color-heading-side: #0B1D3A; --border-heading-side: 1px solid #D4AF37;
+      --bg-tag: #0B1D3A; --text-tag: #FFF; --rad-tag: 0px;
+    }
+
+    /* 8. The Modern Profile */
+    .tpl-modern {
+      --grid-cols: 70% 30%; --grid-rows: auto 1fr; --grid-areas: "header sidebar" "main sidebar";
+      --sheet-bg: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 70%, #111827 70%, #111827 100%);
+      --font-heading: 'Montserrat', sans-serif; --font-body: 'Inter', sans-serif;
+      --text-sidebar: #F3F4F6; --text-sidebar-body: #9CA3AF;
+      --pad-header: 0.25in 40px 10px 50px; /* 0.25in precise top spacing */
+      --pad-main: 10px 40px 50px 50px; --pad-sidebar: 50px 30px;
+      --show-photo: block; --photo-radius: 10px; --photo-size: 150px; --photo-border: none;
+      --color-name: #111827; --color-title: #10B981; --size-name: 3rem; --weight-name: 800; --letter-name: -1px;
+      --color-heading: #111827; --border-heading: 4px solid #10B981;
+      --color-heading-side: #FFF; --border-heading-side: 2px solid #10B981;
+      --dir-contact: column; --bg-tag: #374151; --text-tag: #10B981;
+    }
+
+    /* 9. The Split Screen */
+    .tpl-split {
+      --grid-cols: 50% 50%; --grid-rows: auto 1fr; --grid-areas: "header header" "sidebar main";
+      --sheet-bg: linear-gradient(to right, #F5F5F5 0%, #F5F5F5 50%, #FFFFFF 50%, #FFFFFF 100%);
+      --bg-header: #000; --text-header: #FFF; --color-title: #A8A8A8;
+      --pad-header: 40px 50px; /* Internal box padding maintained */
+      --pad-sidebar: 40px 50px; --pad-main: 40px 50px;
+      --border-heading: 2px solid #000; --color-heading: #000;
+      --show-photo: none; --dir-contact: row; --bg-tag: #000; --text-tag: #FFF;
+    }
+
+    /* 10. The Corporate Trust (Deep Executive Slate) */
+    .tpl-corporate {
+      --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --sheet-bg: #FFFFFF;
+      --font-heading: 'Montserrat', sans-serif;
+      --bg-header: #1E3A8A; --text-header: #FFF; --color-title: #E0E7FF;
+      --pad-header: 40px 60px; /* Internal box padding maintained */
+      --dir-header: column; --align-header: flex-start;
+      --show-photo: none; --pad-main: 30px 60px 10px 60px; --pad-sidebar: 10px 60px 40px 60px;
+      --color-heading: #1E3A8A; --border-heading: 2px solid #1E3A8A;
+      --bg-tag: #E0E7FF; --text-tag: #1E3A8A; --rad-tag: 15px;
+    }
+    
+    /* ── MULTI-PAGE PRINT LOGIC & BROWSER OVERRIDE ── */
+    @media print {
+      /* PERFECT 0.5-INCH (12.7mm) PRINT MARGINS EVERYWHERE... */
+      @page { 
+        margin: 12.7mm 0; 
+        size: A4; 
       }
       
-      .nav-links {
-        display: none; /* Hide standard nav */
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
+      /* ...EXCEPT THE FIRST PAGE (Allows boxes and sidebars to touch the paper edge) */
+      @page :first {
+        margin-top: 0;
+      }
+      
+      html, body { 
+        background: #fff; 
+        height: auto !important;
+        overflow: visible !important;
+        -webkit-print-color-adjust: exact; 
+        print-color-adjust: exact; 
+      }
+      
+      /* Hide all interface elements from the final PDF */
+      .builder-header, .editor-panel, .template-switcher { 
+        display: none !important; 
+      }
+      
+      /* Allow the container to naturally expand down the page */
+      .builder-container, .preview-panel { 
+        display: block !important; 
+        width: 100% !important; 
+        height: auto !important;
+        padding: 0 !important; 
+        margin: 0 !important; 
+        overflow: visible !important; 
+        background: none !important;
+      }
+      
+      /* Allow multi-page flowing */
+      .resume-sheet { 
+        position: relative !important; 
+        left: 0; 
+        top: 0; 
+        margin: 0; 
+        box-shadow: none; 
+        width: 210mm; 
+        height: auto !important;
+        min-height: 297mm;
+        overflow: visible !important;
+      }
+
+      /* Fixed pseudo-element ensures sidebars reach the absolute bottom of EVERY page */
+      .resume-sheet::before {
+        position: fixed;
+        top: 0; 
         left: 0;
-        width: 100%;
-        background-color: var(--ink); /* Deep dark background for readability */
-        padding: 1rem 0;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-      }
-      
-      .nav-links.active {
-        display: flex; /* Triggered by JS */
-      }
-      
-      .nav-links li {
-        width: 100%;
-        text-align: center;
-      }
-      
-      .nav-links a {
-        padding: 1.2rem;
-        font-size: 1rem;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
+        width: 210mm;
+        height: 100vh;
       }
 
-      .nav-cta {
-        margin: 1rem auto;
-        width: 80%;
+      /* Prevent paragraphs and lists from getting awkwardly chopped across two pages */
+      .res-p, .res-heading, .res-list {
+        page-break-inside: avoid;
+        break-inside: avoid;
       }
-
-      .nav-logo-img {
-        height: 50px; /* Compress logo on mobile */
-      }
-
-      .hero { grid-template-columns: 1fr; min-height: auto; }
-      .hero-left::after { display: none; }
-      .hero-right { padding: 3rem 2rem; }
-      .skills-grid { grid-template-columns: repeat(2, 1fr); }
-      .lessons-grid { grid-template-columns: 1fr 1fr; }
-      .series-grid { grid-template-columns: 1fr; }
-      .section { padding: 3rem 1.5rem; }
-      .footer-container { flex-direction: column; padding: 3rem 1.5rem; gap: 3rem;}
-      .footer-brand-col { padding-right: 0; }
-      .footer-bottom { flex-direction: column; text-align: center; justify-content: center; }
-    }
-
-    @media (max-width: 600px) {
-      .lessons-grid { grid-template-columns: 1fr; }
-      .skills-grid { grid-template-columns: 1fr; }
-      .hero-left { padding: 3rem 1.5rem; }
-      .hero-btns { flex-direction: column; width: 100%; }
-      .btn { text-align: center; width: 100%; }
-      .newsletter-banner { flex-direction: column; text-align: center; gap: 1.5rem; }
-      #subscribe-form { flex-direction: column; }
-      .newsletter-btn { width: 100%; }
     }
   </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-logo-container">
-    <img src="logo.png" alt="Logo" class="nav-logo-img">
-    <div class="nav-logo" style="text-align: center;">Shared <span>Pearls</span> of Wisdom</div>
-  </div>
-  
-  <div class="hamburger" id="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
+<header class="builder-header">
+  <a href="index.html" class="nav-logo">
+    <img src="logo.png" alt="Shared Pearls Logo" class="logo-img">
+    <div class="logo-text">Shared <span>Pearls</span> of Wisdom</div> 
+  </a>
+  <button class="btn-export" onclick="window.print()">Export to PDF</button>
+</header>
+
+<div class="builder-container">
+  <div class="editor-panel">
+    <div class="section-title">1. Personal Profile</div>
+    <div class="form-group">
+      <label class="photo-upload-label">
+        📷 Upload Professional Photo
+        <input type="file" id="input-photo" accept="image/*">
+      </label>
+    </div>
+    <div class="form-group"><label>Full Name</label><input type="text" id="input-name" value="Elon Musk"></div>
+    <div class="form-group"><label>Profile Title</label><input type="text" id="input-title" value="Technology Entrepreneur & Chief Engineer"></div>
+    <div class="form-group">
+      <label>Profile Summary</label>
+      <textarea id="input-summary">Visionary entrepreneur and chief engineer dedicated to solving complex global and interplanetary challenges. Founder, CEO, and lead designer of SpaceX; CEO and product architect of Tesla, Inc.; owner and CTO of X Corp.; founder of The Boring Company and xAI; and co-founder of Neuralink and OpenAI. Passionate about accelerating the world's transition to sustainable energy and making humanity multiplanetary.</textarea>
+    </div>
+
+    <div class="section-title">2. Contact Information</div>
+    <div class="form-group"><label>Email</label><input type="email" id="input-email" value="elon.musk@tesla.com"></div>
+    <div class="form-group"><label>Phone</label><input type="tel" id="input-phone" value="+1 (310) 363-6000"></div>
+    <div class="form-group"><label>Location</label><input type="text" id="input-location" value="Boca Chica, Texas, USA"></div>
+    <div class="form-group"><label>Portfolio / Website</label><input type="text" id="input-web" value="tesla.com"></div>
+
+    <div class="section-title">3. Skills & Languages</div>
+    <div class="form-group">
+      <label>Core Skills</label>
+      <span class="hint">Separate with commas (e.g., AI Prompting, Curriculum Design)</span>
+      <input type="text" id="input-skills" value="Product Strategy, Aerospace Engineering, Software Architecture, Artificial Intelligence, Renewable Energy, Advanced Manufacturing">
+    </div>
+    <div class="form-group">
+      <label>Language Skills</label>
+      <span class="hint">Use a dash or bullet for a new line</span>
+      <textarea id="input-langs">- English: Native
+- Afrikaans: Conversational</textarea>
+    </div>
+
+    <div class="section-title">4. Experience & Education</div>
+    <div class="form-group">
+      <label>Work Experience (Newest to Oldest)</label>
+      <span class="hint">Use the format: <strong>Title | Date</strong> on one line, and use bullets (-) underneath.</span>
+      <textarea id="input-exp">CEO & Chief Engineer | 2002 – Present
+- Founded SpaceX to revolutionize space technology and manufacture advanced rockets and spacecraft.
+- Achieved historic milestones including the first privately funded liquid-propellant rocket to reach orbit and the development of the Starship.
+
+CEO & Product Architect | 2008 – Present
+- Led Tesla, Inc. from an early-stage startup to the world's most valuable automaker by market capitalization.
+- Directed product design, engineering, and global manufacturing of electric vehicles, battery energy storage, and solar products.
+
+Owner & CTO | 2022 – Present
+- Acquired and rebranded Twitter to X, shifting focus toward engineering a comprehensive "everything app" and protecting platform free speech.</textarea>
+    </div>
+    <div class="form-group">
+      <label>Education</label>
+      <textarea id="input-edu">Dual Bachelor's Degrees in Physics and Economics | 1997
+- University of Pennsylvania (College of Arts & Sciences and The Wharton School).
+
+Dropped out of Ph.D. in Applied Physics and Materials Science | 1995
+- Stanford University (left after two days to pursue internet entrepreneurship).</textarea>
+    </div>
+
+    <div class="section-title">5. Additional Sections</div>
+    <div class="form-group"><label>Training</label><textarea id="input-training">- Extensive autodidactic training in rocket propulsion, thermodynamics, orbital mechanics, and battery chemistry.</textarea></div>
+    <div class="form-group"><label>Achievements</label><textarea id="input-achieve">- Directed the successful development of reusable Falcon 9 boosters, dramatically reducing the cost of spaceflight.
+- Scaled Model 3 production to become the first electric car to sell 1 million units globally.
+- Named Time Magazine's Person of the Year (2021).</textarea></div>
+    <div class="form-group"><label>Certifications</label><textarea id="input-certs">- Fellow of the Royal Society (FRS)
+- Member of the National Academy of Engineering</textarea></div>
+
+    <div class="section-title">6. Social Profiles</div>
+    <div class="form-group">
+      <label>Professional Networks</label>
+      <span class="hint">Use the format: <strong>Platform | @handle or URL</strong> on one line.</span>
+      <textarea id="input-socials">X (Twitter) | @elonmusk
+Wikipedia | en.wikipedia.org/wiki/Elon_Musk</textarea>
+    </div>
+
   </div>
 
-  <ul class="nav-links" id="nav-links">
-    <li><a href="grammar-lesson-1.html">Grammar</a></li>
-    <li><a href="vocab-a1a2.html">Vocabulary</a></li>
-    <li><a href="pronunciation.html">Pronunciation</a></li>
-    <li><a href="listening.html">Listening</a></li>
-    <li><a href="story-telling.html">Fiction</a></li>
-    <li><a href="masterclass.html">Masterclass</a></li>
-    <li><a href="inner-subscribe-payment.html" class="nav-cta" style="text-align: center;">Premium Membership</a></li>
-  </ul>
-</nav>
+  <div class="preview-panel">
+    <div class="template-switcher">
+      <button class="btn-template active" onclick="switchTemplate('tpl-executive', this)">1. Executive</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-creative', this)">2. Creative Pro</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-minimalist', this)">3. Minimalist</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-startup', this)">4. Startup Hub</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-academic', this)">5. Academic</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-tech', this)">6. Tech Dark</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-elegant', this)">7. Elegant Gold</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-modern', this)">8. Modern Bold</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-split', this)">9. Split Screen</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-corporate', this)">10. Corporate</button>
+    </div>
 
-<section class="hero">
-  <div class="hero-left">
-    <div class="hero-tag">Free English Learning · All Levels Welcome</div>
-    <h1>Build Your English with <em>Wisdom</em> & Purpose</h1>
-    <p class="hero-desc">Curated lessons, real-world language, and timeless insights — all in one place. From grammar foundations to business English, grow at your own pace.</p>
-    <div class="hero-btns">
-      <a href="masterclass.html" class="btn btn-gold">Explore Lessons</a>
-      <a href="inside-file-placement-engine-find-your-level.html" class="btn btn-outline">Take Level Test</a>
-    </div>
-  </div>
-  <div class="hero-right">
-    <div class="featured-card">
-      <div class="card-level">⭐ Featured · Grammar</div>
-      <h3><a href="grammar-lesson-2.html">Mastering Conditional Sentences</a></h3>
-      <p>Understand all four conditionals with real examples drawn from literature and everyday speech.</p>
-    </div>
-    <div class="featured-card teal-card">
-      <div class="card-level">🎧 6-Minute Lesson · Vocabulary</div>
-      <h3><a href="words-that-changed-history.html">Words That Changed History</a></h3>
-      <p>Explore powerful English words rooted in historical events — and learn how to use them naturally today.</p>
-    </div>
-    <div class="featured-card rust-card">
-      <div class="card-level">📰 News English · Intermediate</div>
-      <h3><a href="reading-between-the-lines.html">Reading Between the Lines</a></h3>
-      <p>Develop critical reading skills using authentic BBC-style news texts with vocabulary breakdowns.</p>
-    </div>
-  </div>
-</section>
+    <div id="resume-document" class="resume-sheet tpl-executive">
+      <header class="res-header">
+        <div class="res-photo-wrapper">
+          <img id="out-photo" class="res-photo" src="" alt="Profile Photo">
+        </div>
+        <div class="res-header-text">
+          <div class="res-name" id="out-name"></div>
+          <div class="res-title" id="out-title"></div>
+          <div class="res-contact-bar">
+            <span id="out-email"></span>
+            <span id="out-phone"></span>
+            <span id="out-location"></span>
+            <span id="out-web"></span>
+          </div>
+        </div>
+      </header>
 
-<div class="ticker">
-  <div class="ticker-inner">
-    <span class="ticker-item">Grammar</span>
-    <span class="ticker-item">Vocabulary</span>
-    <span class="ticker-item">6-Minute Lessons</span>
-    <span class="ticker-item">Business English</span>
-    <span class="ticker-item">Pronunciation</span>
-    <span class="ticker-item">News Review</span>
-    <span class="ticker-item">The English We Speak</span>
-    <span class="ticker-item">Idioms & Phrases</span>
-    <span class="ticker-item">CEFR A1 – C2</span>
-    <span class="ticker-item">Free Forever</span>
-    <span class="ticker-item">Grammar</span>
-    <span class="ticker-item">Vocabulary</span>
-    <span class="ticker-item">6-Minute Lessons</span>
-    <span class="ticker-item">Business English</span>
-    <span class="ticker-item">Pronunciation</span>
-    <span class="ticker-item">News Review</span>
-    <span class="ticker-item">The English We Speak</span>
-    <span class="ticker-item">Idioms & Phrases</span>
-    <span class="ticker-item">CEFR A1 – C2</span>
-    <span class="ticker-item">Free Forever</span>
+      <aside class="res-sidebar">
+        <div class="res-heading">Skills</div>
+        <div class="tag-list" id="out-skills"></div>
+        
+        <div class="res-heading">Languages</div>
+        <div class="res-text-block" id="out-langs"></div>
+        
+        <div class="res-heading">Certifications</div>
+        <div class="res-text-block" id="out-certs"></div>
+        
+        <div class="res-heading">Training</div>
+        <div class="res-text-block" id="out-training"></div>
+        
+        <!-- DYNAMIC SOCIAL PROFILES OUTPUT -->
+        <div class="res-heading" id="heading-socials">Social Profiles</div>
+        <div class="res-text-block" id="out-socials"></div>
+      </aside>
+
+      <main class="res-main">
+        <div class="res-heading">Profile Summary</div>
+        <div class="res-text-block" id="out-summary"></div>
+        
+        <div class="res-heading">Work Experience</div>
+        <div class="res-text-block" id="out-exp"></div>
+        
+        <div class="res-heading">Education</div>
+        <div class="res-text-block" id="out-edu"></div>
+        
+        <div class="res-heading">Key Achievements</div>
+        <div class="res-text-block" id="out-achieve"></div>
+      </main>
+
+    </div>
   </div>
 </div>
-
-<section class="section">
-  <div class="section-header">
-    <h2 class="section-title">What Would You Like to Improve?</h2>
-    <a href="#" class="section-link">Browse all topics →</a>
-  </div>
-  <div class="skills-grid">
-    <div class="skill-tile">
-      <div class="skill-icon">✍️</div>
-      <div class="skill-name">
-      <a href="grammar-lesson-1.html">Grammar</a>
-      </div>
-      <div class="skill-desc">Tenses, conditionals, sentence structure and more</div>
-    </div>
-       <div class="skill-tile">
-      <div class="skill-icon">📖</div>
-      <div class="skill-name">
-      <a href="vocab-b1.html">Vocabulary</a></div>
-      <div class="skill-desc">Word families, idioms, collocations & usage</div>
-    </div>
-    <div class="skill-tile">
-      <div class="skill-icon">🗣️</div>
-      <div class="skill-name">
-      <a href="pronunciation.html">Pronunciation</a></div>
-      <div class="skill-desc">Stress, intonation, sounds & connected speech</div>
-    </div>
-    <div class="skill-tile">
-      <div class="skill-icon">🎧</div>
-      <div class="skill-name">
-      <a href="listening.html">Listening</a>
-      </div>
-      <div class="skill-desc">Audio dramas, interviews & comprehension practice</div>
-    </div>
-    <div class="skill-tile">
-      <div class="skill-icon">📰</div>
-      <div class="skill-name">
-      <a href="newsa1a2.html">News English</a>
-      </div>
-      <div class="skill-desc">Real news stories adapted for English learners</div>
-    </div>
-    <div class="skill-tile">
-      <div class="skill-icon">💼</div>
-      <div class="skill-name">
-      <a href="business-a1a2.html">Business English</a>
-      </div>
-      <div class="skill-desc">Meetings, emails, negotiation & workplace language</div>
-    </div>
-    <div class="skill-tile">
-      <div class="skill-icon">📝</div>
-      <div class="skill-name">
-      <a href="Writinga1a2.html">Writing</a>
-            </div>
-      <div class="skill-desc">Essays, reports, emails & creative writing</div>
-    </div>
-    <div class="skill-tile">
-      <div class="skill-icon">🎥</div>
-      <div class="skill-name">
-        <a href="video-tutorial-page.html">Tutorials</a></div>
-      <div class="skill-desc">Unlimited video tutorials</div>
-    </div>
-  </div>
-</section>
-
-<section class="section section-alt">
-  <div class="section-header">
-    <h2 class="section-title">Latest Lessons</h2>
-    <a href="#" class="section-link">View all lessons →</a>
-  </div>
-  <div class="lessons-grid">
-    <div class="lesson-card">
-      <div class="lesson-thumb thumb-grammar">
-        <span>✍️</span>
-        <div class="lesson-tag-bar">
-          <span class="lesson-level">Intermediate · B1</span>
-          <span class="lesson-duration">⏱ 12 min</span>
-        </div>
-      </div>
-      <div class="lesson-body">
-        <div class="lesson-category">Grammar</div>
-        <div class="lesson-title"><a href="passive-voice.html">Passive Voice: When the Action Matters More Than the Actor</a></div>
-        <div class="lesson-excerpt">Discover when and why English speakers use the passive, with exercises from real newspaper texts.</div>
-      </div>
-    </div>
-    <div class="lesson-card">
-      <div class="lesson-thumb thumb-vocab">
-        <span>📖</span>
-        <div class="lesson-tag-bar">
-          <span class="lesson-level">Upper-Int · B2</span>
-          <span class="lesson-duration">⏱ 8 min</span>
-        </div>
-      </div>
-      <div class="lesson-body">
-        <div class="lesson-category">Vocabulary</div>
-        <div class="lesson-title"><a href="Collocation.html">Collocations with "Make" and "Do" — Once and For All</a></div>
-        <div class="lesson-excerpt">A practical guide to one of the most confusing areas of English vocabulary, with 40+ examples.</div>
-      </div>
-    </div>
-    <div class="lesson-card">
-      <div class="lesson-thumb thumb-pronun">
-        <span>🗣️</span>
-        <div class="lesson-tag-bar">
-          <span class="lesson-level">All Levels</span>
-          <span class="lesson-duration">⏱ 6 min</span>
-        </div>
-      </div>
-      <div class="lesson-body">
-        <div class="lesson-category">Pronunciation</div>
-        <div class="lesson-title"><a href="wordstressa1-c1.html" style="color: blue;">Word Stress Patterns That Will Transform Your English</a></div>
-        <div class="lesson-excerpt">Learn how shifting stress changes meaning — and how native speakers use rhythm naturally.</div>
-      </div>
-    </div>
-    <div class="lesson-card">
-      <div class="lesson-thumb thumb-listen">
-        <span>🎧</span>
-        <div class="lesson-tag-bar">
-          <span class="lesson-level">Advanced · C1</span>
-          <span class="lesson-duration">⏱ 15 min</span>
-        </div>
-      </div>
-      <div class="lesson-body">
-        <div class="lesson-category">Listening</div>
-        <div class="lesson-title"><a href="artificial-intelligence.html" style="color: blue;">A Conversation About Artificial Intelligence and the Future of Work</a></div>
-        <div class="lesson-excerpt">Authentic dialogue between two experts, with full transcript, glossary and comprehension questions.</div>
-      </div>
-    </div>
-    <div class="lesson-card">
-      <div class="lesson-thumb thumb-news">
-        <span>📰</span>
-        <div class="lesson-tag-bar">
-          <span class="lesson-level">Intermediate · B1</span>
-          <span class="lesson-duration">⏱ 10 min</span>
-        </div>
-      </div>
-      <div class="lesson-body">
-        <div class="lesson-category">Fiction</div>
-        <div class="lesson-title"><a href="story-telling.html" style="color: blue;">The Art of Storytelling & Inspirational Narratives</a></div>
-        <div class="lesson-excerpt">Learn an exceptional approach to crafting compelling stories with real-world examples.</div>
-      </div>
-    </div>
-    <div class="lesson-card">
-      <div class="lesson-thumb thumb-biz">
-        <span>💼</span>
-        <div class="lesson-tag-bar">
-          <span class="lesson-level">Advanced · C1</span>
-          <span class="lesson-duration">⏱ 18 min</span>
-        </div>
-      </div>
-      <div class="lesson-body">
-        <div class="lesson-category">Business English</div>
-        <div class="lesson-title"><a href="leadership-language.html" style="color: blue;">Leadership Language: How Great Leaders Communicate</a></div>
-        <div class="lesson-excerpt">Analyse speeches from global leaders and extract the vocabulary and rhetorical techniques they use.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="quote-band">
-  <p class="quote-text">"The limits of my language mean the limits of my world."</p>
-  <p class="quote-attr">— Ludwig Wittgenstein</p>
-</div>
-
-<section class="section section-dark">
-  <div class="section-header">
-    <h2 class="section-title">Popular Series</h2>
-    <a href="#" class="section-link">All series →</a>
-  </div>
-  <div class="series-grid">
-    <div class="series-card">
-      <div class="series-num">01</div>
-      <div class="series-info">
-        <h3><a href="6-minute-wisdom.html" style="text-decoration: none; color: white;">6-Minute Wisdom</a></h3>
-        <p>Short, focused lessons delivered in exactly six minutes. Vocabulary, dialogue, and comprehension — all in a single sitting.</p>
-        <span class="series-badge">All Levels</span>
-      </div>
-    </div>
-    <div class="series-card">
-      <div class="series-num">02</div>
-      <div class="series-info">
-        <h3><a href="the-english-we-speak.html" style="text-decoration: none; color: white;">The English We Speak</a></h3>
-        <p>British expressions, colloquialisms, and everyday phrases explained with context, examples, and a touch of humour.</p>
-        <span class="series-badge">2–3 min · Intermediate+</span>
-      </div>
-    </div>
-    <div class="series-card">
-      <div class="series-num">03</div>
-      <div class="series-info">
-        <h3><a href="riddles.html" style="text-decoration: none; color: white;">Riddles</a></h3>
-        <p>Riddles and brain teasers to challenge your mind while improving your English skills.</p>
-        <span class="series-badge">Levels · B1–C1</span>
-      </div>
-    </div>
-    <div class="series-card">
-      <div class="series-num">04</div>
-      <div class="series-info">
-        <h3><a href="proverbs.html" style="text-decoration: none; color: white;">Proverbs</a></h3>
-        <p>Discover the rich tapestry of English proverbs with real-life examples and cultural insights.</p>
-        <span class="series-badge">Levels· All Levels</span>
-      </div>
-    </div>
-    <div class="series-card">
-      <div class="series-num">05</div>
-      <div class="series-info">
-        <h3><a href="idioms.html" style="text-decoration: none; color: white;">Idioms</a></h3>
-        <p>Explore the world of English idioms with clear explanations and practical usage examples.</p>
-        <span class="series-badge">Levels · B1-C1</span>
-      </div>
-    </div>
-   <div class="series-card">
-    <div class="series-num">06</div>
-    <div class="series-info">
-      <h3><a href="lexical-laboratory.html" style="text-decoration: none; color: white;">Lexical Laboratory</a></h3>
-      <p>Expand your vocabulary with our collection of lexical resources, including word lists, flashcards, and interactive exercises.</p>
-      <span class="series-badge">Levels · B1-C1</span>
-    </div>
-  </div>
-</section>
-
-<section class="level-finder">
-  <h2>Find Your Level</h2>
-  <p>Not sure where to start? Select a level below or take our free placement test.</p>
-  <div class="levels-row">
-<a class="level-btn" href="find-your-level-a1-a2.html" style="text-decoration: none;">A1/A2 Elementary</a>
-<a class="level-btn" href="find-your-level-b1.html" style="text-decoration: none;">B1 Intermediate</a>
-<a class="level-btn" href="find-your-level-b2.html" style="text-decoration: none;">B2 Upper-Int</a>
-<a class="level-btn" href="find-your-level-c1.html" style="text-decoration: none;">C1 Advanced</a>
-  </div>
-  <a class="level-test-btn" href="inside-file-placement-engine-find-your-level.html" style="text-decoration: none;">Take the Free Level Test</a>
-</section>
-
-<div class="newsletter-banner" style="background-color: #C19A2B; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-  <div class="newsletter-text">
-    <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #1A1A1A; margin: 0;">A New Pearl Every Month</h2>
-    <p style="font-family: 'Source Serif 4', sans-serif; font-size: 1.1rem; color: #333333; margin-top: 5px;">Get our best lesson, a quote, and one vocabulary tip delivered to your inbox.</p>
-  </div>
-  <form id="subscribe-form" style="display: flex; width: 100%; max-width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-    <input type="email" id="email-input" name="email" placeholder="Your email address..." required 
-           style="flex-grow: 1; padding: 1rem 1.5rem; border: none; font-family: 'Source Serif 4', serif; font-size: 1rem; background: #F9F7F1; outline: none;">
-    <button type="submit" id="submit-btn" class="newsletter-btn">SUBSCRIBE</button>
-  </form>
-  <p id="success-msg" style="display: none; width: 100%; text-align: right; margin-top: 10px; font-weight: bold; color: #1A1A1A;">Welcome to the Masterclass! Check your inbox soon.</p>
-</div>
-
-<footer class="site-footer">
-    <div class="footer-container">
-        <div class="footer-brand-col">
-        <h3 class="footer-brand-title">Shared Pearls of Wisdom</h3>
-        <p>An intensive English learning resource inspired by the best of public broadcasting — curated with care for learners at every level, everywhere in the world.</p>
-      </div>
-      <div class="footer-links-col">
-        <h4>LEARN</h4>
-        <ul>
-      <li><a href="grammar-lesson-1.html">Grammar</a></li>
-      <li><a href="vocab-a1a2.html">Vocabulary</a></li>
-      <li><a href="pronunciation.html">Pronunciation</a></li>
-      <li><a href="listening.html">Listening</a></li>
-      <li><a href="writinga1a2.html">Writing</a></li>
-    </ul>
-  </div>
-  <div class="footer-links-col">
-    <h4>Series</h4>
-    <ul>
-      <li><a href="6-minute-wisdom.html">6-Minute Wisdom</a></li>
-      <li><a href="riddles.html">Riddles</a></li>
-      <li><a href="the-english-we-speak.html">The English We Speak</a></li>
-      <li><a href="proverbs.html">Proverbs</a></li>
-      <li><a href="idioms.html">Idioms</a></li>
-       <li><a href="lexical-laboratory.html">Lexical Laboratory</a></li>
-    </ul>
-    </div>
-  <div class="footer-links-col">
-        <h4>ABOUT</h4>
-        <ul>
-          <li><a href="contact-us.html#mission">Our Mission</a></li>
-          <li><a href="contact-us.html#cefr">CEFR Levels</a></li>
-          <li><a href="contact-us.html#teachers">For Teachers</a></li>
-          <li><a href="contact-us.html#contact">Contact</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 Shared Pearls of Wisdom</p>
-      <p>Get inspired to learn &bull; Inspire others</p>
-    </div>
-  </footer>
 
 <script>
-  // ── HAMBURGER MENU LOGIC ──
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('nav-links');
-
-  hamburger.addEventListener('click', () => {
-    // Toggle active classes
-    navLinks.classList.toggle('active');
-    hamburger.classList.toggle('toggle');
-  });
-
-  // ── NEWSLETTER LOGIC ──
-  document.getElementById('subscribe-form').addEventListener('submit', function(event) {
-    event.preventDefault(); 
+  // ── TEXT FORMATTING PARSER (Fixes Indentation & Title Layout) ──
+  function formatText(text) {
+    if (!text) return "";
+    const lines = text.split('\n');
+    let html = '';
+    let inList = false;
     
-    const form = event.target;
-    const button = document.getElementById('submit-btn');
-    const successMsg = document.getElementById('success-msg');
-    
-    button.innerText = "SENDING...";
-    button.disabled = true;
-
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzjmtH-AHUtMLclKJ5B4m0fz85TfT2Wxw-WZ2QIHNRurqEEqKvR-lqF9mrp9LP_tm4l/exec';
-
-    fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-      .then(response => {
-        form.style.display = 'none';
-        successMsg.style.display = 'block';
-      })
-      .catch(error => {
-        alert("Something went wrong. Please try again.");
-        button.innerText = "SUBSCRIBE";
-        button.disabled = false;
+    lines.forEach(line => {
+      let t = line.trim();
+      if (t.startsWith('•') || t.startsWith('-') || t.startsWith('*')) {
+        if (!inList) { html += '<ul class="res-list">'; inList = true; }
+        html += `<li>${t.substring(1).trim()}</li>`;
+      } else {
+        if (inList) { html += '</ul>'; inList = false; }
+        if (t !== '') {
+          if (t.includes('|')) { 
+             // Wraps titles in a special class to PREVENT unwanted justification
+             const parts = t.split('|'); 
+             html += `<div class="res-p res-title-line"><strong>${parts[0].trim()}</strong> | ${parts[1].trim()}</div>`;
+          } else { 
+             html += `<div class="res-p">${t}</div>`;
+          }
+        } else {
+          html += `<div class="res-spacer"></div>`;
+        }
+      }
     });
+    if (inList) html += '</ul>';
+    return html;
+  }
+
+  // ── DATA BINDING ENGINE ──
+  const standardFields = ['name', 'title', 'email', 'phone', 'location', 'web'];
+  const textAreaFields = ['summary', 'exp', 'edu', 'training', 'achieve', 'certs', 'langs', 'socials'];
+  
+  function updatePreview() {
+    // 1. Handle Standard One-Line Fields
+    standardFields.forEach(id => {
+      const el = document.getElementById(`input-${id}`);
+      const out = document.getElementById(`out-${id}`);
+      if(el && out) {
+        if(el.value !== "") {
+          if(id==='email') out.innerText = `✉ ${el.value}`;
+          else if(id==='phone') out.innerText = `☎ ${el.value}`;
+          else if(id==='location') out.innerText = `📍 ${el.value}`;
+          else if(id==='web') out.innerText = `🌐 ${el.value}`;
+          else out.innerText = el.value;
+        } else {
+          out.innerText = "";
+        }
+      }
+    });
+
+    // 2. Handle TextAreas using the new Indentation Parser
+    textAreaFields.forEach(id => {
+      const el = document.getElementById(`input-${id}`);
+      const out = document.getElementById(`out-${id}`);
+      if(el && out) {
+        out.innerHTML = formatText(el.value);
+        
+        // Hide empty sections dynamically (specifically for Socials)
+        if(id === 'socials') {
+            const heading = document.getElementById('heading-socials');
+            if(el.value.trim() === "") {
+                heading.style.display = 'none';
+                out.style.display = 'none';
+            } else {
+                heading.style.display = 'block';
+                out.style.display = 'block';
+            }
+        }
+      }
+    });
+
+    // 3. Handle Special Skills Tag Generation
+    const skills = document.getElementById('input-skills').value;
+    const skillsOut = document.getElementById('out-skills');
+    skillsOut.innerHTML = skills.split(',').filter(s => s.trim() !== "").map(s => `<span class="tag">${s.trim()}</span>`).join('');
+  }
+
+  // Attach event listeners to all inputs
+  standardFields.forEach(id => document.getElementById(`input-${id}`).addEventListener('input', updatePreview));
+  textAreaFields.forEach(id => document.getElementById(`input-${id}`).addEventListener('input', updatePreview));
+  document.getElementById('input-skills').addEventListener('input', updatePreview);
+
+  // ── PHOTO UPLOAD ENGINE ──
+  document.getElementById('input-photo').addEventListener('change', function(e) {
+    if (e.target.files && e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = document.getElementById('out-photo');
+        img.src = e.target.result;
+        img.style.display = 'block'; 
+      }
+      reader.readAsDataURL(e.target.files[0]);
+    }
   });
+
+  // ── TEMPLATE SWITCHER ENGINE ──
+  function switchTemplate(templateClass, btnElement) {
+    document.querySelectorAll('.btn-template').forEach(b => b.classList.remove('active'));
+    btnElement.classList.add('active');
+    
+    const doc = document.getElementById('resume-document');
+    doc.className = `resume-sheet ${templateClass}`;
+  }
+
+  // Initialize
+  updatePreview();
 </script>
 </body>
 </html>
