@@ -16,7 +16,7 @@
       --teal: #1e6b6b;
       --teal-light: #2d9e9e;
       --pearl: #e8ddd0;
-      --shadow: green (26,18,9,0.12);
+      --shadow: rgba(26,18,9,0.12); /* Fixed invalid color syntax */
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -37,8 +37,17 @@
       justify-content: space-between;
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
       box-shadow: 0 2px 16px var(--shadow);
+    }
+    .nav-logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-logo-img {
+      height: 80px; /* Reduced from 120px for better proportions */
+      width: auto;
     }
     .nav-logo {
       font-family: 'Playfair Display', serif;
@@ -48,10 +57,12 @@
       letter-spacing: 0.02em;
     }
     .nav-logo span { color: #fff; font-style: italic; }
+    
     .nav-links {
       display: flex;
       gap: 0;
       list-style: none;
+      align-items: center;
     }
     .nav-links a {
       color: #ccc;
@@ -70,8 +81,36 @@
       color: var(--ink) !important;
       border-radius: 2px;
       font-weight: 500 !important;
+      margin-left: 10px;
     }
     .nav-cta:hover { background: var(--gold-light) !important; color: var(--ink) !important; }
+
+    /* Hamburger Menu Icon (Hidden on Desktop) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 6px;
+      z-index: 1001;
+    }
+    .hamburger span {
+      width: 30px;
+      height: 3px;
+      background-color: var(--gold-light);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Hamburger Animation to 'X' */
+    .hamburger.toggle span:nth-child(1) {
+      transform: translateY(9px) rotate(45deg);
+    }
+    .hamburger.toggle span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.toggle span:nth-child(3) {
+      transform: translateY(-9px) rotate(-45deg);
+    }
 
     /* ── HERO ── */
     .hero {
@@ -298,25 +337,10 @@
     }
     .skill-name a {
       text-decoration: none;
+      color: #272727;
     }
-  
-.skill-name + a{
-  text-decoration: none;
-    color: #272727;
-    font-size: 1.05rem;  
-}
-.skill-name + :any-link{
-  text-decoration: none;
-    color:#07010d;
-    font: size 1.05rem;
-}
-    .skill-name .sub-link {
-      color: #666;
-          }
-    .skill-desc { font-size: 0.85rem; 
-      color: #888; 
-      line-height: 1.5; 
-      transition: color 0.2s; }
+    .skill-tile:hover .skill-name a { color: var(--gold-light); }
+    .skill-desc { font-size: 0.85rem; color: #888; line-height: 1.5; transition: color 0.2s; }
 
     /* ── LESSONS CARDS ── */
     .lessons-grid {
@@ -332,7 +356,7 @@
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
     }
-    .lesson-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px #024f02; }
+    .lesson-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(2, 79, 2, 0.4); }
     .lesson-thumb {
       height: 140px;
       display: flex;
@@ -368,7 +392,7 @@
     .lesson-duration {
       font-family: 'DM Mono', monospace;
       font-size: 0.62rem;
-      color: #aaa;
+      color: #fff;
     }
     .lesson-body { padding: 1.2rem 1.4rem 1.5rem; }
     .lesson-category {
@@ -385,6 +409,7 @@
       line-height: 1.35;
       margin-bottom: 0.5rem;
     }
+    .lesson-title a { text-decoration: none; color: inherit; }
     .lesson-excerpt { font-size: 0.85rem; color: #777; line-height: 1.6; }
 
     /* ── QUOTE BAND ── */
@@ -486,30 +511,22 @@
       flex-wrap: wrap;
       margin-bottom: 2rem;
     }
-      .level-btn { 
+    .level-btn { 
       padding: 0.7rem 1.4rem;
       border: 1px solid var(--pearl);
       background: var(--gold);
+      color: #000;
       font-family: 'DM Mono', monospace;
       font-size: 0.8rem;
       letter-spacing: 0.1em;
       text-transform:uppercase;
-      border: none;
       cursor: pointer;
       transition: all 0.2s;
-      transform: translateY(0);
-      }
-      .level-btn:hover { 
-      background-color: var(--gold); 
-      color: black; 
-      transform: translateY(-3px); /* Smoothly lifts up */
     }
-    .level-btn.active { 
-      background: var(--ink); 
-      color: var(--gold-light); 
-      border-color: var(--ink); 
+    .level-btn:hover { 
+      background-color: var(--gold-light); 
+      transform: translateY(-3px);
     }
-    /* ─── 4. BIG RUST BUTTON BASE ─── */
     .level-test-btn {
       background: var(--rust);
       color: #fff;
@@ -521,78 +538,36 @@
       border: none;
       cursor: pointer;
       transition: all 0.3s ease;
-      transform: translateY(0);
+      display: inline-block;
     }
-
-    /* ─── 5. BIG RUST BUTTON HOVER ─── */
     .level-test-btn:hover { 
       background: #c4501f; 
       transform: translateY(-3px); 
     }
 
     /* ── NEWSLETTER ── */
-  .newsletter-btn {
-  padding: 1rem 2rem; 
-  background-color: #1A1A1A; 
-  color: #C19A2B; /* The Gold text */
-  border: none; 
-  font-family: 'DM Mono', monospace; 
-  font-size: 0.9rem; 
-  letter-spacing: 2px; 
-  cursor: pointer; 
-  transition: all 0.3s ease;
-  transform: translateY(0);
-}
-.newsletter-btn:hover {
-  background-color: hsl(139, 92%, 20%); /* Swaps to gold */
-  color: hsl(0, 12%, 97%); /* Swaps text to black */
-  transform: translateY(0px);
-}
-    .newsletter-copy h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      color: var(--ink);
-      margin-bottom: 0.4rem;
+    .newsletter-btn {
+      padding: 1rem 2rem; 
+      background-color: #1A1A1A; 
+      color: #C19A2B; 
+      border: none; 
+      font-family: 'DM Mono', monospace; 
+      font-size: 0.9rem; 
+      letter-spacing: 2px; 
+      cursor: pointer; 
+      transition: all 0.3s ease;
     }
-    .newsletter-copy p { color: rgba(26,18,9,0.7); font-size: 0.95rem; }
-    .newsletter-form {
-      display: flex;
-      gap: 0;
-      flex: 1;
-      max-width: 420px;
-      min-width: 280px;
+    .newsletter-btn:hover {
+      background-color: hsl(139, 92%, 20%);
+      color: hsl(0, 12%, 97%);
     }
-    .newsletter-form input {
-      flex: 1;
-      padding: 0.9rem 1.2rem;
-      border: none;
-      font-family: 'Source Serif 4', serif;
-      font-size: 0.9rem;
-      background: rgba(255,255,255,0.9);
-      outline: none;
-    }
-    .newsletter-form button {
-      padding: 0.9rem 1.5rem;
-      background: var(--ink);
-      color: var(--gold-light);
-      border: none;
-      font-family: 'DM Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .newsletter-form button:hover { background: #2d2010; }
 
-    /* ─── PREMIUM FOOTER (4-COLUMN LAYOUT) ─── */
+    /* ─── PREMIUM FOOTER ─── */
     .site-footer { 
-      background-color: #357A1D; /* Academic Green */
-      color: var(--paper); 
+      background-color: #357A1D;
+      color: var(--pearl); 
       font-family: 'Inter', sans-serif;
-      margin-top: 0rem;
     }
-
     .footer-container { 
       max-width: 1200px; 
       margin: 0 auto; 
@@ -602,47 +577,35 @@
       flex-wrap: wrap; 
       gap: 2rem; 
     }
-
-    /* Make the brand column slightly wider than the link columns */
     .footer-brand-col { 
       flex: 2; 
       min-width: 300px; 
       padding-right: 2rem;
     }
-    
     .footer-links-col { 
       flex: 1; 
       min-width: 150px; 
     }
-
-    /* Brand Column Text */
     .footer-brand-title { 
-      font-family: 'Cormorant Garamond', serif; 
+      font-family: 'Playfair Display', serif; 
       font-size: 2.2rem; 
       margin: 0 0 1rem 0; 
       font-weight: 700;
-      color: #D4A345; /* Gold matching your image */
+      color: #D4A345;
     }
-    
     .footer-brand-col p { 
       font-size: 1rem; 
       line-height: 1.6; 
-      color: var(--parchment); 
       margin: 0;
     }
-
-    /* Link Column Headers */
     .footer-links-col h4 { 
-      font-family: 'Inter', sans-serif; 
+      font-family: 'DM Mono', monospace; 
       font-size: 0.9rem; 
       letter-spacing: 2px; 
       text-transform: uppercase; 
       color: var(--gold-light); 
       margin: 0 0 1.5rem 0; 
-      font-weight: 700;
     }
-    
-    /* Link Styling */
     .footer-links-col ul { 
       list-style: none; 
       padding: 0; 
@@ -651,23 +614,19 @@
       flex-direction: column; 
       gap: 1.2rem; 
     }
-    
     .footer-links-col a { 
-      font-family: 'Cormorant Garamond', serif; 
+      font-family: 'Playfair Display', serif; 
       font-size: 1.25rem; 
       color: whitesmoke; 
       text-decoration: none; 
       transition: color 0.3s ease, padding-left 0.3s ease; 
     }
-    
     .footer-links-col a:hover { 
       color: #D4A345; 
       padding-left: 5px; 
     }
-
-    /* The Gold Bottom Bar - Split Left/Right */
     .footer-bottom { 
-      background-color: #CD9242; /* Gold Bar */
+      background-color: #CD9242;
       padding: 1.2rem 2rem; 
       display: flex;
       justify-content: space-between;
@@ -675,21 +634,13 @@
       flex-wrap: wrap;
       gap: 1rem;
     }
-    
     .footer-bottom p { 
       font-family: 'DM Mono', monospace; 
       font-size: 0.95rem; 
       color: #2D3748; 
       margin: 0; 
-      letter-spacing: 1px;
     }
 
-    /* Mobile Responsiveness */
-    @media (max-width: 768px) {
-      .footer-container { flex-direction: column; padding: 3rem 1.5rem; gap: 3rem;}
-      .footer-brand-col { padding-right: 0; }
-      .footer-bottom { flex-direction: column; text-align: center; justify-content: center; }
-    }
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(24px); }
@@ -701,8 +652,50 @@
     .hero-desc { animation-delay: 0.4s; }
     .hero-btns { animation-delay: 0.55s; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
+    /* ==========================================
+       MOBILE RESPONSIVENESS & NAV FIX
+       ========================================== */
+    @media (max-width: 950px) {
+      .hamburger {
+        display: flex; /* Show Hamburger */
+      }
+      
+      .nav-links {
+        display: none; /* Hide standard nav */
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--ink); /* Deep dark background for readability */
+        padding: 1rem 0;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      }
+      
+      .nav-links.active {
+        display: flex; /* Triggered by JS */
+      }
+      
+      .nav-links li {
+        width: 100%;
+        text-align: center;
+      }
+      
+      .nav-links a {
+        padding: 1.2rem;
+        font-size: 1rem;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+
+      .nav-cta {
+        margin: 1rem auto;
+        width: 80%;
+      }
+
+      .nav-logo-img {
+        height: 50px; /* Compress logo on mobile */
+      }
+
       .hero { grid-template-columns: 1fr; min-height: auto; }
       .hero-left::after { display: none; }
       .hero-right { padding: 3rem 2rem; }
@@ -710,87 +703,48 @@
       .lessons-grid { grid-template-columns: 1fr 1fr; }
       .series-grid { grid-template-columns: 1fr; }
       .section { padding: 3rem 1.5rem; }
-      footer { grid-template-columns: 1fr 1fr; }
-      .nav-links { display: none; }
+      .footer-container { flex-direction: column; padding: 3rem 1.5rem; gap: 3rem;}
+      .footer-brand-col { padding-right: 0; }
+      .footer-bottom { flex-direction: column; text-align: center; justify-content: center; }
     }
+
     @media (max-width: 600px) {
       .lessons-grid { grid-template-columns: 1fr; }
-      .skills-grid { grid-template-columns: repeat(2, 1fr); }
-      footer { grid-template-columns: 1fr; }
-      .newsletter { padding: 2.5rem 1.5rem; }
+      .skills-grid { grid-template-columns: 1fr; }
       .hero-left { padding: 3rem 1.5rem; }
+      .hero-btns { flex-direction: column; width: 100%; }
+      .btn { text-align: center; width: 100%; }
+      .newsletter-banner { flex-direction: column; text-align: center; gap: 1.5rem; }
+      #subscribe-form { flex-direction: column; }
+      .newsletter-btn { width: 100%; }
     }
-    /* ==========================================
-   MOBILE FIX FOR HERO BUTTONS
-   ========================================== */
-@media screen and (max-width: 768px) {
-    .hero-buttons-container { 
-    display: flex !important; 
-    flex-direction: column; 
-    align-items: center;    
-    gap: 15px;              
-    width: 100%;
-    margin-top: 20px;
-  }
-
-    .hero-button {
-    display: inline-block !important; 
-    width: 90%;                       
-    max-width: 300px;
-    text-align: center;
-    padding: 12px 20px;
-  }
-}
-/* ==========================================
-   MOBILE DROPDOWN MENU FIX
-   ========================================== */
-@media screen and (max-width: 768px) {
-  
-  /* 1. Hide the links by default on mobile */
-  .nav-links {
-    display: none; 
-    flex-direction: column;
-    position: absolute; 
-    top: 70px;          
-    left: 0;
-    width: 100%;
-    background-color: hsla(76, 100%, 31%, 0.87); /* Harvard Ink Black */
-    padding: 20px 0;
-    text-align: center;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-    z-index: 999;
-  }
-
-  /* 2. Style the individual links for easy tapping */
-  .nav-links li {
-    margin: 15px 0;
-  }
-
-  /* 3. THIS IS THE MAGIC: When the JS adds the 'active' class, show the menu! */
-  .nav-links.active {
-    display: flex !important;
-  }
-}
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <img src="logo.png" alt="Logo" style="height: 120px;width:auto; margin-left: 0.1rem; margin-top: 2%;">
-   <div class="nav-logo" style="text-align: center;">Shared <span>Pearls</span> of Wisdom</div>
-    <ul class="nav-links">
+  <div class="nav-logo-container">
+    <img src="Images/logo.png" alt="Logo" class="nav-logo-img">
+    <div class="nav-logo">Shared <span>Pearls</span></div>
+  </div>
+  
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <ul class="nav-links" id="nav-links">
     <li><a href="grammar-lesson-1.html">Grammar</a></li>
     <li><a href="vocab-a1a2.html">Vocabulary</a></li>
     <li><a href="pronunciation.html">Pronunciation</a></li>
     <li><a href="listening.html">Listening</a></li>
     <li><a href="story-telling.html">Fiction</a></li>
     <li><a href="masterclass.html">Masterclass</a></li>
-       <li><a href="inner-subscribe-payment.html" class="nav-cta" style="text-align: center;">Premium Membership</a></li>
+    <li><a href="inner-subscribe-payment.html" class="nav-cta">Premium Membership</a></li>
   </ul>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-left">
     <div class="hero-tag">Free English Learning · All Levels Welcome</div>
@@ -820,7 +774,6 @@
   </div>
 </section>
 
-<!-- TICKER -->
 <div class="ticker">
   <div class="ticker-inner">
     <span class="ticker-item">Grammar</span>
@@ -833,7 +786,6 @@
     <span class="ticker-item">Idioms & Phrases</span>
     <span class="ticker-item">CEFR A1 – C2</span>
     <span class="ticker-item">Free Forever</span>
-    <!-- duplicate for seamless loop -->
     <span class="ticker-item">Grammar</span>
     <span class="ticker-item">Vocabulary</span>
     <span class="ticker-item">6-Minute Lessons</span>
@@ -847,7 +799,6 @@
   </div>
 </div>
 
-<!-- SKILLS SECTION -->
 <section class="section">
   <div class="section-header">
     <h2 class="section-title">What Would You Like to Improve?</h2>
@@ -904,14 +855,12 @@
     <div class="skill-tile">
       <div class="skill-icon">🎥</div>
       <div class="skill-name">
-        <a href="video-tutorial-page.html">Tutorials</a>
+        <a href="video-tutorial-page.html">Tutorials</a></div>
       <div class="skill-desc">Unlimited video tutorials</div>
-      
     </div>
   </div>
 </section>
 
-<!-- LESSONS SECTION -->
 <section class="section section-alt">
   <div class="section-header">
     <h2 class="section-title">Latest Lessons</h2>
@@ -928,7 +877,7 @@
       </div>
       <div class="lesson-body">
         <div class="lesson-category">Grammar</div>
-        <div class="lesson-title"><a href="passive-voice.html" style="text-decoration: none;">Passive Voice: When the Action Matters More Than the Actor</a></div>
+        <div class="lesson-title"><a href="passive-voice.html">Passive Voice: When the Action Matters More Than the Actor</a></div>
         <div class="lesson-excerpt">Discover when and why English speakers use the passive, with exercises from real newspaper texts.</div>
       </div>
     </div>
@@ -942,8 +891,7 @@
       </div>
       <div class="lesson-body">
         <div class="lesson-category">Vocabulary</div>
-        <div class="lesson-title"></div>
-        <div class="lesson-title"><a href="Collocation.html" style="text-decoration: none;">Collocations with "Make" and "Do" — Once and For All</a></div>
+        <div class="lesson-title"><a href="Collocation.html">Collocations with "Make" and "Do" — Once and For All</a></div>
         <div class="lesson-excerpt">A practical guide to one of the most confusing areas of English vocabulary, with 40+ examples.</div>
       </div>
     </div>
@@ -957,8 +905,7 @@
       </div>
       <div class="lesson-body">
         <div class="lesson-category">Pronunciation</div>
-        <div class="lesson-title"></div>
-        <div class="lesson-title"><a href="wordstressa1-c1.html" style="text-decoration: none; color: blue;">Word Stress Patterns That Will Transform Your English</a></div>
+        <div class="lesson-title"><a href="wordstressa1-c1.html" style="color: blue;">Word Stress Patterns That Will Transform Your English</a></div>
         <div class="lesson-excerpt">Learn how shifting stress changes meaning — and how native speakers use rhythm naturally.</div>
       </div>
     </div>
@@ -972,8 +919,7 @@
       </div>
       <div class="lesson-body">
         <div class="lesson-category">Listening</div>
-        <div class="lesson-title"></div>
-        <a href="artificial-intelligence.html" style="text-decoration: none; color: blue; font-family: 'Playfair Display', serif;">A Conversation About Artificial Intelligence and the Future of Work</a>
+        <div class="lesson-title"><a href="artificial-intelligence.html" style="color: blue;">A Conversation About Artificial Intelligence and the Future of Work</a></div>
         <div class="lesson-excerpt">Authentic dialogue between two experts, with full transcript, glossary and comprehension questions.</div>
       </div>
     </div>
@@ -987,8 +933,7 @@
       </div>
       <div class="lesson-body">
         <div class="lesson-category">Fiction</div>
-        <div class="lesson-title"></div>
-        <a href="story-telling.html" style="text-decoration: none; color: blue; font-family: 'Playfair Display', serif;">The Art of Storytelling & Inspirational Narratives</a>
+        <div class="lesson-title"><a href="story-telling.html" style="color: blue;">The Art of Storytelling & Inspirational Narratives</a></div>
         <div class="lesson-excerpt">Learn an exceptional approach to crafting compelling stories with real-world examples.</div>
       </div>
     </div>
@@ -1002,21 +947,18 @@
       </div>
       <div class="lesson-body">
         <div class="lesson-category">Business English</div>
-        <div class="lesson-title"></div>
-        <a href="leadership-language.html" style="text-decoration: none; color: blue; font-family: 'Playfair Display', serif;">Leadership Language: How Great Leaders Communicate</a>
+        <div class="lesson-title"><a href="leadership-language.html" style="color: blue;">Leadership Language: How Great Leaders Communicate</a></div>
         <div class="lesson-excerpt">Analyse speeches from global leaders and extract the vocabulary and rhetorical techniques they use.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- QUOTE BAND -->
 <div class="quote-band">
   <p class="quote-text">"The limits of my language mean the limits of my world."</p>
   <p class="quote-attr">— Ludwig Wittgenstein</p>
 </div>
 
-<!-- POPULAR SERIES -->
 <section class="section section-dark">
   <div class="section-header">
     <h2 class="section-title">Popular Series</h2>
@@ -1070,45 +1012,34 @@
       <p>Expand your vocabulary with our collection of lexical resources, including word lists, flashcards, and interactive exercises.</p>
       <span class="series-badge">Levels · B1-C1</span>
     </div>
-
   </div>
 </section>
 
-<!-- LEVEL FINDER -->
 <section class="level-finder">
   <h2>Find Your Level</h2>
   <p>Not sure where to start? Select a level below or take our free placement test.</p>
   <div class="levels-row">
-     
 <a class="level-btn" href="find-your-level-a1-a2.html" style="text-decoration: none;">A1/A2 Elementary</a>
 <a class="level-btn" href="find-your-level-b1.html" style="text-decoration: none;">B1 Intermediate</a>
 <a class="level-btn" href="find-your-level-b2.html" style="text-decoration: none;">B2 Upper-Int</a>
 <a class="level-btn" href="find-your-level-c1.html" style="text-decoration: none;">C1 Advanced</a>
-
   </div>
   <a class="level-test-btn" href="inside-file-placement-engine-find-your-level.html" style="text-decoration: none;">Take the Free Level Test</a>
 </section>
 
-<!-- NEWSLETTER -->
 <div class="newsletter-banner" style="background-color: #C19A2B; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
-  
   <div class="newsletter-text">
-    <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: #1A1A1A; margin: 0;">A New Pearl Every Month</h2>
-    <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #333333; margin-top: 5px;">Get our best lesson, a quote, and one vocabulary tip delivered to your inbox.</p>
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #1A1A1A; margin: 0;">A New Pearl Every Month</h2>
+    <p style="font-family: 'Source Serif 4', sans-serif; font-size: 1.1rem; color: #333333; margin-top: 5px;">Get our best lesson, a quote, and one vocabulary tip delivered to your inbox.</p>
   </div>
   <form id="subscribe-form" style="display: flex; width: 100%; max-width: 500px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
     <input type="email" id="email-input" name="email" placeholder="Your email address..." required 
-           style="flex-grow: 1; padding: 1rem 1.5rem; border: none; font-family: 'Inter', sans-serif; font-size: 1rem; background: #F9F7F1; outline: none;">
+           style="flex-grow: 1; padding: 1rem 1.5rem; border: none; font-family: 'Source Serif 4', serif; font-size: 1rem; background: #F9F7F1; outline: none;">
     <button type="submit" id="submit-btn" class="newsletter-btn">SUBSCRIBE</button>
-    </button>
-    
   </form>
-  
   <p id="success-msg" style="display: none; width: 100%; text-align: right; margin-top: 10px; font-weight: bold; color: #1A1A1A;">Welcome to the Masterclass! Check your inbox soon.</p>
-
 </div>
 
-<!-- FOOTER -->
 <footer class="site-footer">
     <div class="footer-container">
         <div class="footer-brand-col">
@@ -1145,32 +1076,39 @@
           <li><a href="contact-us.html#contact">Contact</a></li>
         </ul>
       </div>
-      
     </div>
-
     <div class="footer-bottom">
       <p>&copy; 2026 Shared Pearls of Wisdom</p>
       <p>Get inspired to learn &bull; Inspire others</p>
     </div>
   </footer>
+
 <script>
+  // ── HAMBURGER MENU LOGIC ──
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+
+  hamburger.addEventListener('click', () => {
+    // Toggle active classes
+    navLinks.classList.toggle('active');
+    hamburger.classList.toggle('toggle');
+  });
+
+  // ── NEWSLETTER LOGIC ──
   document.getElementById('subscribe-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Stops the page from refreshing
+    event.preventDefault(); 
     
     const form = event.target;
     const button = document.getElementById('submit-btn');
     const successMsg = document.getElementById('success-msg');
     
-    
     button.innerText = "SENDING...";
     button.disabled = true;
 
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzjmtH-AHUtMLclKJ5B4m0fz85TfT2Wxw-WZ2QIHNRurqEEqKvR-lqF9mrp9LP_tm4l/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzjmtH-AHUtMLclKJ5B4m0fz85TfT2Wxw-WZ2QIHNRurqEEqKvR-lqF9mrp9LP_tm4l/exec';
 
-   
     fetch(scriptURL, { method: 'POST', body: new FormData(form) })
       .then(response => {
-        // Success! Hide the form and show the thank you message.
         form.style.display = 'none';
         successMsg.style.display = 'block';
       })
