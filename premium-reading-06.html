@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Reading 06 | The LRSW Clinic</title>
+  <style>
+    /* --- UNIVERSAL FONT STANDARDS & COLORS --- */
+    :root {
+      --primary: #0B1D3A;
+      --accent: #C4923E;
+      --bg-light: #F8FAFC;
+      --border: #CBD5E1;
+      --text-main: #333333;
+      --text-muted: #666666;
+      --font-ui: Arial, Helvetica, sans-serif;
+      --font-passage: "Times New Roman", Times, serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      font-family: var(--font-ui); 
+      color: var(--text-main); 
+      height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+      overflow: hidden; 
+      background: #fff; 
+    }
+
+    /* --- TOP NAVIGATION --- */
+    header { 
+      background: var(--primary); 
+      color: white; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 0 2rem; 
+      height: 60px; 
+      border-bottom: 3px solid var(--accent); 
+      flex-shrink: 0; 
+      z-index: 10;
+    }
+    .logo { font-size: 1.4rem; font-weight: bold; letter-spacing: 0.5px; }
+    .logo span { color: var(--accent); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; 
+      color: #cbd5e1; 
+      border: none; 
+      padding: 0 1.5rem; 
+      font-size: 1rem; 
+      font-weight: bold; 
+      cursor: pointer; 
+      transition: 0.2s; 
+      height: 100%; 
+      display: flex; 
+      align-items: center; 
+      border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui);
+    }
+    .tab-btn:hover:not(:disabled) { color: #fff; background: rgba(255,255,255,0.05); }
+    .tab-btn.active { color: #fff; border-bottom-color: var(--accent); background: rgba(255,255,255,0.1); }
+    
+    /* Header Controls (Timer + Start Button) */
+    .header-controls { display: flex; align-items: center; gap: 15px; }
+    
+    .btn-start-top {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.95rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      transition: 0.2s;
+    }
+    .btn-start-top:hover { background: #059669; }
+
+    .timer { 
+      font-family: monospace; 
+      font-size: 1.4rem; 
+      font-weight: bold; 
+      color: #fff; 
+      background: #1e293b; 
+      padding: 0.3rem 0.8rem; 
+      border-radius: 4px; 
+      border: 1px solid #334155;
+    }
+    .timer.warning { color: #ef4444; animation: pulse 1s infinite; }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    /* --- SPLIT SCREEN LAYOUT --- */
+    .workspace { 
+      display: flex; 
+      flex: 1; 
+      height: calc(100vh - 60px); 
+      overflow: hidden; 
+      background: var(--bg-light); 
+      position: relative;
+    }
+    
+    .panel { 
+      flex: 1; 
+      height: 100%; 
+      overflow-y: auto; 
+      padding: 2.5rem; 
+      background: #fff; 
+      position: relative;
+    }
+    .left-panel { border-right: 2px solid var(--border); box-shadow: 2px 0 10px rgba(0,0,0,0.02); }
+    .right-panel { background: #fafbfc; padding-bottom: 100px; }
+
+    /* --- PRE-TEST LOCK SCREEN OVERLAY --- */
+    .pre-test-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #ffffff;
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; font-family: 'Playfair Display', serif;}
+    .pre-test-overlay p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; line-height: 1.6; margin-bottom: 2rem; }
+    .btn-start-large {
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem 3rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      transition: 0.2s;
+    }
+    .btn-start-large:hover { background: #1a365d; }
+
+    /* --- PASSAGE TYPOGRAPHY --- */
+    .left-panel h1 { 
+      font-family: var(--font-ui); 
+      font-size: 1.6rem; 
+      margin-bottom: 2rem; 
+      color: var(--primary); 
+      line-height: 1.3; 
+      text-align: center;
+    }
+    
+    .left-panel p { 
+      font-family: var(--font-passage);
+      margin-bottom: 1.5rem; 
+      line-height: 1.8; 
+      text-align: justify; 
+      font-size: 1.15rem; 
+    }
+    
+    .paragraph-label { 
+      font-family: var(--font-ui);
+      font-weight: bold; 
+      font-size: 1.1rem; 
+      margin-right: 15px; 
+      color: #000; 
+      float: left;
+      padding-top: 2px;
+    }
+    
+    /* --- QUESTION TYPOGRAPHY --- */
+    .right-panel h2 { 
+      font-size: 1.1rem; 
+      margin-bottom: 1rem; 
+      color: #000; 
+      border-bottom: 2px solid var(--primary); 
+      padding-bottom: 0.5rem; 
+      margin-top: 2rem; 
+    }
+    .right-panel h2:first-child { margin-top: 0; }
+    
+    .instruction { 
+      font-style: italic; 
+      color: #000; 
+      margin-bottom: 1.2rem; 
+      font-size: 0.95rem; 
+      line-height: 1.4;
+    }
+    
+    .q-group { margin-bottom: 2.5rem; }
+    .q-item { 
+      display: flex; 
+      align-items: baseline; 
+      margin-bottom: 1.2rem; 
+      gap: 12px; 
+    }
+    .q-num { 
+      font-weight: bold; 
+      color: #000; 
+      min-width: 25px; 
+    }
+    .q-text { 
+      flex: 1; 
+      font-size: 1rem; 
+      line-height: 1.5; 
+    }
+    
+    input[type="text"] { 
+      padding: 0.3rem 0.5rem; 
+      border: 1px solid #94a3b8; 
+      border-radius: 2px; 
+      font-size: 1rem; 
+      width: 140px; 
+      font-family: var(--font-ui);
+    }
+    input[type="text"]:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 3px rgba(11,29,58,0.3); }
+    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; }
+    
+    .mcq-options { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 0.95rem; }
+    .mcq-label input { margin-top: 4px; }
+    
+    .box-options { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 15px; 
+      border: 1px solid var(--primary); 
+      padding: 1.2rem; 
+      margin-bottom: 1.5rem; 
+      background: #fff; 
+    }
+    .box-item { font-size: 1rem; font-weight: bold; }
+
+    .section-content { display: none; }
+    .section-content.active { display: block; }
+    
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* --- SUBMISSION & DORMANT STATE --- */
+    .submit-bar {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 50%; 
+      background: #fff;
+      border-top: 1px solid var(--border);
+      padding: 1rem 2.5rem;
+      display: flex;
+      justify-content: flex-end;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+      z-index: 100;
+    }
+
+    .btn-submit {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      transition: 0.2s;
+    }
+    .btn-submit:hover:not(:disabled) { background: #1a365d; }
+    .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+
+    .btn-retake {
+      background: transparent;
+      color: var(--text-muted);
+      border: 2px solid var(--border);
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      transition: 0.2s;
+    }
+    .btn-retake:hover { background: #f1f5f9; color: var(--primary); border-color: var(--primary); }
+
+    .dormant-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.2);
+      z-index: 50;
+      display: none;
+      pointer-events: none; 
+    }
+    body.test-completed .dormant-overlay { display: block; }
+    
+    /* --- RESULTS MODAL --- */
+    .results-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 3rem;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      z-index: 200;
+      text-align: center;
+      border-top: 6px solid var(--accent);
+      min-width: 400px;
+    }
+    .results-modal h2 { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 2rem; margin-bottom: 1rem; }
+    .score-display { font-size: 3.5rem; font-weight: bold; color: var(--primary); margin: 1.5rem 0; }
+    .score-display span { font-size: 1.5rem; color: var(--text-muted); }
+    
+    .btn-close {
+      background: var(--accent);
+      color: var(--primary);
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: 0.2s;
+    }
+    .btn-close:hover { background: #b08133; }
+
+    .correct-answer { border-color: #10b981 !important; background: #d1fae5 !important; }
+    .wrong-answer { border-color: #ef4444 !important; background: #fee2e2 !important; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">The LRSW <span>Clinic</span></div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Section 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Section 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Section 3</button>
+    </div>
+    <div class="header-controls">
+      <button class="btn-start-top" id="btn-start-top" onclick="startTest()">Start Test</button>
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <!-- RESULTS MODAL -->
+  <div class="results-modal" id="results-modal">
+    <h2>Test Completed</h2>
+    <p>Your Reading Module score is:</p>
+    <div class="score-display" id="final-score">0 <span>/ 40</span></div>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your answers.</p>
+    <button class="btn-close" onclick="closeModal()">Close</button>
+  </div>
+
+  <div class="workspace">
+    <!-- PRE-TEST LOCK SCREEN -->
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <h2>Premium Reading 06</h2>
+      <p>This module contains 3 passages and 40 questions exploring the theme of <strong>Linguistic Scaffolding For English Learners</strong>. You have exactly 60 minutes to complete the test. The timer will begin, and the passages will be revealed once you click Start.</p>
+      <button class="btn-start-large" onclick="startTest()">Start 60-Minute Test</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <!-- LEFT PANEL: READING PASSAGES -->
+    <div class="panel left-panel">
+      <!-- PASSAGE 1 -->
+      <div id="passage-1" class="section-content active">
+        <h1>Foundations of Linguistic Scaffolding</h1>
+        <p><span class="paragraph-label">A</span> In the realm of educational psychology and second language acquisition, few concepts have been as transformative as 'scaffolding.' The term, first coined in 1976 by cognitive psychologist Jerome Bruner and his colleagues, borrows a metaphor from the construction industry. Just as physical scaffolds provide temporary support for a building as it is erected, linguistic scaffolds offer temporary instructional support to language learners. This assistance allows students to achieve a level of comprehension or produce language that they would be incapable of managing entirely on their own.</p>
+        <p><span class="paragraph-label">B</span> The theoretical bedrock of scaffolding lies in the work of Soviet psychologist Lev Vygotsky, specifically his concept of the Zone of Proximal Development (ZPD). Vygotsky defined the ZPD as the distance between a learner’s actual developmental level (what they can do independently) and their level of potential development (what they can achieve with guidance). According to Vygotsky, effective teaching must always be aimed slightly ahead of the learner's current independent ability. Scaffolding is the practical mechanism by which educators bridge this gap, acting as a "more knowledgeable other" to pull the student through the ZPD.</p>
+        <p><span class="paragraph-label">C</span> In a modern English Language Teaching (ELT) context, linguistic scaffolding takes many forms. One of the most fundamental techniques is the activation of prior knowledge. Before introducing a complex reading text about climate change, for example, a teacher might ask students to brainstorm vocabulary related to weather in their native language. This connects the new, unfamiliar English concepts to the student's existing cognitive framework, making the new information less intimidating and easier to process.</p>
+        <p><span class="paragraph-label">D</span> Another crucial form of scaffolding involves breaking complex tasks into smaller, manageable sub-tasks. If the ultimate goal is for students to write a five-paragraph persuasive essay, a teacher does not simply assign the topic and expect a finished product. Instead, the task is heavily scaffolded: day one might focus solely on writing a thesis statement using a provided sentence frame; day two might involve organizing arguments using a graphic organizer; and day three might cover drafting body paragraphs. This step-by-step guidance prevents cognitive overload.</p>
+        <p><span class="paragraph-label">E</span> Visual and realia-based scaffolding are particularly vital for beginner-level English learners. Because their vocabulary is limited, relying entirely on verbal explanations is often ineffective and frustrating. By incorporating physical objects (realia), photographs, timelines, and gestures, teachers provide multiple pathways to meaning. If a teacher is explaining the concept of "melting," bringing an actual ice cube into the classroom and watching it turn into water provides a tangible scaffold that requires no translation.</p>
+        <p><span class="paragraph-label">F</span> Ultimately, the defining characteristic of a scaffold is its impermanence. A scaffold that is left up forever becomes a crutch, hindering true independence. Therefore, the goal of linguistic scaffolding is not to make the task permanently easy, but to provide just enough support so that the learner can internalize the skill. Once the skill is internalized, the teacher must systematically dismantle the support—a process known as 'fading'—leaving the learner capable of performing the task autonomously.</p>
+      </div>
+
+      <!-- PASSAGE 2 -->
+      <div id="passage-2" class="section-content">
+        <h1>Macro and Micro Scaffolding Strategies</h1>
+        <p><span class="paragraph-label">A</span> As the concept of linguistic scaffolding evolved, researchers recognized the need to categorize it based on scope and timing. In 2002, applied linguist Pauline Gibbons introduced a critical distinction between "macro-scaffolding" and "micro-scaffolding." Understanding this dichotomy allows curriculum designers and classroom teachers to synchronize their efforts, ensuring that support is embedded both in the long-term structure of a course and in the moment-to-moment interactions between teacher and student.</p>
+        <p><span class="paragraph-label">B</span> Macro-scaffolding, also referred to as planned scaffolding, occurs long before the students enter the classroom. It is the architectural blueprint of a syllabus. When educators select reading materials that gradually increase in lexical density over a 12-week semester, they are engaging in macro-scaffolding. Similarly, sequencing a writing course so that students master descriptive paragraphs before moving on to argumentative essays ensures that foundational skills support advanced tasks. Macro-scaffolding is predictable, structured, and applies broadly to the entire cohort of learners.</p>
+        <p><span class="paragraph-label">C</span> Conversely, micro-scaffolding is highly spontaneous. It happens in real-time, often in response to an unexpected learner error or a sudden look of confusion. For instance, if a student struggles to find the English word for "exhausted," the teacher might provide a micro-scaffold by asking a guiding question: "Are you just a little tired, or very, very tired?" Another common micro-scaffold is the 'recast,' where a teacher subtly corrects a student's grammar by repeating their statement correctly without disrupting the flow of conversation. This interactional support is highly individualized and relies heavily on the teacher's intuition.</p>
+        <p><span class="paragraph-label">D</span> In contemporary ELT, the strict "English-only" rule—once considered the gold standard of language immersion—is increasingly being viewed as an unnecessary removal of a natural scaffold. Researchers like Ofelia García advocate for "translanguaging," a strategy that permits bilingual students to seamlessly use their native language alongside English to make sense of complex academic content. Allowing students to discuss a difficult English text in their mother tongue before writing their final response in English acts as a powerful macro-scaffold, validating their existing linguistic repertoire while bridging them to the target language.</p>
+        <p><span class="paragraph-label">E</span> The advent of educational technology has introduced new dimensions to scaffolding, blurring the lines between macro and micro support. AI-driven language platforms utilize sophisticated algorithms to track a student's performance data. If a platform detects that a student is consistently failing exercises involving the past perfect tense, it can automatically generate targeted mini-lessons and visual aids. This automated support provides the immediacy of micro-scaffolding but relies on the pre-programmed, structural logic of macro-scaffolding.</p>
+        <p><span class="paragraph-label">F</span> Despite the benefits of both strategies, a common pitfall in language instruction is the misalignment of macro and micro scaffolds. A curriculum may be beautifully sequenced (macro), but if the teacher fails to provide conversational support during a complex speaking task (micro), the students will likely fail. Success in language acquisition requires educators to be both skilled architects in their planning and responsive guides in their daily execution.</p>
+      </div>
+
+      <!-- PASSAGE 3 -->
+      <div id="passage-3" class="section-content">
+        <h1>Cognitive Load Theory and the Art of Fading</h1>
+        <p><span class="paragraph-label">A</span> To truly understand why linguistic scaffolding is effective, one must examine the limits of human memory. In the late 1980s, educational psychologist John Sweller formulated Cognitive Load Theory (CLT). Sweller posited that the human brain possesses a working memory that is severely limited in capacity and duration. When a learner is confronted with new information, working memory can only hold and process a few elements at a time. If the complexity of a task exceeds this capacity, the learner experiences "cognitive overload," resulting in confusion, frustration, and a total cessation of learning.</p>
+        <p><span class="paragraph-label">B</span> Sweller categorized cognitive load into three types: intrinsic, extraneous, and germane. Intrinsic load is the inherent difficulty of the subject matter itself—for example, the complex spelling rules of English. Extraneous load is generated by the way the information is presented. If a teacher explains a grammar rule using unnecessarily complicated academic jargon, they increase the extraneous load. Germane load is the mental effort required to actually create permanent schemas (knowledge structures) in long-term memory. The primary objective of linguistic scaffolding is to minimize extraneous load so that working memory can devote its limited resources to the germane load of actual learning.</p>
+        <p><span class="paragraph-label">C</span> One of the most delicate challenges an educator faces is finding the exact balance of scaffolding. Under-scaffolding plunges the learner immediately into cognitive overload. However, over-scaffolding presents an equally insidious problem. When a teacher provides too many sentence frames, translates every difficult word, and constantly interrupts to correct grammar, the student is denied the opportunity to engage in productive struggle. Over-scaffolded students become passive recipients of language rather than active constructors of meaning, ultimately failing to develop linguistic autonomy.</p>
+        <p><span class="paragraph-label">D</span> The solution to over-scaffolding is the systematic process of "fading." Fading is the gradual, deliberate removal of instructional supports as the learner's competence increases. For example, in a reading comprehension unit, a teacher might initially provide a fully completed glossary of key terms. The following week, the teacher might provide the terms but require the students to find the definitions. By the final week, the students are expected to identify and define the unknown words entirely on their own. This gradual release of responsibility ensures that the cognitive heavy lifting is slowly transferred from the teacher to the student.</p>
+        <p><span class="paragraph-label">E</span> The process of fading is not solely about cognitive development; it has profound implications for a student's emotional state. As Stephen Krashen noted in his research on the "affective filter," high anxiety levels block language acquisition. Initial scaffolding lowers this filter by making tasks feel safe and achievable. However, the subsequent fading of those scaffolds builds self-efficacy. When a student realizes they can successfully write an essay or hold a conversation without the teacher's immediate help, their confidence surges, creating a positive feedback loop that accelerates future learning.</p>
+        <p><span class="paragraph-label">F</span> In conclusion, scaffolding is not merely a set of teaching tricks; it is a sophisticated cognitive management strategy. By carefully managing working memory through the reduction of extraneous load, and by masterfully timing the fading of support, educators can guide language learners out of dependence and into the realm of true communicative fluency. The ultimate measure of a scaffold's success is its own obsolescence.</p>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: QUESTIONS -->
+    <div class="panel right-panel">
+      
+      <!-- QUESTIONS FOR SECTION 1 -->
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–5</h2>
+        <div class="instruction">
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Choose the correct heading for paragraphs <strong>B–F</strong> from the list below.<br>
+          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The necessity of removing support</div>
+          <div class="box-item"><strong>ii</strong> Using physical objects to build meaning</div>
+          <div class="box-item"><strong>iii</strong> The psychological origins of the concept</div>
+          <div class="box-item"><strong>iv</strong> Dividing large assignments into steps</div>
+          <div class="box-item"><strong>v</strong> The dangers of cognitive overload</div>
+          <div class="box-item"><strong>vi</strong> Linking new ideas to what is already known</div>
+          <div class="box-item"><strong>vii</strong> Why the construction industry uses scaffolds</div>
+          <div class="box-item"><strong>viii</strong> Vygotsky’s rejection of behaviorism</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item" style="color: #666;"><em>Example: Paragraph A = vii (Contextual Intro - Not Questioned)</em></div>
+          <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph B <input type="text" id="q1"></div></div>
+          <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph C <input type="text" id="q2"></div></div>
+          <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph D <input type="text" id="q3"></div></div>
+          <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph E <input type="text" id="q4"></div></div>
+          <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph F <input type="text" id="q5"></div></div>
+        </div>
+
+        <h2>Questions 6–9</h2>
+        <div class="instruction">
+          Do the following statements agree with the information given in the Reading Passage?<br>
+          Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">6</div><div class="q-text">The term 'scaffolding' was originally created by Lev Vygotsky in 1976. <br><input type="text" id="q6"></div></div>
+          <div class="q-item"><div class="q-num">7</div><div class="q-text">Vygotsky believed that teachers should aim their instruction exactly at the student's current level of independent ability. <br><input type="text" id="q7"></div></div>
+          <div class="q-item"><div class="q-num">8</div><div class="q-text">Sentence frames and graphic organizers are tools used to prevent cognitive overload during writing tasks. <br><input type="text" id="q8"></div></div>
+          <div class="q-item"><div class="q-num">9</div><div class="q-text">Realia-based scaffolding is proven to be the most effective method for advanced university students. <br><input type="text" id="q9"></div></div>
+        </div>
+
+        <h2>Questions 10–13</h2>
+        <div class="instruction">
+          Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              The fundamental goal of a teacher acting as a scaffold is to help students navigate their <strong>10</strong> <input type="text" id="q10">. This can be achieved in several ways, such as bringing physical objects, known as <strong>11</strong> <input type="text" id="q11">, into the classroom to assist beginner learners. However, a crucial aspect of this instructional technique is that it must be temporary. If support is provided for too long, it turns into a <strong>12</strong> <input type="text" id="q12">. To build student independence, educators must engage in a process called <strong>13</strong> <input type="text" id="q13">, where the assistance is systematically removed.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 2 -->
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18</h2>
+        <div class="instruction">
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Which paragraph contains the following information?<br>
+          Write the correct letter, <strong>A–F</strong>, in the boxes provided.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">14</div><div class="q-text">An example of how syllabus design acts as a long-term support structure. <input type="text" id="q14"></div></div>
+          <div class="q-item"><div class="q-num">15</div><div class="q-text">The idea that allowing the use of a mother tongue can aid in understanding difficult texts. <input type="text" id="q15"></div></div>
+          <div class="q-item"><div class="q-num">16</div><div class="q-text">How AI platforms combine the logic of long-term planning with immediate feedback. <input type="text" id="q16"></div></div>
+          <div class="q-item"><div class="q-num">17</div><div class="q-text">A warning that good curriculum planning is useless without responsive classroom teaching. <input type="text" id="q17"></div></div>
+          <div class="q-item"><div class="q-num">18</div><div class="q-text">An explanation of a teaching technique where errors are corrected without stopping the conversation. <input type="text" id="q18"></div></div>
+        </div>
+
+        <h2>Questions 19–22</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">19</div>
+            <div class="q-text">What is the primary difference between macro-scaffolding and micro-scaffolding according to Pauline Gibbons?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q19" value="A"> A) Macro is used for writing, while micro is used for speaking.</label>
+                <label class="mcq-label"><input type="radio" name="q19" value="B"> B) Macro is planned in advance, while micro happens spontaneously.</label>
+                <label class="mcq-label"><input type="radio" name="q19" value="C"> C) Macro relies on technology, while micro relies on textbooks.</label>
+                <label class="mcq-label"><input type="radio" name="q19" value="D"> D) Macro is for advanced students, while micro is for beginners.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">20</div>
+            <div class="q-text">What does the term 'recast' refer to in paragraph C?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q20" value="A"> A) Providing a written translation of a difficult word.</label>
+                <label class="mcq-label"><input type="radio" name="q20" value="B"> B) Completely ignoring a student's grammatical mistake.</label>
+                <label class="mcq-label"><input type="radio" name="q20" value="C"> C) Asking a guiding question to help a student find a vocabulary word.</label>
+                <label class="mcq-label"><input type="radio" name="q20" value="D"> D) Subtly repeating a student's sentence with the correct grammar.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">21</div>
+            <div class="q-text">Why does Ofelia García support the concept of "translanguaging"?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q21" value="A"> A) Because English-only rules are too difficult for teachers to enforce.</label>
+                <label class="mcq-label"><input type="radio" name="q21" value="B"> B) Because it forces students to permanently rely on their native language.</label>
+                <label class="mcq-label"><input type="radio" name="q21" value="C"> C) Because it allows students to use their existing language skills to understand new content.</label>
+                <label class="mcq-label"><input type="radio" name="q21" value="D"> D) Because it replaces the need for macro-scaffolding in curriculum design.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">22</div>
+            <div class="q-text">How does educational technology attempt to blur the lines between macro and micro scaffolding?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q22" value="A"> A) By replacing human teachers entirely in the classroom.</label>
+                <label class="mcq-label"><input type="radio" name="q22" value="B"> B) By using pre-programmed logic to deliver spontaneous, real-time feedback.</label>
+                <label class="mcq-label"><input type="radio" name="q22" value="C"> C) By forcing all students to learn at a rigidly structured pace.</label>
+                <label class="mcq-label"><input type="radio" name="q22" value="D"> D) By grading multiple-choice tests automatically.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2>Questions 23–26</h2>
+        <div class="instruction">
+          Look at the following concepts (Questions 23-26) and the list of researchers below.<br>
+          Match each concept with the correct researcher, <strong>A, B, C, or D</strong>.<br>
+          <em>You may use any letter more than once.</em>
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Jerome Bruner (Passage 1)</div>
+          <div class="box-item"><strong>B</strong> Lev Vygotsky (Passage 1)</div>
+          <div class="box-item"><strong>C</strong> Pauline Gibbons</div>
+          <div class="box-item"><strong>D</strong> Ofelia García</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">23</div><div class="q-text">Divided instructional support into planned architecture and real-time interactions. <input type="text" id="q23"></div></div>
+          <div class="q-item"><div class="q-num">24</div><div class="q-text">Advocates against strict English-only rules in language classrooms. <input type="text" id="q24"></div></div>
+          <div class="q-item"><div class="q-num">25</div><div class="q-text">First applied a metaphor from the construction industry to educational psychology. <input type="text" id="q25"></div></div>
+          <div class="q-item"><div class="q-num">26</div><div class="q-text">Theorized that effective teaching must target a level slightly beyond a student's independent capability. <input type="text" id="q26"></div></div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 3 -->
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31</h2>
+        <div class="instruction">
+          Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
+          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">27</div><div class="q-text">John Sweller argued that the human working memory can hold an unlimited amount of information. <br><input type="text" id="q27"></div></div>
+          <div class="q-item"><div class="q-num">28</div><div class="q-text">Extraneous cognitive load is caused by confusing or poor teaching methods. <br><input type="text" id="q28"></div></div>
+          <div class="q-item"><div class="q-num">29</div><div class="q-text">Teachers should aim to completely eliminate the intrinsic load of a subject. <br><input type="text" id="q29"></div></div>
+          <div class="q-item"><div class="q-num">30</div><div class="q-text">Over-scaffolding can be detrimental because it prevents students from experiencing productive struggle. <br><input type="text" id="q30"></div></div>
+          <div class="q-item"><div class="q-num">31</div><div class="q-text">Stephen Krashen's research focused primarily on the development of long-term memory schemas. <br><input type="text" id="q31"></div></div>
+        </div>
+
+        <h2>Questions 32–36</h2>
+        <div class="instruction">
+          Complete the summary using the list of words, <strong>A–I</strong>, below.<br>
+          Write the correct letter, <strong>A–I</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> dependence</div>
+          <div class="box-item"><strong>B</strong> jargon</div>
+          <div class="box-item"><strong>C</strong> autonomy</div>
+          <div class="box-item"><strong>D</strong> anxiety</div>
+          <div class="box-item"><strong>E</strong> working memory</div>
+          <div class="box-item"><strong>F</strong> schemas</div>
+          <div class="box-item"><strong>G</strong> fading</div>
+          <div class="box-item"><strong>H</strong> resources</div>
+          <div class="box-item"><strong>I</strong> complexity</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              The primary purpose of scaffolding is to manage a learner's limited <strong>32</strong> <input type="text" id="q32">. By reducing unnecessary confusion, mental energy can be spent on creating permanent <strong>33</strong> <input type="text" id="q33">. However, if a teacher provides too much support, the student may develop a sense of <strong>34</strong> <input type="text" id="q34">. To prevent this, teachers must use a technique called <strong>35</strong> <input type="text" id="q35">, where support is slowly withdrawn. This process not only builds cognitive capability but also lowers student <strong>36</strong> <input type="text" id="q36">, ultimately leading to greater self-confidence.
+            </div>
+          </div>
+        </div>
+
+        <h2>Questions 37–40</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">37</div>
+            <div class="q-text">What is an example of reducing 'extraneous load' according to paragraph B?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) Changing the spelling rules of the English language.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) Explaining grammar without using complicated academic terminology.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) Forcing students to memorize entire reading passages.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) Giving students a completely unassisted writing task.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">38</div>
+            <div class="q-text">What does the writer suggest happens to over-scaffolded students in paragraph C?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) They learn the material much faster than under-scaffolded students.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) They become highly stressed by the "affective filter".</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) They become passive learners and fail to gain independence.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) They constantly correct the teacher's grammar.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">39</div>
+            <div class="q-text">In paragraph D, the example of the glossary is used to illustrate:
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) How to activate prior knowledge.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) A gradual release of responsibility from teacher to student.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) The concept of translanguaging in a reading unit.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) Why intrinsic load cannot be changed.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">40</div>
+            <div class="q-text">Which sentence best summarizes the conclusion in Paragraph F?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) Scaffolding is a permanent necessity for all English learners.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) Working memory is too limited to ever achieve true communicative fluency.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) The best instructional supports are those that eventually become unnecessary.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) Cognitive management is only important for advanced learners.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SUBMIT BAR -->
+    <div class="submit-bar">
+      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">Submit Test</button>
+      <button class="btn-retake" id="btn-retake" style="display: none;" onclick="retakeTest()">Restart Test Session</button>
+    </div>
+
+  </div>
+
+  <script>
+    /* --- INTERNAL ANSWER KEY FOR GRADING --- */
+    const answerKey = {
+      q1: 'iii', q2: 'vi', q3: 'iv', q4: 'ii', q5: 'i',
+      q6: 'false', q7: 'false', q8: 'true', q9: 'not given',
+      q10: 'zpd', q11: 'realia', q12: 'crutch', q13: 'fading',
+      q14: 'b', q15: 'd', q16: 'e', q17: 'f', q18: 'c',
+      q19: 'b', q20: 'd', q21: 'c', q22: 'b',
+      q23: 'c', q24: 'd', q25: 'a', q26: 'b',
+      q27: 'no', q28: 'yes', q29: 'not given', q30: 'yes', q31: 'no',
+      q32: 'e', q33: 'f', q34: 'a', q35: 'g', q36: 'd',
+      q37: 'b', q38: 'c', q39: 'b', q40: 'c'
+    };
+
+    /* --- TAB SWITCHING LOGIC --- */
+    function switchSection(sectionNumber) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+      
+      document.getElementById('tab-' + sectionNumber).classList.add('active');
+      document.getElementById('passage-' + sectionNumber).classList.add('active');
+      document.getElementById('questions-' + sectionNumber).classList.add('active');
+    }
+
+    /* --- NON-PERSISTENT TIMER LOGIC (Resets on Refresh) --- */
+    const DURATION = 3600; // 60 minutes
+    let timerInterval;
+    let timeRemaining;
+    const timerElement = document.getElementById('timer');
+
+    function initTest() {
+      // Show Pre-Test overlay on every page load
+      document.getElementById('pre-test-overlay').style.display = 'flex';
+      document.getElementById('btn-start-top').style.display = 'block';
+      timerElement.textContent = "60:00";
+      timerElement.classList.remove('warning');
+    }
+
+    function startTest() {
+      // Hide Pre-Test overlay and start button
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('btn-start-top').style.display = 'none';
+      
+      // Initialize fresh 60-minute timer
+      timeRemaining = DURATION;
+      updateTimerDisplay();
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        
+        if(timeRemaining <= 300 && timeRemaining > 0) {
+            timerElement.classList.add('warning');
+        }
+
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          submitTest(true);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+      const seconds = (timeRemaining % 60).toString().padStart(2, '0');
+      timerElement.textContent = `${minutes}:${seconds}`;
+    }
+
+    /* --- SUBMISSION & GRADING PROTOCOL --- */
+    function submitTest(isAutoSubmit = false) {
+      if(!isAutoSubmit) {
+        const confirmSubmit = confirm("Are you sure you want to submit? You cannot change your answers after submission.");
+        if(!confirmSubmit) return;
+      }
+
+      clearInterval(timerInterval);
+      timerElement.textContent = "00:00";
+      timerElement.classList.remove('warning');
+      
+      gradeTest();
+      lockInterface();
+      
+      document.getElementById('results-modal').style.display = 'block';
+    }
+
+    function gradeTest() {
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        let userAnswer = "";
+        const qId = 'q' + i;
+        const textInput = document.getElementById(qId);
+        
+        if (textInput) {
+          userAnswer = textInput.value.trim().toLowerCase();
+          // Accept "zpd" or "zone of proximal development" for Q10
+          if (qId === 'q10' && (userAnswer === 'zpd' || userAnswer === 'zone of proximal development')) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else if (userAnswer === answerKey[qId]) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else {
+            textInput.classList.add('wrong-answer');
+            textInput.value = userAnswer ? `${userAnswer} (X)` : '(Blank)';
+          }
+        } else {
+          const radio = document.querySelector(`input[name="${qId}"]:checked`);
+          if (radio) {
+            userAnswer = radio.value.toLowerCase();
+          }
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            if(radio) radio.parentElement.style.color = '#10b981';
+          } else {
+            if(radio) radio.parentElement.style.color = '#ef4444';
+          }
+        }
+      }
+      document.getElementById('final-score').innerHTML = `${score} <span>/ 40</span>`;
+    }
+
+    function lockInterface() {
+      document.body.classList.add('test-completed');
+      
+      document.querySelectorAll('input').forEach(input => {
+        input.disabled = true;
+      });
+      
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'block';
+    }
+
+    /* --- UI MANAGEMENT --- */
+    function closeModal() {
+      document.getElementById('results-modal').style.display = 'none';
+    }
+
+    function retakeTest() {
+      if(!confirm("This will clear all your answers and restart the 60-minute session. Continue?")) return;
+
+      clearInterval(timerInterval);
+      timerElement.classList.remove('warning');
+      
+      document.getElementById('results-modal').style.display = 'none';
+      document.body.classList.remove('test-completed');
+      
+      // Swap buttons back
+      document.getElementById('btn-submit').style.display = 'block';
+      document.getElementById('btn-submit').disabled = false;
+      document.getElementById('btn-retake').style.display = 'none';
+      
+      document.querySelectorAll('input[type="text"]').forEach(input => {
+        input.value = '';
+        input.disabled = false;
+        input.classList.remove('correct-answer', 'wrong-answer');
+      });
+      
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+        radio.disabled = false;
+        radio.parentElement.style.color = 'inherit';
+      });
+      
+      switchSection(1);
+      initTest(); // Returns to the Pre-Test screen
+    }
+
+    // Initialize test on page load
+    window.onload = initTest;
+  </script>
+</body>
+</html>
