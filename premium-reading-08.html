@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Reading 08 | The LRSW Clinic</title>
+  
+  <!-- PREMIUM FONTS INTEGRATION -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Roboto+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- UNIVERSAL FONT STANDARDS & COLORS --- */
+    :root {
+      --primary: #0B1D3A;
+      --accent: #C4923E;
+      --bg-light: #F8FAFC;
+      --border: #CBD5E1;
+      --text-main: #333333;
+      --text-muted: #666666;
+      
+      /* New Premium Typography System */
+      --font-ui: 'Inter', sans-serif;
+      --font-passage: 'Lora', serif;
+      --font-heading: 'Playfair Display', serif;
+      --font-mono: 'Roboto Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      font-family: var(--font-ui); 
+      color: var(--text-main); 
+      height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+      overflow: hidden; 
+      background: #fff; 
+    }
+
+    /* --- TOP NAVIGATION --- */
+    header { 
+      background: var(--primary); 
+      color: white; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 0 2rem; 
+      height: 65px; 
+      border-bottom: 3px solid var(--accent); 
+      flex-shrink: 0; 
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
+    .logo span { color: var(--accent); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; 
+      color: #cbd5e1; 
+      border: none; 
+      padding: 0 1.5rem; 
+      font-size: 0.95rem; 
+      font-weight: 600; 
+      cursor: pointer; 
+      transition: 0.3s ease; 
+      height: 100%; 
+      display: flex; 
+      align-items: center; 
+      border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui);
+      letter-spacing: 0.5px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #fff; background: rgba(255,255,255,0.05); }
+    .tab-btn.active { color: #fff; border-bottom-color: var(--accent); background: rgba(255,255,255,0.1); }
+    
+    /* Header Controls (Timer + Start Button) */
+    .header-controls { display: flex; align-items: center; gap: 15px; }
+    
+    .btn-start-top {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .btn-start-top:hover { background: #059669; }
+
+    .timer { 
+      font-family: var(--font-mono); 
+      font-size: 1.3rem; 
+      font-weight: 600; 
+      color: #fff; 
+      background: #1e293b; 
+      padding: 0.4rem 1rem; 
+      border-radius: 4px; 
+      border: 1px solid #334155;
+      letter-spacing: 1px;
+    }
+    .timer.warning { color: #ef4444; animation: pulse 1s infinite; border-color: #ef4444;}
+
+    @keyframes pulse {
+      0% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+      100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    /* --- SPLIT SCREEN LAYOUT --- */
+    .workspace { 
+      display: flex; 
+      flex: 1; 
+      height: calc(100vh - 65px); 
+      overflow: hidden; 
+      background: var(--bg-light); 
+      position: relative;
+    }
+    
+    .panel { 
+      flex: 1; 
+      height: 100%; 
+      overflow-y: auto; 
+      padding: 3rem; 
+      background: #fff; 
+      position: relative;
+    }
+    .left-panel { border-right: 1px solid var(--border); box-shadow: 4px 0 15px rgba(0,0,0,0.03); z-index: 2; }
+    .right-panel { background: #fafbfc; padding-bottom: 120px; }
+
+    /* --- PRE-TEST LOCK SCREEN OVERLAY --- */
+    .pre-test-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.98);
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .pre-test-overlay .module-badge {
+      font-family: var(--font-mono);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+    }
+    .pre-test-overlay h2 { 
+      font-size: 3rem; 
+      color: var(--primary); 
+      margin-bottom: 1.5rem; 
+      font-family: var(--font-heading);
+    }
+    .pre-test-overlay p { 
+      font-size: 1.15rem; 
+      color: var(--text-muted); 
+      max-width: 600px; 
+      line-height: 1.7; 
+      margin-bottom: 2.5rem; 
+      font-family: var(--font-passage);
+    }
+    .btn-start-large {
+      background: var(--primary);
+      color: #fff;
+      padding: 1.2rem 3.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.3s ease;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(11, 29, 58, 0.2);
+    }
+    .btn-start-large:hover { background: #1a365d; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(11, 29, 58, 0.3); }
+
+    /* --- PASSAGE TYPOGRAPHY --- */
+    .left-panel h1 { 
+      font-family: var(--font-heading); 
+      font-size: 2.2rem; 
+      margin-bottom: 2.5rem; 
+      color: var(--primary); 
+      line-height: 1.3; 
+      text-align: center;
+    }
+    
+    .left-panel p { 
+      font-family: var(--font-passage);
+      margin-bottom: 1.8rem; 
+      line-height: 1.85; 
+      text-align: justify; 
+      font-size: 1.15rem; 
+      color: #2c3e50;
+    }
+    
+    .paragraph-label { 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      font-size: 1.1rem; 
+      margin-right: 15px; 
+      color: var(--accent); 
+      float: left;
+      padding-top: 4px;
+    }
+    
+    /* --- QUESTION TYPOGRAPHY --- */
+    .right-panel h2 { 
+      font-size: 1.2rem; 
+      margin-bottom: 1rem; 
+      color: var(--primary); 
+      border-bottom: 2px solid var(--border); 
+      padding-bottom: 0.8rem; 
+      margin-top: 2.5rem; 
+      font-family: var(--font-ui);
+      font-weight: 700;
+    }
+    .right-panel h2:first-child { margin-top: 0; }
+    
+    .instruction { 
+      font-style: italic; 
+      color: var(--text-muted); 
+      margin-bottom: 1.5rem; 
+      font-size: 0.95rem; 
+      line-height: 1.5;
+    }
+    
+    .q-group { margin-bottom: 3rem; }
+    .q-item { 
+      display: flex; 
+      align-items: baseline; 
+      margin-bottom: 1.5rem; 
+      gap: 15px; 
+    }
+    .q-num { 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      color: var(--primary); 
+      min-width: 25px; 
+      font-size: 1rem;
+    }
+    .q-text { 
+      flex: 1; 
+      font-size: 1.05rem; 
+      line-height: 1.6; 
+    }
+    
+    input[type="text"] { 
+      padding: 0.4rem 0.6rem; 
+      border: 1px solid #94a3b8; 
+      border-radius: 4px; 
+      font-size: 1rem; 
+      width: 160px; 
+      font-family: var(--font-ui);
+      background: #fff;
+      transition: 0.2s;
+    }
+    input[type="text"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196, 146, 62, 0.2); }
+    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; border-color: #cbd5e1; }
+    
+    .mcq-options { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 1rem; color: #444; line-height: 1.4; transition: 0.2s;}
+    .mcq-label:hover { color: var(--primary); }
+    .mcq-label input { margin-top: 5px; cursor: pointer; }
+    
+    .box-options { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 15px; 
+      border: 1px solid var(--border); 
+      padding: 1.5rem; 
+      margin-bottom: 2rem; 
+      background: #fff; 
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+    .box-item { font-size: 1rem; font-weight: 500; font-family: var(--font-ui); color: var(--primary);}
+    .box-item strong { font-family: var(--font-mono); color: var(--accent); margin-right: 5px;}
+
+    .section-content { display: none; animation: fadeIn 0.4s ease; }
+    .section-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* --- SUBMISSION & DORMANT STATE --- */
+    .submit-bar {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 50%; 
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
+      border-top: 1px solid var(--border);
+      padding: 1.2rem 3rem;
+      display: flex;
+      justify-content: flex-end;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
+      z-index: 100;
+    }
+
+    .btn-submit {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 1px;
+    }
+    .btn-submit:hover:not(:disabled) { background: #1a365d; }
+    .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+    .btn-retake {
+      background: transparent;
+      color: var(--text-muted);
+      border: 2px solid var(--border);
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 1px;
+    }
+    .btn-retake:hover { background: #f8fafc; color: var(--primary); border-color: var(--primary); }
+
+    .dormant-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.3);
+      z-index: 50;
+      display: none;
+      pointer-events: none; 
+    }
+    body.test-completed .dormant-overlay { display: block; }
+    
+    /* --- RESULTS MODAL --- */
+    .results-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 3.5rem;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      z-index: 200;
+      text-align: center;
+      border-top: 6px solid var(--accent);
+      min-width: 450px;
+    }
+    .results-modal h2 { font-family: var(--font-heading); color: var(--primary); font-size: 2.2rem; margin-bottom: 1rem; }
+    .score-display { font-size: 4rem; font-weight: 700; color: var(--primary); margin: 1.5rem 0; font-family: var(--font-mono);}
+    .score-display span { font-size: 1.8rem; color: var(--border); }
+    
+    .btn-close {
+      background: var(--accent);
+      color: var(--primary);
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: 0.2s;
+      font-family: var(--font-mono);
+      letter-spacing: 1px;
+    }
+    .btn-close:hover { background: #b08133; color: #fff;}
+
+    .correct-answer { border-color: #10b981 !important; background: #f0fdf4 !important; color: #065f46; font-weight: 600;}
+    .wrong-answer { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">The LRSW <span>Clinic</span></div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Section 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Section 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Section 3</button>
+    </div>
+    <div class="header-controls">
+      <button class="btn-start-top" id="btn-start-top" onclick="startTest()">START</button>
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <!-- RESULTS MODAL -->
+  <div class="results-modal" id="results-modal">
+    <h2>Evaluation Complete</h2>
+    <p>Your Reading Module score is:</p>
+    <div class="score-display" id="final-score">0 <span>/ 40</span></div>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your semantic mapping.</p>
+    <button class="btn-close" onclick="closeModal()">REVIEW ANSWERS</button>
+  </div>
+
+  <div class="workspace">
+    <!-- PRE-TEST LOCK SCREEN -->
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <div class="module-badge">MODULE 08</div>
+      <h2>Survivorship Bias in Tech Startups</h2>
+      <p>This C1/C2 intensive simulation contains 3 passages and 40 questions focusing on entrepreneurial epistemology, complex distractors, and high-level semantic mapping. The timer will initiate and passages will be unlocked upon pressing start.</p>
+      <button class="btn-start-large" onclick="startTest()">Start 60-minute Test&rarr;</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <!-- LEFT PANEL: READING PASSAGES -->
+    <div class="panel left-panel">
+      <!-- PASSAGE 1 -->
+      <div id="passage-1" class="section-content active">
+        <h1>The Anatomy of an Epistemological Blind Spot</h1>
+        <p><span class="paragraph-label">A</span> The conceptual framework for survivorship bias was famously codified not in the boardrooms of Silicon Valley, but within the covert operations of the Statistical Research Group (SRG) during World War II. The United States military sought to minimize bomber losses by reinforcing the aircraft with armor. However, armor is heavy, and outfitting an entire plane would render it too cumbersome to fly. The military’s initial strategy was empirical yet profoundly flawed: they meticulously mapped the bullet holes on the bombers that returned from missions and proposed placing armor strictly over the areas that sustained the most damage—predominantly the fuselage and wings.</p>
+        <p><span class="paragraph-label">B</span> It required the intellectual rigorousness of mathematician Abraham Wald to point out the fatal flaw in this logic. Wald argued that the military was exclusively analyzing the "survivors." The bombers that returned did so precisely because the bullet holes they sustained were in non-lethal areas. The planes that were struck in the engines or the cockpit—the areas completely devoid of damage on the returning fleet—did not survive the journey back. Therefore, Wald recommended reinforcing the exact areas where the returning planes were completely unscathed. He illuminated the invisible data: the silence of the planes that fell.</p>
+        <p><span class="paragraph-label">C</span> In the realm of cognitive psychology, survivorship bias is classified as a specific type of selection bias. It represents a fundamental epistemological blind spot where individuals draw sweeping conclusions based entirely on a highly skewed dataset—those entities that have passed a rigorous selection process—while inadvertently ignoring those that failed. Because failure is generally silent, unpublicized, and quickly erased from historical memory, the human brain constructs a distorted reality where success appears far more statistically probable than it actually is.</p>
+        <p><span class="paragraph-label">D</span> This cognitive distortion is exacerbated by the human brain's natural inclination toward narrative over statistics. As described by Nassim Nicholas Taleb in his seminal work on probability, humans suffer from the "narrative fallacy." We desire coherent, linear stories of cause and effect. When observing a successful entity, we inherently assume that the entity's visible traits directly caused its success, conveniently ignoring the thousands of identical entities that possessed the exact same traits but succumbed to random variables and failed.</p>
+        <p><span class="paragraph-label">E</span> The danger of survivorship bias lies in its ability to corrupt decision-making at its root. By studying only the victors, analysts deduce 'recipes for success' that are often little more than descriptions of shared, yet non-causal, attributes. If one were to study a group of lottery winners, they might find that a high percentage of them bought their tickets on a Tuesday while wearing blue. Concluding that this behavior causes winning is patently absurd, yet when this exact same logical misstep is applied to the strategies of billion-dollar corporations, it is frequently hailed as profound business acumen.</p>
+      </div>
+
+      <!-- PASSAGE 2 -->
+      <div id="passage-2" class="section-content">
+        <h1>The Silicon Valley Mirage</h1>
+        <p><span class="paragraph-label">A</span> Nowhere is the phenomenon of survivorship bias more deeply entrenched—and more financially hazardous—than in the tech startup ecosystem of Silicon Valley. The culture relies heavily on a mythology of disruption, often epitomized by the archetype of the "college dropout genius." Figures like Bill Gates, Steve Jobs, and Mark Zuckerberg are frequently cited as proof that formal higher education is an unnecessary hurdle for true visionaries. This narrative has spawned a generation of young founders eager to abandon their studies to build the next tech behemoth.</p>
+        <p><span class="paragraph-label">B</span> However, a rigorous statistical analysis of the startup landscape reveals this archetype to be a dangerous mirage. For every Zuckerberg, there are tens of thousands of college dropouts whose ventures quietly collapsed, leaving them without a degree or a sustainable income. Studies consistently demonstrate that the most successful tech founders are typically in their late thirties and possess advanced degrees. Yet, the media rarely profiles a 40-year-old software engineer who utilized a decade of corporate experience to launch a moderately successful B2B software company. The media disproportionately amplifies the outliers, skewing the public perception of what a successful entrepreneur actually looks like.</p>
+        <p><span class="paragraph-label">C</span> The venture capital (VC) model itself structurally enforces survivorship bias. A standard VC portfolio expects that up to 90% of the startups they fund will fail or barely break even. The financial success of the entire fund relies entirely on finding one or two "unicorns"—startups that achieve a billion-dollar valuation. Because the VC firm's public reputation and subsequent fundraising rely solely on broadcasting these massive wins, the massive graveyard of failed startups is strategically hidden from view. Aspiring entrepreneurs look at a VC's website and see only a roster of world-changing successes, entirely blind to the overwhelming statistical probability of failure.</p>
+        <p><span class="paragraph-label">D</span> This skewed visibility leads to dangerous misallocations of capital and human effort. New founders frequently engage in "cargo cult programming," a term borrowed from Richard Feynman to describe the imitation of the superficial behaviors of successful people without understanding the underlying mechanics. A fledgling startup might spend heavily to install ping-pong tables, free gourmet cafeterias, and nap pods, under the mistaken belief that these perks are the engine of Google's innovation. They fail to recognize that Google offers these perks because they possess a highly lucrative search monopoly, not the other way around.</p>
+        <p><span class="paragraph-label">E</span> Furthermore, the fetishization of failure in Silicon Valley—encapsulated by mantras like "fail fast, fail often"—paradoxically contributes to the bias. While failure is normalized, it is only celebrated as a necessary stepping stone for the founders who eventually succeed. The narrative arc demands a victorious third act. The countless individuals who simply fail, exhaust their savings, and quietly return to standard corporate employment do not write bestselling memoirs. Their voices are systematically filtered out of the entrepreneurial curriculum.</p>
+      </div>
+
+      <!-- PASSAGE 3 -->
+      <div id="passage-3" class="section-content">
+        <h1>Overcoming the Post-Hoc Trap</h1>
+        <p><span class="paragraph-label">A</span> The pervasive nature of survivorship bias in business analysis frequently leads to a specific logical fallacy: *post hoc ergo propter hoc* (after this, therefore because of this). When analysts observe that the most successful companies of the last decade all adopted a specific agile management framework, the immediate impulse is to conclude that the framework caused the success. This ignores the silent graveyard of companies that adopted the exact same framework but still went bankrupt due to poor market timing or lack of capital.</p>
+        <p><span class="paragraph-label">B</span> To combat this epistemological flaw, modern data scientists and entrepreneurial theorists advocate for a radical shift in how business intelligence is gathered. Rather than obsessively dissecting the strategies of the "unicorns," they recommend conducting rigorous "startup post-mortems." A post-mortem is a detailed, objective analysis of why a specific company failed. CB Insights, a tech market intelligence platform, pioneered this approach by aggregating hundreds of essays written by founders of defunct startups. These documents reveal that the primary cause of startup death is rarely a lack of passion or intelligence, but rather "no market need"—building a product that nobody actually wants to buy.</p>
+        <p><span class="paragraph-label">C</span> Studying failure provides a fundamentally different quality of data than studying success. Success is often a complex, unrepeatable alchemy of timing, macroeconomic conditions, network effects, and sheer luck. Consequently, the strategies of a company that achieved a monopoly in 2010 are largely inapplicable to a startup launching today. Failure, conversely, is highly systematic and endlessly repeatable. The mistakes that destroyed a company ten years ago—such as premature scaling, founder disputes, or running out of cash—will reliably destroy a company today. Therefore, learning the mechanics of failure offers a much more robust and actionable defensive strategy.</p>
+        <p><span class="paragraph-label">D</span> Another cognitive tool used to counter survivorship bias is the construction of an "anti-portfolio." First popularized by Bessemer Venture Partners, an anti-portfolio is a public document detailing all the incredibly successful companies that a venture capital firm had the opportunity to invest in, but mistakenly passed on. By publicly acknowledging that they said no to Apple, Google, and Airbnb, the firm creates a structural safeguard against hubris. It forces decision-makers to continuously evaluate their own blind spots and prevents them from viewing their current successes as the result of infallible genius.</p>
+        <p><span class="paragraph-label">E</span> Ultimately, neutralizing survivorship bias requires adopting a probabilistic mindset. Entrepreneurs and investors must learn to evaluate strategies not by pointing to a single highly visible success story, but by asking a critical, two-part question: "What is the total number of people who tried this strategy, and what percentage of them failed?" Only by actively seeking out the invisible data—the silent ships that did not return to port—can decision-makers build models of reality that are grounded in statistical truth rather than seductive narrative.</p>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: QUESTIONS -->
+    <div class="panel right-panel">
+      
+      <!-- QUESTIONS FOR SECTION 1 -->
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–5</h2>
+        <div class="instruction">
+          The Reading Passage has five paragraphs, <strong>A–E</strong>.<br>
+          Choose the correct heading for each paragraph from the list below.<br>
+          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The danger of confusing correlation with causation</div>
+          <div class="box-item"><strong>ii</strong> A historical example of seeing the unseen</div>
+          <div class="box-item"><strong>iii</strong> Why humans prefer stories over statistics</div>
+          <div class="box-item"><strong>iv</strong> The invention of heavy bomber armor</div>
+          <div class="box-item"><strong>v</strong> Defining a skewed psychological dataset</div>
+          <div class="box-item"><strong>vi</strong> The flawed initial logic of the military</div>
+          <div class="box-item"><strong>vii</strong> Why lottery winners always wear blue</div>
+          <div class="box-item"><strong>viii</strong> How airplanes are manufactured</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph A <input type="text" id="q1"></div></div>
+          <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph B <input type="text" id="q2"></div></div>
+          <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph C <input type="text" id="q3"></div></div>
+          <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph D <input type="text" id="q4"></div></div>
+          <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph E <input type="text" id="q5"></div></div>
+        </div>
+
+        <h2>Questions 6–9</h2>
+        <div class="instruction">
+          Do the following statements agree with the information given in the Reading Passage?<br>
+          Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">6</div><div class="q-text">The US military originally wanted to place armor over the engines of the bombers. <br><input type="text" id="q6"></div></div>
+          <div class="q-item"><div class="q-num">7</div><div class="q-text">Abraham Wald concluded that returning planes were undamaged in the engines because hits to the engines were fatal. <br><input type="text" id="q7"></div></div>
+          <div class="q-item"><div class="q-num">8</div><div class="q-text">Nassim Nicholas Taleb coined the term "survivorship bias" during his research on probability. <br><input type="text" id="q8"></div></div>
+          <div class="q-item"><div class="q-num">9</div><div class="q-text">Studying only successful companies often results in finding traits that did not actually cause their success. <br><input type="text" id="q9"></div></div>
+        </div>
+
+        <h2>Questions 10–13</h2>
+        <div class="instruction">
+          Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              Survivorship bias occurs when judgments are made using a highly <strong>10</strong> <input type="text" id="q10">, which only includes those that have survived a process. Because failures are quickly erased from <strong>11</strong> <input type="text" id="q11">, people overestimate the likelihood of success. This is made worse by the <strong>12</strong> <input type="text" id="q12">, a tendency where humans look for linear stories of cause and effect, leading them to believe that visible attributes are the direct cause of success, while ignoring the impact of <strong>13</strong> <input type="text" id="q13">.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 2 -->
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18</h2>
+        <div class="instruction">
+          The Reading Passage has five paragraphs, <strong>A–E</strong>.<br>
+          Which paragraph contains the following information?<br>
+          Write the correct letter, <strong>A–E</strong>, in the boxes provided.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">14</div><div class="q-text">An explanation of how a specific financial model requires a high failure rate to function. <input type="text" id="q14"></div></div>
+          <div class="q-item"><div class="q-num">15</div><div class="q-text">A comparison between a popular myth and the actual demographics of successful entrepreneurs. <input type="text" id="q15"></div></div>
+          <div class="q-item"><div class="q-num">16</div><div class="q-text">How the concept of "failing fast" is only celebrated if it ends in ultimate victory. <input type="text" id="q16"></div></div>
+          <div class="q-item"><div class="q-num">17</div><div class="q-text">An example of companies wasting money by copying superficial perks. <input type="text" id="q17"></div></div>
+          <div class="q-item"><div class="q-num">18</div><div class="q-text">The idea that higher education is viewed by some as an unnecessary obstacle. <input type="text" id="q18"></div></div>
+        </div>
+
+        <h2>Questions 19–22</h2>
+        <div class="instruction">
+          Look at the following statements (Questions 19-22) and the list of concepts below.<br>
+          Match each statement with the correct concept, <strong>A, B, C, or D</strong>.<br>
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> The "college dropout" archetype</div>
+          <div class="box-item"><strong>B</strong> Venture Capital (VC) Model</div>
+          <div class="box-item"><strong>C</strong> Cargo Cult Programming</div>
+          <div class="box-item"><strong>D</strong> Fetishization of failure</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">19</div><div class="q-text">Imitating the behaviors of successful entities without understanding what actually drives their success. <input type="text" id="q19"></div></div>
+          <div class="q-item"><div class="q-num">20</div><div class="q-text">Relies on broadcasting massive, rare wins to hide the overwhelming statistical probability of failure. <input type="text" id="q20"></div></div>
+          <div class="q-item"><div class="q-num">21</div><div class="q-text">Treats business collapse as a stepping stone, but only validates the experience if a third-act victory follows. <input type="text" id="q21"></div></div>
+          <div class="q-item"><div class="q-num">22</div><div class="q-text">A media-amplified narrative that encourages young founders to abandon formal education. <input type="text" id="q22"></div></div>
+        </div>
+
+        <h2>Questions 23–26</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">23</div>
+            <div class="q-text">According to paragraph B, what does rigorous statistical analysis reveal about successful tech founders?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q23" value="A"> A) They usually drop out of college in their early twenties.</label>
+                <label class="mcq-label"><input type="radio" name="q23" value="B"> B) They are mostly former journalists who understand media narratives.</label>
+                <label class="mcq-label"><input type="radio" name="q23" value="C"> C) They are typically older individuals who have completed advanced degrees.</label>
+                <label class="mcq-label"><input type="radio" name="q23" value="D"> D) They succeed entirely due to random variables and luck.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">24</div>
+            <div class="q-text">Why does Google offer perks like nap pods and gourmet cafeterias according to the passage?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q24" value="A"> A) Because these perks are the fundamental engine of their innovation.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="B"> B) Because they have the financial resources generated by a search monopoly.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="C"> C) Because Richard Feynman advised them to engage in cargo cult programming.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="D"> D) Because venture capitalists require these perks for funding.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">25</div>
+            <div class="q-text">What is a "unicorn" in the context of Silicon Valley?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q25" value="A"> A) A founder who successfully returns to corporate employment.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="B"> B) A venture capital firm that never experiences failure.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="C"> C) A startup company that reaches a billion-dollar valuation.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="D"> D) A college dropout who writes a bestselling memoir.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">26</div>
+            <div class="q-text">What happens to the vast majority of people who fail in Silicon Valley?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q26" value="A"> A) Their stories are heavily amplified by the tech media.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="B"> B) They are filtered out of the narrative and return to standard employment.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="C"> C) They become highly sought-after venture capitalists.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="D"> D) They successfully sue the media for misrepresentation.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 3 -->
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31</h2>
+        <div class="instruction">
+          Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
+          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">27</div><div class="q-text">The phrase "post hoc ergo propter hoc" describes the error of assuming that agile management causes success simply because successful companies use it. <br><input type="text" id="q27"></div></div>
+          <div class="q-item"><div class="q-num">28</div><div class="q-text">CB Insights discovered that a lack of intelligence is the leading cause of startup failure. <br><input type="text" id="q28"></div></div>
+          <div class="q-item"><div class="q-num">29</div><div class="q-text">The writer believes that the strategies used by a company to achieve a monopoly in 2010 are highly effective for startups today. <br><input type="text" id="q29"></div></div>
+          <div class="q-item"><div class="q-num">30</div><div class="q-text">The mistakes that lead to a company's failure are considered systematic and repeatable. <br><input type="text" id="q30"></div></div>
+          <div class="q-item"><div class="q-num">31</div><div class="q-text">An "anti-portfolio" is a document kept strictly confidential by venture capital firms to hide their mistakes. <br><input type="text" id="q31"></div></div>
+        </div>
+
+        <h2>Questions 32–36</h2>
+        <div class="instruction">
+          Complete the summary using the list of words, <strong>A–I</strong>, below.<br>
+          Write the correct letter, <strong>A–I</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> alchemy</div>
+          <div class="box-item"><strong>B</strong> hubris</div>
+          <div class="box-item"><strong>C</strong> invisible</div>
+          <div class="box-item"><strong>D</strong> post-mortems</div>
+          <div class="box-item"><strong>E</strong> market need</div>
+          <div class="box-item"><strong>F</strong> agile</div>
+          <div class="box-item"><strong>G</strong> safeguard</div>
+          <div class="box-item"><strong>H</strong> probability</div>
+          <div class="box-item"><strong>I</strong> genius</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              To avoid the logical trap of survivorship bias, analysts suggest conducting startup <strong>32</strong> <input type="text" id="q32">. These studies show that building a product with no <strong>33</strong> <input type="text" id="q33"> is the main reason companies fail. Learning from failure is valuable because success is an unrepeatable <strong>34</strong> <input type="text" id="q34"> of timing and luck. Investors can also protect themselves from <strong>35</strong> <input type="text" id="q35"> by creating an anti-portfolio, which lists the massively successful companies they mistakenly rejected. Ultimately, decision-makers must ask questions about the total number of attempts and focus on the <strong>36</strong> <input type="text" id="q36"> data to find the truth.
+            </div>
+          </div>
+        </div>
+
+        <h2>Questions 37–40</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">37</div>
+            <div class="q-text">According to paragraph A, what does the 'post hoc' fallacy ignore?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) The success of agile management frameworks.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) The companies that used the exact same strategy but still went bankrupt.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) The timing of when a company first launched its product.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) The amount of capital raised by the most successful companies.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">38</div>
+            <div class="q-text">What is the primary function of an "anti-portfolio" for Bessemer Venture Partners?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) To prove that their current success is the result of infallible genius.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) To publicly showcase the startups they successfully funded.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) To act as a structural safeguard against overconfidence.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) To track the market need for new technology products.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">39</div>
+            <div class="q-text">Why does the writer suggest that studying failure provides better data than studying success?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) Failure is systematic and repeatable, while success relies heavily on luck and timing.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) Successful founders refuse to write essays about their strategies.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) Failure only happens to companies that ignore agile management frameworks.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) Data scientists are paid more by companies that are bankrupt.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">40</div>
+            <div class="q-text">What does the writer mean by adopting a "probabilistic mindset" in paragraph E?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) Only investing in companies that have a 100% chance of success.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) Relying on seductive narratives to predict the future market.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) Evaluating a strategy by looking at the failure rate of everyone who tried it.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) Ignoring invisible data because it cannot be mathematically calculated.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SUBMIT BAR -->
+    <div class="submit-bar">
+      <button class="btn-retake" id="btn-retake" onclick="retakeTest()" style="margin-right: 15px;">RESET</button>
+      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">SUBMIT MODULE</button>
+    </div>
+
+  </div>
+
+  <script>
+    /* --- INTERNAL ANSWER KEY FOR GRADING --- */
+    const answerKey = {
+      q1: 'vi', q2: 'ii', q3: 'v', q4: 'iii', q5: 'i',
+      q6: 'false', q7: 'true', q8: 'not given', q9: 'true',
+      q10: 'skewed dataset', q11: 'historical memory', q12: 'narrative fallacy', q13: 'random variables',
+      q14: 'c', q15: 'b', q16: 'e', q17: 'd', q18: 'a',
+      q19: 'c', q20: 'b', q21: 'd', q22: 'a',
+      q23: 'c', q24: 'b', q25: 'c', q26: 'b',
+      q27: 'yes', q28: 'no', q29: 'no', q30: 'yes', q31: 'no',
+      q32: 'd', q33: 'e', q34: 'a', q35: 'b', q36: 'c',
+      q37: 'b', q38: 'c', q39: 'a', q40: 'c'
+    };
+
+    /* --- TAB SWITCHING LOGIC --- */
+    function switchSection(sectionNumber) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+      
+      document.getElementById('tab-' + sectionNumber).classList.add('active');
+      document.getElementById('passage-' + sectionNumber).classList.add('active');
+      document.getElementById('questions-' + sectionNumber).classList.add('active');
+    }
+
+    /* --- NON-PERSISTENT TIMER LOGIC (Resets on Refresh) --- */
+    const DURATION = 3600; // 60 minutes
+    let timerInterval;
+    let timeRemaining;
+    const timerElement = document.getElementById('timer');
+
+    function initTest() {
+      // Force Pre-Test overlay on every page load
+      document.getElementById('pre-test-overlay').style.display = 'flex';
+      document.getElementById('btn-start-top').style.display = 'block';
+      timerElement.textContent = "60:00";
+      timerElement.classList.remove('warning');
+    }
+
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('btn-start-top').style.display = 'none';
+      
+      timeRemaining = DURATION;
+      updateTimerDisplay();
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        
+        if(timeRemaining <= 300 && timeRemaining > 0) {
+            timerElement.classList.add('warning');
+        }
+
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          submitTest(true);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+      const seconds = (timeRemaining % 60).toString().padStart(2, '0');
+      timerElement.textContent = `${minutes}:${seconds}`;
+    }
+
+    /* --- SUBMISSION & GRADING PROTOCOL --- */
+    function submitTest(isAutoSubmit = false) {
+      if(!isAutoSubmit) {
+        const confirmSubmit = confirm("Confirm submission? You will not be able to alter your responses.");
+        if(!confirmSubmit) return;
+      }
+
+      clearInterval(timerInterval);
+      timerElement.textContent = "00:00";
+      timerElement.classList.remove('warning');
+      
+      gradeTest();
+      lockInterface();
+      
+      document.getElementById('results-modal').style.display = 'block';
+    }
+
+    function gradeTest() {
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        let userAnswer = "";
+        const qId = 'q' + i;
+        const textInput = document.getElementById(qId);
+        
+        if (textInput) {
+          userAnswer = textInput.value.trim().toLowerCase();
+          
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else {
+            textInput.classList.add('wrong-answer');
+            textInput.value = userAnswer ? `${userAnswer} (X)` : '(Blank)';
+          }
+        } else {
+          const radio = document.querySelector(`input[name="${qId}"]:checked`);
+          if (radio) {
+            userAnswer = radio.value.toLowerCase();
+          }
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            if(radio) {
+              radio.parentElement.style.color = '#065f46';
+              radio.parentElement.style.fontWeight = '600';
+            }
+          } else {
+            if(radio) {
+              radio.parentElement.style.color = '#991b1b';
+            }
+          }
+        }
+      }
+      document.getElementById('final-score').innerHTML = `${score} <span>/ 40</span>`;
+    }
+
+    function lockInterface() {
+      document.body.classList.add('test-completed');
+      
+      document.querySelectorAll('input').forEach(input => {
+        input.disabled = true;
+      });
+      
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'none';
+    }
+
+    /* --- UI MANAGEMENT --- */
+    function closeModal() {
+      document.getElementById('results-modal').style.display = 'none';
+      // Show retake button after modal is closed to allow reset
+      document.getElementById('btn-retake').style.display = 'block';
+    }
+
+    function retakeTest() {
+      if(!confirm("Warning: This will permanently clear all answers and restart the 60-minute session. Proceed?")) return;
+
+      clearInterval(timerInterval);
+      timerElement.classList.remove('warning');
+      
+      document.getElementById('results-modal').style.display = 'none';
+      document.body.classList.remove('test-completed');
+      
+      document.getElementById('btn-submit').style.display = 'block';
+      document.getElementById('btn-submit').disabled = false;
+      document.getElementById('btn-retake').style.display = 'block';
+      
+      document.querySelectorAll('input[type="text"]').forEach(input => {
+        input.value = '';
+        input.disabled = false;
+        input.classList.remove('correct-answer', 'wrong-answer');
+      });
+      
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+        radio.disabled = false;
+        radio.parentElement.style.color = 'inherit';
+        radio.parentElement.style.fontWeight = 'normal';
+      });
+      
+      switchSection(1);
+      initTest(); 
+    }
+
+    window.onload = initTest;
+  </script>
+</body>
+</html>
