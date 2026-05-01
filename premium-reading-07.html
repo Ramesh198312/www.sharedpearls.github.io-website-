@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Reading 07 | The LRSW Clinic</title>
+  <style>
+    /* --- UNIVERSAL FONT STANDARDS & COLORS --- */
+    :root {
+      --primary: #0B1D3A;
+      --accent: #C4923E;
+      --bg-light: #F8FAFC;
+      --border: #CBD5E1;
+      --text-main: #333333;
+      --text-muted: #666666;
+      --font-ui: Arial, Helvetica, sans-serif;
+      --font-passage: "Times New Roman", Times, serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      font-family: var(--font-ui); 
+      color: var(--text-main); 
+      height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+      overflow: hidden; 
+      background: #fff; 
+    }
+
+    /* --- TOP NAVIGATION --- */
+    header { 
+      background: var(--primary); 
+      color: white; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 0 2rem; 
+      height: 60px; 
+      border-bottom: 3px solid var(--accent); 
+      flex-shrink: 0; 
+      z-index: 10;
+    }
+    .logo { font-size: 1.4rem; font-weight: bold; letter-spacing: 0.5px; }
+    .logo span { color: var(--accent); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; 
+      color: #cbd5e1; 
+      border: none; 
+      padding: 0 1.5rem; 
+      font-size: 1rem; 
+      font-weight: bold; 
+      cursor: pointer; 
+      transition: 0.2s; 
+      height: 100%; 
+      display: flex; 
+      align-items: center; 
+      border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui);
+    }
+    .tab-btn:hover:not(:disabled) { color: #fff; background: rgba(255,255,255,0.05); }
+    .tab-btn.active { color: #fff; border-bottom-color: var(--accent); background: rgba(255,255,255,0.1); }
+    
+    /* Header Controls (Timer + Start Button) */
+    .header-controls { display: flex; align-items: center; gap: 15px; }
+    
+    .btn-start-top {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.95rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      transition: 0.2s;
+    }
+    .btn-start-top:hover { background: #059669; }
+
+    .timer { 
+      font-family: monospace; 
+      font-size: 1.4rem; 
+      font-weight: bold; 
+      color: #fff; 
+      background: #1e293b; 
+      padding: 0.3rem 0.8rem; 
+      border-radius: 4px; 
+      border: 1px solid #334155;
+    }
+    .timer.warning { color: #ef4444; animation: pulse 1s infinite; }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    /* --- SPLIT SCREEN LAYOUT --- */
+    .workspace { 
+      display: flex; 
+      flex: 1; 
+      height: calc(100vh - 60px); 
+      overflow: hidden; 
+      background: var(--bg-light); 
+      position: relative;
+    }
+    
+    .panel { 
+      flex: 1; 
+      height: 100%; 
+      overflow-y: auto; 
+      padding: 2.5rem; 
+      background: #fff; 
+      position: relative;
+    }
+    .left-panel { border-right: 2px solid var(--border); box-shadow: 2px 0 10px rgba(0,0,0,0.02); }
+    .right-panel { background: #fafbfc; padding-bottom: 100px; }
+
+    /* --- PRE-TEST LOCK SCREEN OVERLAY --- */
+    .pre-test-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #ffffff;
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; font-family: 'Playfair Display', serif;}
+    .pre-test-overlay p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; line-height: 1.6; margin-bottom: 2rem; }
+    .btn-start-large {
+      background: var(--primary);
+      color: #fff;
+      padding: 1rem 3rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      transition: 0.2s;
+    }
+    .btn-start-large:hover { background: #1a365d; }
+
+    /* --- PASSAGE TYPOGRAPHY --- */
+    .left-panel h1 { 
+      font-family: var(--font-ui); 
+      font-size: 1.6rem; 
+      margin-bottom: 2rem; 
+      color: var(--primary); 
+      line-height: 1.3; 
+      text-align: center;
+    }
+    
+    .left-panel p { 
+      font-family: var(--font-passage);
+      margin-bottom: 1.5rem; 
+      line-height: 1.8; 
+      text-align: justify; 
+      font-size: 1.15rem; 
+    }
+    
+    .paragraph-label { 
+      font-family: var(--font-ui);
+      font-weight: bold; 
+      font-size: 1.1rem; 
+      margin-right: 15px; 
+      color: #000; 
+      float: left;
+      padding-top: 2px;
+    }
+    
+    /* --- QUESTION TYPOGRAPHY --- */
+    .right-panel h2 { 
+      font-size: 1.1rem; 
+      margin-bottom: 1rem; 
+      color: #000; 
+      border-bottom: 2px solid var(--primary); 
+      padding-bottom: 0.5rem; 
+      margin-top: 2rem; 
+    }
+    .right-panel h2:first-child { margin-top: 0; }
+    
+    .instruction { 
+      font-style: italic; 
+      color: #000; 
+      margin-bottom: 1.2rem; 
+      font-size: 0.95rem; 
+      line-height: 1.4;
+    }
+    
+    .q-group { margin-bottom: 2.5rem; }
+    .q-item { 
+      display: flex; 
+      align-items: baseline; 
+      margin-bottom: 1.2rem; 
+      gap: 12px; 
+    }
+    .q-num { 
+      font-weight: bold; 
+      color: #000; 
+      min-width: 25px; 
+    }
+    .q-text { 
+      flex: 1; 
+      font-size: 1rem; 
+      line-height: 1.5; 
+    }
+    
+    input[type="text"] { 
+      padding: 0.3rem 0.5rem; 
+      border: 1px solid #94a3b8; 
+      border-radius: 2px; 
+      font-size: 1rem; 
+      width: 140px; 
+      font-family: var(--font-ui);
+    }
+    input[type="text"]:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 3px rgba(11,29,58,0.3); }
+    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; }
+    
+    .mcq-options { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 0.95rem; }
+    .mcq-label input { margin-top: 4px; }
+    
+    .box-options { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 15px; 
+      border: 1px solid var(--primary); 
+      padding: 1.2rem; 
+      margin-bottom: 1.5rem; 
+      background: #fff; 
+    }
+    .box-item { font-size: 1rem; font-weight: bold; }
+
+    .section-content { display: none; }
+    .section-content.active { display: block; }
+    
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* --- SUBMISSION & DORMANT STATE --- */
+    .submit-bar {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 50%; 
+      background: #fff;
+      border-top: 1px solid var(--border);
+      padding: 1rem 2.5rem;
+      display: flex;
+      justify-content: flex-end;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+      z-index: 100;
+    }
+
+    .btn-submit {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      transition: 0.2s;
+    }
+    .btn-submit:hover:not(:disabled) { background: #1a365d; }
+    .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+
+    .btn-retake {
+      background: transparent;
+      color: var(--text-muted);
+      border: 2px solid var(--border);
+      padding: 0.8rem 2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      transition: 0.2s;
+    }
+    .btn-retake:hover { background: #f1f5f9; color: var(--primary); border-color: var(--primary); }
+
+    .dormant-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.2);
+      z-index: 50;
+      display: none;
+      pointer-events: none; 
+    }
+    body.test-completed .dormant-overlay { display: block; }
+    
+    /* --- RESULTS MODAL --- */
+    .results-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 3rem;
+      border-radius: 8px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      z-index: 200;
+      text-align: center;
+      border-top: 6px solid var(--accent);
+      min-width: 400px;
+    }
+    .results-modal h2 { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 2rem; margin-bottom: 1rem; }
+    .score-display { font-size: 3.5rem; font-weight: bold; color: var(--primary); margin: 1.5rem 0; }
+    .score-display span { font-size: 1.5rem; color: var(--text-muted); }
+    
+    .btn-close {
+      background: var(--accent);
+      color: var(--primary);
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: 0.2s;
+    }
+    .btn-close:hover { background: #b08133; }
+
+    .correct-answer { border-color: #10b981 !important; background: #d1fae5 !important; }
+    .wrong-answer { border-color: #ef4444 !important; background: #fee2e2 !important; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">The LRSW <span>Clinic</span></div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Section 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Section 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Section 3</button>
+    </div>
+    <div class="header-controls">
+      <button class="btn-start-top" id="btn-start-top" onclick="startTest()">Start Test</button>
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <!-- RESULTS MODAL -->
+  <div class="results-modal" id="results-modal">
+    <h2>Test Completed</h2>
+    <p>Your Reading Module score is:</p>
+    <div class="score-display" id="final-score">0 <span>/ 40</span></div>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your answers.</p>
+    <button class="btn-close" onclick="closeModal()">Close</button>
+  </div>
+
+  <div class="workspace">
+    <!-- PRE-TEST LOCK SCREEN -->
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <h2>Premium Reading 07</h2>
+      <p>This C1/C2 intensive module contains 3 passages and 40 questions exploring <strong>The Heuristics of Problem Solving</strong>. You have exactly 60 minutes to complete the test. The timer will begin, and the passages will be revealed once you click Start.</p>
+      <button class="btn-start-large" onclick="startTest()">Start 60-Minute Test</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <!-- LEFT PANEL: READING PASSAGES -->
+    <div class="panel left-panel">
+      <!-- PASSAGE 1 -->
+      <div id="passage-1" class="section-content active">
+        <h1>Cognitive Shortcuts and Human Evolution</h1>
+        <p><span class="paragraph-label">A</span> The human brain is a marvel of biological engineering, capable of processing vast amounts of sensory data, retrieving distant memories, and executing complex calculations. Yet, despite this immense processing power, the brain is inherently constrained by time and energy. When faced with a barrage of daily decisions—from choosing what to eat to evaluating the trustworthiness of a stranger—the brain cannot afford to act like a supercomputer, meticulously analyzing every variable before arriving at an optimal solution. Instead, it relies heavily on heuristics: mental shortcuts or rules of thumb that drastically simplify the problem-solving process.</p>
+        <p><span class="paragraph-label">B</span> The reliance on heuristics is not a flaw in human cognition, but rather a profound evolutionary adaptation. In the ancestral environment of early hominids, survival rarely depended on achieving absolute mathematical certainty. If a rustling sound was heard in the tall grass, a hunter-gatherer who paused to calculate the exact probability of it being a predator versus the wind would likely not survive to pass on their genes. The heuristic approach—'if rustling, then run'—prioritized speed over perfect accuracy. Thus, natural selection favored cognitive architectures that could yield rapid, 'good enough' decisions in high-stakes, time-sensitive situations.</p>
+        <p><span class="paragraph-label">C</span> In the modern era, the mechanics of these cognitive shortcuts have been extensively mapped by psychologists, most notably through "Dual-Process Theory." Originally conceptualized by Keith Stanovich and Richard West, and later popularized by Nobel laureate Daniel Kahneman, this theory posits that human thought is governed by two distinct systems. System 1 operates automatically, rapidly, and unconsciously; it is the domain of heuristics and intuition. Conversely, System 2 is deliberate, slow, and analytical, requiring significant conscious effort. Because System 2 is metabolically expensive to run, the brain defaults to System 1 whenever possible, allowing heuristics to dictate the majority of our daily judgments.</p>
+        <p><span class="paragraph-label">D</span> This reliance on the path of least cognitive resistance was famously explored by economist Herbert Simon, who coined the term "satisficing" (a portmanteau of satisfy and suffice). Simon argued against the classical economic theory that humans are perfectly rational actors seeking to maximize utility. Instead, he proposed the concept of "bounded rationality." Because individuals lack the time, cognitive capacity, and complete information necessary to find the perfect solution to complex problems, they employ heuristics to search for solutions only until they find one that meets a minimum threshold of acceptability. They satisfice, rather than optimize.</p>
+        <p><span class="paragraph-label">E</span> Heuristics also play a vital role in semantic mapping—the way humans categorize and associate concepts within their mental lexicon. When encountering a novel object, we do not analyze it from scratch. We utilize a 'representativeness heuristic' to instantly compare it against mental prototypes. If we see a creature with feathers, wings, and a beak, we instantly map it to the semantic category of "bird," even if it is a penguin that cannot fly. This rapid categorization allows us to navigate the world seamlessly, predicting the behavior of objects and people based on generalized mental models.</p>
+        <p><span class="paragraph-label">F</span> However, the transition from the African savanna to the complex, data-driven environment of the 21st century has exposed the inherent vulnerabilities of heuristic thinking. While these mental shortcuts are highly efficient for everyday tasks, their fundamental trade-off is that they sacrifice accuracy for speed. When applied to statistically complex problems—such as financial forecasting, medical diagnostics, or judicial sentencing—heuristics often misfire, leading to predictable and systematic cognitive errors known as biases. The very mechanisms that ensured our evolutionary survival can now be the source of our most irrational decisions.</p>
+      </div>
+
+      <!-- PASSAGE 2 -->
+      <div id="passage-2" class="section-content">
+        <h1>The Dark Side of Heuristics: Cognitive Biases</h1>
+        <p><span class="paragraph-label">A</span> While heuristics are indispensable for navigating daily life, their misapplication in complex environments leads to cognitive biases—systematic deviations from rationality or rational judgment. Because these biases operate largely within the subconscious realm of System 1 thinking, individuals are often completely unaware that their judgment has been compromised. The pioneering work of Amos Tversky and Daniel Kahneman in the 1970s brought several of these deeply ingrained biases to light, fundamentally altering the fields of psychology, economics, and public policy.</p>
+        <p><span class="paragraph-label">B</span> One of the most pervasive cognitive traps is the Availability Heuristic. This occurs when individuals estimate the probability or frequency of an event based on how easily examples come to mind. Because human memory is heavily influenced by emotion and recency, dramatic or highly publicized events are recalled with greater ease than mundane ones. For instance, following a highly reported airplane crash, people frequently overestimate the danger of commercial aviation and may opt to drive instead, despite statistical data overwhelmingly proving that driving is significantly more hazardous. The vividness of the memory hijacks the brain's risk-assessment capabilities.</p>
+        <p><span class="paragraph-label">C</span> Another common heuristic error is Anchoring and Adjustment. When people are trying to estimate a numerical value, they often rely too heavily on the first piece of information offered—the "anchor"—and then fail to adjust sufficiently away from it. This bias is heavily exploited in retail and negotiation. If a car is initially priced at $30,000, a subsequent offer of $25,000 seems like a tremendous bargain, whereas if the same car had been initially priced at $20,000, the $25,000 price tag would seem exorbitant. The initial number sets an arbitrary cognitive boundary that distorts all subsequent valuation.</p>
+        <p><span class="paragraph-label">D</span> The Representativeness Heuristic, while useful for basic semantic categorization, frequently leads to the "base-rate fallacy" in professional settings. This bias occurs when individuals judge the probability of a hypothesis by considering how much the hypothesis resembles available data, while completely ignoring the underlying statistical probability (the base rate) of that hypothesis occurring. For example, if a patient presents with a rare symptom, a doctor might immediately diagnose them with a highly exotic disease that perfectly matches the symptom, forgetting that a slightly atypical presentation of a very common illness is statistically much more likely.</p>
+        <p><span class="paragraph-label">E</span> Perhaps the most insidious of all heuristic misfires is Confirmation Bias. This is the tendency to search for, interpret, favor, and recall information in a way that confirms one's preexisting beliefs or hypotheses. In the judicial system, this bias can be devastating. If an investigator forms an early heuristic judgment about a suspect's guilt based on a gut feeling, they may unconsciously focus solely on evidence that supports that guilt, while dismissing or rationalizing away exculpatory evidence. The mind acts as an aggressive filter, ensuring that the initial heuristic assumption is never seriously challenged.</p>
+        <p><span class="paragraph-label">F</span> Mitigating the negative impacts of these cognitive biases is a monumental challenge, as it requires overriding millions of years of evolutionary wiring. "Debiasing" initiatives often focus on forcing individuals to consciously engage System 2 thinking. In medicine and aviation, this is frequently achieved through the implementation of rigid checklists. By forcing professionals to slow down and systematically verify data points rather than relying on intuitive judgment, organizations can short-circuit the brain's reliance on flawed heuristics, significantly reducing the rate of catastrophic errors.</p>
+      </div>
+
+      <!-- PASSAGE 3 -->
+      <div id="passage-3" class="section-content">
+        <h1>Algorithmic vs. Heuristic Problem Solving in AI</h1>
+        <p><span class="paragraph-label">A</span> In the realm of computer science, the concepts of algorithms and heuristics serve as the foundational pillars of problem-solving. An algorithm is a strictly defined sequence of instructions that, when followed exactly, guarantees a correct or optimal solution to a problem. Conversely, in computing, a heuristic is a technique designed to solve a problem more quickly when classic methods are too slow, or for finding an approximate solution when classic methods fail to find any exact solution. Just as human brains use heuristics to bypass exhaustive calculation, computer scientists program artificial intelligence (AI) with heuristics to bypass the limitations of computational time and memory.</p>
+        <p><span class="paragraph-label">B</span> The necessity for machine heuristics becomes apparent when dealing with "NP-hard" problems. A classic example is the Traveling Salesman Problem (TSP), which asks: given a list of cities and the distances between them, what is the shortest possible route that visits each city exactly once and returns to the origin? For a small number of cities, an algorithm can easily use brute-force to calculate every possible route and select the shortest. However, as the number of cities increases, the number of possible routes grows factorially. For 50 cities, calculating every route would take modern supercomputers longer than the current age of the universe. In such scenarios, algorithmic perfection must be abandoned.</p>
+        <p><span class="paragraph-label">C</span> To solve complex problems like the TSP or to navigate the near-infinite possibilities of a chess match, AI relies on heuristic search methods. One such method is the A* (A-star) search algorithm, widely used in pathfinding and graph traversal. A* combines actual recorded distances with a heuristic estimate (a calculated guess) of the remaining distance to the goal. By prioritizing paths that *appear* most promising based on the heuristic, the AI drastically reduces the number of possibilities it must evaluate, arriving at a highly efficient—though not perfectly guaranteed—solution in a fraction of the time.</p>
+        <p><span class="paragraph-label">D</span> Despite the shared terminology, there is a profound semantic gap between human and machine heuristics. Human heuristics are deeply embedded in rich contextual understanding and worldly experience. When a human employs a heuristic to decide if a dog is dangerous, they process subtle cues like posture, environment, and past experiences. Machine heuristics, particularly in classical AI, are purely mathematical approximations. The machine does not 'understand' the problem; it simply evaluates mathematical weights and constraints to prune decision trees, lacking any genuine semantic comprehension of the task it is performing.</p>
+        <p><span class="paragraph-label">E</span> However, the advent of Deep Learning and advanced neural networks is beginning to bridge this gap. Modern machine learning models are no longer strictly programmed with human-defined heuristics; instead, they are fed massive datasets and tasked with discovering their own shortcuts. Through processes like backpropagation, these neural networks develop 'learned heuristics'—complex, non-linear mathematical associations that allow them to categorize images, translate languages, and even predict protein folding with frightening accuracy. Interestingly, much like human intuition, the exact mechanics of these learned heuristics are often a "black box," remaining opaque even to the programmers who designed the network.</p>
+        <p><span class="paragraph-label">F</span> The evolution of AI presents a fascinating philosophical irony. For decades, computer scientists sought to build machines that epitomized perfect, algorithmic rationality, free from the messy biases and shortcuts of human thought. Yet, as the ambition of AI has grown to tackle the immense complexity of the real world, developers have been forced to mimic the very cognitive architecture they initially sought to transcend. To build truly intelligent systems, we are discovering that we must teach machines how to 'guess'—proving that the humble heuristic is not a human flaw, but an indispensable requirement for navigating a complex universe.</p>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: QUESTIONS -->
+    <div class="panel right-panel">
+      
+      <!-- QUESTIONS FOR SECTION 1 -->
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–5</h2>
+        <div class="instruction">
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Choose the correct heading for paragraphs <strong>B–F</strong> from the list below.<br>
+          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> Accepting the 'good enough' solution</div>
+          <div class="box-item"><strong>ii</strong> The trade-off between speed and accuracy</div>
+          <div class="box-item"><strong>iii</strong> The biological structure of the brain</div>
+          <div class="box-item"><strong>iv</strong> The evolutionary imperative of speed</div>
+          <div class="box-item"><strong>v</strong> Overcoming cognitive biases</div>
+          <div class="box-item"><strong>vi</strong> Two distinct systems of thought</div>
+          <div class="box-item"><strong>vii</strong> An introduction to mental shortcuts</div>
+          <div class="box-item"><strong>viii</strong> Categorization through semantic mapping</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item" style="color: #666;"><em>Example: Paragraph A = vii</em></div>
+          <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph B <input type="text" id="q1"></div></div>
+          <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph C <input type="text" id="q2"></div></div>
+          <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph D <input type="text" id="q3"></div></div>
+          <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph E <input type="text" id="q4"></div></div>
+          <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph F <input type="text" id="q5"></div></div>
+        </div>
+
+        <h2>Questions 6–9</h2>
+        <div class="instruction">
+          Do the following statements agree with the information given in the Reading Passage?<br>
+          Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">6</div><div class="q-text">Daniel Kahneman was the original creator of the Dual-Process Theory. <br><input type="text" id="q6"></div></div>
+          <div class="q-item"><div class="q-num">7</div><div class="q-text">System 2 thinking is significantly faster and less effortful than System 1 thinking. <br><input type="text" id="q7"></div></div>
+          <div class="q-item"><div class="q-num">8</div><div class="q-text">Herbert Simon coined the term "satisficing" to describe a specific decision-making process. <br><input type="text" id="q8"></div></div>
+          <div class="q-item"><div class="q-num">9</div><div class="q-text">The concept of heuristics is now widely taught in primary school mathematics curricula. <br><input type="text" id="q9"></div></div>
+        </div>
+
+        <h2>Questions 10–13</h2>
+        <div class="instruction">
+          Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              To cope with vast amounts of daily information, the human brain relies on <strong>10</strong> <input type="text" id="q10"> to simplify complex decisions. Rather than being a design flaw, this is an <strong>11</strong> <input type="text" id="q11"> adaptation designed to ensure rapid responses in dangerous situations. Economist Herbert Simon argued against classical economics, suggesting that humans operate under <strong>12</strong> <input type="text" id="q12">, meaning they search for adequate rather than perfect solutions. However, in modern environments, this reliance on speed often comes at the direct expense of <strong>13</strong> <input type="text" id="q13">.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 2 -->
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18</h2>
+        <div class="instruction">
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Which paragraph contains the following information?<br>
+          Write the correct letter, <strong>A–F</strong>, in the boxes provided.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">14</div><div class="q-text">An explanation of how a rare symptom can lead to an incorrect medical diagnosis. <input type="text" id="q14"></div></div>
+          <div class="q-item"><div class="q-num">15</div><div class="q-text">A method used by organizations to forcefully engage System 2 thinking. <input type="text" id="q15"></div></div>
+          <div class="q-item"><div class="q-num">16</div><div class="q-text">An example involving the perceived dangers of commercial aviation. <input type="text" id="q16"></div></div>
+          <div class="q-item"><div class="q-num">17</div><div class="q-text">A description of how investigators might dismiss exculpatory evidence. <input type="text" id="q17"></div></div>
+          <div class="q-item"><div class="q-num">18</div><div class="q-text">An example of how initial numerical exposure can distort retail valuations. <input type="text" id="q18"></div></div>
+        </div>
+
+        <h2>Questions 19–22</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">19</div>
+            <div class="q-text">According to paragraph A, why are individuals often unaware of their cognitive biases?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q19" value="A"> A) Because public policy intentionally hides them from the public.</label>
+                <label class="mcq-label"><input type="radio" name="q19" value="B"> B) Because biases operate mostly within the subconscious System 1.</label>
+                <label class="mcq-label"><input type="radio" name="q19" value="C"> C) Because the brain processes them using deliberate, analytical calculation.</label>
+                <label class="mcq-label"><input type="radio" name="q19" value="D"> D) Because Amos Tversky kept his research findings highly classified.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">20</div>
+            <div class="q-text">What is the primary cause of the 'base-rate fallacy'?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q20" value="A"> A) Placing too much emphasis on an initial numerical anchor.</label>
+                <label class="mcq-label"><input type="radio" name="q20" value="B"> B) Remembering dramatic events more easily than mundane ones.</label>
+                <label class="mcq-label"><input type="radio" name="q20" value="C"> C) Ignoring underlying statistical probability in favor of matching features.</label>
+                <label class="mcq-label"><input type="radio" name="q20" value="D"> D) Seeking out information that only confirms a prior belief.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">21</div>
+            <div class="q-text">How does Confirmation Bias specifically affect the judicial system according to the passage?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q21" value="A"> A) It causes investigators to aggressively filter out evidence that contradicts their initial hunch.</label>
+                <label class="mcq-label"><input type="radio" name="q21" value="B"> B) It forces judges to rely heavily on the availability heuristic during sentencing.</label>
+                <label class="mcq-label"><input type="radio" name="q21" value="C"> C) It ensures that suspects are always given fair and unbiased trials.</label>
+                <label class="mcq-label"><input type="radio" name="q21" value="D"> D) It causes jurors to be influenced by the initial sentence requested by the prosecutor.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">22</div>
+            <div class="q-text">What is the purpose of "Debiasing" initiatives using checklists?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q22" value="A"> A) To speed up the decision-making process in emergency situations.</label>
+                <label class="mcq-label"><input type="radio" name="q22" value="B"> B) To bypass System 2 thinking entirely.</label>
+                <label class="mcq-label"><input type="radio" name="q22" value="C"> C) To encourage professionals to rely more heavily on their intuition.</label>
+                <label class="mcq-label"><input type="radio" name="q22" value="D"> D) To force professionals to slow down and verify data systematically.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h2>Questions 23–26</h2>
+        <div class="instruction">
+          Look at the following definitions (Questions 23-26) and the list of Heuristics/Biases below.<br>
+          Match each definition with the correct concept, <strong>A, B, C, or D</strong>.<br>
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Representativeness Heuristic</div>
+          <div class="box-item"><strong>B</strong> Availability Heuristic</div>
+          <div class="box-item"><strong>C</strong> Anchoring and Adjustment</div>
+          <div class="box-item"><strong>D</strong> Confirmation Bias</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">23</div><div class="q-text">Estimating risk based on how easily a specific memory can be recalled. <input type="text" id="q23"></div></div>
+          <div class="q-item"><div class="q-num">24</div><div class="q-text">Failing to shift a valuation far enough away from an initially suggested number. <input type="text" id="q24"></div></div>
+          <div class="q-item"><div class="q-num">25</div><div class="q-text">Categorizing a novel object by comparing it instantly to a mental prototype. <input type="text" id="q25"></div></div>
+          <div class="q-item"><div class="q-num">26</div><div class="q-text">Actively searching for data that supports an already established hypothesis. <input type="text" id="q26"></div></div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 3 -->
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31</h2>
+        <div class="instruction">
+          Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
+          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">27</div><div class="q-text">An algorithm is defined as a sequence of instructions that provides an approximate, 'good enough' answer. <br><input type="text" id="q27"></div></div>
+          <div class="q-item"><div class="q-num">28</div><div class="q-text">The Traveling Salesman Problem with 50 cities is easily solved using brute-force algorithms on modern supercomputers. <br><input type="text" id="q28"></div></div>
+          <div class="q-item"><div class="q-num">29</div><div class="q-text">The A* search algorithm is commonly used in commercial GPS navigation systems. <br><input type="text" id="q29"></div></div>
+          <div class="q-item"><div class="q-num">30</div><div class="q-text">Classical machine heuristics evaluate mathematical weights but lack true semantic comprehension of the context. <br><input type="text" id="q30"></div></div>
+          <div class="q-item"><div class="q-num">31</div><div class="q-text">Deep learning neural networks are capable of developing complex shortcuts that their programmers do not fully understand. <br><input type="text" id="q31"></div></div>
+        </div>
+
+        <h2>Questions 32–36</h2>
+        <div class="instruction">
+          Complete the summary using the list of words, <strong>A–I</strong>, below.<br>
+          Write the correct letter, <strong>A–I</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> approximate</div>
+          <div class="box-item"><strong>B</strong> irony</div>
+          <div class="box-item"><strong>C</strong> semantic</div>
+          <div class="box-item"><strong>D</strong> algorithms</div>
+          <div class="box-item"><strong>E</strong> perfect</div>
+          <div class="box-item"><strong>F</strong> mathematical</div>
+          <div class="box-item"><strong>G</strong> complexity</div>
+          <div class="box-item"><strong>H</strong> speed</div>
+          <div class="box-item"><strong>I</strong> intuition</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              In computer science, while <strong>32</strong> <input type="text" id="q32"> provide guaranteed exact solutions, they often fail when scaled to large problems due to computing limitations. Therefore, AI utilizes heuristics to find an <strong>33</strong> <input type="text" id="q33"> solution. However, unlike human heuristics which rely heavily on real-world context, early machine heuristics were purely mathematical. As AI faces increasing real-world <strong>34</strong> <input type="text" id="q34">, advanced neural networks are learning their own internal shortcuts. The writer notes the <strong>35</strong> <input type="text" id="q35"> of this evolution: to create truly intelligent machines, developers must allow them to guess and mimic human <strong>36</strong> <input type="text" id="q36">, rather than relying on perfect rationality.
+            </div>
+          </div>
+        </div>
+
+        <h2>Questions 37–40</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">37</div>
+            <div class="q-text">According to paragraph B, what happens to the Traveling Salesman Problem as the number of cities increases?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) It becomes easier for an algorithm to find the exact route.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) Heuristics are no longer able to provide any approximation.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) The number of possible routes grows factorially, overwhelming standard algorithms.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) Supercomputers switch to Deep Learning to calculate the distance.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">38</div>
+            <div class="q-text">How does the A* (A-star) algorithm work as described in paragraph C?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) It calculates every single possible path before making a decision.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) It relies entirely on human intuition to prune decision trees.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) It uses trial and error until it randomly hits the target.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) It combines known distances with a calculated guess of the remaining distance.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">39</div>
+            <div class="q-text">What is the "semantic gap" discussed in paragraph D?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) The time delay between human thought and computer processing.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) The difference between human contextual understanding and machine mathematical approximation.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) The lack of vocabulary in early AI programming languages.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) The space between neurons in a biological brain compared to a digital network.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">40</div>
+            <div class="q-text">Which of the following best summarizes the main idea of Passage 3?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) Algorithms have proven to be entirely useless in modern computer science.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) To solve complex problems, AI must adopt the heuristic guessing strategies akin to human cognition.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) Human intuition is fundamentally flawed and will soon be replaced by machine algorithms.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) Deep learning networks are dangerous because programmers cannot control their shortcuts.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SUBMIT BAR -->
+    <div class="submit-bar">
+      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">Submit Test</button>
+      <button class="btn-retake" id="btn-retake" style="display: none;" onclick="retakeTest()">Restart Test Session</button>
+    </div>
+
+  </div>
+
+  <script>
+    /* --- INTERNAL ANSWER KEY FOR GRADING --- */
+    const answerKey = {
+      q1: 'iv', q2: 'vi', q3: 'i', q4: 'viii', q5: 'ii',
+      q6: 'false', q7: 'false', q8: 'true', q9: 'not given',
+      q10: 'mental shortcuts', q11: 'evolutionary', q12: 'bounded rationality', q13: 'accuracy',
+      q14: 'd', q15: 'f', q16: 'b', q17: 'e', q18: 'c',
+      q19: 'b', q20: 'c', q21: 'a', q22: 'd',
+      q23: 'b', q24: 'c', q25: 'a', q26: 'd',
+      q27: 'no', q28: 'no', q29: 'not given', q30: 'yes', q31: 'yes',
+      q32: 'd', q33: 'a', q34: 'g', q35: 'b', q36: 'i',
+      q37: 'c', q38: 'd', q39: 'b', q40: 'b'
+    };
+
+    /* --- TAB SWITCHING LOGIC --- */
+    function switchSection(sectionNumber) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+      
+      document.getElementById('tab-' + sectionNumber).classList.add('active');
+      document.getElementById('passage-' + sectionNumber).classList.add('active');
+      document.getElementById('questions-' + sectionNumber).classList.add('active');
+    }
+
+    /* --- NON-PERSISTENT TIMER LOGIC (Resets on Refresh) --- */
+    const DURATION = 3600; // 60 minutes
+    let timerInterval;
+    let timeRemaining;
+    const timerElement = document.getElementById('timer');
+
+    function initTest() {
+      // Show Pre-Test overlay on every page load
+      document.getElementById('pre-test-overlay').style.display = 'flex';
+      document.getElementById('btn-start-top').style.display = 'block';
+      timerElement.textContent = "60:00";
+      timerElement.classList.remove('warning');
+    }
+
+    function startTest() {
+      // Hide Pre-Test overlay and start button
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('btn-start-top').style.display = 'none';
+      
+      // Initialize fresh 60-minute timer
+      timeRemaining = DURATION;
+      updateTimerDisplay();
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        
+        if(timeRemaining <= 300 && timeRemaining > 0) {
+            timerElement.classList.add('warning');
+        }
+
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          submitTest(true);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+      const seconds = (timeRemaining % 60).toString().padStart(2, '0');
+      timerElement.textContent = `${minutes}:${seconds}`;
+    }
+
+    /* --- SUBMISSION & GRADING PROTOCOL --- */
+    function submitTest(isAutoSubmit = false) {
+      if(!isAutoSubmit) {
+        const confirmSubmit = confirm("Are you sure you want to submit? You cannot change your answers after submission.");
+        if(!confirmSubmit) return;
+      }
+
+      clearInterval(timerInterval);
+      timerElement.textContent = "00:00";
+      timerElement.classList.remove('warning');
+      
+      gradeTest();
+      lockInterface();
+      
+      document.getElementById('results-modal').style.display = 'block';
+    }
+
+    function gradeTest() {
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        let userAnswer = "";
+        const qId = 'q' + i;
+        const textInput = document.getElementById(qId);
+        
+        if (textInput) {
+          userAnswer = textInput.value.trim().toLowerCase();
+          
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else {
+            textInput.classList.add('wrong-answer');
+            textInput.value = userAnswer ? `${userAnswer} (X)` : '(Blank)';
+          }
+        } else {
+          const radio = document.querySelector(`input[name="${qId}"]:checked`);
+          if (radio) {
+            userAnswer = radio.value.toLowerCase();
+          }
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            if(radio) radio.parentElement.style.color = '#10b981';
+          } else {
+            if(radio) radio.parentElement.style.color = '#ef4444';
+          }
+        }
+      }
+      document.getElementById('final-score').innerHTML = `${score} <span>/ 40</span>`;
+    }
+
+    function lockInterface() {
+      document.body.classList.add('test-completed');
+      
+      document.querySelectorAll('input').forEach(input => {
+        input.disabled = true;
+      });
+      
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'block';
+    }
+
+    /* --- UI MANAGEMENT --- */
+    function closeModal() {
+      document.getElementById('results-modal').style.display = 'none';
+    }
+
+    function retakeTest() {
+      if(!confirm("This will clear all your answers and restart the 60-minute session. Continue?")) return;
+
+      clearInterval(timerInterval);
+      timerElement.classList.remove('warning');
+      
+      document.getElementById('results-modal').style.display = 'none';
+      document.body.classList.remove('test-completed');
+      
+      // Swap buttons back
+      document.getElementById('btn-submit').style.display = 'block';
+      document.getElementById('btn-submit').disabled = false;
+      document.getElementById('btn-retake').style.display = 'none';
+      
+      document.querySelectorAll('input[type="text"]').forEach(input => {
+        input.value = '';
+        input.disabled = false;
+        input.classList.remove('correct-answer', 'wrong-answer');
+      });
+      
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+        radio.disabled = false;
+        radio.parentElement.style.color = 'inherit';
+      });
+      
+      switchSection(1);
+      initTest(); // Returns to the Pre-Test screen
+    }
+
+    // Initialize test on page load
+    window.onload = initTest;
+  </script>
+</body>
+</html>
