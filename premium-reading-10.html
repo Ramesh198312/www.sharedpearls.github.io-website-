@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Reading 10 | The LRSW Clinic</title>
+  
+  <!-- PREMIUM FONTS INTEGRATION -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Roboto+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- UNIVERSAL FONT STANDARDS & COLORS --- */
+    :root {
+      --primary: #0B1D3A;
+      --accent: #C4923E;
+      --badge-red: #A32A3A;
+      --badge-red-bg: #F9EAEB;
+      --bg-light: #F8FAFC;
+      --border: #CBD5E1;
+      --text-main: #333333;
+      --text-muted: #666666;
+      
+      /* Premium Typography System */
+      --font-ui: 'Inter', sans-serif;
+      --font-passage: 'Lora', serif;
+      --font-heading: 'Playfair Display', serif;
+      --font-mono: 'Roboto Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      font-family: var(--font-ui); 
+      color: var(--text-main); 
+      height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+      overflow: hidden; 
+      background: #fff; 
+    }
+
+    /* --- TOP NAVIGATION --- */
+    header { 
+      background: var(--primary); 
+      color: white; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 0 2rem; 
+      height: 65px; 
+      border-bottom: 3px solid var(--accent); 
+      flex-shrink: 0; 
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
+    .logo span { color: var(--accent); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; 
+      color: #cbd5e1; 
+      border: none; 
+      padding: 0 1.5rem; 
+      font-size: 0.95rem; 
+      font-weight: 600; 
+      cursor: pointer; 
+      transition: 0.3s ease; 
+      height: 100%; 
+      display: flex; 
+      align-items: center; 
+      border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui);
+      letter-spacing: 0.5px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #fff; background: rgba(255,255,255,0.05); }
+    .tab-btn.active { color: #fff; border-bottom-color: var(--accent); background: rgba(255,255,255,0.1); }
+    
+    /* Header Controls (Timer + Start Button) */
+    .header-controls { display: flex; align-items: center; gap: 15px; }
+    
+    .btn-start-top {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .btn-start-top:hover { background: #059669; }
+
+    .timer { 
+      font-family: var(--font-mono); 
+      font-size: 1.3rem; 
+      font-weight: 600; 
+      color: #fff; 
+      background: #1e293b; 
+      padding: 0.4rem 1rem; 
+      border-radius: 4px; 
+      border: 1px solid #334155;
+      letter-spacing: 1px;
+    }
+    .timer.warning { color: #ef4444; animation: pulse 1s infinite; border-color: #ef4444;}
+
+    @keyframes pulse {
+      0% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+      100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    /* --- SPLIT SCREEN LAYOUT --- */
+    .workspace { 
+      display: flex; 
+      flex: 1; 
+      height: calc(100vh - 65px); 
+      overflow: hidden; 
+      background: var(--bg-light); 
+      position: relative;
+    }
+    
+    .panel { 
+      flex: 1; 
+      height: 100%; 
+      overflow-y: auto; 
+      padding: 3rem; 
+      background: #fff; 
+      position: relative;
+    }
+    .left-panel { border-right: 1px solid var(--border); box-shadow: 4px 0 15px rgba(0,0,0,0.03); z-index: 2; }
+    .right-panel { background: #fafbfc; padding-bottom: 120px; }
+
+    /* --- PRE-TEST LOCK SCREEN OVERLAY --- */
+    .pre-test-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.98);
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .pre-test-overlay .module-badge {
+      font-family: var(--font-mono);
+      color: var(--badge-red);
+      background: var(--badge-red-bg);
+      border: 1px solid var(--badge-red);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1.5px;
+    }
+    .pre-test-overlay h2 { 
+      font-size: 3rem; 
+      color: var(--primary); 
+      margin-bottom: 1.5rem; 
+      font-family: var(--font-heading);
+    }
+    .pre-test-overlay p { 
+      font-size: 1.15rem; 
+      color: var(--text-muted); 
+      max-width: 600px; 
+      line-height: 1.7; 
+      margin-bottom: 2.5rem; 
+      font-family: var(--font-passage);
+    }
+    .btn-start-large {
+      background: var(--primary);
+      color: #fff;
+      padding: 1.2rem 3.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.3s ease;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(11, 29, 58, 0.2);
+    }
+    .btn-start-large:hover { background: #1a365d; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(11, 29, 58, 0.3); }
+
+    /* --- PASSAGE TYPOGRAPHY --- */
+    .left-panel h1 { 
+      font-family: var(--font-heading); 
+      font-size: 2.2rem; 
+      margin-bottom: 2.5rem; 
+      color: var(--primary); 
+      line-height: 1.3; 
+      text-align: center;
+    }
+    
+    .left-panel p { 
+      font-family: var(--font-passage);
+      margin-bottom: 1.8rem; 
+      line-height: 1.85; 
+      text-align: justify; 
+      font-size: 1.15rem; 
+      color: #2c3e50;
+    }
+    
+    .paragraph-label { 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      font-size: 1.1rem; 
+      margin-right: 15px; 
+      color: var(--accent); 
+      float: left;
+      padding-top: 4px;
+    }
+    
+    /* --- QUESTION TYPOGRAPHY --- */
+    .right-panel h2 { 
+      font-size: 1.2rem; 
+      margin-bottom: 1rem; 
+      color: var(--primary); 
+      border-bottom: 2px solid var(--border); 
+      padding-bottom: 0.8rem; 
+      margin-top: 2.5rem; 
+      font-family: var(--font-ui);
+      font-weight: 700;
+    }
+    .right-panel h2:first-child { margin-top: 0; }
+    
+    .instruction { 
+      font-style: italic; 
+      color: var(--text-muted); 
+      margin-bottom: 1.5rem; 
+      font-size: 0.95rem; 
+      line-height: 1.5;
+    }
+    
+    .q-group { margin-bottom: 3rem; }
+    .q-item { 
+      display: flex; 
+      align-items: baseline; 
+      margin-bottom: 1.5rem; 
+      gap: 15px; 
+    }
+    .q-num { 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      color: var(--primary); 
+      min-width: 25px; 
+      font-size: 1rem;
+    }
+    .q-text { 
+      flex: 1; 
+      font-size: 1.05rem; 
+      line-height: 1.6; 
+    }
+    
+    input[type="text"] { 
+      padding: 0.4rem 0.6rem; 
+      border: 1px solid #94a3b8; 
+      border-radius: 4px; 
+      font-size: 1rem; 
+      width: 160px; 
+      font-family: var(--font-ui);
+      background: #fff;
+      transition: 0.2s;
+    }
+    input[type="text"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196, 146, 62, 0.2); }
+    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; border-color: #cbd5e1; }
+    
+    .mcq-options { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 1rem; color: #444; line-height: 1.4; transition: 0.2s;}
+    .mcq-label:hover { color: var(--primary); }
+    .mcq-label input { margin-top: 5px; cursor: pointer; }
+    
+    .box-options { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 15px; 
+      border: 1px solid var(--border); 
+      padding: 1.5rem; 
+      margin-bottom: 2rem; 
+      background: #fff; 
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+    .box-item { font-size: 1rem; font-weight: 500; font-family: var(--font-ui); color: var(--primary);}
+    .box-item strong { font-family: var(--font-mono); color: var(--accent); margin-right: 5px;}
+
+    .section-content { display: none; animation: fadeIn 0.4s ease; }
+    .section-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* --- SUBMISSION & DORMANT STATE --- */
+    .submit-bar {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 50%; 
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
+      border-top: 1px solid var(--border);
+      padding: 1.2rem 3rem;
+      display: flex;
+      justify-content: flex-end;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
+      z-index: 100;
+    }
+
+    .btn-submit {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 1px;
+    }
+    .btn-submit:hover:not(:disabled) { background: #1a365d; }
+    .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+    .btn-retake {
+      background: transparent;
+      color: var(--text-muted);
+      border: 2px solid var(--border);
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 1px;
+    }
+    .btn-retake:hover { background: #f8fafc; color: var(--primary); border-color: var(--primary); }
+
+    .dormant-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.3);
+      z-index: 50;
+      display: none;
+      pointer-events: none; 
+    }
+    body.test-completed .dormant-overlay { display: block; }
+    
+    /* --- RESULTS MODAL --- */
+    .results-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 3.5rem;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      z-index: 200;
+      text-align: center;
+      border-top: 6px solid var(--accent);
+      min-width: 450px;
+    }
+    .results-modal h2 { font-family: var(--font-heading); color: var(--primary); font-size: 2.2rem; margin-bottom: 1rem; }
+    .score-display { font-size: 4rem; font-weight: 700; color: var(--primary); margin: 1.5rem 0; font-family: var(--font-mono);}
+    .score-display span { font-size: 1.8rem; color: var(--border); }
+    
+    .btn-close {
+      background: var(--accent);
+      color: var(--primary);
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: 0.2s;
+      font-family: var(--font-mono);
+      letter-spacing: 1px;
+    }
+    .btn-close:hover { background: #b08133; color: #fff;}
+
+    .correct-answer { border-color: #10b981 !important; background: #f0fdf4 !important; color: #065f46; font-weight: 600;}
+    .wrong-answer { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">The LRSW <span>Clinic</span></div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <button class="btn-start-top" id="btn-start-top" onclick="startTest()">START</button>
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <!-- RESULTS MODAL -->
+  <div class="results-modal" id="results-modal">
+    <h2>Evaluation Complete</h2>
+    <p>Your Reading Module score is:</p>
+    <div class="score-display" id="final-score">0 <span>/ 40</span></div>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your semantic mapping.</p>
+    <button class="btn-close" onclick="closeModal()">REVIEW ANSWERS</button>
+  </div>
+
+  <div class="workspace">
+    <!-- PRE-TEST LOCK SCREEN -->
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <div class="module-badge">NEW UPDATE — 10</div>
+      <h2>Astrophysics & Deep Space</h2>
+      <p>This C1/C2 intensive simulation contains 3 passages and 40 questions focusing on the dark sector, singular geometries, and cosmic topology. The timer will initiate and passages will be unlocked upon pressing start.</p>
+      <button class="btn-start-large" onclick="startTest()">Enter 60-minute Test &rarr;</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <!-- LEFT PANEL: READING PASSAGES -->
+    <div class="panel left-panel">
+      <!-- PASSAGE 1 -->
+      <div id="passage-1" class="section-content active">
+        <h1>The Enigma of the Missing Mass</h1>
+        <p><span class="paragraph-label">A</span> The foundational crisis of modern astrophysics arguably began in the 1930s with the eccentric Swiss astronomer Fritz Zwicky. While analyzing the Coma Cluster—a massive structure comprising over a thousand galaxies—Zwicky applied the virial theorem to estimate the cluster's total mass based on the velocities of its constituent galaxies. The results were profoundly anomalous. The galaxies were moving at such tremendous speeds that the observable, luminous mass (stars and gas) was entirely insufficient to provide the gravitational glue required to hold the cluster together. Zwicky postulated the existence of *dunkle Materie*—dark matter—to account for the unseen mass, though his claims were largely dismissed by his contemporaries.</p>
+        <p><span class="paragraph-label">B</span> It was not until the late 1970s that the scientific community was forced to confront the missing mass problem seriously, precipitated by the meticulous observations of American astronomer Vera Rubin. Utilizing advanced spectrometers to measure the rotation curves of spiral galaxies, Rubin discovered a glaring violation of Newtonian physics. According to the laws of classical mechanics, the orbital velocity of stars at the extreme edges of a galaxy should decline smoothly as their distance from the dense galactic center increases—much like the planets in our solar system orbit the Sun. Instead, Rubin found that peripheral stars maintained a flat rotation curve, whipping around the galactic core at velocities that should have torn the galaxies apart.</p>
+        <p><span class="paragraph-label">C</span> The inescapable conclusion drawn from Rubin's data was that galaxies are embedded within a vast, invisible halo of matter that extends far beyond their luminous boundaries. This mysterious substance, dark matter, does not interact with the electromagnetic force. It neither absorbs, reflects, nor emits light, rendering it entirely imperceptible to traditional telescopes. Its existence can only be inferred indirectly through its gravitational influence on visible matter, radiation, and the large-scale structure of the universe itself.</p>
+        <p><span class="paragraph-label">D</span> Decades of theoretical physics have been dedicated to identifying the fundamental nature of this elusive substance. The two primary theoretical candidates emerged as MACHOs (Massive Astrophysical Compact Halo Objects) and WIMPs (Weakly Interacting Massive Particles). MACHOs represented ordinary baryonic matter hidden in dim objects like brown dwarfs and rogue planets. However, extensive microlensing surveys eventually ruled out MACHOs as the primary component. Consequently, the leading hypothesis centers on WIMPs—exotic, non-baryonic particles predicted by supersymmetry that rarely interact with normal matter.</p>
+        <p><span class="paragraph-label">E</span> Despite the consensus supporting dark matter, a minority faction of theoretical physicists advocates for a radically divergent paradigm: Modified Newtonian Dynamics (MOND). Proposed by Mordehai Milgrom in 1983, MOND suggests that there is no "missing mass" at all. Instead, Milgrom posits that our fundamental understanding of gravity is flawed. MOND argues that at the incredibly weak gravitational accelerations experienced at the outer fringes of galaxies, gravity does not strictly obey Newton's inverse-square law, but rather falls off more slowly, naturally accounting for the flat rotation curves without requiring invisible particles.</p>
+        <p><span class="paragraph-label">F</span> The pursuit of dark matter remains one of the most vital frontiers in contemporary physics. Subterranean laboratories buried deep within abandoned mines utilize vats of liquid xenon, hoping to capture the incredibly rare collision between a wandering WIMP and an atomic nucleus. Simultaneously, particle accelerators like the Large Hadron Collider attempt to synthesize dark matter particles from high-energy proton collisions. As of yet, all direct detection experiments have yielded null results, leaving the astrophysical community to grapple with the humbling reality that 85% of the matter in the universe remains fundamentally unknown to us.</p>
+      </div>
+
+      <!-- PASSAGE 2 -->
+      <div id="passage-2" class="section-content">
+        <h1>The Geometry of the Abyss</h1>
+        <p><span class="paragraph-label">A</span> Few concepts in theoretical physics capture the imagination quite like the black hole. Originally theorized as a mathematical curiosity hidden within Albert Einstein’s equations of General Relativity, the concept was first formalized by Karl Schwarzschild in 1916. Schwarzschild demonstrated that if a sufficient mass is compressed into an infinitesimally small volume, the curvature of spacetime becomes infinite, creating a gravitational well from which nothing can escape. At the very center of this well lies the 'singularity'—a point of infinite density where all known laws of physics effectively break down.</p>
+        <p><span class="paragraph-label">B</span> Shielding the singularity from the observable universe is the Event Horizon. This invisible spherical boundary represents the point of no return; the exact threshold where the escape velocity exceeds the speed of light. Because not even photons can escape its gravitational grip, a black hole is perfectly black. Any object crossing the event horizon is inexorably drawn toward the singularity. For a stellar-mass black hole, an astronaut approaching the event horizon would be subjected to extreme tidal forces—gravity pulling much harder on their feet than their head—resulting in a lethal, vertical stretching process astrophysicists morbidly refer to as 'spaghettification'.</p>
+        <p><span class="paragraph-label">C</span> While stellar-mass black holes are formed from the gravitational collapse of massive stars, the universe harbors true monsters: Supermassive Black Holes (SMBHs). Ranging from millions to billions of solar masses, SMBHs are believed to anchor the center of almost every large galaxy, including our own Milky Way, which houses Sagittarius A*. When an SMBH actively accretes surrounding gas and dust, the immense friction within its accretion disk generates extreme heat and radiation. These active galactic nuclei, known as quasars, are the most luminous continuous energy sources in the cosmos, capable of outshining the entire galaxy that surrounds them.</p>
+        <p><span class="paragraph-label">D</span> For decades, black holes were considered ultimate cosmic traps—entities that only grew and never shrank. This classical view was shattered in 1974 by Stephen Hawking. Applying the principles of quantum mechanics to the intense gravitational field near the event horizon, Hawking demonstrated that black holes are not perfectly black. Vacuum fluctuations constantly create pairs of virtual particles and antiparticles near the horizon. Occasionally, one particle falls in while the other escapes. The escaping particle draws energy from the black hole's mass, a phenomenon now known as 'Hawking Radiation'. Consequently, over unfathomable timescales, a black hole will slowly evaporate until it disappears entirely.</p>
+        <p><span class="paragraph-label">E</span> Hawking’s brilliant discovery inadvertently ignited one of the fiercest debates in modern physics: the Black Hole Information Paradox. A core tenet of quantum mechanics is 'unitarity'—the principle that physical information about a system's quantum state can never be permanently destroyed. However, if an encyclopedia falls into a black hole, and that black hole eventually evaporates entirely into featureless thermal radiation, what happens to the complex information that made up the encyclopedia? If the information is truly erased, quantum determinism is violated, suggesting a fatal flaw in our foundational understanding of the universe.</p>
+      </div>
+
+      <!-- PASSAGE 3 -->
+      <div id="passage-3" class="section-content">
+        <h1>Cosmic Topology and the Final Fate</h1>
+        <p><span class="paragraph-label">A</span> The narrative of modern cosmology was fundamentally rewritten in 1929 when Edwin Hubble, analyzing the light spectra emitted by distant galaxies, made a paradigm-shifting observation. Hubble noticed a pervasive 'redshift'—the stretching of light waves toward the red end of the spectrum—indicating that virtually all galaxies were receding from the Milky Way. Furthermore, the velocity of recession was directly proportional to their distance. The universe was not static; the very fabric of spacetime was expanding, carrying galaxies along with it like raisins in a rising loaf of bread.</p>
+        <p><span class="paragraph-label">B</span> For nearly seventy years following Hubble's discovery, astrophysicists assumed that the gravitational attraction of all the matter in the universe would act as a cosmic brake, gradually slowing the rate of expansion over time. However, in 1998, two independent teams of astronomers studying Type Ia supernovae—incredibly consistent stellar explosions used as "standard candles" to measure cosmic distances—arrived at a shocking conclusion. The distant supernovae were dimmer than expected. The expansion of the universe was not slowing down; it was, inexplicably, accelerating.</p>
+        <p><span class="paragraph-label">C</span> To account for this anti-gravitational acceleration, scientists hypothesized a mysterious, repulsive energy permeating all of space: Dark Energy. Interestingly, the mathematical foundation for this force had already been provided by Einstein. In his original formulation of General Relativity, Einstein introduced a 'Cosmological Constant' ($\Lambda$) to force his equations to describe a static universe. When Hubble proved the universe was expanding, Einstein abandoned the constant, reportedly calling it his "greatest blunder." Yet, Dark Energy resurrected the Cosmological Constant, acting as a vacuum energy inherent to space itself, pushing galaxies apart at an ever-increasing rate.</p>
+        <p><span class="paragraph-label">D</span> The discovery of Dark Energy drastically revised our understanding of the cosmic inventory. Precision measurements from the Cosmic Microwave Background reveal a humbling reality: standard, baryonic matter—the protons, neutrons, and electrons that make up stars, planets, and human beings—constitutes a mere 5% of the universe. Dark Matter accounts for roughly 27%, while the remaining 68% is dominated entirely by Dark Energy. We are but a minority rounding error in a cosmos governed by forces we can neither see nor fully comprehend.</p>
+        <p><span class="paragraph-label">E</span> The dominance of Dark Energy dictates a bleak trajectory for the ultimate fate of the cosmos. If the accelerated expansion continues indefinitely, the universe will experience "The Big Freeze" (or Heat Death). Over trillions of years, galaxies will drift so far apart that their light will no longer reach one another. Star formation will cease as gas clouds are exhausted. Black holes will slowly evaporate via Hawking Radiation. Eventually, all thermodynamic processes will grind to a halt, leaving a cold, dark, and perfectly dispersed void devoid of all structure and energy gradients.</p>
+        <p><span class="paragraph-label">F</span> While the Big Freeze is the overwhelmingly favored consensus, theoretical alternatives exist based on the precise nature of Dark Energy. If the density of Dark Energy increases over time—a hypothetical form known as 'phantom energy'—the repulsive force will eventually overwhelm all fundamental forces. It would tear apart galaxy clusters, then solar systems, then planets, and ultimately atomic nuclei themselves, in a catastrophic finale known as "The Big Rip." Conversely, if Dark Energy were to suddenly reverse its polarity, gravity could regain dominance, pulling all matter back into a singular, fiery compression known as "The Big Crunch"—though current data suggests this is highly improbable.</p>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: QUESTIONS -->
+    <div class="panel right-panel">
+      
+      <!-- QUESTIONS FOR SECTION 1 -->
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–5</h2>
+        <div class="instruction">
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Choose the correct heading for paragraphs <strong>B–F</strong> from the list below.<br>
+          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The origins of the Big Crunch</div>
+          <div class="box-item"><strong>ii</strong> Competing particle theories</div>
+          <div class="box-item"><strong>iii</strong> The current state of the search</div>
+          <div class="box-item"><strong>iv</strong> Fritz Zwicky and the Coma Cluster</div>
+          <div class="box-item"><strong>v</strong> An unexpected velocity profile</div>
+          <div class="box-item"><strong>vi</strong> The geometry of spaghettification</div>
+          <div class="box-item"><strong>vii</strong> A challenge to established physics</div>
+          <div class="box-item"><strong>viii</strong> The invisible conclusion</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item" style="color: #666;"><em>Example: Paragraph A = iv</em></div>
+          <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph B <input type="text" id="q1"></div></div>
+          <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph C <input type="text" id="q2"></div></div>
+          <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph D <input type="text" id="q3"></div></div>
+          <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph E <input type="text" id="q4"></div></div>
+          <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph F <input type="text" id="q5"></div></div>
+        </div>
+
+        <h2>Questions 6–9</h2>
+        <div class="instruction">
+          Do the following statements agree with the information given in the Reading Passage?<br>
+          Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">6</div><div class="q-text">Fritz Zwicky coined the term "dark matter" during his studies in the late 1970s. <br><input type="text" id="q6"></div></div>
+          <div class="q-item"><div class="q-num">7</div><div class="q-text">Dark matter reflects electromagnetic radiation very weakly, making it hard to see. <br><input type="text" id="q7"></div></div>
+          <div class="q-item"><div class="q-num">8</div><div class="q-text">WIMPs have been successfully isolated by scientists using the Large Hadron Collider. <br><input type="text" id="q8"></div></div>
+          <div class="q-item"><div class="q-num">9</div><div class="q-text">Vera Rubin received a Nobel Prize for her discovery of flat galactic rotation curves. <br><input type="text" id="q9"></div></div>
+        </div>
+
+        <h2>Questions 10–13</h2>
+        <div class="instruction">
+          Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              Fritz Zwicky first noticed missing mass while observing the <strong>10</strong> <input type="text" id="q10">. Decades later, Vera Rubin analyzed the <strong>11</strong> <input type="text" id="q11"> of spiral galaxies and realized that stars at the edge were moving too fast. To explain why they didn't fly apart due to Newtonian physics, scientists concluded galaxies are surrounded by an invisible <strong>12</strong> <input type="text" id="q12">. While most believe in dark matter particles like WIMPs, some physicists support an alternative theory known as <strong>13</strong> <input type="text" id="q13">, which suggests our laws of gravity are incorrect.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 2 -->
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18</h2>
+        <div class="instruction">
+          The Reading Passage has five paragraphs, <strong>A–E</strong>.<br>
+          Which paragraph contains the following information?<br>
+          Write the correct letter, <strong>A–E</strong>, in the boxes provided.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">14</div><div class="q-text">An explanation of the lethal vertical stretching process experienced by astronauts. <input type="text" id="q14"></div></div>
+          <div class="q-item"><div class="q-num">15</div><div class="q-text">A description of incredibly luminous galactic nuclei. <input type="text" id="q15"></div></div>
+          <div class="q-item"><div class="q-num">16</div><div class="q-text">The mechanism by which quantum mechanics allows a black hole to shrink. <input type="text" id="q16"></div></div>
+          <div class="q-item"><div class="q-num">17</div><div class="q-text">The theoretical point where all known laws of physics break down. <input type="text" id="q17"></div></div>
+          <div class="q-item"><div class="q-num">18</div><div class="q-text">A conceptual conflict involving the permanent destruction of physical data. <input type="text" id="q18"></div></div>
+        </div>
+
+        <h2>Questions 19–22</h2>
+        <div class="instruction">
+          Look at the following concepts (Questions 19-22) and the list of definitions below.<br>
+          Match each concept with the correct definition, <strong>A, B, C, or D</strong>.<br>
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Singularity</div>
+          <div class="box-item"><strong>B</strong> Event Horizon</div>
+          <div class="box-item"><strong>C</strong> Hawking Radiation</div>
+          <div class="box-item"><strong>D</strong> Information Paradox</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">19</div><div class="q-text">The spherical boundary where escape velocity exceeds the speed of light. <input type="text" id="q19"></div></div>
+          <div class="q-item"><div class="q-num">20</div><div class="q-text">A central gravitational point characterized by infinite density. <input type="text" id="q20"></div></div>
+          <div class="q-item"><div class="q-num">21</div><div class="q-text">The emission of thermal energy leading to black hole evaporation. <input type="text" id="q21"></div></div>
+          <div class="q-item"><div class="q-num">22</div><div class="q-text">The violation of quantum determinism caused by the loss of quantum data. <input type="text" id="q22"></div></div>
+        </div>
+
+        <h2>Questions 23–26</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">23</div>
+            <div class="q-text">According to paragraph A, what was Karl Schwarzschild's major contribution?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q23" value="A"> A) He invented the mathematical equations for General Relativity.</label>
+                <label class="mcq-label"><input type="radio" name="q23" value="B"> B) He discovered the supermassive black hole at the center of the Milky Way.</label>
+                <label class="mcq-label"><input type="radio" name="q23" value="C"> C) He formalized the concept of infinite spacetime curvature from Einstein's equations.</label>
+                <label class="mcq-label"><input type="radio" name="q23" value="D"> D) He proved that quantum data cannot be permanently destroyed.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">24</div>
+            <div class="q-text">What powers a quasar according to the passage?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q24" value="A"> A) The collision of two stellar-mass black holes.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="B"> B) The extreme friction within the accretion disk of a supermassive black hole.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="C"> C) The rapid evaporation of Hawking Radiation.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="D"> D) The dark energy expanding the fabric of space.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">25</div>
+            <div class="q-text">What did Stephen Hawking demonstrate in 1974?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q25" value="A"> A) That black holes can slowly evaporate over unfathomable timescales.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="B"> B) That black holes are perfectly black cosmic traps.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="C"> C) That quantum information can easily escape the event horizon intact.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="D"> D) That the singularity lacks infinite density.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">26</div>
+            <div class="q-text">Why is the Black Hole Information Paradox considered a major problem in physics?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q26" value="A"> A) It proves that encyclopedias cannot survive spaghettification.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="B"> B) It suggests that Hawking Radiation is mathematically impossible.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="C"> C) It violates the principle of unitarity, threatening our foundational understanding of quantum mechanics.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="D"> D) It means that Schwarzschild's original calculations were flawed.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 3 -->
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31</h2>
+        <div class="instruction">
+          Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
+          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">27</div><div class="q-text">Edwin Hubble discovered the expanding universe by observing Type Ia supernovae. <br><input type="text" id="q27"></div></div>
+          <div class="q-item"><div class="q-num">28</div><div class="q-text">Scientists now believe that the gravitational attraction of matter is slowly decelerating the universe's expansion. <br><input type="text" id="q28"></div></div>
+          <div class="q-item"><div class="q-num">29</div><div class="q-text">Baryonic matter accounts for less than 10% of the universe's total composition. <br><input type="text" id="q29"></div></div>
+          <div class="q-item"><div class="q-num">30</div><div class="q-text">Albert Einstein originally introduced the Cosmological Constant to explain why the universe was expanding. <br><input type="text" id="q30"></div></div>
+          <div class="q-item"><div class="q-num">31</div><div class="q-text">The "Big Crunch" is currently considered the most probable ultimate fate of the universe by modern cosmologists. <br><input type="text" id="q31"></div></div>
+        </div>
+
+        <h2>Questions 32–36</h2>
+        <div class="instruction">
+          Complete the summary using the list of words, <strong>A–I</strong>, below.<br>
+          Write the correct letter, <strong>A–I</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> slowing</div>
+          <div class="box-item"><strong>B</strong> dark energy</div>
+          <div class="box-item"><strong>C</strong> freeze</div>
+          <div class="box-item"><strong>D</strong> rip</div>
+          <div class="box-item"><strong>E</strong> dark matter</div>
+          <div class="box-item"><strong>F</strong> accelerating</div>
+          <div class="box-item"><strong>G</strong> cold</div>
+          <div class="box-item"><strong>H</strong> hot</div>
+          <div class="box-item"><strong>I</strong> composition</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              In 1998, observations of distant supernovae revealed that the expansion of the universe is actually <strong>32</strong> <input type="text" id="q32">. This phenomenon is driven by a repulsive anti-gravitational force called <strong>33</strong> <input type="text" id="q33">. This mysterious force makes up roughly 68% of the universe's entire <strong>34</strong> <input type="text" id="q34">. Because this repulsive force is dominant, scientists believe the most likely end scenario is the Big <strong>35</strong> <input type="text" id="q35">. In this scenario, thermodynamic processes stop, and the universe becomes completely <strong>36</strong> <input type="text" id="q36"> and dark.
+            </div>
+          </div>
+        </div>
+
+        <h2>Questions 37–40</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">37</div>
+            <div class="q-text">What did Edwin Hubble observe about distant galaxies in 1929?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) They were all colliding with the Milky Way.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) Their light spectra was stretched to the red end, indicating recession.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) They contained large amounts of invisible dark matter.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) They were slowing down due to gravitational braking.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">38</div>
+            <div class="q-text">What represents Dark Energy in Einstein's equations of General Relativity?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) The Event Horizon</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) Standard Candles</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) The Cosmological Constant ($\Lambda$)</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) Baryonic Matter</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">39</div>
+            <div class="q-text">What happens to black holes during the "Big Freeze"?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) They slowly evaporate via Hawking Radiation.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) They merge into a single universal singularity.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) They transform into quasars due to phantom energy.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) They stop absorbing light and become visible.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">40</div>
+            <div class="q-text">According to paragraph F, what would cause "The Big Rip"?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) A sudden reversal of dark energy's polarity causing gravity to win.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) The collision of the Milky Way with the Coma Cluster.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) All standard matter decaying into Hawking radiation instantly.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) An increasing density of dark energy (phantom energy) overwhelming all fundamental forces.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SUBMIT BAR -->
+    <div class="submit-bar">
+      <button class="btn-retake" id="btn-retake" onclick="retakeTest()" style="margin-right: 15px;">RESET</button>
+      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">SUBMIT MODULE</button>
+    </div>
+
+  </div>
+
+  <script>
+    /* --- INTERNAL ANSWER KEY FOR GRADING --- */
+    const answerKey = {
+      q1: 'v', q2: 'viii', q3: 'ii', q4: 'vii', q5: 'iii',
+      q6: 'false', q7: 'false', q8: 'false', q9: 'not given',
+      q10: 'coma cluster', q11: 'rotation curves', q12: 'halo', q13: 'mond',
+      q14: 'b', q15: 'c', q16: 'd', q17: 'a', q18: 'e',
+      q19: 'b', q20: 'a', q21: 'c', q22: 'd',
+      q23: 'c', q24: 'b', q25: 'a', q26: 'c',
+      q27: 'no', q28: 'no', q29: 'yes', q30: 'no', q31: 'no',
+      q32: 'f', q33: 'b', q34: 'i', q35: 'c', q36: 'g',
+      q37: 'b', q38: 'c', q39: 'a', q40: 'd'
+    };
+
+    /* --- TAB SWITCHING LOGIC --- */
+    function switchSection(sectionNumber) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+      
+      document.getElementById('tab-' + sectionNumber).classList.add('active');
+      document.getElementById('passage-' + sectionNumber).classList.add('active');
+      document.getElementById('questions-' + sectionNumber).classList.add('active');
+    }
+
+    /* --- NON-PERSISTENT TIMER LOGIC (Resets on Refresh) --- */
+    const DURATION = 3600; // 60 minutes
+    let timerInterval;
+    let timeRemaining;
+    const timerElement = document.getElementById('timer');
+
+    function initTest() {
+      // Force Pre-Test overlay on every page load
+      document.getElementById('pre-test-overlay').style.display = 'flex';
+      document.getElementById('btn-start-top').style.display = 'block';
+      timerElement.textContent = "60:00";
+      timerElement.classList.remove('warning');
+    }
+
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('btn-start-top').style.display = 'none';
+      
+      timeRemaining = DURATION;
+      updateTimerDisplay();
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        
+        if(timeRemaining <= 300 && timeRemaining > 0) {
+            timerElement.classList.add('warning');
+        }
+
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          submitTest(true);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+      const seconds = (timeRemaining % 60).toString().padStart(2, '0');
+      timerElement.textContent = `${minutes}:${seconds}`;
+    }
+
+    /* --- SUBMISSION & GRADING PROTOCOL --- */
+    function submitTest(isAutoSubmit = false) {
+      if(!isAutoSubmit) {
+        const confirmSubmit = confirm("Confirm submission? You will not be able to alter your responses.");
+        if(!confirmSubmit) return;
+      }
+
+      clearInterval(timerInterval);
+      timerElement.textContent = "00:00";
+      timerElement.classList.remove('warning');
+      
+      gradeTest();
+      lockInterface();
+      
+      document.getElementById('results-modal').style.display = 'block';
+    }
+
+    function gradeTest() {
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q' + i;
+        const textInput = document.getElementById(qId);
+        
+        if (textInput) {
+          let userAnswer = textInput.value.trim().toLowerCase();
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else {
+            textInput.classList.add('wrong-answer');
+            textInput.value = userAnswer ? `${userAnswer} (X)` : '(Blank)';
+          }
+        } else {
+          const radio = document.querySelector(`input[name="${qId}"]:checked`);
+          if (radio) {
+            let userAnswer = radio.value.toLowerCase();
+            if (userAnswer === answerKey[qId]) {
+              score++;
+              radio.parentElement.style.color = '#065f46';
+              radio.parentElement.style.fontWeight = '600';
+            } else {
+              radio.parentElement.style.color = '#991b1b';
+            }
+          }
+        }
+      }
+      
+      document.getElementById('final-score').innerHTML = `${score} <span>/ 40</span>`;
+    }
+
+    function lockInterface() {
+      document.body.classList.add('test-completed');
+      
+      document.querySelectorAll('input').forEach(input => {
+        input.disabled = true;
+      });
+      
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'none';
+    }
+
+    /* --- UI MANAGEMENT --- */
+    function closeModal() {
+      document.getElementById('results-modal').style.display = 'none';
+      // Show retake button after modal is closed to allow reset
+      document.getElementById('btn-retake').style.display = 'block';
+    }
+
+    function retakeTest() {
+      if(!confirm("Warning: This will permanently clear all answers and restart the 60-minute session. Proceed?")) return;
+
+      clearInterval(timerInterval);
+      timerElement.classList.remove('warning');
+      
+      document.getElementById('results-modal').style.display = 'none';
+      document.body.classList.remove('test-completed');
+      
+      document.getElementById('btn-submit').style.display = 'block';
+      document.getElementById('btn-submit').disabled = false;
+      document.getElementById('btn-retake').style.display = 'block';
+      
+      document.querySelectorAll('input[type="text"]').forEach(input => {
+        input.value = '';
+        input.disabled = false;
+        input.classList.remove('correct-answer', 'wrong-answer');
+      });
+      
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+        radio.disabled = false;
+        radio.parentElement.style.color = 'inherit';
+        radio.parentElement.style.fontWeight = 'normal';
+      });
+      
+      switchSection(1);
+      initTest(); 
+    }
+
+    window.onload = initTest;
+  </script>
+</body>
+</html>
