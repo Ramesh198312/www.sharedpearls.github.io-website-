@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>LRSW Clinics Dashboard · Shared Pearls of Wisdom</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500;700;1,400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
 <style>
 /* ═══════════════════════════════════════════
    PREMIUM ACADEMIC VARIABLES
@@ -21,6 +21,7 @@
   --muted: #888888;
   --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
   --shadow-md: 0 10px 30px rgba(0,0,0,0.06);
+  --success: #4CAF50;
 }
 
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -30,7 +31,7 @@ body { font-family: 'Source Serif 4', Georgia, serif; background: var(--ivory); 
    EXACT NAVIGATION FROM SCREENSHOTS
 ═══════════════════════════════════════════ */
 .top-accent { height: 6px; background: var(--crimson); width: 100%; }
-.nav { background: var(--white); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; height: 85px; box-shadow: var(--shadow-sm); border-bottom: 1px solid var(--border); }
+.nav { background: var(--white); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; height: 85px; box-shadow: var(--shadow-sm); }
 
 .nav-logo { display: flex; align-items: center; gap: .5rem; text-decoration: none; }
 .logo-main { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--charcoal); }
@@ -38,16 +39,16 @@ body { font-family: 'Source Serif 4', Georgia, serif; background: var(--ivory); 
 .logo-sub { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--charcoal); line-height: 1; display: flex; flex-direction: column; }
 
 .nav-links { display: flex; align-items: center; gap: 2rem; height: 100%; }
-.nav-link { font-family: 'DM Mono', monospace; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--charcoal-light); text-decoration: none; height: 100%; display: flex; align-items: center; position: relative; transition: color 0.2s; }
+.nav-link { font-family: 'DM Mono', monospace; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--charcoal-light); text-decoration: none; height: 100%; display: flex; align-items: center; position: relative; }
 .nav-link:hover { color: var(--crimson); }
 .nav-link.active { color: var(--crimson); }
 .nav-link.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--crimson); }
 .nav-link.active::before { content: '•'; position: absolute; left: -15px; color: var(--crimson); font-size: 1.2rem; }
 
 .nav-actions { display: flex; align-items: center; gap: 1rem; }
-.btn-outline { border: 1px solid var(--crimson); color: var(--crimson); padding: .6rem 1.2rem; font-family: 'DM Mono', monospace; font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; }
+.btn-outline { border: 1px solid var(--crimson); color: var(--crimson); padding: .6rem 1.2rem; font-family: 'DM Mono', monospace; font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: all 0.3s; }
 .btn-outline:hover { background: rgba(165,28,48,0.05); }
-.btn-solid { background: var(--charcoal); color: var(--white); padding: .6rem 1.5rem; font-family: 'DM Mono', monospace; font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; transition: background 0.2s; }
+.btn-solid { background: var(--charcoal); color: var(--white); padding: .6rem 1.5rem; font-family: 'DM Mono', monospace; font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; border: none; border-radius: 4px; transition: all 0.3s; }
 .btn-solid:hover { background: var(--crimson); }
 
 /* ═══════════════════════════════════════════
@@ -63,7 +64,7 @@ body { font-family: 'Source Serif 4', Georgia, serif; background: var(--ivory); 
 
 /* ── TAB SYSTEM ── */
 .tab-controls { display: flex; gap: 1rem; margin-bottom: 3rem; background: var(--white); padding: .5rem; border-radius: 8px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
-.tab-btn { flex: 1; background: transparent; border: none; padding: 1rem; font-family: 'DM Mono', monospace; font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); cursor: pointer; border-radius: 4px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: .5rem;}
+.tab-btn { flex: 1; background: transparent; border: none; padding: 1rem; font-family: 'DM Mono', monospace; font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--charcoal-light); cursor: pointer; border-radius: 4px; transition: all 0.3s; }
 .tab-btn:hover { color: var(--charcoal); }
 .tab-btn.active { background: var(--charcoal); color: var(--white); box-shadow: var(--shadow-sm); }
 .tab-btn.active .tab-icon { opacity: 1; }
@@ -91,7 +92,7 @@ body { font-family: 'Source Serif 4', Georgia, serif; background: var(--ivory); 
 .ec-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--charcoal); margin-bottom: .5rem; line-height: 1.3; }
 .ec-desc { font-size: .95rem; color: var(--charcoal-light); margin-bottom: 2rem; flex-grow: 1; }
 
-.ec-btn { width: 100%; background: transparent; border: 1px solid var(--charcoal); color: var(--charcoal); padding: .8rem; font-family: 'DM Mono', monospace; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; cursor: pointer; transition: all 0.2s; border-radius: 3px; }
+.ec-btn { width: 100%; background: transparent; border: 1px solid var(--charcoal); color: var(--charcoal); padding: .8rem; font-family: 'DM Mono', monospace; font-size: .8rem; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: all 0.3s; }
 .exam-card:hover .ec-btn { background: var(--charcoal); color: var(--white); }
 .exam-card.locked .ec-btn { border-color: var(--border); color: var(--muted); cursor: not-allowed; }
 .exam-card.locked:hover .ec-btn { background: transparent; }
@@ -134,7 +135,6 @@ body { font-family: 'Source Serif 4', Georgia, serif; background: var(--ivory); 
 <nav class="nav">
   <a href="#" class="nav-logo">
     <div class="logo-main">Shared <em>Pearls</em> of Wisdom</div>
-    
   </a>
   
   <div class="nav-links">
@@ -292,17 +292,17 @@ function generateCards(domain) {
     let linkAction = `onclick="alert('Loading ${domain.toUpperCase()} Test ${testNum}... Content in development.')"`;
 
     // ── ROUTING ENGINE ──
-    // Link to Listening Test 01
+    // Link to Listening Tests
     if (domain === 'listening' && i === 0) {
         linkAction = `onclick="window.location.href='premium-listening-01.html'"`;
     } 
     else if (domain === 'listening' && i === 1) { 
       linkAction = `onclick="window.location.href='premium-listening-02.html'"`; 
-      }
-    // Link to Reading Test 01 (Stoic Finance)
+    }
+    // Link to Reading Tests
     else if (domain === 'reading' && i === 0) {
       linkAction = `onclick="window.location.href='premium-reading.html'"`;
-            }
+    }
     else if (domain === 'reading' && i === 1) {
         linkAction = `onclick="window.location.href='premium-reading-02.html'"`;
     }
