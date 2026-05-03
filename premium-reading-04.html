@@ -3,18 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IELTS Reading Module | The LRSW Clinic</title>
+  <title>Premium Reading 04 | The LRSW Clinic</title>
+  
+  <!-- PREMIUM FONTS INTEGRATION -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Roboto+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    /* --- UNIVERSAL FONT STANDARDS & COLORS --- */
+    /* --- CAMBRIDGE COLOR PALETTE & TYPOGRAPHY --- */
     :root {
-      --primary: #0B1D3A;
-      --accent: #C4923E;
+      /* Cambridge Navy & Teal Accent */
+      --primary: #002F6C; 
+      --primary-dark: #001B40;
+      --accent: #00B0B9;
+      --accent-dark: #00878E;
+      --badge-bg: #E0F7FA;
+      
       --bg-light: #F8FAFC;
       --border: #CBD5E1;
       --text-main: #333333;
       --text-muted: #666666;
-      --font-ui: Arial, Helvetica, sans-serif;
-      --font-passage: "Times New Roman", Times, serif;
+      
+      /* Premium Typography System */
+      --font-ui: 'Inter', sans-serif;
+      --font-passage: 'Lora', serif;
+      --font-heading: 'Playfair Display', serif;
+      --font-mono: 'Roboto Mono', monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,56 +52,94 @@
       justify-content: space-between; 
       align-items: center; 
       padding: 0 2rem; 
-      height: 60px; 
+      height: 65px; 
       border-bottom: 3px solid var(--accent); 
       flex-shrink: 0; 
       z-index: 10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
-    .logo { font-size: 1.4rem; font-weight: bold; letter-spacing: 0.5px; }
+    .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
     .logo span { color: var(--accent); font-style: italic; }
     
     .nav-tabs { display: flex; height: 100%; }
     .tab-btn { 
       background: transparent; 
-      color: #cbd5e1; 
+      color: #e2e8f0; 
       border: none; 
       padding: 0 1.5rem; 
-      font-size: 1rem; 
-      font-weight: bold; 
+      font-size: 0.95rem; 
+      font-weight: 600; 
       cursor: pointer; 
-      transition: 0.2s; 
+      transition: all 0.3s ease; 
       height: 100%; 
       display: flex; 
       align-items: center; 
       border-bottom: 4px solid transparent; 
       font-family: var(--font-ui);
+      letter-spacing: 0.5px;
     }
-    .tab-btn:hover:not(:disabled) { color: #fff; background: rgba(255,255,255,0.05); }
-    .tab-btn.active { color: #fff; border-bottom-color: var(--accent); background: rgba(255,255,255,0.1); }
     
-    .timer { 
-      font-family: monospace; 
-      font-size: 1.4rem; 
-      font-weight: bold; 
-      color: #fff; 
-      background: #1e293b; 
-      padding: 0.3rem 0.8rem; 
-      border-radius: 4px; 
-      border: 1px solid #334155;
+    /* Hover Effects: Color Combination Swap */
+    .tab-btn:hover:not(:disabled) { 
+      color: var(--primary); 
+      background: var(--accent); 
     }
-    .timer.warning { color: #ef4444; animation: pulse 1s infinite; }
+    .tab-btn.active { 
+      color: #fff; 
+      border-bottom-color: var(--accent); 
+      background: rgba(0, 176, 185, 0.15); 
+    }
+    .tab-btn.active:hover {
+      background: var(--accent);
+      color: var(--primary);
+    }
+    
+    /* Header Controls */
+    .header-controls { display: flex; align-items: center; gap: 15px; }
+    
+    .btn-start-top {
+      background: var(--accent);
+      color: var(--primary-dark);
+      border: 2px solid var(--accent);
+      padding: 0.4rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+    }
+    .btn-start-top:hover { 
+      background: var(--primary-dark); 
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .timer { 
+      font-family: var(--font-mono); 
+      font-size: 1.3rem; 
+      font-weight: 600; 
+      color: #fff; 
+      background: var(--primary-dark); 
+      padding: 0.4rem 1rem; 
+      border-radius: 4px; 
+      border: 1px solid rgba(0, 176, 185, 0.3);
+      letter-spacing: 1px;
+    }
+    .timer.warning { color: #fca5a5; animation: pulse 1s infinite; border-color: #ef4444;}
 
     @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.5; }
-      100% { opacity: 1; }
+      0% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+      100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
     }
 
     /* --- SPLIT SCREEN LAYOUT --- */
     .workspace { 
       display: flex; 
       flex: 1; 
-      height: calc(100vh - 60px); 
+      height: calc(100vh - 65px); 
       overflow: hidden; 
       background: var(--bg-light); 
       position: relative;
@@ -96,18 +149,78 @@
       flex: 1; 
       height: 100%; 
       overflow-y: auto; 
-      padding: 2.5rem; 
+      padding: 3rem; 
       background: #fff; 
       position: relative;
     }
-    .left-panel { border-right: 2px solid var(--border); box-shadow: 2px 0 10px rgba(0,0,0,0.02); }
-    .right-panel { background: #fafbfc; padding-bottom: 100px; }
+    .left-panel { border-right: 1px solid var(--border); box-shadow: 4px 0 15px rgba(0,0,0,0.03); z-index: 2; }
+    .right-panel { background: #fafbfc; padding-bottom: 120px; }
+
+    /* --- PRE-TEST LOCK SCREEN OVERLAY --- */
+    .pre-test-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.98);
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .pre-test-overlay .module-badge {
+      font-family: var(--font-mono);
+      color: var(--primary);
+      background: var(--badge-bg);
+      border: 1px solid var(--accent);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1.5px;
+    }
+    .pre-test-overlay h2 { 
+      font-size: 3rem; 
+      color: var(--primary); 
+      margin-bottom: 1.5rem; 
+      font-family: var(--font-heading);
+    }
+    .pre-test-overlay p { 
+      font-size: 1.15rem; 
+      color: var(--text-muted); 
+      max-width: 600px; 
+      line-height: 1.7; 
+      margin-bottom: 2.5rem; 
+      font-family: var(--font-passage);
+    }
+    .btn-start-large {
+      background: var(--primary);
+      color: #fff;
+      padding: 1.2rem 3.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: 2px solid var(--primary);
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(0, 47, 108, 0.2);
+    }
+    .btn-start-large:hover { 
+      background: transparent; 
+      color: var(--primary); 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(0, 47, 108, 0.1); 
+    }
 
     /* --- PASSAGE TYPOGRAPHY --- */
     .left-panel h1 { 
-      font-family: var(--font-ui); 
-      font-size: 1.6rem; 
-      margin-bottom: 2rem; 
+      font-family: var(--font-heading); 
+      font-size: 2.2rem; 
+      margin-bottom: 2.5rem; 
       color: var(--primary); 
       line-height: 1.3; 
       text-align: center;
@@ -115,90 +228,107 @@
     
     .left-panel p { 
       font-family: var(--font-passage);
-      margin-bottom: 1.5rem; 
-      line-height: 1.8; 
+      margin-bottom: 1.8rem; 
+      line-height: 1.85; 
       text-align: justify; 
       font-size: 1.15rem; 
+      color: #2c3e50;
     }
     
     .paragraph-label { 
-      font-family: var(--font-ui);
-      font-weight: bold; 
+      font-family: var(--font-mono);
+      font-weight: 700; 
       font-size: 1.1rem; 
       margin-right: 15px; 
-      color: #000; 
+      color: var(--accent-dark); 
       float: left;
-      padding-top: 2px;
+      padding-top: 4px;
     }
     
     /* --- QUESTION TYPOGRAPHY --- */
     .right-panel h2 { 
-      font-size: 1.1rem; 
+      font-size: 1.2rem; 
       margin-bottom: 1rem; 
-      color: #000; 
-      border-bottom: 2px solid var(--primary); 
-      padding-bottom: 0.5rem; 
-      margin-top: 2rem; 
+      color: var(--primary); 
+      border-bottom: 2px solid var(--border); 
+      padding-bottom: 0.8rem; 
+      margin-top: 2.5rem; 
+      font-family: var(--font-ui);
+      font-weight: 700;
     }
     .right-panel h2:first-child { margin-top: 0; }
     
     .instruction { 
       font-style: italic; 
-      color: #000; 
-      margin-bottom: 1.2rem; 
+      color: var(--text-muted); 
+      margin-bottom: 1.5rem; 
       font-size: 0.95rem; 
-      line-height: 1.4;
+      line-height: 1.5;
     }
     
-    .q-group { margin-bottom: 2.5rem; }
+    .q-group { margin-bottom: 3rem; }
     .q-item { 
       display: flex; 
       align-items: baseline; 
-      margin-bottom: 1.2rem; 
-      gap: 12px; 
+      margin-bottom: 1.5rem; 
+      gap: 15px; 
     }
     .q-num { 
-      font-weight: bold; 
-      color: #000; 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      color: var(--primary); 
       min-width: 25px; 
+      font-size: 1rem;
     }
     .q-text { 
       flex: 1; 
-      font-size: 1rem; 
-      line-height: 1.5; 
+      font-size: 1.05rem; 
+      line-height: 1.6; 
     }
     
     input[type="text"] { 
-      padding: 0.3rem 0.5rem; 
+      padding: 0.4rem 0.6rem; 
       border: 1px solid #94a3b8; 
-      border-radius: 2px; 
+      border-radius: 4px; 
       font-size: 1rem; 
-      width: 140px; 
+      width: 160px; 
+      max-width: 100%;
       font-family: var(--font-ui);
+      background: #fff;
+      transition: width 0.3s ease, border-color 0.2s, box-shadow 0.2s;
     }
-    input[type="text"]:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 3px rgba(11,29,58,0.3); }
-    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; }
+    input[type="text"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0, 176, 185, 0.2); }
+    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; border-color: #cbd5e1; }
     
-    .mcq-options { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem; }
-    .mcq-label { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 0.95rem; }
-    .mcq-label input { margin-top: 4px; }
+    .mcq-options { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 1rem; color: #444; line-height: 1.4; transition: 0.2s;}
+    .mcq-label:hover { color: var(--primary); }
+    .mcq-label input { margin-top: 5px; cursor: pointer; }
     
     .box-options { 
       display: flex; 
       flex-wrap: wrap; 
       gap: 15px; 
-      border: 1px solid var(--primary); 
-      padding: 1.2rem; 
-      margin-bottom: 1.5rem; 
+      border: 1px solid var(--border); 
+      padding: 1.5rem; 
+      margin-bottom: 2rem; 
       background: #fff; 
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
-    .box-item { font-size: 1rem; font-weight: bold; }
+    .box-item { font-size: 1rem; font-weight: 500; font-family: var(--font-ui); color: var(--primary);}
+    .box-item strong { font-family: var(--font-mono); color: var(--accent-dark); margin-right: 5px;}
 
-    .section-content { display: none; }
+    .section-content { display: none; animation: fadeIn 0.4s ease; }
     .section-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
@@ -208,51 +338,60 @@
       bottom: 0;
       right: 0;
       width: 50%; 
-      background: #fff;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
       border-top: 1px solid var(--border);
-      padding: 1rem 2.5rem;
+      padding: 1.2rem 3rem;
       display: flex;
       justify-content: flex-end;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
       z-index: 100;
     }
 
     .btn-submit {
       background: var(--primary);
       color: #fff;
-      border: none;
-      padding: 0.8rem 2rem;
+      border: 2px solid var(--primary);
+      padding: 0.8rem 2.5rem;
       font-size: 1rem;
-      font-weight: bold;
+      font-weight: 600;
       border-radius: 4px;
       cursor: pointer;
-      font-family: var(--font-ui);
-      transition: 0.2s;
+      font-family: var(--font-mono);
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
     }
-    .btn-submit:hover:not(:disabled) { background: #1a365d; }
-    .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+    .btn-submit:hover:not(:disabled) { 
+      background: #fff; 
+      color: var(--primary); 
+    }
+    .btn-submit:disabled { background: #cbd5e1; border-color: #cbd5e1; color: #fff; cursor: not-allowed; }
 
     .btn-retake {
       background: transparent;
       color: var(--text-muted);
       border: 2px solid var(--border);
-      padding: 0.8rem 2rem;
+      padding: 0.8rem 2.5rem;
       font-size: 1rem;
-      font-weight: bold;
+      font-weight: 600;
       border-radius: 4px;
       cursor: pointer;
-      font-family: var(--font-ui);
-      transition: 0.2s;
+      font-family: var(--font-mono);
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
     }
-    .btn-retake:hover { background: #f1f5f9; color: var(--primary); border-color: var(--primary); }
+    .btn-retake:hover { 
+      background: var(--text-muted); 
+      color: #fff; 
+      border-color: var(--text-muted); 
+    }
 
     .dormant-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.3);
       z-index: 50;
       display: none;
-      /* Crucial fix: allows user to scroll and click tabs while inputs are disabled */
       pointer-events: none; 
     }
     body.test-completed .dormant-overlay { display: block; }
@@ -265,35 +404,40 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: #fff;
-      padding: 3rem;
+      padding: 3.5rem;
       border-radius: 8px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
       z-index: 200;
       text-align: center;
       border-top: 6px solid var(--accent);
-      min-width: 400px;
+      min-width: 450px;
     }
-    .results-modal h2 { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 2rem; margin-bottom: 1rem; }
-    .score-display { font-size: 3.5rem; font-weight: bold; color: var(--primary); margin: 1.5rem 0; }
-    .score-display span { font-size: 1.5rem; color: var(--text-muted); }
+    .results-modal h2 { font-family: var(--font-heading); color: var(--primary); font-size: 2.2rem; margin-bottom: 1rem; }
+    .score-display { font-size: 4rem; font-weight: 700; color: var(--primary); margin: 1.5rem 0; font-family: var(--font-mono);}
+    .score-display span { font-size: 1.8rem; color: var(--border); }
     
     .btn-close {
       background: var(--accent);
-      color: var(--primary);
-      border: none;
+      color: #fff;
+      border: 2px solid var(--accent);
       padding: 0.8rem 2.5rem;
-      font-size: 1.1rem;
-      font-weight: bold;
+      font-size: 1rem;
+      font-weight: 700;
       border-radius: 4px;
       cursor: pointer;
-      margin-top: 1rem;
-      transition: 0.2s;
+      margin-top: 1.5rem;
+      transition: all 0.3s ease;
+      font-family: var(--font-mono);
+      letter-spacing: 1px;
     }
-    .btn-close:hover { background: #b08133; }
+    .btn-close:hover { 
+      background: #fff; 
+      color: var(--accent-dark); 
+      border-color: var(--accent-dark);
+    }
 
-    /* Answer feedback styling */
-    .correct-answer { border-color: #10b981 !important; background: #d1fae5 !important; }
-    .wrong-answer { border-color: #ef4444 !important; background: #fee2e2 !important; }
+    .correct-answer { border-color: #10b981 !important; background: #f0fdf4 !important; color: #065f46 !important; font-weight: 600;}
+    .wrong-answer { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b !important; }
 
   </style>
 </head>
@@ -302,58 +446,69 @@
   <header>
     <div class="logo">The LRSW <span>Clinic</span></div>
     <div class="nav-tabs">
-      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
-      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
-      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Section 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Section 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Section 3</button>
     </div>
-    <div class="timer" id="timer">60:00</div>
+    <div class="header-controls">
+      <button class="btn-start-top" id="btn-start-top" onclick="startTest()">START</button>
+      <div class="timer" id="timer">60:00</div>
+    </div>
   </header>
 
   <!-- RESULTS MODAL -->
   <div class="results-modal" id="results-modal">
-    <h2>Test Completed</h2>
+    <h2>Evaluation Complete</h2>
     <p>Your Reading Module score is:</p>
     <div class="score-display" id="final-score">0 <span>/ 40</span></div>
-    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your answers.</p>
-    <button class="btn-close" onclick="closeModal()">Close</button>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your detailed feedback.</p>
+    <button class="btn-close" onclick="closeModal()">REVIEW ANSWERS</button>
   </div>
 
   <div class="workspace">
+    <!-- PRE-TEST LOCK SCREEN -->
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <div class="module-badge">PREMIUM MODULE 04</div>
+      <h2>Lexicography, Neuroscience & Urban Design</h2>
+      <p>This C1/C2 intensive simulation contains 3 passages and 40 questions focusing on corpus linguistics, the neurobiology of forgetting, and the behavioral psychology of smart cities. The timer will initiate and passages will be unlocked upon pressing start.</p>
+      <button class="btn-start-large" onclick="startTest()">INITIATE PROTOCOL &rarr;</button>
+    </div>
+
     <div class="dormant-overlay"></div>
 
     <!-- LEFT PANEL: READING PASSAGES -->
     <div class="panel left-panel">
       <!-- PASSAGE 1 -->
       <div id="passage-1" class="section-content active">
-        <h1>The Evolution of Language Acquisition Theories</h1>
-        <p><span class="paragraph-label">A</span> For centuries, the way in which human beings acquire language has been a subject of intense academic debate. In the early to mid-20th century, the dominant psychological perspective was behaviorism. Pioneered by figures such as B.F. Skinner, this theory posited that infants are born as a <em>tabula rasa</em>—a blank slate. According to behaviorists, language is learned entirely through environmental conditioning, mimicking, and habit formation. When a child utters a sound that resembles a word, and a parent responds with praise or a reward, the behavior is reinforced. Through continuous repetition and reinforcement, these vocalizations eventually develop into complex linguistic patterns.</p>
-        <p><span class="paragraph-label">B</span> In the late 1950s, linguist Noam Chomsky revolutionized the field by challenging the behaviorist model. Chomsky argued that it is mathematically impossible for children to learn the infinite number of sentences possible in a human language purely through mimicry and reinforcement. Instead, he proposed the existence of a "Language Acquisition Device" (LAD) and the concept of Universal Grammar. Chomsky suggested that humans are born with an innate biological blueprint for language. According to this nativist approach, children do not need to be explicitly taught the fundamental rules of grammar; they simply need to be exposed to a language to trigger their inherent grammatical intuition.</p>
-        <p><span class="paragraph-label">C</span> Building on the shift away from pure behaviorism, linguist Stephen Krashen introduced the Input Hypothesis in the 1970s and 80s. Krashen drew a sharp distinction between "learning" a language (which involves conscious, explicit instruction of grammar rules) and "acquiring" a language (a subconscious process similar to how children learn their first language). He argued that fluency is a product of acquisition, not learning. For acquisition to occur, learners must be exposed to "comprehensible input"—language that is slightly above their current proficiency level, but still understandable through context. Krashen’s theory fundamentally altered language classrooms, pushing educators away from rote grammar drills and towards immersive environments.</p>
-        <p><span class="paragraph-label">D</span> While Chomsky focused on biology and Krashen on input, the interactionist approach, heavily influenced by the earlier work of psychologist Lev Vygotsky, emphasizes the social dimensions of language. Vygotsky argued that cognitive development, including language, stems from social interaction. Language is not merely a biological unfolding, nor just the absorption of input, but a collaborative process between the learner and a more knowledgeable other. This scaffolding helps learners navigate their "Zone of Proximal Development"—the gap between what they can do independently and what they can achieve with guidance.</p>
-        <p><span class="paragraph-label">E</span> In recent years, advancements in neurobiology and cognitive science have provided researchers with unprecedented insights into the brain's language centers. Functional magnetic resonance imaging (fMRI) has mapped how different regions of the brain collaborate to process syntax, semantics, and phonology. Concurrently, the integration of digital technology into education has transformed how linguistic theories are applied. Modern software can track eye movement, measure response times, and adapt comprehensibility in real-time, providing highly personalized learning experiences.</p>
-        <p><span class="paragraph-label">F</span> Today, modern educational models have largely abandoned the practice of treating language acquisition as a series of isolated academic tasks. Instead, educators advocate for a holistic, integrated methodology. Rather than teaching vocabulary on Monday and grammar on Tuesday, modern classrooms emphasize the simultaneous development of all major linguistic modalities. Students are encouraged to engage their Listening, Reading, Speaking, and Writing skills interactively, ensuring that language is practiced not as a set of mechanical rules, but as a dynamic tool for authentic human communication.</p>
+        <h1>The Evolution of Lexicography: From Prescriptive to Descriptive</h1>
+        <p><span class="paragraph-label">A</span> To the average person, a dictionary is an indisputable authority, a static rulebook that dictates exactly how a language should be spoken and written. This "prescriptive" view of lexicography dominated the 18th and 19th centuries. Scholars like Samuel Johnson, who published his monumental <em>A Dictionary of the English Language</em> in 1755, sought to stabilize the English language, effectively attempting to halt its natural evolution by establishing rigid standards of "correctness." They viewed language as something that could be perfected and preserved, treating deviations from their rules as symptoms of cultural decay.</p>
+        <p><span class="paragraph-label">B</span> The publication of the <em>Oxford English Dictionary</em> (OED) in the late 19th and early 20th centuries marked the beginning of a philosophical shift. The editors of the OED crowd-sourced thousands of quotations from historical texts, aiming to track the historical development of words rather than dictate their usage. However, the true revolution in lexicography did not arrive until the late 20th century with the advent of the digital age. Modern lexicographers are overwhelmingly "descriptive"—they believe their job is not to tell people how to speak, but to accurately record how people <em>actually</em> speak in real, everyday contexts.</p>
+        <p><span class="paragraph-label">C</span> This descriptive methodology is entirely dependent on "corpus linguistics." A corpus is a massive, continuously updated digital database containing hundreds of millions, or even billions, of words collected from diverse sources: newspapers, academic journals, blog posts, transcripts of spoken conversations, and even social media platforms. By analyzing a corpus using specialized software, lexicographers can objectively identify emerging vocabulary, track the decline of archaic terms, and observe how the grammatical functions of specific words shift over time. Intuition has been largely replaced by hard, empirical data.</p>
+        <p><span class="paragraph-label">D</span> Deciding which new words merit inclusion in a modern dictionary is a rigorous statistical process. Lexicographers look for two primary metrics: frequency and dispersion. Frequency simply refers to how often a word appears in the corpus. However, a word that appears 10,000 times only in a specific medical journal does not qualify for a general dictionary. Therefore, dispersion—the measure of a word's usage across a wide variety of different sources and geographic regions—is equally critical. A word must demonstrate sustained, widespread usage across multiple demographics before it is officially recognized.</p>
+        <p><span class="paragraph-label">E</span> Consequently, modern dictionaries are frequently updated to include internet slang, technological jargon, and global variations of English (such as Singlish or Hinglish). Traditionalists often lament these additions as a corruption of the language. However, linguists argue that language is a living organism, and a dictionary that refuses to document slang is simply failing to do its job. Because digital dictionaries do not face the physical space constraints of printed books, they can rapidly incorporate these linguistic innovations.</p>
+        <p><span class="paragraph-label">F</span> Looking forward, artificial intelligence is poised to automate much of the lexicographical process. AI algorithms can now track "semantic shift"—the process by which a word's meaning changes over time—in real-time. For instance, the word "literally" has evolved to be used as an intensifier for figurative statements (e.g., "I was literally dying of laughter"). While this enrages purists, AI seamlessly logs these shifts, generating automated alerts for human editors when a new definition reaches the statistical threshold for inclusion. In the 21st century, the dictionary is no longer a static monument; it is a dynamic, living reflection of society.</p>
       </div>
 
       <!-- PASSAGE 2 -->
       <div id="passage-2" class="section-content">
-        <h1>Bridging Pedagogical Gaps with Artificial Intelligence</h1>
-        <p><span class="paragraph-label">A</span> The integration of Artificial Intelligence (AI) into educational frameworks represents one of the most significant pedagogical shifts of the 21st century. Historically, a major limitation in language instruction has been the student-to-teacher ratio. A single instructor managing a diverse classroom of thirty learners struggles to provide the individualized feedback necessary for optimal language acquisition. AI technologies, specifically Natural Language Processing (NLP) and Large Language Models (LLMs), are now effectively bridging this gap by acting as highly responsive, automated tutors.</p>
-        <p><span class="paragraph-label">B</span> One of the most profound impacts of AI in English Language Teaching (ELT) is adaptive learning. Traditional curricula are largely linear, forcing all students to progress at the same pace regardless of their individual linguistic competencies. AI-driven platforms, however, analyze a learner’s input in real-time—identifying recurring grammatical errors, vocabulary deficits, or phonetic struggles. The system then dynamically recalibrates the difficulty of subsequent exercises. Researchers like Dr. Aris Vlassis have noted that this micro-adjusting prevents learner frustration and maintains the student within their optimal learning zone.</p>
-        <p><span class="paragraph-label">C</span> Continuous Professional Development (CPD) for educators has also been transformed by these technologies. Rather than replacing teachers, AI tools are automating administrative burdens such as grading multiple-choice assessments and generating foundational lesson plans. This automation allows educators to transition from taskmasters to facilitators. By analyzing the data dashboards generated by AI platforms, teachers can identify macro-trends in classroom comprehension and design targeted, human-led interventions to address complex sociolinguistic nuances that AI currently struggles to grasp.</p>
-        <p><span class="paragraph-label">D</span> Despite the rapid adoption of AI tools, skepticism remains within the academic community. Critics argue that over-reliance on AI-mediated communication strips language learning of its essential human empathy and cultural context. Professor Elena Rostova argues that while AI can perfect a student's syntax, it cannot teach the pragmatic use of language—how to interpret sarcasm, read body language, or understand colloquial humor. She warns that classrooms leaning exclusively on algorithmic feedback risk producing technically proficient speakers who lack socio-cultural competence.</p>
-        <p><span class="paragraph-label">E</span> To counter these concerns, leading educational technologists are developing multimodal AI systems. These advanced models do not just process text; they analyze vocal intonation and facial expressions via webcam to gauge learner engagement and confusion. Preliminary experiments in multicultural classrooms in Southeast Asia have shown promising results. By combining AI's rigorous grammatical feedback with a teacher's cultural contextualization, institutions are reporting an accelerated progression from CEFR A2 to B1 levels compared to traditional instruction alone.</p>
-        <p><span class="paragraph-label">F</span> Ultimately, the future of ELT lies in a symbiotic relationship between human educators and artificial intelligence. The pedagogical gap is not bridged by replacing the human element, but by augmenting it. As AI continues to evolve, its primary utility will be to provide the repetitive, customized scaffolding that learners require, freeing the human educator to focus on inspiring critical thinking, creativity, and authentic intercultural dialogue.</p>
+        <h1>The Neuroscience of Memory and Active Forgetting</h1>
+        <p><span class="paragraph-label">A</span> Throughout the history of cognitive science, forgetting was largely viewed as a failure of the brain—a breakdown in the neurological machinery responsible for storing or retrieving information. Memory was considered the primary goal of the brain, and forgetting was merely its unfortunate byproduct. However, recent advancements in neurobiology have radically overturned this assumption. Neuroscientists now understand that forgetting is not a passive decay, but an active, energy-intensive, and highly evolved biological mechanism. Forgetting is not a bug in the system; it is a critical feature required for optimal cognitive function and psychological survival.</p>
+        <p><span class="paragraph-label">B</span> To understand forgetting, one must first understand how memories are formed. When we experience a novel event, groups of neurons in the brain fire together in specific patterns. If this pattern is repeated or deemed important, the physical connections (synapses) between these neurons strengthen, creating a physical memory trace known as an "engram." This process, known as memory consolidation, occurs primarily during deep, slow-wave sleep. The hippocampus, a seahorse-shaped structure deep in the brain, acts as a temporary holding pen, repeatedly replaying these neural patterns to the neocortex until the engram becomes a permanent structural change.</p>
+        <p><span class="paragraph-label">C</span> So, how does the brain actively erase these physical traces? One primary mechanism is neurogenesis—the birth of new neurons. Interestingly, the hippocampus is one of the few areas of the adult human brain that continuously produces new neurons throughout our lifespan. Research led by neurobiologist Paul Frankland suggests that as these new neurons integrate into existing hippocampal circuits, they physically disrupt and overwrite older, less frequently accessed engrams. This continuous remodeling clears out trivial, outdated information (like where you parked your car three weeks ago) to make room for new, relevant data.</p>
+        <p><span class="paragraph-label">D</span> The brain relies heavily on the neurotransmitter dopamine to decide which engrams are preserved and which are overwritten. Dopamine acts as a biological "save button." When an experience is highly emotional, surprising, or rewarding, the brain is flooded with dopamine, which signals the hippocampus to strongly consolidate that specific engram. Conversely, mundane, repetitive events generate little to no dopamine response, marking them for active erasure. This filtering system prevents the brain from being paralyzed by an overwhelming barrage of useless sensory data.</p>
+        <p><span class="paragraph-label">E</span> The profound necessity of this filtering system is highlighted by individuals who possess a condition known as Highly Superior Autobiographical Memory (HSAM), or hyperthymesia. People with HSAM can remember virtually every day of their lives in excruciating detail. While this might sound like a superpower, many sufferers describe it as a debilitating burden. Because their brains lack the mechanism of active forgetting, they are constantly flooded with intrusive, irrelevant memories, making it incredibly difficult to focus on the present moment or recover from past emotional traumas. A healthy mind requires the ability to let go.</p>
+        <p><span class="paragraph-label">F</span> The realization that the brain actively works to erase information has profound implications for education and learning. Students who attempt to "cram" information into their brains the night before an exam are fighting against millions of years of evolutionary biology; without the dopamine marker of genuine emotional engagement, the brain quickly targets this crammed data for neurogenic erasure. The most effective educational countermeasure is "spaced repetition"—reviewing material at gradually increasing intervals. This forces the brain to repeatedly reconstruct the engram, tricking the hippocampus into recognizing the information as vital for survival and shielding it from the brain's natural deletion protocols.</p>
       </div>
 
       <!-- PASSAGE 3 -->
       <div id="passage-3" class="section-content">
-        <h1>Cognitive Resilience and Ancient Philosophies in Modern Learning</h1>
-        <p><span class="paragraph-label">A</span> The journey of mastering a second language is rarely a linear trajectory of improvement. Most learners experience rapid progress in the initial stages, followed by a prolonged and often frustrating period known as the "intermediate plateau." During this phase, learners possess enough vocabulary to survive basic interactions but struggle to express complex, abstract thoughts. At this critical juncture, cognitive psychology suggests that a learner’s success is determined less by their linguistic aptitude and more by their psychological resilience and emotional regulation.</p>
-        <p><span class="paragraph-label">B</span> Interestingly, modern educational psychologists are increasingly drawing parallels between cognitive resilience in language acquisition and the tenets of ancient Stoic philosophy. Stoicism, founded in Athens in the 3rd century BC, teaches the development of self-control and fortitude as a means of overcoming destructive emotions. The central dichotomy of control—distinguishing between what is within our power and what is not—is highly applicable to the modern language learner. A student cannot control the complexity of English grammar rules or the speed at which a native speaker talks, but they possess absolute control over their study habits, their response to making errors, and their daily consistency.</p>
-        <p><span class="paragraph-label">C</span> Dr. Julian Hughes, a researcher in psycho-linguistics, argues that applying Stoic principles can significantly lower the "affective filter." First proposed by Stephen Krashen, the affective filter is a psychological barrier that prevents language acquisition when a learner is stressed, anxious, or unmotivated. Hughes found that learners trained in cognitive reframing—a technique aligned with Stoic mindfulness where mistakes are viewed as necessary data points rather than personal failures—showed a 40% higher retention rate of complex syntax over a six-month period.</p>
-        <p><span class="paragraph-label">D</span> Furthermore, the concept of consistent, marginal gains is central to overcoming the intermediate plateau. Language acquisition is inherently a slow, compounding process, much like achieving financial freedom or building physical fitness. The modern desire for immediate fluency, fueled by apps promising mastery in 30 days, creates a mismatch between expectation and reality. Philosophers and modern psychologists alike argue that embracing the tediousness of the process—finding satisfaction in the daily discipline of reading, writing, and speaking without demanding immediate external validation—is the true marker of a resilient learner.</p>
-        <p><span class="paragraph-label">E</span> The integration of these psychological frameworks into formal curriculum design is still in its infancy. Most language assessments prioritize accuracy and fluency, leaving no metric for evaluating a student’s resilience or strategic approach to learning. However, some forward-thinking institutions are beginning to implement "reflective journaling" alongside traditional listening and reading tests. These journals require students to document their emotional responses to linguistic challenges, encouraging a metacognitive awareness of their own learning processes.</p>
-        <p><span class="paragraph-label">F</span> In conclusion, while technological advancements provide unprecedented tools for language input and correction, the internal landscape of the learner remains the ultimate frontier. By fostering cognitive resilience through principles that echo ancient wisdom, educators can equip students not just with the vocabulary to speak, but with the psychological fortitude to persevere when words fail them. The true mastery of a language requires the mastery of one's own mind.</p>
+        <h1>Urban Architecture and Behavioral Nudging</h1>
+        <p><span class="paragraph-label">A</span> The concept of the "Smart City" traditionally conjures images of digital infrastructure: traffic lights synchronized by artificial intelligence, autonomous public transport, and ubiquitous environmental sensors. However, modern urban planners are increasingly recognizing that the most powerful tool in city design is not digital, but psychological. The physical architecture of a city—the layout of its streets, the placement of its parks, and the design of its public spaces—exerts a profound, invisible influence over the daily choices and behaviors of its citizens. This concept is at the forefront of a discipline known as behavioral architecture.</p>
+        <p><span class="paragraph-label">B</span> This approach is heavily rooted in the theory of "nudging," popularized by behavioral economists Richard Thaler and Cass Sunstein. A nudge is any aspect of the "choice architecture" that alters people's behavior in a predictable way without forbidding any options or significantly changing their economic incentives. To count as a mere nudge, the intervention must be easy and cheap to avoid. In urban design, nudging involves designing physical environments that make the healthiest, most sustainable, or most socially beneficial choice the path of least resistance for the subconscious brain.</p>
+        <p><span class="paragraph-label">C</span> A classic example of physical nudging can be seen in the management of pedestrian flow. When urban planners construct rigid, right-angled paved walkways through parks, pedestrians frequently ignore them, cutting across the grass to take the shortest possible route. These dirt trails are known by architects as "desire paths." Rather than putting up fences or "Keep Off the Grass" signs—which are prescriptive and often ignored—behavioral architects will wait to see where desire paths naturally form, and then pave over them. By aligning the infrastructure with human psychology, compliance becomes effortless.</p>
+        <p><span class="paragraph-label">D</span> The strategic integration of green spaces is another potent behavioral nudge. Studies in environmental psychology demonstrate that exposure to nature significantly lowers cortisol (stress hormone) levels and restores depleted cognitive resources, a phenomenon known as Attention Restoration Theory. Cities like Singapore have capitalized on this by implementing "biophilic design," mandating the inclusion of vertical gardens and rooftop greenery in commercial buildings. This is not merely an aesthetic choice; the presence of nature nudges workers toward higher productivity and reduces instances of public aggression and antisocial behavior.</p>
+        <p><span class="paragraph-label">E</span> Despite the obvious benefits, the deployment of behavioral nudging in public spaces raises significant ethical questions. Critics argue that nudging is inherently paternalistic, as it involves a select group of unelected architects and bureaucrats deciding what constitutes "good" behavior and subtly manipulating the public into compliance. When a city narrows roads to deliberately frustrate drivers and nudge them onto public transport, it is making a moral choice on behalf of its citizens. The lack of transparency in how these environments are engineered leads some philosophers to argue that nudging infringes upon human autonomy and democratic consent.</p>
+        <p><span class="paragraph-label">F</span> In conclusion, the architecture of the 21st-century city is transitioning from a framework of rigid enforcement to one of subtle persuasion. By abandoning the assumption that citizens are perfectly rational actors who will always read signs and follow rules, and instead designing for the realities of human psychology, cities can become safer, greener, and more efficient. However, as the invisible hand of behavioral design grows more powerful, urban planners must balance their desire for optimized cities with a fundamental respect for individual freedom.</p>
       </div>
     </div>
 
@@ -364,48 +519,65 @@
       <div id="questions-1" class="section-content active">
         <h2>Questions 1–5</h2>
         <div class="instruction">
-          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
-          Choose the correct heading for paragraphs <strong>A–D</strong> and <strong>F</strong> from the list below.<br>
-          Write the correct number, <strong>i–vii</strong>, in the boxes provided.
-        </div>
-        <div class="box-options">
-          <div class="box-item"><strong>i</strong> The biological blueprint of language</div>
-          <div class="box-item"><strong>ii</strong> The impact of social collaboration</div>
-          <div class="box-item"><strong>iii</strong> Learning through habit and reward</div>
-          <div class="box-item"><strong>iv</strong> The debate between nature and nurture</div>
-          <div class="box-item"><strong>v</strong> Mapping the brain’s language centers</div>
-          <div class="box-item"><strong>vi</strong> The shift toward subconscious absorption</div>
-          <div class="box-item"><strong>vii</strong> A unified approach to the four key skills</div>
-        </div>
-        <div class="q-group">
-          <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph A <input type="text" id="q1"></div></div>
-          <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph B <input type="text" id="q2"></div></div>
-          <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph C <input type="text" id="q3"></div></div>
-          <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph D <input type="text" id="q4"></div></div>
-          <div class="q-item" style="color: #666;"><em>Example: Paragraph E = v</em></div>
-          <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph F <input type="text" id="q5"></div></div>
-        </div>
-
-        <h2>Questions 6–9</h2>
-        <div class="instruction">
-          Do the following statements agree with the information given in the Reading Passage?<br>
+          Do the following statements agree with the information given in Reading Passage 1?<br>
           Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">6</div><div class="q-text">B.F. Skinner believed that children possess an inherent understanding of basic grammar from birth. <br><input type="text" id="q6"></div></div>
-          <div class="q-item"><div class="q-num">7</div><div class="q-text">Stephen Krashen claimed that explicitly teaching grammar rules is the most effective way to achieve language fluency. <br><input type="text" id="q7"></div></div>
-          <div class="q-item"><div class="q-num">8</div><div class="q-text">Vygotsky’s interactionist theories were initially rejected by mainstream psychologists. <br><input type="text" id="q8"></div></div>
-          <div class="q-item"><div class="q-num">9</div><div class="q-text">Modern language classrooms are moving away from teaching linguistic skills in isolation. <br><input type="text" id="q9"></div></div>
+          <div class="q-item"><div class="q-num">1</div><div class="q-text">Prescriptive lexicographers like Samuel Johnson documented slang to show how people actually spoke. <br><input type="text" id="q1"></div></div>
+          <div class="q-item"><div class="q-num">2</div><div class="q-text">The Oxford English Dictionary (OED) utilized quotations to track the historical development of language. <br><input type="text" id="q2"></div></div>
+          <div class="q-item"><div class="q-num">3</div><div class="q-text">A word that appears frequently in a single, specialized medical journal will automatically be added to a modern dictionary. <br><input type="text" id="q3"></div></div>
+          <div class="q-item"><div class="q-num">4</div><div class="q-text">Teenagers are responsible for creating the majority of the new slang added to digital dictionaries. <br><input type="text" id="q4"></div></div>
+          <div class="q-item"><div class="q-num">5</div><div class="q-text">AI algorithms can automatically alert human editors when a word's meaning has changed significantly. <br><input type="text" id="q5"></div></div>
         </div>
 
-        <h2>Questions 10–13</h2>
+        <h2>Questions 6–10</h2>
         <div class="instruction">
           Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
         </div>
         <div class="q-group">
           <div class="q-item">
             <div class="q-text">
-              Recent developments in <strong>10</strong> <input type="text" id="q10"> have allowed scientists to map the specific areas of the brain responsible for processing language. Alongside this, the use of digital <strong>11</strong> <input type="text" id="q11"> has revolutionized language education by allowing for real-time adaptations to suit individual learners. In the modern classroom, the focus has shifted towards a more <strong>12</strong> <input type="text" id="q12"> methodology. This means that students are no longer taught using mechanical drills; instead, they develop their Listening, Reading, Speaking, and Writing abilities <strong>13</strong> <input type="text" id="q13">, allowing them to use language for authentic communication.
+              Modern lexicographers have adopted a <strong>6</strong> <input type="text" id="q6"> approach to dictionary making. They rely on massive digital databases, an area of study known as <strong>7</strong> <input type="text" id="q7">. To decide if a new word should be included, editors analyze objective data, specifically looking at a word's <strong>8</strong> <input type="text" id="q8"> (how often it is used) and its <strong>9</strong> <input type="text" id="q9"> (how widely it is used across different regions). In the future, technology will play an even larger role, with AI being used to track instances of <strong>10</strong> <input type="text" id="q10"> as words naturally change their definitions over time.
+            </div>
+          </div>
+        </div>
+
+        <h2>Questions 11–13</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">11</div>
+            <div class="q-text">What was the primary goal of 18th-century scholars like Samuel Johnson?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q11" value="A"> A) To crowd-source new vocabulary from the public.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="B"> B) To establish rigid rules and halt the natural evolution of English.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="C"> C) To document how working-class people actually spoke.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="D"> D) To embrace global variations of the English language.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">12</div>
+            <div class="q-text">According to linguists in Paragraph E, why should slang be included in dictionaries?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q12" value="A"> A) Because it helps teenagers pass traditional grammar tests.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="B"> B) Because printed books are no longer being manufactured.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="C"> C) Because language is a living organism, and dictionaries must accurately document it.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="D"> D) Because traditionalists demand that the language be corrupted.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">13</div>
+            <div class="q-text">What does the author use the word "literally" to illustrate?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q13" value="A"> A) An example of semantic shift being tracked by AI.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="B"> B) A word that has been permanently removed from modern dictionaries.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="C"> C) A grammatical error that proves the need for prescriptive rules.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="D"> D) A technological jargon term used only by software engineers.</label>
+              </div>
             </div>
           </div>
         </div>
@@ -413,87 +585,91 @@
 
       <!-- QUESTIONS FOR SECTION 2 -->
       <div id="questions-2" class="section-content">
-        <h2>Questions 14–18</h2>
+        <h2>Questions 14–19</h2>
         <div class="instruction">
           The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
-          Which paragraph contains the following information?<br>
-          Write the correct letter, <strong>A–F</strong>, in the boxes provided.
+          Choose the correct heading for each paragraph from the list below.<br>
+          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The chemical signal that saves important memories</div>
+          <div class="box-item"><strong>ii</strong> How physical memory traces are formed during sleep</div>
+          <div class="box-item"><strong>iii</strong> The psychological trauma of vivid nightmares</div>
+          <div class="box-item"><strong>iv</strong> Tricking the brain through repetitive study intervals</div>
+          <div class="box-item"><strong>v</strong> A paradigm shift: Forgetting as a beneficial feature</div>
+          <div class="box-item"><strong>vi</strong> The debilitating burden of an inability to forget</div>
+          <div class="box-item"><strong>vii</strong> Erasing the past by growing new brain cells</div>
+          <div class="box-item"><strong>viii</strong> How to quickly cram for a neuroscience exam</div>
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">14</div><div class="q-text">A mention of how AI handles administrative tasks for teachers. <input type="text" id="q14"></div></div>
-          <div class="q-item"><div class="q-num">15</div><div class="q-text">A description of technology that evaluates visual and audio cues to measure student understanding. <input type="text" id="q15"></div></div>
-          <div class="q-item"><div class="q-num">16</div><div class="q-text">The historical problem of providing personal attention in large classes. <input type="text" id="q16"></div></div>
-          <div class="q-item"><div class="q-num">17</div><div class="q-text">An argument that AI cannot successfully teach the social or emotional aspects of language. <input type="text" id="q17"></div></div>
-          <div class="q-item"><div class="q-num">18</div><div class="q-text">How AI systems alter the difficulty of tasks based on immediate learner performance. <input type="text" id="q18"></div></div>
+          <div class="q-item"><div class="q-num">14</div><div class="q-text">Paragraph A <input type="text" id="q14"></div></div>
+          <div class="q-item"><div class="q-num">15</div><div class="q-text">Paragraph B <input type="text" id="q15"></div></div>
+          <div class="q-item"><div class="q-num">16</div><div class="q-text">Paragraph C <input type="text" id="q16"></div></div>
+          <div class="q-item"><div class="q-num">17</div><div class="q-text">Paragraph D <input type="text" id="q17"></div></div>
+          <div class="q-item"><div class="q-num">18</div><div class="q-text">Paragraph E <input type="text" id="q18"></div></div>
+          <div class="q-item"><div class="q-num">19</div><div class="q-text">Paragraph F <input type="text" id="q19"></div></div>
         </div>
 
-        <h2>Questions 19–22</h2>
+        <h2>Questions 20–23</h2>
+        <div class="instruction">
+          Complete the summary using the list of concepts, <strong>A–G</strong>, below.<br>
+          Write the correct letter, <strong>A–G</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> dopamine</div>
+          <div class="box-item"><strong>B</strong> sensory data</div>
+          <div class="box-item"><strong>C</strong> memory consolidation</div>
+          <div class="box-item"><strong>D</strong> trauma</div>
+          <div class="box-item"><strong>E</strong> spaced repetition</div>
+          <div class="box-item"><strong>F</strong> hippocampus</div>
+          <div class="box-item"><strong>G</strong> neurogenesis</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              The brain forms engrams through a structural process known as <strong>20</strong> <input type="text" id="q20">. To prevent cognitive overload, the brain actively erases trivial information. One way it achieves this is by producing new neurons in the <strong>21</strong> <input type="text" id="q21">, which physically overwrite older pathways. The brain decides which memories to keep based on the presence of <strong>22</strong> <input type="text" id="q22">, a chemical released during emotional or surprising events. Because cramming lacks this emotional marker, the brain quickly erases the data. Therefore, students should use <strong>23</strong> <input type="text" id="q23"> to convince the brain that the academic material is vital for survival.
+            </div>
+          </div>
+        </div>
+
+        <h2>Questions 24–26</h2>
         <div class="instruction">
           Choose the correct letter, <strong>A, B, C or D</strong>.
         </div>
         <div class="q-group">
           <div class="q-item">
-            <div class="q-num">19</div>
-            <div class="q-text">What does Dr. Aris Vlassis suggest is the main benefit of AI-driven adaptive learning?
+            <div class="q-num">24</div>
+            <div class="q-text">What is an "engram"?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q19" value="A"> A) It forces all students to learn at the same pace.</label>
-                <label class="mcq-label"><input type="radio" name="q19" value="B"> B) It stops learners from feeling frustrated by keeping tasks at the right level.</label>
-                <label class="mcq-label"><input type="radio" name="q19" value="C"> C) It completely replaces the need for human teachers.</label>
-                <label class="mcq-label"><input type="radio" name="q19" value="D"> D) It generates foundational lesson plans automatically.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="A"> A) A specific type of slow-wave sleep disorder.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="B"> B) A physical memory trace created by strengthened connections between neurons.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="C"> C) A neurotransmitter that triggers feelings of surprise and reward.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="D"> D) A new neuron born in the adult human brain.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
-            <div class="q-num">20</div>
-            <div class="q-text">According to paragraph C, how does AI impact Continuous Professional Development?
+            <div class="q-num">25</div>
+            <div class="q-text">How do people with Highly Superior Autobiographical Memory (HSAM) usually feel about their condition?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q20" value="A"> A) Teachers spend more time on multiple-choice grading.</label>
-                <label class="mcq-label"><input type="radio" name="q20" value="B"> B) It removes the need for teachers to understand sociolinguistic nuances.</label>
-                <label class="mcq-label"><input type="radio" name="q20" value="C"> C) It frees teachers to act as facilitators rather than administrators.</label>
-                <label class="mcq-label"><input type="radio" name="q20" value="D"> D) It makes human-led interventions unnecessary.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="A"> A) They view it as a helpful superpower for passing exams.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="B"> B) They are unaware that their memory is different from average people.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="C"> C) They find it debilitating because they cannot escape intrusive past memories.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="D"> D) They experience a complete lack of dopamine during emotional events.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
-            <div class="q-num">21</div>
-            <div class="q-text">Professor Elena Rostova is concerned that AI instruction might produce students who:
+            <div class="q-num">26</div>
+            <div class="q-text">According to paragraph F, why does "cramming" fail as a long-term study strategy?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q21" value="A"> A) Have poor syntax and grammar.</label>
-                <label class="mcq-label"><input type="radio" name="q21" value="B"> B) Cannot type or use digital platforms efficiently.</label>
-                <label class="mcq-label"><input type="radio" name="q21" value="C"> C) Do not understand cultural humor or pragmatics.</label>
-                <label class="mcq-label"><input type="radio" name="q21" value="D"> D) Rely too heavily on webcam analysis.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="A"> A) Because students usually do not sleep enough to create new neurons.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="B"> B) Because the neocortex temporarily shuts down the day before an exam.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="C"> C) Because the information generates too much dopamine, overloading the system.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="D"> D) Because the data lacks emotional markers, causing the brain's natural deletion protocols to erase it.</label>
               </div>
             </div>
           </div>
-          <div class="q-item">
-            <div class="q-num">22</div>
-            <div class="q-text">What is the author's final conclusion in Paragraph F?
-              <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q22" value="A"> A) AI will eventually replace human language teachers.</label>
-                <label class="mcq-label"><input type="radio" name="q22" value="B"> B) AI and human teachers must work together symbiotically.</label>
-                <label class="mcq-label"><input type="radio" name="q22" value="C"> C) AI is currently too expensive for mainstream ELT.</label>
-                <label class="mcq-label"><input type="radio" name="q22" value="D"> D) Teachers should focus only on repetitive scaffolding.</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <h2>Questions 23–26</h2>
-        <div class="instruction">
-          Look at the following statements (Questions 23-26) and the list of researchers below.<br>
-          Match each statement with the correct researcher, <strong>A, B, or C</strong>.<br>
-          <em>You may use any letter more than once.</em>
-        </div>
-        <div class="box-options">
-          <div class="box-item"><strong>A</strong> Dr. Aris Vlassis</div>
-          <div class="box-item"><strong>B</strong> Professor Elena Rostova</div>
-          <div class="box-item"><strong>C</strong> Stephen Krashen</div>
-        </div>
-        <div class="q-group">
-          <div class="q-item"><div class="q-num">23</div><div class="q-text">Believes that AI cannot interpret sarcasm or body language. <input type="text" id="q23"></div></div>
-          <div class="q-item"><div class="q-num">24</div><div class="q-text">Observes that dynamic recalibration keeps students in an optimal learning zone. <input type="text" id="q24"></div></div>
-          <div class="q-item"><div class="q-num">25</div><div class="q-text">Warns against the loss of empathy in automated teaching environments. <input type="text" id="q25"></div></div>
-          <div class="q-item"><div class="q-num">26</div><div class="q-text">Suggests that micro-adjusting difficulty prevents learners from giving up. <input type="text" id="q26"></div></div>
         </div>
       </div>
 
@@ -501,90 +677,48 @@
       <div id="questions-3" class="section-content">
         <h2>Questions 27–31</h2>
         <div class="instruction">
-          Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
-          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Which paragraph contains the following information?<br>
+          Write the correct letter, <strong>A–F</strong>, in the boxes provided.
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">27</div><div class="q-text">The "intermediate plateau" is a phase where learners experience the fastest rate of linguistic improvement. <br><input type="text" id="q27"></div></div>
-          <div class="q-item"><div class="q-num">28</div><div class="q-text">Stoic philosophy emphasizes controlling your emotional reactions rather than external events. <br><input type="text" id="q28"></div></div>
-          <div class="q-item"><div class="q-num">29</div><div class="q-text">Dr. Julian Hughes published his findings in the Journal of Applied Psycho-Linguistics. <br><input type="text" id="q29"></div></div>
-          <div class="q-item"><div class="q-num">30</div><div class="q-text">The modern expectation of achieving immediate fluency aligns well with the reality of language acquisition. <br><input type="text" id="q30"></div></div>
-          <div class="q-item"><div class="q-num">31</div><div class="q-text">Most standard language tests currently do not measure a student's psychological resilience. <br><input type="text" id="q31"></div></div>
+          <div class="q-item"><div class="q-num">27</div><div class="q-text">A definition of what qualifies as a behavioral nudge. <input type="text" id="q27"></div></div>
+          <div class="q-item"><div class="q-num">28</div><div class="q-text">An example of planners using natural human walking routes rather than signs. <input type="text" id="q28"></div></div>
+          <div class="q-item"><div class="q-num">29</div><div class="q-text">Evidence that exposure to nature reduces antisocial behavior and stress hormones. <input type="text" id="q29"></div></div>
+          <div class="q-item"><div class="q-num">30</div><div class="q-text">The argument that nudging threatens democratic consent by manipulating the public. <input type="text" id="q30"></div></div>
+          <div class="q-item"><div class="q-num">31</div><div class="q-text">The idea that a city's physical layout is more powerful than its digital sensors. <input type="text" id="q31"></div></div>
         </div>
 
         <h2>Questions 32–36</h2>
         <div class="instruction">
-          Complete the summary using the list of words, <strong>A–I</strong>, below.<br>
-          Write the correct letter, <strong>A–I</strong>, in the boxes provided.
+          Look at the following concepts (Questions 32-36) and the list of descriptions below.<br>
+          Match each concept with the correct description, <strong>A, B, C, or D</strong>.<br>
+          <em>You may use any letter more than once.</em>
         </div>
         <div class="box-options">
-          <div class="box-item"><strong>A</strong> errors</div>
-          <div class="box-item"><strong>B</strong> grammar</div>
-          <div class="box-item"><strong>C</strong> stress</div>
-          <div class="box-item"><strong>D</strong> data</div>
-          <div class="box-item"><strong>E</strong> motivation</div>
-          <div class="box-item"><strong>F</strong> syntax</div>
-          <div class="box-item"><strong>G</strong> control</div>
-          <div class="box-item"><strong>H</strong> barrier</div>
-          <div class="box-item"><strong>I</strong> discipline</div>
+          <div class="box-item"><strong>A</strong> Desire Paths</div>
+          <div class="box-item"><strong>B</strong> Behavioral Nudging</div>
+          <div class="box-item"><strong>C</strong> Attention Restoration Theory</div>
+          <div class="box-item"><strong>D</strong> Paternalism</div>
         </div>
         <div class="q-group">
-          <div class="q-item">
-            <div class="q-text">
-              Dr. Julian Hughes suggests that psychological barriers, known as the affective filter, occur when learners experience high levels of <strong>32</strong> <input type="text" id="q32">. To combat this, Hughes applies Stoic techniques to help students reframe their mindset. By viewing their linguistic <strong>33</strong> <input type="text" id="q33"> not as failures but as useful <strong>34</strong> <input type="text" id="q34">, learners can significantly improve their retention of complex <strong>35</strong> <input type="text" id="q35">. Furthermore, overcoming the intermediate plateau requires a long-term approach based on daily <strong>36</strong> <input type="text" id="q36">, similar to achieving fitness or financial goals.
-            </div>
-          </div>
+          <div class="q-item"><div class="q-num">32</div><div class="q-text">Altering choice architecture without forbidding options or changing economic incentives. <input type="text" id="q32"></div></div>
+          <div class="q-item"><div class="q-num">33</div><div class="q-text">The scientific phenomenon where exposure to nature replenishes depleted cognitive resources. <input type="text" id="q33"></div></div>
+          <div class="q-item"><div class="q-num">34</div><div class="q-text">Dirt trails that naturally form when pedestrians reject right-angled paved walkways. <input type="text" id="q34"></div></div>
+          <div class="q-item"><div class="q-num">35</div><div class="q-text">The ethical criticism that a select group is deciding what constitutes "good" behavior for others. <input type="text" id="q35"></div></div>
+          <div class="q-item"><div class="q-num">36</div><div class="q-text">Making the most sustainable choice the path of least resistance for the subconscious brain. <input type="text" id="q36"></div></div>
         </div>
 
         <h2>Questions 37–40</h2>
         <div class="instruction">
-          Choose the correct letter, <strong>A, B, C or D</strong>.
+          Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
+          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
         </div>
         <div class="q-group">
-          <div class="q-item">
-            <div class="q-num">37</div>
-            <div class="q-text">What does the writer suggest about the "dichotomy of control" in paragraph B?
-              <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) Learners should try to control how fast native speakers talk.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) Learners must accept that their study habits are out of their hands.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) Learners should focus their energy on their own habits and reactions.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) Learners should attempt to rewrite English grammar rules.</label>
-              </div>
-            </div>
-          </div>
-          <div class="q-item">
-            <div class="q-num">38</div>
-            <div class="q-text">According to paragraph E, why are some institutions using "reflective journaling"?
-              <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) To test students on complex vocabulary.</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) To help students develop metacognitive awareness of their emotions.</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) To replace traditional reading and listening tests entirely.</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) To practice handwriting skills.</label>
-              </div>
-            </div>
-          </div>
-          <div class="q-item">
-            <div class="q-num">39</div>
-            <div class="q-text">The writer compares language acquisition to building physical fitness in order to illustrate:
-              <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) The physical toll that studying takes on the body.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) That both require expensive apps to achieve success.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) The need for consistent, slow, and compounding efforts.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) That the intermediate plateau lasts exactly 30 days.</label>
-              </div>
-            </div>
-          </div>
-          <div class="q-item">
-            <div class="q-num">40</div>
-            <div class="q-text">Which of the following best summarizes the main idea of Passage 3?
-              <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) Ancient philosophies are outdated in the era of AI language apps.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) Emotional regulation and resilience are crucial for mastering a language.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) The affective filter makes it impossible for adults to learn new languages.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) Stoicism was originally designed as a language-learning framework.</label>
-              </div>
-            </div>
-          </div>
+          <div class="q-item"><div class="q-num">37</div><div class="q-text">Placing a "Keep Off the Grass" fence is considered a highly effective behavioral nudge. <br><input type="text" id="q37"></div></div>
+          <div class="q-item"><div class="q-num">38</div><div class="q-text">Singapore is currently the only city in the world that mandates biophilic design in commercial buildings. <br><input type="text" id="q38"></div></div>
+          <div class="q-item"><div class="q-num">39</div><div class="q-text">Some philosophers believe that deliberately narrowing roads infringes upon human autonomy. <br><input type="text" id="q39"></div></div>
+          <div class="q-item"><div class="q-num">40</div><div class="q-text">The writer believes future urban planners must respect individual freedom while optimizing city design. <br><input type="text" id="q40"></div></div>
         </div>
       </div>
 
@@ -592,8 +726,8 @@
 
     <!-- SUBMIT BAR -->
     <div class="submit-bar">
-      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">Submit Test</button>
-      <button class="btn-retake" id="btn-retake" style="display: none;" onclick="retakeTest()">Start New Test</button>
+      <button class="btn-retake" id="btn-retake" onclick="retakeTest()" style="margin-right: 15px;">RESET</button>
+      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">SUBMIT MODULE</button>
     </div>
 
   </div>
@@ -601,15 +735,25 @@
   <script>
     /* --- INTERNAL ANSWER KEY FOR GRADING --- */
     const answerKey = {
-      q1: 'iii', q2: 'i', q3: 'vi', q4: 'ii', q5: 'vii',
-      q6: 'false', q7: 'false', q8: 'not given', q9: 'true',
-      q10: 'neurobiology', q11: 'technology', q12: 'holistic', q13: 'simultaneously',
-      q14: 'c', q15: 'e', q16: 'a', q17: 'd', q18: 'b',
-      q19: 'b', q20: 'c', q21: 'c', q22: 'b',
-      q23: 'b', q24: 'a', q25: 'b', q26: 'a',
-      q27: 'no', q28: 'yes', q29: 'not given', q30: 'no', q31: 'yes',
-      q32: 'c', q33: 'a', q34: 'd', q35: 'f', q36: 'i',
-      q37: 'c', q38: 'b', q39: 'c', q40: 'b'
+      // Passage 1
+      q1: 'false', q2: 'true', q3: 'false', q4: 'not given', q5: 'true',
+      q6: 'descriptive', q7: 'corpus linguistics', q8: 'frequency', q9: 'dispersion', q10: 'semantic shift',
+      q11: 'b', q12: 'c', q13: 'a',
+      
+      // Passage 2
+      q14: 'v', q15: 'ii', q16: 'vii', q17: 'i', q18: 'vi', q19: 'iv',
+      q20: 'c', q21: 'f', q22: 'a', q23: 'e',
+      q24: 'b', q25: 'c', q26: 'd',
+      
+      // Passage 3
+      q27: 'b', q28: 'c', q29: 'd', q30: 'e', q31: 'a',
+      q32: 'b', q33: 'c', q34: 'a', q35: 'd', q36: 'b',
+      q37: 'no', q38: 'not given', q39: 'yes', q40: 'yes'
+    };
+
+    /* Handle alternate acceptable text answers */
+    const acceptableAnswers = {
+      q6: ['descriptive']
     };
 
     /* --- TAB SWITCHING LOGIC --- */
@@ -622,36 +766,24 @@
       document.getElementById('questions-' + sectionNumber).classList.add('active');
     }
 
-    /* --- PERSISTENT TIMER & AUTO-SUBMIT LOGIC --- */
+    /* --- NON-PERSISTENT TIMER LOGIC (Resets on Refresh) --- */
     const DURATION = 3600; // 60 minutes
     let timerInterval;
     let timeRemaining;
     const timerElement = document.getElementById('timer');
 
     function initTest() {
-      if (localStorage.getItem('ielts_test_status') === 'submitted') {
-        lockInterface();
-        gradeTest(); 
-        timerElement.textContent = "00:00";
-        document.getElementById('results-modal').style.display = 'block'; 
-        return;
-      }
+      document.getElementById('pre-test-overlay').style.display = 'flex';
+      document.getElementById('btn-start-top').style.display = 'block';
+      timerElement.textContent = "60:00";
+      timerElement.classList.remove('warning');
+    }
 
-      const savedEndTime = localStorage.getItem('ielts_end_time');
-      const now = Math.floor(Date.now() / 1000);
-
-      if (savedEndTime) {
-        timeRemaining = parseInt(savedEndTime) - now;
-        if (timeRemaining <= 0) {
-          submitTest(true); 
-          return;
-        }
-      } else {
-        timeRemaining = DURATION;
-        localStorage.setItem('ielts_end_time', now + DURATION);
-        localStorage.setItem('ielts_test_status', 'in_progress');
-      }
-
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('btn-start-top').style.display = 'none';
+      
+      timeRemaining = DURATION;
       updateTimerDisplay();
       
       timerInterval = setInterval(() => {
@@ -675,15 +807,14 @@
       timerElement.textContent = `${minutes}:${seconds}`;
     }
 
-    /* --- SUBMISSION & GRADING PROTOCOL --- */
+    /* --- SUBMISSION & GRADING PROTOCOL (DYNAMIC WIDTH BUG FIX) --- */
     function submitTest(isAutoSubmit = false) {
       if(!isAutoSubmit) {
-        const confirmSubmit = confirm("Are you sure you want to submit? You cannot change your answers after submission.");
+        const confirmSubmit = confirm("Confirm submission? You will not be able to alter your responses.");
         if(!confirmSubmit) return;
       }
 
       clearInterval(timerInterval);
-      localStorage.setItem('ielts_test_status', 'submitted');
       timerElement.textContent = "00:00";
       timerElement.classList.remove('warning');
       
@@ -697,29 +828,60 @@
       let score = 0;
       
       for(let i=1; i<=40; i++) {
-        let userAnswer = "";
         const qId = 'q' + i;
         const textInput = document.getElementById(qId);
+        const correctAnsData = answerKey[qId] ? answerKey[qId].toUpperCase() : "N/A";
         
         if (textInput) {
-          userAnswer = textInput.value.trim().toLowerCase();
-          if (userAnswer === answerKey[qId]) {
+          let userAnswer = textInput.value.trim().toLowerCase();
+          
+          let isCorrect = (userAnswer === answerKey[qId]);
+          if(acceptableAnswers[qId] && acceptableAnswers[qId].includes(userAnswer)) {
+             isCorrect = true;
+          }
+          
+          if (isCorrect) {
             score++;
             textInput.classList.add('correct-answer');
           } else {
             textInput.classList.add('wrong-answer');
-            textInput.value = userAnswer ? `${userAnswer} (X)` : '(Blank)';
+            
+            // DYNAMIC WIDTH CALCULATION: Fixes issue where long strings were hidden.
+            // Calculates based on the combined length of user input + correct answer + feedback text.
+            const totalChars = (userAnswer.length || 7) + correctAnsData.length + 12; // 12 for " ❌ [Ans: ]"
+            const calculatedWidth = Math.max(260, totalChars * 9); // ~9px per character
+            textInput.style.width = calculatedWidth + "px"; 
+            
+            textInput.value = userAnswer ? `${userAnswer} ❌ [Ans: ${correctAnsData}]` : `(Blank) ❌ [Ans: ${correctAnsData}]`;
           }
         } else {
-          const radio = document.querySelector(`input[name="${qId}"]:checked`);
-          if (radio) {
-            userAnswer = radio.value.toLowerCase();
-          }
+          const selectedRadio = document.querySelector(`input[name="${qId}"]:checked`);
+          let userAnswer = selectedRadio ? selectedRadio.value.toLowerCase() : "";
+
           if (userAnswer === answerKey[qId]) {
             score++;
-            if(radio) radio.parentElement.style.color = '#10b981';
+            selectedRadio.parentElement.style.color = '#065f46';
+            selectedRadio.parentElement.style.fontWeight = '600';
           } else {
-            if(radio) radio.parentElement.style.color = '#ef4444';
+            // Mark user's wrong choice
+            if (selectedRadio) {
+              selectedRadio.parentElement.style.color = '#991b1b';
+              selectedRadio.parentElement.style.textDecoration = 'line-through';
+            }
+            // Highlight the correct choice
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAnsData}"]`);
+            if (correctRadio) {
+              correctRadio.parentElement.style.color = '#065f46';
+              correctRadio.parentElement.style.fontWeight = '700';
+              
+              if(!correctRadio.parentElement.querySelector('.correct-badge')) {
+                 const badge = document.createElement('span');
+                 badge.className = 'correct-badge';
+                 badge.style.cssText = 'color: #10b981; margin-left: 8px; font-family: var(--font-mono); font-size: 0.85rem; text-decoration: none; display: inline-block;';
+                 badge.textContent = '✓ CORRECT ANSWER';
+                 correctRadio.parentElement.appendChild(badge);
+              }
+            }
           }
         }
       }
@@ -733,44 +895,50 @@
         input.disabled = true;
       });
       
-      // Swap the buttons
       document.getElementById('btn-submit').style.display = 'none';
-      document.getElementById('btn-retake').style.display = 'block';
+      document.getElementById('btn-retake').style.display = 'none';
     }
 
     /* --- UI MANAGEMENT --- */
     function closeModal() {
       document.getElementById('results-modal').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'block';
     }
 
     function retakeTest() {
-      if(!confirm("This will clear all your answers and restart the 60-minute timer. Continue?")) return;
+      if(!confirm("Warning: This will permanently clear all answers and restart the 60-minute session. Proceed?")) return;
 
-      localStorage.removeItem('ielts_test_status');
-      localStorage.removeItem('ielts_end_time');
+      clearInterval(timerInterval);
+      timerElement.classList.remove('warning');
       
       document.getElementById('results-modal').style.display = 'none';
       document.body.classList.remove('test-completed');
       
-      // Swap buttons back
       document.getElementById('btn-submit').style.display = 'block';
       document.getElementById('btn-submit').disabled = false;
-      document.getElementById('btn-retake').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'block';
       
+      // Reset Text Inputs
       document.querySelectorAll('input[type="text"]').forEach(input => {
         input.value = '';
         input.disabled = false;
+        input.style.width = "160px"; // Return to original width
         input.classList.remove('correct-answer', 'wrong-answer');
       });
       
+      // Reset Radio Buttons and Remove Correct Answer Badges
       document.querySelectorAll('input[type="radio"]').forEach(radio => {
         radio.checked = false;
         radio.disabled = false;
         radio.parentElement.style.color = 'inherit';
+        radio.parentElement.style.fontWeight = 'normal';
+        radio.parentElement.style.textDecoration = 'none';
       });
       
+      document.querySelectorAll('.correct-badge').forEach(badge => badge.remove());
+      
       switchSection(1);
-      initTest();
+      initTest(); 
     }
 
     window.onload = initTest;
