@@ -676,61 +676,27 @@
       document.getElementById('questions-' + sectionNumber).classList.add('active');
     }
 
-    /* --- PERSISTENT TIMER & AUTO-SUBMIT LOGIC --- */
+    /* --- NON-PERSISTENT TIMER LOGIC (Resets on Refresh) --- */
     const DURATION = 3600; // 60 minutes
     let timerInterval;
     let timeRemaining;
     const timerElement = document.getElementById('timer');
 
     function initTest() {
-      const status = localStorage.getItem('ielts_test_status_05');
-
-      if (status === 'submitted') {
-        document.getElementById('pre-test-overlay').style.display = 'none';
-        document.getElementById('btn-start-top').style.display = 'none';
-        lockInterface();
-        gradeTest(); 
-        timerElement.textContent = "00:00";
-        document.getElementById('results-modal').style.display = 'block'; 
-        return;
-      }
-
-      if (status === 'in_progress') {
-        document.getElementById('pre-test-overlay').style.display = 'none';
-        document.getElementById('btn-start-top').style.display = 'none';
-        
-        const savedEndTime = localStorage.getItem('ielts_end_time_05');
-        const now = Math.floor(Date.now() / 1000);
-        timeRemaining = parseInt(savedEndTime) - now;
-        
-        if (timeRemaining <= 0) {
-          submitTest(true); 
-          return;
-        }
-        
-        startTimerInterval();
-      } else {
-        // Not Started State
-        document.getElementById('pre-test-overlay').style.display = 'flex';
-        document.getElementById('btn-start-top').style.display = 'block';
-        timerElement.textContent = "60:00";
-      }
+      // Force Pre-Test overlay on every page load
+      document.getElementById('pre-test-overlay').style.display = 'flex';
+      document.getElementById('btn-start-top').style.display = 'block';
+      timerElement.textContent = "60:00";
+      timerElement.classList.remove('warning');
     }
 
     function startTest() {
       document.getElementById('pre-test-overlay').style.display = 'none';
       document.getElementById('btn-start-top').style.display = 'none';
       
-      const now = Math.floor(Date.now() / 1000);
       timeRemaining = DURATION;
-      localStorage.setItem('ielts_end_time_05', now + DURATION);
-      localStorage.setItem('ielts_test_status_05', 'in_progress');
-      
-      startTimerInterval();
-    }
-
-    function startTimerInterval() {
       updateTimerDisplay();
+      
       timerInterval = setInterval(() => {
         timeRemaining--;
         updateTimerDisplay();
@@ -755,12 +721,11 @@
     /* --- SUBMISSION & GRADING PROTOCOL --- */
     function submitTest(isAutoSubmit = false) {
       if(!isAutoSubmit) {
-        const confirmSubmit = confirm("Are you sure you want to submit? You cannot change your answers after submission.");
+        const confirmSubmit = confirm("Confirm submission? You will not be able to alter your responses.");
         if(!confirmSubmit) return;
       }
 
       clearInterval(timerInterval);
-      localStorage.setItem('ielts_test_status_05', 'submitted');
       timerElement.textContent = "00:00";
       timerElement.classList.remove('warning');
       
@@ -780,6 +745,7 @@
         
         if (textInput) {
           userAnswer = textInput.value.trim().toLowerCase();
+          
           if (userAnswer === answerKey[qId]) {
             score++;
             textInput.classList.add('correct-answer');
@@ -794,9 +760,14 @@
           }
           if (userAnswer === answerKey[qId]) {
             score++;
-            if(radio) radio.parentElement.style.color = '#10b981';
+            if(radio) {
+              radio.parentElement.style.color = '#065f46';
+              radio.parentElement.style.fontWeight = '600';
+            }
           } else {
-            if(radio) radio.parentElement.style.color = '#ef4444';
+            if(radio) {
+              radio.parentElement.style.color = '#991b1b';
+            }
           }
         }
       }
@@ -811,19 +782,19 @@
       });
       
       document.getElementById('btn-submit').style.display = 'none';
-      document.getElementById('btn-retake').style.display = 'block';
+      document.getElementById('btn-retake').style.display = 'none';
     }
 
     /* --- UI MANAGEMENT --- */
     function closeModal() {
       document.getElementById('results-modal').style.display = 'none';
+      // Show retake button after modal is closed to allow reset
+      document.getElementById('btn-retake').style.display = 'block';
     }
 
     function retakeTest() {
-      if(!confirm("This will clear all your answers and restart the 60-minute timer. Continue?")) return;
+      if(!confirm("Warning: This will permanently clear all answers and restart the 60-minute session. Proceed?")) return;
 
-      localStorage.removeItem('ielts_test_status_05');
-      localStorage.removeItem('ielts_end_time_05');
       clearInterval(timerInterval);
       timerElement.classList.remove('warning');
       
@@ -832,7 +803,7 @@
       
       document.getElementById('btn-submit').style.display = 'block';
       document.getElementById('btn-submit').disabled = false;
-      document.getElementById('btn-retake').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'block';
       
       document.querySelectorAll('input[type="text"]').forEach(input => {
         input.value = '';
@@ -844,10 +815,11 @@
         radio.checked = false;
         radio.disabled = false;
         radio.parentElement.style.color = 'inherit';
+        radio.parentElement.style.fontWeight = 'normal';
       });
       
       switchSection(1);
-      initTest();
+      initTest(); 
     }
 
     window.onload = initTest;
