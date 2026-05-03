@@ -4,17 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Premium Reading 05 | The LRSW Clinic</title>
+  
+  <!-- PREMIUM FONTS INTEGRATION -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Roboto+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
   <style>
     /* --- UNIVERSAL FONT STANDARDS & COLORS --- */
     :root {
       --primary: #0B1D3A;
       --accent: #C4923E;
+      --badge-red: #A32A3A;
+      --badge-red-bg: #F9EAEB;
       --bg-light: #F8FAFC;
       --border: #CBD5E1;
       --text-main: #333333;
       --text-muted: #666666;
-      --font-ui: Arial, Helvetica, sans-serif;
-      --font-passage: "Times New Roman", Times, serif;
+      
+      /* Premium Typography System */
+      --font-ui: 'Inter', sans-serif;
+      --font-passage: 'Lora', serif;
+      --font-heading: 'Playfair Display', serif;
+      --font-mono: 'Roboto Mono', monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,12 +49,13 @@
       justify-content: space-between; 
       align-items: center; 
       padding: 0 2rem; 
-      height: 60px; 
+      height: 65px; 
       border-bottom: 3px solid var(--accent); 
       flex-shrink: 0; 
       z-index: 10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
-    .logo { font-size: 1.4rem; font-weight: bold; letter-spacing: 0.5px; }
+    .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
     .logo span { color: var(--accent); font-style: italic; }
     
     .nav-tabs { display: flex; height: 100%; }
@@ -51,15 +64,16 @@
       color: #cbd5e1; 
       border: none; 
       padding: 0 1.5rem; 
-      font-size: 1rem; 
-      font-weight: bold; 
+      font-size: 0.95rem; 
+      font-weight: 600; 
       cursor: pointer; 
-      transition: 0.2s; 
+      transition: 0.3s ease; 
       height: 100%; 
       display: flex; 
       align-items: center; 
       border-bottom: 4px solid transparent; 
       font-family: var(--font-ui);
+      letter-spacing: 0.5px;
     }
     .tab-btn:hover:not(:disabled) { color: #fff; background: rgba(255,255,255,0.05); }
     .tab-btn.active { color: #fff; border-bottom-color: var(--accent); background: rgba(255,255,255,0.1); }
@@ -71,39 +85,41 @@
       background: #10b981;
       color: white;
       border: none;
-      padding: 0.4rem 1.2rem;
-      font-size: 0.95rem;
-      font-weight: bold;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
       border-radius: 4px;
       cursor: pointer;
-      font-family: var(--font-ui);
+      font-family: var(--font-mono);
       transition: 0.2s;
+      letter-spacing: 0.5px;
     }
     .btn-start-top:hover { background: #059669; }
 
     .timer { 
-      font-family: monospace; 
-      font-size: 1.4rem; 
-      font-weight: bold; 
+      font-family: var(--font-mono); 
+      font-size: 1.3rem; 
+      font-weight: 600; 
       color: #fff; 
       background: #1e293b; 
-      padding: 0.3rem 0.8rem; 
+      padding: 0.4rem 1rem; 
       border-radius: 4px; 
       border: 1px solid #334155;
+      letter-spacing: 1px;
     }
-    .timer.warning { color: #ef4444; animation: pulse 1s infinite; }
+    .timer.warning { color: #ef4444; animation: pulse 1s infinite; border-color: #ef4444;}
 
     @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.5; }
-      100% { opacity: 1; }
+      0% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+      100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
     }
 
     /* --- SPLIT SCREEN LAYOUT --- */
     .workspace { 
       display: flex; 
       flex: 1; 
-      height: calc(100vh - 60px); 
+      height: calc(100vh - 65px); 
       overflow: hidden; 
       background: var(--bg-light); 
       position: relative;
@@ -113,18 +129,18 @@
       flex: 1; 
       height: 100%; 
       overflow-y: auto; 
-      padding: 2.5rem; 
+      padding: 3rem; 
       background: #fff; 
       position: relative;
     }
-    .left-panel { border-right: 2px solid var(--border); box-shadow: 2px 0 10px rgba(0,0,0,0.02); }
-    .right-panel { background: #fafbfc; padding-bottom: 100px; }
+    .left-panel { border-right: 1px solid var(--border); box-shadow: 4px 0 15px rgba(0,0,0,0.03); z-index: 2; }
+    .right-panel { background: #fafbfc; padding-bottom: 120px; }
 
     /* --- PRE-TEST LOCK SCREEN OVERLAY --- */
     .pre-test-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.98);
       z-index: 150;
       display: flex;
       flex-direction: column;
@@ -133,27 +149,49 @@
       text-align: center;
       padding: 2rem;
     }
-    .pre-test-overlay h2 { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; font-family: 'Playfair Display', serif;}
-    .pre-test-overlay p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; line-height: 1.6; margin-bottom: 2rem; }
+    .pre-test-overlay .module-badge {
+      font-family: var(--font-mono);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+    }
+    .pre-test-overlay h2 { 
+      font-size: 3rem; 
+      color: var(--primary); 
+      margin-bottom: 1.5rem; 
+      font-family: var(--font-heading);
+    }
+    .pre-test-overlay p { 
+      font-size: 1.15rem; 
+      color: var(--text-muted); 
+      max-width: 600px; 
+      line-height: 1.7; 
+      margin-bottom: 2.5rem; 
+      font-family: var(--font-passage);
+    }
     .btn-start-large {
       background: var(--primary);
       color: #fff;
-      padding: 1rem 3rem;
-      font-size: 1.2rem;
-      font-weight: bold;
+      padding: 1.2rem 3.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      font-family: var(--font-ui);
-      transition: 0.2s;
+      font-family: var(--font-mono);
+      transition: 0.3s ease;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(11, 29, 58, 0.2);
     }
-    .btn-start-large:hover { background: #1a365d; }
+    .btn-start-large:hover { background: #1a365d; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(11, 29, 58, 0.3); }
 
     /* --- PASSAGE TYPOGRAPHY --- */
     .left-panel h1 { 
-      font-family: var(--font-ui); 
-      font-size: 1.6rem; 
-      margin-bottom: 2rem; 
+      font-family: var(--font-heading); 
+      font-size: 2.2rem; 
+      margin-bottom: 2.5rem; 
       color: var(--primary); 
       line-height: 1.3; 
       text-align: center;
@@ -161,90 +199,106 @@
     
     .left-panel p { 
       font-family: var(--font-passage);
-      margin-bottom: 1.5rem; 
-      line-height: 1.8; 
+      margin-bottom: 1.8rem; 
+      line-height: 1.85; 
       text-align: justify; 
       font-size: 1.15rem; 
+      color: #2c3e50;
     }
     
     .paragraph-label { 
-      font-family: var(--font-ui);
-      font-weight: bold; 
+      font-family: var(--font-mono);
+      font-weight: 700; 
       font-size: 1.1rem; 
       margin-right: 15px; 
-      color: #000; 
+      color: var(--accent); 
       float: left;
-      padding-top: 2px;
+      padding-top: 4px;
     }
     
     /* --- QUESTION TYPOGRAPHY --- */
     .right-panel h2 { 
-      font-size: 1.1rem; 
+      font-size: 1.2rem; 
       margin-bottom: 1rem; 
-      color: #000; 
-      border-bottom: 2px solid var(--primary); 
-      padding-bottom: 0.5rem; 
-      margin-top: 2rem; 
+      color: var(--primary); 
+      border-bottom: 2px solid var(--border); 
+      padding-bottom: 0.8rem; 
+      margin-top: 2.5rem; 
+      font-family: var(--font-ui);
+      font-weight: 700;
     }
     .right-panel h2:first-child { margin-top: 0; }
     
     .instruction { 
       font-style: italic; 
-      color: #000; 
-      margin-bottom: 1.2rem; 
+      color: var(--text-muted); 
+      margin-bottom: 1.5rem; 
       font-size: 0.95rem; 
-      line-height: 1.4;
+      line-height: 1.5;
     }
     
-    .q-group { margin-bottom: 2.5rem; }
+    .q-group { margin-bottom: 3rem; }
     .q-item { 
       display: flex; 
       align-items: baseline; 
-      margin-bottom: 1.2rem; 
-      gap: 12px; 
+      margin-bottom: 1.5rem; 
+      gap: 15px; 
     }
     .q-num { 
-      font-weight: bold; 
-      color: #000; 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      color: var(--primary); 
       min-width: 25px; 
+      font-size: 1rem;
     }
     .q-text { 
       flex: 1; 
-      font-size: 1rem; 
-      line-height: 1.5; 
+      font-size: 1.05rem; 
+      line-height: 1.6; 
     }
     
     input[type="text"] { 
-      padding: 0.3rem 0.5rem; 
+      padding: 0.4rem 0.6rem; 
       border: 1px solid #94a3b8; 
-      border-radius: 2px; 
+      border-radius: 4px; 
       font-size: 1rem; 
-      width: 140px; 
+      width: 160px; 
       font-family: var(--font-ui);
+      background: #fff;
+      transition: width 0.3s ease, border-color 0.2s, box-shadow 0.2s;
     }
-    input[type="text"]:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 3px rgba(11,29,58,0.3); }
-    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; }
+    input[type="text"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196, 146, 62, 0.2); }
+    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; border-color: #cbd5e1; }
     
-    .mcq-options { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem; }
-    .mcq-label { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 0.95rem; }
-    .mcq-label input { margin-top: 4px; }
+    .mcq-options { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 1rem; color: #444; line-height: 1.4; transition: 0.2s;}
+    .mcq-label:hover { color: var(--primary); }
+    .mcq-label input { margin-top: 5px; cursor: pointer; }
     
     .box-options { 
       display: flex; 
       flex-wrap: wrap; 
       gap: 15px; 
-      border: 1px solid var(--primary); 
-      padding: 1.2rem; 
-      margin-bottom: 1.5rem; 
+      border: 1px solid var(--border); 
+      padding: 1.5rem; 
+      margin-bottom: 2rem; 
       background: #fff; 
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
-    .box-item { font-size: 1rem; font-weight: bold; }
+    .box-item { font-size: 1rem; font-weight: 500; font-family: var(--font-ui); color: var(--primary);}
+    .box-item strong { font-family: var(--font-mono); color: var(--accent); margin-right: 5px;}
 
-    .section-content { display: none; }
+    .section-content { display: none; animation: fadeIn 0.4s ease; }
     .section-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #f1f1f1; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
@@ -254,12 +308,13 @@
       bottom: 0;
       right: 0;
       width: 50%; 
-      background: #fff;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
       border-top: 1px solid var(--border);
-      padding: 1rem 2.5rem;
+      padding: 1.2rem 3rem;
       display: flex;
       justify-content: flex-end;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
       z-index: 100;
     }
 
@@ -267,35 +322,37 @@
       background: var(--primary);
       color: #fff;
       border: none;
-      padding: 0.8rem 2rem;
+      padding: 0.8rem 2.5rem;
       font-size: 1rem;
-      font-weight: bold;
+      font-weight: 600;
       border-radius: 4px;
       cursor: pointer;
-      font-family: var(--font-ui);
+      font-family: var(--font-mono);
       transition: 0.2s;
+      letter-spacing: 1px;
     }
     .btn-submit:hover:not(:disabled) { background: #1a365d; }
-    .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+    .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; }
 
     .btn-retake {
       background: transparent;
       color: var(--text-muted);
       border: 2px solid var(--border);
-      padding: 0.8rem 2rem;
+      padding: 0.8rem 2.5rem;
       font-size: 1rem;
-      font-weight: bold;
+      font-weight: 600;
       border-radius: 4px;
       cursor: pointer;
-      font-family: var(--font-ui);
+      font-family: var(--font-mono);
       transition: 0.2s;
+      letter-spacing: 1px;
     }
-    .btn-retake:hover { background: #f1f5f9; color: var(--primary); border-color: var(--primary); }
+    .btn-retake:hover { background: #f8fafc; color: var(--primary); border-color: var(--primary); }
 
     .dormant-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.3);
       z-index: 50;
       display: none;
       pointer-events: none; 
@@ -310,34 +367,36 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: #fff;
-      padding: 3rem;
+      padding: 3.5rem;
       border-radius: 8px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
       z-index: 200;
       text-align: center;
       border-top: 6px solid var(--accent);
-      min-width: 400px;
+      min-width: 450px;
     }
-    .results-modal h2 { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 2rem; margin-bottom: 1rem; }
-    .score-display { font-size: 3.5rem; font-weight: bold; color: var(--primary); margin: 1.5rem 0; }
-    .score-display span { font-size: 1.5rem; color: var(--text-muted); }
+    .results-modal h2 { font-family: var(--font-heading); color: var(--primary); font-size: 2.2rem; margin-bottom: 1rem; }
+    .score-display { font-size: 4rem; font-weight: 700; color: var(--primary); margin: 1.5rem 0; font-family: var(--font-mono);}
+    .score-display span { font-size: 1.8rem; color: var(--border); }
     
     .btn-close {
       background: var(--accent);
       color: var(--primary);
       border: none;
       padding: 0.8rem 2.5rem;
-      font-size: 1.1rem;
-      font-weight: bold;
+      font-size: 1rem;
+      font-weight: 700;
       border-radius: 4px;
       cursor: pointer;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
       transition: 0.2s;
+      font-family: var(--font-mono);
+      letter-spacing: 1px;
     }
-    .btn-close:hover { background: #b08133; }
+    .btn-close:hover { background: #b08133; color: #fff;}
 
-    .correct-answer { border-color: #10b981 !important; background: #d1fae5 !important; }
-    .wrong-answer { border-color: #ef4444 !important; background: #fee2e2 !important; }
+    .correct-answer { border-color: #10b981 !important; background: #f0fdf4 !important; color: #065f46 !important; font-weight: 600;}
+    .wrong-answer { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b !important; }
 
   </style>
 </head>
@@ -351,26 +410,27 @@
       <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Section 3</button>
     </div>
     <div class="header-controls">
-      <button class="btn-start-top" id="btn-start-top" onclick="startTest()">Start Test</button>
+      <button class="btn-start-top" id="btn-start-top" onclick="startTest()">START</button>
       <div class="timer" id="timer">60:00</div>
     </div>
   </header>
 
   <!-- RESULTS MODAL -->
   <div class="results-modal" id="results-modal">
-    <h2>Test Completed</h2>
+    <h2>Evaluation Complete</h2>
     <p>Your Reading Module score is:</p>
     <div class="score-display" id="final-score">0 <span>/ 40</span></div>
-    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your answers.</p>
-    <button class="btn-close" onclick="closeModal()">Close</button>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your detailed feedback.</p>
+    <button class="btn-close" onclick="closeModal()">REVIEW ANSWERS</button>
   </div>
 
   <div class="workspace">
     <!-- PRE-TEST LOCK SCREEN -->
     <div class="pre-test-overlay" id="pre-test-overlay">
-      <h2>Premium Reading 05</h2>
-      <p>This module contains 3 passages and 40 questions exploring the theme of Globalization & Culture. You have exactly 60 minutes to complete the test. The timer will begin, and the passages will be revealed once you click Start.</p>
-      <button class="btn-start-large" onclick="startTest()">Start 60-Minute Test</button>
+      <div class="module-badge">MODULE 05</div>
+      <h2>Language Acquisition & AI Pedagogies</h2>
+      <p>This C1/C2 intensive simulation contains 3 passages and 40 questions focusing on linguistic paradigms, machine learning interventions, and cognitive fortitude. The timer will initiate and passages will be unlocked upon pressing start.</p>
+      <button class="btn-start-large" onclick="startTest()">INITIATE PROTOCOL &rarr;</button>
     </div>
 
     <div class="dormant-overlay"></div>
@@ -379,35 +439,35 @@
     <div class="panel left-panel">
       <!-- PASSAGE 1 -->
       <div id="passage-1" class="section-content active">
-        <h1>The Global Spread of English and Cultural Identity</h1>
-        <p><span class="paragraph-label">A</span> The phenomenon of globalization has fundamentally reshaped the linguistic landscape of the modern world. At the forefront of this shift is the unprecedented expansion of the English language. Historically, the spread of English was inextricably linked to the colonial expansion of the British Empire and, later, the economic and cultural dominance of the United States. Today, however, English has transcended its geographic origins to become the undisputed global <em>lingua franca</em>—the primary language of international business, scientific research, aviation, and the internet.</p>
-        <p><span class="paragraph-label">B</span> While the practical benefits of a shared global language are undeniable, the rapid proliferation of English has sparked intense academic debate regarding its cultural consequences. One prominent perspective, often termed the "homogenization thesis," warns that the dominance of English is leading to a gradual erosion of cultural diversity. Proponents of this view argue that language is not merely a neutral tool for communication; it is deeply embedded with the values, idioms, and historical narratives of the culture that produced it. As English replaces local languages in education and commerce, critics fear that indigenous worldviews and cultural nuances are being permanently lost.</p>
-        <p><span class="paragraph-label">C</span> Conversely, many sociolinguists reject the idea that globalization equates to cultural homogenization. They argue that English is not passively absorbed by non-native speakers; rather, it is actively adapted and indigenized. This process has led to the emergence of "World Englishes"—distinct varieties of the language such as Singlish in Singapore, Hinglish in India, and Nigerian Pidgin. These localized versions of English demonstrate that speakers can appropriate a global language and infuse it with their own unique cultural identities, blending local vocabulary and grammatical structures with standard English.</p>
-        <p><span class="paragraph-label">D</span> The economic pressures driving the acquisition of English are immense. In many developing nations, proficiency in English is viewed as a prerequisite for upward social mobility and participation in the global economy. Consequently, national governments are increasingly prioritizing English in their educational curricula, often at the expense of indigenous languages. This creates a complex dilemma for educators: how to equip students with the linguistic tools necessary for economic success without inadvertently marginalizing their native cultural heritage.</p>
-        <p><span class="paragraph-label">E</span> Despite the concerns surrounding linguistic imperialism, technology is beginning to alter the dynamics of global communication. In the early days of the internet, English accounted for roughly 80% of all online content. Today, that figure has dropped significantly as regional powerhouses expand their digital footprints. Furthermore, advancements in real-time translation software are slowly reducing the absolute necessity of a single global language. While English remains dominant, the technological barrier to communicating across different languages is lower than ever before.</p>
-        <p><span class="paragraph-label">F</span> Ultimately, the relationship between globalization, the English language, and cultural identity is not a zero-sum game. It is entirely possible for individuals to be highly proficient in a global language while simultaneously maintaining a deep connection to their native tongue and cultural roots. The challenge for the 21st century is to foster a model of globalization that embraces linguistic interconnectivity without sacrificing the rich tapestry of the world's diverse cultural identities.</p>
+        <h1>The Evolution of Language Acquisition Theories</h1>
+        <p><span class="paragraph-label">A</span> For centuries, the way in which human beings acquire language has been a subject of intense academic debate. In the early to mid-20th century, the dominant psychological perspective was behaviorism. Pioneered by figures such as B.F. Skinner, this theory posited that infants are born as a <em>tabula rasa</em>—a blank slate. According to behaviorists, language is learned entirely through environmental conditioning, mimicking, and habit formation. When a child utters a sound that resembles a word, and a parent responds with praise or a reward, the behavior is reinforced. Through continuous repetition and reinforcement, these vocalizations eventually develop into complex linguistic patterns.</p>
+        <p><span class="paragraph-label">B</span> In the late 1950s, linguist Noam Chomsky revolutionized the field by challenging the behaviorist model. Chomsky argued that it is mathematically impossible for children to learn the infinite number of sentences possible in a human language purely through mimicry and reinforcement. Instead, he proposed the existence of a "Language Acquisition Device" (LAD) and the concept of Universal Grammar. Chomsky suggested that humans are born with an innate biological blueprint for language. According to this nativist approach, children do not need to be explicitly taught the fundamental rules of grammar; they simply need to be exposed to a language to trigger their inherent grammatical intuition.</p>
+        <p><span class="paragraph-label">C</span> Building on the shift away from pure behaviorism, linguist Stephen Krashen introduced the Input Hypothesis in the 1970s and 80s. Krashen drew a sharp distinction between "learning" a language (which involves conscious, explicit instruction of grammar rules) and "acquiring" a language (a subconscious process similar to how children learn their first language). He argued that fluency is a product of acquisition, not learning. For acquisition to occur, learners must be exposed to "comprehensible input"—language that is slightly above their current proficiency level, but still understandable through context. Krashen’s theory fundamentally altered language classrooms, pushing educators away from rote grammar drills and towards immersive environments.</p>
+        <p><span class="paragraph-label">D</span> While Chomsky focused on biology and Krashen on input, the interactionist approach, heavily influenced by the earlier work of psychologist Lev Vygotsky, emphasizes the social dimensions of language. Vygotsky argued that cognitive development, including language, stems from social interaction. Language is not merely a biological unfolding, nor just the absorption of input, but a collaborative process between the learner and a more knowledgeable other. This scaffolding helps learners navigate their "Zone of Proximal Development"—the gap between what they can do independently and what they can achieve with guidance.</p>
+        <p><span class="paragraph-label">E</span> In recent years, advancements in neurobiology and cognitive science have provided researchers with unprecedented insights into the brain's language centers. Functional magnetic resonance imaging (fMRI) has mapped how different regions of the brain collaborate to process syntax, semantics, and phonology. Concurrently, the integration of digital technology into education has transformed how linguistic theories are applied. Modern software can track eye movement, measure response times, and adapt comprehensibility in real-time, providing highly personalized learning experiences.</p>
+        <p><span class="paragraph-label">F</span> Today, modern educational models have largely abandoned the practice of treating language acquisition as a series of isolated academic tasks. Instead, educators advocate for a holistic, integrated methodology. Rather than teaching vocabulary on Monday and grammar on Tuesday, modern classrooms emphasize the simultaneous development of all major linguistic modalities. Students are encouraged to engage their Listening, Reading, Speaking, and Writing skills interactively, ensuring that language is practiced not as a set of mechanical rules, but as a dynamic tool for authentic human communication.</p>
       </div>
 
       <!-- PASSAGE 2 -->
       <div id="passage-2" class="section-content">
-        <h1>Digital Globalization and the Preservation of Indigenous Languages</h1>
-        <p><span class="paragraph-label">A</span> As the world becomes increasingly interconnected through digital globalization, a paradoxical situation has emerged regarding the world’s languages. On one hand, technology has enabled unprecedented cross-cultural communication; on the other, it threatens to accelerate the extinction of minority languages. Linguists estimate that of the approximately 7,000 languages spoken globally today, nearly half are at risk of disappearing by the end of the century. The digital divide—the gap between those with unrestricted access to the internet and those without—has historically meant that indigenous languages were largely absent from the digital sphere, pushing younger generations to abandon them in favor of dominant online languages like English, Mandarin, or Spanish.</p>
-        <p><span class="paragraph-label">B</span> The architecture of the modern internet has inadvertently favored linguistic conformity. Search engine algorithms, Natural Language Processing (NLP) models, and voice recognition systems require vast amounts of text data to function effectively. Dr. Kenji Sato, a computational linguist, points out that Artificial Intelligence (AI) models are inherently biased toward languages with massive digital footprints. Because endangered languages lack this extensive digitized literature, they are frequently ignored by tech developers. Consequently, native speakers of these languages find that they cannot use their mother tongue to interact with modern software, creating a subtle but powerful pressure to assimilate.</p>
-        <p><span class="paragraph-label">C</span> However, a counter-movement is rapidly gaining momentum. Recognizing the threat posed by digital exclusion, grassroots organizations and technologists are partnering to bring endangered languages into the 21st century. One successful approach involves crowdsourcing digital archives. In New Zealand, the Māori community has actively collaborated with tech companies to develop Māori-language text-to-speech tools. By recording thousands of hours of native speakers and feeding them into open-source databases, the community has successfully integrated their language into major digital platforms, ensuring it remains relevant for the younger, digitally native generation.</p>
-        <p><span class="paragraph-label">D</span> Social media, often criticized for promoting global homogenization, is also proving to be a powerful tool for cultural preservation. Anthropologist Dr. Maria Silva has extensively studied the use of social networks among indigenous communities in South America. She notes that platforms like TikTok and Instagram allow minority language speakers to bypass traditional, state-controlled media. By creating short-form video content in their native tongues, young people are not only preserving their linguistic heritage but also dismantling the stigma that indigenous languages are "backward" or incompatible with modernity.</p>
-        <p><span class="paragraph-label">E</span> Despite these positive developments, the process of digitizing a language is fraught with cultural complexities. Many indigenous languages are deeply tied to specific cultural contexts, rituals, and geographic locations. Some elders express concern that reducing their sacred languages to raw data for machine learning algorithms strips the words of their spiritual significance. There is an ongoing debate about data sovereignty: who owns the digital rights to a community's language once it has been uploaded to a global database owned by a multinational tech corporation?</p>
-        <p><span class="paragraph-label">F</span> The preservation of linguistic diversity in the digital age requires more than just technological solutions; it requires ethical frameworks. As Dr. Sato argues, tech giants must move beyond the purely commercial metrics of language integration and recognize linguistic diversity as a fundamental human right. If the digital tools of globalization are deployed collaboratively and respectfully, they hold the potential to transform the internet from a graveyard of minority languages into a dynamic archive of global cultural heritage.</p>
+        <h1>Bridging Pedagogical Gaps with Artificial Intelligence</h1>
+        <p><span class="paragraph-label">A</span> The integration of Artificial Intelligence (AI) into educational frameworks represents one of the most significant pedagogical shifts of the 21st century. Historically, a major limitation in language instruction has been the student-to-teacher ratio. A single instructor managing a diverse classroom of thirty learners struggles to provide the individualized feedback necessary for optimal language acquisition. AI technologies, specifically Natural Language Processing (NLP) and Large Language Models (LLMs), are now effectively bridging this gap by acting as highly responsive, automated tutors.</p>
+        <p><span class="paragraph-label">B</span> One of the most profound impacts of AI in English Language Teaching (ELT) is adaptive learning. Traditional curricula are largely linear, forcing all students to progress at the same pace regardless of their individual linguistic competencies. AI-driven platforms, however, analyze a learner’s input in real-time—identifying recurring grammatical errors, vocabulary deficits, or phonetic struggles. The system then dynamically recalibrates the difficulty of subsequent exercises. Researchers like Dr. Aris Vlassis have noted that this micro-adjusting prevents learner frustration and maintains the student within their optimal learning zone.</p>
+        <p><span class="paragraph-label">C</span> Continuous Professional Development (CPD) for educators has also been transformed by these technologies. Rather than replacing teachers, AI tools are automating administrative burdens such as grading multiple-choice assessments and generating foundational lesson plans. This automation allows educators to transition from taskmasters to facilitators. By analyzing the data dashboards generated by AI platforms, teachers can identify macro-trends in classroom comprehension and design targeted, human-led interventions to address complex sociolinguistic nuances that AI currently struggles to grasp.</p>
+        <p><span class="paragraph-label">D</span> Despite the rapid adoption of AI tools, skepticism remains within the academic community. Critics argue that over-reliance on AI-mediated communication strips language learning of its essential human empathy and cultural context. Professor Elena Rostova argues that while AI can perfect a student's syntax, it cannot teach the pragmatic use of language—how to interpret sarcasm, read body language, or understand colloquial humor. She warns that classrooms leaning exclusively on algorithmic feedback risk producing technically proficient speakers who lack socio-cultural competence.</p>
+        <p><span class="paragraph-label">E</span> To counter these concerns, leading educational technologists are developing multimodal AI systems. These advanced models do not just process text; they analyze vocal intonation and facial expressions via webcam to gauge learner engagement and confusion. Preliminary experiments in multicultural classrooms in Southeast Asia have shown promising results. By combining AI's rigorous grammatical feedback with a teacher's cultural contextualization, institutions are reporting an accelerated progression from CEFR A2 to B1 levels compared to traditional instruction alone.</p>
+        <p><span class="paragraph-label">F</span> Ultimately, the future of ELT lies in a symbiotic relationship between human educators and artificial intelligence. The pedagogical gap is not bridged by replacing the human element, but by augmenting it. As AI continues to evolve, its primary utility will be to provide the repetitive, customized scaffolding that learners require, freeing the human educator to focus on inspiring critical thinking, creativity, and authentic intercultural dialogue.</p>
       </div>
 
       <!-- PASSAGE 3 -->
       <div id="passage-3" class="section-content">
-        <h1>Cultural Hybridity in the 21st Century Megacity</h1>
-        <p><span class="paragraph-label">A</span> The traditional view of immigration and cultural integration was heavily dominated by the "assimilationist" model. In this framework, migrants arriving in a new metropolis were expected to gradually shed their native customs, languages, and identities to blend seamlessly into the dominant host culture. However, as the pace of globalization has accelerated, sociology has shifted its focus toward the concept of "cultural hybridity." First popularized by post-colonial theorist Homi Bhabha, hybridity suggests that when different cultures intersect, they do not simply overwrite one another. Instead, they create a "third space"—a new, mixed cultural identity that is distinct from both the host and the origin cultures.</p>
-        <p><span class="paragraph-label">B</span> Nowhere is this phenomenon more visible than in the modern megacity. Urban centers such as London, Toronto, and Singapore function as high-density crucibles of globalization. In these environments, cultural exchange is not a deliberate academic exercise but a constant, everyday reality. The architecture, the linguistic landscape, and the social norms of the megacity are in a state of perpetual negotiation. Sociologists argue that megacities are no longer representative of the nation-states that house them; rather, they exist as transnational nodes where global and local forces collide to produce entirely new social paradigms.</p>
-        <p><span class="paragraph-label">C</span> The most immediate and tangible expression of cultural hybridity is often found in the culinary landscape. Food serves as a highly accessible proxy for cultural identity. In Los Angeles, the famous "Kogi BBQ" food truck—which serves Korean barbecued meat inside traditional Mexican tacos—is frequently cited by sociologists as the quintessential example of urban hybridity. This is not simply the co-existence of two different restaurants on the same street (which would be multiculturalism); it is the physical fusion of two distinct traditions into a single, cohesive product that appeals to a diverse, cosmopolitan demographic.</p>
-        <p><span class="paragraph-label">D</span> Beyond the visible expressions of food and art, cultural hybridity has profound psychological implications, particularly for "Third Culture Kids" (TCKs). This term refers to individuals raised in a culture other than their parents' or the culture of their nationality for a significant part of their early development years. Research led by Dr. Evelyn Reed indicates that TCKs often struggle with traditional concepts of patriotism and rootedness. Because their identity is a composite of multiple cultural influences, they frequently report feeling "everywhere and nowhere" at once. However, this lack of a singular root culture is often counterbalanced by a highly developed capacity for cross-cultural empathy and cognitive flexibility.</p>
-        <p><span class="paragraph-label">E</span> Economically, cultural hybridity is increasingly viewed as a competitive advantage. In the late 20th century, multinational corporations primarily sought employees who could assimilate into a standardized corporate culture. Today, human resource strategies in global firms actively seek out individuals with hybrid identities. These individuals possess what organizational psychologists call "cultural agility"—the ability to seamlessly interpret and navigate differing cultural norms, making them invaluable in international negotiations and global marketing campaigns. The hybrid individual is no longer viewed as caught between two worlds, but as the ideal navigator of the globalized economy.</p>
-        <p><span class="paragraph-label">F</span> Yet, the celebration of hybridity is not without its critics. Some cultural theorists warn that the commercialization of hybrid cultures—such as the mass marketing of "fusion" foods or world music—often strips these cultural expressions of their authentic historical contexts, reducing them to mere commodities for elite consumption. Furthermore, the ability to seamlessly navigate a hybrid, cosmopolitan lifestyle is frequently a privilege tied to socioeconomic status. For marginalized immigrant communities in the same megacities, the intersection of cultures may result not in a celebrated "third space," but in social alienation and economic exclusion.</p>
+        <h1>Cognitive Resilience and Ancient Philosophies in Modern Learning</h1>
+        <p><span class="paragraph-label">A</span> The journey of mastering a second language is rarely a linear trajectory of improvement. Most learners experience rapid progress in the initial stages, followed by a prolonged and often frustrating period known as the "intermediate plateau." During this phase, learners possess enough vocabulary to survive basic interactions but struggle to express complex, abstract thoughts. At this critical juncture, cognitive psychology suggests that a learner’s success is determined less by their linguistic aptitude and more by their psychological resilience and emotional regulation.</p>
+        <p><span class="paragraph-label">B</span> Interestingly, modern educational psychologists are increasingly drawing parallels between cognitive resilience in language acquisition and the tenets of ancient Stoic philosophy. Stoicism, founded in Athens in the 3rd century BC, teaches the development of self-control and fortitude as a means of overcoming destructive emotions. The central dichotomy of control—distinguishing between what is within our power and what is not—is highly applicable to the modern language learner. A student cannot control the complexity of English grammar rules or the speed at which a native speaker talks, but they possess absolute control over their study habits, their response to making errors, and their daily consistency.</p>
+        <p><span class="paragraph-label">C</span> Dr. Julian Hughes, a researcher in psycho-linguistics, argues that applying Stoic principles can significantly lower the "affective filter." First proposed by Stephen Krashen, the affective filter is a psychological barrier that prevents language acquisition when a learner is stressed, anxious, or unmotivated. Hughes found that learners trained in cognitive reframing—a technique aligned with Stoic mindfulness where mistakes are viewed as necessary data points rather than personal failures—showed a 40% higher retention rate of complex syntax over a six-month period.</p>
+        <p><span class="paragraph-label">D</span> Furthermore, the concept of consistent, marginal gains is central to overcoming the intermediate plateau. Language acquisition is inherently a slow, compounding process, much like achieving financial freedom or building physical fitness. The modern desire for immediate fluency, fueled by apps promising mastery in 30 days, creates a mismatch between expectation and reality. Philosophers and modern psychologists alike argue that embracing the tediousness of the process—finding satisfaction in the daily discipline of reading, writing, and speaking without demanding immediate external validation—is the true marker of a resilient learner.</p>
+        <p><span class="paragraph-label">E</span> The integration of these psychological frameworks into formal curriculum design is still in its infancy. Most language assessments prioritize accuracy and fluency, leaving no metric for evaluating a student’s resilience or strategic approach to learning. However, some forward-thinking institutions are beginning to implement "reflective journaling" alongside traditional listening and reading tests. These journals require students to document their emotional responses to linguistic challenges, encouraging a metacognitive awareness of their own learning processes.</p>
+        <p><span class="paragraph-label">F</span> In conclusion, while technological advancements provide unprecedented tools for language input and correction, the internal landscape of the learner remains the ultimate frontier. By fostering cognitive resilience through principles that echo ancient wisdom, educators can equip students not just with the vocabulary to speak, but with the psychological fortitude to persevere when words fail them. The true mastery of a language requires the mastery of one's own mind.</p>
       </div>
     </div>
 
@@ -419,25 +479,24 @@
         <h2>Questions 1–5</h2>
         <div class="instruction">
           The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
-          Choose the correct heading for paragraphs <strong>B–F</strong> from the list below.<br>
-          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
+          Choose the correct heading for paragraphs <strong>A–D</strong> and <strong>F</strong> from the list below.<br>
+          Write the correct number, <strong>i–vii</strong>, in the boxes provided.
         </div>
         <div class="box-options">
-          <div class="box-item"><strong>i</strong> The threat to indigenous languages</div>
-          <div class="box-item"><strong>ii</strong> A nuanced view of linguistic future</div>
-          <div class="box-item"><strong>iii</strong> The financial motivation for learning English</div>
-          <div class="box-item"><strong>iv</strong> The adaptation and blending of English locally</div>
-          <div class="box-item"><strong>v</strong> The origins of the British Empire</div>
-          <div class="box-item"><strong>vi</strong> The fear of losing cultural uniqueness</div>
-          <div class="box-item"><strong>vii</strong> The historical rise of the global language</div>
-          <div class="box-item"><strong>viii</strong> How software is changing communication needs</div>
+          <div class="box-item"><strong>i</strong> The biological blueprint of language</div>
+          <div class="box-item"><strong>ii</strong> The impact of social collaboration</div>
+          <div class="box-item"><strong>iii</strong> Learning through habit and reward</div>
+          <div class="box-item"><strong>iv</strong> The debate between nature and nurture</div>
+          <div class="box-item"><strong>v</strong> Mapping the brain’s language centers</div>
+          <div class="box-item"><strong>vi</strong> The shift toward subconscious absorption</div>
+          <div class="box-item"><strong>vii</strong> A unified approach to the four key skills</div>
         </div>
         <div class="q-group">
-          <div class="q-item" style="color: #666;"><em>Example: Paragraph A = vii</em></div>
-          <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph B <input type="text" id="q1"></div></div>
-          <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph C <input type="text" id="q2"></div></div>
-          <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph D <input type="text" id="q3"></div></div>
-          <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph E <input type="text" id="q4"></div></div>
+          <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph A <input type="text" id="q1"></div></div>
+          <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph B <input type="text" id="q2"></div></div>
+          <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph C <input type="text" id="q3"></div></div>
+          <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph D <input type="text" id="q4"></div></div>
+          <div class="q-item" style="color: #666;"><em>Example: Paragraph E = v</em></div>
           <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph F <input type="text" id="q5"></div></div>
         </div>
 
@@ -447,10 +506,10 @@
           Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">6</div><div class="q-text">The "homogenization thesis" suggests that learning English enriches local cultural values. <br><input type="text" id="q6"></div></div>
-          <div class="q-item"><div class="q-num">7</div><div class="q-text">"World Englishes" are forms of the language that have been altered by local grammar and vocabulary. <br><input type="text" id="q7"></div></div>
-          <div class="q-item"><div class="q-num">8</div><div class="q-text">Governments in developing nations provide equal funding to both English and indigenous language education. <br><input type="text" id="q8"></div></div>
-          <div class="q-item"><div class="q-num">9</div><div class="q-text">The percentage of internet content written in English is significantly lower today than it was in the early days of the web. <br><input type="text" id="q9"></div></div>
+          <div class="q-item"><div class="q-num">6</div><div class="q-text">B.F. Skinner believed that children possess an inherent understanding of basic grammar from birth. <br><input type="text" id="q6"></div></div>
+          <div class="q-item"><div class="q-num">7</div><div class="q-text">Stephen Krashen claimed that explicitly teaching grammar rules is the most effective way to achieve language fluency. <br><input type="text" id="q7"></div></div>
+          <div class="q-item"><div class="q-num">8</div><div class="q-text">Vygotsky’s interactionist theories were initially rejected by mainstream psychologists. <br><input type="text" id="q8"></div></div>
+          <div class="q-item"><div class="q-num">9</div><div class="q-text">Modern language classrooms are moving away from teaching linguistic skills in isolation. <br><input type="text" id="q9"></div></div>
         </div>
 
         <h2>Questions 10–13</h2>
@@ -460,7 +519,7 @@
         <div class="q-group">
           <div class="q-item">
             <div class="q-text">
-              The spread of English has caused concern among some academics who believe it leads to cultural erosion. However, sociolinguists point out that non-native speakers often appropriate the language to create <strong>10</strong> <input type="text" id="q10">, which reflect their own identities. In many countries, the drive to learn English is primarily linked to the desire for <strong>11</strong> <input type="text" id="q11">. While this poses a challenge for traditional cultures, recent improvements in real-time <strong>12</strong> <input type="text" id="q12"> mean that relying solely on English may become less necessary. The ultimate goal is to achieve global interconnectivity without losing the world's <strong>13</strong> <input type="text" id="q13">.
+              Recent developments in <strong>10</strong> <input type="text" id="q10"> have allowed scientists to map the specific areas of the brain responsible for processing language. Alongside this, the use of digital <strong>11</strong> <input type="text" id="q11"> has revolutionized language education by allowing for real-time adaptations to suit individual learners. In the modern classroom, the focus has shifted towards a more <strong>12</strong> <input type="text" id="q12"> methodology. This means that students are no longer taught using mechanical drills; instead, they develop their Listening, Reading, Speaking, and Writing abilities <strong>13</strong> <input type="text" id="q13">, allowing them to use language for authentic communication.
             </div>
           </div>
         </div>
@@ -475,79 +534,80 @@
           Write the correct letter, <strong>A–F</strong>, in the boxes provided.
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">14</div><div class="q-text">An example of a specific indigenous group using crowdsourcing to digitize their language. <input type="text" id="q14"></div></div>
-          <div class="q-item"><div class="q-num">15</div><div class="q-text">The estimated proportion of global languages that are currently endangered. <input type="text" id="q15"></div></div>
-          <div class="q-item"><div class="q-num">16</div><div class="q-text">Questions regarding the legal ownership of uploaded indigenous language data. <input type="text" id="q16"></div></div>
-          <div class="q-item"><div class="q-num">17</div><div class="q-text">An explanation of why AI systems favor widely spoken languages over minority ones. <input type="text" id="q17"></div></div>
-          <div class="q-item"><div class="q-num">18</div><div class="q-text">A suggestion that tech companies should view language preservation as a human right. <input type="text" id="q18"></div></div>
+          <div class="q-item"><div class="q-num">14</div><div class="q-text">A mention of how AI handles administrative tasks for teachers. <input type="text" id="q14"></div></div>
+          <div class="q-item"><div class="q-num">15</div><div class="q-text">A description of technology that evaluates visual and audio cues to measure student understanding. <input type="text" id="q15"></div></div>
+          <div class="q-item"><div class="q-num">16</div><div class="q-text">The historical problem of providing personal attention in large classes. <input type="text" id="q16"></div></div>
+          <div class="q-item"><div class="q-num">17</div><div class="q-text">An argument that AI cannot successfully teach the social or emotional aspects of language. <input type="text" id="q17"></div></div>
+          <div class="q-item"><div class="q-num">18</div><div class="q-text">How AI systems alter the difficulty of tasks based on immediate learner performance. <input type="text" id="q18"></div></div>
         </div>
 
         <h2>Questions 19–22</h2>
-        <div class="instruction">
-          Look at the following statements (Questions 19-22) and the list of researchers below.<br>
-          Match each statement with the correct researcher, <strong>A or B</strong>.<br>
-          <em>You may use any letter more than once.</em>
-        </div>
-        <div class="box-options">
-          <div class="box-item"><strong>A</strong> Dr. Kenji Sato</div>
-          <div class="box-item"><strong>B</strong> Dr. Maria Silva</div>
-        </div>
-        <div class="q-group">
-          <div class="q-item"><div class="q-num">19</div><div class="q-text">Argues that commercial motivations should not be the only driving force behind tech development. <input type="text" id="q19"></div></div>
-          <div class="q-item"><div class="q-num">20</div><div class="q-text">Observed that short-form videos help remove negative stereotypes associated with indigenous languages. <input type="text" id="q20"></div></div>
-          <div class="q-item"><div class="q-num">21</div><div class="q-text">Notes that minority language speakers face pressure to assimilate because they cannot interact with modern software. <input type="text" id="q21"></div></div>
-          <div class="q-item"><div class="q-num">22</div><div class="q-text">States that social media allows communities to bypass traditional state-controlled media. <input type="text" id="q22"></div></div>
-        </div>
-
-        <h2>Questions 23–26</h2>
         <div class="instruction">
           Choose the correct letter, <strong>A, B, C or D</strong>.
         </div>
         <div class="q-group">
           <div class="q-item">
-            <div class="q-num">23</div>
-            <div class="q-text">According to paragraph A, what is the primary consequence of the "digital divide" for indigenous languages?
+            <div class="q-num">19</div>
+            <div class="q-text">What does Dr. Aris Vlassis suggest is the main benefit of AI-driven adaptive learning?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q23" value="A"> A) It forces older generations to learn Mandarin or Spanish.</label>
-                <label class="mcq-label"><input type="radio" name="q23" value="B"> B) It encourages young people to use dominant languages to access the digital world.</label>
-                <label class="mcq-label"><input type="radio" name="q23" value="C"> C) It completely prevents rural communities from accessing the internet.</label>
-                <label class="mcq-label"><input type="radio" name="q23" value="D"> D) It creates more diverse cross-cultural communication.</label>
+                <label class="mcq-label"><input type="radio" name="q19" value="A"> A) It forces all students to learn at the same pace.</label>
+                <label class="mcq-label"><input type="radio" name="q19" value="B"> B) It stops learners from feeling frustrated by keeping tasks at the right level.</label>
+                <label class="mcq-label"><input type="radio" name="q19" value="C"> C) It completely replaces the need for human teachers.</label>
+                <label class="mcq-label"><input type="radio" name="q19" value="D"> D) It generates foundational lesson plans automatically.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
-            <div class="q-num">24</div>
-            <div class="q-text">How did the Māori community successfully integrate their language into digital platforms?
+            <div class="q-num">20</div>
+            <div class="q-text">According to paragraph C, how does AI impact Continuous Professional Development?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q24" value="A"> A) By boycotting major multinational tech companies.</label>
-                <label class="mcq-label"><input type="radio" name="q24" value="B"> B) By inventing a entirely new programming language.</label>
-                <label class="mcq-label"><input type="radio" name="q24" value="C"> C) By forcing the New Zealand government to translate the internet.</label>
-                <label class="mcq-label"><input type="radio" name="q24" value="D"> D) By crowdsourcing thousands of hours of native speaker recordings.</label>
+                <label class="mcq-label"><input type="radio" name="q20" value="A"> A) Teachers spend more time on multiple-choice grading.</label>
+                <label class="mcq-label"><input type="radio" name="q20" value="B"> B) It removes the need for teachers to understand sociolinguistic nuances.</label>
+                <label class="mcq-label"><input type="radio" name="q20" value="C"> C) It frees teachers to act as facilitators rather than administrators.</label>
+                <label class="mcq-label"><input type="radio" name="q20" value="D"> D) It makes human-led interventions unnecessary.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
-            <div class="q-num">25</div>
-            <div class="q-text">Why are some elders concerned about digitizing their languages?
+            <div class="q-num">21</div>
+            <div class="q-text">Professor Elena Rostova is concerned that AI instruction might produce students who:
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q25" value="A"> A) They fear young people will spend too much time on TikTok.</label>
-                <label class="mcq-label"><input type="radio" name="q25" value="B"> B) They believe machine learning algorithms will alter their grammar.</label>
-                <label class="mcq-label"><input type="radio" name="q25" value="C"> C) They feel that treating sacred language as data removes its spiritual meaning.</label>
-                <label class="mcq-label"><input type="radio" name="q25" value="D"> D) They are worried that AI will replace human translators entirely.</label>
+                <label class="mcq-label"><input type="radio" name="q21" value="A"> A) Have poor syntax and grammar.</label>
+                <label class="mcq-label"><input type="radio" name="q21" value="B"> B) Cannot type or use digital platforms efficiently.</label>
+                <label class="mcq-label"><input type="radio" name="q21" value="C"> C) Do not understand cultural humor or pragmatics.</label>
+                <label class="mcq-label"><input type="radio" name="q21" value="D"> D) Rely too heavily on webcam analysis.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
-            <div class="q-num">26</div>
-            <div class="q-text">What is the overarching tone of the writer regarding digital globalization in Passage 2?
+            <div class="q-num">22</div>
+            <div class="q-text">What is the author's final conclusion in Paragraph F?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q26" value="A"> A) Cautiously optimistic, provided ethical considerations are met.</label>
-                <label class="mcq-label"><input type="radio" name="q26" value="B"> B) Completely pessimistic about the survival of indigenous cultures.</label>
-                <label class="mcq-label"><input type="radio" name="q26" value="C"> C) Highly critical of the indigenous communities' resistance to technology.</label>
-                <label class="mcq-label"><input type="radio" name="q26" value="D"> D) Neutral, merely presenting statistics without a specific viewpoint.</label>
+                <label class="mcq-label"><input type="radio" name="q22" value="A"> A) AI will eventually replace human language teachers.</label>
+                <label class="mcq-label"><input type="radio" name="q22" value="B"> B) AI and human teachers must work together symbiotically.</label>
+                <label class="mcq-label"><input type="radio" name="q22" value="C"> C) AI is currently too expensive for mainstream ELT.</label>
+                <label class="mcq-label"><input type="radio" name="q22" value="D"> D) Teachers should focus only on repetitive scaffolding.</label>
               </div>
             </div>
           </div>
+        </div>
+
+        <h2>Questions 23–26</h2>
+        <div class="instruction">
+          Look at the following statements (Questions 23-26) and the list of researchers below.<br>
+          Match each statement with the correct researcher, <strong>A, B, or C</strong>.<br>
+          <em>You may use any letter more than once.</em>
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Dr. Aris Vlassis</div>
+          <div class="box-item"><strong>B</strong> Professor Elena Rostova</div>
+          <div class="box-item"><strong>C</strong> Stephen Krashen</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">23</div><div class="q-text">Believes that AI cannot interpret sarcasm or body language. <input type="text" id="q23"></div></div>
+          <div class="q-item"><div class="q-num">24</div><div class="q-text">Observes that dynamic recalibration keeps students in an optimal learning zone. <input type="text" id="q24"></div></div>
+          <div class="q-item"><div class="q-num">25</div><div class="q-text">Warns against the loss of empathy in automated teaching environments. <input type="text" id="q25"></div></div>
+          <div class="q-item"><div class="q-num">26</div><div class="q-text">Suggests that micro-adjusting difficulty prevents learners from giving up. <input type="text" id="q26"></div></div>
         </div>
       </div>
 
@@ -559,11 +619,11 @@
           Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">27</div><div class="q-text">Homi Bhabha believed that immigrants should abandon their native cultures when arriving in a new country. <br><input type="text" id="q27"></div></div>
-          <div class="q-item"><div class="q-num">28</div><div class="q-text">The "Kogi BBQ" truck is considered an example of multiculturalism rather than cultural hybridity. <br><input type="text" id="q28"></div></div>
-          <div class="q-item"><div class="q-num">29</div><div class="q-text">Third Culture Kids (TCKs) often feel a strong, singular patriotic connection to their parents' home country. <br><input type="text" id="q29"></div></div>
-          <div class="q-item"><div class="q-num">30</div><div class="q-text">Dr. Evelyn Reed's research was primarily funded by multinational corporations. <br><input type="text" id="q30"></div></div>
-          <div class="q-item"><div class="q-num">31</div><div class="q-text">In the late 20th century, global businesses generally preferred employees who adapted to a standard corporate culture. <br><input type="text" id="q31"></div></div>
+          <div class="q-item"><div class="q-num">27</div><div class="q-text">The "intermediate plateau" is a phase where learners experience the fastest rate of linguistic improvement. <br><input type="text" id="q27"></div></div>
+          <div class="q-item"><div class="q-num">28</div><div class="q-text">Stoic philosophy emphasizes controlling your emotional reactions rather than external events. <br><input type="text" id="q28"></div></div>
+          <div class="q-item"><div class="q-num">29</div><div class="q-text">Dr. Julian Hughes published his findings in the Journal of Applied Psycho-Linguistics. <br><input type="text" id="q29"></div></div>
+          <div class="q-item"><div class="q-num">30</div><div class="q-text">The modern expectation of achieving immediate fluency aligns well with the reality of language acquisition. <br><input type="text" id="q30"></div></div>
+          <div class="q-item"><div class="q-num">31</div><div class="q-text">Most standard language tests currently do not measure a student's psychological resilience. <br><input type="text" id="q31"></div></div>
         </div>
 
         <h2>Questions 32–36</h2>
@@ -572,20 +632,20 @@
           Write the correct letter, <strong>A–I</strong>, in the boxes provided.
         </div>
         <div class="box-options">
-          <div class="box-item"><strong>A</strong> commodity</div>
-          <div class="box-item"><strong>B</strong> empathy</div>
-          <div class="box-item"><strong>C</strong> exclusion</div>
-          <div class="box-item"><strong>D</strong> agility</div>
-          <div class="box-item"><strong>E</strong> node</div>
-          <div class="box-item"><strong>F</strong> authenticity</div>
-          <div class="box-item"><strong>G</strong> fusion</div>
-          <div class="box-item"><strong>H</strong> privilege</div>
-          <div class="box-item"><strong>I</strong> barrier</div>
+          <div class="box-item"><strong>A</strong> errors</div>
+          <div class="box-item"><strong>B</strong> grammar</div>
+          <div class="box-item"><strong>C</strong> stress</div>
+          <div class="box-item"><strong>D</strong> data</div>
+          <div class="box-item"><strong>E</strong> motivation</div>
+          <div class="box-item"><strong>F</strong> syntax</div>
+          <div class="box-item"><strong>G</strong> control</div>
+          <div class="box-item"><strong>H</strong> barrier</div>
+          <div class="box-item"><strong>I</strong> discipline</div>
         </div>
         <div class="q-group">
           <div class="q-item">
             <div class="q-text">
-              While cultural hybridity is celebrated, it faces criticism. Theorists argue that turning cultural traditions into a commercial <strong>32</strong> <input type="text" id="q32"> for mass consumption often deprives them of their historical <strong>33</strong> <input type="text" id="q33">. Additionally, thriving in a cosmopolitan, hybrid environment is often viewed as a <strong>34</strong> <input type="text" id="q34"> dependent on a person's wealth and status. For many poorer immigrants living in the exact same megacities, the blending of cultures does not create an empowering new identity, but instead leads to social and economic <strong>35</strong> <input type="text" id="q35">. Despite these issues, corporations highly value the cultural <strong>36</strong> <input type="text" id="q36"> demonstrated by individuals with hybrid identities.
+              Dr. Julian Hughes suggests that psychological barriers, known as the affective filter, occur when learners experience high levels of <strong>32</strong> <input type="text" id="q32">. To combat this, Hughes applies Stoic techniques to help students reframe their mindset. By viewing their linguistic <strong>33</strong> <input type="text" id="q33"> not as failures but as useful <strong>34</strong> <input type="text" id="q34">, learners can significantly improve their retention of complex <strong>35</strong> <input type="text" id="q35">. Furthermore, overcoming the intermediate plateau requires a long-term approach based on daily <strong>36</strong> <input type="text" id="q36">, similar to achieving fitness or financial goals.
             </div>
           </div>
         </div>
@@ -597,45 +657,45 @@
         <div class="q-group">
           <div class="q-item">
             <div class="q-num">37</div>
-            <div class="q-text">What is the central concept of the "third space" mentioned in paragraph A?
+            <div class="q-text">What does the writer suggest about the "dichotomy of control" in paragraph B?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) A physical location in a megacity specifically designated for immigrants.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) A new cultural identity that is a mixture of origin and host cultures.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) The total assimilation of an immigrant into the dominant society.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) A digital platform used for cross-cultural communication.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) Learners should try to control how fast native speakers talk.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) Learners must accept that their study habits are out of their hands.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) Learners should focus their energy on their own habits and reactions.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) Learners should attempt to rewrite English grammar rules.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
             <div class="q-num">38</div>
-            <div class="q-text">According to paragraph B, sociologists believe that modern megacities:
+            <div class="q-text">According to paragraph E, why are some institutions using "reflective journaling"?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) Are accurate representations of the nations they belong to.</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) Should restrict cultural exchange to academic exercises.</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) Operate as transnational hubs forming new social norms.</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) Are primarily responsible for the loss of indigenous languages.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) To test students on complex vocabulary.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) To help students develop metacognitive awareness of their emotions.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) To replace traditional reading and listening tests entirely.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) To practice handwriting skills.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
             <div class="q-num">39</div>
-            <div class="q-text">Why are human resource departments seeking out "Third Culture Kids"?
+            <div class="q-text">The writer compares language acquisition to building physical fitness in order to illustrate:
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) They usually demand lower salaries in global markets.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) They possess a strong, unwavering sense of patriotism.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) They can physically relocate without any stress.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) They have the cognitive flexibility to navigate different cultural rules.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) The physical toll that studying takes on the body.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) That both require expensive apps to achieve success.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) The need for consistent, slow, and compounding efforts.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) That the intermediate plateau lasts exactly 30 days.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
             <div class="q-num">40</div>
-            <div class="q-text">What is the best title for Reading Passage 3?
+            <div class="q-text">Which of the following best summarizes the main idea of Passage 3?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) The Economic Downfall of the Modern Megacity.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) Cultural Hybridity: Identity and Inequality in a Globalized World.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) The Assimilationist Model: How Immigrants Succeed Today.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) The Global Spread of English Through Culinary Arts.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) Ancient philosophies are outdated in the era of AI language apps.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) Emotional regulation and resilience are crucial for mastering a language.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) The affective filter makes it impossible for adults to learn new languages.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) Stoicism was originally designed as a language-learning framework.</label>
               </div>
             </div>
           </div>
@@ -646,8 +706,8 @@
 
     <!-- SUBMIT BAR -->
     <div class="submit-bar">
-      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">Submit Test</button>
-      <button class="btn-retake" id="btn-retake" style="display: none;" onclick="retakeTest()">Start New Test</button>
+      <button class="btn-retake" id="btn-retake" onclick="retakeTest()" style="margin-right: 15px;">RESET</button>
+      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">SUBMIT MODULE</button>
     </div>
 
   </div>
@@ -655,15 +715,15 @@
   <script>
     /* --- INTERNAL ANSWER KEY FOR GRADING --- */
     const answerKey = {
-      q1: 'vi', q2: 'iv', q3: 'iii', q4: 'viii', q5: 'ii',
-      q6: 'false', q7: 'true', q8: 'not given', q9: 'true',
-      q10: 'world englishes', q11: 'social mobility', q12: 'translation software', q13: 'diverse cultural',
-      q14: 'c', q15: 'a', q16: 'e', q17: 'b', q18: 'f',
-      q19: 'a', q20: 'b', q21: 'a', q22: 'b',
-      q23: 'b', q24: 'd', q25: 'c', q26: 'a',
-      q27: 'no', q28: 'no', q29: 'no', q30: 'not given', q31: 'yes',
-      q32: 'a', q33: 'f', q34: 'h', q35: 'c', q36: 'd',
-      q37: 'b', q38: 'c', q39: 'd', q40: 'b'
+      q1: 'iii', q2: 'i', q3: 'vi', q4: 'ii', q5: 'vii',
+      q6: 'false', q7: 'false', q8: 'not given', q9: 'true',
+      q10: 'neurobiology', q11: 'technology', q12: 'holistic', q13: 'simultaneously',
+      q14: 'c', q15: 'e', q16: 'a', q17: 'd', q18: 'b',
+      q19: 'b', q20: 'c', q21: 'c', q22: 'b',
+      q23: 'b', q24: 'a', q25: 'b', q26: 'a',
+      q27: 'no', q28: 'yes', q29: 'not given', q30: 'no', q31: 'yes',
+      q32: 'c', q33: 'a', q34: 'd', q35: 'f', q36: 'i',
+      q37: 'c', q38: 'b', q39: 'c', q40: 'b'
     };
 
     /* --- TAB SWITCHING LOGIC --- */
@@ -676,61 +736,26 @@
       document.getElementById('questions-' + sectionNumber).classList.add('active');
     }
 
-    /* --- PERSISTENT TIMER & AUTO-SUBMIT LOGIC --- */
+    /* --- NON-PERSISTENT TIMER LOGIC (Resets on Refresh) --- */
     const DURATION = 3600; // 60 minutes
     let timerInterval;
     let timeRemaining;
     const timerElement = document.getElementById('timer');
 
     function initTest() {
-      const status = localStorage.getItem('ielts_test_status_05');
-
-      if (status === 'submitted') {
-        document.getElementById('pre-test-overlay').style.display = 'none';
-        document.getElementById('btn-start-top').style.display = 'none';
-        lockInterface();
-        gradeTest(); 
-        timerElement.textContent = "00:00";
-        document.getElementById('results-modal').style.display = 'block'; 
-        return;
-      }
-
-      if (status === 'in_progress') {
-        document.getElementById('pre-test-overlay').style.display = 'none';
-        document.getElementById('btn-start-top').style.display = 'none';
-        
-        const savedEndTime = localStorage.getItem('ielts_end_time_05');
-        const now = Math.floor(Date.now() / 1000);
-        timeRemaining = parseInt(savedEndTime) - now;
-        
-        if (timeRemaining <= 0) {
-          submitTest(true); 
-          return;
-        }
-        
-        startTimerInterval();
-      } else {
-        // Not Started State
-        document.getElementById('pre-test-overlay').style.display = 'flex';
-        document.getElementById('btn-start-top').style.display = 'block';
-        timerElement.textContent = "60:00";
-      }
+      document.getElementById('pre-test-overlay').style.display = 'flex';
+      document.getElementById('btn-start-top').style.display = 'block';
+      timerElement.textContent = "60:00";
+      timerElement.classList.remove('warning');
     }
 
     function startTest() {
       document.getElementById('pre-test-overlay').style.display = 'none';
       document.getElementById('btn-start-top').style.display = 'none';
       
-      const now = Math.floor(Date.now() / 1000);
       timeRemaining = DURATION;
-      localStorage.setItem('ielts_end_time_05', now + DURATION);
-      localStorage.setItem('ielts_test_status_05', 'in_progress');
-      
-      startTimerInterval();
-    }
-
-    function startTimerInterval() {
       updateTimerDisplay();
+      
       timerInterval = setInterval(() => {
         timeRemaining--;
         updateTimerDisplay();
@@ -752,15 +777,14 @@
       timerElement.textContent = `${minutes}:${seconds}`;
     }
 
-    /* --- SUBMISSION & GRADING PROTOCOL --- */
+    /* --- SUBMISSION & GRADING PROTOCOL (UPDATED WITH CORRECT ANSWER FEEDBACK) --- */
     function submitTest(isAutoSubmit = false) {
       if(!isAutoSubmit) {
-        const confirmSubmit = confirm("Are you sure you want to submit? You cannot change your answers after submission.");
+        const confirmSubmit = confirm("Confirm submission? You will not be able to alter your responses.");
         if(!confirmSubmit) return;
       }
 
       clearInterval(timerInterval);
-      localStorage.setItem('ielts_test_status_05', 'submitted');
       timerElement.textContent = "00:00";
       timerElement.classList.remove('warning');
       
@@ -774,29 +798,49 @@
       let score = 0;
       
       for(let i=1; i<=40; i++) {
-        let userAnswer = "";
         const qId = 'q' + i;
         const textInput = document.getElementById(qId);
+        const correctAnsData = answerKey[qId] ? answerKey[qId].toUpperCase() : "N/A";
         
         if (textInput) {
-          userAnswer = textInput.value.trim().toLowerCase();
+          let userAnswer = textInput.value.trim().toLowerCase();
+          
           if (userAnswer === answerKey[qId]) {
             score++;
             textInput.classList.add('correct-answer');
           } else {
             textInput.classList.add('wrong-answer');
-            textInput.value = userAnswer ? `${userAnswer} (X)` : '(Blank)';
+            textInput.style.width = "260px"; // Expand input width to show the correction
+            textInput.value = userAnswer ? `${userAnswer} ❌ [Ans: ${correctAnsData}]` : `(Blank) ❌ [Ans: ${correctAnsData}]`;
           }
         } else {
-          const radio = document.querySelector(`input[name="${qId}"]:checked`);
-          if (radio) {
-            userAnswer = radio.value.toLowerCase();
-          }
+          const selectedRadio = document.querySelector(`input[name="${qId}"]:checked`);
+          let userAnswer = selectedRadio ? selectedRadio.value.toLowerCase() : "";
+
           if (userAnswer === answerKey[qId]) {
             score++;
-            if(radio) radio.parentElement.style.color = '#10b981';
+            selectedRadio.parentElement.style.color = '#065f46';
+            selectedRadio.parentElement.style.fontWeight = '600';
           } else {
-            if(radio) radio.parentElement.style.color = '#ef4444';
+            // Mark user's wrong choice
+            if (selectedRadio) {
+              selectedRadio.parentElement.style.color = '#991b1b';
+              selectedRadio.parentElement.style.textDecoration = 'line-through';
+            }
+            // Highlight the correct choice
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAnsData}"]`);
+            if (correctRadio) {
+              correctRadio.parentElement.style.color = '#065f46';
+              correctRadio.parentElement.style.fontWeight = '700';
+              
+              if(!correctRadio.parentElement.querySelector('.correct-badge')) {
+                 const badge = document.createElement('span');
+                 badge.className = 'correct-badge';
+                 badge.style.cssText = 'color: #10b981; margin-left: 8px; font-family: var(--font-mono); font-size: 0.85rem; text-decoration: none; display: inline-block;';
+                 badge.textContent = '✓ CORRECT ANSWER';
+                 correctRadio.parentElement.appendChild(badge);
+              }
+            }
           }
         }
       }
@@ -811,19 +855,18 @@
       });
       
       document.getElementById('btn-submit').style.display = 'none';
-      document.getElementById('btn-retake').style.display = 'block';
+      document.getElementById('btn-retake').style.display = 'none';
     }
 
     /* --- UI MANAGEMENT --- */
     function closeModal() {
       document.getElementById('results-modal').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'block';
     }
 
     function retakeTest() {
-      if(!confirm("This will clear all your answers and restart the 60-minute timer. Continue?")) return;
+      if(!confirm("Warning: This will permanently clear all answers and restart the 60-minute session. Proceed?")) return;
 
-      localStorage.removeItem('ielts_test_status_05');
-      localStorage.removeItem('ielts_end_time_05');
       clearInterval(timerInterval);
       timerElement.classList.remove('warning');
       
@@ -832,22 +875,29 @@
       
       document.getElementById('btn-submit').style.display = 'block';
       document.getElementById('btn-submit').disabled = false;
-      document.getElementById('btn-retake').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'block';
       
+      // Reset Text Inputs
       document.querySelectorAll('input[type="text"]').forEach(input => {
         input.value = '';
         input.disabled = false;
+        input.style.width = "160px"; // Return to original width
         input.classList.remove('correct-answer', 'wrong-answer');
       });
       
+      // Reset Radio Buttons and Remove Correct Answer Badges
       document.querySelectorAll('input[type="radio"]').forEach(radio => {
         radio.checked = false;
         radio.disabled = false;
         radio.parentElement.style.color = 'inherit';
+        radio.parentElement.style.fontWeight = 'normal';
+        radio.parentElement.style.textDecoration = 'none';
       });
       
+      document.querySelectorAll('.correct-badge').forEach(badge => badge.remove());
+      
       switchSection(1);
-      initTest();
+      initTest(); 
     }
 
     window.onload = initTest;

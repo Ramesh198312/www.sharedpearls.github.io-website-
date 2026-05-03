@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Reading 01 | The LRSW Clinic</title>
+  
+  <!-- PREMIUM FONTS INTEGRATION -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Roboto+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- UNIVERSAL FONT STANDARDS & COLORS --- */
+    :root {
+      --primary: #0B1D3A;
+      --accent: #C4923E;
+      --badge-red: #A32A3A;
+      --badge-red-bg: #F9EAEB;
+      --bg-light: #F8FAFC;
+      --border: #CBD5E1;
+      --text-main: #333333;
+      --text-muted: #666666;
+      
+      /* Premium Typography System */
+      --font-ui: 'Inter', sans-serif;
+      --font-passage: 'Lora', serif;
+      --font-heading: 'Playfair Display', serif;
+      --font-mono: 'Roboto Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      font-family: var(--font-ui); 
+      color: var(--text-main); 
+      height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+      overflow: hidden; 
+      background: #fff; 
+    }
+
+    /* --- TOP NAVIGATION --- */
+    header { 
+      background: var(--primary); 
+      color: white; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 0 2rem; 
+      height: 65px; 
+      border-bottom: 3px solid var(--accent); 
+      flex-shrink: 0; 
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
+    .logo span { color: var(--accent); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; 
+      color: #cbd5e1; 
+      border: none; 
+      padding: 0 1.5rem; 
+      font-size: 0.95rem; 
+      font-weight: 600; 
+      cursor: pointer; 
+      transition: 0.3s ease; 
+      height: 100%; 
+      display: flex; 
+      align-items: center; 
+      border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui);
+      letter-spacing: 0.5px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #fff; background: rgba(255,255,255,0.05); }
+    .tab-btn.active { color: #fff; border-bottom-color: var(--accent); background: rgba(255,255,255,0.1); }
+    
+    /* Header Controls (Timer + Start Button) */
+    .header-controls { display: flex; align-items: center; gap: 15px; }
+    
+    .btn-start-top {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .btn-start-top:hover { background: #059669; }
+
+    .timer { 
+      font-family: var(--font-mono); 
+      font-size: 1.3rem; 
+      font-weight: 600; 
+      color: #fff; 
+      background: #1e293b; 
+      padding: 0.4rem 1rem; 
+      border-radius: 4px; 
+      border: 1px solid #334155;
+      letter-spacing: 1px;
+    }
+    .timer.warning { color: #ef4444; animation: pulse 1s infinite; border-color: #ef4444;}
+
+    @keyframes pulse {
+      0% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+      100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    /* --- SPLIT SCREEN LAYOUT --- */
+    .workspace { 
+      display: flex; 
+      flex: 1; 
+      height: calc(100vh - 65px); 
+      overflow: hidden; 
+      background: var(--bg-light); 
+      position: relative;
+    }
+    
+    .panel { 
+      flex: 1; 
+      height: 100%; 
+      overflow-y: auto; 
+      padding: 3rem; 
+      background: #fff; 
+      position: relative;
+    }
+    .left-panel { border-right: 1px solid var(--border); box-shadow: 4px 0 15px rgba(0,0,0,0.03); z-index: 2; }
+    .right-panel { background: #fafbfc; padding-bottom: 120px; }
+
+    /* --- PRE-TEST LOCK SCREEN OVERLAY --- */
+    .pre-test-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.98);
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .pre-test-overlay .module-badge {
+      font-family: var(--font-mono);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+    }
+    .pre-test-overlay h2 { 
+      font-size: 3rem; 
+      color: var(--primary); 
+      margin-bottom: 1.5rem; 
+      font-family: var(--font-heading);
+    }
+    .pre-test-overlay p { 
+      font-size: 1.15rem; 
+      color: var(--text-muted); 
+      max-width: 600px; 
+      line-height: 1.7; 
+      margin-bottom: 2.5rem; 
+      font-family: var(--font-passage);
+    }
+    .btn-start-large {
+      background: var(--primary);
+      color: #fff;
+      padding: 1.2rem 3.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.3s ease;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(11, 29, 58, 0.2);
+    }
+    .btn-start-large:hover { background: #1a365d; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(11, 29, 58, 0.3); }
+
+    /* --- PASSAGE TYPOGRAPHY --- */
+    .left-panel h1 { 
+      font-family: var(--font-heading); 
+      font-size: 2.2rem; 
+      margin-bottom: 2.5rem; 
+      color: var(--primary); 
+      line-height: 1.3; 
+      text-align: center;
+    }
+    
+    .left-panel p { 
+      font-family: var(--font-passage);
+      margin-bottom: 1.8rem; 
+      line-height: 1.85; 
+      text-align: justify; 
+      font-size: 1.15rem; 
+      color: #2c3e50;
+    }
+    
+    .paragraph-label { 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      font-size: 1.1rem; 
+      margin-right: 15px; 
+      color: var(--accent); 
+      float: left;
+      padding-top: 4px;
+    }
+    
+    /* --- QUESTION TYPOGRAPHY --- */
+    .right-panel h2 { 
+      font-size: 1.2rem; 
+      margin-bottom: 1rem; 
+      color: var(--primary); 
+      border-bottom: 2px solid var(--border); 
+      padding-bottom: 0.8rem; 
+      margin-top: 2.5rem; 
+      font-family: var(--font-ui);
+      font-weight: 700;
+    }
+    .right-panel h2:first-child { margin-top: 0; }
+    
+    .instruction { 
+      font-style: italic; 
+      color: var(--text-muted); 
+      margin-bottom: 1.5rem; 
+      font-size: 0.95rem; 
+      line-height: 1.5;
+    }
+    
+    .q-group { margin-bottom: 3rem; }
+    .q-item { 
+      display: flex; 
+      align-items: baseline; 
+      margin-bottom: 1.5rem; 
+      gap: 15px; 
+    }
+    .q-num { 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      color: var(--primary); 
+      min-width: 25px; 
+      font-size: 1rem;
+    }
+    .q-text { 
+      flex: 1; 
+      font-size: 1.05rem; 
+      line-height: 1.6; 
+    }
+    
+    input[type="text"] { 
+      padding: 0.4rem 0.6rem; 
+      border: 1px solid #94a3b8; 
+      border-radius: 4px; 
+      font-size: 1rem; 
+      width: 160px; 
+      font-family: var(--font-ui);
+      background: #fff;
+      transition: width 0.3s ease, border-color 0.2s, box-shadow 0.2s;
+    }
+    input[type="text"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196, 146, 62, 0.2); }
+    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; border-color: #cbd5e1; }
+    
+    .mcq-options { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 1rem; color: #444; line-height: 1.4; transition: 0.2s;}
+    .mcq-label:hover { color: var(--primary); }
+    .mcq-label input { margin-top: 5px; cursor: pointer; }
+    
+    .box-options { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 15px; 
+      border: 1px solid var(--border); 
+      padding: 1.5rem; 
+      margin-bottom: 2rem; 
+      background: #fff; 
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+    .box-item { font-size: 1rem; font-weight: 500; font-family: var(--font-ui); color: var(--primary);}
+    .box-item strong { font-family: var(--font-mono); color: var(--accent); margin-right: 5px;}
+
+    .section-content { display: none; animation: fadeIn 0.4s ease; }
+    .section-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* --- SUBMISSION & DORMANT STATE --- */
+    .submit-bar {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 50%; 
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
+      border-top: 1px solid var(--border);
+      padding: 1.2rem 3rem;
+      display: flex;
+      justify-content: flex-end;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
+      z-index: 100;
+    }
+
+    .btn-submit {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 1px;
+    }
+    .btn-submit:hover:not(:disabled) { background: #1a365d; }
+    .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; }
+
+    .btn-retake {
+      background: transparent;
+      color: var(--text-muted);
+      border: 2px solid var(--border);
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 1px;
+    }
+    .btn-retake:hover { background: #f8fafc; color: var(--primary); border-color: var(--primary); }
+
+    .dormant-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.3);
+      z-index: 50;
+      display: none;
+      pointer-events: none; 
+    }
+    body.test-completed .dormant-overlay { display: block; }
+    
+    /* --- RESULTS MODAL --- */
+    .results-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 3.5rem;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      z-index: 200;
+      text-align: center;
+      border-top: 6px solid var(--accent);
+      min-width: 450px;
+    }
+    .results-modal h2 { font-family: var(--font-heading); color: var(--primary); font-size: 2.2rem; margin-bottom: 1rem; }
+    .score-display { font-size: 4rem; font-weight: 700; color: var(--primary); margin: 1.5rem 0; font-family: var(--font-mono);}
+    .score-display span { font-size: 1.8rem; color: var(--border); }
+    
+    .btn-close {
+      background: var(--accent);
+      color: var(--primary);
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: 0.2s;
+      font-family: var(--font-mono);
+      letter-spacing: 1px;
+    }
+    .btn-close:hover { background: #b08133; color: #fff;}
+
+    .correct-answer { border-color: #10b981 !important; background: #f0fdf4 !important; color: #065f46 !important; font-weight: 600;}
+    .wrong-answer { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b !important; }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">The LRSW <span>Clinic</span></div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Section 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Section 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Section 3</button>
+    </div>
+    <div class="header-controls">
+      <button class="btn-start-top" id="btn-start-top" onclick="startTest()">START</button>
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <!-- RESULTS MODAL -->
+  <div class="results-modal" id="results-modal">
+    <h2>Evaluation Complete</h2>
+    <p>Your Reading Module score is:</p>
+    <div class="score-display" id="final-score">0 <span>/ 40</span></div>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your detailed feedback.</p>
+    <button class="btn-close" onclick="closeModal()">REVIEW ANSWERS</button>
+  </div>
+
+  <div class="workspace">
+    <!-- PRE-TEST LOCK SCREEN -->
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <div class="module-badge">MODULE 01</div>
+      <h2>Cognitive Pedagogy & Professional Practice</h2>
+      <p>This C1/C2 intensive simulation contains 3 passages and 40 questions focusing on bilingual neuroplasticity, continuous professional development models, and the psychology of discipline. The timer will initiate and passages will be unlocked upon pressing start.</p>
+      <button class="btn-start-large" onclick="startTest()">INITIATE PROTOCOL &rarr;</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <!-- LEFT PANEL: READING PASSAGES -->
+    <div class="panel left-panel">
+      <!-- PASSAGE 1 -->
+      <div id="passage-1" class="section-content active">
+        <h1>The Bilingual Brain in Multicultural Environments</h1>
+        <p><span class="paragraph-label">A</span> For decades, the prevailing educational orthodoxy warned against raising children in bilingual households, particularly in multicultural societies where linguistic input is exceptionally varied. Mid-20th-century developmental psychologists often posited that exposing a child to two languages simultaneously would result in a state of cognitive confusion, inevitably delaying fundamental milestones in both speech and cognitive maturation. However, modern neuroimaging technologies, specifically fMRI and PET scans, have radically debunked this myth, revealing that the bilingual brain is not merely accommodating a second language, but fundamentally restructuring its neurological architecture in highly advantageous ways.</p>
+        <p><span class="paragraph-label">B</span> One of the most significant neurological benefits associated with multilingualism is the enhancement of the brain’s executive control system. This system, located primarily in the prefrontal cortex, acts as a cognitive traffic cop, managing high-level functions such as attention, inhibition, and task switching. Because a bilingual individual's two languages are constantly active and competing for expression, the brain must continuously exercise its inhibitory control to suppress the non-target language. This rigorous, daily mental workout strengthens the neural pathways associated with focus, making bilinguals notably more proficient at filtering out irrelevant information and multitasking in completely non-linguistic domains.</p>
+        <p><span class="paragraph-label">C</span> Furthermore, immersion in multicultural and multilingual environments seems to offer a buffer against age-related cognitive decline. Longitudinal studies conducted by cognitive neuroscientists have demonstrated that the continuous use of multiple languages builds "cognitive reserve"—a robust network of alternative neural pathways. When conditions such as Alzheimer’s disease begin to degrade specific areas of the brain, individuals with high cognitive reserve can often reroute cognitive processes around the damaged areas. Statistical data indicates that the onset of dementia symptoms in lifelong bilinguals is, on average, delayed by up to five years compared to monolingual peers.</p>
+        <p><span class="paragraph-label">D</span> Despite these profound advantages, learning a language later in life presents a drastically different neurological profile. The "Critical Period Hypothesis," originally championed by Eric Lenneberg in 1967, argues that there is a biologically determined window—usually closing around puberty—during which language acquisition occurs effortlessly and results in native-like proficiency. While adult learners can certainly achieve high levels of fluency, their brains process the new language differently. Adults typically rely on explicit memory systems located in the hippocampus and frontal lobes to consciously apply grammatical rules, whereas children process language implicitly via the basal ganglia, making it an automatic, unconscious function.</p>
+        <p><span class="paragraph-label">E</span> Consequently, educators teaching adult beginner-level English learners in diverse, multicultural settings face unique pedagogical challenges. These adult learners bring a wealth of prior knowledge and fully developed conceptual frameworks, yet they must navigate the frustration of expressing complex adult thoughts through rudimentary vocabulary. Effective pedagogy in these environments requires moving beyond rote memorization to contextual, communicative approaches that leverage the adult brain's analytical strengths while mitigating the heightened affective filter—the emotional barrier composed of anxiety and self-consciousness that often impedes adult learning.</p>
+        <p><span class="paragraph-label">F</span> Ultimately, the linguistic landscape of the 21st century is increasingly defined by transnational mobility and multicultural integration. Understanding the neuroplasticity of the bilingual brain is no longer solely an academic endeavor; it is an essential component of public policy, educational curriculum design, and geriatric healthcare. By abandoning the monolingual standard and embracing the cognitive complexities of bilingualism, societies can foster populations that are not only more culturally empathetic but neurologically resilient.</p>
+      </div>
+
+      <!-- PASSAGE 2 -->
+      <div id="passage-2" class="section-content">
+        <h1>Rethinking Continuous Professional Development (CPD)</h1>
+        <p><span class="paragraph-label">A</span> Continuous Professional Development (CPD) is universally acknowledged as the cornerstone of effective educational practice. In the rapidly evolving field of English Language Teaching (ELT), static knowledge quickly becomes obsolete. Traditionally, however, CPD has been implemented through a heavily centralized, "top-down" model. Educators are periodically removed from their classrooms to attend mandatory, one-size-fits-all workshops delivered by external experts. These sessions, while well-intentioned, frequently suffer from a severe disconnect between the theoretical concepts presented and the pragmatic realities of diverse, multicultural classrooms.</p>
+        <p><span class="paragraph-label">B</span> Current educational research strongly indicates that isolated training events have a negligible impact on long-term teacher performance. The core deficiency of the traditional model lies in its failure to account for the situated nature of teaching. Pedagogy is not a set of mechanical protocols that can be universally applied; it is a highly contextualized practice that relies heavily on the specific dynamic between the teacher and their specific cohort of students. Consequently, progressive educational institutions are shifting away from episodic workshops in favor of integrated, continuous, and collaborative models of professional growth.</p>
+        <p><span class="paragraph-label">C</span> A pivotal element in this modern paradigm is "reflective practice." Inspired by the work of Donald Schön, reflective practice demands that teachers move beyond simply executing lesson plans and actively analyze their in-class decisions and outcomes. This involves recording lessons, engaging in peer observation, and maintaining analytical journals. By systematically reviewing their instructional methods, teachers can identify specific pedagogical gaps—such as an over-reliance on teacher-talking-time or the ineffective use of scaffolding for beginner learners—and devise personalized intervention strategies.</p>
+        <p><span class="paragraph-label">D</span> Furthermore, the concept of "Communities of Practice" (CoP) has gained significant traction. A CoP is a localized group of educators who share a common concern or passion for an aspect of their profession and learn how to do it better as they interact regularly. Unlike formal department meetings, CoPs are inherently collaborative and non-hierarchical. In these environments, veteran teachers and novices co-construct knowledge, sharing culturally relevant resources, troubleshooting specific behavioral issues, and collaboratively evaluating the efficacy of new linguistic tools.</p>
+        <p><span class="paragraph-label">E</span> The integration of technology—and increasingly, artificial intelligence—is also reshaping CPD. While AI is frequently discussed as a tool for student assessment, its utility for teacher development is immense. Sophisticated analytical platforms can now process classroom audio to measure the ratio of teacher-to-student speech, evaluate the complexity of teacher questioning, and map student engagement levels. Rather than relying on subjective memory, teachers are provided with objective, granular data regarding their performance, allowing for highly targeted self-improvement.</p>
+        <p><span class="paragraph-label">F</span> Ultimately, the goal of modern CPD is not merely to transmit new theories, but to foster an enduring professional identity. When teachers are treated as autonomous researchers of their own classrooms rather than passive recipients of external directives, their self-efficacy rises dramatically. This psychological shift is crucial; studies consistently show a high correlation between a teacher’s belief in their professional agency and the academic achievement of their students, proving that the most impactful educational intervention is a continuously developing teacher.</p>
+      </div>
+
+      <!-- PASSAGE 3 -->
+      <div id="passage-3" class="section-content">
+        <h1>The Wisdom Path: Ancient Frameworks for Modern Achievement</h1>
+        <p><span class="paragraph-label">A</span> In an era dominated by hyper-connectivity, algorithmic distractions, and the relentless pursuit of immediate gratification, the modern individual frequently experiences a profound crisis of focus. The cultural narrative surrounding success has been commodified into rapid "hacks" and thirty-day transformations, creating a widespread psychological fragility when long-term goals demand sustained effort. In response to this modern malaise, there has been a striking resurgence of interest in ancient philosophies, most notably Stoicism, which offer rigorous frameworks for developing mental fortitude and enduring discipline.</p>
+        <p><span class="paragraph-label">B</span> Originating in Athens in the 3rd century BCE, Stoicism is not a philosophy of emotional suppression, as the modern definition of the word 'stoic' might mistakenly imply. Rather, it is a highly practical operating system for human behavior based on the "Dichotomy of Control." The fundamental tenet, articulated by the philosopher Epictetus, asserts that our psychological distress stems from confusing what is entirely within our control (our thoughts, impulses, and daily actions) with what is completely outside of it (the economy, the opinions of others, or unforeseen setbacks). True autonomy is achieved by ruthlessly severing our emotional attachment to external outcomes.</p>
+        <p><span class="paragraph-label">C</span> This philosophical distinction is critically applicable to the psychology of high achievement and financial freedom. Modern behavioral economics demonstrates that success is rarely the product of singular, monumental events; rather, it is the cumulative result of continuous, marginal gains. The "Wisdom Path" approach argues that an individual must divorce their sense of satisfaction from the ultimate goal—which is often delayed and subject to external volatility—and attach it instead to the daily execution of productive habits. A writer cannot control if a book becomes a bestseller, but they can control writing five hundred words every morning.</p>
+        <p><span class="paragraph-label">D</span> Furthermore, Stoicism provides a powerful antidote to the fear of failure, a primary paralyzing force in skill acquisition and professional development. Through a practice known as <em>premeditatio malorum</em> (the premeditation of evils), practitioners deliberately visualize worst-case scenarios. By mentally rehearsing failure, financial loss, or social rejection, the individual strips these events of their psychological terror. If a negative outcome does occur, the practitioner is neither surprised nor devastated, having already developed a rational, pre-planned response to the adversity.</p>
+        <p><span class="paragraph-label">E</span> Translating these ancient principles into modern routines requires deliberate practice. It involves moving away from motivation, which is an unreliable, emotion-based state, and relying entirely on systems and discipline. For instance, an individual seeking mastery in a complex field—such as a foreign language or advanced academic research—must establish rigid environmental constraints that make the desired behavior the path of least resistance. This might involve strictly scheduled deep-work blocks, the removal of digital stimuli, and the practice of voluntary discomfort to build psychological resilience.</p>
+        <p><span class="paragraph-label">F</span> In conclusion, the resurgence of Stoic principles highlights a fundamental truth about human nature: the mechanics of success have not changed over millennia. While modern technology has vastly altered our external environment, the internal battles against procrastination, anxiety, and distraction remain identical to those faced by ancient emperors and slaves alike. By adopting a philosophical framework centered on radical responsibility and daily discipline, individuals can forge a mindset capable of navigating the complexities of modern life with unwavering equanimity.</p>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: QUESTIONS -->
+    <div class="panel right-panel">
+      
+      <!-- QUESTIONS FOR SECTION 1 -->
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–5</h2>
+        <div class="instruction">
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Choose the correct heading for paragraphs <strong>B–F</strong> from the list below.<br>
+          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> Building neurological resilience against disease</div>
+          <div class="box-item"><strong>ii</strong> The biological differences in late-stage acquisition</div>
+          <div class="box-item"><strong>iii</strong> The myth of cognitive confusion</div>
+          <div class="box-item"><strong>iv</strong> Navigating the barriers of adult instruction</div>
+          <div class="box-item"><strong>v</strong> The strengthening of high-level brain management</div>
+          <div class="box-item"><strong>vi</strong> Replacing the monolingual standard in society</div>
+          <div class="box-item"><strong>vii</strong> Why children learn languages implicitly</div>
+          <div class="box-item"><strong>viii</strong> A history of mid-century psychology</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item" style="color: #666;"><em>Example: Paragraph A = iii</em></div>
+          <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph B <input type="text" id="q1"></div></div>
+          <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph C <input type="text" id="q2"></div></div>
+          <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph D <input type="text" id="q3"></div></div>
+          <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph E <input type="text" id="q4"></div></div>
+          <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph F <input type="text" id="q5"></div></div>
+        </div>
+
+        <h2>Questions 6–9</h2>
+        <div class="instruction">
+          Do the following statements agree with the information given in the Reading Passage?<br>
+          Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">6</div><div class="q-text">Mid-20th-century psychologists believed bilingualism helped children reach developmental milestones faster. <br><input type="text" id="q6"></div></div>
+          <div class="q-item"><div class="q-num">7</div><div class="q-text">Bilingual individuals are generally better at ignoring irrelevant information while multitasking. <br><input type="text" id="q7"></div></div>
+          <div class="q-item"><div class="q-num">8</div><div class="q-text">Eric Lenneberg successfully learned three foreign languages after puberty. <br><input type="text" id="q8"></div></div>
+          <div class="q-item"><div class="q-num">9</div><div class="q-text">Adults learning a new language tend to rely on different areas of the brain than children do. <br><input type="text" id="q9"></div></div>
+        </div>
+
+        <h2>Questions 10–13</h2>
+        <div class="instruction">
+          Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              Neuroscientists have found that speaking multiple languages provides long-term health benefits by building <strong>10</strong> <input type="text" id="q10">. This network helps delay the symptoms of conditions like Alzheimer's. However, learning languages becomes biologically different after puberty. Adults use <strong>11</strong> <input type="text" id="q11"> systems to remember grammar, while children absorb language automatically. Because of this, teachers of adult learners must create environments that overcome the <strong>12</strong> <input type="text" id="q12">, which includes feelings of anxiety. Adapting to these complexities is crucial for forming populations that are both cognitively resilient and <strong>13</strong> <input type="text" id="q13">.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 2 -->
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18</h2>
+        <div class="instruction">
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Which paragraph contains the following information?<br>
+          Write the correct letter, <strong>A–F</strong>, in the boxes provided.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">14</div><div class="q-text">A description of a collaborative, non-hierarchical learning environment for teachers. <input type="text" id="q14"></div></div>
+          <div class="q-item"><div class="q-num">15</div><div class="q-text">The idea that teaching is heavily dependent on the specific relationship with a group of students. <input type="text" id="q15"></div></div>
+          <div class="q-item"><div class="q-num">16</div><div class="q-text">How advanced software can measure the amount of time a teacher spends talking. <input type="text" id="q16"></div></div>
+          <div class="q-item"><div class="q-num">17</div><div class="q-text">The psychological benefit of giving educators professional agency. <input type="text" id="q17"></div></div>
+          <div class="q-item"><div class="q-num">18</div><div class="q-text">The failure of top-down workshops to address the realities of diverse classrooms. <input type="text" id="q18"></div></div>
+        </div>
+
+        <h2>Questions 19–22</h2>
+        <div class="instruction">
+          Look at the following concepts (Questions 19-22) and the list of descriptions below.<br>
+          Match each concept with the correct description, <strong>A, B, C, or D</strong>.<br>
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Traditional CPD</div>
+          <div class="box-item"><strong>B</strong> Reflective Practice</div>
+          <div class="box-item"><strong>C</strong> Communities of Practice</div>
+          <div class="box-item"><strong>D</strong> AI Analytical Platforms</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">19</div><div class="q-text">A method requiring educators to actively analyze their own in-class decisions via journals or recordings. <input type="text" id="q19"></div></div>
+          <div class="q-item"><div class="q-num">20</div><div class="q-text">A system that provides granular, objective data regarding classroom engagement. <input type="text" id="q20"></div></div>
+          <div class="q-item"><div class="q-num">21</div><div class="q-text">A model that relies on external experts delivering generalized, one-size-fits-all training. <input type="text" id="q21"></div></div>
+          <div class="q-item"><div class="q-num">22</div><div class="q-text">A localized group where novices and veterans share culturally relevant resources equally. <input type="text" id="q22"></div></div>
+        </div>
+
+        <h2>Questions 23–26</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">23</div>
+            <div class="q-text">According to paragraph B, why are isolated training events ineffective?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q23" value="A"> A) Because teachers do not pay attention during them.</label>
+                <label class="mcq-label"><input type="radio" name="q23" value="B"> B) Because pedagogy relies heavily on specific contexts, not universal protocols.</label>
+                <label class="mcq-label"><input type="radio" name="q23" value="C"> C) Because they do not use artificial intelligence.</label>
+                <label class="mcq-label"><input type="radio" name="q23" value="D"> D) Because external experts lack theoretical knowledge.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">24</div>
+            <div class="q-text">What is listed as a potential pedagogical gap a teacher might identify in paragraph C?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q24" value="A"> A) An inability to use analytical software.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="B"> B) Attending too many formal department meetings.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="C"> C) An over-reliance on teacher-talking-time.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="D"> D) A lack of student motivation.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">25</div>
+            <div class="q-text">How does AI improve upon a teacher's subjective memory according to the passage?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q25" value="A"> A) By recording videos of the students' personal lives.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="B"> B) By evaluating the complexity of the teacher's questioning objectively.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="C"> C) By forcing the teacher to write daily analytical journals.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="D"> D) By taking over the grading of subjective essays.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">26</div>
+            <div class="q-text">What is the ultimate benefit of modern CPD as described in Paragraph F?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q26" value="A"> A) It increases a teacher's belief in their professional agency, leading to better student achievement.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="B"> B) It eliminates the need for any formal workshops.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="C"> C) It ensures that all teachers follow exactly the same centralized curriculum.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="D"> D) It saves the school money on external experts.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 3 -->
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31</h2>
+        <div class="instruction">
+          Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
+          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">27</div><div class="q-text">The modern concept of success focuses too much on immediate results rather than long-term effort. <br><input type="text" id="q27"></div></div>
+          <div class="q-item"><div class="q-num">28</div><div class="q-text">Stoicism teaches its followers to completely suppress all their human emotions. <br><input type="text" id="q28"></div></div>
+          <div class="q-item"><div class="q-num">29</div><div class="q-text">Epictetus was considered the wealthiest philosopher of the 3rd century BCE. <br><input type="text" id="q29"></div></div>
+          <div class="q-item"><div class="q-text">The "Wisdom Path" suggests finding satisfaction in daily habits rather than the final outcome. <br><input type="text" id="q30"></div></div>
+          <div class="q-item"><div class="q-num">31</div><div class="q-text">Motivation is described as a reliable foundation for long-term mastery. <br><input type="text" id="q31"></div></div>
+        </div>
+
+        <h2>Questions 32–36</h2>
+        <div class="instruction">
+          Complete the summary using the list of words, <strong>A–I</strong>, below.<br>
+          Write the correct letter, <strong>A–I</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> failure</div>
+          <div class="box-item"><strong>B</strong> systems</div>
+          <div class="box-item"><strong>C</strong> outcomes</div>
+          <div class="box-item"><strong>D</strong> constraints</div>
+          <div class="box-item"><strong>E</strong> motivation</div>
+          <div class="box-item"><strong>F</strong> control</div>
+          <div class="box-item"><strong>G</strong> distress</div>
+          <div class="box-item"><strong>H</strong> distraction</div>
+          <div class="box-item"><strong>I</strong> success</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              Stoic philosophy provides a practical framework for modern life, primarily through the dichotomy of <strong>32</strong> <input type="text" id="q32">. It argues that people should detach their emotions from external <strong>33</strong> <input type="text" id="q33"> that they cannot influence. A key Stoic practice involves mentally rehearsing worst-case scenarios to overcome the paralyzing fear of <strong>34</strong> <input type="text" id="q34">. Furthermore, mastering complex skills requires ignoring unreliable <strong>35</strong> <input type="text" id="q35"> and instead relying on rigid environmental <strong>36</strong> <input type="text" id="q36"> and discipline to force productive behavior.
+            </div>
+          </div>
+        </div>
+
+        <h2>Questions 37–40</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">37</div>
+            <div class="q-text">What causes psychological distress according to the philosopher Epictetus?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) A lack of financial freedom.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) The inability to predict the future.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) Confusing what we can control with what is outside of our control.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) Surrounding ourselves with negative people.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">38</div>
+            <div class="q-text">What does the practice of <em>premeditatio malorum</em> involve?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) Meditating on past successes to build confidence.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) Deliberately visualizing negative events to strip them of their terror.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) Suppressing all emotions related to fear or anxiety.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) Ignoring the economy and focusing on physical fitness.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">39</div>
+            <div class="q-text">According to paragraph E, what is an example of an "environmental constraint"?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) Only working when you feel inspired or motivated.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) Reading books about Stoic philosophy.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) Removing digital stimuli to force deep-work sessions.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) Expecting a thirty-day transformation.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">40</div>
+            <div class="q-text">What is the main conclusion of Passage 3 regarding the mechanics of success?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) They have drastically changed due to modern technology.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) They remain fundamentally the same as they were millennia ago.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) They are entirely dependent on avoiding all negative outcomes.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) They require individuals to become emperors or slaves.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SUBMIT BAR -->
+    <div class="submit-bar">
+      <button class="btn-retake" id="btn-retake" onclick="retakeTest()" style="margin-right: 15px;">RESET</button>
+      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">SUBMIT MODULE</button>
+    </div>
+
+  </div>
+
+  <script>
+    /* --- INTERNAL ANSWER KEY FOR GRADING --- */
+    const answerKey = {
+      q1: 'v', q2: 'i', q3: 'ii', q4: 'iv', q5: 'vi',
+      q6: 'false', q7: 'true', q8: 'not given', q9: 'true',
+      q10: 'cognitive reserve', q11: 'explicit memory', q12: 'affective filter', q13: 'culturally empathetic',
+      q14: 'd', q15: 'b', q16: 'e', q17: 'f', q18: 'a',
+      q19: 'b', q20: 'd', q21: 'a', q22: 'c',
+      q23: 'b', q24: 'c', q25: 'b', q26: 'a',
+      q27: 'yes', q28: 'no', q29: 'not given', q30: 'yes', q31: 'no',
+      q32: 'f', q33: 'c', q34: 'a', q35: 'e', q36: 'd',
+      q37: 'c', q38: 'b', q39: 'c', q40: 'b'
+    };
+
+    /* --- TAB SWITCHING LOGIC --- */
+    function switchSection(sectionNumber) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+      
+      document.getElementById('tab-' + sectionNumber).classList.add('active');
+      document.getElementById('passage-' + sectionNumber).classList.add('active');
+      document.getElementById('questions-' + sectionNumber).classList.add('active');
+    }
+
+    /* --- NON-PERSISTENT TIMER LOGIC (Resets on Refresh) --- */
+    const DURATION = 3600; // 60 minutes
+    let timerInterval;
+    let timeRemaining;
+    const timerElement = document.getElementById('timer');
+
+    function initTest() {
+      document.getElementById('pre-test-overlay').style.display = 'flex';
+      document.getElementById('btn-start-top').style.display = 'block';
+      timerElement.textContent = "60:00";
+      timerElement.classList.remove('warning');
+    }
+
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('btn-start-top').style.display = 'none';
+      
+      timeRemaining = DURATION;
+      updateTimerDisplay();
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        
+        if(timeRemaining <= 300 && timeRemaining > 0) {
+            timerElement.classList.add('warning');
+        }
+
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          submitTest(true);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+      const seconds = (timeRemaining % 60).toString().padStart(2, '0');
+      timerElement.textContent = `${minutes}:${seconds}`;
+    }
+
+    /* --- SUBMISSION & GRADING PROTOCOL (UPDATED WITH CORRECT ANSWER FEEDBACK) --- */
+    function submitTest(isAutoSubmit = false) {
+      if(!isAutoSubmit) {
+        const confirmSubmit = confirm("Confirm submission? You will not be able to alter your responses.");
+        if(!confirmSubmit) return;
+      }
+
+      clearInterval(timerInterval);
+      timerElement.textContent = "00:00";
+      timerElement.classList.remove('warning');
+      
+      gradeTest();
+      lockInterface();
+      
+      document.getElementById('results-modal').style.display = 'block';
+    }
+
+    function gradeTest() {
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q' + i;
+        const textInput = document.getElementById(qId);
+        const correctAnsData = answerKey[qId] ? answerKey[qId].toUpperCase() : "N/A";
+        
+        if (textInput) {
+          let userAnswer = textInput.value.trim().toLowerCase();
+          
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else {
+            textInput.classList.add('wrong-answer');
+            textInput.style.width = "260px"; // Expand input width to show the correction
+            textInput.value = userAnswer ? `${userAnswer} ❌ [Ans: ${correctAnsData}]` : `(Blank) ❌ [Ans: ${correctAnsData}]`;
+          }
+        } else {
+          const selectedRadio = document.querySelector(`input[name="${qId}"]:checked`);
+          let userAnswer = selectedRadio ? selectedRadio.value.toLowerCase() : "";
+
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            selectedRadio.parentElement.style.color = '#065f46';
+            selectedRadio.parentElement.style.fontWeight = '600';
+          } else {
+            // Mark user's wrong choice
+            if (selectedRadio) {
+              selectedRadio.parentElement.style.color = '#991b1b';
+              selectedRadio.parentElement.style.textDecoration = 'line-through';
+            }
+            // Highlight the correct choice
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAnsData}"]`);
+            if (correctRadio) {
+              correctRadio.parentElement.style.color = '#065f46';
+              correctRadio.parentElement.style.fontWeight = '700';
+              
+              if(!correctRadio.parentElement.querySelector('.correct-badge')) {
+                 const badge = document.createElement('span');
+                 badge.className = 'correct-badge';
+                 badge.style.cssText = 'color: #10b981; margin-left: 8px; font-family: var(--font-mono); font-size: 0.85rem; text-decoration: none; display: inline-block;';
+                 badge.textContent = '✓ CORRECT ANSWER';
+                 correctRadio.parentElement.appendChild(badge);
+              }
+            }
+          }
+        }
+      }
+      document.getElementById('final-score').innerHTML = `${score} <span>/ 40</span>`;
+    }
+
+    function lockInterface() {
+      document.body.classList.add('test-completed');
+      
+      document.querySelectorAll('input').forEach(input => {
+        input.disabled = true;
+      });
+      
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'none';
+    }
+
+    /* --- UI MANAGEMENT --- */
+    function closeModal() {
+      document.getElementById('results-modal').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'block';
+    }
+
+    function retakeTest() {
+      if(!confirm("Warning: This will permanently clear all answers and restart the 60-minute session. Proceed?")) return;
+
+      clearInterval(timerInterval);
+      timerElement.classList.remove('warning');
+      
+      document.getElementById('results-modal').style.display = 'none';
+      document.body.classList.remove('test-completed');
+      
+      document.getElementById('btn-submit').style.display = 'block';
+      document.getElementById('btn-submit').disabled = false;
+      document.getElementById('btn-retake').style.display = 'block';
+      
+      // Reset Text Inputs
+      document.querySelectorAll('input[type="text"]').forEach(input => {
+        input.value = '';
+        input.disabled = false;
+        input.style.width = "160px"; // Return to original width
+        input.classList.remove('correct-answer', 'wrong-answer');
+      });
+      
+      // Reset Radio Buttons and Remove Correct Answer Badges
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+        radio.disabled = false;
+        radio.parentElement.style.color = 'inherit';
+        radio.parentElement.style.fontWeight = 'normal';
+        radio.parentElement.style.textDecoration = 'none';
+      });
+      
+      document.querySelectorAll('.correct-badge').forEach(badge => badge.remove());
+      
+      switchSection(1);
+      initTest(); 
+    }
+
+    window.onload = initTest;
+  </script>
+</body>
+</html>
