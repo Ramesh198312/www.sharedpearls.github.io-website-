@@ -1,520 +1,943 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>IELTS Reading Simulator · Test 03 · Shared Pearls of Wisdom</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
-<style>
-/* ═══════════════════════════════════════════
-   PREMIUM ACADEMIC VARIABLES
-═══════════════════════════════════════════ */
-:root {
-  --crimson: #A51C30;
-  --crimson-dark: #7A1523;
-  --charcoal: #222222;
-  --charcoal-light: #4B525A;
-  --ivory: #FAF9F6;
-  --white: #ffffff;
-  --gold: #C4923E;
-  --gold-light: rgba(196, 146, 62, 0.3);
-  --border: #E0E0E0;
-  --muted: #888888;
-  --success: #2e7d32;
-  --success-bg: rgba(46,125,50,0.08);
-  --error: #c0392b;
-  --error-bg: rgba(192,57,43,0.08);
-  --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
-  --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Reading 03 | The LRSW Clinic</title>
+  
+  <!-- PREMIUM FONTS INTEGRATION -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Roboto+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: 'Source Serif 4', Georgia, serif; background: var(--ivory); color: var(--charcoal); line-height: 1.65; overflow: hidden; }
+  <style>
+    /* --- UNIVERSAL FONT STANDARDS & COLORS --- */
+    :root {
+      /* Premium LRSW Dashboard Palette */
+      --primary: #0B1D3A; 
+      --accent: #C4923E;
+      --badge-red: #A32A3A;
+      --badge-red-bg: #F9EAEB;
+      --bg-light: #F8FAFC;
+      --border: #CBD5E1;
+      --text-main: #333333;
+      --text-muted: #666666;
+      
+      /* Premium Typography System */
+      --font-ui: 'Inter', sans-serif;
+      --font-passage: 'Lora', serif;
+      --font-heading: 'Playfair Display', serif;
+      --font-mono: 'Roboto Mono', monospace;
+    }
 
-/* ═══════════════════════════════════════════
-   NAVIGATION & TIMER BAR
-═══════════════════════════════════════════ */
-.nav { background: var(--white); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--crimson); height: 75px; box-shadow: var(--shadow-sm); z-index: 100; position: relative; }
-.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; text-decoration: none; color: var(--charcoal);}
-.nav-logo em { color: var(--gold); font-style: italic; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      font-family: var(--font-ui); 
+      color: var(--text-main); 
+      height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+      overflow: hidden; 
+      background: #fff; 
+    }
 
-.exam-controls { display: flex; align-items: center; gap: 3rem; }
-.timer-block { display: flex; align-items: center; gap: 1rem; font-family: 'DM Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--charcoal); }
-.timer-icon { color: var(--crimson); font-size: 1.2rem; }
-.timer-warning { color: var(--error); animation: blink 1s infinite; }
-@keyframes blink { 50% { opacity: 0.5; } }
+    /* --- TOP NAVIGATION --- */
+    header { 
+      background: var(--primary); 
+      color: white; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 0 2rem; 
+      height: 65px; 
+      border-bottom: 3px solid var(--accent); 
+      flex-shrink: 0; 
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
+    .logo span { color: var(--accent); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; 
+      color: #e2e8f0; 
+      border: none; 
+      padding: 0 1.5rem; 
+      font-size: 0.95rem; 
+      font-weight: 600; 
+      cursor: pointer; 
+      transition: 0.3s ease; 
+      height: 100%; 
+      display: flex; 
+      align-items: center; 
+      border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui);
+      letter-spacing: 0.5px;
+    }
+    .tab-btn:hover:not(:disabled) { color: hsla(132, 95%, 47%, 0.683); background: rgba(255,255,255,0.08); }
+    .tab-btn.active { color: hsl(120, 91%, 48%); border-bottom-color: var(--accent); background: rgba(255,255,255,0.15); }
+    
+    /* Header Controls (Timer + Start Button) */
+    .header-controls { display: flex; align-items: center; gap: 15px; }
+    
+    .btn-start-top {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .btn-start-top:hover { background: #059669; }
 
-.btn-submit { background: var(--charcoal); color: var(--white); border: none; padding: .8rem 2.5rem; font-family: 'DM Mono', monospace; font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; border-radius: 4px; cursor: pointer; transition: all .2s; }
-.btn-submit:hover { background: var(--crimson); }
+    .timer { 
+      font-family: var(--font-mono); 
+      font-size: 1.3rem; 
+      font-weight: 600; 
+      color: #fff; 
+      background: var(--primary-dark); 
+      padding: 0.4rem 1rem; 
+      border-radius: 4px; 
+      border: 1px solid rgba(255,255,255,0.2);
+      letter-spacing: 1px;
+    }
+    .timer.warning { color: #fca5a5; animation: pulse 1s infinite; border-color: #ef4444;}
 
-/* ═══════════════════════════════════════════
-   PASSAGE TABS
-═══════════════════════════════════════════ */
-.tab-bar { background: var(--charcoal); display: flex; justify-content: center; padding: 0; }
-.tab-btn { background: transparent; border: none; color: #aaa; padding: 1rem 3rem; font-family: 'DM Mono', monospace; font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; cursor: pointer; transition: all .2s; border-bottom: 3px solid transparent; outline: none;}
-.tab-btn:hover { color: var(--white); }
-.tab-btn.active { color: var(--white); border-bottom-color: var(--gold); background: rgba(255,255,255,0.05); }
+    @keyframes pulse {
+      0% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+      100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
 
-/* ═══════════════════════════════════════════
-   SPLIT PANE ARCHITECTURE
-═══════════════════════════════════════════ */
-.workspace { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 126px); }
+    /* --- SPLIT SCREEN LAYOUT --- */
+    .workspace { 
+      display: flex; 
+      flex: 1; 
+      height: calc(100vh - 65px); 
+      overflow: hidden; 
+      background: var(--bg-light); 
+      position: relative;
+    }
+    
+    .panel { 
+      flex: 1; 
+      height: 100%; 
+      overflow-y: auto; 
+      padding: 3rem; 
+      background: #fff; 
+      position: relative;
+    }
+    .left-panel { border-right: 1px solid var(--border); box-shadow: 4px 0 15px rgba(0,0,0,0.03); z-index: 2; }
+    .right-panel { background: #fafbfc; padding-bottom: 120px; }
 
-.pane { overflow-y: auto; padding: 3rem; position: relative; }
-.pane-left { background: var(--white); border-right: 1px solid var(--border); }
-.pane-right { background: var(--ivory); }
+    /* --- PRE-TEST LOCK SCREEN OVERLAY --- */
+    .pre-test-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.98);
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .pre-test-overlay .module-badge {
+      font-family: var(--font-mono);
+      color: var(--primary);
+      background: var(--badge-bg);
+      border: 1px solid var(--primary);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1.5px;
+    }
+    .pre-test-overlay h2 { 
+      font-size: 3rem; 
+      color: var(--primary); 
+      margin-bottom: 1.5rem; 
+      font-family: var(--font-heading);
+    }
+    .pre-test-overlay p { 
+      font-size: 1.15rem; 
+      color: var(--text-muted); 
+      max-width: 600px; 
+      line-height: 1.7; 
+      margin-bottom: 2.5rem; 
+      font-family: var(--font-passage);
+    }
+    .btn-start-large {
+      background: var(--primary);
+      color: #fff;
+      padding: 1.2rem 3.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.3s ease;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(165, 28, 48, 0.2);
+    }
+    .btn-start-large:hover { background: #10b981; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(165, 28, 48, 0.3); }
 
-.pane::-webkit-scrollbar { width: 8px; }
-.pane::-webkit-scrollbar-track { background: var(--ivory); }
-.pane::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
-.pane::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+    /* --- PASSAGE TYPOGRAPHY --- */
+    .left-panel h1 { 
+      font-family: var(--font-heading); 
+      font-size: 2.2rem; 
+      margin-bottom: 2.5rem; 
+      color: var(--primary); 
+      line-height: 1.3; 
+      text-align: center;
+    }
+    
+    .left-panel p { 
+      font-family: var(--font-passage);
+      margin-bottom: 1.8rem; 
+      line-height: 1.85; 
+      text-align: justify; 
+      font-size: 1.15rem; 
+      color: #2c3e50;
+    }
+    
+    .paragraph-label { 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      font-size: 1.1rem; 
+      margin-right: 15px; 
+      color: var(--accent); 
+      float: left;
+      padding-top: 4px;
+    }
+    
+    /* --- QUESTION TYPOGRAPHY --- */
+    .right-panel h2 { 
+      font-size: 1.2rem; 
+      margin-bottom: 1rem; 
+      color: var(--primary); 
+      border-bottom: 2px solid var(--border); 
+      padding-bottom: 0.8rem; 
+      margin-top: 2.5rem; 
+      font-family: var(--font-ui);
+      font-weight: 700;
+    }
+    .right-panel h2:first-child { margin-top: 0; }
+    
+    .instruction { 
+      font-style: italic; 
+      color: var(--text-muted); 
+      margin-bottom: 1.5rem; 
+      font-size: 0.95rem; 
+      line-height: 1.5;
+    }
+    
+    .q-group { margin-bottom: 3rem; }
+    .q-item { 
+      display: flex; 
+      align-items: baseline; 
+      margin-bottom: 1.5rem; 
+      gap: 15px; 
+    }
+    .q-num { 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      color: var(--primary); 
+      min-width: 25px; 
+      font-size: 1rem;
+    }
+    .q-text { 
+      flex: 1; 
+      font-size: 1.05rem; 
+      line-height: 1.6; 
+    }
+    
+    input[type="text"] { 
+      padding: 0.4rem 0.6rem; 
+      border: 1px solid #94a3b8; 
+      border-radius: 4px; 
+      font-size: 1rem; 
+      width: 160px; 
+      font-family: var(--font-ui);
+      background: #fff;
+      transition: width 0.3s ease, border-color 0.2s, box-shadow 0.2s;
+    }
+    input[type="text"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196, 150, 26, 0.2); }
+    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; border-color: #cbd5e1; }
+    
+    .mcq-options { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 1rem; color: #444; line-height: 1.4; transition: 0.2s;}
+    .mcq-label:hover { color: var(--primary); }
+    .mcq-label input { margin-top: 5px; cursor: pointer; }
+    
+    .box-options { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 15px; 
+      border: 1px solid var(--border); 
+      padding: 1.5rem; 
+      margin-bottom: 2rem; 
+      background: #fff; 
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+    .box-item { font-size: 1rem; font-weight: 500; font-family: var(--font-ui); color: var(--primary);}
+    .box-item strong { font-family: var(--font-mono); color: var(--accent); margin-right: 5px;}
 
-/* ── TEXT STYLING ── */
-.reading-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--charcoal); margin-bottom: 2rem; line-height: 1.2; }
-.reading-paragraph { font-size: 1.15rem; color: var(--charcoal); margin-bottom: 1.5rem; line-height: 1.8; text-align: justify; }
-.reading-paragraph strong { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--crimson); }
-mark.highlight { background-color: var(--gold-light); color: inherit; padding: 0 2px; border-radius: 2px; }
-.highlighter-hint { font-family: 'DM Mono', monospace; font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 2rem; padding: 1rem; background: var(--ivory); border-left: 3px solid var(--gold); }
+    .section-content { display: none; animation: fadeIn 0.4s ease; }
+    .section-content.active { display: block; }
 
-/* ── QUESTION STYLING ── */
-.q-section-title { font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--charcoal); text-transform: uppercase; letter-spacing: .1em; margin-bottom: .5rem; padding-bottom: .5rem; border-bottom: 2px solid var(--charcoal); }
-.q-instruction { font-style: italic; color: var(--charcoal-light); margin-bottom: 2rem; font-size: 1rem; background: var(--white); padding: 1rem; border: 1px solid var(--border); border-radius: 4px;}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-.q-block { margin-bottom: 3rem; }
-.q-row { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.5rem; }
-.q-num { font-family: 'DM Mono', monospace; font-weight: 700; color: var(--crimson); font-size: 1.1rem; min-width: 2.5rem; }
-.q-text { font-size: 1.05rem; color: var(--charcoal); flex-grow: 1; line-height: 1.6;}
+    /* --- SUBMISSION & DORMANT STATE --- */
+    .submit-bar {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 50%; 
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
+      border-top: 1px solid var(--border);
+      padding: 1.2rem 3rem;
+      display: flex;
+      justify-content: flex-end;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
+      z-index: 100;
+    }
 
-.gap-fill { border: none; border-bottom: 2px solid var(--charcoal-light); background: transparent; padding: .2rem .5rem; font-family: 'Source Serif 4', serif; font-size: 1.1rem; outline: none; transition: all .2s; width: 200px; text-align: center; color: var(--crimson); font-weight: 600;}
-.gap-fill:focus { border-bottom-color: var(--crimson); background: var(--white); }
+    .btn-submit {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 1px;
+    }
+    .btn-submit:hover:not(:disabled) { background: #019e01; }
+    .btn-submit:disabled { background: #cbe1d1; cursor: not-allowed; }
 
-select.dropdown-ans { appearance: none; background: var(--white); border: 1px solid var(--border); padding: .4rem 1rem; font-family: 'DM Mono', monospace; font-size: .9rem; font-weight: 700; color: var(--charcoal); border-radius: 4px; cursor: pointer; outline: none; width: 120px; text-align: center;}
-select.dropdown-ans:focus { border-color: var(--crimson); }
+    .btn-retake {
+      background: transparent;
+      color: var(--text-muted);
+      border: 2px solid var(--border);
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 1px;
+    }
+    .btn-retake:hover { background: #f8fafc; color: var(--primary); border-color: var(--primary); }
 
-.mcq-options { display: flex; flex-direction: column; gap: .6rem; margin-top: .8rem; margin-left: 3.5rem; }
-.mcq-label { display: flex; align-items: center; gap: 1rem; padding: .6rem 1rem; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; transition: all .2s; background: var(--white); font-size: 1rem;}
-.mcq-label:hover { border-color: var(--gold); }
-.mcq-label input { accent-color: var(--crimson); transform: scale(1.1); }
-.mcq-label.selected { border-color: var(--gold); background: rgba(196,146,62,0.05); }
+    .dormant-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.3);
+      z-index: 50;
+      display: none;
+      pointer-events: none; 
+    }
+    body.test-completed .dormant-overlay { display: block; }
+    
+    /* --- RESULTS MODAL --- */
+    .results-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 3.5rem;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      z-index: 200;
+      text-align: center;
+      border-top: 6px solid var(--accent);
+      min-width: 450px;
+    }
+    .results-modal h2 { font-family: var(--font-heading); color: var(--primary); font-size: 2.2rem; margin-bottom: 1rem; }
+    .score-display { font-size: 4rem; font-weight: 700; color: var(--primary); margin: 1.5rem 0; font-family: var(--font-mono);}
+    .score-display span { font-size: 1.8rem; color: var(--border); }
+    
+    .btn-close {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: 0.2s;
+      font-family: var(--font-mono);
+      letter-spacing: 1px;
+    }
+    .btn-close:hover { background: #a88114;}
 
-/* Evaluation & Feedback */
-.input-success { border-color: var(--success) !important; background: var(--success-bg) !important; color: var(--success) !important; }
-.input-error { border-color: var(--error) !important; background: var(--error-bg) !important; color: var(--error) !important; }
-.mcq-success { border-color: var(--success) !important; background: var(--success-bg) !important; }
-.mcq-error { border-color: var(--error) !important; background: var(--error-bg) !important; }
-.ans-reveal { font-family: 'DM Mono', monospace; font-size: .85rem; color: var(--error); margin-left: .5rem; display: none; }
-.input-error + .ans-reveal { display: inline-block; }
+    .correct-answer { border-color: #10b981 !important; background: #f0fdf4 !important; color: #065f46 !important; font-weight: 600;}
+    .wrong-answer { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b !important; }
 
-/* Dashboard Modal for Results */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 1000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
-.modal-overlay.active { display: flex; opacity: 1; }
-.modal-box { background: var(--white); padding: 4rem; border-radius: 8px; text-align: center; max-width: 600px; width: 90%; box-shadow: var(--shadow-md); border-top: 6px solid var(--crimson);}
-.mb-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--charcoal); margin-bottom: 1rem; }
-.mb-score { font-family: 'DM Mono', monospace; font-size: 6rem; font-weight: 700; color: var(--crimson); line-height: 1; margin-bottom: 1rem; }
-.mb-raw { font-size: 1.2rem; color: var(--muted); margin-bottom: 2rem; }
-.btn-close-modal { background: var(--charcoal); color: var(--white); border: none; padding: 1rem 3rem; font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; border-radius: 4px; cursor: pointer; }
-
-@media (max-width: 1024px) {
-  .workspace { grid-template-columns: 1fr; grid-template-rows: 50vh 50vh; }
-  .pane { padding: 2rem; }
-}
-</style>
+  </style>
 </head>
 <body>
 
-<nav class="nav">
-  <a href="premium-lrsw-dashboard.html" class="nav-logo">Shared <em>Pearls</em> of Wisdom</a>
-  <div class="exam-controls">
-    <div class="timer-block" id="timer-display">
-      <span class="timer-icon">⏱</span> <span id="time-text">60:00</span>
+  <header>
+    <div class="logo">The LRSW <span>Clinic</span></div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
     </div>
-    <button class="btn-submit" onclick="gradeExam()">Submit Assessment</button>
+    <div class="header-controls">
+      <button class="btn-start-top" id="btn-start-top" onclick="startTest()">START</button>
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <!-- RESULTS MODAL -->
+  <div class="results-modal" id="results-modal">
+    <h2>Evaluation Complete</h2>
+    <p>Your Reading Module score is:</p>
+    <div class="score-display" id="final-score">0 <span>/ 40</span></div>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your detailed feedback.</p>
+    <button class="btn-close" onclick="closeModal()">REVIEW ANSWERS</button>
   </div>
-</nav>
 
-<div class="tab-bar">
-  <button class="tab-btn active" onclick="switchPassage(1)">Passage 1</button>
-  <button class="tab-btn" onclick="switchPassage(2)">Passage 2</button>
-  <button class="tab-btn" onclick="switchPassage(3)">Passage 3</button>
-</div>
+  <div class="workspace">
+    <!-- PRE-TEST LOCK SCREEN -->
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <div class="module-badge">PREMIUM MODULE 03</div>
+      <h2>Ethics, Encryption & Economic Psychology</h2>
+      <p>This C1/C2 intensive simulation contains 3 passages and 40 questions focusing on neuro-ethics, quantum cryptography, and the behavioral economics of choice. The timer will initiate and passages will be unlocked upon pressing start.</p>
+      <button class="btn-start-large" onclick="startTest()">Start 60-minute Test &rarr;</button>
+    </div>
 
-<main class="workspace">
-  <div class="pane pane-left" id="text-pane">
-    <div class="highlighter-hint">💡 Pro Tip: Select any text with your mouse to highlight it. Click the highlight again to remove it.</div>
-    <div id="passage-content"></div>
+    <div class="dormant-overlay"></div>
+
+    <!-- LEFT PANEL: READING PASSAGES -->
+    <div class="panel left-panel">
+      <!-- PASSAGE 1 -->
+      <div id="passage-1" class="section-content active">
+        <h1>The Neurobiology of Moral Decision-Making</h1>
+        <p><span class="paragraph-label">A</span> For millennia, morality was strictly the domain of philosophers and theologians, debated as an ethereal concept independent of physical biology. The modern neuroscientific inquiry into ethics arguably began with the tragic, albeit highly illuminating, case of Phineas Gage in 1848. An explosion drove an iron tamping rod straight through Gage's skull, systematically obliterating his ventromedial prefrontal cortex. Astoundingly, Gage survived and retained his intellect and memory. However, his friends noted a profound personality shift: the previously mild-mannered foreman became impulsive, profane, and entirely devoid of social inhibition. Gage's injury provided the first concrete evidence that moral reasoning was intricately bound to specific neural architecture.</p>
+        <p><span class="paragraph-label">B</span> In contemporary cognitive neuroscience, researchers rely heavily on ethical thought experiments to map the brain's moral circuitry. The most famous of these is the "Trolley Problem," devised by philosopher Philippa Foot. In the standard iteration, a runaway trolley is hurtling toward five tied-up workers. You can pull a lever to divert the trolley onto a side track, where it will kill only one worker. A vast majority of individuals choose to pull the lever, demonstrating a utilitarian approach—maximizing the greater good. However, in a variation known as the "Footbridge Dilemma," saving the five workers requires physically pushing a large man off a bridge to stop the trolley. Despite the mathematical outcome being identical (sacrificing one to save five), most individuals fiercely refuse to push the man.</p>
+        <p><span class="paragraph-label">C</span> Neuroscientist Joshua Greene utilized functional magnetic resonance imaging (fMRI) to understand this discrepancy, leading to his highly influential "Dual-Process Theory" of moral judgment. Greene discovered that the two variations of the Trolley Problem activate completely different neural networks. The Footbridge Dilemma triggers a rapid, intense response in the amygdala—the brain's primitive emotional center. The prospect of committing a direct, personal act of violence elicits a visceral, emotional repulsion that overrides utilitarian logic. Conversely, pulling the lever in the original dilemma activates the dorsolateral prefrontal cortex, an area associated with cold, calculating, and abstract cognitive reasoning.</p>
+        <p><span class="paragraph-label">D</span> From an evolutionary biology standpoint, this dual-process makes logical sense. For the vast majority of human history, humans lived in small tribal groups where direct, physical violence against an ingroup member was highly detrimental to collective survival. Thus, we evolved fast, automatic, and emotionally driven moral intuitions to prevent us from harming our neighbors. Abstract, mathematically driven utilitarianism—the idea of evaluating lives on a global scale—is a very recent cognitive development that requires deliberate, energy-intensive exertion by the prefrontal cortex.</p>
+        <p><span class="paragraph-label">E</span> The fragility of this utilitarian reasoning can be demonstrated by manipulating a subject's "cognitive load." In psychological experiments, researchers ask participants to solve complex math puzzles while simultaneously answering moral dilemmas. Because the working memory required for the math puzzles drains the resources of the dorsolateral prefrontal cortex, the individual's ability to engage in calculated utilitarian reasoning drops significantly. Under high cognitive load, participants default almost exclusively to their fast, emotionally driven moral intuitions.</p>
+        <p><span class="paragraph-label">F</span> Understanding the neurobiological mechanics of morality is no longer a purely academic exercise; it has urgent, pragmatic applications in the development of Artificial Intelligence. As engineers design autonomous systems—such as self-driving cars or medical triage algorithms—these machines must be programmed to navigate complex moral dilemmas. By studying how the human brain weighs emotional aversion against utilitarian outcomes, technologists hope to construct ethical algorithms that align with human values, ensuring that artificial agents do not optimize for the "greater good" in a manner we find fundamentally abhorrent.</p>
+      </div>
+
+      <!-- PASSAGE 2 -->
+      <div id="passage-2" class="section-content">
+        <h1>Quantum Cryptography and the Future of Data Security</h1>
+        <p><span class="paragraph-label">A</span> The modern digital economy is built upon a foundation of mathematical trust, specifically the RSA (Rivest–Shamir–Adleman) encryption algorithm. RSA secures everything from global banking transactions to personal emails by utilizing the profound difficulty of factoring incredibly large prime numbers. For a classical computer, factoring a 2048-bit RSA key would take billions of years. However, the looming advent of quantum computing threatens to shatter this security paradigm. In 1994, mathematician Peter Shor published "Shor's Algorithm," proving mathematically that a sufficiently powerful quantum computer could factor large numbers exponentially faster, rendering current public-key cryptography obsolete in a matter of hours.</p>
+        <p><span class="paragraph-label">B</span> In response to this impending cryptographic apocalypse, physicists have turned to the very subatomic laws that make quantum computers so powerful to create an unhackable security system: Quantum Key Distribution (QKD). Unlike classical encryption, which relies on the mathematical complexity of algorithms, QKD relies on the fundamental, immutable laws of quantum mechanics. The most widely implemented QKD protocol, developed by Charles Bennett and Gilles Brassard in 1984 (and known as BB84), utilizes the polarization states of individual photons—particles of light—to transmit a secret, random cryptographic key between two parties, traditionally referred to as Alice and Bob.</p>
+        <p><span class="paragraph-label">C</span> The absolute security of QKD is guaranteed by Werner Heisenberg’s Uncertainty Principle, a core tenet of quantum physics which states that the very act of measuring a quantum system irrevocably alters its state. If a malicious eavesdropper (Eve) attempts to intercept and read the stream of photons traveling between Alice and Bob, her measurement will inevitably disturb the photons' delicate polarization. When Alice and Bob subsequently compare a small subset of their received key, they will detect an unusually high error rate. This acts as a highly sensitive tamper-evident seal; the presence of an eavesdropper is immediately mathematically revealed, allowing the parties to discard the compromised key before any actual sensitive data is transmitted.</p>
+        <p><span class="paragraph-label">D</span> A skeptic might ask: why couldn't an eavesdropper simply intercept the photon, create an exact replica of its state, measure the replica, and send the original perfectly undisturbed to Bob? This specific "intercept-and-resend" attack is physically impossible due to the "No-Cloning Theorem." Formulated in 1982 by physicists Wootters, Zurek, and Dieks, this theorem dictates that it is fundamentally impossible to create an identical copy of an arbitrary, unknown quantum state. An eavesdropper cannot clone the photons; she can only measure them, and measuring them destroys the original information.</p>
+        <p><span class="paragraph-label">E</span> Despite its theoretical perfection, the widespread implementation of QKD faces severe practical and engineering hurdles. The primary challenge is distance. When transmitting single photons through standard fiber-optic cables, a significant percentage of the light particles are absorbed or scattered by the glass over long distances. In classical telecommunications, this signal loss is solved by placing optical amplifiers along the cable to boost the signal. However, because of the No-Cloning Theorem, one cannot simply amplify (clone) a quantum signal. Consequently, terrestrial QKD is currently limited to distances of roughly 100 to 200 kilometers before the photon loss becomes insurmountable.</p>
+        <p><span class="paragraph-label">F</span> To circumvent the distance limitation of fiber optics, scientists are exploring space-based solutions. In the vacuum of space, photons can travel vast distances with virtually no scattering or absorption. In 2016, the Chinese Academy of Sciences launched the Micius satellite, the world’s first quantum communications satellite. By beaming entangled photons down to ground stations located thousands of kilometers apart, Micius successfully facilitated the first intercontinental quantum-secured video call between Beijing and Vienna. This breakthrough suggests that the ultimate solution to the quantum threat will be a global, satellite-based quantum internet.</p>
+      </div>
+
+      <!-- PASSAGE 3 -->
+      <div id="passage-3" class="section-content">
+        <h1>The Paradox of Choice in Consumer Psychology</h1>
+        <p><span class="paragraph-label">A</span> For over a century, classical microeconomics was built upon a fundamental, seemingly unassailable axiom: human beings are rational actors who naturally seek to maximize their utility. Following this logic, it was assumed that expanding the array of choices available to a consumer would invariably increase their subjective well-being. If a supermarket offers ten types of cereal, a consumer might be satisfied; if it offers one hundred types, the probability of the consumer finding their perfectly optimized, ideal cereal increases, thereby maximizing their utility. In the late 20th century, this doctrine drove an explosion of consumer variety across all retail sectors.</p>
+        <p><span class="paragraph-label">B</span> However, in the early 2000s, American psychologist Barry Schwartz profoundly disrupted this economic orthodoxy with his book, *The Paradox of Choice*. Schwartz argued that while a certain amount of choice is essential for freedom and autonomy, an overabundance of options produces severe psychological distress. Rather than feeling liberated by endless aisles of products, consumers faced with vast arrays of choices frequently experience "choice paralysis." The cognitive burden of evaluating dozens of minute variables overwhelms the brain's executive functioning, making the act of deciding exhausting rather than empowering.</p>
+        <p><span class="paragraph-label">C</span> The most famous empirical demonstration of choice paralysis is the "Jam Study," conducted by behavioral economists Sheena Iyengar and Mark Lepper in 2000. In an upscale grocery store, researchers set up a tasting booth displaying an array of gourmet jams. On some days, the booth offered 24 different varieties of jam; on other days, it offered only 6. The results were startlingly counterintuitive. The table with 24 jams attracted slightly more initial foot traffic. However, when it came to actual purchasing behavior, nearly 30% of consumers who sampled from the limited selection (6 jams) bought a jar, compared to a mere 3% of those who sampled from the extensive selection (24 jams). The abundance of choice had actively suppressed consumer action.</p>
+        <p><span class="paragraph-label">D</span> Schwartz expanded upon this phenomenon by categorizing individuals into two distinct psychological profiles based on their decision-making strategies: "Maximizers" and "Satisficers." A Maximizer is an individual who compulsively seeks the absolute best possible outcome. When buying a laptop, a Maximizer will spend weeks reading reviews and comparing specifications to ensure they make the perfect choice. A Satisficer, conversely, establishes a set of criteria and chooses the first option that meets their threshold of acceptability. While Maximizers often achieve objectively better outcomes (e.g., finding a slightly faster computer or a higher-paying job), psychological surveys consistently reveal that Satisficers are significantly happier and more content with their decisions.</p>
+        <p><span class="paragraph-label">E</span> The psychological misery experienced by Maximizers in high-choice environments is primarily driven by two cognitive mechanisms: opportunity costs and anticipated regret. In economics, an opportunity cost is the value of the next best alternative that is forgone when a decision is made. When a consumer chooses one item out of a hundred, they are simultaneously rejecting ninety-nine other potentially excellent options. The brain acutely feels the "loss" of these unchosen alternatives, which subtracts from the joy of the final selection. Furthermore, if the chosen product is even slightly flawed, the consumer blames themselves for not picking a better option from the vast array available, leading to profound anticipated and retrospective regret.</p>
+        <p><span class="paragraph-label">F</span> As the digital age accelerates the proliferation of choice—from dating apps offering thousands of potential partners to streaming platforms housing infinite libraries of media—understanding the paradox of choice is increasingly vital for mental health. Psychologists advocate for the deliberate construction of constrained environments, a practice known as "voluntary simplicity." By consciously limiting their options, abandoning the exhausting pursuit of optimization, and embracing the philosophy of "good enough," individuals can reclaim their cognitive bandwidth and protect themselves from the paralyzing anxiety of endless possibility.</p>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: QUESTIONS -->
+    <div class="panel right-panel">
+      
+      <!-- QUESTIONS FOR SECTION 1 -->
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–5</h2>
+        <div class="instruction">
+          Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              The famous case of Phineas Gage provided early evidence linking personality to the <strong>1</strong> <input type="text" id="q1">. Today, researchers like Joshua Greene use ethical thought experiments, such as the <strong>2</strong> <input type="text" id="q2">, to map moral circuitry. Greene found that immediate, emotionally driven decisions are governed by the <strong>3</strong> <input type="text" id="q3">, while calculating, utilitarian choices activate the <strong>4</strong> <input type="text" id="q4">. From an evolutionary perspective, fast emotional intuitions were necessary for human <strong>5</strong> <input type="text" id="q5"> in small tribal groups.
+            </div>
+          </div>
+        </div>
+
+        <h2>Questions 6–9</h2>
+        <div class="instruction">
+          Do the following statements agree with the information given in Reading Passage 1?<br>
+          Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">6</div><div class="q-text">Joshua Greene believes that utilitarian choices are always morally superior to emotional ones. <br><input type="text" id="q6"></div></div>
+          <div class="q-item"><div class="q-num">7</div><div class="q-text">Emotional reactions in moral dilemmas are generally slower than logical, abstract calculations. <br><input type="text" id="q7"></div></div>
+          <div class="q-item"><div class="q-num">8</div><div class="q-text">Applying cognitive load decreases a person's ability to make calculated utilitarian choices. <br><input type="text" id="q8"></div></div>
+          <div class="q-item"><div class="q-num">9</div><div class="q-text">The dual-process theory proves that ethics are purely a societal construct. <br><input type="text" id="q9"></div></div>
+        </div>
+
+        <h2>Questions 10–13</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">10</div>
+            <div class="q-text">What effect did the iron rod have on Phineas Gage?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q10" value="A"> A) It destroyed his memory and intellectual capacity.</label>
+                <label class="mcq-label"><input type="radio" name="q10" value="B"> B) It made him highly calculating and utilitarian.</label>
+                <label class="mcq-label"><input type="radio" name="q10" value="C"> C) It drastically altered his personality, making him impulsive.</label>
+                <label class="mcq-label"><input type="radio" name="q10" value="D"> D) It completely eliminated his ability to feel fear.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">11</div>
+            <div class="q-text">Why do most people refuse to push the man in the "Footbridge Dilemma"?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q11" value="A"> A) Because the mathematical outcome is worse than pulling the lever.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="B"> B) Because the direct act of violence triggers intense emotional repulsion.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="C"> C) Because their working memory is overloaded by cognitive load.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="D"> D) Because the dorsolateral prefrontal cortex instructs them not to.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">12</div>
+            <div class="q-text">According to paragraph E, what happens when a person solves complex math puzzles while answering moral dilemmas?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q12" value="A"> A) They become much more likely to make utilitarian decisions.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="B"> B) Their amygdala shuts down completely to conserve energy.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="C"> C) They default almost exclusively to fast, emotionally driven intuitions.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="D"> D) They usually refuse to answer the moral dilemma entirely.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">13</div>
+            <div class="q-text">Why is understanding neurobiology important for Artificial Intelligence?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q13" value="A"> A) So AI can calculate utilitarian outcomes significantly faster.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="B"> B) So autonomous systems can navigate moral dilemmas in ways that align with human values.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="C"> C) So robots can eventually experience true emotional trauma.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="D"> D) So self-driving cars can maximize speed over safety.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 2 -->
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18</h2>
+        <div class="instruction">
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Which paragraph contains the following information?<br>
+          Write the correct letter, <strong>A–F</strong>, in the boxes provided.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">14</div><div class="q-text">An explanation of why intercepting data irrevocably alters its state. <input type="text" id="q14"></div></div>
+          <div class="q-item"><div class="q-num">15</div><div class="q-text">A historical algorithm that threatens the security of current public-key encryption. <input type="text" id="q15"></div></div>
+          <div class="q-item"><div class="q-num">16</div><div class="q-text">The use of space-based technology to transmit secure data over vast distances. <input type="text" id="q16"></div></div>
+          <div class="q-item"><div class="q-num">17</div><div class="q-text">The limitation of fiber optics in transmitting photons, causing signal loss. <input type="text" id="q17"></div></div>
+          <div class="q-item"><div class="q-num">18</div><div class="q-text">The fundamental physics theorem that prevents the exact duplication of particles. <input type="text" id="q18"></div></div>
+        </div>
+
+        <h2>Questions 19–22</h2>
+        <div class="instruction">
+          Look at the following concepts (Questions 19-22) and the list of descriptions below.<br>
+          Match each concept with the correct description, <strong>A, B, C, or D</strong>.<br>
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> RSA Algorithm</div>
+          <div class="box-item"><strong>B</strong> Shor's Algorithm</div>
+          <div class="box-item"><strong>C</strong> Heisenberg's Uncertainty Principle</div>
+          <div class="box-item"><strong>D</strong> No-Cloning Theorem</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">19</div><div class="q-text">Dictates that it is fundamentally impossible to create an identical copy of an unknown quantum state. <input type="text" id="q19"></div></div>
+          <div class="q-item"><div class="q-num">20</div><div class="q-text">Secures current digital data by utilizing the immense difficulty of factoring large prime numbers. <input type="text" id="q20"></div></div>
+          <div class="q-item"><div class="q-num">21</div><div class="q-text">States that the very act of measuring a quantum system will irrevocably change it. <input type="text" id="q21"></div></div>
+          <div class="q-item"><div class="q-num">22</div><div class="q-text">A mathematical proof demonstrating that a quantum computer could easily break current encryption. <input type="text" id="q22"></div></div>
+        </div>
+
+        <h2>Questions 23–26</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">23</div>
+            <div class="q-text">What is the primary difference between classical encryption (RSA) and Quantum Key Distribution (QKD)?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q23" value="A"> A) QKD relies on complex mathematics, while RSA relies on subatomic physics.</label>
+                <label class="mcq-label"><input type="radio" name="q23" value="B"> B) RSA relies on the difficulty of math problems, while QKD relies on the immutable laws of physics.</label>
+                <label class="mcq-label"><input type="radio" name="q23" value="C"> C) QKD can only be used for personal emails, while RSA is used for banking.</label>
+                <label class="mcq-label"><input type="radio" name="q23" value="D"> D) RSA requires a satellite connection to function properly.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">24</div>
+            <div class="q-text">In QKD, how do Alice and Bob know if Eve (an eavesdropper) has intercepted their data?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q24" value="A"> A) Eve's quantum computer will send them a warning message.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="B"> B) The fiber optic cable will physically break due to the No-Cloning Theorem.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="C"> C) They will detect an unusually high error rate when comparing a subset of their key.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="D"> D) The Micius satellite will turn off their connection.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">25</div>
+            <div class="q-text">Why can't traditional optical amplifiers be used to boost QKD signals over long distances?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q25" value="A"> A) Because amplifying a signal would require cloning the photons, which is physically impossible.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="B"> B) Because optical amplifiers are too expensive to install in terrestrial networks.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="C"> C) Because they run on classical algorithms that quantum computers easily break.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="D"> D) Because the amplifiers absorb too much light in the vacuum of space.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">26</div>
+            <div class="q-text">What was the major breakthrough achieved by the Micius satellite?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q26" value="A"> A) It factored a 2048-bit RSA key in a matter of hours.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="B"> B) It facilitated the first intercontinental quantum-secured video call.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="C"> C) It successfully cloned an entangled photon for the first time.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="D"> D) It proved that Shor's Algorithm was mathematically incorrect.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 3 -->
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–32</h2>
+        <div class="instruction">
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Choose the correct heading for each paragraph from the list below.<br>
+          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The pain of unchosen alternatives</div>
+          <div class="box-item"><strong>ii</strong> A surprising drop in consumer purchasing</div>
+          <div class="box-item"><strong>iii</strong> The traditional belief that more equals better</div>
+          <div class="box-item"><strong>iv</strong> Limiting options to reclaim mental health</div>
+          <div class="box-item"><strong>v</strong> How an overabundance of options overwhelms the brain</div>
+          <div class="box-item"><strong>vi</strong> The history of grocery store retail strategies</div>
+          <div class="box-item"><strong>vii</strong> Why digital streaming platforms fail</div>
+          <div class="box-item"><strong>viii</strong> Two different approaches to making decisions</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">27</div><div class="q-text">Paragraph A <input type="text" id="q27"></div></div>
+          <div class="q-item"><div class="q-num">28</div><div class="q-text">Paragraph B <input type="text" id="q28"></div></div>
+          <div class="q-item"><div class="q-num">29</div><div class="q-text">Paragraph C <input type="text" id="q29"></div></div>
+          <div class="q-item"><div class="q-num">30</div><div class="q-text">Paragraph D <input type="text" id="q30"></div></div>
+          <div class="q-item"><div class="q-num">31</div><div class="q-text">Paragraph E <input type="text" id="q31"></div></div>
+          <div class="q-item"><div class="q-num">32</div><div class="q-text">Paragraph F <input type="text" id="q32"></div></div>
+        </div>
+
+        <h2>Questions 33–37</h2>
+        <div class="instruction">
+          Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
+          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">33</div><div class="q-text">Classical economics accurately predicted that increasing choices always leads to happier consumers. <br><input type="text" id="q33"></div></div>
+          <div class="q-item"><div class="q-num">34</div><div class="q-text">In the Jam Study, the display with 24 jams attracted less initial foot traffic than the display with 6 jams. <br><input type="text" id="q34"></div></div>
+          <div class="q-item"><div class="q-num">35</div><div class="q-text">Maximizers tend to spend more time researching their purchases than Satisficers do. <br><input type="text" id="q35"></div></div>
+          <div class="q-item"><div class="q-num">36</div><div class="q-text">Satisficers usually achieve better objective outcomes, but feel significantly worse about them. <br><input type="text" id="q36"></div></div>
+          <div class="q-item"><div class="q-num">37</div><div class="q-text">Anticipated regret is a major factor driving the psychological misery in high-choice environments. <br><input type="text" id="q37"></div></div>
+        </div>
+
+        <h2>Questions 38–40</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">38</div>
+            <div class="q-text">What does Barry Schwartz mean by "choice paralysis"?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) The feeling of being overwhelmed and unable to decide when faced with too many options.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) A physical disability caused by extensive shopping.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) The inability of supermarkets to stock enough varieties of cereal.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) The tendency of consumers to buy the exact same product every time.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">39</div>
+            <div class="q-text">According to paragraph E, what is an "opportunity cost"?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) The actual financial price of the most expensive item in a store.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) The perceived value of the next best alternative that the consumer did not choose.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) The time wasted by Maximizers when reading online reviews.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) The cost incurred by retail stores to display 24 different jams.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">40</div>
+            <div class="q-text">How does the author suggest individuals can protect themselves from the paradox of choice?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) By always acting as a Maximizer to ensure they get the best deal.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) By using digital dating apps to rapidly cycle through thousands of options.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) By forcing supermarkets to stock fewer than six items per category.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) By consciously limiting their options and embracing the philosophy of "good enough".</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SUBMIT BAR -->
+    <div class="submit-bar">
+      <button class="btn-retake" id="btn-retake" onclick="retakeTest()" style="margin-right: 15px;">RESET</button>
+      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">SUBMIT MODULE</button>
+    </div>
+
   </div>
 
-  <div class="pane pane-right" id="question-pane">
-    <div id="questions-content"></div>
-  </div>
-</main>
+  <script>
+    /* --- INTERNAL ANSWER KEY FOR GRADING --- */
+    const answerKey = {
+      // Passage 1: Summary, T/F/NG, MCQ
+      q1: 'prefrontal cortex', q2: 'trolley problem', q3: 'amygdala', q4: 'dorsolateral prefrontal cortex', q5: 'survival',
+      q6: 'not given', q7: 'false', q8: 'true', q9: 'false',
+      q10: 'c', q11: 'b', q12: 'c', q13: 'b',
+      
+      // Passage 2: Matching Info, Concepts, MCQ
+      q14: 'c', q15: 'a', q16: 'f', q17: 'e', q18: 'd',
+      q19: 'd', q20: 'a', q21: 'c', q22: 'b',
+      q23: 'b', q24: 'c', q25: 'a', q26: 'b',
+      
+      // Passage 3: Headings, Y/N/NG, MCQ
+      q27: 'iii', q28: 'v', q29: 'ii', q30: 'viii', q31: 'i', q32: 'iv',
+      q33: 'no', q34: 'no', q35: 'yes', q36: 'no', q37: 'yes',
+      q38: 'a', q39: 'b', q40: 'd'
+    };
 
-<div class="modal-overlay" id="results-modal">
-  <div class="modal-box">
-    <div class="mb-title">Assessment Complete</div>
-    <div class="mb-score" id="final-band">0.0</div>
-    <div class="mb-raw" id="final-raw">0 / 40 Correct</div>
-    <p style="font-size: 1.1rem; color: var(--charcoal); margin-bottom: 2rem;" id="final-feedback"></p>
-    <button class="btn-close-modal" onclick="closeModal()">Review Answers</button>
-  </div>
-</div>
+    /* Handle alternate acceptable text answers gracefully */
+    const acceptableAnswers = {
+      q4: ['dorsolateral prefrontal cortex', 'prefrontal cortex', 'dorsolateral cortex']
+    };
 
-<script>
-/* ═══════════════════════════════════════════
-   DATA ENGINE: TEXT & QUESTIONS
-═══════════════════════════════════════════ */
-const passageData = {
-  1: {
-    title: "Subterranean Urbanism: The Vertical Expansion Downward",
-    text: `
-      <p class="reading-paragraph">As the global population accelerates towards an estimated 9.7 billion by 2050, urban planners are encountering a critical spatial deficit. Traditional metropolises have historically expanded outward, creating sprawling suburbs that severely strain public transportation and obliterate green belts. Alternatively, cities like New York and Hong Kong expanded upward, erecting towering skyscrapers that dominate the skyline. However, a third architectural paradigm is rapidly gaining traction: subterranean urbanism, or the deliberate expansion of city infrastructure deep beneath the earth's surface.</p>
-      <p class="reading-paragraph">Singapore, a city-state constrained by severe geographical limitations, has become a pioneer in this subterranean frontier. Having already reclaimed significant land from the sea, the government recently unveiled its 'Underground Master Plan'. Rather than building residential bunkers, the strategy involves relocating utilitarian infrastructures—such as utility cooling plants, automated subterranean transit systems, and massive ammunition depots—below ground. By migrating these essential but visually intrusive services downward, Singapore liberates invaluable surface-level real estate for residential zones, commercial hubs, and desperately needed public parks.</p>
-      <p class="reading-paragraph">Despite its spatial advantages, subterranean development is plagued by formidable engineering and psychological hurdles. The geotechnical costs of excavating solid bedrock or stabilizing subterranean aquifers run exponentially higher than conventional surface construction. Furthermore, human biology is intrinsically tethered to circadian rhythms regulated by natural sunlight. Environmental psychologists warn that prolonged periods in artificially lit, windowless environments can precipitate an increase in seasonal affective disorder and claustrophobia. Consequently, modern subterranean architects must meticulously engineer sophisticated light-funneling technologies to mimic the psychological benefits of the surface world.</p>
-    `,
-    questionsHTML: `
-      <div class="q-block">
-        <div class="q-section-title">Questions 1–6</div>
-        <div class="q-instruction">Do the following statements agree with the information given in Reading Passage 1?<br><br><b>TRUE</b> if the statement agrees<br><b>FALSE</b> if the statement contradicts<br><b>NOT GIVEN</b> if there is no information</div>
-        ${generateDropdownQ(1, "Outward expansion of cities has traditionally improved the efficiency of public transportation networks.", "FALSE")}
-        ${generateDropdownQ(2, "Subterranean urbanism is currently the most popular method of city expansion globally.", "NOT GIVEN")}
-        ${generateDropdownQ(3, "Singapore's Underground Master Plan primarily focuses on building housing complexes underground.", "FALSE")}
-        ${generateDropdownQ(4, "Moving infrastructure below ground allows Singapore to create more public green spaces on the surface.", "TRUE")}
-        ${generateDropdownQ(5, "Constructing facilities deep underground is generally cheaper than building standard skyscrapers.", "FALSE")}
-        ${generateDropdownQ(6, "Architects are developing systems to direct natural light underground to protect human mental health.", "TRUE")}
-      </div>
-      <div class="q-block">
-        <div class="q-section-title">Questions 7–13</div>
-        <div class="q-instruction">Complete the notes below. Choose <b>NO MORE THAN TWO WORDS</b> from the passage for each answer.</div>
-        <div class="q-row"><div class="q-num">7.</div><div class="q-text">Traditional city growth creates suburbs that destroy surrounding <input type="text" class="gap-fill" data-ans="green belts">. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">8.</div><div class="q-text">Singapore has already expanded its territory by reclaiming land from the <input type="text" class="gap-fill" data-ans="sea">. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">9.</div><div class="q-text">The new strategy moves <input type="text" class="gap-fill" data-ans="utilitarian infrastructures|infrastructures">, like cooling plants, beneath the surface. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">10.</div><div class="q-text">This downward migration frees up valuable <input type="text" class="gap-fill" data-ans="real estate"> for public and commercial use. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">11.</div><div class="q-text">Excavating <input type="text" class="gap-fill" data-ans="solid bedrock|bedrock"> significantly increases the financial cost of these projects. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">12.</div><div class="q-text">A lack of natural sunlight disrupts human <input type="text" class="gap-fill" data-ans="circadian rhythms">. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">13.</div><div class="q-text">This can lead to psychological issues such as <input type="text" class="gap-fill" data-ans="claustrophobia">. <span class="ans-reveal"></span></div></div>
-      </div>
-    `
-  },
-  2: {
-    title: "The Attention Economy: Monetizing Cognitive Deficits",
-    text: `
-      <p class="reading-paragraph"><strong>A.</strong> In 1971, the economist, psychologist, and Nobel laureate Herbert A. Simon articulated a principle that would prophetically define the 21st century: "What information consumes is rather obvious: it consumes the attention of its recipients. Hence a wealth of information creates a poverty of attention." This observation laid the intellectual groundwork for what is now classified as the 'Attention Economy'. In our contemporary digital ecosystem, information is no longer a scarce commodity; it is overwhelmingly abundant. The truly scarce resource, and therefore the most fiercely contested commodity in the global market, is human cognitive focus.</p>
-      <p class="reading-paragraph"><strong>B.</strong> The architecture of modern social media platforms is engineered precisely to exploit this scarcity. Rather than charging users a monetary subscription fee, these platforms offer their services 'for free'. In reality, the user is not the customer; the user is the product being sold to advertisers. The platforms utilize sophisticated behavioral algorithms, variable reward schedules—akin to the mechanics of a slot machine—and infinite scrolling to maximize 'time on device'. Every micro-interaction, hesitation, and click is harvested as data, refining the algorithm's ability to hijack the user's neurological reward pathways and harvest their attention.</p>
-      <p class="reading-paragraph"><strong>C.</strong> The societal implications of this relentless cognitive extraction are profound. Neuroscientists have documented measurable decreases in sustained attention spans among heavy users of digital platforms. The constant barrage of notifications and the structural imperative to multi-task create a state of continuous partial attention. Users rarely engage in deep, uninterrupted cognitive processing, a prerequisite for complex problem-solving and long-form comprehension. Consequently, educational institutions are reporting unprecedented difficulties in maintaining student engagement with traditional, linear academic texts.</p>
-      <p class="reading-paragraph"><strong>D.</strong> Resistance to the Attention Economy requires deliberate environmental friction. Proponents of 'digital minimalism' advocate for auditing technological tools to ensure they serve the user's intentional goals, rather than acting as parasitic drains on their focus. This involves utilizing ad-blockers, aggressive notification management, and designating tech-free sanctuaries. Ultimately, navigating this era requires recognizing that wherever we direct our attention, we are actively spending our most non-renewable biological asset.</p>
-    `,
-    questionsHTML: `
-      <div class="q-block">
-        <div class="q-section-title">Questions 14–17</div>
-        <div class="q-instruction">Choose the correct heading for each paragraph.<br><br><b>i.</b> The biological consequences of fragmented focus<br><b>ii.</b> The initial theory regarding information abundance<br><b>iii.</b> Strategies for reclaiming cognitive independence<br><b>iv.</b> The financial cost of developing new algorithms<br><b>v.</b> How technology platforms manipulate user behavior<br><b>vi.</b> The historical scarcity of printed media</div>
-        <div class="q-row"><div class="q-num">14.</div><div class="q-text">Paragraph A: <input type="text" class="gap-fill" data-ans="ii" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">15.</div><div class="q-text">Paragraph B: <input type="text" class="gap-fill" data-ans="v" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">16.</div><div class="q-text">Paragraph C: <input type="text" class="gap-fill" data-ans="i" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">17.</div><div class="q-text">Paragraph D: <input type="text" class="gap-fill" data-ans="iii" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
-      </div>
+    /* --- TAB SWITCHING LOGIC --- */
+    function switchSection(sectionNumber) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+      
+      document.getElementById('tab-' + sectionNumber).classList.add('active');
+      document.getElementById('passage-' + sectionNumber).classList.add('active');
+      document.getElementById('questions-' + sectionNumber).classList.add('active');
+    }
 
-      <div class="q-block">
-        <div class="q-section-title">Questions 18–22</div>
-        <div class="q-instruction">Complete the sentences below. Choose <b>ONE WORD ONLY</b> from the passage.</div>
-        <div class="q-row"><div class="q-num">18.</div><div class="q-text">According to Herbert A. Simon, an overabundance of information directly causes a <input type="text" class="gap-fill" data-ans="poverty"> of attention. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">19.</div><div class="q-text">Social media sites generate revenue by treating the user as the <input type="text" class="gap-fill" data-ans="product"> rather than the customer. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">20.</div><div class="q-text">Platforms use mechanisms similar to a slot machine to hijack neurological <input type="text" class="gap-fill" data-ans="reward"> pathways. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">21.</div><div class="q-text">The modern habit of multitasking prevents users from engaging in <input type="text" class="gap-fill" data-ans="deep"> cognitive processing. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">22.</div><div class="q-text">Digital minimalists suggest creating specific <input type="text" class="gap-fill" data-ans="sanctuaries"> where technology is entirely prohibited. <span class="ans-reveal"></span></div></div>
-      </div>
+    /* --- NON-PERSISTENT TIMER LOGIC (Resets on Refresh) --- */
+    const DURATION = 3600; // 60 minutes
+    let timerInterval;
+    let timeRemaining;
+    const timerElement = document.getElementById('timer');
 
-      <div class="q-block">
-        <div class="q-section-title">Questions 23–26</div>
-        <div class="q-instruction">Match each statement with the correct entity: <b>A</b> (Herbert A. Simon), <b>B</b> (Social Media Platforms), or <b>C</b> (Neuroscientists).</div>
-        <div class="q-row"><div class="q-num">23.</div><div class="q-text">Observed a measurable decline in human attention spans: <input type="text" class="gap-fill" data-ans="c" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">24.</div><div class="q-text">First posited that attention is consumed by information: <input type="text" class="gap-fill" data-ans="a" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">25.</div><div class="q-text">Harvest micro-interactions to refine their behavioral algorithms: <input type="text" class="gap-fill" data-ans="b" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">26.</div><div class="q-text">Employ variable reward schedules to maximize screen time: <input type="text" class="gap-fill" data-ans="b" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
-      </div>
-    `
-  },
-  3: {
-    title: "Quantum Biology: The Epistemology of Subatomic Life",
-    text: `
-      <p class="reading-paragraph">For over a century, the strict demarcation between the macroscopic realm of classical biology and the microscopic realm of quantum mechanics was considered an unassailable paradigm of modern science. Biology, the study of chaotic, warm, and wet living organisms, was fundamentally governed by Newtonian physics and thermodynamics. Conversely, quantum mechanics—which dictates that particles can exist in multiple states simultaneously (superposition) or communicate instantaneously across vast distances (entanglement)—was presumed to manifest solely in highly controlled, ultra-cold laboratory vacuums. However, the burgeoning discipline of quantum biology has aggressively dismantled this rigid bifurcation, suggesting that the very essence of life is inextricably tethered to subatomic phenomena.</p>
-      <p class="reading-paragraph">The most profound empirical evidence supporting this epistemological shift lies in the mechanics of avian navigation. The European Robin embarks on a grueling annual migration spanning thousands of kilometers, navigating with pinpoint precision despite possessing a brain the size of a pea. Ornithologists long hypothesized the existence of an internal compass, but the exact mechanism remained elusive until the identification of cryptochrome, a light-sensitive protein localized in the bird's retina. When a photon of light strikes the cryptochrome, it ejects an electron, creating a 'radical pair'—two molecules with entangled electrons. The subsequent chemical behavior of these entangled molecules is exquisitely sensitive to the subtle inclination of the Earth’s magnetic field. Thus, the robin does not merely 'feel' magnetic north; it literally 'sees' it via a sustained quantum state, maintaining quantum coherence in a biological environment that physicists previously deemed impossibly turbulent.</p>
-      <p class="reading-paragraph">Furthermore, this subatomic reliance extends to the fundamental engine of terrestrial life: photosynthesis. Classical biochemical models struggled to explain the near-perfect efficiency (upward of 95%) with which plants transfer absorbed solar energy to their reaction centers. If the energy traveled randomly from molecule to molecule, significant portions would inevitably be lost as waste heat. Spectroscopic analysis has recently revealed that energy packets (excitons) utilize quantum superposition. The exciton effectively explores all possible pathways to the reaction center simultaneously, collapsing into the single most efficient route only upon arrival. The leaf, therefore, operates as a sophisticated quantum computer, optimizing energy transfer through probabilistic wave mechanics.</p>
-      <p class="reading-paragraph">The implications of acknowledging quantum mechanics within biological architecture are staggering, threatening to rewrite the foundational axioms of evolutionary theory and pharmacology. If enzymes utilize quantum tunneling to accelerate chemical reactions—moving protons through barriers they theoretically lack the energy to surmount—then pharmaceutical interventions must eventually be calibrated at the subatomic scale. Detractors within the orthodox biochemical community maintain that these quantum effects are merely fleeting anomalies, statistically insignificant artifacts of observational methodology. Yet, as the resolution of spectroscopic technology increases, the evidence overwhelmingly points to a radical conclusion: life is not merely a chemical phenomenon, but a macroscopic manifestation of the quantum world.</p>
-    `,
-    questionsHTML: `
-      <div class="q-block">
-        <div class="q-section-title">Questions 27–31</div>
-        <div class="q-instruction">Do the following statements agree with the claims of the writer in Reading Passage 3?<br><br><b>YES</b> if the statement agrees<br><b>NO</b> if the statement contradicts<br><b>NOT GIVEN</b> if it is impossible to say</div>
-        ${generateDropdownQ2(27, "Scientists have always believed that quantum mechanics played a significant role in biology.", "NO")}
-        ${generateDropdownQ2(28, "Quantum coherence was once thought impossible to achieve within warm, living organisms.", "YES")}
-        ${generateDropdownQ2(29, "The European Robin navigates by sensing temperature changes in the Earth's atmosphere.", "NO")}
-        ${generateDropdownQ2(30, "Plants lose approximately 95% of their absorbed solar energy as waste heat.", "NO")}
-        ${generateDropdownQ2(31, "Future pharmaceutical drugs will need to be developed using quantum tunneling technology.", "NOT GIVEN")}
-      </div>
+    function initTest() {
+      document.getElementById('pre-test-overlay').style.display = 'flex';
+      document.getElementById('btn-start-top').style.display = 'block';
+      timerElement.textContent = "60:00";
+      timerElement.classList.remove('warning');
+    }
 
-      <div class="q-block">
-        <div class="q-section-title">Questions 32–36</div>
-        <div class="q-instruction">Complete the summary using the list of letters, <b>A–I</b>, below.</div>
-        <p style="background: var(--white); padding: 1rem; border: 1px solid var(--border); margin-bottom: 2rem; font-family: 'DM Mono', monospace; font-size: .9rem;">
-          A. visual observation &nbsp; B. random movement &nbsp; C. quantum superposition<br>
-          D. chemical reactions &nbsp; E. entangled electrons &nbsp; F. internal compass<br>
-          G. magnetic field &nbsp; H. strict demarcation &nbsp; I. waste heat
-        </p>
-        <div class="q-row"><div class="q-num">32.</div><div class="q-text">Avian navigation relies on cryptochrome creating a pair of <input type="text" class="gap-fill" data-ans="e" placeholder="Letter A-I"> in the eye. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">33.</div><div class="q-text">These molecules are highly sensitive to the Earth's <input type="text" class="gap-fill" data-ans="g" placeholder="Letter A-I">. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">34.</div><div class="q-text">In photosynthesis, if solar energy relied on <input type="text" class="gap-fill" data-ans="b" placeholder="Letter A-I">, much of it would be lost. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">35.</div><div class="q-text">Instead, plants achieve high efficiency because energy packets utilize <input type="text" class="gap-fill" data-ans="c" placeholder="Letter A-I">. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">36.</div><div class="q-text">Orthodox biochemists argue that quantum effects are just anomalies caused by methods of <input type="text" class="gap-fill" data-ans="a" placeholder="Letter A-I">. <span class="ans-reveal"></span></div></div>
-      </div>
-
-      <div class="q-block">
-        <div class="q-section-title">Questions 37–40</div>
-        <div class="q-instruction">Choose the correct letter, <b>A, B, C, or D</b>.</div>
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('btn-start-top').style.display = 'none';
+      
+      timeRemaining = DURATION;
+      updateTimerDisplay();
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
         
-        <div class="q-row">
-          <div class="q-num">37.</div>
-          <div class="q-text">What was the traditional view regarding quantum mechanics?
-            <div class="mcq-options" data-correct="B" data-qnum="37">
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q37" value="A"> A. It exclusively governed the behavior of chaotic biological organisms.</label>
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q37" value="B"> B. It could only be observed in highly controlled, ultra-cold laboratory vacuums.</label>
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q37" value="C"> C. It replaced Newtonian physics as the primary model for macroscopic life.</label>
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q37" value="D"> D. It was the biological mechanism responsible for avian navigation.</label>
-            </div>
-          </div>
-        </div>
+        if(timeRemaining <= 300 && timeRemaining > 0) {
+            timerElement.classList.add('warning');
+        }
+
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          submitTest(true);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+      const seconds = (timeRemaining % 60).toString().padStart(2, '0');
+      timerElement.textContent = `${minutes}:${seconds}`;
+    }
+
+    /* --- SUBMISSION & GRADING PROTOCOL (EXPLICIT FEEDBACK) --- */
+    function submitTest(isAutoSubmit = false) {
+      if(!isAutoSubmit) {
+        const confirmSubmit = confirm("Confirm submission? You will not be able to alter your responses.");
+        if(!confirmSubmit) return;
+      }
+
+      clearInterval(timerInterval);
+      timerElement.textContent = "00:00";
+      timerElement.classList.remove('warning');
+      
+      gradeTest();
+      lockInterface();
+      
+      document.getElementById('results-modal').style.display = 'block';
+    }
+
+    function gradeTest() {
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q' + i;
+        const textInput = document.getElementById(qId);
+        const correctAnsData = answerKey[qId] ? answerKey[qId].toUpperCase() : "N/A";
         
-        <div class="q-row">
-          <div class="q-num">38.</div>
-          <div class="q-text">How does an exciton find the reaction center in a leaf?
-            <div class="mcq-options" data-correct="C" data-qnum="38">
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q38" value="A"> A. By bouncing randomly until it hits the target.</label>
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q38" value="B"> B. By following magnetic fields generated by the sun.</label>
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q38" value="C"> C. By exploring all possible pathways at the same time.</label>
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q38" value="D"> D. By converting excess heat into kinetic energy.</label>
-            </div>
-          </div>
-        </div>
+        if (textInput) {
+          let userAnswer = textInput.value.trim().toLowerCase();
+          
+          let isCorrect = (userAnswer === answerKey[qId]);
+          if(acceptableAnswers[qId] && acceptableAnswers[qId].includes(userAnswer)) {
+             isCorrect = true;
+          }
+          
+          if (isCorrect) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else {
+            textInput.classList.add('wrong-answer');
+            textInput.style.width = "270px"; // Expand input width to show the correction clearly
+            textInput.value = userAnswer ? `${userAnswer} ❌ [Ans: ${correctAnsData}]` : `(Blank) ❌ [Ans: ${correctAnsData}]`;
+          }
+        } else {
+          const selectedRadio = document.querySelector(`input[name="${qId}"]:checked`);
+          let userAnswer = selectedRadio ? selectedRadio.value.toLowerCase() : "";
 
-        <div class="q-row">
-          <div class="q-num">39.</div>
-          <div class="q-text">The writer mentions 'quantum tunneling' to illustrate...
-            <div class="mcq-options" data-correct="A" data-qnum="39">
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q39" value="A"> A. how quantum mechanics forces a reevaluation of chemical reactions and pharmacology.</label>
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q39" value="B"> B. the exact process by which the European Robin migrates.</label>
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q39" value="C"> C. why traditional biochemical models are still completely accurate.</label>
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q39" value="D"> D. the reason plants lose a significant amount of heat during photosynthesis.</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="q-row">
-          <div class="q-num">40.</div>
-          <div class="q-text">What is the writer's main conclusion regarding life?
-            <div class="mcq-options" data-correct="D" data-qnum="40">
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q40" value="A"> A. It is entirely independent of the laws of physics.</label>
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q40" value="B"> B. It proves that classical Newtonian physics was entirely incorrect.</label>
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q40" value="C"> C. It is a strictly chemical process that mimics quantum mechanics.</label>
-              <label class="mcq-label" onclick="selectRadio(this)"><input type="radio" name="q40" value="D"> D. It is a large-scale expression of subatomic quantum phenomena.</label>
-            </div>
-          </div>
-        </div>
-      </div>
-    `
-  }
-};
-
-// Helpers for HTML generation
-function generateDropdownQ(num, text, ans) {
-  return `
-    <div class="q-row">
-      <div class="q-num">${num}.</div>
-      <div class="q-text">${text}</div>
-      <select class="dropdown-ans" data-ans="${ans}">
-        <option value="">Select...</option>
-        <option value="TRUE">TRUE</option>
-        <option value="FALSE">FALSE</option>
-        <option value="NOT GIVEN">NOT GIVEN</option>
-      </select>
-    </div>
-  `;
-}
-function generateDropdownQ2(num, text, ans) {
-  return `
-    <div class="q-row">
-      <div class="q-num">${num}.</div>
-      <div class="q-text">${text}</div>
-      <select class="dropdown-ans" data-ans="${ans}">
-        <option value="">Select...</option>
-        <option value="YES">YES</option>
-        <option value="NO">NO</option>
-        <option value="NOT GIVEN">NOT GIVEN</option>
-      </select>
-    </div>
-  `;
-}
-
-/* ═══════════════════════════════════════════
-   UI CONTROLLERS
-═══════════════════════════════════════════ */
-const textPane = document.getElementById('passage-content');
-const qPane = document.getElementById('questions-content');
-
-function switchPassage(id) {
-  document.querySelectorAll('.tab-btn').forEach((btn, index) => {
-    btn.classList.toggle('active', index + 1 === id);
-  });
-  textPane.innerHTML = `<h2 class="reading-title">${passageData[id].title}</h2>` + passageData[id].text;
-  qPane.innerHTML = passageData[id].questionsHTML;
-  document.getElementById('text-pane').scrollTop = 0;
-  document.getElementById('question-pane').scrollTop = 0;
-}
-
-switchPassage(1); // Init
-
-/* ═══════════════════════════════════════════
-   HIGHLIGHTER API
-═══════════════════════════════════════════ */
-document.getElementById('text-pane').addEventListener('mouseup', function() {
-  const selection = window.getSelection();
-  if (!selection.isCollapsed && selection.toString().trim().length > 0) {
-    const range = selection.getRangeAt(0);
-    const mark = document.createElement('mark');
-    mark.className = 'highlight';
-    try {
-      range.surroundContents(mark);
-      selection.removeAllRanges();
-    } catch (e) {}
-  }
-});
-
-document.getElementById('text-pane').addEventListener('click', function(e) {
-  if (e.target.tagName.toLowerCase() === 'mark' && e.target.classList.contains('highlight')) {
-    const parent = e.target.parentNode;
-    while (e.target.firstChild) {
-      parent.insertBefore(e.target.firstChild, e.target);
-    }
-    parent.removeChild(e.target);
-  }
-});
-
-function selectRadio(label) {
-  const siblings = label.parentElement.querySelectorAll('.mcq-label');
-  siblings.forEach(s => s.classList.remove('selected'));
-  label.classList.add('selected');
-  label.querySelector('input').checked = true;
-}
-
-/* ═══════════════════════════════════════════
-   COUNTDOWN TIMER
-═══════════════════════════════════════════ */
-let totalSeconds = 3600; 
-const timerEl = document.getElementById('time-text');
-
-const timerInterval = setInterval(() => {
-  totalSeconds--;
-  let m = Math.floor(totalSeconds / 60);
-  let s = totalSeconds % 60;
-  timerEl.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  if (totalSeconds <= 300) timerEl.classList.add('timer-warning');
-  if (totalSeconds <= 0) {
-    clearInterval(timerInterval);
-    gradeExam();
-  }
-}, 1000);
-
-/* ═══════════════════════════════════════════
-   GRADING ENGINE (Evaluates current visible pane)
-═══════════════════════════════════════════ */
-function gradeExam() {
-  let score = 0;
-  let totalQuestionsInView = 0;
-  
-  // Gap Fills
-  const gapFills = document.querySelectorAll('.gap-fill');
-  gapFills.forEach(input => {
-    totalQuestionsInView++;
-    const userAns = input.value.trim().toLowerCase();
-    const validAnswers = input.getAttribute('data-ans').toLowerCase().split('|');
-    const revealSpan = input.nextElementSibling;
-    
-    input.classList.remove('input-success', 'input-error');
-    revealSpan.innerText = "";
-    
-    if(validAnswers.includes(userAns) && userAns !== "") {
-      input.classList.add('input-success');
-      score++;
-    } else {
-      input.classList.add('input-error');
-      revealSpan.innerText = `(Correct: ${validAnswers[0].toUpperCase()})`; 
-    }
-  });
-
-  // Dropdowns
-  const dropdowns = document.querySelectorAll('.dropdown-ans');
-  dropdowns.forEach(select => {
-    totalQuestionsInView++;
-    const userAns = select.value;
-    const correctAns = select.getAttribute('data-ans');
-    
-    select.classList.remove('input-success', 'input-error');
-    if(userAns === correctAns) {
-      select.classList.add('input-success');
-      score++;
-    } else {
-      select.classList.add('input-error');
-      let reveal = select.nextElementSibling;
-      if (!reveal || !reveal.classList.contains('ans-reveal')) {
-        reveal = document.createElement('span');
-        reveal.className = 'ans-reveal';
-        reveal.style.display = 'inline-block';
-        select.parentNode.appendChild(reveal);
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            selectedRadio.parentElement.style.color = '#065f46';
+            selectedRadio.parentElement.style.fontWeight = '600';
+          } else {
+            // Mark user's wrong choice
+            if (selectedRadio) {
+              selectedRadio.parentElement.style.color = '#991b1b';
+              selectedRadio.parentElement.style.textDecoration = 'line-through';
+            }
+            // Highlight the correct choice
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAnsData}"]`);
+            if (correctRadio) {
+              correctRadio.parentElement.style.color = '#065f46';
+              correctRadio.parentElement.style.fontWeight = '700';
+              
+              if(!correctRadio.parentElement.querySelector('.correct-badge')) {
+                 const badge = document.createElement('span');
+                 badge.className = 'correct-badge';
+                 badge.style.cssText = 'color: #10b981; margin-left: 8px; font-family: var(--font-mono); font-size: 0.85rem; text-decoration: none; display: inline-block;';
+                 badge.textContent = '✓ CORRECT ANSWER';
+                 correctRadio.parentElement.appendChild(badge);
+              }
+            }
+          }
+        }
       }
-      reveal.innerText = `(Correct: ${correctAns})`;
+      document.getElementById('final-score').innerHTML = `${score} <span>/ 40</span>`;
     }
-  });
 
-  // MCQs
-  const mcqContainers = document.querySelectorAll('.mcq-options');
-  mcqContainers.forEach(container => {
-    totalQuestionsInView++;
-    const correctIdx = container.getAttribute('data-correct');
-    const qNum = container.getAttribute('data-qnum');
-    const selected = document.querySelector(`input[name="q${qNum}"]:checked`);
-    
-    const labels = container.querySelectorAll('.mcq-label');
-    labels.forEach(l => l.classList.remove('mcq-success', 'mcq-error'));
-
-    if(selected) {
-      if(selected.value === correctIdx) {
-        selected.parentElement.classList.add('mcq-success');
-        score++;
-      } else {
-        selected.parentElement.classList.add('mcq-error');
-        container.querySelector(`input[value="${correctIdx}"]`).parentElement.classList.add('mcq-success');
-      }
-    } else {
-      container.querySelector(`input[value="${correctIdx}"]`).parentElement.classList.add('mcq-success');
+    function lockInterface() {
+      document.body.classList.add('test-completed');
+      
+      document.querySelectorAll('input').forEach(input => {
+        input.disabled = true;
+      });
+      
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'none';
     }
-  });
 
-  let percentage = score / totalQuestionsInView;
-  let band = 0;
-  if(percentage >= 0.95) band = "9.0";
-  else if(percentage >= 0.85) band = "8.0";
-  else if(percentage >= 0.75) band = "7.0";
-  else if(percentage >= 0.60) band = "6.0";
-  else band = "< 6.0";
+    /* --- UI MANAGEMENT --- */
+    function closeModal() {
+      document.getElementById('results-modal').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'block';
+    }
 
-  document.getElementById('final-band').innerText = band;
-  document.getElementById('final-raw').innerText = `${score} / ${totalQuestionsInView} Correct (Active Section)`;
-  document.getElementById('final-feedback').innerText = "To achieve an official Band Score, ensure you complete and submit all three reading passages.";
-  
-  document.getElementById('results-modal').classList.add('active');
-}
+    function retakeTest() {
+      if(!confirm("Warning: This will permanently clear all answers and restart the 60-minute session. Proceed?")) return;
 
-function closeModal() {
-  document.getElementById('results-modal').classList.remove('active');
-}
-</script>
+      clearInterval(timerInterval);
+      timerElement.classList.remove('warning');
+      
+      document.getElementById('results-modal').style.display = 'none';
+      document.body.classList.remove('test-completed');
+      
+      document.getElementById('btn-submit').style.display = 'block';
+      document.getElementById('btn-submit').disabled = false;
+      document.getElementById('btn-retake').style.display = 'block';
+      
+      // Reset Text Inputs
+      document.querySelectorAll('input[type="text"]').forEach(input => {
+        input.value = '';
+        input.disabled = false;
+        input.style.width = "160px"; // Return to original width
+        input.classList.remove('correct-answer', 'wrong-answer');
+      });
+      
+      // Reset Radio Buttons and Remove Correct Answer Badges
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+        radio.disabled = false;
+        radio.parentElement.style.color = 'inherit';
+        radio.parentElement.style.fontWeight = 'normal';
+        radio.parentElement.style.textDecoration = 'none';
+      });
+      
+      document.querySelectorAll('.correct-badge').forEach(badge => badge.remove());
+      
+      switchSection(1);
+      initTest(); 
+    }
+
+    window.onload = initTest;
+  </script>
 </body>
 </html>
