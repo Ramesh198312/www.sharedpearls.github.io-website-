@@ -11,16 +11,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Roboto+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- UNIVERSAL FONT STANDARDS & COLORS --- */
+    /* --- IMPERIAL PURPLE & CHAMPAGNE GOLD COLOR PALETTE --- */
     :root {
-      --primary: #0B1D3A;
-      --accent: #C4923E;
-      --badge-red: #A32A3A;
-      --badge-red-bg: #F9EAEB;
+      /* Imperial Purple & Champagne Gold */
+      --primary: #4C1D95; 
+      --primary-dark: #2E1065;
+      --accent-main: #D4AF37;
+      --accent-dark: #AA8C2C;
+      
+      --badge-bg: #F3E8FF;
       --bg-light: #F8FAFC;
       --border: #CBD5E1;
       --text-main: #333333;
-      --text-muted: #666666;
+      --text-muted: #64748B;
       
       /* Premium Typography System */
       --font-ui: 'Inter', sans-serif;
@@ -50,24 +53,24 @@
       align-items: center; 
       padding: 0 2rem; 
       height: 65px; 
-      border-bottom: 3px solid var(--accent); 
+      border-bottom: 3px solid var(--accent-main); 
       flex-shrink: 0; 
       z-index: 10;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     }
     .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
-    .logo span { color: var(--accent); font-style: italic; }
+    .logo span { color: var(--accent-main); font-style: italic; }
     
     .nav-tabs { display: flex; height: 100%; }
     .tab-btn { 
       background: transparent; 
-      color: #cbd5e1; 
+      color: #E9D5FF; 
       border: none; 
       padding: 0 1.5rem; 
       font-size: 0.95rem; 
       font-weight: 600; 
       cursor: pointer; 
-      transition: 0.3s ease; 
+      transition: all 0.3s ease; 
       height: 100%; 
       display: flex; 
       align-items: center; 
@@ -75,39 +78,56 @@
       font-family: var(--font-ui);
       letter-spacing: 0.5px;
     }
-    .tab-btn:hover:not(:disabled) { color: #fff; background: rgba(255,255,255,0.05); }
-    .tab-btn.active { color: #fff; border-bottom-color: var(--accent); background: rgba(255,255,255,0.1); }
     
-    /* Header Controls (Timer + Start Button) */
+    /* Hover Effects: Interacting with Purple and Gold */
+    .tab-btn:hover:not(:disabled) { 
+      color: #fff; 
+      background: rgba(212, 175, 55, 0.2); 
+    }
+    .tab-btn.active { 
+      color: #fff; 
+      border-bottom-color: var(--accent-main); 
+      background: rgba(212, 175, 55, 0.15); 
+    }
+    .tab-btn.active:hover {
+      background: var(--accent-main);
+      color: var(--primary-dark);
+    }
+    
+    /* Header Controls */
     .header-controls { display: flex; align-items: center; gap: 15px; }
     
     .btn-start-top {
-      background: #10b981;
-      color: white;
-      border: none;
-      padding: 0.5rem 1.2rem;
+      background: var(--accent-main);
+      color: var(--primary-dark);
+      border: 2px solid var(--accent-main);
+      padding: 0.4rem 1.2rem;
       font-size: 0.9rem;
-      font-weight: 600;
+      font-weight: 700;
       border-radius: 4px;
       cursor: pointer;
       font-family: var(--font-mono);
-      transition: 0.2s;
+      transition: all 0.3s ease;
       letter-spacing: 0.5px;
     }
-    .btn-start-top:hover { background: #059669; }
+    .btn-start-top:hover { 
+      background: transparent; 
+      border-color: var(--accent-main);
+      color: var(--accent-main);
+    }
 
     .timer { 
       font-family: var(--font-mono); 
       font-size: 1.3rem; 
       font-weight: 600; 
       color: #fff; 
-      background: #1e293b; 
+      background: var(--primary-dark); 
       padding: 0.4rem 1rem; 
       border-radius: 4px; 
-      border: 1px solid #334155;
+      border: 1px solid rgba(212, 175, 55, 0.5);
       letter-spacing: 1px;
     }
-    .timer.warning { color: #ef4444; animation: pulse 1s infinite; border-color: #ef4444;}
+    .timer.warning { color: #fca5a5; animation: pulse 1s infinite; border-color: #ef4444;}
 
     @keyframes pulse {
       0% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
@@ -151,9 +171,9 @@
     }
     .pre-test-overlay .module-badge {
       font-family: var(--font-mono);
-      color: var(--badge-red);
-      background: var(--badge-red-bg);
-      border: 1px solid var(--badge-red);
+      color: var(--primary);
+      background: var(--badge-bg);
+      border: 1px solid var(--primary);
       font-weight: 700;
       font-size: 0.9rem;
       padding: 0.4rem 1rem;
@@ -181,15 +201,21 @@
       padding: 1.2rem 3.5rem;
       font-size: 1.1rem;
       font-weight: 600;
-      border: none;
+      border: 2px solid var(--primary);
       border-radius: 4px;
       cursor: pointer;
       font-family: var(--font-mono);
-      transition: 0.3s ease;
+      transition: all 0.3s ease;
       letter-spacing: 1px;
-      box-shadow: 0 4px 15px rgba(11, 29, 58, 0.2);
+      box-shadow: 0 4px 15px rgba(76, 29, 149, 0.3);
     }
-    .btn-start-large:hover { background: #1a365d; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(11, 29, 58, 0.3); }
+    .btn-start-large:hover { 
+      background: var(--accent-main); 
+      border-color: var(--accent-main);
+      color: var(--primary-dark); 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4); 
+    }
 
     /* --- PASSAGE TYPOGRAPHY --- */
     .left-panel h1 { 
@@ -207,7 +233,7 @@
       line-height: 1.85; 
       text-align: justify; 
       font-size: 1.15rem; 
-      color: #2c3e50;
+      color: #334155;
     }
     
     .paragraph-label { 
@@ -215,7 +241,7 @@
       font-weight: 700; 
       font-size: 1.1rem; 
       margin-right: 15px; 
-      color: var(--accent); 
+      color: var(--accent-dark); 
       float: left;
       padding-top: 4px;
     }
@@ -251,7 +277,7 @@
     .q-num { 
       font-family: var(--font-mono);
       font-weight: 700; 
-      color: var(--primary); 
+      color: var(--accent-dark); 
       min-width: 25px; 
       font-size: 1rem;
     }
@@ -263,16 +289,17 @@
     
     input[type="text"] { 
       padding: 0.4rem 0.6rem; 
-      border: 1px solid #94a3b8; 
+      border: 1px solid #94A3B8; 
       border-radius: 4px; 
       font-size: 1rem; 
       width: 160px; 
+      max-width: 100%;
       font-family: var(--font-ui);
       background: #fff;
-      transition: 0.2s;
+      transition: width 0.3s ease, border-color 0.2s, box-shadow 0.2s;
     }
-    input[type="text"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196, 146, 62, 0.2); }
-    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; border-color: #cbd5e1; }
+    input[type="text"]:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(76, 29, 149, 0.2); }
+    input:disabled { background: #F1F5F9; cursor: not-allowed; color: #64748B; border-color: #CBD5E1; }
     
     .mcq-options { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
     .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 1rem; color: #444; line-height: 1.4; transition: 0.2s;}
@@ -291,7 +318,7 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
     .box-item { font-size: 1rem; font-weight: 500; font-family: var(--font-ui); color: var(--primary);}
-    .box-item strong { font-family: var(--font-mono); color: var(--accent); margin-right: 5px;}
+    .box-item strong { font-family: var(--font-mono); color: var(--accent-dark); margin-right: 5px;}
 
     .section-content { display: none; animation: fadeIn 0.4s ease; }
     .section-content.active { display: block; }
@@ -302,9 +329,9 @@
     }
     
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #f8fafc; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    ::-webkit-scrollbar-track { background: #F8FAFC; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
 
     /* --- SUBMISSION & DORMANT STATE --- */
     .submit-bar {
@@ -325,18 +352,22 @@
     .btn-submit {
       background: var(--primary);
       color: #fff;
-      border: none;
+      border: 2px solid var(--primary);
       padding: 0.8rem 2.5rem;
       font-size: 1rem;
       font-weight: 600;
       border-radius: 4px;
       cursor: pointer;
       font-family: var(--font-mono);
-      transition: 0.2s;
+      transition: all 0.3s ease;
       letter-spacing: 1px;
     }
-    .btn-submit:hover:not(:disabled) { background: #1a365d; }
-    .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; }
+    .btn-submit:hover:not(:disabled) { 
+      background: var(--accent-main); 
+      border-color: var(--accent-main);
+      color: var(--primary-dark); 
+    }
+    .btn-submit:disabled { background: #CBD5E1; border-color: #CBD5E1; color: #fff; cursor: not-allowed; }
 
     .btn-retake {
       background: transparent;
@@ -348,10 +379,14 @@
       border-radius: 4px;
       cursor: pointer;
       font-family: var(--font-mono);
-      transition: 0.2s;
+      transition: all 0.3s ease;
       letter-spacing: 1px;
     }
-    .btn-retake:hover { background: #f8fafc; color: var(--primary); border-color: var(--primary); }
+    .btn-retake:hover { 
+      background: var(--text-muted); 
+      color: #fff; 
+      border-color: var(--text-muted); 
+    }
 
     .dormant-overlay {
       position: absolute;
@@ -376,7 +411,7 @@
       box-shadow: 0 20px 60px rgba(0,0,0,0.15);
       z-index: 200;
       text-align: center;
-      border-top: 6px solid var(--accent);
+      border-top: 6px solid var(--accent-main);
       min-width: 450px;
     }
     .results-modal h2 { font-family: var(--font-heading); color: var(--primary); font-size: 2.2rem; margin-bottom: 1rem; }
@@ -384,23 +419,27 @@
     .score-display span { font-size: 1.8rem; color: var(--border); }
     
     .btn-close {
-      background: var(--accent);
-      color: var(--primary);
-      border: none;
+      background: var(--accent-main);
+      color: var(--primary-dark);
+      border: 2px solid var(--accent-main);
       padding: 0.8rem 2.5rem;
       font-size: 1rem;
       font-weight: 700;
       border-radius: 4px;
       cursor: pointer;
       margin-top: 1.5rem;
-      transition: 0.2s;
+      transition: all 0.3s ease;
       font-family: var(--font-mono);
       letter-spacing: 1px;
     }
-    .btn-close:hover { background: #b08133; color: #fff;}
+    .btn-close:hover { 
+      background: #fff; 
+      color: var(--accent-dark); 
+      border-color: var(--accent-dark);
+    }
 
-    .correct-answer { border-color: #10b981 !important; background: #f0fdf4 !important; color: #065f46; font-weight: 600;}
-    .wrong-answer { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b; }
+    .correct-answer { border-color: #10B981 !important; background: #F0FDF4 !important; color: #065F46 !important; font-weight: 600;}
+    .wrong-answer { border-color: #EF4444 !important; background: #FEF2F2 !important; color: #991B1B !important; }
 
   </style>
 </head>
@@ -424,17 +463,17 @@
     <h2>Evaluation Complete</h2>
     <p>Your Reading Module score is:</p>
     <div class="score-display" id="final-score">0 <span>/ 40</span></div>
-    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your semantic mapping.</p>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your detailed feedback.</p>
     <button class="btn-close" onclick="closeModal()">REVIEW ANSWERS</button>
   </div>
 
   <div class="workspace">
     <!-- PRE-TEST LOCK SCREEN -->
     <div class="pre-test-overlay" id="pre-test-overlay">
-      <div class="module-badge">NEW UPDATE — 10</div>
-      <h2>Astrophysics & Deep Space</h2>
-      <p>This C1/C2 intensive simulation contains 3 passages and 40 questions focusing on the dark sector, singular geometries, and cosmic topology. The timer will initiate and passages will be unlocked upon pressing start.</p>
-      <button class="btn-start-large" onclick="startTest()">Enter 60-minute Test &rarr;</button>
+      <div class="module-badge">PREMIUM MODULE 10</div>
+      <h2>Neuroplasticity, Urban Ethnography & Cyber-Philosophy</h2>
+      <p>This C1/C2 intensive simulation contains 3 passages and 40 questions focusing on the neuroscience of language acquisition, the social architecture of multicultural megacities, and the philosophy of technological determinism. The timer will initiate upon pressing start.</p>
+      <button class="btn-start-large" onclick="startTest()">Start 60-minute Test &rarr;</button>
     </div>
 
     <div class="dormant-overlay"></div>
@@ -443,191 +482,209 @@
     <div class="panel left-panel">
       <!-- PASSAGE 1 -->
       <div id="passage-1" class="section-content active">
-        <h1>The Enigma of the Missing Mass</h1>
-        <p><span class="paragraph-label">A</span> The foundational crisis of modern astrophysics arguably began in the 1930s with the eccentric Swiss astronomer Fritz Zwicky. While analyzing the Coma Cluster—a massive structure comprising over a thousand galaxies—Zwicky applied the virial theorem to estimate the cluster's total mass based on the velocities of its constituent galaxies. The results were profoundly anomalous. The galaxies were moving at such tremendous speeds that the observable, luminous mass (stars and gas) was entirely insufficient to provide the gravitational glue required to hold the cluster together. Zwicky postulated the existence of *dunkle Materie*—dark matter—to account for the unseen mass, though his claims were largely dismissed by his contemporaries.</p>
-        <p><span class="paragraph-label">B</span> It was not until the late 1970s that the scientific community was forced to confront the missing mass problem seriously, precipitated by the meticulous observations of American astronomer Vera Rubin. Utilizing advanced spectrometers to measure the rotation curves of spiral galaxies, Rubin discovered a glaring violation of Newtonian physics. According to the laws of classical mechanics, the orbital velocity of stars at the extreme edges of a galaxy should decline smoothly as their distance from the dense galactic center increases—much like the planets in our solar system orbit the Sun. Instead, Rubin found that peripheral stars maintained a flat rotation curve, whipping around the galactic core at velocities that should have torn the galaxies apart.</p>
-        <p><span class="paragraph-label">C</span> The inescapable conclusion drawn from Rubin's data was that galaxies are embedded within a vast, invisible halo of matter that extends far beyond their luminous boundaries. This mysterious substance, dark matter, does not interact with the electromagnetic force. It neither absorbs, reflects, nor emits light, rendering it entirely imperceptible to traditional telescopes. Its existence can only be inferred indirectly through its gravitational influence on visible matter, radiation, and the large-scale structure of the universe itself.</p>
-        <p><span class="paragraph-label">D</span> Decades of theoretical physics have been dedicated to identifying the fundamental nature of this elusive substance. The two primary theoretical candidates emerged as MACHOs (Massive Astrophysical Compact Halo Objects) and WIMPs (Weakly Interacting Massive Particles). MACHOs represented ordinary baryonic matter hidden in dim objects like brown dwarfs and rogue planets. However, extensive microlensing surveys eventually ruled out MACHOs as the primary component. Consequently, the leading hypothesis centers on WIMPs—exotic, non-baryonic particles predicted by supersymmetry that rarely interact with normal matter.</p>
-        <p><span class="paragraph-label">E</span> Despite the consensus supporting dark matter, a minority faction of theoretical physicists advocates for a radically divergent paradigm: Modified Newtonian Dynamics (MOND). Proposed by Mordehai Milgrom in 1983, MOND suggests that there is no "missing mass" at all. Instead, Milgrom posits that our fundamental understanding of gravity is flawed. MOND argues that at the incredibly weak gravitational accelerations experienced at the outer fringes of galaxies, gravity does not strictly obey Newton's inverse-square law, but rather falls off more slowly, naturally accounting for the flat rotation curves without requiring invisible particles.</p>
-        <p><span class="paragraph-label">F</span> The pursuit of dark matter remains one of the most vital frontiers in contemporary physics. Subterranean laboratories buried deep within abandoned mines utilize vats of liquid xenon, hoping to capture the incredibly rare collision between a wandering WIMP and an atomic nucleus. Simultaneously, particle accelerators like the Large Hadron Collider attempt to synthesize dark matter particles from high-energy proton collisions. As of yet, all direct detection experiments have yielded null results, leaving the astrophysical community to grapple with the humbling reality that 85% of the matter in the universe remains fundamentally unknown to us.</p>
+        <h1>The Neuroscience of Second Language Acquisition</h1>
+        <p><span class="paragraph-label">A</span> For much of the 20th century, the prevailing theory regarding second language acquisition (SLA) was dominated by the "Critical Period Hypothesis." Championed by linguist Eric Lenneberg in 1967, this hypothesis posited that the human brain possesses a strict biological window for language learning, typically closing around the onset of puberty. According to this model, any attempt to acquire a new language after this neurological deadline would inevitably result in permanent deficits, particularly regarding phonetic mastery and native-like pronunciation. Adults were viewed as neurologically rigid, doomed to struggle with endless grammatical rules while children effortlessly absorbed linguistic structures.</p>
+        <p><span class="paragraph-label">B</span> However, modern neuroimaging technologies, specifically functional Magnetic Resonance Imaging (fMRI), have radically dismantled the fatalism of the Critical Period Hypothesis. Neuroscientists have discovered that the adult brain retains an extraordinary degree of "neuroplasticity"—the ability to continuously reorganize its physical structure by forming new neural connections throughout an individual's entire lifespan. While it is true that a child’s developing brain utilizes implicit memory systems to intuitively grasp language, adults successfully acquire language by leveraging different neural pathways, relying heavily on explicit memory and executive functioning located in the prefrontal cortex.</p>
+        <p><span class="paragraph-label">C</span> The physical impact of bilingualism on the adult brain is measurable and profound. Research conducted by Dr. Andrea Mechelli at University College London demonstrated that individuals who learn a second language exhibit a significant increase in the density of grey matter in the left inferior parietal cortex. Grey matter contains the majority of the brain's neuronal cell bodies, and this specific region is heavily involved in language processing and executive control. The brain literally bulk-ups in response to the cognitive workout of managing two competing linguistic systems, much like a muscle responding to resistance training.</p>
+        <p><span class="paragraph-label">D</span> This increased neural density provides what cognitive scientists call the "bilingual advantage." Because bilinguals must constantly suppress their native language while speaking their second language to avoid interference, they continuously exercise their brain's inhibitory control network. This translates to enhanced cognitive flexibility in non-linguistic tasks. Bilingual adults routinely outperform monolinguals in tests measuring focus, multitasking, and problem-solving in distracting environments. Furthermore, large-scale epidemiological studies suggest that the cognitive reserve built by lifelong bilingualism can delay the onset of dementia and Alzheimer's disease by up to four to five years.</p>
+        <p><span class="paragraph-label">E</span> If the adult brain is biologically capable of SLA, why do so many adults fail to achieve fluency? The answer lies not in neurology, but in psychology. Linguist Stephen Krashen identified the "affective filter," an invisible psychological barrier comprised of anxiety, low self-esteem, and a fear of peer judgment. Children learning a language are generally unburdened by the fear of making mistakes. Conversely, adult learners, particularly those in formal educational settings, are often paralyzed by the fear of appearing incompetent. When the affective filter is high, the amygdala (the brain's emotional center) blocks linguistic input from reaching the language acquisition centers of the brain.</p>
+        <p><span class="paragraph-label">F</span> Consequently, modern pedagogical interventions focus heavily on circumventing this affective filter. Rather than relying on traditional, high-anxiety grammar drills, progressive educators construct low-stakes communicative environments. This approach acknowledges that adult fluency is not hindered by a biological clock, but rather by the emotional environment of the classroom. By fostering psychological safety and encouraging risk-taking, educators can unlock the adult brain's latent neuroplasticity, proving that fluency is an achievable reality at any stage of life.</p>
       </div>
 
       <!-- PASSAGE 2 -->
       <div id="passage-2" class="section-content">
-        <h1>The Geometry of the Abyss</h1>
-        <p><span class="paragraph-label">A</span> Few concepts in theoretical physics capture the imagination quite like the black hole. Originally theorized as a mathematical curiosity hidden within Albert Einstein’s equations of General Relativity, the concept was first formalized by Karl Schwarzschild in 1916. Schwarzschild demonstrated that if a sufficient mass is compressed into an infinitesimally small volume, the curvature of spacetime becomes infinite, creating a gravitational well from which nothing can escape. At the very center of this well lies the 'singularity'—a point of infinite density where all known laws of physics effectively break down.</p>
-        <p><span class="paragraph-label">B</span> Shielding the singularity from the observable universe is the Event Horizon. This invisible spherical boundary represents the point of no return; the exact threshold where the escape velocity exceeds the speed of light. Because not even photons can escape its gravitational grip, a black hole is perfectly black. Any object crossing the event horizon is inexorably drawn toward the singularity. For a stellar-mass black hole, an astronaut approaching the event horizon would be subjected to extreme tidal forces—gravity pulling much harder on their feet than their head—resulting in a lethal, vertical stretching process astrophysicists morbidly refer to as 'spaghettification'.</p>
-        <p><span class="paragraph-label">C</span> While stellar-mass black holes are formed from the gravitational collapse of massive stars, the universe harbors true monsters: Supermassive Black Holes (SMBHs). Ranging from millions to billions of solar masses, SMBHs are believed to anchor the center of almost every large galaxy, including our own Milky Way, which houses Sagittarius A*. When an SMBH actively accretes surrounding gas and dust, the immense friction within its accretion disk generates extreme heat and radiation. These active galactic nuclei, known as quasars, are the most luminous continuous energy sources in the cosmos, capable of outshining the entire galaxy that surrounds them.</p>
-        <p><span class="paragraph-label">D</span> For decades, black holes were considered ultimate cosmic traps—entities that only grew and never shrank. This classical view was shattered in 1974 by Stephen Hawking. Applying the principles of quantum mechanics to the intense gravitational field near the event horizon, Hawking demonstrated that black holes are not perfectly black. Vacuum fluctuations constantly create pairs of virtual particles and antiparticles near the horizon. Occasionally, one particle falls in while the other escapes. The escaping particle draws energy from the black hole's mass, a phenomenon now known as 'Hawking Radiation'. Consequently, over unfathomable timescales, a black hole will slowly evaporate until it disappears entirely.</p>
-        <p><span class="paragraph-label">E</span> Hawking’s brilliant discovery inadvertently ignited one of the fiercest debates in modern physics: the Black Hole Information Paradox. A core tenet of quantum mechanics is 'unitarity'—the principle that physical information about a system's quantum state can never be permanently destroyed. However, if an encyclopedia falls into a black hole, and that black hole eventually evaporates entirely into featureless thermal radiation, what happens to the complex information that made up the encyclopedia? If the information is truly erased, quantum determinism is violated, suggesting a fatal flaw in our foundational understanding of the universe.</p>
+        <h1>The Social Architecture of Multicultural Megacities</h1>
+        <p><span class="paragraph-label">A</span> As the 21st century accelerates, human civilization is undergoing an unprecedented demographic shift: the hyper-urbanization of the global populace. By 2050, it is projected that nearly 70% of humanity will reside in urban centers. This migration has given rise to the "multicultural megacity"—sprawling metropolises such as London, Toronto, and Kuala Lumpur, where dozens of different linguistic, ethnic, and religious groups live in close proximity. For urban sociologists, these megacities serve as massive, real-time laboratories for testing theories of social cohesion and ethnic integration.</p>
+        <p><span class="paragraph-label">B</span> Historically, sociological analysis of urban diversity was dominated by two opposing frameworks. The "Contact Hypothesis," proposed by Gordon Allport in 1954, argues optimistically that under appropriate conditions—such as equal status and common goals—interpersonal contact between diverse groups reduces prejudice and fosters social harmony. Conversely, the "Threat Hypothesis" posits a more pessimistic view, suggesting that close proximity to different ethnic groups triggers competition over scarce economic resources and political power, thereby increasing tribalism and social friction.</p>
+        <p><span class="paragraph-label">C</span> Modern urban planners recognize that whether a city leans toward the Contact or the Threat hypothesis is heavily dictated by its physical architecture. A city that builds luxury high-rises adjacent to neglected, underfunded neighborhoods actively hardwires inequality into its concrete, validating the Threat hypothesis. This phenomenon, often driven by aggressive gentrification, creates "splintering urbanism," where diverse populations exist physically near each other but interact exclusively within highly segregated economic silos.</p>
+        <p><span class="paragraph-label">D</span> To combat this, progressive urban architecture focuses on the deliberate engineering of "Third Places." Coined by sociologist Ray Oldenburg, a Third Place is a neutral, inclusive public environment distinct from the two primary social environments: the home (first place) and the workplace (second place). Examples include public libraries, robustly funded community parks, and open-air municipal markets. These spaces serve as democratic equalizers. When a city designs a vibrant, accessible public park, it forces organic, low-stakes interactions between individuals of vastly different socioeconomic and cultural backgrounds, actively manifesting the Contact hypothesis.</p>
+        <p><span class="paragraph-label">E</span> Furthermore, the linguistic landscape of a megacity plays a crucial role in its social architecture. In highly multicultural environments, the visual presence of multiple languages on public signage, storefronts, and transit maps acts as a powerful psychological signal of inclusion. When minority populations see their native language validated in the public sphere, it reduces the affective burden of assimilation and fosters a sense of civic ownership. Conversely, cities that enforce strict monolingual policies in public spaces implicitly signal exclusion, reinforcing cultural hierarchies and increasing social alienation.</p>
+        <p><span class="paragraph-label">F</span> Ultimately, the success of the multicultural megacity relies on a delicate balance between policy and physical design. As populations in Southeast Asia and the West continue to diversify, governments cannot rely on the passive assumption that proximity alone will create harmony. Social cohesion must be actively built into the infrastructure. By prioritizing inclusive Third Places, equitable housing, and multilingual public spheres, urban planners can ensure that the megacity functions not as a battleground of competing factions, but as a dynamic engine of collaborative human potential.</p>
       </div>
 
       <!-- PASSAGE 3 -->
       <div id="passage-3" class="section-content">
-        <h1>Cosmic Topology and the Final Fate</h1>
-        <p><span class="paragraph-label">A</span> The narrative of modern cosmology was fundamentally rewritten in 1929 when Edwin Hubble, analyzing the light spectra emitted by distant galaxies, made a paradigm-shifting observation. Hubble noticed a pervasive 'redshift'—the stretching of light waves toward the red end of the spectrum—indicating that virtually all galaxies were receding from the Milky Way. Furthermore, the velocity of recession was directly proportional to their distance. The universe was not static; the very fabric of spacetime was expanding, carrying galaxies along with it like raisins in a rising loaf of bread.</p>
-        <p><span class="paragraph-label">B</span> For nearly seventy years following Hubble's discovery, astrophysicists assumed that the gravitational attraction of all the matter in the universe would act as a cosmic brake, gradually slowing the rate of expansion over time. However, in 1998, two independent teams of astronomers studying Type Ia supernovae—incredibly consistent stellar explosions used as "standard candles" to measure cosmic distances—arrived at a shocking conclusion. The distant supernovae were dimmer than expected. The expansion of the universe was not slowing down; it was, inexplicably, accelerating.</p>
-        <p><span class="paragraph-label">C</span> To account for this anti-gravitational acceleration, scientists hypothesized a mysterious, repulsive energy permeating all of space: Dark Energy. Interestingly, the mathematical foundation for this force had already been provided by Einstein. In his original formulation of General Relativity, Einstein introduced a 'Cosmological Constant' ($\Lambda$) to force his equations to describe a static universe. When Hubble proved the universe was expanding, Einstein abandoned the constant, reportedly calling it his "greatest blunder." Yet, Dark Energy resurrected the Cosmological Constant, acting as a vacuum energy inherent to space itself, pushing galaxies apart at an ever-increasing rate.</p>
-        <p><span class="paragraph-label">D</span> The discovery of Dark Energy drastically revised our understanding of the cosmic inventory. Precision measurements from the Cosmic Microwave Background reveal a humbling reality: standard, baryonic matter—the protons, neutrons, and electrons that make up stars, planets, and human beings—constitutes a mere 5% of the universe. Dark Matter accounts for roughly 27%, while the remaining 68% is dominated entirely by Dark Energy. We are but a minority rounding error in a cosmos governed by forces we can neither see nor fully comprehend.</p>
-        <p><span class="paragraph-label">E</span> The dominance of Dark Energy dictates a bleak trajectory for the ultimate fate of the cosmos. If the accelerated expansion continues indefinitely, the universe will experience "The Big Freeze" (or Heat Death). Over trillions of years, galaxies will drift so far apart that their light will no longer reach one another. Star formation will cease as gas clouds are exhausted. Black holes will slowly evaporate via Hawking Radiation. Eventually, all thermodynamic processes will grind to a halt, leaving a cold, dark, and perfectly dispersed void devoid of all structure and energy gradients.</p>
-        <p><span class="paragraph-label">F</span> While the Big Freeze is the overwhelmingly favored consensus, theoretical alternatives exist based on the precise nature of Dark Energy. If the density of Dark Energy increases over time—a hypothetical form known as 'phantom energy'—the repulsive force will eventually overwhelm all fundamental forces. It would tear apart galaxy clusters, then solar systems, then planets, and ultimately atomic nuclei themselves, in a catastrophic finale known as "The Big Rip." Conversely, if Dark Energy were to suddenly reverse its polarity, gravity could regain dominance, pulling all matter back into a singular, fiery compression known as "The Big Crunch"—though current data suggests this is highly improbable.</p>
+        <h1>Technological Determinism and the Illusion of Neutrality</h1>
+        <p><span class="paragraph-label">A</span> Does technology drive society, or does society drive technology? This fundamental question lies at the heart of the philosophy of technology. For much of the Industrial Age, the dominant perspective was "technological determinism." This theory argues that technological development follows its own autonomous, unalterable logic, independent of human intervention. Once a technology is introduced, it acts as an unstoppable force that dictates the social, political, and economic structures of human civilization. In this framework, humans are merely passengers on a technological trajectory they cannot control.</p>
+        <p><span class="paragraph-label">B</span> The classic historical example used to support determinism is the invention of the Gutenberg printing press in the 15th century. Determinists argue that the printing press autonomously caused the Protestant Reformation and the Scientific Revolution. By making information cheap, reproducible, and widely available, the machine inevitably shattered the information monopoly held by the Catholic Church and democratized knowledge. The social upheaval was not driven by human agency, determinists claim, but was the unavoidable, mechanical consequence of the printing press's existence.</p>
+        <p><span class="paragraph-label">C</span> However, in the late 20th century, sociologists fiercely pushed back against this fatalistic view, developing the theory of Social Construction of Technology (SCOT). SCOT argues that technologies do not have an inherent, predetermined trajectory. Instead, the final form and function of a technology are shaped by continuous negotiations between competing human social groups. For instance, the early bicycle existed in dozens of radically different, dangerous prototypes. It was not until distinct social groups (such as women seeking safe, independent transport) exerted market pressure that the standard, safe "rover" bicycle we know today emerged. Technology is molded by human desire, not the other way around.</p>
+        <p><span class="paragraph-label">D</span> Despite the insights of SCOT, the rise of Artificial Intelligence and algorithmic decision-making has resurrected deterministic fears, creating a phenomenon known as "algorithmic determinism." In the modern era, complex algorithms manage everything from global financial markets to criminal sentencing software and social media news feeds. Because these algorithms process data at speeds and volumes incomprehensible to the human brain, they are often perceived as infallible, objective judges. The danger arises when society passively accepts algorithmic outputs as the unquestionable "truth."</p>
+        <p><span class="paragraph-label">E</span> The profound flaw in algorithmic determinism is the illusion of technological neutrality. Code is not a law of physics; it is a set of instructions written by human engineers. Consequently, algorithms frequently absorb, amplify, and automate the implicit biases of their creators and the historical data they are trained on. If a predictive policing algorithm is trained on decades of biased arrest records, it will mathematically target minority neighborhoods, operating under the guise of objective mathematics. The technology is not autonomously driving society; it is silently enforcing pre-existing human prejudices.</p>
+        <p><span class="paragraph-label">F</span> The challenge of the 21st century is to reclaim human agency from the illusion of technological autonomy. Philosophers of technology advocate for a middle ground: "soft determinism." This view acknowledges that while technology exerts a powerful influence on our behavioral options, humanity retains the capacity to regulate, modify, or reject it. Recognizing that algorithms are socially constructed artifacts empowers citizens to demand algorithmic transparency and ethical audits, ensuring that technology remains a tool for human flourishing rather than a dictatorial force.</p>
       </div>
     </div>
 
     <!-- RIGHT PANEL: QUESTIONS -->
     <div class="panel right-panel">
       
-      <!-- QUESTIONS FOR SECTION 1 -->
+      <!-- QUESTIONS FOR PASSAGE 1 -->
       <div id="questions-1" class="section-content active">
         <h2>Questions 1–5</h2>
         <div class="instruction">
-          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
-          Choose the correct heading for paragraphs <strong>B–F</strong> from the list below.<br>
-          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
-        </div>
-        <div class="box-options">
-          <div class="box-item"><strong>i</strong> The origins of the Big Crunch</div>
-          <div class="box-item"><strong>ii</strong> Competing particle theories</div>
-          <div class="box-item"><strong>iii</strong> The current state of the search</div>
-          <div class="box-item"><strong>iv</strong> Fritz Zwicky and the Coma Cluster</div>
-          <div class="box-item"><strong>v</strong> An unexpected velocity profile</div>
-          <div class="box-item"><strong>vi</strong> The geometry of spaghettification</div>
-          <div class="box-item"><strong>vii</strong> A challenge to established physics</div>
-          <div class="box-item"><strong>viii</strong> The invisible conclusion</div>
-        </div>
-        <div class="q-group">
-          <div class="q-item" style="color: #666;"><em>Example: Paragraph A = iv</em></div>
-          <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph B <input type="text" id="q1"></div></div>
-          <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph C <input type="text" id="q2"></div></div>
-          <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph D <input type="text" id="q3"></div></div>
-          <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph E <input type="text" id="q4"></div></div>
-          <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph F <input type="text" id="q5"></div></div>
-        </div>
-
-        <h2>Questions 6–9</h2>
-        <div class="instruction">
-          Do the following statements agree with the information given in the Reading Passage?<br>
+          Do the following statements agree with the information given in Reading Passage 1?<br>
           Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">6</div><div class="q-text">Fritz Zwicky coined the term "dark matter" during his studies in the late 1970s. <br><input type="text" id="q6"></div></div>
-          <div class="q-item"><div class="q-num">7</div><div class="q-text">Dark matter reflects electromagnetic radiation very weakly, making it hard to see. <br><input type="text" id="q7"></div></div>
-          <div class="q-item"><div class="q-num">8</div><div class="q-text">WIMPs have been successfully isolated by scientists using the Large Hadron Collider. <br><input type="text" id="q8"></div></div>
-          <div class="q-item"><div class="q-num">9</div><div class="q-text">Vera Rubin received a Nobel Prize for her discovery of flat galactic rotation curves. <br><input type="text" id="q9"></div></div>
+          <div class="q-item"><div class="q-num">1</div><div class="q-text">Eric Lenneberg believed that adults could learn a second language effortlessly if they studied hard enough. <br><input type="text" id="q1"></div></div>
+          <div class="q-item"><div class="q-num">2</div><div class="q-text">Adults primarily use the explicit memory systems located in the prefrontal cortex to learn new languages. <br><input type="text" id="q2"></div></div>
+          <div class="q-item"><div class="q-num">3</div><div class="q-text">Dr. Andrea Mechelli found that learning a second language permanently decreases grey matter density in children. <br><input type="text" id="q3"></div></div>
+          <div class="q-item"><div class="q-num">4</div><div class="q-text">The "bilingual advantage" allows bilingual adults to outperform monolinguals in non-linguistic multitasking. <br><input type="text" id="q4"></div></div>
+          <div class="q-item"><div class="q-num">5</div><div class="q-text">The affective filter is a biological barrier located directly within the brain's prefrontal cortex. <br><input type="text" id="q5"></div></div>
         </div>
 
-        <h2>Questions 10–13</h2>
+        <h2>Questions 6–10</h2>
         <div class="instruction">
           Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
         </div>
         <div class="q-group">
           <div class="q-item">
             <div class="q-text">
-              Fritz Zwicky first noticed missing mass while observing the <strong>10</strong> <input type="text" id="q10">. Decades later, Vera Rubin analyzed the <strong>11</strong> <input type="text" id="q11"> of spiral galaxies and realized that stars at the edge were moving too fast. To explain why they didn't fly apart due to Newtonian physics, scientists concluded galaxies are surrounded by an invisible <strong>12</strong> <input type="text" id="q12">. While most believe in dark matter particles like WIMPs, some physicists support an alternative theory known as <strong>13</strong> <input type="text" id="q13">, which suggests our laws of gravity are incorrect.
+              The Critical Period Hypothesis incorrectly assumed that the adult brain lacked the ability to change, a property known as <strong>6</strong> <input type="text" id="q6">. However, fMRI scans show that bilingualism actually increases the density of <strong>7</strong> <input type="text" id="q7"> in the brain. This mental exercise provides cognitive benefits, potentially delaying diseases like Alzheimer's. The real reason adults struggle with language is often psychological, specifically an emotional barrier called the <strong>8</strong> <input type="text" id="q8">. When an adult is paralyzed by fear or anxiety, the <strong>9</strong> <input type="text" id="q9"> blocks language input from being processed. Therefore, educators should focus on creating low-stakes, safe <strong>10</strong> <input type="text" id="q10"> to help adults achieve fluency.
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- QUESTIONS FOR SECTION 2 -->
-      <div id="questions-2" class="section-content">
-        <h2>Questions 14–18</h2>
-        <div class="instruction">
-          The Reading Passage has five paragraphs, <strong>A–E</strong>.<br>
-          Which paragraph contains the following information?<br>
-          Write the correct letter, <strong>A–E</strong>, in the boxes provided.
-        </div>
-        <div class="q-group">
-          <div class="q-item"><div class="q-num">14</div><div class="q-text">An explanation of the lethal vertical stretching process experienced by astronauts. <input type="text" id="q14"></div></div>
-          <div class="q-item"><div class="q-num">15</div><div class="q-text">A description of incredibly luminous galactic nuclei. <input type="text" id="q15"></div></div>
-          <div class="q-item"><div class="q-num">16</div><div class="q-text">The mechanism by which quantum mechanics allows a black hole to shrink. <input type="text" id="q16"></div></div>
-          <div class="q-item"><div class="q-num">17</div><div class="q-text">The theoretical point where all known laws of physics break down. <input type="text" id="q17"></div></div>
-          <div class="q-item"><div class="q-num">18</div><div class="q-text">A conceptual conflict involving the permanent destruction of physical data. <input type="text" id="q18"></div></div>
-        </div>
-
-        <h2>Questions 19–22</h2>
-        <div class="instruction">
-          Look at the following concepts (Questions 19-22) and the list of definitions below.<br>
-          Match each concept with the correct definition, <strong>A, B, C, or D</strong>.<br>
-        </div>
-        <div class="box-options">
-          <div class="box-item"><strong>A</strong> Singularity</div>
-          <div class="box-item"><strong>B</strong> Event Horizon</div>
-          <div class="box-item"><strong>C</strong> Hawking Radiation</div>
-          <div class="box-item"><strong>D</strong> Information Paradox</div>
-        </div>
-        <div class="q-group">
-          <div class="q-item"><div class="q-num">19</div><div class="q-text">The spherical boundary where escape velocity exceeds the speed of light. <input type="text" id="q19"></div></div>
-          <div class="q-item"><div class="q-num">20</div><div class="q-text">A central gravitational point characterized by infinite density. <input type="text" id="q20"></div></div>
-          <div class="q-item"><div class="q-num">21</div><div class="q-text">The emission of thermal energy leading to black hole evaporation. <input type="text" id="q21"></div></div>
-          <div class="q-item"><div class="q-num">22</div><div class="q-text">The violation of quantum determinism caused by the loss of quantum data. <input type="text" id="q22"></div></div>
-        </div>
-
-        <h2>Questions 23–26</h2>
+        <h2>Questions 11–13</h2>
         <div class="instruction">
           Choose the correct letter, <strong>A, B, C or D</strong>.
         </div>
         <div class="q-group">
           <div class="q-item">
-            <div class="q-num">23</div>
-            <div class="q-text">According to paragraph A, what was Karl Schwarzschild's major contribution?
+            <div class="q-num">11</div>
+            <div class="q-text">What was the primary assumption of the Critical Period Hypothesis?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q23" value="A"> A) He invented the mathematical equations for General Relativity.</label>
-                <label class="mcq-label"><input type="radio" name="q23" value="B"> B) He discovered the supermassive black hole at the center of the Milky Way.</label>
-                <label class="mcq-label"><input type="radio" name="q23" value="C"> C) He formalized the concept of infinite spacetime curvature from Einstein's equations.</label>
-                <label class="mcq-label"><input type="radio" name="q23" value="D"> D) He proved that quantum data cannot be permanently destroyed.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="A"> A) That children learn language using explicit memory systems.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="B"> B) That the human brain has a strict biological window for language learning that closes around puberty.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="C"> C) That bilingualism delays the onset of dementia.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="D"> D) That adults are not afraid of making mistakes in front of peers.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
-            <div class="q-num">24</div>
-            <div class="q-text">What powers a quasar according to the passage?
+            <div class="q-num">12</div>
+            <div class="q-text">Why do bilinguals have enhanced cognitive flexibility according to paragraph D?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q24" value="A"> A) The collision of two stellar-mass black holes.</label>
-                <label class="mcq-label"><input type="radio" name="q24" value="B"> B) The extreme friction within the accretion disk of a supermassive black hole.</label>
-                <label class="mcq-label"><input type="radio" name="q24" value="C"> C) The rapid evaporation of Hawking Radiation.</label>
-                <label class="mcq-label"><input type="radio" name="q24" value="D"> D) The dark energy expanding the fabric of space.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="A"> A) Because they use their amygdala more frequently.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="B"> B) Because they must constantly suppress their native language, exercising inhibitory control.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="C"> C) Because they do not have an affective filter.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="D"> D) Because they only use implicit memory systems.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
-            <div class="q-num">25</div>
-            <div class="q-text">What did Stephen Hawking demonstrate in 1974?
+            <div class="q-num">13</div>
+            <div class="q-text">What is the modern progressive approach to adult language teaching mentioned in paragraph F?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q25" value="A"> A) That black holes can slowly evaporate over unfathomable timescales.</label>
-                <label class="mcq-label"><input type="radio" name="q25" value="B"> B) That black holes are perfectly black cosmic traps.</label>
-                <label class="mcq-label"><input type="radio" name="q25" value="C"> C) That quantum information can easily escape the event horizon intact.</label>
-                <label class="mcq-label"><input type="radio" name="q25" value="D"> D) That the singularity lacks infinite density.</label>
-              </div>
-            </div>
-          </div>
-          <div class="q-item">
-            <div class="q-num">26</div>
-            <div class="q-text">Why is the Black Hole Information Paradox considered a major problem in physics?
-              <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q26" value="A"> A) It proves that encyclopedias cannot survive spaghettification.</label>
-                <label class="mcq-label"><input type="radio" name="q26" value="B"> B) It suggests that Hawking Radiation is mathematically impossible.</label>
-                <label class="mcq-label"><input type="radio" name="q26" value="C"> C) It violates the principle of unitarity, threatening our foundational understanding of quantum mechanics.</label>
-                <label class="mcq-label"><input type="radio" name="q26" value="D"> D) It means that Schwarzschild's original calculations were flawed.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="A"> A) Relying on high-anxiety grammar drills to force neuroplasticity.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="B"> B) Teaching children alongside adults to mimic the critical period.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="C"> C) Bypassing the emotional environment to focus purely on biology.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="D"> D) Fostering psychological safety to circumvent the affective filter.</label>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- QUESTIONS FOR SECTION 3 -->
+      <!-- QUESTIONS FOR PASSAGE 2 -->
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–19</h2>
+        <div class="instruction">
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Choose the correct heading for each paragraph from the list below.<br>
+          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> Two opposing theories on ethnic integration</div>
+          <div class="box-item"><strong>ii</strong> The psychological impact of multilingual public spaces</div>
+          <div class="box-item"><strong>iii</strong> The financial cost of building massive public libraries</div>
+          <div class="box-item"><strong>iv</strong> Engineering democratic spaces for organic interaction</div>
+          <div class="box-item"><strong>v</strong> How physical segregation reinforces tribalism</div>
+          <div class="box-item"><strong>vi</strong> The global shift towards massive urban centers</div>
+          <div class="box-item"><strong>vii</strong> Why rural areas are losing their diverse populations</div>
+          <div class="box-item"><strong>viii</strong> A delicate balance of policy and physical infrastructure</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">14</div><div class="q-text">Paragraph A <input type="text" id="q14"></div></div>
+          <div class="q-item"><div class="q-num">15</div><div class="q-text">Paragraph B <input type="text" id="q15"></div></div>
+          <div class="q-item"><div class="q-num">16</div><div class="q-text">Paragraph C <input type="text" id="q16"></div></div>
+          <div class="q-item"><div class="q-num">17</div><div class="q-text">Paragraph D <input type="text" id="q17"></div></div>
+          <div class="q-item"><div class="q-num">18</div><div class="q-text">Paragraph E <input type="text" id="q18"></div></div>
+          <div class="q-item"><div class="q-num">19</div><div class="q-text">Paragraph F <input type="text" id="q19"></div></div>
+        </div>
+
+        <h2>Questions 20–23</h2>
+        <div class="instruction">
+          Look at the following concepts/theories (Questions 20-23) and the list of descriptions below.<br>
+          Match each concept with the correct description, <strong>A, B, C, or D</strong>.<br>
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Contact Hypothesis</div>
+          <div class="box-item"><strong>B</strong> Threat Hypothesis</div>
+          <div class="box-item"><strong>C</strong> Splintering Urbanism</div>
+          <div class="box-item"><strong>D</strong> Third Place</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">20</div><div class="q-text">A neutral, public environment separate from home and work that equalizes society. <input type="text" id="q20"></div></div>
+          <div class="q-item"><div class="q-num">21</div><div class="q-text">The idea that proximity to different ethnic groups creates competition and social friction. <input type="text" id="q21"></div></div>
+          <div class="q-item"><div class="q-num">22</div><div class="q-text">A condition where diverse populations live near each other but remain in highly segregated economic silos. <input type="text" id="q22"></div></div>
+          <div class="q-item"><div class="q-num">23</div><div class="q-text">The optimistic belief that interpersonal interactions under equal conditions reduce prejudice. <input type="text" id="q23"></div></div>
+        </div>
+
+        <h2>Questions 24–26</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">24</div>
+            <div class="q-text">According to paragraph C, how does luxury real estate development affect social cohesion?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q24" value="A"> A) It validates the Contact Hypothesis by bringing wealthy and poor people together.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="B"> B) It hardwires inequality into the city's concrete, validating the Threat Hypothesis.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="C"> C) It acts as a democratic equalizer like a municipal market.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="D"> D) It reduces the affective burden on minority populations.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">25</div>
+            <div class="q-text">What psychological effect does multilingual public signage have on minority groups?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q25" value="A"> A) It enforces strict assimilation protocols.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="B"> B) It creates splintering urbanism and social alienation.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="C"> C) It signals inclusion and fosters a sense of civic ownership.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="D"> D) It confuses urban planners trying to map the city.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">26</div>
+            <div class="q-text">What is the writer's final conclusion in paragraph F?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q26" value="A"> A) Megacities are destined to become battlegrounds of competing factions.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="B"> B) Proximity alone is enough to naturally create harmony over time.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="C"> C) Governments must force citizens to speak only one language in public.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="D"> D) Social cohesion must be actively built into the physical and policy infrastructure.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR PASSAGE 3 -->
       <div id="questions-3" class="section-content">
         <h2>Questions 27–31</h2>
         <div class="instruction">
-          Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
-          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Which paragraph contains the following information?<br>
+          Write the correct letter, <strong>A–F</strong>, in the boxes provided.
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">27</div><div class="q-text">Edwin Hubble discovered the expanding universe by observing Type Ia supernovae. <br><input type="text" id="q27"></div></div>
-          <div class="q-item"><div class="q-num">28</div><div class="q-text">Scientists now believe that the gravitational attraction of matter is slowly decelerating the universe's expansion. <br><input type="text" id="q28"></div></div>
-          <div class="q-item"><div class="q-num">29</div><div class="q-text">Baryonic matter accounts for less than 10% of the universe's total composition. <br><input type="text" id="q29"></div></div>
-          <div class="q-item"><div class="q-num">30</div><div class="q-text">Albert Einstein originally introduced the Cosmological Constant to explain why the universe was expanding. <br><input type="text" id="q30"></div></div>
-          <div class="q-item"><div class="q-num">31</div><div class="q-text">The "Big Crunch" is currently considered the most probable ultimate fate of the universe by modern cosmologists. <br><input type="text" id="q31"></div></div>
+          <div class="q-item"><div class="q-num">27</div><div class="q-text">An example of how historical human biases are mathematically automated. <input type="text" id="q27"></div></div>
+          <div class="q-item"><div class="q-num">28</div><div class="q-text">The idea that machines autonomously dictate the structure of human civilization. <input type="text" id="q28"></div></div>
+          <div class="q-item"><div class="q-num">29</div><div class="q-text">A philosophical middle ground advocating for human regulation of technology. <input type="text" id="q29"></div></div>
+          <div class="q-item"><div class="q-num">30</div><div class="q-text">The theory that competing human groups negotiate and shape technological development. <input type="text" id="q30"></div></div>
+          <div class="q-item"><div class="q-num">31</div><div class="q-text">A historical claim that a specific machine independently caused religious and scientific revolutions. <input type="text" id="q31"></div></div>
         </div>
 
         <h2>Questions 32–36</h2>
@@ -636,73 +693,34 @@
           Write the correct letter, <strong>A–I</strong>, in the boxes provided.
         </div>
         <div class="box-options">
-          <div class="box-item"><strong>A</strong> slowing</div>
-          <div class="box-item"><strong>B</strong> dark energy</div>
-          <div class="box-item"><strong>C</strong> freeze</div>
-          <div class="box-item"><strong>D</strong> rip</div>
-          <div class="box-item"><strong>E</strong> dark matter</div>
-          <div class="box-item"><strong>F</strong> accelerating</div>
-          <div class="box-item"><strong>G</strong> cold</div>
-          <div class="box-item"><strong>H</strong> hot</div>
-          <div class="box-item"><strong>I</strong> composition</div>
+          <div class="box-item"><strong>A</strong> neutrality</div>
+          <div class="box-item"><strong>B</strong> determinism</div>
+          <div class="box-item"><strong>C</strong> autonomy</div>
+          <div class="box-item"><strong>D</strong> prejudices</div>
+          <div class="box-item"><strong>E</strong> social</div>
+          <div class="box-item"><strong>F</strong> trajectory</div>
+          <div class="box-item"><strong>G</strong> algorithms</div>
+          <div class="box-item"><strong>H</strong> transparency</div>
+          <div class="box-item"><strong>I</strong> truth</div>
         </div>
         <div class="q-group">
           <div class="q-item">
             <div class="q-text">
-              In 1998, observations of distant supernovae revealed that the expansion of the universe is actually <strong>32</strong> <input type="text" id="q32">. This phenomenon is driven by a repulsive anti-gravitational force called <strong>33</strong> <input type="text" id="q33">. This mysterious force makes up roughly 68% of the universe's entire <strong>34</strong> <input type="text" id="q34">. Because this repulsive force is dominant, scientists believe the most likely end scenario is the Big <strong>35</strong> <input type="text" id="q35">. In this scenario, thermodynamic processes stop, and the universe becomes completely <strong>36</strong> <input type="text" id="q36"> and dark.
+              The philosophy of technological <strong>32</strong> <input type="text" id="q32"> argues that machines operate independently of human control. However, SCOT theorists argue that technology is actually shaped by <strong>33</strong> <input type="text" id="q33"> construction. Today, the reliance on high-speed computer code has resurrected deterministic fears. Because these <strong>34</strong> <input type="text" id="q34"> are complex, people falsely assume they operate with perfect <strong>35</strong> <input type="text" id="q35">. In reality, code is written by humans and often automates existing human <strong>36</strong> <input type="text" id="q36">, proving that technology is not an objective judge.
             </div>
           </div>
         </div>
 
         <h2>Questions 37–40</h2>
         <div class="instruction">
-          Choose the correct letter, <strong>A, B, C or D</strong>.
+          Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
+          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
         </div>
         <div class="q-group">
-          <div class="q-item">
-            <div class="q-num">37</div>
-            <div class="q-text">What did Edwin Hubble observe about distant galaxies in 1929?
-              <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) They were all colliding with the Milky Way.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) Their light spectra was stretched to the red end, indicating recession.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) They contained large amounts of invisible dark matter.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) They were slowing down due to gravitational braking.</label>
-              </div>
-            </div>
-          </div>
-          <div class="q-item">
-            <div class="q-num">38</div>
-            <div class="q-text">What represents Dark Energy in Einstein's equations of General Relativity?
-              <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) The Event Horizon</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) Standard Candles</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) The Cosmological Constant ($\Lambda$)</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) Baryonic Matter</label>
-              </div>
-            </div>
-          </div>
-          <div class="q-item">
-            <div class="q-num">39</div>
-            <div class="q-text">What happens to black holes during the "Big Freeze"?
-              <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) They slowly evaporate via Hawking Radiation.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) They merge into a single universal singularity.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) They transform into quasars due to phantom energy.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) They stop absorbing light and become visible.</label>
-              </div>
-            </div>
-          </div>
-          <div class="q-item">
-            <div class="q-num">40</div>
-            <div class="q-text">According to paragraph F, what would cause "The Big Rip"?
-              <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) A sudden reversal of dark energy's polarity causing gravity to win.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) The collision of the Milky Way with the Coma Cluster.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) All standard matter decaying into Hawking radiation instantly.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) An increasing density of dark energy (phantom energy) overwhelming all fundamental forces.</label>
-              </div>
-            </div>
-          </div>
+          <div class="q-item"><div class="q-num">37</div><div class="q-text">Determinists believe that human agency was the primary driving force behind the Protestant Reformation. <br><input type="text" id="q37"></div></div>
+          <div class="q-item"><div class="q-num">38</div><div class="q-text">The standard design of the "rover" bicycle emerged strictly due to market pressure from distinct social groups. <br><input type="text" id="q38"></div></div>
+          <div class="q-item"><div class="q-num">39</div><div class="q-text">Predictive policing algorithms accurately remove all historical biases from criminal arrest data. <br><input type="text" id="q39"></div></div>
+          <div class="q-item"><div class="q-num">40</div><div class="q-text">Soft determinism suggests that humans have no choice but to passively accept algorithmic outputs. <br><input type="text" id="q40"></div></div>
         </div>
       </div>
 
@@ -719,15 +737,26 @@
   <script>
     /* --- INTERNAL ANSWER KEY FOR GRADING --- */
     const answerKey = {
-      q1: 'v', q2: 'viii', q3: 'ii', q4: 'vii', q5: 'iii',
-      q6: 'false', q7: 'false', q8: 'false', q9: 'not given',
-      q10: 'coma cluster', q11: 'rotation curves', q12: 'halo', q13: 'mond',
-      q14: 'b', q15: 'c', q16: 'd', q17: 'a', q18: 'e',
-      q19: 'b', q20: 'a', q21: 'c', q22: 'd',
-      q23: 'c', q24: 'b', q25: 'a', q26: 'c',
-      q27: 'no', q28: 'no', q29: 'yes', q30: 'no', q31: 'no',
-      q32: 'f', q33: 'b', q34: 'i', q35: 'c', q36: 'g',
-      q37: 'b', q38: 'c', q39: 'a', q40: 'd'
+      // Passage 1: T/F/NG, Summary, MCQ
+      q1: 'false', q2: 'true', q3: 'false', q4: 'true', q5: 'false',
+      q6: 'neuroplasticity', q7: 'grey matter', q8: 'affective filter', q9: 'amygdala', q10: 'environments',
+      q11: 'b', q12: 'b', q13: 'd',
+      
+      // Passage 2: Headings, Matching, MCQ
+      q14: 'vi', q15: 'i', q16: 'v', q17: 'iv', q18: 'ii', q19: 'viii',
+      q20: 'd', q21: 'b', q22: 'c', q23: 'a',
+      q24: 'b', q25: 'c', q26: 'd',
+      
+      // Passage 3: Matching Info, Box Summary, Y/N/NG
+      q27: 'e', q28: 'a', q29: 'f', q30: 'c', q31: 'b',
+      q32: 'b', q33: 'e', q34: 'g', q35: 'a', q36: 'd',
+      q37: 'no', q38: 'yes', q39: 'no', q40: 'no'
+    };
+
+    /* Handle alternate acceptable text answers gracefully */
+    const acceptableAnswers = {
+      q7: ['grey matter', 'neural density'],
+      q10: ['environments', 'communicative environments']
     };
 
     /* --- TAB SWITCHING LOGIC --- */
@@ -740,14 +769,13 @@
       document.getElementById('questions-' + sectionNumber).classList.add('active');
     }
 
-    /* --- NON-PERSISTENT TIMER LOGIC (Resets on Refresh) --- */
+    /* --- NON-PERSISTENT TIMER LOGIC --- */
     const DURATION = 3600; // 60 minutes
     let timerInterval;
     let timeRemaining;
     const timerElement = document.getElementById('timer');
 
     function initTest() {
-      // Force Pre-Test overlay on every page load
       document.getElementById('pre-test-overlay').style.display = 'flex';
       document.getElementById('btn-start-top').style.display = 'block';
       timerElement.textContent = "60:00";
@@ -805,31 +833,60 @@
       for(let i=1; i<=40; i++) {
         const qId = 'q' + i;
         const textInput = document.getElementById(qId);
+        const correctAnsData = answerKey[qId] ? answerKey[qId].toUpperCase() : "N/A";
         
         if (textInput) {
           let userAnswer = textInput.value.trim().toLowerCase();
-          if (userAnswer === answerKey[qId]) {
+          
+          let isCorrect = (userAnswer === answerKey[qId]);
+          if(acceptableAnswers[qId] && acceptableAnswers[qId].includes(userAnswer)) {
+             isCorrect = true;
+          }
+          
+          if (isCorrect) {
             score++;
             textInput.classList.add('correct-answer');
           } else {
             textInput.classList.add('wrong-answer');
-            textInput.value = userAnswer ? `${userAnswer} (X)` : '(Blank)';
+            
+            // DYNAMIC WIDTH CALCULATION
+            const totalChars = (userAnswer.length || 7) + correctAnsData.length + 12; 
+            const calculatedWidth = Math.max(260, totalChars * 9); 
+            textInput.style.width = calculatedWidth + "px"; 
+            
+            textInput.value = userAnswer ? `${userAnswer} ❌ [Ans: ${correctAnsData}]` : `(Blank) ❌ [Ans: ${correctAnsData}]`;
           }
         } else {
-          const radio = document.querySelector(`input[name="${qId}"]:checked`);
-          if (radio) {
-            let userAnswer = radio.value.toLowerCase();
-            if (userAnswer === answerKey[qId]) {
-              score++;
-              radio.parentElement.style.color = '#065f46';
-              radio.parentElement.style.fontWeight = '600';
-            } else {
-              radio.parentElement.style.color = '#991b1b';
+          const selectedRadio = document.querySelector(`input[name="${qId}"]:checked`);
+          let userAnswer = selectedRadio ? selectedRadio.value.toLowerCase() : "";
+
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            selectedRadio.parentElement.style.color = '#065f46';
+            selectedRadio.parentElement.style.fontWeight = '600';
+          } else {
+            // Mark user's wrong choice
+            if (selectedRadio) {
+              selectedRadio.parentElement.style.color = '#991b1b';
+              selectedRadio.parentElement.style.textDecoration = 'line-through';
+            }
+            // Highlight the correct choice
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAnsData}"]`);
+            if (correctRadio) {
+              correctRadio.parentElement.style.color = '#065f46';
+              correctRadio.parentElement.style.fontWeight = '700';
+              
+              if(!correctRadio.parentElement.querySelector('.correct-badge')) {
+                 const badge = document.createElement('span');
+                 badge.className = 'correct-badge';
+                 badge.style.cssText = 'color: #10b981; margin-left: 8px; font-family: var(--font-mono); font-size: 0.85rem; text-decoration: none; display: inline-block;';
+                 badge.textContent = '✓ CORRECT ANSWER';
+                 correctRadio.parentElement.appendChild(badge);
+              }
             }
           }
         }
       }
-      
       document.getElementById('final-score').innerHTML = `${score} <span>/ 40</span>`;
     }
 
@@ -847,7 +904,6 @@
     /* --- UI MANAGEMENT --- */
     function closeModal() {
       document.getElementById('results-modal').style.display = 'none';
-      // Show retake button after modal is closed to allow reset
       document.getElementById('btn-retake').style.display = 'block';
     }
 
@@ -864,18 +920,24 @@
       document.getElementById('btn-submit').disabled = false;
       document.getElementById('btn-retake').style.display = 'block';
       
+      // Reset Text Inputs
       document.querySelectorAll('input[type="text"]').forEach(input => {
         input.value = '';
         input.disabled = false;
+        input.style.width = "160px"; // Return to original width
         input.classList.remove('correct-answer', 'wrong-answer');
       });
       
+      // Reset Radio Buttons and Remove Correct Answer Badges
       document.querySelectorAll('input[type="radio"]').forEach(radio => {
         radio.checked = false;
         radio.disabled = false;
         radio.parentElement.style.color = 'inherit';
         radio.parentElement.style.fontWeight = 'normal';
+        radio.parentElement.style.textDecoration = 'none';
       });
+      
+      document.querySelectorAll('.correct-badge').forEach(badge => badge.remove());
       
       switchSection(1);
       initTest(); 
