@@ -11,16 +11,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Roboto+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- UNIVERSAL FONT STANDARDS & COLORS --- */
+    /* --- CHARCOAL & CORAL COLOR PALETTE --- */
     :root {
-      --primary: #0B1D3A;
-      --accent: #C4923E;
-      --badge-red: #A32A3A;
-      --badge-red-bg: #F9EAEB;
+      /* Charcoal Grey & Vivid Coral Orange */
+      --primary: #1F2937; 
+      --primary-dark: #111827;
+      --accent-main: #F97316;
+      --accent-dark: #C2410C;
+      
+      --badge-bg: #FFEDD5;
       --bg-light: #F8FAFC;
       --border: #CBD5E1;
       --text-main: #333333;
-      --text-muted: #666666;
+      --text-muted: #64748B;
       
       /* Premium Typography System */
       --font-ui: 'Inter', sans-serif;
@@ -50,24 +53,24 @@
       align-items: center; 
       padding: 0 2rem; 
       height: 65px; 
-      border-bottom: 3px solid var(--accent); 
+      border-bottom: 3px solid var(--accent-main); 
       flex-shrink: 0; 
       z-index: 10;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     }
     .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
-    .logo span { color: var(--accent); font-style: italic; }
+    .logo span { color: var(--accent-main); font-style: italic; }
     
     .nav-tabs { display: flex; height: 100%; }
     .tab-btn { 
       background: transparent; 
-      color: #cbd5e1; 
+      color: #CBD5E1; 
       border: none; 
       padding: 0 1.5rem; 
       font-size: 0.95rem; 
       font-weight: 600; 
       cursor: pointer; 
-      transition: 0.3s ease; 
+      transition: all 0.3s ease; 
       height: 100%; 
       display: flex; 
       align-items: center; 
@@ -75,39 +78,56 @@
       font-family: var(--font-ui);
       letter-spacing: 0.5px;
     }
-    .tab-btn:hover:not(:disabled) { color: #fff; background: rgba(255,255,255,0.05); }
-    .tab-btn.active { color: #fff; border-bottom-color: var(--accent); background: rgba(255,255,255,0.1); }
     
-    /* Header Controls (Timer + Start Button) */
+    /* Hover Effects: Interacting with Coral */
+    .tab-btn:hover:not(:disabled) { 
+      color: #fff; 
+      background: rgba(249, 115, 22, 0.15); 
+    }
+    .tab-btn.active { 
+      color: #fff; 
+      border-bottom-color: var(--accent-main); 
+      background: rgba(249, 115, 22, 0.1); 
+    }
+    .tab-btn.active:hover {
+      background: var(--accent-main);
+      color: #fff;
+    }
+    
+    /* Header Controls */
     .header-controls { display: flex; align-items: center; gap: 15px; }
     
     .btn-start-top {
-      background: #10b981;
-      color: white;
-      border: none;
-      padding: 0.5rem 1.2rem;
+      background: var(--accent-main);
+      color: #fff;
+      border: 2px solid var(--accent-main);
+      padding: 0.4rem 1.2rem;
       font-size: 0.9rem;
-      font-weight: 600;
+      font-weight: 700;
       border-radius: 4px;
       cursor: pointer;
       font-family: var(--font-mono);
-      transition: 0.2s;
+      transition: all 0.3s ease;
       letter-spacing: 0.5px;
     }
-    .btn-start-top:hover { background: #059669; }
+    .btn-start-top:hover { 
+      background: var(--primary-dark); 
+      border-color: var(--primary-dark);
+      color: var(--accent-main);
+    }
 
     .timer { 
       font-family: var(--font-mono); 
       font-size: 1.3rem; 
       font-weight: 600; 
       color: #fff; 
-      background: #1e293b; 
+      background: var(--primary-dark); 
       padding: 0.4rem 1rem; 
       border-radius: 4px; 
-      border: 1px solid #334155;
+      border: 1px solid rgba(249, 115, 22, 0.4);
       letter-spacing: 1px;
     }
-    .timer.warning { color: #ef4444; animation: pulse 1s infinite; border-color: #ef4444;}
+    .timer.warning { color: #fca5a5; animation: pulse 1s infinite; border-color: #ef4444;}
 
     @keyframes pulse {
       0% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
@@ -151,9 +171,9 @@
     }
     .pre-test-overlay .module-badge {
       font-family: var(--font-mono);
-      color: var(--badge-red);
-      background: var(--badge-red-bg);
-      border: 1px solid var(--badge-red);
+      color: var(--accent-dark);
+      background: var(--badge-bg);
+      border: 1px solid var(--accent-main);
       font-weight: 700;
       font-size: 0.9rem;
       padding: 0.4rem 1rem;
@@ -181,15 +201,21 @@
       padding: 1.2rem 3.5rem;
       font-size: 1.1rem;
       font-weight: 600;
-      border: none;
+      border: 2px solid var(--primary);
       border-radius: 4px;
       cursor: pointer;
       font-family: var(--font-mono);
-      transition: 0.3s ease;
+      transition: all 0.3s ease;
       letter-spacing: 1px;
-      box-shadow: 0 4px 15px rgba(11, 29, 58, 0.2);
+      box-shadow: 0 4px 15px rgba(31, 41, 55, 0.3);
     }
-    .btn-start-large:hover { background: #1a365d; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(11, 29, 58, 0.3); }
+    .btn-start-large:hover { 
+      background: var(--accent-main); 
+      border-color: var(--accent-main);
+      color: #fff; 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(249, 115, 22, 0.3); 
+    }
 
     /* --- PASSAGE TYPOGRAPHY --- */
     .left-panel h1 { 
@@ -207,7 +233,7 @@
       line-height: 1.85; 
       text-align: justify; 
       font-size: 1.15rem; 
-      color: #2c3e50;
+      color: #334155;
     }
     
     .paragraph-label { 
@@ -215,7 +241,7 @@
       font-weight: 700; 
       font-size: 1.1rem; 
       margin-right: 15px; 
-      color: var(--accent); 
+      color: var(--accent-main); 
       float: left;
       padding-top: 4px;
     }
@@ -251,7 +277,7 @@
     .q-num { 
       font-family: var(--font-mono);
       font-weight: 700; 
-      color: var(--primary); 
+      color: var(--accent-dark); 
       min-width: 25px; 
       font-size: 1rem;
     }
@@ -263,20 +289,21 @@
     
     input[type="text"] { 
       padding: 0.4rem 0.6rem; 
-      border: 1px solid #94a3b8; 
+      border: 1px solid #94A3B8; 
       border-radius: 4px; 
       font-size: 1rem; 
       width: 160px; 
+      max-width: 100%;
       font-family: var(--font-ui);
       background: #fff;
-      transition: 0.2s;
+      transition: width 0.3s ease, border-color 0.2s, box-shadow 0.2s;
     }
-    input[type="text"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196, 146, 62, 0.2); }
-    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; border-color: #cbd5e1; }
+    input[type="text"]:focus { outline: none; border-color: var(--accent-main); box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2); }
+    input:disabled { background: #F1F5F9; cursor: not-allowed; color: #64748B; border-color: #CBD5E1; }
     
     .mcq-options { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
     .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 1rem; color: #444; line-height: 1.4; transition: 0.2s;}
-    .mcq-label:hover { color: var(--primary); }
+    .mcq-label:hover { color: var(--accent-dark); }
     .mcq-label input { margin-top: 5px; cursor: pointer; }
     
     .box-options { 
@@ -291,7 +318,7 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
     .box-item { font-size: 1rem; font-weight: 500; font-family: var(--font-ui); color: var(--primary);}
-    .box-item strong { font-family: var(--font-mono); color: var(--accent); margin-right: 5px;}
+    .box-item strong { font-family: var(--font-mono); color: var(--accent-main); margin-right: 5px;}
 
     .section-content { display: none; animation: fadeIn 0.4s ease; }
     .section-content.active { display: block; }
@@ -302,9 +329,9 @@
     }
     
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #f8fafc; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    ::-webkit-scrollbar-track { background: #F8FAFC; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
 
     /* --- SUBMISSION & DORMANT STATE --- */
     .submit-bar {
@@ -325,18 +352,21 @@
     .btn-submit {
       background: var(--primary);
       color: #fff;
-      border: none;
+      border: 2px solid var(--primary);
       padding: 0.8rem 2.5rem;
       font-size: 1rem;
       font-weight: 600;
       border-radius: 4px;
       cursor: pointer;
       font-family: var(--font-mono);
-      transition: 0.2s;
+      transition: all 0.3s ease;
       letter-spacing: 1px;
     }
-    .btn-submit:hover:not(:disabled) { background: #1a365d; }
-    .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; }
+    .btn-submit:hover:not(:disabled) { 
+      background: #fff; 
+      color: var(--primary); 
+    }
+    .btn-submit:disabled { background: #CBD5E1; border-color: #CBD5E1; color: #fff; cursor: not-allowed; }
 
     .btn-retake {
       background: transparent;
@@ -348,10 +378,14 @@
       border-radius: 4px;
       cursor: pointer;
       font-family: var(--font-mono);
-      transition: 0.2s;
+      transition: all 0.3s ease;
       letter-spacing: 1px;
     }
-    .btn-retake:hover { background: #f8fafc; color: var(--primary); border-color: var(--primary); }
+    .btn-retake:hover { 
+      background: var(--text-muted); 
+      color: #fff; 
+      border-color: var(--text-muted); 
+    }
 
     .dormant-overlay {
       position: absolute;
@@ -376,7 +410,7 @@
       box-shadow: 0 20px 60px rgba(0,0,0,0.15);
       z-index: 200;
       text-align: center;
-      border-top: 6px solid var(--accent);
+      border-top: 6px solid var(--accent-main);
       min-width: 450px;
     }
     .results-modal h2 { font-family: var(--font-heading); color: var(--primary); font-size: 2.2rem; margin-bottom: 1rem; }
@@ -384,23 +418,27 @@
     .score-display span { font-size: 1.8rem; color: var(--border); }
     
     .btn-close {
-      background: var(--accent);
-      color: var(--primary);
-      border: none;
+      background: var(--accent-main);
+      color: #fff;
+      border: 2px solid var(--accent-main);
       padding: 0.8rem 2.5rem;
       font-size: 1rem;
       font-weight: 700;
       border-radius: 4px;
       cursor: pointer;
       margin-top: 1.5rem;
-      transition: 0.2s;
+      transition: all 0.3s ease;
       font-family: var(--font-mono);
       letter-spacing: 1px;
     }
-    .btn-close:hover { background: #b08133; color: #fff;}
+    .btn-close:hover { 
+      background: #fff; 
+      color: var(--accent-dark); 
+      border-color: var(--accent-dark);
+    }
 
-    .correct-answer { border-color: #10b981 !important; background: #f0fdf4 !important; color: #065f46; font-weight: 600;}
-    .wrong-answer { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b; }
+    .correct-answer { border-color: #10B981 !important; background: #F0FDF4 !important; color: #065F46 !important; font-weight: 600;}
+    .wrong-answer { border-color: #EF4444 !important; background: #FEF2F2 !important; color: #991B1B !important; }
 
   </style>
 </head>
@@ -424,17 +462,17 @@
     <h2>Evaluation Complete</h2>
     <p>Your Reading Module score is:</p>
     <div class="score-display" id="final-score">0 <span>/ 40</span></div>
-    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your semantic mapping.</p>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your detailed feedback.</p>
     <button class="btn-close" onclick="closeModal()">REVIEW ANSWERS</button>
   </div>
 
   <div class="workspace">
     <!-- PRE-TEST LOCK SCREEN -->
     <div class="pre-test-overlay" id="pre-test-overlay">
-      <div class="module-badge">NEW UPDATE — 09</div>
-      <h2>Advanced Microeconomics</h2>
-      <p>This C1/C2 intensive simulation contains 3 passages and 40 questions focusing on strategic interdependence, asymmetric information, and behavioral heuristics. The timer will initiate and passages will be unlocked upon pressing start.</p>
-      <button class="btn-start-large" onclick="startTest()">Start 60-minute Test&rarr;</button>
+      <div class="module-badge">PREMIUM MODULE 09</div>
+      <h2>Language, Economics & Bio-Engineering</h2>
+      <p>This C1/C2 intensive simulation contains 3 passages and 40 questions focusing on linguistic relativity, the sunk cost fallacy in mega-projects, and functional biomimicry in material science. The timer will initiate upon pressing start.</p>
+      <button class="btn-start-large" onclick="startTest()">Start 60-minute Test &rarr;</button>
     </div>
 
     <div class="dormant-overlay"></div>
@@ -443,178 +481,196 @@
     <div class="panel left-panel">
       <!-- PASSAGE 1 -->
       <div id="passage-1" class="section-content active">
-        <h1>The Calculus of Strategic Interdependence</h1>
-        <p><span class="paragraph-label">A</span> Traditional neoclassical economics primarily analyzed markets under the assumption of perfect competition, wherein no single buyer or seller possessed sufficient market power to influence prices. In such a paradigm, economic actors simply react to exogenous price signals. However, in the mid-20th century, the advent of Game Theory fundamentally disrupted this frictionless model. Pioneered by mathematician John von Neumann and economist Oskar Morgenstern, and subsequently refined by John Nash, game theory provided a rigorous mathematical framework for analyzing situations of strategic interdependence—where the optimal outcome of an agent's decision is intrinsically contingent upon the decisions made by others.</p>
-        <p><span class="paragraph-label">B</span> The cornerstone of this analytical framework is the 'Nash Equilibrium'. Named after John Nash, it describes a state within a non-cooperative game where no player can unilaterally improve their payoff by altering their strategy, assuming the strategies of all other players remain constant. It is a concept of mutual best responses. Crucially, a Nash Equilibrium does not necessarily equate to the socially optimal outcome; it merely represents a stable state of strategic deadlock. The most famous illustration of this paradox is the 'Prisoner's Dilemma'.</p>
-        <p><span class="paragraph-label">C</span> In the Prisoner's Dilemma, two conspirators are interrogated in separate cells. They each have two options: to cooperate with their partner by remaining silent, or to defect by confessing and implicating the other. While mutual cooperation yields a relatively light sentence for both, the dominant strategic imperative dictates that defection is the strictly rational choice regardless of what the other prisoner does. Consequently, both players logically choose to defect, resulting in a suboptimal Nash Equilibrium where both serve significantly longer sentences than if they had managed to coordinate their silence.</p>
-        <p><span class="paragraph-label">D</span> The implications of the Prisoner’s Dilemma are profound when applied to real-world market structures, particularly oligopolies. An oligopoly is a market dominated by a small number of large firms. Because these firms recognize their interdependence, their pricing and output decisions resemble a high-stakes game. If all firms in an oligopoly restrict output, they act collectively as a monopoly, maximizing industry profits—a cooperative state known as a cartel. The Organization of the Petroleum Exporting Countries (OPEC) is a quintessential example of an attempt to maintain this cooperative equilibrium.</p>
-        <p><span class="paragraph-label">E</span> However, game theory accurately predicts the inherent instability of such cartels. Just as in the Prisoner’s Dilemma, every firm within the cartel possesses a unilateral financial incentive to cheat. By secretly increasing production and slightly undercutting the cartel’s agreed-upon price, a single rogue firm can capture immense market share and maximize its individual payoff, at the expense of the collective. Because every firm knows that its competitors harbor this identical incentive, trust evaporates. The mathematically probable outcome is that cooperation breaks down, plunging the firms into a price war that ultimately erodes industry profits to a suboptimal Nash Equilibrium.</p>
-        <p><span class="paragraph-label">F</span> To circumvent the inevitability of defection, game theorists analyze 'repeated games'. When the Prisoner’s Dilemma is played not just once, but iteratively over an indefinite period, the strategic calculus shifts. Players must now weigh the immediate short-term payoff of defection against the long-term cost of retaliation in subsequent rounds. Through strategies like "tit-for-tat"—where a player cooperates in the first round and subsequently mimics their opponent's previous move—firms can effectively punish defection and reward cooperation, mathematically engineering a cooperative equilibrium that would be strictly impossible in a single-interaction scenario.</p>
+        <h1>Linguistic Relativity and Spatial Cognition</h1>
+        <p><span class="paragraph-label">A</span> Does the language we speak construct the reality we perceive? This question forms the foundation of the Sapir-Whorf hypothesis, a concept formulated in the mid-20th century. The original, "strong" version of this hypothesis, known as linguistic determinism, posited that language strictly dictates human thought, establishing absolute cognitive boundaries that speakers cannot cross. Today, mainstream cognitive linguistics has largely abandoned this extreme deterministic view, accepting that humans are biologically capable of understanding concepts for which they lack specific vocabulary. However, a "weak" version of the hypothesis—linguistic relativity—remains highly influential. It suggests that while language does not absolutely limit thought, it habitually directs our attention to certain aspects of reality, thereby subtly but powerfully shaping our cognition.</p>
+        <p><span class="paragraph-label">B</span> One of the most fascinating arenas for testing linguistic relativity is spatial cognition. The vast majority of global languages, including English, use an "egocentric" or relative frame of reference to describe space. We navigate the world using coordinates derived from our own bodies: left, right, front, and back. If an English speaker turns around, the object that was previously on their left is now on their right. The spatial coordinate system shifts dynamically with the orientation of the speaker.</p>
+        <p><span class="paragraph-label">C</span> However, this is not a universal linguistic trait. Certain indigenous groups, most notably the Guugu Yimithirr aboriginal tribe of northern Queensland, Australia, use an "allocentric" or absolute frame of reference. Their language completely lacks terms for relative spatial directions like "left" or "right." Instead, they rely exclusively on cardinal directions: north, south, east, and west. A Guugu Yimithirr speaker would not say, "There is an ant on your right leg," but rather, "There is an ant on your south-west leg." If the speaker turns around, the ant remains on the south-west leg; the coordinate system is locked to the Earth, not the human body.</p>
+        <p><span class="paragraph-label">D</span> The cognitive consequences of this linguistic structure are profound. To speak Guugu Yimithirr fluently, an individual must possess a constant, subconscious awareness of their geographical orientation, regardless of whether they are deep in a dense forest or inside a windowless room. Psychologists refer to this as maintaining a continuous "dead reckoning" system. Because their language demands it, speakers of absolute languages develop extraordinary navigational abilities and spatial memory that far exceed those of speakers of relative languages.</p>
+        <p><span class="paragraph-label">E</span> In a series of experiments conducted by linguist Stephen Levinson, speakers of both egocentric and allocentric languages were shown a row of objects on a table. They were then spun around 180 degrees, led to a different table, and asked to recreate the arrangement. English speakers recreated the arrangement relative to their own bodies (e.g., if the red block was on their right originally, they placed it on their right again). In contrast, Guugu Yimithirr speakers recreated the arrangement based on cardinal directions (if the red block was to the north originally, they placed it to the north again, which was now on their left). The experiment clearly demonstrated that linguistic frameworks subconsciously dictate how humans encode and retrieve visual memories.</p>
+        <p><span class="paragraph-label">F</span> The study of spatial language proves that grammar is not merely a tool for expressing pre-existing thoughts; it is an active participant in shaping the architecture of the mind. While an English speaker and a Guugu Yimithirr speaker exist in the same physical universe, their linguistic frameworks compel them to interact with, remember, and navigate that physical space in fundamentally different ways.</p>
       </div>
 
       <!-- PASSAGE 2 -->
       <div id="passage-2" class="section-content">
-        <h1>Information Asymmetry and Market Friction</h1>
-        <p><span class="paragraph-label">A</span> Another foundational assumption of classical microeconomics was that all participants in a market possessed "perfect information"—equal, instantaneous access to all relevant data concerning prices, quality, and risks. In the 1970s, a trio of economists—George Akerlof, Michael Spence, and Joseph Stiglitz—systematically dismantled this assumption, demonstrating that markets are fundamentally characterized by "asymmetric information." This occurs when one party to an economic transaction possesses greater material knowledge than the other. This imbalance generates severe market frictions, often resulting in complete market failure.</p>
-        <p><span class="paragraph-label">B</span> George Akerlof illuminated the concept of "adverse selection" through his seminal 1970 paper, *The Market for 'Lemons'*. Akerlof used the used car market to demonstrate how information asymmetry can actively destroy a market. Sellers know the true quality of their vehicles (whether they are reliable "peaches" or defective "lemons"), but buyers cannot accurately determine the quality prior to purchase. Because buyers recognize this informational disadvantage, they assume an average risk of buying a lemon and consequently refuse to pay a premium price for a high-quality peach. Realizing they cannot secure a fair price, owners of peaches withdraw their vehicles from the market. The average quality of the remaining pool drops, buyers lower their bids further, and the market spirals downward until only lemons remain.</p>
-        <p><span class="paragraph-label">C</span> While adverse selection describes hidden *characteristics* prior to a transaction, Joseph Stiglitz focused on "moral hazard"—the hidden *actions* that occur after a contract is signed. Moral hazard arises when an individual is shielded from the financial consequences of their actions, altering their behavioral incentives. The insurance industry is plagued by this phenomenon. A driver who purchases comprehensive, zero-deductible auto insurance has less financial incentive to park in safe neighborhoods or drive cautiously, precisely because the insurer bears the downside risk. The informational asymmetry lies in the fact that the insurer cannot cost-effectively monitor the driver's daily behavior.</p>
-        <p><span class="paragraph-label">D</span> To combat these paralyzing asymmetries, markets develop mechanisms to bridge the informational divide. Michael Spence introduced the concept of "signaling" to explain how agents with superior information can credibly convey it to uninformed parties. For a signal to be effective, it must be demonstrably costly to fake. In the labor market, employers cannot easily discern the innate productivity or diligence of job applicants. Spence argued that higher education acts as a potent signal. The value of a degree from a rigorous university does not necessarily lie in the specific vocational skills acquired, but rather in the fact that a less intelligent or lazier applicant would find the academic rigor too costly (in terms of effort and stress) to endure. Thus, the degree credibly signals high unobservable quality.</p>
-        <p><span class="paragraph-label">E</span> Conversely, the uninformed party can engage in "screening" to extract hidden information. An insurance company, lacking knowledge about a client's true health status, can offer a menu of distinct policies designed to induce the client into revealing their risk profile. By offering a high-premium policy with a low deductible alongside a low-premium policy with a very high deductible, the insurer forces the client to self-select. A high-risk individual will predictably gravitate toward the low deductible to avoid massive out-of-pocket costs, while a healthy individual will opt for the low premium, confidently assuming they will rarely need to pay the high deductible. Through screening, the uninformed party forces the informed party's hand.</p>
+        <h1>The Psychology of Sunk Cost in Mega-Projects</h1>
+        <p><span class="paragraph-label">A</span> In classical economics, decision-making is supposed to be a forward-looking process. A rational actor evaluates a current investment by analyzing its future potential for profit or success, completely ignoring the costs that have already been incurred and cannot be recovered. However, behavioral economists have definitively proven that humans are inherently irrational when assessing past investments. We consistently fall victim to the "Sunk Cost Fallacy," an irrational cognitive bias that compels individuals and institutions to continue pouring resources into a failing endeavor simply because they have already invested heavily in it.</p>
+        <p><span class="paragraph-label">B</span> The psychological root of this fallacy lies in a phenomenon known as "loss aversion." Evolutionary psychologists suggest that the human brain is wired to feel the pain of a loss approximately twice as intensely as the pleasure of a comparable gain. When a project begins to fail, officially canceling it requires the investor to psychologically accept the loss of the money, time, and effort already spent. To avoid this acute psychological pain, individuals will irrationally choose to escalate their commitment, hoping that a further investment will miraculously turn the project around and validate their original decision.</p>
+        <p><span class="paragraph-label">C</span> In the realm of public policy and corporate engineering, this phenomenon is so prevalent that it is frequently referred to as the "Concorde Fallacy." In the 1960s, the British and French governments partnered to build the Concorde, a supersonic commercial airliner. Long before the aircraft was completed, financial models clearly indicated that the project would never be commercially viable due to astronomical fuel costs and noise regulations. Yet, instead of halting production, both governments continued to pour billions of dollars into the development simply because they had already spent so much. They achieved an engineering marvel, but a colossal financial disaster.</p>
+        <p><span class="paragraph-label">D</span> When analyzing modern mega-projects—such as high-speed rail networks, nuclear power plants, or massive hydroelectric dams—the sunk cost fallacy is frequently amplified by political factors. For a politician or a corporate CEO, abandoning a highly publicized project does not merely involve accepting a financial loss; it involves a catastrophic loss of reputational capital. Admitting failure is often politically untenable. Consequently, leaders engage in "cognitive dissonance," convincing themselves against all objective data that the project remains vital to the national interest, thereby justifying further taxation or corporate borrowing to keep the failing infrastructure alive.</p>
+        <p><span class="paragraph-label">E</span> The destructive cycle of the sunk cost fallacy is notoriously difficult to break from the inside. Teams deeply involved in a project develop an emotional attachment to it, rendering them incapable of objective evaluation. Project managers often succumb to "optimism bias," presenting highly skewed, overly positive progress reports to their superiors to mask the structural failures occurring on the ground.</p>
+        <p><span class="paragraph-label">F</span> Behavioral economists argue that the only effective strategy for de-escalating a doomed mega-project is the mandatory integration of external circuit-breakers. Large-scale public works must be subject to rigorous, unannounced audits by independent reviewers who have absolutely no emotional or financial stake in the project’s inception. By stripping the evaluation process of the individuals who made the original investment, institutions can bypass the biological trap of loss aversion and finally make the rational, albeit painful, decision to walk away.</p>
       </div>
 
       <!-- PASSAGE 3 -->
       <div id="passage-3" class="section-content">
-        <h1>Beyond Homo Economicus: The Behavioral Turn</h1>
-        <p><span class="paragraph-label">A</span> For over a century, microeconomic modeling relied heavily on the construct of *Homo economicus*—the "economic man." This hypothetical agent was characterized by boundless rationality, infinite computational capacity, and an unwavering drive to maximize utility based on cold, objective calculations. While this mathematical abstraction allowed for elegant modeling, it consistently failed to predict actual human behavior. The integration of cognitive psychology into economics, spearheaded by Amos Tversky, Daniel Kahneman, and Richard Thaler, birthed the field of Behavioral Economics, profoundly challenging the orthodox assumption of perfect rationality.</p>
-        <p><span class="paragraph-label">B</span> Behavioral economists introduced the concept of "bounded rationality." Humans possess limited cognitive resources and time constraints, rendering the exhaustive calculation of utility an impossibility. Instead, individuals rely on heuristics—mental shortcuts and rules of thumb—to navigate complex economic environments. While these heuristics are evolutionarily efficient, they lead to systematic and predictable cognitive biases that severely violate the axioms of classical economics. Humans do not maximize; they "satisfice," choosing the first option that meets a minimum threshold of acceptability.</p>
-        <p><span class="paragraph-label">C</span> Perhaps the most devastating critique of classical utility theory came in 1979 when Kahneman and Tversky published their seminal work on "Prospect Theory." Classical economics posits that an individual's utility is determined by their absolute level of wealth. Prospect Theory, however, demonstrated that humans evaluate financial outcomes not in absolute terms, but rather relative to a specific reference point (usually their current status quo). A billionaire who loses one million dollars will feel significant psychological pain, whereas a person earning minimum wage who receives a hundred-dollar bonus will experience joy, despite the billionaire still possessing exponentially greater absolute wealth.</p>
-        <p><span class="paragraph-label">D</span> Furthermore, Prospect Theory codified the phenomenon of "loss aversion." Empirical studies consistently demonstrate that the psychological pain of losing a specific sum of money is roughly twice as intense as the psychological pleasure of gaining that exact same sum. This asymmetry explains why investors hold onto depreciating stocks for far too long, hoping to avoid realizing a loss, while prematurely selling profitable stocks to secure a gain. *Homo economicus* would evaluate a 50% chance of losing $100 versus a 50% chance of winning $100 as a mathematically neutral proposition. Real humans overwhelmingly reject the gamble, proving that our risk calculus is deeply skewed by an innate aversion to loss.</p>
-        <p><span class="paragraph-label">E</span> The insights of behavioral economics have transcended theoretical modeling, culminating in practical applications for public policy. Richard Thaler and Cass Sunstein introduced "Nudge theory," advocating for "libertarian paternalism." Because humans are susceptible to cognitive biases, the "choice architecture"—the physical or psychological environment in which decisions are made—can profoundly influence outcomes without restricting freedom of choice. For example, simply changing the default option for employee retirement plans from "opt-in" to "opt-out" dramatically increases participation rates. Employees remain entirely free to cancel their enrollment, but cognitive inertia ensures that the vast majority stick with the socially beneficial default option. Through subtle nudges, policymakers can engineer better economic outcomes while accommodating the flawed reality of human cognition.</p>
+        <h1>Biomimicry in Modern Material Science</h1>
+        <p><span class="paragraph-label">A</span> For centuries, human engineering has relied on brute force: extracting raw materials from the earth, heating them to extreme temperatures, and manipulating them with toxic chemicals to forge tools and infrastructure. Nature, conversely, manufactures highly complex, resilient materials at room temperature, using abundant elements and leaving zero toxic waste. Recognizing this profound disparity, modern material scientists have pioneered the field of "biomimicry." Biomimicry is not merely about making buildings look aesthetically like trees or birds; it is the rigorous, microscopic study of nature's best designs to solve complex human engineering problems functionally and sustainably.</p>
+        <p><span class="paragraph-label">B</span> One of the most commercially successful applications of biomimicry originated in the ocean. Sharks are apex predators that move through the water with terrifying speed and efficiency. Upon examining shark skin under an electron microscope, scientists discovered that it is not smooth. Instead, it is covered in millions of microscopic, V-shaped scales called "riblets." These riblets channel water over the shark's body in a way that dramatically reduces fluid drag, preventing the formation of chaotic, energy-draining micro-eddies.</p>
+        <p><span class="paragraph-label">C</span> The engineering applications of this discovery have been revolutionary. Aerospace companies have begun applying synthetic shark-skin films to the fuselages of commercial aircraft, reducing aerodynamic drag and saving millions of gallons of aviation fuel annually. Furthermore, the physical structure of the riblets naturally prevents bacteria and algae from taking hold and growing on the surface. Consequently, medical researchers are currently testing synthetic shark-skin patterns on hospital surfaces and surgical equipment to naturally repel harmful bacterial growth without the use of toxic chemical disinfectants.</p>
+        <p><span class="paragraph-label">D</span> Another masterclass in biological engineering is found in the Lotus plant, which thrives in muddy, swampy environments yet maintains pristine, unblemished leaves. This phenomenon, known as the "Lotus Effect," relies on superhydrophobicity. The surface of the lotus leaf is covered in microscopic, water-repellent bumps. When rainwater hits the leaf, it cannot flatten out; instead, it beads up into nearly perfect spheres. As these spheres roll off the leaf due to gravity, they gather and sweep away any dirt particles or insects, essentially creating a self-cleaning surface.</p>
+        <p><span class="paragraph-label">E</span> Material scientists have successfully reverse-engineered the Lotus Effect to create a new generation of commercial products. By applying a microscopic, bumpy topography to exterior house paints, windows, and solar panels, engineers have created surfaces that actively clean themselves every time it rains. For the solar industry in particular, this biomimetic intervention is crucial; maintaining a perfectly clean surface ensures that solar panels maintain maximum energy absorption efficiency without requiring costly, water-intensive human maintenance in arid environments.</p>
+        <p><span class="paragraph-label">F</span> Finally, the gecko lizard has provided a solution to one of the most stubborn challenges in material science: dry adhesion. Geckos can easily run up smooth glass windows or walk upside down on ceilings without secreting any sticky biological glues. They achieve this through millions of microscopic, hair-like structures on their feet called setae. These setae exploit "van der Waals forces"—weak electrical attractions that occur at the atomic level when surfaces are incredibly close together. By mimicking this microscopic hair structure using silicon and carbon nanotubes, engineers are developing revolutionary dry adhesives that can hold massive weights, leave no chemical residue, and be reused indefinitely, rendering traditional chemical glues obsolete.</p>
       </div>
     </div>
 
     <!-- RIGHT PANEL: QUESTIONS -->
     <div class="panel right-panel">
       
-      <!-- QUESTIONS FOR SECTION 1 -->
+      <!-- QUESTIONS FOR PASSAGE 1 -->
       <div id="questions-1" class="section-content active">
         <h2>Questions 1–5</h2>
         <div class="instruction">
-          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
-          Choose the correct heading for paragraphs <strong>B–F</strong> from the list below.<br>
-          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
-        </div>
-        <div class="box-options">
-          <div class="box-item"><strong>i</strong> The dilemma of mutual defection</div>
-          <div class="box-item"><strong>ii</strong> Engineering cooperation over time</div>
-          <div class="box-item"><strong>iii</strong> The mathematical modeling of monopolies</div>
-          <div class="box-item"><strong>iv</strong> The original failure of perfect competition</div>
-          <div class="box-item"><strong>v</strong> Applying strategic deadlock to limited markets</div>
-          <div class="box-item"><strong>vi</strong> Defining stable, non-cooperative outcomes</div>
-          <div class="box-item"><strong>vii</strong> Why criminals always choose to remain silent</div>
-          <div class="box-item"><strong>viii</strong> The inevitable breakdown of trust</div>
-        </div>
-        <div class="q-group">
-          <div class="q-item" style="color: #666;"><em>Example: Paragraph A = iv</em></div>
-          <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph B <input type="text" id="q1"></div></div>
-          <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph C <input type="text" id="q2"></div></div>
-          <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph D <input type="text" id="q3"></div></div>
-          <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph E <input type="text" id="q4"></div></div>
-          <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph F <input type="text" id="q5"></div></div>
-        </div>
-
-        <h2>Questions 6–9</h2>
-        <div class="instruction">
-          Do the following statements agree with the information given in the Reading Passage?<br>
+          Do the following statements agree with the information given in Reading Passage 1?<br>
           Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">6</div><div class="q-text">A Nash Equilibrium always results in the most socially optimal outcome for all players involved. <br><input type="text" id="q6"></div></div>
-          <div class="q-item"><div class="q-num">7</div><div class="q-text">In the Prisoner's Dilemma, defection is considered the dominant rational choice regardless of the partner's action. <br><input type="text" id="q7"></div></div>
-          <div class="q-item"><div class="q-num">8</div><div class="q-text">OPEC effectively uses military threats to prevent rogue nations from undercutting agreed-upon oil prices. <br><input type="text" id="q8"></div></div>
-          <div class="q-item"><div class="q-num">9</div><div class="q-text">The "tit-for-tat" strategy requires players to mimic their opponent's previous move in subsequent interactions. <br><input type="text" id="q9"></div></div>
+          <div class="q-item"><div class="q-num">1</div><div class="q-text">Mainstream cognitive linguistics today widely accepts the strong version of the Sapir-Whorf hypothesis. <br><input type="text" id="q1"></div></div>
+          <div class="q-item"><div class="q-num">2</div><div class="q-text">The Guugu Yimithirr language relies heavily on relative spatial directions like "left" and "right". <br><input type="text" id="q2"></div></div>
+          <div class="q-item"><div class="q-num">3</div><div class="q-text">Languages with an egocentric frame of reference use coordinates derived from the speaker's own body. <br><input type="text" id="q3"></div></div>
+          <div class="q-item"><div class="q-num">4</div><div class="q-text">Speakers of allocentric languages generally have stronger biological eyesight than English speakers. <br><input type="text" id="q4"></div></div>
+          <div class="q-item"><div class="q-num">5</div><div class="q-text">Linguistic relativity suggests that a person's grammar subconsciously shapes how they encode visual memories. <br><input type="text" id="q5"></div></div>
         </div>
 
-        <h2>Questions 10–13</h2>
+        <h2>Questions 6–10</h2>
         <div class="instruction">
           Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
         </div>
         <div class="q-group">
           <div class="q-item">
             <div class="q-text">
-              The principles of the Prisoner's Dilemma are highly relevant to real-world market structures, especially within an <strong>10</strong> <input type="text" id="q10">, where a few firms dominate. If these firms cooperate by restricting output, they form a <strong>11</strong> <input type="text" id="q11">, operating much like a monopoly to maximize collective profits. However, game theory demonstrates that such alliances are unstable. Because each individual firm possesses a unilateral incentive to cheat and increase its own market share, trust inevitably breaks down. This leads to a price war, pushing the industry back into a suboptimal Nash <strong>12</strong> <input type="text" id="q12">.
+              The concept of linguistic relativity explores how language influences human <strong>6</strong> <input type="text" id="q6">. While the extreme theory of linguistic <strong>7</strong> <input type="text" id="q7"> is mostly rejected, research into spatial languages reveals powerful effects. English is considered an <strong>8</strong> <input type="text" id="q8"> language because it uses words like left and right based on the speaker's body. In contrast, the Guugu Yimithirr tribe uses an <strong>9</strong> <input type="text" id="q9"> system based strictly on cardinal directions. This forces speakers to constantly track their orientation, granting them extraordinary <strong>10</strong> <input type="text" id="q10"> abilities compared to English speakers.
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- QUESTIONS FOR SECTION 2 -->
-      <div id="questions-2" class="section-content">
-        <h2>Questions 14–18</h2>
-        <div class="instruction">
-          The Reading Passage has five paragraphs, <strong>A–E</strong>.<br>
-          Which paragraph contains the following information?<br>
-          Write the correct letter, <strong>A–E</strong>, in the boxes provided.
-        </div>
-        <div class="q-group">
-          <div class="q-item"><div class="q-num">14</div><div class="q-text">An example of how individuals might drive more recklessly when shielded from financial repercussions. <input type="text" id="q14"></div></div>
-          <div class="q-item"><div class="q-num">15</div><div class="q-text">An introduction to the economists who proved that markets suffer from severe informational imbalances. <input type="text" id="q15"></div></div>
-          <div class="q-item"><div class="q-num">16</div><div class="q-text">The argument that the value of higher education lies in how difficult it is to obtain, rather than the skills learned. <input type="text" id="q16"></div></div>
-          <div class="q-item"><div class="q-num">17</div><div class="q-text">An explanation of how a market can spiral downward until high-quality goods are completely withdrawn. <input type="text" id="q17"></div></div>
-          <div class="q-item"><div class="q-num">18</div><div class="q-text">A strategy where an uninformed party forces an informed party to reveal their true risk profile. <input type="text" id="q18"></div></div>
-        </div>
-
-        <h2>Questions 19–22</h2>
-        <div class="instruction">
-          Look at the following concepts (Questions 19-22) and the list of definitions below.<br>
-          Match each concept with the correct definition, <strong>A, B, C, or D</strong>.<br>
-        </div>
-        <div class="box-options">
-          <div class="box-item"><strong>A</strong> Adverse Selection</div>
-          <div class="box-item"><strong>B</strong> Moral Hazard</div>
-          <div class="box-item"><strong>C</strong> Signaling</div>
-          <div class="box-item"><strong>D</strong> Screening</div>
-        </div>
-        <div class="q-group">
-          <div class="q-item"><div class="q-num">19</div><div class="q-text">Hidden actions that occur after a contract is finalized, altering behavioral incentives. <input type="text" id="q19"></div></div>
-          <div class="q-item"><div class="q-num">20</div><div class="q-text">Hidden characteristics prior to a transaction that can cause the market to collapse. <input type="text" id="q20"></div></div>
-          <div class="q-item"><div class="q-num">21</div><div class="q-text">An action taken by an informed party to credibly convey their unobservable quality. <input type="text" id="q21"></div></div>
-          <div class="q-item"><div class="q-num">22</div><div class="q-text">An action taken by an uninformed party to induce the informed party into self-selecting. <input type="text" id="q22"></div></div>
-        </div>
-
-        <h2>Questions 23–26</h2>
+        <h2>Questions 11–13</h2>
         <div class="instruction">
           Choose the correct letter, <strong>A, B, C or D</strong>.
         </div>
         <div class="q-group">
           <div class="q-item">
-            <div class="q-num">23</div>
-            <div class="q-text">According to paragraph B, why do buyers refuse to pay a premium price in the used car market?
+            <div class="q-num">11</div>
+            <div class="q-text">What is a key feature of the Guugu Yimithirr language?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q23" value="A"> A) Because sellers always openly lie about the quality of the car.</label>
-                <label class="mcq-label"><input type="radio" name="q23" value="B"> B) Because they assume an average risk of purchasing a defective "lemon".</label>
-                <label class="mcq-label"><input type="radio" name="q23" value="C"> C) Because the government heavily taxes vehicles identified as "peaches".</label>
-                <label class="mcq-label"><input type="radio" name="q23" value="D"> D) Because new cars are significantly cheaper due to perfect competition.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="A"> A) It strictly dictates that its speakers cannot understand modern technology.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="B"> B) Its spatial coordinate system dynamically shifts when the speaker turns around.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="C"> C) It entirely lacks words for relative directions like left and right.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="D"> D) It prevents speakers from being able to arrange blocks on a table.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
-            <div class="q-num">24</div>
-            <div class="q-text">Why is the insurance industry particularly vulnerable to "moral hazard"?
+            <div class="q-num">12</div>
+            <div class="q-text">In Stephen Levinson's experiment, how did English speakers recreate the block arrangement?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q24" value="A"> A) Because drivers inherently prefer to cause accidents.</label>
-                <label class="mcq-label"><input type="radio" name="q24" value="B"> B) Because insurers cannot accurately calculate the upfront premium costs.</label>
-                <label class="mcq-label"><input type="radio" name="q24" value="C"> C) Because the insurer cannot cost-effectively monitor the driver's daily behavior once insured.</label>
-                <label class="mcq-label"><input type="radio" name="q24" value="D"> D) Because mechanics frequently overcharge for repairs.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="A"> A) Relative to their own bodies.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="B"> B) Relative to absolute cardinal directions.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="C"> C) By avoiding the use of the red block entirely.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="D"> D) By memorizing the exact distance between the blocks.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
-            <div class="q-num">25</div>
-            <div class="q-text">According to Michael Spence, what is the crucial requirement for a "signal" to be effective?
+            <div class="q-num">13</div>
+            <div class="q-text">What is the author's overall conclusion in paragraph F?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q25" value="A"> A) It must be demonstrably costly or difficult to fake.</label>
-                <label class="mcq-label"><input type="radio" name="q25" value="B"> B) It must be legally mandated by the government.</label>
-                <label class="mcq-label"><input type="radio" name="q25" value="C"> C) It must relate directly to specific vocational skills.</label>
-                <label class="mcq-label"><input type="radio" name="q25" value="D"> D) It must involve a monetary bribe to the employer.</label>
-              </div>
-            </div>
-          </div>
-          <div class="q-item">
-            <div class="q-num">26</div>
-            <div class="q-text">How does an insurance company utilize "screening" as described in paragraph E?
-              <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q26" value="A"> A) By forcing applicants to undergo rigorous physical exams before approval.</label>
-                <label class="mcq-label"><input type="radio" name="q26" value="B"> B) By secretly monitoring the driving habits of their clients.</label>
-                <label class="mcq-label"><input type="radio" name="q26" value="C"> C) By refusing to insure anyone who has a history of major accidents.</label>
-                <label class="mcq-label"><input type="radio" name="q26" value="D"> D) By offering distinct policy menus that force clients to reveal their risk tolerance.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="A"> A) English is fundamentally superior to indigenous languages for navigation.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="B"> B) Grammar actively participates in shaping the architecture of the human mind.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="C"> C) The strong Sapir-Whorf hypothesis was ultimately proven correct.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="D"> D) Humans from different cultures exist in completely different physical universes.</label>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- QUESTIONS FOR SECTION 3 -->
+      <!-- QUESTIONS FOR PASSAGE 2 -->
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–19</h2>
+        <div class="instruction">
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Choose the correct heading for each paragraph from the list below.<br>
+          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The biological instinct to avoid the pain of losing</div>
+          <div class="box-item"><strong>ii</strong> Resolving conflicting internal beliefs</div>
+          <div class="box-item"><strong>iii</strong> The definition of an economic cognitive bias</div>
+          <div class="box-item"><strong>iv</strong> A historical monument to irrational investment</div>
+          <div class="box-item"><strong>v</strong> Using objective reviewers to stop the bleeding</div>
+          <div class="box-item"><strong>vi</strong> How algorithms calculate sunk costs</div>
+          <div class="box-item"><strong>vii</strong> Protecting political pride at all costs</div>
+          <div class="box-item"><strong>viii</strong> The emotional blindness of project teams</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">14</div><div class="q-text">Paragraph A <input type="text" id="q14"></div></div>
+          <div class="q-item"><div class="q-num">15</div><div class="q-text">Paragraph B <input type="text" id="q15"></div></div>
+          <div class="q-item"><div class="q-num">16</div><div class="q-text">Paragraph C <input type="text" id="q16"></div></div>
+          <div class="q-item"><div class="q-num">17</div><div class="q-text">Paragraph D <input type="text" id="q17"></div></div>
+          <div class="q-item"><div class="q-num">18</div><div class="q-text">Paragraph E <input type="text" id="q18"></div></div>
+          <div class="q-item"><div class="q-num">19</div><div class="q-text">Paragraph F <input type="text" id="q19"></div></div>
+        </div>
+
+        <h2>Questions 20–23</h2>
+        <div class="instruction">
+          Look at the following concepts (Questions 20-23) and the list of descriptions below.<br>
+          Match each concept with the correct description, <strong>A, B, C, or D</strong>.<br>
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Loss Aversion</div>
+          <div class="box-item"><strong>B</strong> Concorde Fallacy</div>
+          <div class="box-item"><strong>C</strong> Cognitive Dissonance</div>
+          <div class="box-item"><strong>D</strong> Independent Audit</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">20</div><div class="q-text">A strategy for de-escalation that strips emotional and financial stakes from the evaluation process. <input type="text" id="q20"></div></div>
+          <div class="q-item"><div class="q-num">21</div><div class="q-text">The evolutionary phenomenon where the brain feels the pain of losing more intensely than a gain. <input type="text" id="q21"></div></div>
+          <div class="q-item"><div class="q-num">22</div><div class="q-text">Convincing oneself against all objective data that a failing project remains vital, often to protect reputational capital. <input type="text" id="q22"></div></div>
+          <div class="q-item"><div class="q-num">23</div><div class="q-text">Continuing an investment based on past costs, famously illustrated by a commercial airliner project. <input type="text" id="q23"></div></div>
+        </div>
+
+        <h2>Questions 24–26</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">24</div>
+            <div class="q-text">According to classical economics, how should a rational actor evaluate an investment?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q24" value="A"> A) By placing immense value on the time and money already spent.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="B"> B) By analyzing future potential and ignoring unrecoverable past costs.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="C"> C) By submitting all reports to an independent auditor.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="D"> D) By avoiding high-speed rail projects entirely.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">25</div>
+            <div class="q-text">Why do politicians often refuse to abandon failing mega-projects?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q25" value="A"> A) Because they lack access to external auditors.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="B"> B) Because they do not understand classical economic theory.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="C"> C) Because admitting failure would result in a catastrophic loss of reputational capital.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="D"> D) Because evolutionary psychology proves that humans enjoy losing money.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">26</div>
+            <div class="q-text">What causes "optimism bias" in project managers according to paragraph E?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q26" value="A"> A) The mandatory integration of external circuit-breakers.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="B"> B) A lack of financial support from the government.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="C"> C) Cognitive dissonance leading to political borrowing.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="D"> D) Emotional attachment to the project that renders them incapable of objective evaluation.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR PASSAGE 3 -->
       <div id="questions-3" class="section-content">
         <h2>Questions 27–31</h2>
         <div class="instruction">
@@ -622,11 +678,11 @@
           Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">27</div><div class="q-text">The concept of *Homo economicus* successfully predicted how real humans would behave in financial markets. <br><input type="text" id="q27"></div></div>
-          <div class="q-item"><div class="q-num">28</div><div class="q-text">Prospect Theory argues that humans evaluate financial outcomes based on their total, absolute wealth. <br><input type="text" id="q28"></div></div>
-          <div class="q-item"><div class="q-num">29</div><div class="q-text">Most retail investors consistently outperform professional hedge funds because they utilize behavioral heuristics. <br><input type="text" id="q29"></div></div>
-          <div class="q-item"><div class="q-num">30</div><div class="q-text">Loss aversion causes individuals to feel the pain of a loss more intensely than the pleasure of an equivalent gain. <br><input type="text" id="q30"></div></div>
-          <div class="q-item"><div class="q-num">31</div><div class="q-text">Nudge theory suggests that governments should strictly mandate employee participation in retirement plans. <br><input type="text" id="q31"></div></div>
+          <div class="q-item"><div class="q-num">27</div><div class="q-text">Biomimicry focuses purely on copying the visual aesthetics of nature rather than solving functional problems. <br><input type="text" id="q27"></div></div>
+          <div class="q-item"><div class="q-num">28</div><div class="q-text">The riblets on a shark's skin create chaotic micro-eddies that increase aerodynamic drag. <br><input type="text" id="q28"></div></div>
+          <div class="q-item"><div class="q-num">29</div><div class="q-text">The lotus leaf relies on a perfectly smooth surface to achieve its self-cleaning properties. <br><input type="text" id="q29"></div></div>
+          <div class="q-item"><div class="q-num">30</div><div class="q-text">Medical researchers are testing shark-skin patterns to reduce bacteria without using toxic chemicals. <br><input type="text" id="q30"></div></div>
+          <div class="q-item"><div class="q-num">31</div><div class="q-text">Geckos secrete a sticky biological glue from their feet to walk upside down. <br><input type="text" id="q31"></div></div>
         </div>
 
         <h2>Questions 32–36</h2>
@@ -635,20 +691,20 @@
           Write the correct letter, <strong>A–I</strong>, in the boxes provided.
         </div>
         <div class="box-options">
-          <div class="box-item"><strong>A</strong> nudges</div>
-          <div class="box-item"><strong>B</strong> heuristics</div>
-          <div class="box-item"><strong>C</strong> equilibrium</div>
-          <div class="box-item"><strong>D</strong> reference</div>
-          <div class="box-item"><strong>E</strong> absolute</div>
-          <div class="box-item"><strong>F</strong> utility</div>
-          <div class="box-item"><strong>G</strong> algorithms</div>
-          <div class="box-item"><strong>H</strong> loss aversion</div>
-          <div class="box-item"><strong>I</strong> screening</div>
+          <div class="box-item"><strong>A</strong> aesthetics</div>
+          <div class="box-item"><strong>B</strong> friction</div>
+          <div class="box-item"><strong>C</strong> hydrophobicity</div>
+          <div class="box-item"><strong>D</strong> bacteria</div>
+          <div class="box-item"><strong>E</strong> functional</div>
+          <div class="box-item"><strong>F</strong> microscopic</div>
+          <div class="box-item"><strong>G</strong> electrons</div>
+          <div class="box-item"><strong>H</strong> drag</div>
+          <div class="box-item"><strong>I</strong> adhesion</div>
         </div>
         <div class="q-group">
           <div class="q-item">
             <div class="q-text">
-              Classical economics relies on the assumption that individuals possess infinite computational capacity to maximize their <strong>32</strong> <input type="text" id="q32">. Behavioral economists argue against this, suggesting that humans actually rely on mental shortcuts known as <strong>33</strong> <input type="text" id="q33"> to make decisions. Furthermore, Prospect Theory highlights that individuals do not assess outcomes based on wealth, but rather against a subjective <strong>34</strong> <input type="text" id="q34"> point. This subjective valuation leads to the phenomenon of <strong>35</strong> <input type="text" id="q35">, where the fear of losing money outweighs the desire to gain it. To account for these psychological realities, policymakers can alter the choice architecture, employing subtle <strong>36</strong> <input type="text" id="q36"> to guide people toward better outcomes without restricting their freedom.
+              Biomimicry looks to nature for <strong>32</strong> <input type="text" id="q32"> solutions rather than just visual replication. For example, shark skin features tiny scales that reduce fluid <strong>33</strong> <input type="text" id="q33"> and prevent the attachment of <strong>34</strong> <input type="text" id="q34">. Meanwhile, the lotus leaf achieves super-<strong>35</strong> <input type="text" id="q35"> by utilizing a bumpy surface to bead water and sweep away dirt. Lastly, geckos achieve extraordinary dry <strong>36</strong> <input type="text" id="q36"> without glues by exploiting atomic-level electrical forces with microscopic hairs.
             </div>
           </div>
         </div>
@@ -660,45 +716,45 @@
         <div class="q-group">
           <div class="q-item">
             <div class="q-num">37</div>
-            <div class="q-text">What does the term "satisfice" mean in the context of bounded rationality?
+            <div class="q-text">How does traditional human engineering primarily differ from nature's manufacturing?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) To calculate every possible outcome before deciding.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) To prioritize emotional satisfaction over financial gain.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) To choose the first option that meets a minimum acceptable threshold.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) To deliberately choose a suboptimal outcome to punish an opponent.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) Human engineering uses carbon nanotubes, while nature does not.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) Human engineering relies on extreme heat and toxic chemicals, whereas nature manufactures at room temperature.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) Nature requires massive amounts of raw materials to build small structures.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) Nature focuses purely on aesthetics, while humans focus on functionality.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
             <div class="q-num">38</div>
-            <div class="q-text">According to paragraph D, how would a purely rational *Homo economicus* view a gamble with a 50% chance of losing $100 and a 50% chance of winning $100?
+            <div class="q-text">Why is the Lotus Effect particularly useful for the solar panel industry?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) As a mathematically neutral proposition.</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) As a highly dangerous risk to be avoided.</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) As a guaranteed method of increasing absolute wealth.</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) As a violation of the Nash Equilibrium.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) It cools the panels down, generating more electricity.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) It provides a sticky surface for panels to attach to roofs.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) It ensures the surface remains clean and efficient without requiring water-intensive human maintenance.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) It actively repels sharks and other predators.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
             <div class="q-num">39</div>
-            <div class="q-text">How does "loss aversion" typically manifest in the behavior of stock market investors?
+            <div class="q-text">What physical force allows the gecko to walk on ceilings?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) They refuse to buy any stocks, preferring the safety of cash.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) They hold onto depreciating stocks too long and sell profitable ones too quickly.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) They only invest in companies that signal their quality through rigorous screening.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) They cooperate with other investors to form a cartel.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) Van der Waals forces.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) Hydrophobicity.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) Aerodynamic drag.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) Micro-eddies.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
             <div class="q-num">40</div>
-            <div class="q-text">Which of the following is the best example of a "nudge" according to the passage?
+            <div class="q-text">What is the primary advantage of dry adhesives developed from gecko biomimicry?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) Banning the sale of unhealthy foods in public schools.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) Raising taxes on gasoline to discourage driving.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) Forcing all citizens to purchase comprehensive auto insurance.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) Automatically enrolling employees in a retirement plan, while allowing them to cancel if they choose.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) They require high temperatures to manufacture.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) They are much cheaper than traditional glues.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) They can only be used once before losing stickiness.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) They leave no chemical residue and can be reused indefinitely.</label>
               </div>
             </div>
           </div>
@@ -718,29 +774,28 @@
   <script>
     /* --- INTERNAL ANSWER KEY FOR GRADING --- */
     const answerKey = {
-      q1: 'vi', q2: 'i', q3: 'v', q4: 'viii', q5: 'ii',
-      q6: 'false', q7: 'true', q8: 'not given', q9: 'true',
-      q10: 'oligopoly', q11: 'cartel', q12: 'equilibrium',
-      q13: 'c', q14: 'a', q15: 'd', q16: 'b', q17: 'e',
-      q18: 'b', q19: 'a', q20: 'c', q21: 'd',
-      q22: 'b', q23: 'c', q24: 'a', q25: 'd',
-      q26: 'no', q27: 'no', q28: 'not given', q29: 'yes', q30: 'no',
-      q31: 'f', q32: 'b', q33: 'd', q34: 'h', q35: 'a',
-      q36: 'c', q37: 'a', q38: 'b', q39: 'd'
+      // Passage 1: T/F/NG, Summary, MCQ
+      q1: 'false', q2: 'false', q3: 'true', q4: 'not given', q5: 'true',
+      q6: 'cognition', q7: 'determinism', q8: 'egocentric', q9: 'allocentric', q10: 'navigational',
+      q11: 'c', q12: 'a', q13: 'b',
+      
+      // Passage 2: Headings, Matching, MCQ
+      q14: 'iii', q15: 'i', q16: 'iv', q17: 'vii', q18: 'viii', q19: 'v',
+      q20: 'd', q21: 'a', q22: 'c', q23: 'b',
+      q24: 'b', q25: 'c', q26: 'd',
+      
+      // Passage 3: Y/N/NG, Box Summary, MCQ
+      q27: 'no', q28: 'no', q29: 'no', q30: 'yes', q31: 'no',
+      q32: 'e', q33: 'h', q34: 'd', q35: 'c', q36: 'i',
+      q37: 'b', q38: 'c', q39: 'a', q40: 'd'
     };
 
-    /* Fix Answer Key Mapping to explicitly match the new questions 
-       (The mapping above had a small offset on the summary logic. Below is the strict alignment.) */
-    const correctedAnswerKey = {
-      q1: 'vi', q2: 'i', q3: 'v', q4: 'viii', q5: 'ii',
-      q6: 'false', q7: 'true', q8: 'not given', q9: 'true',
-      q10: 'oligopoly', q11: 'cartel', q12: 'equilibrium',
-      q14: 'c', q15: 'a', q16: 'd', q17: 'b', q18: 'e',
-      q19: 'b', q20: 'a', q21: 'c', q22: 'd',
-      q23: 'b', q24: 'c', q25: 'a', q26: 'd',
-      q27: 'no', q28: 'no', q29: 'not given', q30: 'yes', q31: 'no',
-      q32: 'f', q33: 'b', q34: 'd', q35: 'h', q36: 'a',
-      q37: 'c', q38: 'a', q39: 'b', q40: 'd'
+    /* Handle alternate acceptable text answers gracefully */
+    const acceptableAnswers = {
+      q6: ['cognition', 'thought'],
+      q8: ['egocentric', 'relative'],
+      q9: ['allocentric', 'absolute'],
+      q10: ['navigational', 'spatial']
     };
 
     /* --- TAB SWITCHING LOGIC --- */
@@ -753,14 +808,13 @@
       document.getElementById('questions-' + sectionNumber).classList.add('active');
     }
 
-    /* --- NON-PERSISTENT TIMER LOGIC (Resets on Refresh) --- */
+    /* --- NON-PERSISTENT TIMER LOGIC --- */
     const DURATION = 3600; // 60 minutes
     let timerInterval;
     let timeRemaining;
     const timerElement = document.getElementById('timer');
 
     function initTest() {
-      // Force Pre-Test overlay on every page load
       document.getElementById('pre-test-overlay').style.display = 'flex';
       document.getElementById('btn-start-top').style.display = 'block';
       timerElement.textContent = "60:00";
@@ -816,37 +870,62 @@
       let score = 0;
       
       for(let i=1; i<=40; i++) {
-        // Skip q13 since it was consolidated in mapping, but wait, the HTML has q10, q11, q12. I need to make sure my IDs match.
-        // Actually, the HTML summary has Q10, Q11, Q12. Let's gracefully handle undefined keys.
         const qId = 'q' + i;
         const textInput = document.getElementById(qId);
+        const correctAnsData = answerKey[qId] ? answerKey[qId].toUpperCase() : "N/A";
         
         if (textInput) {
           let userAnswer = textInput.value.trim().toLowerCase();
-          if (userAnswer === correctedAnswerKey[qId]) {
+          
+          let isCorrect = (userAnswer === answerKey[qId]);
+          if(acceptableAnswers[qId] && acceptableAnswers[qId].includes(userAnswer)) {
+             isCorrect = true;
+          }
+          
+          if (isCorrect) {
             score++;
             textInput.classList.add('correct-answer');
           } else {
             textInput.classList.add('wrong-answer');
-            textInput.value = userAnswer ? `${userAnswer} (X)` : '(Blank)';
+            
+            // DYNAMIC WIDTH CALCULATION: Adjusts input width based on answer length
+            const totalChars = (userAnswer.length || 7) + correctAnsData.length + 12; 
+            const calculatedWidth = Math.max(260, totalChars * 9); 
+            textInput.style.width = calculatedWidth + "px"; 
+            
+            textInput.value = userAnswer ? `${userAnswer} ❌ [Ans: ${correctAnsData}]` : `(Blank) ❌ [Ans: ${correctAnsData}]`;
           }
         } else {
-          const radio = document.querySelector(`input[name="${qId}"]:checked`);
-          if (radio) {
-            let userAnswer = radio.value.toLowerCase();
-            if (userAnswer === correctedAnswerKey[qId]) {
-              score++;
-              radio.parentElement.style.color = '#065f46';
-              radio.parentElement.style.fontWeight = '600';
-            } else {
-              radio.parentElement.style.color = '#991b1b';
+          const selectedRadio = document.querySelector(`input[name="${qId}"]:checked`);
+          let userAnswer = selectedRadio ? selectedRadio.value.toLowerCase() : "";
+
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            selectedRadio.parentElement.style.color = '#065f46';
+            selectedRadio.parentElement.style.fontWeight = '600';
+          } else {
+            // Mark user's wrong choice
+            if (selectedRadio) {
+              selectedRadio.parentElement.style.color = '#991b1b';
+              selectedRadio.parentElement.style.textDecoration = 'line-through';
+            }
+            // Highlight the correct choice
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAnsData}"]`);
+            if (correctRadio) {
+              correctRadio.parentElement.style.color = '#065f46';
+              correctRadio.parentElement.style.fontWeight = '700';
+              
+              if(!correctRadio.parentElement.querySelector('.correct-badge')) {
+                 const badge = document.createElement('span');
+                 badge.className = 'correct-badge';
+                 badge.style.cssText = 'color: #10b981; margin-left: 8px; font-family: var(--font-mono); font-size: 0.85rem; text-decoration: none; display: inline-block;';
+                 badge.textContent = '✓ CORRECT ANSWER';
+                 correctRadio.parentElement.appendChild(badge);
+              }
             }
           }
         }
       }
-      
-      // Calculate max possible based on inputs present
-      const totalQuestions = document.querySelectorAll('.q-item input[type="text"], .q-item .mcq-options').length;
       document.getElementById('final-score').innerHTML = `${score} <span>/ 40</span>`;
     }
 
@@ -864,7 +943,6 @@
     /* --- UI MANAGEMENT --- */
     function closeModal() {
       document.getElementById('results-modal').style.display = 'none';
-      // Show retake button after modal is closed to allow reset
       document.getElementById('btn-retake').style.display = 'block';
     }
 
@@ -881,18 +959,24 @@
       document.getElementById('btn-submit').disabled = false;
       document.getElementById('btn-retake').style.display = 'block';
       
+      // Reset Text Inputs
       document.querySelectorAll('input[type="text"]').forEach(input => {
         input.value = '';
         input.disabled = false;
+        input.style.width = "160px"; // Return to original width
         input.classList.remove('correct-answer', 'wrong-answer');
       });
       
+      // Reset Radio Buttons and Remove Correct Answer Badges
       document.querySelectorAll('input[type="radio"]').forEach(radio => {
         radio.checked = false;
         radio.disabled = false;
         radio.parentElement.style.color = 'inherit';
         radio.parentElement.style.fontWeight = 'normal';
+        radio.parentElement.style.textDecoration = 'none';
       });
+      
+      document.querySelectorAll('.correct-badge').forEach(badge => badge.remove());
       
       switchSection(1);
       initTest(); 
