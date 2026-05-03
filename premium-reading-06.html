@@ -4,17 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Premium Reading 06 | The LRSW Clinic</title>
+  
+  <!-- PREMIUM FONTS INTEGRATION -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Roboto+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    /* --- UNIVERSAL FONT STANDARDS & COLORS --- */
+    /* --- SLATE & INDIGO COLOR PALETTE --- */
     :root {
-      --primary: #0B1D3A;
-      --accent: #C4923E;
+      /* Midnight Slate & Electric Indigo Accent */
+      --primary: #1E293B; 
+      --primary-dark: #0F172A;
+      --accent: #4F46E5;
+      --accent-dark: #3730A3;
+      --badge-bg: #E0E7FF;
+      
       --bg-light: #F8FAFC;
       --border: #CBD5E1;
       --text-main: #333333;
-      --text-muted: #666666;
-      --font-ui: Arial, Helvetica, sans-serif;
-      --font-passage: "Times New Roman", Times, serif;
+      --text-muted: #64748B;
+      
+      /* Premium Typography System */
+      --font-ui: 'Inter', sans-serif;
+      --font-passage: 'Lora', serif;
+      --font-heading: 'Playfair Display', serif;
+      --font-mono: 'Roboto Mono', monospace;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,73 +52,93 @@
       justify-content: space-between; 
       align-items: center; 
       padding: 0 2rem; 
-      height: 60px; 
+      height: 65px; 
       border-bottom: 3px solid var(--accent); 
       flex-shrink: 0; 
       z-index: 10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
-    .logo { font-size: 1.4rem; font-weight: bold; letter-spacing: 0.5px; }
+    .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
     .logo span { color: var(--accent); font-style: italic; }
     
     .nav-tabs { display: flex; height: 100%; }
     .tab-btn { 
       background: transparent; 
-      color: #cbd5e1; 
+      color: #94A3B8; 
       border: none; 
       padding: 0 1.5rem; 
-      font-size: 1rem; 
-      font-weight: bold; 
+      font-size: 0.95rem; 
+      font-weight: 600; 
       cursor: pointer; 
-      transition: 0.2s; 
+      transition: all 0.3s ease; 
       height: 100%; 
       display: flex; 
       align-items: center; 
       border-bottom: 4px solid transparent; 
       font-family: var(--font-ui);
+      letter-spacing: 0.5px;
     }
-    .tab-btn:hover:not(:disabled) { color: #fff; background: rgba(255,255,255,0.05); }
-    .tab-btn.active { color: #fff; border-bottom-color: var(--accent); background: rgba(255,255,255,0.1); }
     
-    /* Header Controls (Timer + Start Button) */
+    /* Hover Effects: Color Combination Swap */
+    .tab-btn:hover:not(:disabled) { 
+      color: #fff; 
+      background: rgba(79, 70, 229, 0.2); 
+    }
+    .tab-btn.active { 
+      color: #fff; 
+      border-bottom-color: var(--accent); 
+      background: rgba(79, 70, 229, 0.15); 
+    }
+    .tab-btn.active:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    
+    /* Header Controls */
     .header-controls { display: flex; align-items: center; gap: 15px; }
     
     .btn-start-top {
-      background: #10b981;
-      color: white;
-      border: none;
+      background: var(--accent);
+      color: #fff;
+      border: 2px solid var(--accent);
       padding: 0.4rem 1.2rem;
-      font-size: 0.95rem;
-      font-weight: bold;
+      font-size: 0.9rem;
+      font-weight: 700;
       border-radius: 4px;
       cursor: pointer;
-      font-family: var(--font-ui);
-      transition: 0.2s;
+      font-family: var(--font-mono);
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
     }
-    .btn-start-top:hover { background: #059669; }
+    .btn-start-top:hover { 
+      background: transparent; 
+      color: var(--accent);
+    }
 
     .timer { 
-      font-family: monospace; 
-      font-size: 1.4rem; 
-      font-weight: bold; 
+      font-family: var(--font-mono); 
+      font-size: 1.3rem; 
+      font-weight: 600; 
       color: #fff; 
-      background: #1e293b; 
-      padding: 0.3rem 0.8rem; 
+      background: var(--primary-dark); 
+      padding: 0.4rem 1rem; 
       border-radius: 4px; 
-      border: 1px solid #334155;
+      border: 1px solid rgba(79, 70, 229, 0.4);
+      letter-spacing: 1px;
     }
-    .timer.warning { color: #ef4444; animation: pulse 1s infinite; }
+    .timer.warning { color: #fca5a5; animation: pulse 1s infinite; border-color: #ef4444;}
 
     @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.5; }
-      100% { opacity: 1; }
+      0% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+      100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
     }
 
     /* --- SPLIT SCREEN LAYOUT --- */
     .workspace { 
       display: flex; 
       flex: 1; 
-      height: calc(100vh - 60px); 
+      height: calc(100vh - 65px); 
       overflow: hidden; 
       background: var(--bg-light); 
       position: relative;
@@ -113,18 +148,18 @@
       flex: 1; 
       height: 100%; 
       overflow-y: auto; 
-      padding: 2.5rem; 
+      padding: 3rem; 
       background: #fff; 
       position: relative;
     }
-    .left-panel { border-right: 2px solid var(--border); box-shadow: 2px 0 10px rgba(0,0,0,0.02); }
-    .right-panel { background: #fafbfc; padding-bottom: 100px; }
+    .left-panel { border-right: 1px solid var(--border); box-shadow: 4px 0 15px rgba(0,0,0,0.03); z-index: 2; }
+    .right-panel { background: #fafbfc; padding-bottom: 120px; }
 
     /* --- PRE-TEST LOCK SCREEN OVERLAY --- */
     .pre-test-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: #ffffff;
+      background: rgba(255, 255, 255, 0.98);
       z-index: 150;
       display: flex;
       flex-direction: column;
@@ -133,27 +168,58 @@
       text-align: center;
       padding: 2rem;
     }
-    .pre-test-overlay h2 { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; font-family: 'Playfair Display', serif;}
-    .pre-test-overlay p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; line-height: 1.6; margin-bottom: 2rem; }
+    .pre-test-overlay .module-badge {
+      font-family: var(--font-mono);
+      color: var(--accent-dark);
+      background: var(--badge-bg);
+      border: 1px solid var(--accent);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 1.5px;
+    }
+    .pre-test-overlay h2 { 
+      font-size: 3rem; 
+      color: var(--primary); 
+      margin-bottom: 1.5rem; 
+      font-family: var(--font-heading);
+    }
+    .pre-test-overlay p { 
+      font-size: 1.15rem; 
+      color: var(--text-muted); 
+      max-width: 600px; 
+      line-height: 1.7; 
+      margin-bottom: 2.5rem; 
+      font-family: var(--font-passage);
+    }
     .btn-start-large {
       background: var(--primary);
       color: #fff;
-      padding: 1rem 3rem;
-      font-size: 1.2rem;
-      font-weight: bold;
-      border: none;
+      padding: 1.2rem 3.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: 2px solid var(--primary);
       border-radius: 4px;
       cursor: pointer;
-      font-family: var(--font-ui);
-      transition: 0.2s;
+      font-family: var(--font-mono);
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(30, 41, 59, 0.2);
     }
-    .btn-start-large:hover { background: #1a365d; }
+    .btn-start-large:hover { 
+      background: transparent; 
+      color: var(--accent); 
+      transform: translateY(-2px); 
+      box-shadow: 0 6px 20px rgba(30, 41, 59, 0.1); 
+    }
 
     /* --- PASSAGE TYPOGRAPHY --- */
     .left-panel h1 { 
-      font-family: var(--font-ui); 
-      font-size: 1.6rem; 
-      margin-bottom: 2rem; 
+      font-family: var(--font-heading); 
+      font-size: 2.2rem; 
+      margin-bottom: 2.5rem; 
       color: var(--primary); 
       line-height: 1.3; 
       text-align: center;
@@ -161,92 +227,109 @@
     
     .left-panel p { 
       font-family: var(--font-passage);
-      margin-bottom: 1.5rem; 
-      line-height: 1.8; 
+      margin-bottom: 1.8rem; 
+      line-height: 1.85; 
       text-align: justify; 
       font-size: 1.15rem; 
+      color: #334155;
     }
     
     .paragraph-label { 
-      font-family: var(--font-ui);
-      font-weight: bold; 
+      font-family: var(--font-mono);
+      font-weight: 700; 
       font-size: 1.1rem; 
       margin-right: 15px; 
-      color: #000; 
+      color: var(--accent); 
       float: left;
-      padding-top: 2px;
+      padding-top: 4px;
     }
     
     /* --- QUESTION TYPOGRAPHY --- */
     .right-panel h2 { 
-      font-size: 1.1rem; 
+      font-size: 1.2rem; 
       margin-bottom: 1rem; 
-      color: #000; 
-      border-bottom: 2px solid var(--primary); 
-      padding-bottom: 0.5rem; 
-      margin-top: 2rem; 
+      color: var(--primary); 
+      border-bottom: 2px solid var(--border); 
+      padding-bottom: 0.8rem; 
+      margin-top: 2.5rem; 
+      font-family: var(--font-ui);
+      font-weight: 700;
     }
     .right-panel h2:first-child { margin-top: 0; }
     
     .instruction { 
       font-style: italic; 
-      color: #000; 
-      margin-bottom: 1.2rem; 
+      color: var(--text-muted); 
+      margin-bottom: 1.5rem; 
       font-size: 0.95rem; 
-      line-height: 1.4;
+      line-height: 1.5;
     }
     
-    .q-group { margin-bottom: 2.5rem; }
+    .q-group { margin-bottom: 3rem; }
     .q-item { 
       display: flex; 
       align-items: baseline; 
-      margin-bottom: 1.2rem; 
-      gap: 12px; 
+      margin-bottom: 1.5rem; 
+      gap: 15px; 
     }
     .q-num { 
-      font-weight: bold; 
-      color: #000; 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      color: var(--accent); 
       min-width: 25px; 
+      font-size: 1rem;
     }
     .q-text { 
       flex: 1; 
-      font-size: 1rem; 
-      line-height: 1.5; 
+      font-size: 1.05rem; 
+      line-height: 1.6; 
     }
     
     input[type="text"] { 
-      padding: 0.3rem 0.5rem; 
-      border: 1px solid #94a3b8; 
-      border-radius: 2px; 
+      padding: 0.4rem 0.6rem; 
+      border: 1px solid #94A3B8; 
+      border-radius: 4px; 
       font-size: 1rem; 
-      width: 140px; 
+      width: 160px; 
+      max-width: 100%;
       font-family: var(--font-ui);
+      background: #fff;
+      transition: width 0.3s ease, border-color 0.2s, box-shadow 0.2s;
     }
-    input[type="text"]:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 3px rgba(11,29,58,0.3); }
-    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; }
+    input[type="text"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2); }
+    input:disabled { background: #F1F5F9; cursor: not-allowed; color: #64748B; border-color: #CBD5E1; }
     
-    .mcq-options { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem; }
-    .mcq-label { display: flex; align-items: flex-start; gap: 8px; cursor: pointer; font-size: 0.95rem; }
-    .mcq-label input { margin-top: 4px; }
+    .mcq-options { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 1rem; color: #444; line-height: 1.4; transition: 0.2s;}
+    .mcq-label:hover { color: var(--accent); }
+    .mcq-label input { margin-top: 5px; cursor: pointer; }
     
     .box-options { 
       display: flex; 
       flex-wrap: wrap; 
       gap: 15px; 
-      border: 1px solid var(--primary); 
-      padding: 1.2rem; 
-      margin-bottom: 1.5rem; 
+      border: 1px solid var(--border); 
+      padding: 1.5rem; 
+      margin-bottom: 2rem; 
       background: #fff; 
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
     }
-    .box-item { font-size: 1rem; font-weight: bold; }
+    .box-item { font-size: 1rem; font-weight: 500; font-family: var(--font-ui); color: var(--primary);}
+    .box-item strong { font-family: var(--font-mono); color: var(--accent); margin-right: 5px;}
 
-    .section-content { display: none; }
+    .section-content { display: none; animation: fadeIn 0.4s ease; }
     .section-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     
     ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #f1f1f1; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    ::-webkit-scrollbar-track { background: #F8FAFC; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
 
     /* --- SUBMISSION & DORMANT STATE --- */
     .submit-bar {
@@ -254,48 +337,58 @@
       bottom: 0;
       right: 0;
       width: 50%; 
-      background: #fff;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
       border-top: 1px solid var(--border);
-      padding: 1rem 2.5rem;
+      padding: 1.2rem 3rem;
       display: flex;
       justify-content: flex-end;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
       z-index: 100;
     }
 
     .btn-submit {
-      background: var(--primary);
+      background: var(--accent);
       color: #fff;
-      border: none;
-      padding: 0.8rem 2rem;
+      border: 2px solid var(--accent);
+      padding: 0.8rem 2.5rem;
       font-size: 1rem;
-      font-weight: bold;
+      font-weight: 600;
       border-radius: 4px;
       cursor: pointer;
-      font-family: var(--font-ui);
-      transition: 0.2s;
+      font-family: var(--font-mono);
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
     }
-    .btn-submit:hover:not(:disabled) { background: #1a365d; }
-    .btn-submit:disabled { background: #94a3b8; cursor: not-allowed; }
+    .btn-submit:hover:not(:disabled) { 
+      background: #fff; 
+      color: var(--accent); 
+    }
+    .btn-submit:disabled { background: #CBD5E1; border-color: #CBD5E1; color: #fff; cursor: not-allowed; }
 
     .btn-retake {
       background: transparent;
       color: var(--text-muted);
       border: 2px solid var(--border);
-      padding: 0.8rem 2rem;
+      padding: 0.8rem 2.5rem;
       font-size: 1rem;
-      font-weight: bold;
+      font-weight: 600;
       border-radius: 4px;
       cursor: pointer;
-      font-family: var(--font-ui);
-      transition: 0.2s;
+      font-family: var(--font-mono);
+      transition: all 0.3s ease;
+      letter-spacing: 1px;
     }
-    .btn-retake:hover { background: #f1f5f9; color: var(--primary); border-color: var(--primary); }
+    .btn-retake:hover { 
+      background: var(--primary); 
+      color: #fff; 
+      border-color: var(--primary); 
+    }
 
     .dormant-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.3);
       z-index: 50;
       display: none;
       pointer-events: none; 
@@ -310,34 +403,40 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: #fff;
-      padding: 3rem;
+      padding: 3.5rem;
       border-radius: 8px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
       z-index: 200;
       text-align: center;
       border-top: 6px solid var(--accent);
-      min-width: 400px;
+      min-width: 450px;
     }
-    .results-modal h2 { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 2rem; margin-bottom: 1rem; }
-    .score-display { font-size: 3.5rem; font-weight: bold; color: var(--primary); margin: 1.5rem 0; }
-    .score-display span { font-size: 1.5rem; color: var(--text-muted); }
+    .results-modal h2 { font-family: var(--font-heading); color: var(--primary); font-size: 2.2rem; margin-bottom: 1rem; }
+    .score-display { font-size: 4rem; font-weight: 700; color: var(--primary); margin: 1.5rem 0; font-family: var(--font-mono);}
+    .score-display span { font-size: 1.8rem; color: var(--border); }
     
     .btn-close {
       background: var(--accent);
-      color: var(--primary);
-      border: none;
+      color: #fff;
+      border: 2px solid var(--accent);
       padding: 0.8rem 2.5rem;
-      font-size: 1.1rem;
-      font-weight: bold;
+      font-size: 1rem;
+      font-weight: 700;
       border-radius: 4px;
       cursor: pointer;
-      margin-top: 1rem;
-      transition: 0.2s;
+      margin-top: 1.5rem;
+      transition: all 0.3s ease;
+      font-family: var(--font-mono);
+      letter-spacing: 1px;
     }
-    .btn-close:hover { background: #b08133; }
+    .btn-close:hover { 
+      background: #fff; 
+      color: var(--accent-dark); 
+      border-color: var(--accent-dark);
+    }
 
-    .correct-answer { border-color: #10b981 !important; background: #d1fae5 !important; }
-    .wrong-answer { border-color: #ef4444 !important; background: #fee2e2 !important; }
+    .correct-answer { border-color: #10B981 !important; background: #F0FDF4 !important; color: #065F46 !important; font-weight: 600;}
+    .wrong-answer { border-color: #EF4444 !important; background: #FEF2F2 !important; color: #991B1B !important; }
 
   </style>
 </head>
@@ -351,26 +450,27 @@
       <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
     </div>
     <div class="header-controls">
-      <button class="btn-start-top" id="btn-start-top" onclick="startTest()">Start Test</button>
+      <button class="btn-start-top" id="btn-start-top" onclick="startTest()">START</button>
       <div class="timer" id="timer">60:00</div>
     </div>
   </header>
 
   <!-- RESULTS MODAL -->
   <div class="results-modal" id="results-modal">
-    <h2>Test Completed</h2>
+    <h2>Evaluation Complete</h2>
     <p>Your Reading Module score is:</p>
     <div class="score-display" id="final-score">0 <span>/ 40</span></div>
-    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your answers.</p>
-    <button class="btn-close" onclick="closeModal()">Close</button>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your detailed feedback.</p>
+    <button class="btn-close" onclick="closeModal()">REVIEW ANSWERS</button>
   </div>
 
   <div class="workspace">
     <!-- PRE-TEST LOCK SCREEN -->
     <div class="pre-test-overlay" id="pre-test-overlay">
-      <h2>Linguistic Scaffolding For English Learners</h2>
-      <p>This module contains 3 passages and 40 questions exploring the theme of <strong>Linguistic Scaffolding For English Learners</strong>. You have exactly 60 minutes to complete the test. The timer will begin, and the passages will be revealed once you click Start.</p>
-      <button class="btn-start-large" onclick="startTest()">Start 60-Minute Test</button>
+      <div class="module-badge">PREMIUM MODULE 06</div>
+      <h2>Epigenetics, Chronobiology & Acoustic Ecology</h2>
+      <p>This C1/C2 intensive simulation contains 3 passages and 40 questions focusing on inherited memory traces, the socio-economics of timekeeping, and the environmental impact of urban soundscapes. The timer will initiate upon pressing start.</p>
+      <button class="btn-start-large" onclick="startTest()">Start 60-Minute Test &rarr;</button>
     </div>
 
     <div class="dormant-overlay"></div>
@@ -379,35 +479,35 @@
     <div class="panel left-panel">
       <!-- PASSAGE 1 -->
       <div id="passage-1" class="section-content active">
-        <h1>Foundations of Linguistic Scaffolding</h1>
-        <p><span class="paragraph-label">A</span> In the realm of educational psychology and second language acquisition, few concepts have been as transformative as 'scaffolding.' The term, first coined in 1976 by cognitive psychologist Jerome Bruner and his colleagues, borrows a metaphor from the construction industry. Just as physical scaffolds provide temporary support for a building as it is erected, linguistic scaffolds offer temporary instructional support to language learners. This assistance allows students to achieve a level of comprehension or produce language that they would be incapable of managing entirely on their own.</p>
-        <p><span class="paragraph-label">B</span> The theoretical bedrock of scaffolding lies in the work of Soviet psychologist Lev Vygotsky, specifically his concept of the Zone of Proximal Development (ZPD). Vygotsky defined the ZPD as the distance between a learner’s actual developmental level (what they can do independently) and their level of potential development (what they can achieve with guidance). According to Vygotsky, effective teaching must always be aimed slightly ahead of the learner's current independent ability. Scaffolding is the practical mechanism by which educators bridge this gap, acting as a "more knowledgeable other" to pull the student through the ZPD.</p>
-        <p><span class="paragraph-label">C</span> In a modern English Language Teaching (ELT) context, linguistic scaffolding takes many forms. One of the most fundamental techniques is the activation of prior knowledge. Before introducing a complex reading text about climate change, for example, a teacher might ask students to brainstorm vocabulary related to weather in their native language. This connects the new, unfamiliar English concepts to the student's existing cognitive framework, making the new information less intimidating and easier to process.</p>
-        <p><span class="paragraph-label">D</span> Another crucial form of scaffolding involves breaking complex tasks into smaller, manageable sub-tasks. If the ultimate goal is for students to write a five-paragraph persuasive essay, a teacher does not simply assign the topic and expect a finished product. Instead, the task is heavily scaffolded: day one might focus solely on writing a thesis statement using a provided sentence frame; day two might involve organizing arguments using a graphic organizer; and day three might cover drafting body paragraphs. This step-by-step guidance prevents cognitive overload.</p>
-        <p><span class="paragraph-label">E</span> Visual and realia-based scaffolding are particularly vital for beginner-level English learners. Because their vocabulary is limited, relying entirely on verbal explanations is often ineffective and frustrating. By incorporating physical objects (realia), photographs, timelines, and gestures, teachers provide multiple pathways to meaning. If a teacher is explaining the concept of "melting," bringing an actual ice cube into the classroom and watching it turn into water provides a tangible scaffold that requires no translation.</p>
-        <p><span class="paragraph-label">F</span> Ultimately, the defining characteristic of a scaffold is its impermanence. A scaffold that is left up forever becomes a crutch, hindering true independence. Therefore, the goal of linguistic scaffolding is not to make the task permanently easy, but to provide just enough support so that the learner can internalize the skill. Once the skill is internalized, the teacher must systematically dismantle the support—a process known as 'fading'—leaving the learner capable of performing the task autonomously.</p>
+        <h1>The Epigenetics of Inherited Adaptation</h1>
+        <p><span class="paragraph-label">A</span> For over a century, the central dogma of genetics was elegantly simple: biological traits are passed from parent to offspring exclusively through the rigid sequence of DNA. According to this Darwinian and Mendelian framework, a person’s lived experiences—whether they suffered starvation, experienced profound trauma, or lived in sheer luxury—had absolutely no impact on the genetic code they handed down to their children. Evolution was a slow, randomized process driven by genetic mutation, not by environmental adaptation during a single lifespan. However, the rapidly expanding field of "epigenetics" has profoundly disrupted this deeply entrenched scientific belief.</p>
+        <p><span class="paragraph-label">B</span> Epigenetics literally translates to "above genetics." It refers to the chemical modifications that occur on top of the DNA sequence, acting as a dynamic set of switches that turn specific genes "on" or "off." While the actual genetic code (the sequence of A, C, T, and G molecules) remains completely unchanged, the *expression* of those genes can be drastically altered by environmental factors such as diet, stress, and toxic exposure. The groundbreaking revelation of the early 21st century is that these epigenetic modifications are not always wiped clean during reproduction; they can be passed down to future generations, a phenomenon known as transgenerational epigenetic inheritance.</p>
+        <p><span class="paragraph-label">C</span> One of the most compelling pieces of human evidence for this phenomenon stems from the "Dutch Hunger Winter" of 1944-1945. Towards the end of World War II, a German blockade plunged the western Netherlands into a brutal famine. Researchers later discovered that the children born to women who were pregnant during this famine suffered from significantly higher rates of obesity, diabetes, and cardiovascular disease later in life. Astoundingly, this metabolic vulnerability was also observed in the *grandchildren* of the famine survivors. The starvation experienced by the grandmothers had altered the epigenetic markers on genes related to metabolism, locking their descendants' bodies into a state of perpetual biological scarcity, even in a modern environment of food abundance.</p>
+        <p><span class="paragraph-label">D</span> To understand the biological mechanics of this inheritance, scientists turned to animal models. In a landmark 2013 study, neurobiologist Dr. Brian Dias exposed male mice to the smell of acetophenone (a chemical that smells like cherry blossoms) while simultaneously delivering a mild electric shock. Predictably, the mice learned to fear the smell. Dias then bred these mice and raised their offspring in a completely different environment, ensuring the fathers had no contact with their pups. Astonishingly, when the offspring were exposed to the smell of cherry blossoms, they exhibited extreme anxiety and shuddered, despite having never been shocked or previously exposed to the scent.</p>
+        <p><span class="paragraph-label">E</span> Upon examining the brains of the offspring, researchers found that they had significantly more neurons dedicated to detecting the cherry blossom scent compared to control mice. Furthermore, Dias found specific epigenetic markers—specifically, a process called DNA methylation—on the specific gene responsible for detecting that odor in the sperm of the traumatized fathers. The trauma had physically scarred the chemical switches in the reproductive cells, biologically warning the next generation about a specific environmental threat before they were even born.</p>
+        <p><span class="paragraph-label">F</span> The implications of transgenerational epigenetics are profound, spanning the fields of psychology, public health, and sociology. If the trauma of war, systemic poverty, or malnutrition can alter the biological stress responses of future generations, the concept of preventive healthcare must expand beyond the individual to encompass historical and societal contexts. However, researchers caution against genetic fatalism. Just as negative environmental factors can create harmful epigenetic marks, positive interventions—such as enriched environments, robust nutrition, and psychological therapy—have been shown in animal models to actively reverse these chemical changes, offering a biological pathway to breaking the cycle of inherited trauma.</p>
       </div>
 
       <!-- PASSAGE 2 -->
       <div id="passage-2" class="section-content">
-        <h1>Macro and Micro Scaffolding Strategies</h1>
-        <p><span class="paragraph-label">A</span> As the concept of linguistic scaffolding evolved, researchers recognized the need to categorize it based on scope and timing. In 2002, applied linguist Pauline Gibbons introduced a critical distinction between "macro-scaffolding" and "micro-scaffolding." Understanding this dichotomy allows curriculum designers and classroom teachers to synchronize their efforts, ensuring that support is embedded both in the long-term structure of a course and in the moment-to-moment interactions between teacher and student.</p>
-        <p><span class="paragraph-label">B</span> Macro-scaffolding, also referred to as planned scaffolding, occurs long before the students enter the classroom. It is the architectural blueprint of a syllabus. When educators select reading materials that gradually increase in lexical density over a 12-week semester, they are engaging in macro-scaffolding. Similarly, sequencing a writing course so that students master descriptive paragraphs before moving on to argumentative essays ensures that foundational skills support advanced tasks. Macro-scaffolding is predictable, structured, and applies broadly to the entire cohort of learners.</p>
-        <p><span class="paragraph-label">C</span> Conversely, micro-scaffolding is highly spontaneous. It happens in real-time, often in response to an unexpected learner error or a sudden look of confusion. For instance, if a student struggles to find the English word for "exhausted," the teacher might provide a micro-scaffold by asking a guiding question: "Are you just a little tired, or very, very tired?" Another common micro-scaffold is the 'recast,' where a teacher subtly corrects a student's grammar by repeating their statement correctly without disrupting the flow of conversation. This interactional support is highly individualized and relies heavily on the teacher's intuition.</p>
-        <p><span class="paragraph-label">D</span> In contemporary ELT, the strict "English-only" rule—once considered the gold standard of language immersion—is increasingly being viewed as an unnecessary removal of a natural scaffold. Researchers like Ofelia García advocate for "translanguaging," a strategy that permits bilingual students to seamlessly use their native language alongside English to make sense of complex academic content. Allowing students to discuss a difficult English text in their mother tongue before writing their final response in English acts as a powerful macro-scaffold, validating their existing linguistic repertoire while bridging them to the target language.</p>
-        <p><span class="paragraph-label">E</span> The advent of educational technology has introduced new dimensions to scaffolding, blurring the lines between macro and micro support. AI-driven language platforms utilize sophisticated algorithms to track a student's performance data. If a platform detects that a student is consistently failing exercises involving the past perfect tense, it can automatically generate targeted mini-lessons and visual aids. This automated support provides the immediacy of micro-scaffolding but relies on the pre-programmed, structural logic of macro-scaffolding.</p>
-        <p><span class="paragraph-label">F</span> Despite the benefits of both strategies, a common pitfall in language instruction is the misalignment of macro and micro scaffolds. A curriculum may be beautifully sequenced (macro), but if the teacher fails to provide conversational support during a complex speaking task (micro), the students will likely fail. Success in language acquisition requires educators to be both skilled architects in their planning and responsive guides in their daily execution.</p>
+        <h1>The Evolution of Chronobiology and Social Time</h1>
+        <p><span class="paragraph-label">A</span> For the vast majority of human history, time was an inherently local and fluid concept dictated by the natural world. Agrarian societies structured their labor around the solar cycle, the changing of the seasons, and the biological rhythms of livestock. Sunrise dictated the beginning of labor, and sunset dictated its end. "Hours" were not fixed units of duration; rather, the daylight period was simply divided into twelve segments, meaning an hour in the summer was physically longer than an hour in the winter. Time was a biological and environmental reality, not an abstract mathematical grid imposed upon society.</p>
+        <p><span class="paragraph-label">B</span> The widespread adoption of the mechanical clock in 14th-century European monasteries began the slow detachment of time from nature. Monks required precise schedules to regulate their prayer cycles, leading to the creation of autonomous machines that divided time into uniform, unvarying increments. However, it was not until the Industrial Revolution in the 18th and 19th centuries that mechanical time truly conquered daily life. Factory owners, realizing that "time is money," utilized clocks to coordinate mass labor, track wages, and enforce discipline. The organic rhythm of the sun was replaced by the relentless, artificial rhythm of the factory whistle.</p>
+        <p><span class="paragraph-label">C</span> Despite the industrialization of time, local variations persisted well into the 19th century. Because towns set their clocks to local noon (when the sun reached its highest point), a traveler moving across a country would find the time changing by a few minutes every few miles. This patchwork of local times became dangerously unmanageable with the expansion of the railway network. Conductors could not coordinate complex schedules, leading to frequent and fatal train collisions. In 1884, to solve this logistical nightmare, international delegates established the Prime Meridian at Greenwich, England, dividing the globe into 24 standardized time zones and forever subordinating local solar reality to global economic efficiency.</p>
+        <p><span class="paragraph-label">D</span> While standardizing time was a triumph of engineering and commerce, modern chronobiology—the study of biological rhythms—suggests it has come at a severe physiological cost. Human beings are governed by a "circadian rhythm," an internal biological clock located in the suprachiasmatic nucleus of the brain. This clock evolved over millions of years to synchronize our sleep, hormone production, and metabolism perfectly with the rising and setting of the sun. However, modern society, fueled by artificial lighting and 24-hour digital connectivity, forces individuals to adhere to "social time" (alarm clocks and rigid work schedules) rather than their internal biological time.</p>
+        <p><span class="paragraph-label">E</span> German chronobiologist Till Roenneberg coined the term "social jetlag" to describe the chronic misalignment between a person's biological clock and their social obligations. If an individual's natural rhythm dictates they should sleep from 1:00 AM to 9:00 AM, but their corporate job forces them to wake at 6:00 AM, they are living in a permanent state of physiological disruption. Roenneberg's extensive epidemiological studies reveal that social jetlag is not merely a cause of chronic fatigue; it is statistically correlated with a dramatically increased risk of obesity, cardiovascular disease, and clinical depression. The modern epidemic of sleep deprivation is largely a consequence of biology clashing with industrial timekeeping.</p>
+        <p><span class="paragraph-label">F</span> In recent years, a growing movement of scientists and public health advocates has argued for the realignment of societal schedules with chronobiology. Initiatives such as delaying school start times for adolescents—whose biological clocks naturally shift later during puberty—have shown remarkable success in improving academic performance and reducing teenage depression. Similarly, progressive corporations are experimenting with asynchronous work schedules, allowing employees to optimize their labor around their individual circadian chronotypes. Ultimately, true efficiency may not lie in forcing human biology to conform to the mechanical clock, but in adapting the clock to serve human biology.</p>
       </div>
 
       <!-- PASSAGE 3 -->
       <div id="passage-3" class="section-content">
-        <h1>Cognitive Load Theory and the Art of Fading</h1>
-        <p><span class="paragraph-label">A</span> To truly understand why linguistic scaffolding is effective, one must examine the limits of human memory. In the late 1980s, educational psychologist John Sweller formulated Cognitive Load Theory (CLT). Sweller posited that the human brain possesses a working memory that is severely limited in capacity and duration. When a learner is confronted with new information, working memory can only hold and process a few elements at a time. If the complexity of a task exceeds this capacity, the learner experiences "cognitive overload," resulting in confusion, frustration, and a total cessation of learning.</p>
-        <p><span class="paragraph-label">B</span> Sweller categorized cognitive load into three types: intrinsic, extraneous, and germane. Intrinsic load is the inherent difficulty of the subject matter itself—for example, the complex spelling rules of English. Extraneous load is generated by the way the information is presented. If a teacher explains a grammar rule using unnecessarily complicated academic jargon, they increase the extraneous load. Germane load is the mental effort required to actually create permanent schemas (knowledge structures) in long-term memory. The primary objective of linguistic scaffolding is to minimize extraneous load so that working memory can devote its limited resources to the germane load of actual learning.</p>
-        <p><span class="paragraph-label">C</span> One of the most delicate challenges an educator faces is finding the exact balance of scaffolding. Under-scaffolding plunges the learner immediately into cognitive overload. However, over-scaffolding presents an equally insidious problem. When a teacher provides too many sentence frames, translates every difficult word, and constantly interrupts to correct grammar, the student is denied the opportunity to engage in productive struggle. Over-scaffolded students become passive recipients of language rather than active constructors of meaning, ultimately failing to develop linguistic autonomy.</p>
-        <p><span class="paragraph-label">D</span> The solution to over-scaffolding is the systematic process of "fading." Fading is the gradual, deliberate removal of instructional supports as the learner's competence increases. For example, in a reading comprehension unit, a teacher might initially provide a fully completed glossary of key terms. The following week, the teacher might provide the terms but require the students to find the definitions. By the final week, the students are expected to identify and define the unknown words entirely on their own. This gradual release of responsibility ensures that the cognitive heavy lifting is slowly transferred from the teacher to the student.</p>
-        <p><span class="paragraph-label">E</span> The process of fading is not solely about cognitive development; it has profound implications for a student's emotional state. As Stephen Krashen noted in his research on the "affective filter," high anxiety levels block language acquisition. Initial scaffolding lowers this filter by making tasks feel safe and achievable. However, the subsequent fading of those scaffolds builds self-efficacy. When a student realizes they can successfully write an essay or hold a conversation without the teacher's immediate help, their confidence surges, creating a positive feedback loop that accelerates future learning.</p>
-        <p><span class="paragraph-label">F</span> In conclusion, scaffolding is not merely a set of teaching tricks; it is a sophisticated cognitive management strategy. By carefully managing working memory through the reduction of extraneous load, and by masterfully timing the fading of support, educators can guide language learners out of dependence and into the realm of true communicative fluency. The ultimate measure of a scaffold's success is its own obsolescence.</p>
+        <h1>Acoustic Ecology and the Anthropause</h1>
+        <p><span class="paragraph-label">A</span> When assessing the health of an ecosystem, scientists traditionally rely on visual metrics: measuring deforestation rates, tracking water clarity, or conducting photographic wildlife censuses. However, a highly specialized field known as acoustic ecology argues that the most accurate barometer of environmental health is invisible. Acoustic ecologists study the "soundscape"—the total sum of acoustic resources in a given habitat. By placing sensitive omnidirectional microphones in forests, oceans, and urban centers, these researchers analyze the intricate audio tapestry of the natural world, revealing complex ecological dynamics that visual observation entirely misses.</p>
+        <p><span class="paragraph-label">B</span> Bernie Krause, a pioneer in the field, divides the soundscape into three distinct categories. The *geophony* consists of non-biological natural sounds, such as wind howling through a canyon, rainfall hitting leaves, or the crashing of ocean waves. The *biophony* encompasses the collective acoustic signatures generated by all living organisms in the habitat, from the rhythmic croaking of frogs to the high-frequency echolocation of bats. Finally, the *anthropophony* includes all sounds generated by human activity, ranging from the low-frequency hum of commercial shipping vessels to the roar of urban highway traffic.</p>
+        <p><span class="paragraph-label">C</span> In a pristine ecosystem, Krause discovered that the biophony is not a random cacophony of noise. Instead, it is a highly structured, evolutionary symphony. Through a process called "acoustic niche hypothesis," different species have evolved to vocalize at specific frequencies and temporal intervals to avoid competing with one another. Much like instruments in an orchestra, insects might occupy the high-frequency treble bands, while birds utilize the mid-range, allowing all species to be heard simultaneously without acoustic interference. This precise partitioning of the audio spectrum is critical for mating calls, territorial defense, and predator evasion.</p>
+        <p><span class="paragraph-label">D</span> The primary crisis identified by acoustic ecologists is the explosive growth of the anthropophony. Unlike natural sounds, human-generated noise is overwhelmingly chaotic, broad-spectrum, and continuous. This creates a phenomenon known as "acoustic masking." When a highway is built near a forest, the low-frequency rumble of tires masks the mating calls of local amphibians and birds. Unable to communicate across the noise smog, populations rapidly decline. In the oceans, the acoustic masking caused by massive cargo ships severely disorients marine mammals like whales and dolphins, which rely entirely on sonar to navigate and hunt in the dark depths.</p>
+        <p><span class="paragraph-label">E</span> For decades, quantifying the exact impact of the anthropophony was difficult because finding a control environment—a completely quiet period on Earth—was virtually impossible. However, the unprecedented global lockdowns triggered by the COVID-19 pandemic in early 2020 provided acoustic ecologists with an accidental, global-scale experiment. Scientists dubbed this brief period of reduced human mobility the "Anthropause." As global air travel plummeted, shipping routes stalled, and urban highways emptied, the Earth experienced a dramatic, instantaneous reduction in anthropogenic noise.</p>
+        <p><span class="paragraph-label">F</span> The data collected during the Anthropause was astonishing. In urban centers like San Francisco, researchers noted that the white-crowned sparrow rapidly altered its birdsong. Prior to the lockdown, the sparrows had to sing at unnaturally loud, high frequencies to be heard over the traffic. Within weeks of the lockdown, the birds lowered their pitch and increased the complexity and nuance of their songs, effectively reclaiming their acoustic territory. Similarly, in the oceans, the reduction in shipping noise led to a measurable decrease in stress hormones (glucocorticoids) in North Atlantic right whales. The Anthropause proved definitively that the acoustic pollution we generate is severely suppressing biological vitality, but it also offered a message of hope: the natural world possesses an incredible capacity for rapid recovery if we simply quiet down.</p>
       </div>
     </div>
 
@@ -418,49 +518,53 @@
       <div id="questions-1" class="section-content active">
         <h2>Questions 1–5</h2>
         <div class="instruction">
-          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
-          Choose the correct heading for paragraphs <strong>B–F</strong> from the list below.<br>
-          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
-        </div>
-        <div class="box-options">
-          <div class="box-item"><strong>i</strong> The necessity of removing support</div>
-          <div class="box-item"><strong>ii</strong> Using physical objects to build meaning</div>
-          <div class="box-item"><strong>iii</strong> The psychological origins of the concept</div>
-          <div class="box-item"><strong>iv</strong> Dividing large assignments into steps</div>
-          <div class="box-item"><strong>v</strong> The dangers of cognitive overload</div>
-          <div class="box-item"><strong>vi</strong> Linking new ideas to what is already known</div>
-          <div class="box-item"><strong>vii</strong> Why the construction industry uses scaffolds</div>
-          <div class="box-item"><strong>viii</strong> Vygotsky’s rejection of behaviorism</div>
+          Do the following statements agree with the information given in Reading Passage 1?<br>
+          Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
         </div>
         <div class="q-group">
-          <div class="q-item" style="color: #666;"><em>Example: Paragraph A = vii (Contextual Intro - Not Questioned)</em></div>
-          <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph B <input type="text" id="q1"></div></div>
-          <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph C <input type="text" id="q2"></div></div>
-          <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph D <input type="text" id="q3"></div></div>
-          <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph E <input type="text" id="q4"></div></div>
-          <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph F <input type="text" id="q5"></div></div>
+          <div class="q-item"><div class="q-num">1</div><div class="q-text">Traditional Mendelian genetics argued that a parent's lived experiences altered their offspring's DNA sequence. <br><input type="text" id="q1"></div></div>
+          <div class="q-item"><div class="q-num">2</div><div class="q-text">Epigenetic changes act as switches that turn specific genes on or off without altering the underlying genetic code. <br><input type="text" id="q2"></div></div>
+          <div class="q-item"><div class="q-num">3</div><div class="q-text">The grandchildren of Dutch Hunger Winter survivors had an increased risk of obesity due to changes in their DNA sequence. <br><input type="text" id="q3"></div></div>
+          <div class="q-item"><div class="q-num">4</div><div class="q-text">In Brian Dias's study, the mice offspring exhibited anxiety towards the smell of cherry blossoms despite never being shocked themselves. <br><input type="text" id="q4"></div></div>
+          <div class="q-item"><div class="q-num">5</div><div class="q-text">Epigenetic markers caused by trauma are permanent and cannot be reversed by positive environmental interventions. <br><input type="text" id="q5"></div></div>
         </div>
 
         <h2>Questions 6–9</h2>
         <div class="instruction">
-          Do the following statements agree with the information given in the Reading Passage?<br>
-          Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
+          Look at the following statements (Questions 6-9) and the list of concepts/researchers below.<br>
+          Match each statement with the correct entity, <strong>A, B, or C</strong>.<br>
+          <em>You may use any letter more than once.</em>
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Central Dogma of Genetics (Darwin/Mendel)</div>
+          <div class="box-item"><strong>B</strong> The Dutch Hunger Winter Research</div>
+          <div class="box-item"><strong>C</strong> Dr. Brian Dias's Research</div>
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">6</div><div class="q-text">The term 'scaffolding' was originally created by Lev Vygotsky in 1976. <br><input type="text" id="q6"></div></div>
-          <div class="q-item"><div class="q-num">7</div><div class="q-text">Vygotsky believed that teachers should aim their instruction exactly at the student's current level of independent ability. <br><input type="text" id="q7"></div></div>
-          <div class="q-item"><div class="q-num">8</div><div class="q-text">Sentence frames and graphic organizers are tools used to prevent cognitive overload during writing tasks. <br><input type="text" id="q8"></div></div>
-          <div class="q-item"><div class="q-num">9</div><div class="q-text">Realia-based scaffolding is proven to be the most effective method for advanced university students. <br><input type="text" id="q9"></div></div>
+          <div class="q-item"><div class="q-num">6</div><div class="q-text">Demonstrated that extreme psychological trauma combined with specific odors alters reproductive cells. <input type="text" id="q6"></div></div>
+          <div class="q-item"><div class="q-num">7</div><div class="q-text">Posits that evolution is a slow process driven entirely by random mutations. <input type="text" id="q7"></div></div>
+          <div class="q-item"><div class="q-num">8</div><div class="q-text">Showed that human malnutrition can lock descendants' bodies into a state of metabolic vulnerability. <input type="text" id="q8"></div></div>
+          <div class="q-item"><div class="q-num">9</div><div class="q-text">Believed that environmental adaptation during a single lifespan had no impact on future generations. <input type="text" id="q9"></div></div>
         </div>
 
         <h2>Questions 10–13</h2>
         <div class="instruction">
-          Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
+          Complete the summary using the list of words, <strong>A–I</strong>, below.<br>
+          Write the correct letter, <strong>A–I</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> unchanged</div>
+          <div class="box-item"><strong>B</strong> DNA methylation</div>
+          <div class="box-item"><strong>C</strong> fatalism</div>
+          <div class="box-item"><strong>D</strong> neurons</div>
+          <div class="box-item"><strong>E</strong> reversed</div>
+          <div class="box-item"><strong>F</strong> expression</div>
+          <div class="box-item"><strong>G</strong> starvation</div>
         </div>
         <div class="q-group">
           <div class="q-item">
             <div class="q-text">
-              The fundamental goal of a teacher acting as a scaffold is to help students navigate their <strong>10</strong> <input type="text" id="q10">. This can be achieved in several ways, such as bringing physical objects, known as <strong>11</strong> <input type="text" id="q11">, into the classroom to assist beginner learners. However, a crucial aspect of this instructional technique is that it must be temporary. If support is provided for too long, it turns into a <strong>12</strong> <input type="text" id="q12">. To build student independence, educators must engage in a process called <strong>13</strong> <input type="text" id="q13">, where the assistance is systematically removed.
+              The field of epigenetics shows that while a person's DNA sequence remains <strong>10</strong> <input type="text" id="q10">, environmental factors can alter gene <strong>11</strong> <input type="text" id="q11">. In mice experiments, researchers discovered that trauma physically scarred sperm cells via a process known as <strong>12</strong> <input type="text" id="q12">. This resulted in offspring being born with more <strong>13</strong> <input type="text" id="q13"> dedicated to detecting a specific threat. However, scientists note that these inherited markers can often be reversed by positive therapy and nutrition.
             </div>
           </div>
         </div>
@@ -468,88 +572,80 @@
 
       <!-- QUESTIONS FOR SECTION 2 -->
       <div id="questions-2" class="section-content">
-        <h2>Questions 14–18</h2>
+        <h2>Questions 14–19</h2>
         <div class="instruction">
           The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
-          Which paragraph contains the following information?<br>
-          Write the correct letter, <strong>A–F</strong>, in the boxes provided.
+          Choose the correct heading for each paragraph from the list below.<br>
+          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The biological clock vs. the alarm clock</div>
+          <div class="box-item"><strong>ii</strong> A global solution to a dangerous logistical problem</div>
+          <div class="box-item"><strong>iii</strong> Adapting the mechanical clock to fit human biology</div>
+          <div class="box-item"><strong>iv</strong> How farmers used mechanical clocks</div>
+          <div class="box-item"><strong>v</strong> The religious origins of precise scheduling</div>
+          <div class="box-item"><strong>vi</strong> The physical health consequences of living out of sync</div>
+          <div class="box-item"><strong>vii</strong> The fluid nature of solar-based agrarian time</div>
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">14</div><div class="q-text">An example of how syllabus design acts as a long-term support structure. <input type="text" id="q14"></div></div>
-          <div class="q-item"><div class="q-num">15</div><div class="q-text">The idea that allowing the use of a mother tongue can aid in understanding difficult texts. <input type="text" id="q15"></div></div>
-          <div class="q-item"><div class="q-num">16</div><div class="q-text">How AI platforms combine the logic of long-term planning with immediate feedback. <input type="text" id="q16"></div></div>
-          <div class="q-item"><div class="q-num">17</div><div class="q-text">A warning that good curriculum planning is useless without responsive classroom teaching. <input type="text" id="q17"></div></div>
-          <div class="q-item"><div class="q-num">18</div><div class="q-text">An explanation of a teaching technique where errors are corrected without stopping the conversation. <input type="text" id="q18"></div></div>
+          <div class="q-item"><div class="q-num">14</div><div class="q-text">Paragraph A <input type="text" id="q14"></div></div>
+          <div class="q-item"><div class="q-num">15</div><div class="q-text">Paragraph B <input type="text" id="q15"></div></div>
+          <div class="q-item"><div class="q-num">16</div><div class="q-text">Paragraph C <input type="text" id="q16"></div></div>
+          <div class="q-item"><div class="q-num">17</div><div class="q-text">Paragraph D <input type="text" id="q17"></div></div>
+          <div class="q-item"><div class="q-num">18</div><div class="q-text">Paragraph E <input type="text" id="q18"></div></div>
+          <div class="q-item"><div class="q-num">19</div><div class="q-text">Paragraph F <input type="text" id="q19"></div></div>
         </div>
 
-        <h2>Questions 19–22</h2>
+        <h2>Questions 20–23</h2>
+        <div class="instruction">
+          Do the following statements agree with the claims of the writer in Reading Passage 2?<br>
+          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">20</div><div class="q-text">In early agrarian societies, an "hour" during the summer was exactly the same length as an hour in the winter. <br><input type="text" id="q20"></div></div>
+          <div class="q-item"><div class="q-num">21</div><div class="q-text">Factory owners used mechanical clocks to enforce discipline and track labor efficiency. <br><input type="text" id="q21"></div></div>
+          <div class="q-item"><div class="q-num">22</div><div class="q-text">The Prime Meridian at Greenwich was established primarily to help farmers coordinate crop harvests globally. <br><input type="text" id="q22"></div></div>
+          <div class="q-item"><div class="q-num">23</div><div class="q-text">Delaying school start times has been shown to reduce teenage depression and improve academic performance. <br><input type="text" id="q23"></div></div>
+        </div>
+
+        <h2>Questions 24–26</h2>
         <div class="instruction">
           Choose the correct letter, <strong>A, B, C or D</strong>.
         </div>
         <div class="q-group">
           <div class="q-item">
-            <div class="q-num">19</div>
-            <div class="q-text">What is the primary difference between macro-scaffolding and micro-scaffolding according to Pauline Gibbons?
+            <div class="q-num">24</div>
+            <div class="q-text">Why did the expansion of the railway network necessitate standardized time zones?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q19" value="A"> A) Macro is used for writing, while micro is used for speaking.</label>
-                <label class="mcq-label"><input type="radio" name="q19" value="B"> B) Macro is planned in advance, while micro happens spontaneously.</label>
-                <label class="mcq-label"><input type="radio" name="q19" value="C"> C) Macro relies on technology, while micro relies on textbooks.</label>
-                <label class="mcq-label"><input type="radio" name="q19" value="D"> D) Macro is for advanced students, while micro is for beginners.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="A"> A) Because passengers complained that their watches kept breaking on trains.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="B"> B) Because the patchwork of local noon times caused dangerous collisions and scheduling nightmares.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="C"> C) Because factory owners needed trains to run exactly at sunset.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="D"> D) Because early monks refused to travel on trains without a standardized clock.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
-            <div class="q-num">20</div>
-            <div class="q-text">What does the term 'recast' refer to in paragraph C?
+            <div class="q-num">25</div>
+            <div class="q-text">What does the term "social jetlag" refer to?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q20" value="A"> A) Providing a written translation of a difficult word.</label>
-                <label class="mcq-label"><input type="radio" name="q20" value="B"> B) Completely ignoring a student's grammatical mistake.</label>
-                <label class="mcq-label"><input type="radio" name="q20" value="C"> C) Asking a guiding question to help a student find a vocabulary word.</label>
-                <label class="mcq-label"><input type="radio" name="q20" value="D"> D) Subtly repeating a student's sentence with the correct grammar.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="A"> A) The fatigue caused by frequent international air travel.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="B"> B) The chronic misalignment between a person's biological clock and their societal obligations.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="C"> C) The stress of arriving late to social events.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="D"> D) The depression caused by a lack of artificial lighting in modern offices.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
-            <div class="q-num">21</div>
-            <div class="q-text">Why does Ofelia García support the concept of "translanguaging"?
+            <div class="q-num">26</div>
+            <div class="q-text">What is the author's final conclusion regarding human biology and time?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q21" value="A"> A) Because English-only rules are too difficult for teachers to enforce.</label>
-                <label class="mcq-label"><input type="radio" name="q21" value="B"> B) Because it forces students to permanently rely on their native language.</label>
-                <label class="mcq-label"><input type="radio" name="q21" value="C"> C) Because it allows students to use their existing language skills to understand new content.</label>
-                <label class="mcq-label"><input type="radio" name="q21" value="D"> D) Because it replaces the need for macro-scaffolding in curriculum design.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="A"> A) We must forcefully train our bodies to adapt to the mechanical clock.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="B"> B) The mechanical clock should be entirely abolished in favor of agrarian time.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="C"> C) True efficiency involves restructuring societal schedules to serve human biological rhythms.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="D"> D) Only teenagers benefit from asynchronous scheduling.</label>
               </div>
             </div>
           </div>
-          <div class="q-item">
-            <div class="q-num">22</div>
-            <div class="q-text">How does educational technology attempt to blur the lines between macro and micro scaffolding?
-              <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q22" value="A"> A) By replacing human teachers entirely in the classroom.</label>
-                <label class="mcq-label"><input type="radio" name="q22" value="B"> B) By using pre-programmed logic to deliver spontaneous, real-time feedback.</label>
-                <label class="mcq-label"><input type="radio" name="q22" value="C"> C) By forcing all students to learn at a rigidly structured pace.</label>
-                <label class="mcq-label"><input type="radio" name="q22" value="D"> D) By grading multiple-choice tests automatically.</label>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <h2>Questions 23–26</h2>
-        <div class="instruction">
-          Look at the following concepts (Questions 23-26) and the list of researchers below.<br>
-          Match each concept with the correct researcher, <strong>A, B, C, or D</strong>.<br>
-          <em>You may use any letter more than once.</em>
-        </div>
-        <div class="box-options">
-          <div class="box-item"><strong>A</strong> Jerome Bruner (Passage 1)</div>
-          <div class="box-item"><strong>B</strong> Lev Vygotsky (Passage 1)</div>
-          <div class="box-item"><strong>C</strong> Pauline Gibbons</div>
-          <div class="box-item"><strong>D</strong> Ofelia García</div>
-        </div>
-        <div class="q-group">
-          <div class="q-item"><div class="q-num">23</div><div class="q-text">Divided instructional support into planned architecture and real-time interactions. <input type="text" id="q23"></div></div>
-          <div class="q-item"><div class="q-num">24</div><div class="q-text">Advocates against strict English-only rules in language classrooms. <input type="text" id="q24"></div></div>
-          <div class="q-item"><div class="q-num">25</div><div class="q-text">First applied a metaphor from the construction industry to educational psychology. <input type="text" id="q25"></div></div>
-          <div class="q-item"><div class="q-num">26</div><div class="q-text">Theorized that effective teaching must target a level slightly beyond a student's independent capability. <input type="text" id="q26"></div></div>
         </div>
       </div>
 
@@ -557,37 +653,26 @@
       <div id="questions-3" class="section-content">
         <h2>Questions 27–31</h2>
         <div class="instruction">
-          Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
-          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Which paragraph contains the following information?<br>
+          Write the correct letter, <strong>A–F</strong>, in the boxes provided.
         </div>
         <div class="q-group">
-          <div class="q-item"><div class="q-num">27</div><div class="q-text">John Sweller argued that the human working memory can hold an unlimited amount of information. <br><input type="text" id="q27"></div></div>
-          <div class="q-item"><div class="q-num">28</div><div class="q-text">Extraneous cognitive load is caused by confusing or poor teaching methods. <br><input type="text" id="q28"></div></div>
-          <div class="q-item"><div class="q-num">29</div><div class="q-text">Teachers should aim to completely eliminate the intrinsic load of a subject. <br><input type="text" id="q29"></div></div>
-          <div class="q-item"><div class="q-num">30</div><div class="q-text">Over-scaffolding can be detrimental because it prevents students from experiencing productive struggle. <br><input type="text" id="q30"></div></div>
-          <div class="q-item"><div class="q-num">31</div><div class="q-text">Stephen Krashen's research focused primarily on the development of long-term memory schemas. <br><input type="text" id="q31"></div></div>
+          <div class="q-item"><div class="q-num">27</div><div class="q-text">A description of an unplanned global event that drastically reduced human noise. <input type="text" id="q27"></div></div>
+          <div class="q-item"><div class="q-num">28</div><div class="q-text">How acoustic ecology evaluates ecosystems differently than visual observation. <input type="text" id="q28"></div></div>
+          <div class="q-item"><div class="q-num">29</div><div class="q-text">Evidence that marine mammals experienced less chemical stress when shipping declined. <input type="text" id="q29"></div></div>
+          <div class="q-item"><div class="q-num">30</div><div class="q-text">The concept of animals evolving to use specific audio frequencies to avoid interference. <input type="text" id="q30"></div></div>
+          <div class="q-item"><div class="q-num">31</div><div class="q-text">How the roar of highway traffic prevents amphibians and birds from hearing mating calls. <input type="text" id="q31"></div></div>
         </div>
 
         <h2>Questions 32–36</h2>
         <div class="instruction">
-          Complete the summary using the list of words, <strong>A–I</strong>, below.<br>
-          Write the correct letter, <strong>A–I</strong>, in the boxes provided.
-        </div>
-        <div class="box-options">
-          <div class="box-item"><strong>A</strong> dependence</div>
-          <div class="box-item"><strong>B</strong> jargon</div>
-          <div class="box-item"><strong>C</strong> autonomy</div>
-          <div class="box-item"><strong>D</strong> anxiety</div>
-          <div class="box-item"><strong>E</strong> working memory</div>
-          <div class="box-item"><strong>F</strong> schemas</div>
-          <div class="box-item"><strong>G</strong> fading</div>
-          <div class="box-item"><strong>H</strong> resources</div>
-          <div class="box-item"><strong>I</strong> complexity</div>
+          Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
         </div>
         <div class="q-group">
           <div class="q-item">
             <div class="q-text">
-              The primary purpose of scaffolding is to manage a learner's limited <strong>32</strong> <input type="text" id="q32">. By reducing unnecessary confusion, mental energy can be spent on creating permanent <strong>33</strong> <input type="text" id="q33">. However, if a teacher provides too much support, the student may develop a sense of <strong>34</strong> <input type="text" id="q34">. To prevent this, teachers must use a technique called <strong>35</strong> <input type="text" id="q35">, where support is slowly withdrawn. This process not only builds cognitive capability but also lowers student <strong>36</strong> <input type="text" id="q36">, ultimately leading to greater self-confidence.
+              Acoustic ecologist Bernie Krause divides natural soundscapes into three areas. Non-biological sounds like wind form the <strong>32</strong> <input type="text" id="q32">, while sounds from living organisms create the <strong>33</strong> <input type="text" id="q33">. In a healthy ecosystem, species partition the audio spectrum so they don't overlap, a concept known as the acoustic niche hypothesis. However, continuous, chaotic human noise creates a problem called <strong>34</strong> <input type="text" id="q34">, blocking vital animal communications. During the COVID-19 pandemic, an accidental experiment called the <strong>35</strong> <input type="text" id="q35"> proved that nature can recover quickly. For example, urban sparrows were able to sing with greater nuance and at a lower <strong>36</strong> <input type="text" id="q36"> when traffic noise ceased.
             </div>
           </div>
         </div>
@@ -599,45 +684,45 @@
         <div class="q-group">
           <div class="q-item">
             <div class="q-num">37</div>
-            <div class="q-text">What is an example of reducing 'extraneous load' according to paragraph B?
+            <div class="q-text">What does the term "anthropophony" refer to?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) Changing the spelling rules of the English language.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) Explaining grammar without using complicated academic terminology.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) Forcing students to memorize entire reading passages.</label>
-                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) Giving students a completely unassisted writing task.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="A"> A) The sounds made exclusively by non-biological natural events.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="B"> B) The highly structured, evolutionary symphony of insects and birds.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="C"> C) All sounds generated by human activity, such as traffic and shipping.</label>
+                <label class="mcq-label"><input type="radio" name="q37" value="D"> D) The visual metrics used to measure deforestation rates.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
             <div class="q-num">38</div>
-            <div class="q-text">What does the writer suggest happens to over-scaffolded students in paragraph C?
+            <div class="q-text">Why was it historically difficult for ecologists to quantify the exact impact of human noise?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) They learn the material much faster than under-scaffolded students.</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) They become highly stressed by the "affective filter".</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) They become passive learners and fail to gain independence.</label>
-                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) They constantly correct the teacher's grammar.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) Because finding omnidirectional microphones was impossible.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) Because they could not find a completely quiet control environment on Earth.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) Because urban sparrows refused to sing during acoustic experiments.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) Because marine mammals do not rely on acoustic communication.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
             <div class="q-num">39</div>
-            <div class="q-text">In paragraph D, the example of the glossary is used to illustrate:
+            <div class="q-text">What did the white-crowned sparrow do before the lockdown to cope with traffic noise?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) How to activate prior knowledge.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) A gradual release of responsibility from teacher to student.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) The concept of translanguaging in a reading unit.</label>
-                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) Why intrinsic load cannot be changed.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) It stopped singing completely during rush hour.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) It migrated to the ocean to avoid the city noise.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) It sang at unnaturally loud, high frequencies to be heard.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) It learned to mimic the sound of commercial shipping vessels.</label>
               </div>
             </div>
           </div>
           <div class="q-item">
             <div class="q-num">40</div>
-            <div class="q-text">Which sentence best summarizes the conclusion in Paragraph F?
+            <div class="q-text">What is the central message provided by the data collected during the Anthropause?
               <div class="mcq-options">
-                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) Scaffolding is a permanent necessity for all English learners.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) Working memory is too limited to ever achieve true communicative fluency.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) The best instructional supports are those that eventually become unnecessary.</label>
-                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) Cognitive management is only important for advanced learners.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) That the natural world has suffered permanent, irreversible acoustic damage.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) That whales and dolphins prefer loud urban environments.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) That acoustic masking only affects terrestrial animals, not marine life.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) That ecosystems possess an incredible capacity for rapid recovery if human noise is reduced.</label>
               </div>
             </div>
           </div>
@@ -648,8 +733,8 @@
 
     <!-- SUBMIT BAR -->
     <div class="submit-bar">
-      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">Submit Test</button>
-      <button class="btn-retake" id="btn-retake" style="display: none;" onclick="retakeTest()">Restart Test Session</button>
+      <button class="btn-retake" id="btn-retake" onclick="retakeTest()" style="margin-right: 15px;">RESET</button>
+      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">SUBMIT MODULE</button>
     </div>
 
   </div>
@@ -657,15 +742,27 @@
   <script>
     /* --- INTERNAL ANSWER KEY FOR GRADING --- */
     const answerKey = {
-      q1: 'iii', q2: 'vi', q3: 'iv', q4: 'ii', q5: 'i',
-      q6: 'false', q7: 'false', q8: 'true', q9: 'not given',
-      q10: 'zpd', q11: 'realia', q12: 'crutch', q13: 'fading',
-      q14: 'b', q15: 'd', q16: 'e', q17: 'f', q18: 'c',
-      q19: 'b', q20: 'd', q21: 'c', q22: 'b',
-      q23: 'c', q24: 'd', q25: 'a', q26: 'b',
-      q27: 'no', q28: 'yes', q29: 'not given', q30: 'yes', q31: 'no',
-      q32: 'e', q33: 'f', q34: 'a', q35: 'g', q36: 'd',
-      q37: 'b', q38: 'c', q39: 'b', q40: 'c'
+      // Passage 1
+      q1: 'false', q2: 'true', q3: 'false', q4: 'true', q5: 'false',
+      q6: 'c', q7: 'a', q8: 'b', q9: 'a',
+      q10: 'a', q11: 'f', q12: 'b', q13: 'd',
+      
+      // Passage 2
+      q14: 'vii', q15: 'v', q16: 'ii', q17: 'i', q18: 'vi', q19: 'iii',
+      q20: 'no', q21: 'yes', q22: 'no', q23: 'yes',
+      q24: 'b', q25: 'b', q26: 'c',
+      
+      // Passage 3
+      q27: 'e', q28: 'a', q29: 'f', q30: 'c', q31: 'd',
+      q32: 'geophony', q33: 'biophony', q34: 'acoustic masking', q35: 'anthropause', q36: 'pitch',
+      q37: 'c', q38: 'b', q39: 'c', q40: 'd'
+    };
+
+    /* Handle alternate acceptable text answers gracefully */
+    const acceptableAnswers = {
+      q34: ['acoustic masking', 'masking'],
+      q35: ['anthropause', 'the anthropause'],
+      q36: ['pitch', 'frequency']
     };
 
     /* --- TAB SWITCHING LOGIC --- */
@@ -685,7 +782,6 @@
     const timerElement = document.getElementById('timer');
 
     function initTest() {
-      // Show Pre-Test overlay on every page load
       document.getElementById('pre-test-overlay').style.display = 'flex';
       document.getElementById('btn-start-top').style.display = 'block';
       timerElement.textContent = "60:00";
@@ -693,11 +789,9 @@
     }
 
     function startTest() {
-      // Hide Pre-Test overlay and start button
       document.getElementById('pre-test-overlay').style.display = 'none';
       document.getElementById('btn-start-top').style.display = 'none';
       
-      // Initialize fresh 60-minute timer
       timeRemaining = DURATION;
       updateTimerDisplay();
       
@@ -722,10 +816,10 @@
       timerElement.textContent = `${minutes}:${seconds}`;
     }
 
-    /* --- SUBMISSION & GRADING PROTOCOL --- */
+    /* --- SUBMISSION & GRADING PROTOCOL (DYNAMIC WIDTH LOGIC) --- */
     function submitTest(isAutoSubmit = false) {
       if(!isAutoSubmit) {
-        const confirmSubmit = confirm("Are you sure you want to submit? You cannot change your answers after submission.");
+        const confirmSubmit = confirm("Confirm submission? You will not be able to alter your responses.");
         if(!confirmSubmit) return;
       }
 
@@ -743,33 +837,59 @@
       let score = 0;
       
       for(let i=1; i<=40; i++) {
-        let userAnswer = "";
         const qId = 'q' + i;
         const textInput = document.getElementById(qId);
+        const correctAnsData = answerKey[qId] ? answerKey[qId].toUpperCase() : "N/A";
         
         if (textInput) {
-          userAnswer = textInput.value.trim().toLowerCase();
-          // Accept "zpd" or "zone of proximal development" for Q10
-          if (qId === 'q10' && (userAnswer === 'zpd' || userAnswer === 'zone of proximal development')) {
-            score++;
-            textInput.classList.add('correct-answer');
-          } else if (userAnswer === answerKey[qId]) {
+          let userAnswer = textInput.value.trim().toLowerCase();
+          
+          let isCorrect = (userAnswer === answerKey[qId]);
+          if(acceptableAnswers[qId] && acceptableAnswers[qId].includes(userAnswer)) {
+             isCorrect = true;
+          }
+          
+          if (isCorrect) {
             score++;
             textInput.classList.add('correct-answer');
           } else {
             textInput.classList.add('wrong-answer');
-            textInput.value = userAnswer ? `${userAnswer} (X)` : '(Blank)';
+            
+            // DYNAMIC WIDTH CALCULATION: Adjusts input width based on answer length
+            const totalChars = (userAnswer.length || 7) + correctAnsData.length + 12; // 12 for " ❌ [Ans: ]"
+            const calculatedWidth = Math.max(260, totalChars * 9); 
+            textInput.style.width = calculatedWidth + "px"; 
+            
+            textInput.value = userAnswer ? `${userAnswer} ❌ [Ans: ${correctAnsData}]` : `(Blank) ❌ [Ans: ${correctAnsData}]`;
           }
         } else {
-          const radio = document.querySelector(`input[name="${qId}"]:checked`);
-          if (radio) {
-            userAnswer = radio.value.toLowerCase();
-          }
+          const selectedRadio = document.querySelector(`input[name="${qId}"]:checked`);
+          let userAnswer = selectedRadio ? selectedRadio.value.toLowerCase() : "";
+
           if (userAnswer === answerKey[qId]) {
             score++;
-            if(radio) radio.parentElement.style.color = '#10b981';
+            selectedRadio.parentElement.style.color = '#065f46';
+            selectedRadio.parentElement.style.fontWeight = '600';
           } else {
-            if(radio) radio.parentElement.style.color = '#ef4444';
+            // Mark user's wrong choice
+            if (selectedRadio) {
+              selectedRadio.parentElement.style.color = '#991b1b';
+              selectedRadio.parentElement.style.textDecoration = 'line-through';
+            }
+            // Highlight the correct choice
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAnsData}"]`);
+            if (correctRadio) {
+              correctRadio.parentElement.style.color = '#065f46';
+              correctRadio.parentElement.style.fontWeight = '700';
+              
+              if(!correctRadio.parentElement.querySelector('.correct-badge')) {
+                 const badge = document.createElement('span');
+                 badge.className = 'correct-badge';
+                 badge.style.cssText = 'color: #10b981; margin-left: 8px; font-family: var(--font-mono); font-size: 0.85rem; text-decoration: none; display: inline-block;';
+                 badge.textContent = '✓ CORRECT ANSWER';
+                 correctRadio.parentElement.appendChild(badge);
+              }
+            }
           }
         }
       }
@@ -784,16 +904,17 @@
       });
       
       document.getElementById('btn-submit').style.display = 'none';
-      document.getElementById('btn-retake').style.display = 'block';
+      document.getElementById('btn-retake').style.display = 'none';
     }
 
     /* --- UI MANAGEMENT --- */
     function closeModal() {
       document.getElementById('results-modal').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'block';
     }
 
     function retakeTest() {
-      if(!confirm("This will clear all your answers and restart the 60-minute session. Continue?")) return;
+      if(!confirm("Warning: This will permanently clear all answers and restart the 60-minute session. Proceed?")) return;
 
       clearInterval(timerInterval);
       timerElement.classList.remove('warning');
@@ -801,28 +922,33 @@
       document.getElementById('results-modal').style.display = 'none';
       document.body.classList.remove('test-completed');
       
-      // Swap buttons back
       document.getElementById('btn-submit').style.display = 'block';
       document.getElementById('btn-submit').disabled = false;
-      document.getElementById('btn-retake').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'block';
       
+      // Reset Text Inputs
       document.querySelectorAll('input[type="text"]').forEach(input => {
         input.value = '';
         input.disabled = false;
+        input.style.width = "160px"; // Return to original width
         input.classList.remove('correct-answer', 'wrong-answer');
       });
       
+      // Reset Radio Buttons and Remove Correct Answer Badges
       document.querySelectorAll('input[type="radio"]').forEach(radio => {
         radio.checked = false;
         radio.disabled = false;
         radio.parentElement.style.color = 'inherit';
+        radio.parentElement.style.fontWeight = 'normal';
+        radio.parentElement.style.textDecoration = 'none';
       });
       
+      document.querySelectorAll('.correct-badge').forEach(badge => badge.remove());
+      
       switchSection(1);
-      initTest(); // Returns to the Pre-Test screen
+      initTest(); 
     }
 
-    // Initialize test on page load
     window.onload = initTest;
   </script>
 </body>
