@@ -1,470 +1,919 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>IELTS Reading Simulator · Test 02 · Shared Pearls of Wisdom</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
-<style>
-/* ═══════════════════════════════════════════
-   PREMIUM ACADEMIC VARIABLES
-═══════════════════════════════════════════ */
-:root {
-  --crimson: #A51C30;
-  --crimson-dark: #7A1523;
-  --charcoal: #222222;
-  --charcoal-light: #4B525A;
-  --ivory: #FAF9F6;
-  --white: #ffffff;
-  --gold: #C4923E;
-  --gold-light: rgba(196, 146, 62, 0.3);
-  --border: #E0E0E0;
-  --muted: #888888;
-  --success: #2e7d32;
-  --success-bg: rgba(46,125,50,0.08);
-  --error: #c0392b;
-  --error-bg: rgba(192,57,43,0.08);
-  --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
-  --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Reading 02 | The LRSW Clinic</title>
+  
+  <!-- PREMIUM FONTS INTEGRATION -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Roboto+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: 'Source Serif 4', Georgia, serif; background: var(--ivory); color: var(--charcoal); line-height: 1.65; overflow: hidden; }
+  <style>
+    /* --- UNIVERSAL FONT STANDARDS & COLORS --- */
+    :root {
+      /* Premium LRSW Dashboard Palette */
+      --primary: #0B1D3A; 
+      --accent: #C4923E;
+      --badge-red: #A32A3A;
+      --badge-red-bg: #F9EAEB;
+      --bg-light: #F8FAFC;
+      --border: #CBD5E1;
+      --text-main: #333333;
+      --text-muted: #666666;
+      
+      /* Premium Typography System */
+      --font-ui: 'Inter', sans-serif;
+      --font-passage: 'Lora', serif;
+      --font-heading: 'Playfair Display', serif;
+      --font-mono: 'Roboto Mono', monospace;
+    }
 
-/* ═══════════════════════════════════════════
-   NAVIGATION & TIMER BAR
-═══════════════════════════════════════════ */
-.nav { background: var(--white); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid var(--crimson); height: 75px; box-shadow: var(--shadow-sm); z-index: 100; position: relative; }
-.nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; text-decoration: none; color: var(--charcoal);}
-.nav-logo em { color: var(--gold); font-style: italic; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { 
+      font-family: var(--font-ui); 
+      color: var(--text-main); 
+      height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+      overflow: hidden; 
+      background: #fff; 
+    }
 
-.exam-controls { display: flex; align-items: center; gap: 3rem; }
-.timer-block { display: flex; align-items: center; gap: 1rem; font-family: 'DM Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--charcoal); }
-.timer-icon { color: var(--crimson); font-size: 1.2rem; }
-.timer-warning { color: var(--error); animation: blink 1s infinite; }
-@keyframes blink { 50% { opacity: 0.5; } }
+    /* --- TOP NAVIGATION --- */
+    header { 
+      background: var(--primary); 
+      color: white; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 0 2rem; 
+      height: 65px; 
+      border-bottom: 3px solid var(--accent); 
+      flex-shrink: 0; 
+      z-index: 10;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px; }
+    .logo span { color: var(--accent); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; 
+      color: #cbd5e1; 
+      border: none; 
+      padding: 0 1.5rem; 
+      font-size: 0.95rem; 
+      font-weight: 600; 
+      cursor: pointer; 
+      transition: 0.3s ease; 
+      height: 100%; 
+      display: flex; 
+      align-items: center; 
+      border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui);
+      letter-spacing: 0.5px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #fff; background: rgba(255,255,255,0.05); }
+    .tab-btn.active { color: #fff; border-bottom-color: var(--accent); background: rgba(255,255,255,0.1); }
+    
+    /* Header Controls (Timer + Start Button) */
+    .header-controls { display: flex; align-items: center; gap: 15px; }
+    
+    .btn-start-top {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .btn-start-top:hover { background: #059669; }
 
-.btn-submit { background: var(--charcoal); color: var(--white); border: none; padding: .8rem 2.5rem; font-family: 'DM Mono', monospace; font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; border-radius: 4px; cursor: pointer; transition: all .2s; }
-.btn-submit:hover { background: var(--crimson); }
+    .timer { 
+      font-family: var(--font-mono); 
+      font-size: 1.3rem; 
+      font-weight: 600; 
+      color: #fff; 
+      background: #1e293b; 
+      padding: 0.4rem 1rem; 
+      border-radius: 4px; 
+      border: 1px solid #334155;
+      letter-spacing: 1px;
+    }
+    .timer.warning { color: #ef4444; animation: pulse 1s infinite; border-color: #ef4444;}
 
-/* ═══════════════════════════════════════════
-   PASSAGE TABS
-═══════════════════════════════════════════ */
-.tab-bar { background: var(--charcoal); display: flex; justify-content: center; padding: 0; }
-.tab-btn { background: transparent; border: none; color: #aaa; padding: 1rem 3rem; font-family: 'DM Mono', monospace; font-size: .9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; cursor: pointer; transition: all .2s; border-bottom: 3px solid transparent; outline: none;}
-.tab-btn:hover { color: var(--white); }
-.tab-btn.active { color: var(--white); border-bottom-color: var(--gold); background: rgba(255,255,255,0.05); }
+    @keyframes pulse {
+      0% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+      70% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+      100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
 
-/* ═══════════════════════════════════════════
-   SPLIT PANE ARCHITECTURE
-═══════════════════════════════════════════ */
-.workspace { display: grid; grid-template-columns: 1fr 1fr; height: calc(100vh - 126px); }
+    /* --- SPLIT SCREEN LAYOUT --- */
+    .workspace { 
+      display: flex; 
+      flex: 1; 
+      height: calc(100vh - 65px); 
+      overflow: hidden; 
+      background: var(--bg-light); 
+      position: relative;
+    }
+    
+    .panel { 
+      flex: 1; 
+      height: 100%; 
+      overflow-y: auto; 
+      padding: 3rem; 
+      background: #fff; 
+      position: relative;
+    }
+    .left-panel { border-right: 1px solid var(--border); box-shadow: 4px 0 15px rgba(0,0,0,0.03); z-index: 2; }
+    .right-panel { background: #fafbfc; padding-bottom: 120px; }
 
-.pane { overflow-y: auto; padding: 3rem; position: relative; }
-.pane-left { background: var(--white); border-right: 1px solid var(--border); }
-.pane-right { background: var(--ivory); }
+    /* --- PRE-TEST LOCK SCREEN OVERLAY --- */
+    .pre-test-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.98);
+      z-index: 150;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .pre-test-overlay .module-badge {
+      font-family: var(--font-mono);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
+    }
+    .pre-test-overlay h2 { 
+      font-size: 3rem; 
+      color: var(--primary); 
+      margin-bottom: 1.5rem; 
+      font-family: var(--font-heading);
+    }
+    .pre-test-overlay p { 
+      font-size: 1.15rem; 
+      color: var(--text-muted); 
+      max-width: 600px; 
+      line-height: 1.7; 
+      margin-bottom: 2.5rem; 
+      font-family: var(--font-passage);
+    }
+    .btn-start-large {
+      background: var(--primary);
+      color: #fff;
+      padding: 1.2rem 3.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.3s ease;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 15px rgba(11, 29, 58, 0.2);
+    }
+    .btn-start-large:hover { background: #1a365d; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(11, 29, 58, 0.3); }
 
-.pane::-webkit-scrollbar { width: 8px; }
-.pane::-webkit-scrollbar-track { background: var(--ivory); }
-.pane::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
-.pane::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+    /* --- PASSAGE TYPOGRAPHY --- */
+    .left-panel h1 { 
+      font-family: var(--font-heading); 
+      font-size: 2.2rem; 
+      margin-bottom: 2.5rem; 
+      color: var(--primary); 
+      line-height: 1.3; 
+      text-align: center;
+    }
+    
+    .left-panel p { 
+      font-family: var(--font-passage);
+      margin-bottom: 1.8rem; 
+      line-height: 1.85; 
+      text-align: justify; 
+      font-size: 1.15rem; 
+      color: #2c3e50;
+    }
+    
+    .paragraph-label { 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      font-size: 1.1rem; 
+      margin-right: 15px; 
+      color: var(--accent); 
+      float: left;
+      padding-top: 4px;
+    }
+    
+    /* --- QUESTION TYPOGRAPHY --- */
+    .right-panel h2 { 
+      font-size: 1.2rem; 
+      margin-bottom: 1rem; 
+      color: var(--primary); 
+      border-bottom: 2px solid var(--border); 
+      padding-bottom: 0.8rem; 
+      margin-top: 2.5rem; 
+      font-family: var(--font-ui);
+      font-weight: 700;
+    }
+    .right-panel h2:first-child { margin-top: 0; }
+    
+    .instruction { 
+      font-style: italic; 
+      color: var(--text-muted); 
+      margin-bottom: 1.5rem; 
+      font-size: 0.95rem; 
+      line-height: 1.5;
+    }
+    
+    .q-group { margin-bottom: 3rem; }
+    .q-item { 
+      display: flex; 
+      align-items: baseline; 
+      margin-bottom: 1.5rem; 
+      gap: 15px; 
+    }
+    .q-num { 
+      font-family: var(--font-mono);
+      font-weight: 700; 
+      color: var(--primary); 
+      min-width: 25px; 
+      font-size: 1rem;
+    }
+    .q-text { 
+      flex: 1; 
+      font-size: 1.05rem; 
+      line-height: 1.6; 
+    }
+    
+    input[type="text"] { 
+      padding: 0.4rem 0.6rem; 
+      border: 1px solid #94a3b8; 
+      border-radius: 4px; 
+      font-size: 1rem; 
+      width: 160px; 
+      font-family: var(--font-ui);
+      background: #fff;
+      transition: width 0.3s ease, border-color 0.2s, box-shadow 0.2s;
+    }
+    input[type="text"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(196, 146, 62, 0.2); }
+    input:disabled { background: #f1f5f9; cursor: not-allowed; color: #64748B; border-color: #cbd5e1; }
+    
+    .mcq-options { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 1rem; color: #444; line-height: 1.4; transition: 0.2s;}
+    .mcq-label:hover { color: var(--primary); }
+    .mcq-label input { margin-top: 5px; cursor: pointer; }
+    
+    .box-options { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 15px; 
+      border: 1px solid var(--border); 
+      padding: 1.5rem; 
+      margin-bottom: 2rem; 
+      background: #fff; 
+      border-radius: 6px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    }
+    .box-item { font-size: 1rem; font-weight: 500; font-family: var(--font-ui); color: var(--primary);}
+    .box-item strong { font-family: var(--font-mono); color: var(--accent); margin-right: 5px;}
 
-/* ── TEXT STYLING ── */
-.reading-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--charcoal); margin-bottom: 2rem; line-height: 1.2; }
-.reading-paragraph { font-size: 1.15rem; color: var(--charcoal); margin-bottom: 1.5rem; line-height: 1.8; text-align: justify; }
-.reading-paragraph strong { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--crimson); }
-mark.highlight { background-color: var(--gold-light); color: inherit; padding: 0 2px; border-radius: 2px; }
+    .section-content { display: none; animation: fadeIn 0.4s ease; }
+    .section-content.active { display: block; }
 
-.highlighter-hint { font-family: 'DM Mono', monospace; font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 2rem; padding: 1rem; background: var(--ivory); border-left: 3px solid var(--gold); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f8fafc; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* ── QUESTION STYLING ── */
-.q-section-title { font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--charcoal); text-transform: uppercase; letter-spacing: .1em; margin-bottom: .5rem; padding-bottom: .5rem; border-bottom: 2px solid var(--charcoal); }
-.q-instruction { font-style: italic; color: var(--charcoal-light); margin-bottom: 2rem; font-size: 1rem; background: var(--white); padding: 1rem; border: 1px solid var(--border); border-radius: 4px;}
+    /* --- SUBMISSION & DORMANT STATE --- */
+    .submit-bar {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 50%; 
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
+      border-top: 1px solid var(--border);
+      padding: 1.2rem 3rem;
+      display: flex;
+      justify-content: flex-end;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.04);
+      z-index: 100;
+    }
 
-.q-block { margin-bottom: 3rem; }
-.q-row { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 1.5rem; }
-.q-num { font-family: 'DM Mono', monospace; font-weight: 700; color: var(--crimson); font-size: 1.1rem; min-width: 2.5rem; }
-.q-text { font-size: 1.05rem; color: var(--charcoal); flex-grow: 1; line-height: 1.6;}
+    .btn-submit {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 1px;
+    }
+    .btn-submit:hover:not(:disabled) { background: #1a365d; }
+    .btn-submit:disabled { background: #cbd5e1; cursor: not-allowed; }
 
-.gap-fill { border: none; border-bottom: 2px solid var(--charcoal-light); background: transparent; padding: .2rem .5rem; font-family: 'Source Serif 4', serif; font-size: 1.1rem; outline: none; transition: all .2s; width: 200px; text-align: center; color: var(--crimson); font-weight: 600;}
-.gap-fill:focus { border-bottom-color: var(--crimson); background: var(--white); }
+    .btn-retake {
+      background: transparent;
+      color: var(--text-muted);
+      border: 2px solid var(--border);
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.2s;
+      letter-spacing: 1px;
+    }
+    .btn-retake:hover { background: #f8fafc; color: var(--primary); border-color: var(--primary); }
 
-select.dropdown-ans { appearance: none; background: var(--white); border: 1px solid var(--border); padding: .4rem 1rem; font-family: 'DM Mono', monospace; font-size: .9rem; font-weight: 700; color: var(--charcoal); border-radius: 4px; cursor: pointer; outline: none; width: 120px; text-align: center;}
-select.dropdown-ans:focus { border-color: var(--crimson); }
+    .dormant-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(255, 255, 255, 0.3);
+      z-index: 50;
+      display: none;
+      pointer-events: none; 
+    }
+    body.test-completed .dormant-overlay { display: block; }
+    
+    /* --- RESULTS MODAL --- */
+    .results-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 3.5rem;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      z-index: 200;
+      text-align: center;
+      border-top: 6px solid var(--accent);
+      min-width: 450px;
+    }
+    .results-modal h2 { font-family: var(--font-heading); color: var(--primary); font-size: 2.2rem; margin-bottom: 1rem; }
+    .score-display { font-size: 4rem; font-weight: 700; color: var(--primary); margin: 1.5rem 0; font-family: var(--font-mono);}
+    .score-display span { font-size: 1.8rem; color: var(--border); }
+    
+    .btn-close {
+      background: var(--accent);
+      color: var(--primary);
+      border: none;
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      transition: 0.2s;
+      font-family: var(--font-mono);
+      letter-spacing: 1px;
+    }
+    .btn-close:hover { background: #b08133; color: #fff;}
 
-.mcq-options { display: flex; flex-direction: column; gap: .6rem; margin-top: .8rem; margin-left: 3.5rem; }
-.mcq-label { display: flex; align-items: center; gap: 1rem; padding: .6rem 1rem; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; transition: all .2s; background: var(--white); font-size: 1rem;}
-.mcq-label:hover { border-color: var(--gold); }
-.mcq-label input { accent-color: var(--crimson); transform: scale(1.1); }
-.mcq-label.selected { border-color: var(--gold); background: rgba(196,146,62,0.05); }
+    .correct-answer { border-color: #10b981 !important; background: #f0fdf4 !important; color: #065f46 !important; font-weight: 600;}
+    .wrong-answer { border-color: #ef4444 !important; background: #fef2f2 !important; color: #991b1b !important; }
 
-/* Evaluation & Feedback */
-.input-success { border-color: var(--success) !important; background: var(--success-bg) !important; color: var(--success) !important; }
-.input-error { border-color: var(--error) !important; background: var(--error-bg) !important; color: var(--error) !important; }
-.mcq-success { border-color: var(--success) !important; background: var(--success-bg) !important; }
-.mcq-error { border-color: var(--error) !important; background: var(--error-bg) !important; }
-.ans-reveal { font-family: 'DM Mono', monospace; font-size: .85rem; color: var(--error); margin-left: .5rem; display: none; }
-.input-error + .ans-reveal { display: inline-block; }
-
-/* Dashboard Modal for Results */
-.modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); z-index: 1000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; }
-.modal-overlay.active { display: flex; opacity: 1; }
-.modal-box { background: var(--white); padding: 4rem; border-radius: 8px; text-align: center; max-width: 600px; width: 90%; box-shadow: var(--shadow-md); border-top: 6px solid var(--crimson);}
-.mb-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--charcoal); margin-bottom: 1rem; }
-.mb-score { font-family: 'DM Mono', monospace; font-size: 6rem; font-weight: 700; color: var(--crimson); line-height: 1; margin-bottom: 1rem; }
-.mb-raw { font-size: 1.2rem; color: var(--muted); margin-bottom: 2rem; }
-.btn-close-modal { background: var(--charcoal); color: var(--white); border: none; padding: 1rem 3rem; font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; border-radius: 4px; cursor: pointer; }
-
-@media (max-width: 1024px) {
-  .workspace { grid-template-columns: 1fr; grid-template-rows: 50vh 50vh; }
-  .pane { padding: 2rem; }
-}
-</style>
+  </style>
 </head>
 <body>
 
-<nav class="nav">
-  <a href="premium-lrsw-dashboard.html" class="nav-logo">Shared <em>Pearls</em> of Wisdom</a>
-  <div class="exam-controls">
-    <div class="timer-block" id="timer-display">
-      <span class="timer-icon">⏱</span> <span id="time-text">60:00</span>
+  <header>
+    <div class="logo">The LRSW <span>Clinic</span></div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
     </div>
-    <button class="btn-submit" onclick="gradeExam()">Submit Assessment</button>
-  </div>
-</nav>
-
-<div class="tab-bar">
-  <button class="tab-btn active" onclick="switchPassage(1)">Passage 1</button>
-  <button class="tab-btn" onclick="switchPassage(2)">Passage 2</button>
-  <button class="tab-btn" onclick="switchPassage(3)">Passage 3</button>
-</div>
-
-<main class="workspace">
-  
-  <div class="pane pane-left" id="text-pane">
-    <div class="highlighter-hint">💡 Pro Tip: Select any text with your mouse to highlight it. Click the highlight again to remove it.</div>
-    <div id="passage-content"></div>
-  </div>
-
-  <div class="pane pane-right" id="question-pane">
-    <div id="questions-content"></div>
-  </div>
-
-</main>
-
-<div class="modal-overlay" id="results-modal">
-  <div class="modal-box">
-    <div class="mb-title">Assessment Complete</div>
-    <div class="mb-score" id="final-band">0.0</div>
-    <div class="mb-raw" id="final-raw">0 / 40 Correct</div>
-    <p style="font-size: 1.1rem; color: var(--charcoal); margin-bottom: 2rem;" id="final-feedback"></p>
-    <button class="btn-close-modal" onclick="closeModal()">Review Answers</button>
-  </div>
-</div>
-
-<script>
-/* ═══════════════════════════════════════════
-   DATA ENGINE: TEXT & QUESTIONS
-═══════════════════════════════════════════ */
-const passageData = {
-  1: {
-    title: "The Evolution of ELT and the AI Disruption",
-    text: `
-      <p class="reading-paragraph">The historical trajectory of English Language Teaching (ELT) is marked by distinct pedagogical shifts. In the mid-20th century, the Grammar-Translation method reigned supreme, demanding strict syntactic accuracy and the rote memorization of vocabulary. This gave way in the 1970s to Communicative Language Teaching (CLT), a paradigm that fundamentally decentered grammatical perfection in favor of functional fluency and authentic interaction. The primary objective became ensuring the learner could successfully negotiate meaning in real-world contexts, even if their utterances were structurally flawed.</p>
-      <p class="reading-paragraph">Today, ELT faces a disruption more profound than any methodological shift: the advent of Generative Artificial Intelligence (AI) and Large Language Models (LLMs). For non-native speakers, particularly international students operating at B2 or C1 levels, these tools act as unprecedented linguistic scaffolding. An international student drafting a Scopus-indexed journal article can now feed rough, structurally imperfect propositions into an LLM and receive a polished, academically rigorous output in seconds. The AI bridges the gap between the student's cognitive intent and their current linguistic capability.</p>
-      <p class="reading-paragraph">However, this technological intervention introduces a severe pedagogical dilemma. While the LLM ameliorates immediate deficits in vocabulary and grammar, it risks cultivating a profound dependence. Educators are observing a phenomenon termed 'syntactic atrophy,' wherein learners rely so heavily on external algorithms to structure their discourse that their independent writing skills begin to degrade. Furthermore, because LLMs are trained on vast corpuses of standardized text, they tend to aggressively homogenize writing, effectively erasing the unique stylistic idiosyncrasies that constitute a learner's authentic voice.</p>
-    `,
-    questionsHTML: `
-      <div class="q-block">
-        <div class="q-section-title">Questions 1–6</div>
-        <div class="q-instruction">Do the following statements agree with the information given in Reading Passage 1?<br><br><b>TRUE</b> if the statement agrees<br><b>FALSE</b> if the statement contradicts<br><b>NOT GIVEN</b> if there is no information</div>
-        
-        ${generateDropdownQ(1, "Communicative Language Teaching prioritised structural perfection over the ability to convey meaning.", "FALSE")}
-        ${generateDropdownQ(2, "The introduction of Generative AI is considered a minor methodological shift in ELT history.", "FALSE")}
-        ${generateDropdownQ(3, "LLMs assist international students by improving the academic tone of their research writing.", "TRUE")}
-        ${generateDropdownQ(4, "Students using LLMs frequently score higher on verbal speaking examinations.", "NOT GIVEN")}
-        ${generateDropdownQ(5, "Over-reliance on AI tools can lead to a decline in a student's ability to write independently.", "TRUE")}
-        ${generateDropdownQ(6, "Generative AI encourages the development of highly unique and individualized writing styles.", "FALSE")}
-      </div>
-      <div class="q-block">
-        <div class="q-section-title">Questions 7–13</div>
-        <div class="q-instruction">Complete the notes below. Choose <b>NO MORE THAN TWO WORDS</b> from the passage for each answer.</div>
-        
-        <div class="q-row"><div class="q-num">7.</div><div class="q-text">The mid-20th century Grammar-Translation method required learners to engage in the <input type="text" class="gap-fill" data-ans="rote memorization"> of new words. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">8.</div><div class="q-text">CLT focused on allowing students to <input type="text" class="gap-fill" data-ans="negotiate meaning"> during real-world interactions. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">9.</div><div class="q-text">Modern AI tools serve as a form of <input type="text" class="gap-fill" data-ans="linguistic scaffolding|scaffolding"> for higher-level learners. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">10.</div><div class="q-text">LLMs successfully connect a student's <input type="text" class="gap-fill" data-ans="cognitive intent"> with their actual language skills. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">11.</div><div class="q-text">The condition where independent writing abilities deteriorate due to AI reliance is called <input type="text" class="gap-fill" data-ans="syntactic atrophy">. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">12.</div><div class="q-text">Because LLMs learn from standardized text, they tend to <input type="text" class="gap-fill" data-ans="homogenize|aggressively homogenize"> student writing. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">13.</div><div class="q-text">Consequently, the student's <input type="text" class="gap-fill" data-ans="authentic voice"> is often lost in the generated text. <span class="ans-reveal"></span></div></div>
-      </div>
-    `
-  },
-  2: {
-    title: "The Dichotomy of Authentic Voice vs. Syntactic Perfection",
-    text: `
-      <p class="reading-paragraph"><strong>A.</strong> The integration of Large Language Models (LLMs) into academic writing has surfaced a profound paradox for university educators. Previously, a tutor reading an international student's essay would navigate various grammatical infelicities—awkward phrasing, incorrect prepositional usage, or flawed subject-verb agreement. While these errors required correction, they also provided a transparent window into the student's cognitive process. The struggle with syntax was inseparable from the struggle with the subject matter. Today, tutors are increasingly presented with essays that exhibit flawless, native-level grammatical perfection, yet entirely lack original critical analysis.</p>
-      <p class="reading-paragraph"><strong>B.</strong> This phenomenon has created what some linguists term the 'uncanny valley' of student writing. The text reads beautifully, employing advanced cohesive devices and sophisticated lexical resources, but it possesses a sterile, algorithmic quality. It lacks the idiosyncratic 'voice' that naturally develops as a learner wrestles with complex concepts. The danger here is twofold: the student receives high marks for linguistic accuracy while simultaneously failing to develop the deep, structural comprehension that the writing process is designed to foster.</p>
-      <p class="reading-paragraph"><strong>C.</strong> Consequently, this shift has triggered a crisis of professional identity among English language educators. For decades, the core metric of an ESL teacher's effectiveness was their ability to eradicate errors from student output. If a machine can now instantly correct all syntactic and lexical errors with a single prompt, what remains of the teacher's role? Educators are being forced to transition from being 'correctors of language' to 'facilitators of thought,' a pivot that requires entirely new continuous professional development (CPD) frameworks.</p>
-      <p class="reading-paragraph"><strong>D.</strong> The proposed solution among progressive applied linguists is not to ban generative AI—an impossible endeavor—but to re-engineer how it is utilized. This involves implementing a 'heuristic pedagogy'. Instead of using the LLM to generate or rewrite text, students are taught to use it diagnostically. They might prompt the AI to analyze their argument structure, suggest counter-arguments, or explain *why* a specific grammatical rule applies to their draft. By shifting the AI's role from a 'ghostwriter' to an 'interactive tutor', the cognitive heavy lifting remains firmly with the student, preserving their authentic voice while leveraging the technology's analytical power.</p>
-    `,
-    questionsHTML: `
-      <div class="q-block">
-        <div class="q-section-title">Questions 14–17</div>
-        <div class="q-instruction">Choose the correct heading for each paragraph from the list of headings below.<br><br><b>i.</b> The necessity for new teacher training models<br><b>ii.</b> Changing the tool's function to preserve learning<br><b>iii.</b> The financial cost of implementing AI in schools<br><b>iv.</b> Flawless language masking a lack of deep thought<br><b>v.</b> The unnatural perfection of AI-generated text<br><b>vi.</b> How traditional errors revealed student understanding</div>
-        
-        <div class="q-row"><div class="q-num">14.</div><div class="q-text">Paragraph A: <input type="text" class="gap-fill" data-ans="vi" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">15.</div><div class="q-text">Paragraph B: <input type="text" class="gap-fill" data-ans="v" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">16.</div><div class="q-text">Paragraph C: <input type="text" class="gap-fill" data-ans="i" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">17.</div><div class="q-text">Paragraph D: <input type="text" class="gap-fill" data-ans="ii" placeholder="Roman numeral"> <span class="ans-reveal"></span></div></div>
-      </div>
-
-      <div class="q-block">
-        <div class="q-section-title">Questions 18–22</div>
-        <div class="q-instruction">Complete the sentences below. Choose <b>ONE WORD ONLY</b> from the passage for each answer.</div>
-        
-        <div class="q-row"><div class="q-num">18.</div><div class="q-text">In the past, grammatical mistakes offered tutors a clear <input type="text" class="gap-fill" data-ans="window"> into how a student was thinking. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">19.</div><div class="q-text">Current AI-assisted essays often exhibit a <input type="text" class="gap-fill" data-ans="sterile"> quality, despite using advanced vocabulary. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">20.</div><div class="q-text">Teachers are experiencing a <input type="text" class="gap-fill" data-ans="crisis"> regarding their professional purpose in the modern classroom. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">21.</div><div class="q-text">Educators must stop merely correcting language and instead become <input type="text" class="gap-fill" data-ans="facilitators"> of student thought. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">22.</div><div class="q-text">Under a heuristic approach, students use AI <input type="text" class="gap-fill" data-ans="diagnostically"> rather than having it write the text for them. <span class="ans-reveal"></span></div></div>
-      </div>
-
-      <div class="q-block">
-        <div class="q-section-title">Questions 23–26</div>
-        <div class="q-instruction">Match each statement with the correct entity: <b>A</b> (Traditional Tutors), <b>B</b> (Generative AI/LLMs), or <b>C</b> (Progressive Linguists).</div>
-        
-        <div class="q-row"><div class="q-num">23.</div><div class="q-text">Advocates for the transformation of technology into an interactive diagnostic tool: <input type="text" class="gap-fill" data-ans="c" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">24.</div><div class="q-text">Has the capability to instantly eradicate all syntactic errors from an essay: <input type="text" class="gap-fill" data-ans="b" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">25.</div><div class="q-text">Historically judged their own effectiveness by the reduction of student errors: <input type="text" class="gap-fill" data-ans="a" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">26.</div><div class="q-text">Strips away the unique stylistic quirks that define a writer's authentic personality: <input type="text" class="gap-fill" data-ans="b" placeholder="A, B, or C"> <span class="ans-reveal"></span></div></div>
-      </div>
-    `
-  },
-  3: {
-    title: "Epistemological Shifts in Language Assessment",
-    text: `
-      <p class="reading-paragraph">The ubiquitous presence of Generative AI necessitates a radical epistemological shift in how academic institutions assess linguistic proficiency. Historically, high-stakes assessments like the IELTS or university entrance exams have relied heavily on evaluating 'surface-level' features: syntactic variety, lexical resource, and grammatical accuracy. However, when students transition into digital environments where these features can be outsourced to an algorithm with near-perfect reliability, traditional metrics rapidly lose their evaluative credibility.</p>
-      <p class="reading-paragraph">This outsourcing is a form of 'cognitive offloading'—transferring mental effort to external devices. While critics decry this as academic laziness, proponents argue it mimics the realities of the modern professional workplace. A 21st-century professional does not draft corporate communications without digital assistance; they utilize spellcheckers, predictive text, and now, LLMs. Consequently, penalizing students for utilizing these tools creates an artificial testing environment that fails to measure the competencies actually required in post-graduate employment.</p>
-      <p class="reading-paragraph">To maintain relevance, academic assessment must evolve to measure what the machine cannot easily replicate: propositional density, critical synthesis, and epistemic modality. Rather than grading a student on whether they can perfectly construct a past-perfect continuous sentence, evaluators must assess the depth of the argument. Did the student evaluate competing literature effectively? Did they identify methodological flaws in the source material? This paradigm shift moves the focus of language assessment away from 'how' the student communicates, and focuses intensely on 'what' they are attempting to communicate.</p>
-      <p class="reading-paragraph">Furthermore, this necessitates a reimagining of digital credentialing. E-portfolios, previously used merely as static repositories of student work, must evolve into dynamic, AI-enabled ecosystems. In these future platforms, the AI does not merely grade the final essay; it tracks the entire developmental journey. It records the student's initial prompts, their subsequent revisions, and their engagement with counter-arguments. Ultimately, verifying a student's capability will rely less on the final polished document, which is easily spoofed, and more on the verified, longitudinal data of their cognitive engagement throughout the drafting process.</p>
-    `,
-    questionsHTML: `
-      <div class="q-block">
-        <div class="q-section-title">Questions 27–31</div>
-        <div class="q-instruction">Do the following statements agree with the claims of the writer in Reading Passage 3?<br><br><b>YES</b> if the statement agrees<br><b>NO</b> if the statement contradicts<br><b>NOT GIVEN</b> if it is impossible to say</div>
-        
-        ${generateDropdownQ2(27, "Traditional exams like IELTS effectively measure the skills needed for modern workplaces.", "NO")}
-        ${generateDropdownQ2(28, "Cognitive offloading is universally viewed as detrimental to student learning.", "NO")}
-        ${generateDropdownQ2(29, "Modern professionals frequently rely on digital assistance when writing communications.", "YES")}
-        ${generateDropdownQ2(30, "Future assessments will prioritize the evaluation of complex grammatical structures.", "NO")}
-        ${generateDropdownQ2(31, "AI-enabled e-portfolios are currently too expensive for most universities to implement.", "NOT GIVEN")}
-      </div>
-
-      <div class="q-block">
-        <div class="q-section-title">Questions 32–36</div>
-        <div class="q-instruction">Complete the summary using the list of letters, <b>A–I</b>, below.</div>
-        <p style="background: var(--white); padding: 1rem; border: 1px solid var(--border); margin-bottom: 2rem; font-family: 'DM Mono', monospace; font-size: .9rem;">
-          A. cognitive offloading &nbsp; B. propositional density &nbsp; C. syntactic accuracy<br>
-          D. traditional metrics &nbsp; E. workplace realities &nbsp; F. final document<br>
-          G. developmental journey &nbsp; H. grammatical flaws &nbsp; I. epistemic modality
-        </p>
-
-        <div class="q-row"><div class="q-num">32.</div><div class="q-text">Because AI can easily handle grammar and vocabulary, the reliability of <input type="text" class="gap-fill" data-ans="d" placeholder="Letter A-I"> is severely compromised. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">33.</div><div class="q-text">Transferring the effort of writing to external algorithms is known as <input type="text" class="gap-fill" data-ans="a" placeholder="Letter A-I">. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">34.</div><div class="q-text">Some argue that testing without digital tools ignores modern <input type="text" class="gap-fill" data-ans="e" placeholder="Letter A-I">. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">35.</div><div class="q-text">New evaluation systems must focus on deep argumentation, such as <input type="text" class="gap-fill" data-ans="b" placeholder="Letter A-I"> and critical synthesis. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">36.</div><div class="q-text">In the future, a student's capability will be judged by their <input type="text" class="gap-fill" data-ans="g" placeholder="Letter A-I">, rather than just the polished essay. <span class="ans-reveal"></span></div></div>
-      </div>
-
-      <div class="q-block">
-        <div class="q-section-title">Questions 37–40</div>
-        <div class="q-instruction">Complete each sentence with the correct ending, <b>A–F</b>.</div>
-        <p style="background: var(--white); padding: 1rem; border: 1px solid var(--border); margin-bottom: 2rem; font-family: 'DM Mono', monospace; font-size: .85rem; line-height: 1.6;">
-          <b>A.</b> ...measure the depth of the argument rather than the surface-level grammar.<br>
-          <b>B.</b> ...outsource their grammatical corrections to external algorithms.<br>
-          <b>C.</b> ...serve as static repositories for finished student assignments.<br>
-          <b>D.</b> ...track a student's initial prompts and subsequent revisions.<br>
-          <b>E.</b> ...penalise students for attempting to negotiate complex meanings.<br>
-          <b>F.</b> ...lose their evaluative credibility in the digital age.
-        </p>
-
-        <div class="q-row"><div class="q-num">37.</div><div class="q-text">Assessments that only test lexical resource and syntax will quickly <input type="text" class="gap-fill" data-ans="f" placeholder="Letter A-F">. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">38.</div><div class="q-text">A modern academic evaluation system must <input type="text" class="gap-fill" data-ans="a" placeholder="Letter A-F">. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">39.</div><div class="q-text">Previously, the primary function of e-portfolios was to <input type="text" class="gap-fill" data-ans="c" placeholder="Letter A-F">. <span class="ans-reveal"></span></div></div>
-        <div class="q-row"><div class="q-num">40.</div><div class="q-text">Future AI-enabled credentialing platforms will <input type="text" class="gap-fill" data-ans="d" placeholder="Letter A-F">. <span class="ans-reveal"></span></div></div>
-      </div>
-    `
-  }
-};
-
-// Helpers for HTML generation
-function generateDropdownQ(num, text, ans) {
-  return `
-    <div class="q-row">
-      <div class="q-num">${num}.</div>
-      <div class="q-text">${text}</div>
-      <select class="dropdown-ans" data-ans="${ans}">
-        <option value="">Select...</option>
-        <option value="TRUE">TRUE</option>
-        <option value="FALSE">FALSE</option>
-        <option value="NOT GIVEN">NOT GIVEN</option>
-      </select>
+    <div class="header-controls">
+      <button class="btn-start-top" id="btn-start-top" onclick="startTest()">START</button>
+      <div class="timer" id="timer">60:00</div>
     </div>
-  `;
-}
-function generateDropdownQ2(num, text, ans) {
-  return `
-    <div class="q-row">
-      <div class="q-num">${num}.</div>
-      <div class="q-text">${text}</div>
-      <select class="dropdown-ans" data-ans="${ans}">
-        <option value="">Select...</option>
-        <option value="YES">YES</option>
-        <option value="NO">NO</option>
-        <option value="NOT GIVEN">NOT GIVEN</option>
-      </select>
+  </header>
+
+  <!-- RESULTS MODAL -->
+  <div class="results-modal" id="results-modal">
+    <h2>Evaluation Complete</h2>
+    <p>Your Reading Module score is:</p>
+    <div class="score-display" id="final-score">0 <span>/ 40</span></div>
+    <p style="color: var(--text-muted); margin-bottom: 2rem;">Close this panel to review your detailed feedback.</p>
+    <button class="btn-close" onclick="closeModal()">REVIEW ANSWERS</button>
+  </div>
+
+  <div class="workspace">
+    <!-- PRE-TEST LOCK SCREEN -->
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <div class="module-badge">MODULE 02</div>
+      <h2>Sociolinguistics & Algorithmic Psychology</h2>
+      <p>This C1/C2 intensive simulation contains 3 passages and 40 questions focusing on English as a Lingua Franca, algorithmic echo chambers, and the behavioral economics of attention. The timer will initiate and passages will be unlocked upon pressing start.</p>
+      <button class="btn-start-large" onclick="startTest()">Start 60-minute Test&rarr;</button>
     </div>
-  `;
-}
 
-/* ═══════════════════════════════════════════
-   UI CONTROLLERS
-═══════════════════════════════════════════ */
-const textPane = document.getElementById('passage-content');
-const qPane = document.getElementById('questions-content');
+    <div class="dormant-overlay"></div>
 
-function switchPassage(id) {
-  document.querySelectorAll('.tab-btn').forEach((btn, index) => {
-    btn.classList.toggle('active', index + 1 === id);
-  });
-  
-  textPane.innerHTML = `<h2 class="reading-title">${passageData[id].title}</h2>` + passageData[id].text;
-  qPane.innerHTML = passageData[id].questionsHTML;
-  
-  document.getElementById('text-pane').scrollTop = 0;
-  document.getElementById('question-pane').scrollTop = 0;
-}
+    <!-- LEFT PANEL: READING PASSAGES -->
+    <div class="panel left-panel">
+      <!-- PASSAGE 1 -->
+      <div id="passage-1" class="section-content active">
+        <h1>The Sociolinguistics of English as a Lingua Franca</h1>
+        <p><span class="paragraph-label">A</span> For the majority of its history, the English language was intimately tied to the geographical boundaries and cultural identities of native-speaking nations. However, the late 20th and early 21st centuries have witnessed an unprecedented linguistic phenomenon: English has become a global Lingua Franca (ELF). Today, non-native speakers of English outnumber native speakers by a ratio of approximately three to one. This demographic shift has fundamentally altered the ownership of the language. In corporate boardrooms in Southeast Asia, academic conferences in Europe, and digital forums worldwide, English is primarily used as a contact language between individuals who share neither a common native tongue nor a common cultural background.</p>
+        <p><span class="paragraph-label">B</span> Traditionally, English language education was dominated by the "native-speaker ideal." Students were taught to meticulously emulate either Received Pronunciation (British English) or General American, with any deviation from these rigid norms classified as an error requiring correction. The burgeoning field of ELF research, spearheaded by linguists like Barbara Seidlhofer, challenges this paradigm. Seidlhofer’s corpus studies reveal that in ELF interactions, successful communication does not depend on native-like accuracy. Instead, speakers prioritize mutual intelligibility. They instinctively accommodate each other by simplifying complex syntax, avoiding obscure idioms, and creatively negotiating meaning in real-time.</p>
+        <p><span class="paragraph-label">C</span> In an ELF context, certain grammatical "errors" that would be heavily penalized in traditional proficiency tests are actually widespread and completely unproblematic. For example, the dropping of the third-person singular 's' (e.g., "he look" instead of "he looks") or the interchangeable use of 'who' and 'which' rarely causes a breakdown in communication among ELF users. Consequently, sociolinguists argue that these features should not be viewed as deficits, but rather as emerging morphological variations of a new, distinct linguistic variety. Holding global learners to the exacting standards of a monolingual native speaker is increasingly viewed as an outdated, culturally imperialistic metric.</p>
+        <p><span class="paragraph-label">D</span> This paradigm shift presents profound pedagogical challenges, particularly for institutions teaching multicultural groups of beginner-level English learners. If native-speaker accuracy is no longer the ultimate goal, what should form the core of the syllabus? Progressive educators suggest a move towards "pragmatic competence." Rather than spending hours drilling the precise phonetic articulation of the 'th' sound—which many learners find agonizingly difficult and which is rarely crucial for understanding—teachers should focus on communicative strategies. These include teaching learners how to ask for clarification, how to paraphrase when vocabulary fails them, and how to adapt their register to suit different intercultural contexts.</p>
+        <p><span class="paragraph-label">E</span> Furthermore, the ELF perspective deeply impacts learner psychology. The traditional model often engenders a deep sense of linguistic insecurity. Adult learners, in particular, often feel a sense of inadequacy when their spoken output fails to match the flawless accents of native speakers. By reframing English not as a foreign language belonging to the US or the UK, but as a global utility over which they have equal ownership, learners experience a significant reduction in their affective filter. They become more willing to take linguistic risks and view their diverse accents as a mark of their unique identity rather than a flaw.</p>
+        <p><span class="paragraph-label">F</span> In conclusion, the rise of English as a Lingua Franca necessitates a reimagining of language policy and assessment. As English continues to detach from its Anglo-American roots, it becomes increasingly fluid, shaped daily by the millions of non-native speakers who use it to navigate the globalized world. The future of English lies not in preservation, but in infinite, dynamic adaptation.</p>
+      </div>
 
-switchPassage(1); // Init
+      <!-- PASSAGE 2 -->
+      <div id="passage-2" class="section-content">
+        <h1>The Architecture of Algorithmic Echo Chambers</h1>
+        <p><span class="paragraph-label">A</span> In the nascent days of the internet, technologists heralded the World Wide Web as a utopian public square—a democratized space where individuals would be exposed to an unprecedented diversity of ideas, thereby fostering global understanding. However, the contemporary digital landscape has evolved into something far more restrictive, driven primarily by the economic imperatives of attention-based business models. To maximize user engagement and advertising revenue, major social media platforms and search engines employ highly sophisticated Artificial Intelligence (AI) algorithms designed to predict and serve content that aligns with a user's pre-existing preferences.</p>
+        <p><span class="paragraph-label">B</span> This algorithmic curation creates what internet activist Eli Pariser coined "The Filter Bubble." When a user searches for a political topic or watches a specific style of video, the AI meticulously logs this behavioral data. The system then dynamically alters the user's future search results and news feeds, filtering out opposing viewpoints and disproportionately presenting information that confirms the user's established worldview. Because this filtering process occurs invisibly on the server side, users are generally entirely unaware that their digital environment is being aggressively manipulated and narrowed.</p>
+        <p><span class="paragraph-label">C</span> The psychological consequences of algorithmic echo chambers are profound. Humans naturally exhibit "confirmation bias," an evolutionary cognitive shortcut where we favor information that validates our beliefs while instinctively dismissing contradictory evidence. Social media algorithms actively weaponize this bias. Dr. Sarah Valles, a behavioral psychologist, notes that when users are constantly surrounded by validating content, their beliefs transition from opinions to perceived absolute truths. This continuous positive reinforcement triggers the release of dopamine, making the echo chamber neurologically addictive and rendering the individual highly resistant to outside logic.</p>
+        <p><span class="paragraph-label">D</span> Furthermore, algorithms have discovered that nuanced, moderate content generates significantly less engagement than emotionally charged, polarized content. A joint study by data scientists at MIT demonstrated that false news and outrage-inducing headlines spread on social networks up to six times faster than verified, factual reporting. Consequently, AI systems preferentially amplify extreme viewpoints. This creates a distorted perception of reality where users believe society is far more divided and radicalized than it actually is, leading to increased offline tribalism and the erosion of civil discourse.</p>
+        <p><span class="paragraph-label">E</span> The integration of generative AI into these platforms threatens to exacerbate the problem. Large Language Models (LLMs) can now be deployed to automatically generate thousands of hyper-personalized articles, comments, and deepfake videos tailored to the psychological profile of specific micro-demographics. Professor Linus Torp argues that as the volume of AI-generated, bias-confirming content drowns out human-generated discourse, breaking out of an echo chamber will no longer just be difficult; it will require immense, conscious cognitive effort that the average digital consumer is ill-equipped to exert.</p>
+        <p><span class="paragraph-label">F</span> Addressing the architecture of echo chambers requires a multifaceted approach. While regulatory bodies are beginning to demand greater algorithmic transparency, the ultimate defense lies in education. Cultivating digital literacy and teaching individuals to actively seek out "cognitive friction"—intentionally reading opposing viewpoints and auditing their own biases—is now a critical component of modern citizenship. The technology is unlikely to change its fundamental profit model; therefore, human resilience must adapt.</p>
+      </div>
 
-/* ═══════════════════════════════════════════
-   HIGHLIGHTER API
-═══════════════════════════════════════════ */
-document.getElementById('text-pane').addEventListener('mouseup', function() {
-  const selection = window.getSelection();
-  if (!selection.isCollapsed && selection.toString().trim().length > 0) {
-    const range = selection.getRangeAt(0);
-    const mark = document.createElement('mark');
-    mark.className = 'highlight';
-    try {
-      range.surroundContents(mark);
-      selection.removeAllRanges();
-    } catch (e) {
-      console.log("Cross-block highlighting restricted.");
+      <!-- PASSAGE 3 -->
+      <div id="passage-3" class="section-content">
+        <h1>The Economics of Attention and Deep Work</h1>
+        <p><span class="paragraph-label">A</span> In modern knowledge economies, physical labor and routine cognitive tasks are rapidly being outsourced or automated by artificial intelligence. Consequently, the most valuable commodity in the 21st-century marketplace is no longer information—which is now universally accessible and infinitely abundant—but the ability to focus without distraction. Yet, precisely at the moment when intense concentration is most economically prized, modern work environments and digital technologies have conspired to make it exceptionally rare. We are currently living in an "attention economy," where corporate titans battle ruthlessly for fragments of our cognitive bandwidth.</p>
+        <p><span class="paragraph-label">B</span> Computer science professor Cal Newport famously categorized professional efforts into two distinct tiers: "Deep Work" and "Shallow Work." Deep work refers to professional activities performed in a state of distraction-free concentration that push our cognitive capabilities to their limits. These efforts create new value, improve skills, and are notoriously difficult to replicate. Conversely, shallow work encompasses non-cognitively demanding, logistical-style tasks, often performed while distracted—such as continuously responding to emails or attending status meetings. While shallow work prevents you from getting fired, only deep work leads to extraordinary professional or academic achievement.</p>
+        <p><span class="paragraph-label">C</span> The tragedy of the modern workplace is that it structurally forces knowledge workers into a perpetual state of shallow work. The expectation of constant connectivity, facilitated by instant messaging platforms like Slack, mandates a workflow that researchers call "hyperactive hive-mind." Employees are expected to monitor communications continuously, shifting their attention every few minutes. Behavioral economists note that this constant context-switching incurs a massive "attention residue." When you switch from a complex task to check an email, your brain does not immediately transition; a significant portion of your attention remains stuck on the original task, severely degrading your cognitive performance on the new one.</p>
+        <p><span class="paragraph-label">D</span> Developing the capacity for deep work requires a mindset that closely parallels ancient Stoic philosophy. It requires the acceptance that one cannot be universally accessible and simultaneously produce exceptional work. Achieving a state of deep focus demands the implementation of strict, unapologetic boundaries and the cultivation of discipline over motivation. A PhD researcher writing a complex thesis, for instance, cannot wait for inspiration to strike. They must engineer an environment devoid of digital interruptions and train their brain to tolerate the profound discomfort of sustained cognitive strain.</p>
+        <p><span class="paragraph-label">E</span> Interestingly, the neuroscience of deep work relies heavily on a substance called myelin. Myelin is a layer of fatty tissue that grows around neurons, acting like insulation on an electrical wire to speed up neural firing. When an individual focuses intensely on a specific skill or complex problem without distraction, they trigger specific neural circuits to fire repeatedly in isolation. This isolated firing stimulates the production of myelin around those specific circuits, effectively hardwiring the skill into the brain. If an individual is constantly distracted, their neural firing is scattered, and myelination does not occur effectively.</p>
+        <p><span class="paragraph-label">F</span> The transition from a distracted, shallow worker to someone capable of deep work is not achieved through life-hacks or minor adjustments to notification settings. It requires a radical restructuring of one's professional life. It involves ruthlessly auditing how one's time is spent, treating focus as a finite and exhaustible daily resource, and embracing boredom rather than immediately reaching for a smartphone. In a world characterized by shallow distraction, the ability to perform deep work is the ultimate modern superpower.</p>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: QUESTIONS -->
+    <div class="panel right-panel">
+      
+      <!-- QUESTIONS FOR SECTION 1 -->
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–5</h2>
+        <div class="instruction">
+          Do the following statements agree with the information given in Reading Passage 1?<br>
+          Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">1</div><div class="q-text">Native English speakers currently outnumber non-native English speakers globally. <br><input type="text" id="q1"></div></div>
+          <div class="q-item"><div class="q-num">2</div><div class="q-text">Barbara Seidlhofer argues that ELF speakers prioritize being understood over grammatical perfection. <br><input type="text" id="q2"></div></div>
+          <div class="q-item"><div class="q-num">3</div><div class="q-text">Dropping the third-person 's' causes frequent misunderstandings during academic conferences in Europe. <br><input type="text" id="q3"></div></div>
+          <div class="q-item"><div class="q-num">4</div><div class="q-text">Progressive educators believe teaching communication strategies is more important than perfect phonetic pronunciation. <br><input type="text" id="q4"></div></div>
+          <div class="q-item"><div class="q-num">5</div><div class="q-text">Treating English as a global utility increases linguistic insecurity among adult learners. <br><input type="text" id="q5"></div></div>
+        </div>
+
+        <h2>Questions 6–10</h2>
+        <div class="instruction">
+          Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              The rise of English as a Lingua Franca has changed how we view communication. In ELF interactions, the primary goal is <strong>6</strong> <input type="text" id="q6">, rather than perfectly mimicking the accents of <strong>7</strong> <input type="text" id="q7">. Certain grammatical changes are now seen as natural variations. This shift poses new <strong>8</strong> <input type="text" id="q8"> challenges for teachers, who are encouraged to focus on pragmatic competence. Psychologically, when learners realize they have ownership over the language, they feel less anxious and begin to view their accent as a part of their <strong>9</strong> <input type="text" id="q9">. Ultimately, the English language is becoming highly <strong>10</strong> <input type="text" id="q10"> as it adapts to global users.
+            </div>
+          </div>
+        </div>
+
+        <h2>Questions 11–13</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">11</div>
+            <div class="q-text">According to paragraph A, English is primarily used today as:
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q11" value="A"> A) A tool exclusively for native speakers to conduct business.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="B"> B) A language taught solely to preserve British and American culture.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="C"> C) A contact language between people without a shared cultural background.</label>
+                <label class="mcq-label"><input type="radio" name="q11" value="D"> D) A written code used mostly by computer programmers.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">12</div>
+            <div class="q-text">In paragraph C, how do sociolinguists view common grammatical 'errors' in ELF?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q12" value="A"> A) As emerging morphological variations of a distinct linguistic variety.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="B"> B) As critical failures that must be strictly penalized in tests.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="C"> C) As a result of students refusing to study hard enough.</label>
+                <label class="mcq-label"><input type="radio" name="q12" value="D"> D) As proof that English is a poor choice for international business.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">13</div>
+            <div class="q-text">According to paragraph D, what should a modern English syllabus focus on?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q13" value="A"> A) The precise articulation of the 'th' sound.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="B"> B) Pragmatic competence and communicative strategies like paraphrasing.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="C"> C) Drilling students until they sound exactly like native speakers.</label>
+                <label class="mcq-label"><input type="radio" name="q13" value="D"> D) Teaching advanced American idioms for corporate boardrooms.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 2 -->
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–19</h2>
+        <div class="instruction">
+          The Reading Passage has six paragraphs, <strong>A–F</strong>.<br>
+          Choose the correct heading for each paragraph from the list below.<br>
+          Write the correct number, <strong>i–viii</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The amplification of extreme and fake content</div>
+          <div class="box-item"><strong>ii</strong> The invisible tailoring of digital environments</div>
+          <div class="box-item"><strong>iii</strong> How to build an algorithmic search engine</div>
+          <div class="box-item"><strong>iv</strong> The looming threat of generative models</div>
+          <div class="box-item"><strong>v</strong> From democratic ideals to profit-driven curation</div>
+          <div class="box-item"><strong>vi</strong> Why politicians use social media</div>
+          <div class="box-item"><strong>vii</strong> The neurological addiction to validation</div>
+          <div class="box-item"><strong>viii</strong> Developing resilience through conscious effort</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">14</div><div class="q-text">Paragraph A <input type="text" id="q14"></div></div>
+          <div class="q-item"><div class="q-num">15</div><div class="q-text">Paragraph B <input type="text" id="q15"></div></div>
+          <div class="q-item"><div class="q-num">16</div><div class="q-text">Paragraph C <input type="text" id="q16"></div></div>
+          <div class="q-item"><div class="q-num">17</div><div class="q-text">Paragraph D <input type="text" id="q17"></div></div>
+          <div class="q-item"><div class="q-num">18</div><div class="q-text">Paragraph E <input type="text" id="q18"></div></div>
+          <div class="q-item"><div class="q-num">19</div><div class="q-text">Paragraph F <input type="text" id="q19"></div></div>
+        </div>
+
+        <h2>Questions 20–23</h2>
+        <div class="instruction">
+          Look at the following statements (Questions 20-23) and the list of researchers/concepts below.<br>
+          Match each statement with the correct entity, <strong>A, B, or C</strong>.<br>
+          <em>You may use any letter more than once.</em>
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Eli Pariser</div>
+          <div class="box-item"><strong>B</strong> Dr. Sarah Valles</div>
+          <div class="box-item"><strong>C</strong> Professor Linus Torp</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">20</div><div class="q-text">Notes that continuous validation from algorithms creates an addictive dopamine response. <input type="text" id="q20"></div></div>
+          <div class="q-item"><div class="q-num">21</div><div class="q-text">Coined the term describing how AI invisibly alters search results to match pre-existing views. <input type="text" id="q21"></div></div>
+          <div class="q-item"><div class="q-num">22</div><div class="q-text">Believes escaping echo chambers will soon require immense cognitive effort due to AI content. <input type="text" id="q22"></div></div>
+          <div class="q-item"><div class="q-num">23</div><div class="q-text">Identified "The Filter Bubble" phenomenon. <input type="text" id="q23"></div></div>
+        </div>
+
+        <h2>Questions 24–26</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">24</div>
+            <div class="q-text">According to paragraph C, what is "confirmation bias"?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q24" value="A"> A) A technological algorithm used to predict internet traffic.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="B"> B) A human tendency to favor information that validates pre-existing beliefs.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="C"> C) A legal term for transparency in social media companies.</label>
+                <label class="mcq-label"><input type="radio" name="q24" value="D"> D) A feeling of outrage caused by reading fake news headlines.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">25</div>
+            <div class="q-text">What did the MIT data scientists discover about online content?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q25" value="A"> A) Moderate, nuanced articles are the most frequently shared content.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="B"> B) Factual reporting spreads slightly faster than false news.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="C"> C) Outrage-inducing, false news spreads up to six times faster than factual reporting.</label>
+                <label class="mcq-label"><input type="radio" name="q25" value="D"> D) Deepfakes are rarely successful at engaging micro-demographics.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">26</div>
+            <div class="q-text">According to paragraph F, what is the ultimate defense against echo chambers?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q26" value="A"> A) Waiting for technology companies to change their profit models.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="B"> B) Deleting all social media accounts permanently.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="C"> C) Relying purely on government regulatory bodies.</label>
+                <label class="mcq-label"><input type="radio" name="q26" value="D"> D) Cultivating digital literacy and intentionally seeking out "cognitive friction".</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUESTIONS FOR SECTION 3 -->
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–32</h2>
+        <div class="instruction">
+          Do the following statements agree with the claims of the writer in Reading Passage 3?<br>
+          Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item"><div class="q-num">27</div><div class="q-text">In the 21st-century economy, the ability to focus without distraction is more valuable than access to information. <br><input type="text" id="q27"></div></div>
+          <div class="q-item"><div class="q-num">28</div><div class="q-text">Cal Newport states that shallow work frequently leads to extraordinary professional achievement. <br><input type="text" id="q28"></div></div>
+          <div class="q-item"><div class="q-num">29</div><div class="q-text">The concept of "hyperactive hive-mind" was originally developed by Microsoft researchers. <br><input type="text" id="q29"></div></div>
+          <div class="q-item"><div class="q-num">30</div><div class="q-text">Shifting attention constantly between tasks results in a degradation of cognitive performance. <br><input type="text" id="q30"></div></div>
+          <div class="q-item"><div class="q-num">31</div><div class="q-text">Achieving deep focus requires relying heavily on moments of sudden inspiration. <br><input type="text" id="q31"></div></div>
+          <div class="q-item"><div class="q-num">32</div><div class="q-text">Myelination occurs most effectively when an individual focuses intensely on a specific skill without distraction. <br><input type="text" id="q32"></div></div>
+        </div>
+
+        <h2>Questions 33–37</h2>
+        <div class="instruction">
+          Complete the summary using the list of words, <strong>A–I</strong>, below.<br>
+          Write the correct letter, <strong>A–I</strong>, in the boxes provided.
+        </div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> residue</div>
+          <div class="box-item"><strong>B</strong> inspiration</div>
+          <div class="box-item"><strong>C</strong> information</div>
+          <div class="box-item"><strong>D</strong> deep work</div>
+          <div class="box-item"><strong>E</strong> limits</div>
+          <div class="box-item"><strong>F</strong> discipline</div>
+          <div class="box-item"><strong>G</strong> myelin</div>
+          <div class="box-item"><strong>H</strong> shallow work</div>
+          <div class="box-item"><strong>I</strong> value</div>
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-text">
+              In an economy where AI handles routine tasks, intense concentration is highly prized. Cal Newport divides professional effort into two categories. Activities that push cognitive limits and create new value are defined as <strong>33</strong> <input type="text" id="q33">. Conversely, logistical tasks performed while distracted are known as <strong>34</strong> <input type="text" id="q34">. Modern offices often force workers to constantly switch contexts, causing a loss of focus known as attention <strong>35</strong> <input type="text" id="q35">. To overcome this, individuals must adopt a mindset similar to Stoicism, prioritizing strict boundaries and <strong>36</strong> <input type="text" id="q36"> over motivation. Furthermore, biologically, sustained focus is necessary to stimulate the production of <strong>37</strong> <input type="text" id="q37">, which hardwires skills into the brain.
+            </div>
+          </div>
+        </div>
+
+        <h2>Questions 38–40</h2>
+        <div class="instruction">
+          Choose the correct letter, <strong>A, B, C or D</strong>.
+        </div>
+        <div class="q-group">
+          <div class="q-item">
+            <div class="q-num">38</div>
+            <div class="q-text">What happens in the brain when a person constantly switches between tasks?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q38" value="A"> A) Neural firing becomes highly isolated and efficient.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="B"> B) The brain instantly forgets the previous task to make room for the new one.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="C"> C) A portion of attention remains stuck on the original task, degrading performance.</label>
+                <label class="mcq-label"><input type="radio" name="q38" value="D"> D) The brain produces an excessive amount of myelin.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">39</div>
+            <div class="q-text">According to paragraph D, how should a PhD researcher approach writing a complex thesis?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q39" value="A"> A) By taking frequent breaks to check social media messaging platforms.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="B"> B) By engineering a distraction-free environment and tolerating cognitive strain.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="C"> C) By waiting for a sudden burst of motivation or inspiration.</label>
+                <label class="mcq-label"><input type="radio" name="q39" value="D"> D) By participating actively in a "hyperactive hive-mind" workflow.</label>
+              </div>
+            </div>
+          </div>
+          <div class="q-item">
+            <div class="q-num">40</div>
+            <div class="q-text">What is the author's final advice in paragraph F for becoming someone capable of deep work?
+              <div class="mcq-options">
+                <label class="mcq-label"><input type="radio" name="q40" value="A"> A) Implementing minor adjustments to smartphone notification settings.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="B"> B) Seeking out life-hacks on the internet.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="C"> C) Ensuring that you are universally accessible to your coworkers.</label>
+                <label class="mcq-label"><input type="radio" name="q40" value="D"> D) Auditing your time ruthlessly and learning to embrace boredom.</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SUBMIT BAR -->
+    <div class="submit-bar">
+      <button class="btn-retake" id="btn-retake" onclick="retakeTest()" style="margin-right: 15px;">RESET</button>
+      <button class="btn-submit" id="btn-submit" onclick="submitTest(false)">SUBMIT MODULE</button>
+    </div>
+
+  </div>
+
+  <script>
+    /* --- INTERNAL ANSWER KEY FOR GRADING --- */
+    const answerKey = {
+      // Passage 1: T/F/NG & Summary & MCQ
+      q1: 'false', q2: 'true', q3: 'not given', q4: 'true', q5: 'false',
+      q6: 'mutual intelligibility', q7: 'native speakers', q8: 'pedagogical', q9: 'identity', q10: 'fluid',
+      q11: 'c', q12: 'a', q13: 'b',
+      
+      // Passage 2: Headings & Matching & MCQ
+      q14: 'v', q15: 'ii', q16: 'vii', q17: 'i', q18: 'iv', q19: 'viii',
+      q20: 'b', q21: 'a', q22: 'c', q23: 'a',
+      q24: 'b', q25: 'c', q26: 'd',
+      
+      // Passage 3: Y/N/NG & Box Summary & MCQ
+      q27: 'yes', q28: 'no', q29: 'not given', q30: 'yes', q31: 'no', q32: 'yes',
+      q33: 'd', q34: 'h', q35: 'a', q36: 'f', q37: 'g',
+      q38: 'c', q39: 'b', q40: 'd'
+    };
+
+    /* --- TAB SWITCHING LOGIC --- */
+    function switchSection(sectionNumber) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+      
+      document.getElementById('tab-' + sectionNumber).classList.add('active');
+      document.getElementById('passage-' + sectionNumber).classList.add('active');
+      document.getElementById('questions-' + sectionNumber).classList.add('active');
     }
-  }
-});
 
-document.getElementById('text-pane').addEventListener('click', function(e) {
-  if (e.target.tagName.toLowerCase() === 'mark' && e.target.classList.contains('highlight')) {
-    const parent = e.target.parentNode;
-    while (e.target.firstChild) {
-      parent.insertBefore(e.target.firstChild, e.target);
+    /* --- NON-PERSISTENT TIMER LOGIC (Resets on Refresh) --- */
+    const DURATION = 3600; // 60 minutes
+    let timerInterval;
+    let timeRemaining;
+    const timerElement = document.getElementById('timer');
+
+    function initTest() {
+      document.getElementById('pre-test-overlay').style.display = 'flex';
+      document.getElementById('btn-start-top').style.display = 'block';
+      timerElement.textContent = "60:00";
+      timerElement.classList.remove('warning');
     }
-    parent.removeChild(e.target);
-  }
-});
 
-/* ═══════════════════════════════════════════
-   COUNTDOWN TIMER
-═══════════════════════════════════════════ */
-let totalSeconds = 3600; // 60 mins
-const timerEl = document.getElementById('time-text');
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('btn-start-top').style.display = 'none';
+      
+      timeRemaining = DURATION;
+      updateTimerDisplay();
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        
+        if(timeRemaining <= 300 && timeRemaining > 0) {
+            timerElement.classList.add('warning');
+        }
 
-const timerInterval = setInterval(() => {
-  totalSeconds--;
-  let m = Math.floor(totalSeconds / 60);
-  let s = totalSeconds % 60;
-  timerEl.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  
-  if (totalSeconds <= 300) timerEl.classList.add('timer-warning');
-  if (totalSeconds <= 0) {
-    clearInterval(timerInterval);
-    gradeExam();
-  }
-}, 1000);
-
-/* ═══════════════════════════════════════════
-   GRADING ENGINE (Evaluates current visible pane)
-═══════════════════════════════════════════ */
-function gradeExam() {
-  let score = 0;
-  let totalQuestionsInView = 0;
-  
-  // Gap Fills
-  const gapFills = document.querySelectorAll('.gap-fill');
-  gapFills.forEach(input => {
-    totalQuestionsInView++;
-    const userAns = input.value.trim().toLowerCase();
-    const validAnswers = input.getAttribute('data-ans').toLowerCase().split('|');
-    const revealSpan = input.nextElementSibling;
-    
-    input.classList.remove('input-success', 'input-error');
-    revealSpan.innerText = "";
-    
-    if(validAnswers.includes(userAns) && userAns !== "") {
-      input.classList.add('input-success');
-      score++;
-    } else {
-      input.classList.add('input-error');
-      revealSpan.innerText = `(Correct: ${validAnswers[0].toUpperCase()})`; 
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          submitTest(true);
+        }
+      }, 1000);
     }
-  });
 
-  // Dropdowns
-  const dropdowns = document.querySelectorAll('.dropdown-ans');
-  dropdowns.forEach(select => {
-    totalQuestionsInView++;
-    const userAns = select.value;
-    const correctAns = select.getAttribute('data-ans');
-    
-    select.classList.remove('input-success', 'input-error');
-    if(userAns === correctAns) {
-      select.classList.add('input-success');
-      score++;
-    } else {
-      select.classList.add('input-error');
-      let reveal = select.nextElementSibling;
-      if (!reveal || !reveal.classList.contains('ans-reveal')) {
-        reveal = document.createElement('span');
-        reveal.className = 'ans-reveal';
-        reveal.style.display = 'inline-block';
-        select.parentNode.appendChild(reveal);
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+      const seconds = (timeRemaining % 60).toString().padStart(2, '0');
+      timerElement.textContent = `${minutes}:${seconds}`;
+    }
+
+    /* --- SUBMISSION & GRADING PROTOCOL (EXPLICIT FEEDBACK) --- */
+    function submitTest(isAutoSubmit = false) {
+      if(!isAutoSubmit) {
+        const confirmSubmit = confirm("Confirm submission? You will not be able to alter your responses.");
+        if(!confirmSubmit) return;
       }
-      reveal.innerText = `(Correct: ${correctAns})`;
+
+      clearInterval(timerInterval);
+      timerElement.textContent = "00:00";
+      timerElement.classList.remove('warning');
+      
+      gradeTest();
+      lockInterface();
+      
+      document.getElementById('results-modal').style.display = 'block';
     }
-  });
 
-  let percentage = score / totalQuestionsInView;
-  let band = 0;
-  if(percentage >= 0.95) band = "9.0";
-  else if(percentage >= 0.85) band = "8.0";
-  else if(percentage >= 0.75) band = "7.0";
-  else if(percentage >= 0.60) band = "6.0";
-  else band = "< 6.0";
+    function gradeTest() {
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q' + i;
+        const textInput = document.getElementById(qId);
+        const correctAnsData = answerKey[qId] ? answerKey[qId].toUpperCase() : "N/A";
+        
+        if (textInput) {
+          let userAnswer = textInput.value.trim().toLowerCase();
+          
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else {
+            textInput.classList.add('wrong-answer');
+            textInput.style.width = "270px"; // Expand input width to show the correction clearly
+            textInput.value = userAnswer ? `${userAnswer} ❌ [Ans: ${correctAnsData}]` : `(Blank) ❌ [Ans: ${correctAnsData}]`;
+          }
+        } else {
+          const selectedRadio = document.querySelector(`input[name="${qId}"]:checked`);
+          let userAnswer = selectedRadio ? selectedRadio.value.toLowerCase() : "";
 
-  document.getElementById('final-band').innerText = band;
-  document.getElementById('final-raw').innerText = `${score} / ${totalQuestionsInView} Correct (Active Section)`;
-  document.getElementById('final-feedback').innerText = "To achieve an official Band Score, ensure you complete and submit all three reading passages.";
-  
-  document.getElementById('results-modal').classList.add('active');
-}
+          if (userAnswer === answerKey[qId]) {
+            score++;
+            selectedRadio.parentElement.style.color = '#065f46';
+            selectedRadio.parentElement.style.fontWeight = '600';
+          } else {
+            // Mark user's wrong choice
+            if (selectedRadio) {
+              selectedRadio.parentElement.style.color = '#991b1b';
+              selectedRadio.parentElement.style.textDecoration = 'line-through';
+            }
+            // Highlight the correct choice
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAnsData}"]`);
+            if (correctRadio) {
+              correctRadio.parentElement.style.color = '#065f46';
+              correctRadio.parentElement.style.fontWeight = '700';
+              
+              if(!correctRadio.parentElement.querySelector('.correct-badge')) {
+                 const badge = document.createElement('span');
+                 badge.className = 'correct-badge';
+                 badge.style.cssText = 'color: #10b981; margin-left: 8px; font-family: var(--font-mono); font-size: 0.85rem; text-decoration: none; display: inline-block;';
+                 badge.textContent = '✓ CORRECT ANSWER';
+                 correctRadio.parentElement.appendChild(badge);
+              }
+            }
+          }
+        }
+      }
+      document.getElementById('final-score').innerHTML = `${score} <span>/ 40</span>`;
+    }
 
-function closeModal() {
-  document.getElementById('results-modal').classList.remove('active');
-}
-</script>
+    function lockInterface() {
+      document.body.classList.add('test-completed');
+      
+      document.querySelectorAll('input').forEach(input => {
+        input.disabled = true;
+      });
+      
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'none';
+    }
 
+    /* --- UI MANAGEMENT --- */
+    function closeModal() {
+      document.getElementById('results-modal').style.display = 'none';
+      document.getElementById('btn-retake').style.display = 'block';
+    }
+
+    function retakeTest() {
+      if(!confirm("Warning: This will permanently clear all answers and restart the 60-minute session. Proceed?")) return;
+
+      clearInterval(timerInterval);
+      timerElement.classList.remove('warning');
+      
+      document.getElementById('results-modal').style.display = 'none';
+      document.body.classList.remove('test-completed');
+      
+      document.getElementById('btn-submit').style.display = 'block';
+      document.getElementById('btn-submit').disabled = false;
+      document.getElementById('btn-retake').style.display = 'block';
+      
+      // Reset Text Inputs
+      document.querySelectorAll('input[type="text"]').forEach(input => {
+        input.value = '';
+        input.disabled = false;
+        input.style.width = "160px"; // Return to original width
+        input.classList.remove('correct-answer', 'wrong-answer');
+      });
+      
+      // Reset Radio Buttons and Remove Correct Answer Badges
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+        radio.disabled = false;
+        radio.parentElement.style.color = 'inherit';
+        radio.parentElement.style.fontWeight = 'normal';
+        radio.parentElement.style.textDecoration = 'none';
+      });
+      
+      document.querySelectorAll('.correct-badge').forEach(badge => badge.remove());
+      
+      switchSection(1);
+      initTest(); 
+    }
+
+    window.onload = initTest;
+  </script>
 </body>
 </html>
