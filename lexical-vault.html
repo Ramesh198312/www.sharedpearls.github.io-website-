@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Lexical Vault · Shared Pearls of Wisdom</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+  
+  <style>
+    /* ═══════════════════════════════════════════
+       PREMIUM ACADEMIC VARIABLES
+    ═══════════════════════════════════════════ */
+    :root {
+      --crimson: #A51C30;
+      --crimson-dark: #7A1523;
+      --charcoal: #222222;
+      --charcoal-light: #4B525A;
+      --ivory: #FAF9F6;
+      --white: #ffffff;
+      --gold: #C4923E;
+      --border: #E0E0E0;
+      --muted: #888888;
+      
+      --font-ui: 'DM Mono', monospace;
+      --font-text: 'Source Serif 4', Georgia, serif;
+      --font-heading: 'Playfair Display', serif;
+      
+      --shadow-sm: 0 2px 10px rgba(0,0,0,0.03);
+      --shadow-md: 0 8px 30px rgba(0,0,0,0.06);
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: var(--font-text); background: var(--ivory); color: var(--charcoal); line-height: 1.65; overflow-y: scroll; }
+    a { text-decoration:none; color:inherit; }
+
+    /* ═══════════════════════════════════════════
+       NAVIGATION
+    ═══════════════════════════════════════════ */
+    .nav {
+      background: var(--white); border-bottom: 3px solid var(--crimson); padding: 0 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 999; height: 75px; box-shadow: var(--shadow-sm);
+    }
+    .nav-left { display: flex; align-items: center; gap: 1rem; }
+    .nav-logo { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; color: var(--charcoal); }
+    .nav-logo em { color: var(--gold); font-style: italic; }
+    .back-link {
+      font-family: var(--font-ui); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--charcoal-light); display: flex; align-items: center; gap: 0.5rem;
+      transition: color 0.2s; border-right: 1px solid var(--border); padding-right: 1.5rem; margin-right: 0.5rem;
+    }
+    .back-link:hover { color: var(--crimson); }
+    .nav-stats { font-family: var(--font-ui); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; color: var(--charcoal); }
+    .nav-stats span { color: var(--crimson); }
+
+    /* ═══════════════════════════════════════════
+       HEADER & SEARCH CONSOLE
+    ═══════════════════════════════════════════ */
+    .vault-header { background: var(--white); padding: 4rem 3rem 3rem; border-bottom: 1px dashed var(--border); }
+    .header-inner { max-width: 1300px; margin: 0 auto; }
+    .kicker { font-family: var(--font-ui); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+    .title { font-family: var(--font-heading); font-size: 3.5rem; font-weight: 700; line-height: 1.1; color: var(--charcoal); margin-bottom: 1.5rem; }
+    .title em { color: var(--crimson); font-style: italic; }
+
+    .search-console {
+      margin-top: 3rem; display: flex; gap: 1rem; background: var(--ivory);
+      padding: 1.5rem; border: 1px solid var(--border); border-radius: 6px; box-shadow: var(--shadow-sm);
+    }
+    .search-wrapper { position: relative; flex: 1; display: flex; align-items: center; }
+    .search-icon { position: absolute; left: 1.2rem; width: 22px; height: 22px; color: var(--muted); }
+    .search-input {
+      width: 100%; padding: 1rem 1.5rem 1rem 3.5rem; font-family: var(--font-text); font-size: 1.1rem;
+      border: 1px solid var(--border); border-radius: 4px; outline: none; transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--crimson); }
+    .filter-select {
+      padding: 1rem; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.05em; border: 1px solid var(--border); border-radius: 4px;
+      background: var(--white); color: var(--charcoal-light); outline: none; cursor: pointer; min-width: 180px;
+    }
+
+    /* ═══════════════════════════════════════════
+       WORKSPACE LAYOUT
+    ═══════════════════════════════════════════ */
+    .vault-body { padding: 4rem 3rem; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2.2fr 1fr; gap: 3rem; align-items: start;}
+    
+    /* ── GRID ── */
+    .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; align-content: start;}
+    .no-results { grid-column: 1 / -1; font-family: var(--font-ui); text-align: center; padding: 4rem; color: var(--muted); border: 1px dashed var(--border); font-size: 1rem;}
+
+    .word-card {
+      background: var(--white); border: 1px solid var(--border); border-radius: 6px; padding: 2rem;
+      position: relative; transition: all 0.2s; cursor: pointer; box-shadow: var(--shadow-sm);
+    }
+    .word-card:hover { border-color: var(--crimson); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .word-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: var(--gold); border-radius: 6px 6px 0 0; opacity: 0; transition: opacity 0.2s;
+    }
+    .word-card:hover::before, .word-card.active::before { opacity: 1; }
+    .word-card.active { border-color: var(--crimson); background: #fcf9fa; }
+
+    .wc-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    .wc-word { font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; color: var(--charcoal); line-height: 1; margin-bottom: 0.4rem; }
+    
+    .wc-badge {
+      font-family: var(--font-ui); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.3rem 0.6rem; border: 1px solid var(--border); border-radius: 3px;
+    }
+    .badge-c2 { color: var(--white); background: var(--charcoal); border-color: var(--charcoal); }
+    .badge-c1 { color: var(--charcoal); background: var(--border); border-color: var(--charcoal); }
+    .badge-b2 { color: var(--muted); background: var(--ivory); border-color: var(--border); }
+
+    .wc-type { font-family: var(--font-ui); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--charcoal-light); font-weight: 700; margin-bottom: 1rem; }
+    .wc-def { font-size: 1rem; color: var(--charcoal); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+    /* ── SPOTLIGHT PANEL (FIXED SCROLL BUG) ── */
+    .spotlight-panel {
+      position: sticky; top: 100px; 
+      background: var(--white); border: 1px solid var(--border);
+      padding: 3rem; border-radius: 6px; border-top: 4px solid var(--crimson); box-shadow: var(--shadow-md);
+      max-height: calc(100vh - 120px); /* Restricts height to viewport minus padding */
+      overflow-y: auto; /* Enables smooth internal scrolling */
+    }
+    /* Custom thin scrollbar for the spotlight panel */
+    .spotlight-panel::-webkit-scrollbar { width: 4px; }
+    .spotlight-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+    .spotlight-panel::-webkit-scrollbar-track { background: transparent; }
+
+    .sl-badge { font-family: var(--font-ui); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--crimson); margin-bottom: 1rem; font-weight: 700; }
+    .sl-word { font-family: var(--font-heading); font-size: 3rem; font-weight: 700; color: var(--charcoal); line-height: 1.1; margin-bottom: 0.5rem; }
+    
+    .sl-phonetics { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.5rem; }
+    .sl-ipa { font-family: var(--font-ui); font-size: 1rem; color: var(--charcoal-light); }
+    .sl-audio { cursor: pointer; color: var(--gold); transition: color 0.2s; font-size: 1.3rem;}
+    .sl-audio:hover { color: var(--crimson); transform: scale(1.1); }
+
+    .sl-meta { font-family: var(--font-ui); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+    .sl-def { font-size: 1.1rem; color: var(--charcoal); line-height: 1.7; margin-bottom: 2rem; }
+    .sl-example { font-family: var(--font-heading); font-style: italic; font-size: 1.15rem; color: var(--charcoal-light); border-left: 3px solid var(--gold); padding-left: 1.2rem; margin-bottom: 2.5rem; line-height: 1.6; }
+    
+    .sl-collocs-title { font-family: var(--font-ui); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 1rem; }
+    .sl-collocs { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .collocation-tag { font-family: var(--font-ui); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; padding: 0.4rem 0.8rem; background: rgba(196, 146, 62, 0.1); color: var(--charcoal-light); border-radius: 3px; border: 1px solid var(--gold); }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    footer { border-top: 1px solid var(--border); padding: 3rem; text-align: center; }
+    .f-text { font-family: var(--font-ui); font-size: 0.8rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+
+    @media (max-width: 1024px) {
+      .vault-body { grid-template-columns: 1fr; }
+      .spotlight-panel { display: none; } /* Hide sticky panel on small screens */
+      .grid-container { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .grid-container { grid-template-columns: 1fr; }
+      .search-console { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="monthly-premium-dashboard-main.html" class="back-link">← Command Centre</a>
+      <a href="Images/logo.png" class="nav-logo">Shared <em>Pearls</em> of Wisdom</a>
+    </div>
+    <div class="nav-stats">DATABASE: <span id="word-count-display">0 / 0</span></div>
+  </nav>
+
+  <header class="vault-header">
+    <div class="header-inner">
+      <div class="kicker">Active Lexical Database</div>
+      <h1 class="title">The Academic <em>Lexicon.</em></h1>
+      
+      <div class="search-console">
+        <div class="search-wrapper">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Search for a word, definition, or example..."/>
+        </div>
+        <select id="level-filter" class="filter-select">
+          <option value="All">All CEFR Levels</option>
+          <option value="C2">C2 Mastery</option>
+          <option value="C1">C1 Advanced</option>
+          <option value="B2">B2 Upper-Intermediate</option>
+        </select>
+        <select id="domain-filter" class="filter-select">
+          <option value="All">All Domains</option>
+          <option value="Academic Writing">Academic Writing</option>
+          <option value="Methodology">Methodology</option>
+          <option value="Sociology">Sociology</option>
+          <option value="Philosophy">Philosophy</option>
+          <option value="Science">Science</option>
+          <option value="Economics">Economics</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <div class="vault-body">
+    <!-- Left: Grid of Words -->
+    <div class="grid-container" id="lexicon-grid">
+      <!-- JavaScript will inject cards here -->
+    </div>
+
+    <!-- Right: Spotlight Focus Panel -->
+    <div class="spotlight-panel" id="spotlight-panel">
+      <!-- JavaScript will inject focus content here -->
+    </div>
+  </div>
+
+  <footer>
+    <div class="f-text">© 2026 Shared Pearls of Wisdom</div>
+  </footer>
+
+  <script>
+    /* ══════════════════════════════════════════════════════════════════
+       THE DATABASE: 100 Elite Academic Terms (British Pronunciation)
+       Targeted for IELTS Task 2, TOEFL, and PTE Academic
+    ══════════════════════════════════════════════════════════════════ */
+    const lexicalDatabase = [
+      // --- C2 MASTERY ---
+      { w: "Stratification", i: "/ˌstræt.ɪ.fɪˈkeɪ.ʃən/", l: "C2", t: "Noun", d: "Methodology", df: "The arrangement or classification of data, populations, or samples into distinct, hierarchical layers for precise statistical analysis.", ex: "The research design demanded the rigorous stratification of the educational demographic into seven distinct strata.", c: ["Social stratification", "Demographic strata"] },
+      { w: "Ameliorate", i: "/əˈmiː.li.ə.reɪt/", l: "C2", t: "Verb", d: "Academic Writing", df: "To make a bad or unsatisfactory situation significantly better; to mitigate a deficit.", ex: "The integration of AI scaffolding successfully ameliorated the friction between theoretical training and classroom application.", c: ["Ameliorate conditions", "Ameliorate the impact"] },
+      { w: "Epistemology", i: "/ɪˌpɪs.təˈmɒl.ə.dʒi/", l: "C2", t: "Noun", d: "Philosophy", df: "The branch of philosophy concerned with the theory of knowledge, its methods, validity, and scope.", ex: "Before constructing the timeline, the researcher had to define the underlying epistemology governing their approach.", c: ["Epistemological framework", "Constructivist epistemology"] },
+      { w: "Efficacy", i: "/ˈef.ɪ.kə.si/", l: "C2", t: "Noun", d: "Methodology", df: "The ability of a specific intervention or system to produce the intended, measurable pedagogical result.", ex: "Subsequent data analysis confirmed the efficacy of utilizing Generative AI as a moderating variable.", c: ["Evaluate efficacy", "Demonstrate efficacy"] },
+      { w: "Hegemony", i: "/hɪˈdʒem.ə.ni/", l: "C2", t: "Noun", d: "Sociology", df: "Leadership or dominance, especially by one state or social group over others.", ex: "The critical discourse analysis focused on dismantling the linguistic hegemony present in colonial textbooks.", c: ["Cultural hegemony", "Challenge hegemony"] },
+      { w: "Ontology", i: "/ɒnˈtɒl.ə.dʒi/", l: "C2", t: "Noun", d: "Philosophy", df: "The branch of metaphysics dealing with the nature of being and existence.", ex: "The paper explores the ontology of the digital self in modern multicultural megacities.", c: ["Ontological shift", "Ontological framework"] },
+      { w: "Dichotomy", i: "/daɪˈkɒt.ə.mi/", l: "C2", t: "Noun", d: "Philosophy", df: "A division or contrast between two things that are represented as being opposed or entirely different.", ex: "Epictetus frequently explored the dichotomy of control, separating the universe into internal actions and external outcomes.", c: ["False dichotomy", "Clear dichotomy"] },
+      { w: "Heuristic", i: "/hjʊəˈrɪs.tɪk/", l: "C2", t: "Noun", d: "Methodology", df: "Enabling a person to discover or learn something for themselves; a cognitive shortcut.", ex: "The students utilized a heuristic approach to bypass the complex computational requirements.", c: ["Heuristic model", "Cognitive heuristics"] },
+      { w: "Paradigm", i: "/ˈpær.ə.daɪm/", l: "C2", t: "Noun", d: "Methodology", df: "A typical example, pattern, or fundamental theoretical framework of a scientific discipline.", ex: "The introduction of adaptive algorithms caused a profound paradigm shift in second language acquisition.", c: ["Paradigm shift", "Dominant paradigm"] },
+      { w: "Ubiquitous", i: "/juːˈbɪk.wɪ.təs/", l: "C2", t: "Adj", d: "Sociology", df: "Present, appearing, or found everywhere simultaneously.", ex: "The ubiquitous nature of smartphones has fundamentally altered adolescent cognitive development.", c: ["Ubiquitous computing", "Ubiquitous presence"] },
+      { w: "Ephemeral", i: "/ɪˈfem.ər.əl/", l: "C2", t: "Adj", d: "Philosophy", df: "Lasting for a very short time; transient.", ex: "The researcher noted the ephemeral nature of motivation compared to the durability of structural habits.", c: ["Ephemeral phenomena", "Ephemeral nature"] },
+      { w: "Esoteric", i: "/ˌiː.səˈter.ɪk/", l: "C2", t: "Adj", d: "Philosophy", df: "Intended for or likely to be understood by only a small number of people with a specialized knowledge.", ex: "The lecture delved into esoteric debates regarding quantum consciousness.", c: ["Esoteric knowledge", "Esoteric discourse"] },
+      { w: "Myriad", i: "/ˈmɪr.i.əd/", l: "C2", t: "Noun", d: "Academic Writing", df: "A countless or extremely great number of people or things.", ex: "The multicultural megacity is characterized by a myriad of intersecting sociolinguistic identities.", c: ["A myriad of factors", "Myriad complexities"] },
+      { w: "Anachronism", i: "/əˈnæk.rə.nɪ.zəm/", l: "C2", t: "Noun", d: "Academic Writing", df: "A thing belonging to a period other than that in which it exists.", ex: "The reliance on rote memorization is viewed as a pedagogical anachronism in the age of AI.", c: ["Historical anachronism", "Pedagogical anachronism"] },
+      { w: "Pedantic", i: "/pɪˈdæn.tɪk/", l: "C2", t: "Adj", d: "Academic Writing", df: "Excessively concerned with minor details or rules; overscrupulous.", ex: "The reviewer's pedantic focus on formatting detracted from the paper's profound ontological claims.", c: ["Pedantic approach", "Pedantic critique"] },
+      { w: "Iconoclast", i: "/aɪˈkɒn.ə.klæst/", l: "C2", t: "Noun", d: "Philosophy", df: "A person who attacks or criticizes cherished beliefs or institutions.", ex: "As an educational iconoclast, she argued for the complete abolition of standardized testing.", c: ["Iconoclastic thinker", "Intellectual iconoclast"] },
+      { w: "Sycophant", i: "/ˈsɪk.ə.fænt/", l: "C2", t: "Noun", d: "Sociology", df: "A person who acts obsequiously towards someone important in order to gain advantage.", ex: "The corporate hierarchy rewarded sycophants while silencing genuine, constructive critique.", c: ["Sycophantic behaviour"] },
+      { w: "Obfuscate", i: "/ˈɒb.fʌs.keɪt/", l: "C2", t: "Verb", d: "Academic Writing", df: "To make obscure, unclear, or unintelligible.", ex: "The politician utilized dense, bureaucratic jargon to obfuscate the true economic impact of the policy.", c: ["Obfuscate the truth", "Deliberate obfuscation"] },
+      { w: "Capricious", i: "/kəˈprɪʃ.əs/", l: "C2", t: "Adj", d: "Academic Writing", df: "Given to sudden and unaccountable changes of mood or behaviour.", ex: "The funding for experimental research projects proved highly capricious under the new administration.", c: ["Capricious nature", "Capricious decision"] },
+      { w: "Equanimity", i: "/ˌek.wəˈnɪm.ə.ti/", l: "C2", t: "Noun", d: "Philosophy", df: "Calmness and composure, especially in a difficult situation.", ex: "The Stoic practitioner faces both professional failure and massive success with unwavering equanimity.", c: ["Maintain equanimity", "Unwavering equanimity"] },
+      { w: "Pernicious", i: "/pəˈnɪʃ.əs/", l: "C2", t: "Adj", d: "Sociology", df: "Having a harmful effect, especially in a gradual or subtle way.", ex: "The pernicious effects of algorithmic bias often go undetected by the general public.", c: ["Pernicious influence", "Pernicious effect"] },
+      { w: "Salient", i: "/ˈseɪ.li.ənt/", l: "C2", t: "Adj", d: "Methodology", df: "Most noticeable or important.", ex: "The researcher isolated the most salient variables contributing to the demographic shift.", c: ["Salient features", "Salient point"] },
+      { w: "Juxtapose", i: "/ˌdʒʌk.stəˈpəʊz/", l: "C2", t: "Verb", d: "Academic Writing", df: "To place or deal with close together for contrasting effect.", ex: "The exhibition juxtaposes classical Renaissance portraiture with modern digital media.", c: ["Juxtapose with", "Striking juxtaposition"] },
+      { w: "Empirical", i: "/ɪmˈpɪr.ɪ.kəl/", l: "C2", t: "Adj", d: "Methodology", df: "Based on, concerned with, or verifiable by observation or experience rather than theory or pure logic.", ex: "The hypothesis, while theoretically sound, lacks the empirical data required for publication.", c: ["Empirical evidence", "Empirical study"] },
+      { w: "Anomalous", i: "/əˈnɒm.ə.ləs/", l: "C2", t: "Adj", d: "Methodology", df: "Deviating from what is standard, normal, or expected.", ex: "The anomalous results from the third trial forced the team to recalibrate the sensors.", c: ["Anomalous data", "Highly anomalous"] },
+      { w: "Sartorial", i: "/sɑːˈtɔː.ri.əl/", l: "C2", t: "Adj", d: "Sociology", df: "Relating to tailoring, clothes, or style of dress.", ex: "The sociolinguistic study examined how sartorial choices reflect internal class structures.", c: ["Sartorial elegance", "Sartorial choices"] },
+      { w: "Vitiate", i: "/ˈvɪʃ.i.eɪt/", l: "C2", t: "Verb", d: "Methodology", df: "To spoil or impair the quality or efficiency of.", ex: "Failing to account for the control group's prior knowledge will completely vitiate the experimental results.", c: ["Vitiate the findings", "Vitiate the contract"] },
+      { w: "Conundrum", i: "/kəˈnʌn.drəm/", l: "C2", t: "Noun", d: "Philosophy", df: "A confusing and difficult problem or question.", ex: "The integration of private AI in public classrooms presents a profound ethical conundrum.", c: ["Ethical conundrum", "Philosophical conundrum"] },
+      { w: "Didactic", i: "/daɪˈdæk.tɪk/", l: "C2", t: "Adj", d: "Academic Writing", df: "Intended to teach, particularly in having moral instruction as an ulterior motive.", ex: "The professor's didactic tone alienated the graduate students during the seminar.", c: ["Didactic approach", "Didactic literature"] },
+      { w: "Ebullient", i: "/ɪˈbʌl.i.ənt/", l: "C2", t: "Adj", d: "Academic Writing", df: "Cheerful and full of energy.", ex: "Despite the grueling 24-week timeline, the research team remained ebullient regarding their progress.", c: ["Ebullient mood", "Ebullient personality"] },
+      { w: "Fastidious", i: "/fæsˈtɪd.i.əs/", l: "C2", t: "Adj", d: "Academic Writing", df: "Very attentive to and concerned about accuracy and detail.", ex: "Writing a Q1 journal article requires a fastidious approach to citation and formatting.", c: ["Fastidious attention", "Fastidious researcher"] },
+      { w: "Mellifluous", i: "/meˈlɪf.lu.əs/", l: "C2", t: "Adj", d: "Academic Writing", df: "Sweet or musical; pleasant to hear.", ex: "The advanced communicative class focused on the mellifluous intonation patterns of native discourse.", c: ["Mellifluous voice", "Mellifluous tone"] },
+      { w: "Recalcitrant", i: "/rɪˈkæl.sɪ.trənt/", l: "C2", t: "Adj", d: "Sociology", df: "Having an obstinately uncooperative attitude towards authority or discipline.", ex: "The recalcitrant administration refused to implement the new, localized CPD framework.", c: ["Recalcitrant behavior", "Recalcitrant attitude"] },
+      { w: "Axiomatic", i: "/ˌæk.si.əˈmæt.ɪk/", l: "C2", t: "Adj", d: "Philosophy", df: "Self-evident or unquestionable.", ex: "It is an axiomatic truth that education is the foundation of economic mobility.", c: ["Axiomatic truth", "Axiomatic principle"] },
+      { w: "Aberration", i: "/ˌæb.əˈreɪ.ʃən/", l: "C2", t: "Noun", d: "Science", df: "A departure from what is normal, usual, or expected, typically an unwelcome one.", ex: "The sudden drop in the stock market was viewed as a temporary aberration rather than a trend.", c: ["Statistical aberration", "Temporary aberration"] },
+      { w: "Deleterious", i: "/ˌdel.ɪˈtɪə.ri.əs/", l: "C2", t: "Adj", d: "Sociology", df: "Causing harm or damage.", ex: "The study highlighted the deleterious effects of sleep deprivation on cognitive function.", c: ["Deleterious effects", "Deleterious impact"] },
+      { w: "Pejorative", i: "/pɪˈdʒɒr.ə.tɪv/", l: "C2", t: "Adj", d: "Linguistics", df: "Expressing contempt or disapproval.", ex: "The term has evolved from a neutral descriptor to a highly pejorative label.", c: ["Pejorative term", "Used in a pejorative sense"] },
+      { w: "Perspicacious", i: "/ˌpɜː.spɪˈkeɪ.ʃəs/", l: "C2", t: "Adj", d: "Academic Writing", df: "Having a ready insight into and understanding of things.", ex: "The perspicacious reviewer identified the methodological flaws immediately.", c: ["Perspicacious observation", "Perspicacious analysis"] },
+      { w: "Polemic", i: "/pəˈlem.ɪk/", l: "C2", t: "Noun", d: "Academic Writing", df: "A strong verbal or written attack on someone or something.", ex: "Her latest book is a fierce polemic against corporate greed.", c: ["Fierce polemic", "Political polemic"] },
+      { w: "Sanguine", i: "/ˈsæŋ.ɡwɪn/", l: "C2", t: "Adj", d: "Philosophy", df: "Optimistic or positive, especially in an apparently bad or difficult situation.", ex: "Despite the economic downturn, the CEO remained sanguine about the company's future.", c: ["Sanguine attitude", "Remain sanguine"] },
+      { w: "Solipsism", i: "/ˈsɒl.ɪp.sɪ.zəm/", l: "C2", t: "Noun", d: "Philosophy", df: "The view or theory that the self is all that can be known to exist.", ex: "Critics accused the author of intellectual solipsism, ignoring centuries of established research.", c: ["Intellectual solipsism", "Descend into solipsism"] },
+      { w: "Surreptitious", i: "/ˌsʌr.əpˈtɪʃ.əs/", l: "C2", t: "Adj", d: "Sociology", df: "Kept secret, especially because it would not be approved of.", ex: "The corporation made surreptitious payments to avoid environmental regulations.", c: ["Surreptitious glance", "Surreptitious behavior"] },
+      { w: "Tenuous", i: "/ˈten.ju.əs/", l: "C2", t: "Adj", d: "Academic Writing", df: "Very weak or slight.", ex: "The link between the two variables remains highly tenuous and requires further investigation.", c: ["Tenuous link", "Tenuous grasp"] },
+      { w: "Tractable", i: "/ˈtræk.tə.bəl/", l: "C2", t: "Adj", d: "Methodology", df: "Easy to control or influence; (of a situation/problem) easy to deal with.", ex: "By breaking the thesis into smaller chapters, the writing process became much more tractable.", c: ["Tractable problem", "Highly tractable"] },
+      { w: "Veracity", i: "/vəˈræs.ə.ti/", l: "C2", t: "Noun", d: "Methodology", df: "Conformity to facts; accuracy.", ex: "The peer-review committee questioned the veracity of the data presented in the study.", c: ["Check the veracity", "Doubt the veracity"] },
+      { w: "Hermeneutics", i: "/ˌhɜː.məˈnjuː.tɪks/", l: "C2", t: "Noun", d: "Philosophy", df: "The branch of knowledge that deals with interpretation, especially of the Bible or literary texts.", ex: "His approach relies heavily on modern hermeneutics to extract hidden meanings from the text.", c: ["Textual hermeneutics"] },
+      { w: "Tautology", i: "/tɔːˈtɒl.ə.dʒi/", l: "C2", t: "Noun", d: "Linguistics", df: "The saying of the same thing twice over in different words.", ex: "To say 'they arrived one after the other in succession' is a grammatical tautology.", c: ["Avoid tautology", "Logical tautology"] },
+      { w: "Vernacular", i: "/vəˈnæk.jə.lər/", l: "C2", t: "Noun", d: "Linguistics", df: "The language or dialect spoken by the ordinary people in a particular country or region.", ex: "The researcher chose to conduct interviews in the local vernacular rather than formal English.", c: ["Local vernacular", "Common vernacular"] },
+      { w: "Inexorable", i: "/ɪˈneks.ər.ə.bəl/", l: "C2", t: "Adj", d: "Academic Writing", df: "Impossible to stop or prevent.", ex: "The inexorable rise of artificial intelligence has reshaped the global job market.", c: ["Inexorable progress", "Inexorable march"] },
+      { w: "Alacrity", i: "/əˈlæk.rə.ti/", l: "C2", t: "Noun", d: "General", df: "Brisk and cheerful readiness.", ex: "The students accepted the new research assignment with surprising alacrity.", c: ["With alacrity", "Great alacrity"] },
+      { w: "Enfranchise", i: "/ɪnˈfræn.tʃaɪz/", l: "C2", t: "Verb", d: "Sociology", df: "To give the right to vote to; to free a slave.", ex: "The amendment served to enfranchise marginalized communities who had previously been silenced.", c: ["Politically enfranchise", "Newly enfranchised"] },
+      { w: "Fiduciary", i: "/fɪˈdjuː.ʃər.i/", l: "C2", t: "Adj/Noun", d: "Economics", df: "Involving trust, especially with regard to the relationship between a trustee and a beneficiary.", ex: "The board of directors failed in their fiduciary duty to protect the shareholders.", c: ["Fiduciary duty", "Fiduciary responsibility"] },
+      { w: "Hubris", i: "/ˈhjuː.brɪs/", l: "C2", t: "Noun", d: "Philosophy", df: "Excessive pride or self-confidence.", ex: "It was intellectual hubris that led the scientist to ignore the warnings of his peers.", c: ["Intellectual hubris", "Acts of hubris"] },
+      { w: "Inimical", i: "/ɪˈnɪm.ɪ.kəl/", l: "C2", t: "Adj", d: "Sociology", df: "Tending to obstruct or harm.", ex: "The rigid, top-down management style was completely inimical to creative innovation.", c: ["Inimical to progress", "Inimical environment"] },
+      { w: "Palliate", i: "/ˈpæl.i.eɪt/", l: "C2", t: "Verb", d: "Academic Writing", df: "Make (a disease or its symptoms) less severe without removing the cause; disguise the seriousness of an offense.", ex: "The superficial reforms did nothing but palliate the deep-rooted economic issues.", c: ["Palliate symptoms", "Palliate the effects"] },
+      { w: "Parochial", i: "/pəˈrəʊ.ki.əl/", l: "C2", t: "Adj", d: "Sociology", df: "Having a limited or narrow outlook or scope.", ex: "The committee was criticized for its parochial view of international educational standards.", c: ["Parochial mindset", "Parochial attitudes"] },
+      { w: "Quixotic", i: "/kwɪkˈsɒt.ɪk/", l: "C2", t: "Adj", d: "Philosophy", df: "Extremely idealistic; unrealistic and impractical.", ex: "His quixotic plan to eradicate poverty in a single year was quickly dismissed by economists.", c: ["Quixotic endeavor", "Quixotic vision"] },
+      { w: "Synergistic", i: "/ˌsɪn.əˈdʒɪs.tɪk/", l: "C2", t: "Adj", d: "Science", df: "Relating to the interaction or cooperation of two or more organizations, substances, or other agents to produce a combined effect greater than the sum of their separate effects.", ex: "The synergistic relationship between the hardware and software companies revolutionized the market.", c: ["Synergistic effect", "Synergistic relationship"] },
+      { w: "Truculent", i: "/ˈtrʌk.jə.lənt/", l: "C2", t: "Adj", d: "Academic Writing", df: "Eager or quick to argue or fight; aggressively defiant.", ex: "The politician's truculent response to the journalist's question shocked the audience.", c: ["Truculent attitude", "Truculent behavior"] },
+      { w: "Usurp", i: "/juːˈzɜːp/", l: "C2", t: "Verb", d: "Sociology", df: "Take (a position of power or importance) illegally or by force.", ex: "The military junta attempted to usurp control of the democratic government.", c: ["Usurp power", "Usurp authority"] },
+      { w: "Vacillate", i: "/ˈvæs.ɪ.leɪt/", l: "C2", t: "Verb", d: "Academic Writing", df: "Waver between different opinions or actions; be indecisive.", ex: "The committee continued to vacillate over the funding allocation, delaying the project by months.", c: ["Vacillate between", "Tend to vacillate"] },
+      { w: "Epiphenomenon", i: "/ˌep.ɪ.fɪˈnɒm.ɪ.nɒn/", l: "C2", t: "Noun", d: "Philosophy", df: "A secondary effect or byproduct that arises from but does not causally influence a process.", ex: "Some neuroscientists argue that human consciousness is merely an epiphenomenon of brain activity.", c: ["Mere epiphenomenon"] },
+      { w: "Plethora", i: "/ˈpleθ.ər.ə/", l: "C2", t: "Noun", d: "Academic Writing", df: "A large or excessive amount of something.", ex: "The internet provides a plethora of resources for independent language learners.", c: ["A plethora of", "An absolute plethora"] },
+      { w: "Ineffable", i: "/ɪˈnef.ə.bəl/", l: "C2", t: "Adj", d: "Philosophy", df: "Too great or extreme to be expressed or described in words.", ex: "The sheer scale of the universe produces an ineffable sense of wonder.", c: ["Ineffable beauty", "Ineffable joy"] },
+      { w: "Lugubrious", i: "/luːˈɡuː.bri.əs/", l: "C2", t: "Adj", d: "Academic Writing", df: "Looking or sounding sad and dismal.", ex: "The novel’s lugubrious tone reflects the author's despair over the devastating war.", c: ["Lugubrious tone", "Lugubrious atmosphere"] },
+      { w: "Ostentatious", i: "/ˌɒs.tenˈteɪ.ʃəs/", l: "C2", t: "Adj", d: "Sociology", df: "Characterized by pretentious or showy display; designed to impress.", ex: "The billionaire's ostentatious lifestyle was widely criticized during the economic recession.", c: ["Ostentatious display", "Ostentatious wealth"] },
+      // --- C1 ADVANCED ---
+      { w: "Synthesize", i: "/ˈsɪn.θə.saɪz/", l: "C1", t: "Verb", d: "Methodology", df: "To combine a number of things into a coherent whole.", ex: "The candidate must synthesize literature from multiple disciplines to support their thesis.", c: ["Synthesize data", "Synthesize findings"] },
+      { w: "Pragmatic", i: "/præɡˈmæt.ɪk/", l: "C1", t: "Adj", d: "Academic Writing", df: "Dealing with things sensibly and realistically in a way that is based on practical rather than theoretical considerations.", ex: "The school board required a pragmatic solution to the budgetary constraints.", c: ["Pragmatic approach", "Pragmatic decision"] },
+      { w: "Cognitive", i: "/ˈkɒɡ.nə.tɪv/", l: "C1", t: "Adj", d: "Science", df: "Relating to the mental processes of perception, memory, judgment, and reasoning.", ex: "The affective filter blocks input before it can be processed by the cognitive centers of the brain.", c: ["Cognitive development", "Cognitive load"] },
+      { w: "Ambiguous", i: "/æmˈbɪɡ.ju.əs/", l: "C1", t: "Adj", d: "Academic Writing", df: "Open to more than one interpretation; not having one obvious meaning.", ex: "The phrasing of the survey question was too ambiguous to yield reliable empirical data.", c: ["Highly ambiguous", "Ambiguous wording"] },
+      { w: "Rationale", i: "/ˌræʃ.əˈnɑːl/", l: "C1", t: "Noun", d: "Methodology", df: "A set of reasons or a logical basis for a course of action or belief.", ex: "The author must provide a clear rationale for choosing a qualitative rather than quantitative approach.", c: ["Underlying rationale", "Theoretical rationale"] },
+      { w: "Subjective", i: "/səbˈdʒek.tɪv/", l: "C1", t: "Adj", d: "Philosophy", df: "Based on or influenced by personal feelings, tastes, or opinions.", ex: "AI audio analytics bypass the subjective biases of traditional administrative observations.", c: ["Subjective interpretation", "Highly subjective"] },
+      { w: "Intrinsic", i: "/ɪnˈtrɪn.zɪk/", l: "C1", t: "Adj", d: "Philosophy", df: "Belonging naturally; essential.", ex: "Motivation is generally divided into two categories: extrinsic rewards and intrinsic drive.", c: ["Intrinsic value", "Intrinsic motivation"] },
+      { w: "Elicit", i: "/iˈlɪs.ɪt/", l: "C1", t: "Verb", d: "Methodology", df: "To evoke or draw out a reaction, answer, or fact from someone.", ex: "The carefully designed questions managed to elicit detailed responses from the focus group.", c: ["Elicit a response", "Elicit information"] },
+      { w: "Delineate", i: "/dɪˈlɪn.i.eɪt/", l: "C1", t: "Verb", d: "Methodology", df: "To describe or portray something precisely.", ex: "The first chapter serves to delineate the exact boundaries of the subsequent investigation.", c: ["Delineate boundaries", "Clearly delineate"] },
+      { w: "Viable", i: "/ˈvaɪ.ə.bəl/", l: "C1", t: "Adj", d: "Economics", df: "Capable of working successfully; feasible.", ex: "Solar energy is now considered a commercially viable alternative to fossil fuels.", c: ["Viable option", "Commercially viable"] },
+      { w: "Inherent", i: "/ɪnˈher.ənt/", l: "C1", t: "Adj", d: "Philosophy", df: "Existing in something as a permanent, essential, or characteristic attribute.", ex: "There are inherent risks in adopting unverified AI tools within public education.", c: ["Inherent risk", "Inherent nature"] },
+      { w: "Parameter", i: "/pəˈræm.ɪ.tər/", l: "C1", t: "Noun", d: "Methodology", df: "A numerical or other measurable factor forming one of a set that defines a system or sets the conditions of its operation.", ex: "The experiment was conducted strictly within the parameters established by the ethics committee.", c: ["Establish parameters", "Within the parameters"] },
+      { w: "Concurrent", i: "/kənˈkʌr.ənt/", l: "C1", t: "Adj", d: "Methodology", df: "Existing, happening, or done at the same time.", ex: "The researcher managed three concurrent studies across different university campuses.", c: ["Concurrent events", "Concurrent validity"] },
+      { w: "Hierarchy", i: "/ˈhaɪə.rɑː.ki/", l: "C1", t: "Noun", d: "Sociology", df: "A system in which members of an organization or society are ranked according to relative status or authority.", ex: "The military operates on a strict, inflexible chain of command and hierarchy.", c: ["Corporate hierarchy", "Social hierarchy"] },
+      { w: "Facilitate", i: "/fəˈsɪl.ɪ.teɪt/", l: "C1", t: "Verb", d: "Academic Writing", df: "To make an action or process easy or easier.", ex: "The new interactive whiteboards were installed to facilitate collaborative peer learning.", c: ["Facilitate learning", "Facilitate discussion"] },
+      { w: "Scaffolding", i: "/ˈskæf.əl.dɪŋ/", l: "C1", t: "Noun", d: "Academic Writing", df: "Temporary instructional support designed to bridge pedagogical gaps and promote deeper learning.", ex: "LLMs can provide vital linguistic scaffolding for beginner-level learners.", c: ["Instructional scaffolding", "Provide scaffolding"] },
+      { w: "Inhibit", i: "/ɪnˈhɪb.ɪt/", l: "C1", t: "Verb", d: "Science", df: "To hinder, restrain, or prevent an action or process.", ex: "High levels of anxiety will significantly inhibit an adult learner's ability to produce language.", c: ["Inhibit growth", "Inhibit production"] },
+      { w: "Articulate", i: "/ɑːˈtɪk.jə.lət/", l: "C1", t: "Verb", d: "Academic Writing", df: "To express an idea or feeling fluently and coherently.", ex: "The candidate was able to eloquently articulate complex philosophical theories.", c: ["Articulate an argument", "Highly articulate"] },
+      { w: "Conceive", i: "/kənˈsiːv/", l: "C1", t: "Verb", d: "Philosophy", df: "To form or devise a plan or idea in the mind.", ex: "It was difficult to conceive a scenario where the project could be completed under budget.", c: ["Conceive an idea", "Ill-conceived"] },
+      { w: "Discourse", i: "/ˈdɪs.kɔːs/", l: "C1", t: "Noun", d: "Sociology", df: "Written or spoken communication or debate.", ex: "The dominant political discourse of the era focused heavily on national security.", c: ["Academic discourse", "Public discourse"] },
+      { w: "Incentive", i: "/ɪnˈsen.tɪv/", l: "C1", t: "Noun", d: "Economics", df: "A thing that motivates or encourages someone to do something.", ex: "Financial bonuses act as a powerful incentive for corporate executives to increase productivity.", c: ["Provide incentive", "Financial incentive"] },
+      { w: "Prevalent", i: "/ˈprev.əl.ənt/", l: "C1", t: "Adj", d: "Sociology", df: "Widespread in a particular area or at a particular time.", ex: "The use of mobile technology is prevalent among modern university students.", c: ["Highly prevalent", "Prevalent condition"] },
+      { w: "Substantiate", i: "/səbˈstæn.ʃi.eɪt/", l: "C1", t: "Verb", d: "Methodology", df: "To provide evidence to support or prove the truth of.", ex: "The attorney failed to substantiate the claims made during the opening statement.", c: ["Substantiate a claim", "Substantiate with evidence"] },
+      { w: "Unprecedented", i: "/ʌnˈpres.ɪ.den.tɪd/", l: "C1", t: "Adj", d: "Academic Writing", df: "Never done or known before.", ex: "The global pandemic caused an unprecedented disruption to international supply chains.", c: ["Unprecedented scale", "Unprecedented success"] },
+      { w: "Acquisition", i: "/ˌæk.wɪˈzɪʃ.ən/", l: "C1", t: "Noun", d: "Academic Writing", df: "The learning or developing of a skill, habit, or quality.", ex: "First language acquisition happens naturally in childhood through implicit memory systems.", c: ["Language acquisition", "Skill acquisition"] },
+      { w: "Attribute", i: "/əˈtrɪb.juːt/", l: "C1", t: "Verb", d: "Methodology", df: "To regard something as being caused by someone or something.", ex: "The researcher attributed the rapid increase in fluency to the new adaptive software.", c: ["Attribute success to", "Attribute cause"] },
+      { w: "Compel", i: "/kəmˈpel/", l: "C1", t: "Verb", d: "Academic Writing", df: "To force or oblige someone to do something.", ex: "The overwhelming evidence compelled the jury to deliver a guilty verdict.", c: ["Feel compelled to", "Compelling evidence"] },
+      { w: "Derive", i: "/dɪˈraɪv/", l: "C1", t: "Verb", d: "Methodology", df: "To obtain something from a specified source.", ex: "The new mathematical formula was derived directly from Newtonian physics.", c: ["Derive from", "Derive meaning"] },
+      { w: "Implication", i: "/ˌɪm.plɪˈkeɪ.ʃən/", l: "C1", t: "Noun", d: "Academic Writing", df: "The conclusion that can be drawn from something although it is not explicitly stated.", ex: "The political implications of the new tax policy are profound and far-reaching.", c: ["Profound implications", "Future implications"] },
+      { w: "Notion", i: "/ˈnəʊ.ʃən/", l: "C1", t: "Noun", d: "Philosophy", df: "A conception of or belief about something.", ex: "The notion that technology is entirely neutral has been dismissed by modern sociologists.", c: ["Preconceived notion", "Reject the notion"] },
+      { w: "Paradox", i: "/ˈpær.ə.dɒks/", l: "C1", t: "Noun", d: "Philosophy", df: "A seemingly absurd or contradictory statement or proposition which when investigated may prove to be well founded or true.", ex: "It is a paradox that the most communicative devices often lead to social isolation.", c: ["Apparent paradox", "Resolve the paradox"] },
+      { w: "Simulate", i: "/ˈsɪm.jə.leɪt/", l: "C1", t: "Verb", d: "Science", df: "To imitate the appearance or character of.", ex: "The computer program was designed to simulate the aerodynamic drag of a supersonic jet.", c: ["Simulate conditions", "Computer simulation"] },
+      { w: "Validate", i: "/ˈvæl.ɪ.deɪt/", l: "C1", t: "Verb", d: "Methodology", df: "To check or prove the validity or accuracy of something.", ex: "The secondary trial served to validate the findings of the initial experiment.", c: ["Validate findings", "Validate data"] },
+      { w: "Proliferate", i: "/prəˈlɪf.ər.eɪt/", l: "C1", t: "Verb", d: "Science", df: "Increase rapidly in number; multiply.", ex: "Fake news websites tend to proliferate rapidly during election cycles.", c: ["Rapidly proliferate", "Proliferate quickly"] },
+      { w: "Exacerbate", i: "/ɪɡˈzæs.ə.beɪt/", l: "C1", t: "Verb", d: "Academic Writing", df: "To make a problem, bad situation, or negative feeling worse.", ex: "The new regulations will only exacerbate the existing financial crisis.", c: ["Exacerbate the problem", "Exacerbate tensions"] },
+      { w: "Disseminate", i: "/dɪˈsem.ɪ.neɪt/", l: "C1", t: "Verb", d: "Methodology", df: "To spread information, knowledge, or opinions widely.", ex: "The primary goal of the journal is to disseminate peer-reviewed research to the public.", c: ["Disseminate information", "Disseminate knowledge"] },
+      { w: "Alleviate", i: "/əˈliː.vi.eɪt/", l: "C1", t: "Verb", d: "Academic Writing", df: "To make suffering, deficiency, or a problem less severe.", ex: "The government introduced subsidies to alleviate the financial burden on low-income families.", c: ["Alleviate pain", "Alleviate poverty"] },
+      { w: "Elucidate", i: "/iˈluː.sɪ.deɪt/", l: "C1", t: "Verb", d: "Academic Writing", df: "To make something clear; explain.", ex: "The professor used several diagrams to elucidate the complex biological process.", c: ["Elucidate a point", "Further elucidate"] },
+      { w: "Corroborate", i: "/kəˈrɒb.ə.reɪt/", l: "C1", t: "Verb", d: "Methodology", df: "To confirm or give support to a statement, theory, or finding.", ex: "Recent DNA evidence has corroborated the historian's original theory.", c: ["Corroborate findings", "Corroborate evidence"] },
+      { w: "Ascertain", i: "/ˌæs.əˈteɪn/", l: "C1", t: "Verb", d: "Methodology", df: "To find something out for certain; make sure of.", ex: "An investigation was launched to ascertain the true cause of the structural failure.", c: ["Ascertain the facts", "Ascertain the truth"] },
+      { w: "Scrutinize", i: "/ˈskruː.tɪ.naɪz/", l: "C1", t: "Verb", d: "Methodology", df: "To examine or inspect closely and thoroughly.", ex: "The regulatory board will closely scrutinize the company's financial records.", c: ["Carefully scrutinize", "Closely scrutinize"] },
+      { w: "Advocate", i: "/ˈæd.və.keɪt/", l: "C1", t: "Verb", d: "Academic Writing", df: "To publicly recommend or support.", ex: "Many environmentalists advocate for a complete transition to renewable energy by 2050.", c: ["Strongly advocate", "Advocate for"] },
+      { w: "Aggregate", i: "/ˈæɡ.rɪ.ɡət/", l: "C1", t: "Noun", d: "Methodology", df: "A whole formed by combining several separate elements.", ex: "The statistical model analyzes the aggregate data from over fifty individual surveys.", c: ["In the aggregate", "Aggregate demand"] },
+      { w: "Allocate", i: "/ˈæl.ə.keɪt/", l: "C1", t: "Verb", d: "Economics", df: "Distribute (resources or duties) for a particular purpose.", ex: "The government must allocate more funds to the public education sector.", c: ["Allocate resources", "Allocate funds"] },
+      { w: "Ambivalent", i: "/æmˈbɪv.ə.lənt/", l: "C1", t: "Adj", d: "Sociology", df: "Having mixed feelings or contradictory ideas about something or someone.", ex: "The public remains deeply ambivalent about the ethics of genetic engineering.", c: ["Feel ambivalent", "Highly ambivalent"] },
+      { w: "Arbitrary", i: "/ˈɑː.bɪ.trər.i/", l: "C1", t: "Adj", d: "Methodology", df: "Based on random choice or personal whim, rather than any reason or system.", ex: "The decision to cut funding seemed entirely arbitrary and lacked empirical justification.", c: ["Arbitrary decision", "Seemingly arbitrary"] },
+      { w: "Catalyst", i: "/ˈkæt.ə.lɪst/", l: "C1", t: "Noun", d: "Science", df: "A substance that increases the rate of a chemical reaction; a person or thing that precipitates an event.", ex: "The protest acted as a catalyst for sweeping political reform.", c: ["Act as a catalyst", "Major catalyst"] },
+      { w: "Coherent", i: "/kəʊˈhɪə.rənt/", l: "C1", t: "Adj", d: "Academic Writing", df: "Logical and consistent.", ex: "The student failed to present a coherent argument in the final chapter of the thesis.", c: ["Coherent argument", "Coherent strategy"] },
+      { w: "Cohesive", i: "/kəʊˈhiː.sɪv/", l: "C1", t: "Adj", d: "Sociology", df: "Characterized by or causing cohesion; sticking together.", ex: "The goal of the community project was to build a more cohesive society.", c: ["Cohesive unit", "Socially cohesive"] },
+      { w: "Commensurate", i: "/kəˈmen.ʃər.ət/", l: "C1", t: "Adj", d: "Academic Writing", df: "Corresponding in size or degree; in proportion.", ex: "Salary will be commensurate with the applicant's experience and qualifications.", c: ["Commensurate with", "Directly commensurate"] },
+      { w: "Consensus", i: "/kənˈsen.səs/", l: "C1", t: "Noun", d: "Methodology", df: "A general agreement.", ex: "There is a growing scientific consensus regarding the primary causes of climate change.", c: ["Reach a consensus", "General consensus"] },
+      { w: "Constraint", i: "/kənˈstreɪnt/", l: "C1", t: "Noun", d: "Methodology", df: "A limitation or restriction.", ex: "Time constraints prevented the researchers from conducting a longitudinal study.", c: ["Financial constraint", "Severe constraint"] },
+      { w: "Deviate", i: "/ˈdiː.vi.eɪt/", l: "C1", t: "Verb", d: "Methodology", df: "Depart from an established course.", ex: "The results did not deviate significantly from the original hypothesis.", c: ["Deviate from", "Significantly deviate"] },
+      { w: "Diminish", i: "/dɪˈmɪn.ɪʃ/", l: "C1", t: "Verb", d: "Academic Writing", df: "Make or become less.", ex: "The lack of funding will inevitably diminish the quality of public healthcare.", c: ["Diminish the impact", "Gradually diminish"] },
+      { w: "Empathy", i: "/ˈem.pə.θi/", l: "C1", t: "Noun", d: "Pedagogy", df: "The ability to understand and share the feelings of another.", ex: "Effective teaching requires a deep sense of empathy for students from diverse backgrounds.", c: ["Show empathy", "Lack of empathy"] },
+      { w: "Equivocal", i: "/ɪˈkwɪv.ə.kəl/", l: "C1", t: "Adj", d: "Academic Writing", df: "Open to more than one interpretation; ambiguous.", ex: "The findings of the preliminary study were highly equivocal, requiring further research.", c: ["Equivocal results", "Remain equivocal"] },
+      { w: "Fallacy", i: "/ˈfæl.ə.si/", l: "C1", t: "Noun", d: "Philosophy", df: "A mistaken belief, especially one based on unsound arguments.", ex: "It is a dangerous fallacy to assume that all technological advancement leads to social progress.", c: ["Logical fallacy", "Common fallacy"] },
+      { w: "Fluctuate", i: "/ˈflʌk.tʃu.eɪt/", l: "C1", t: "Verb", d: "Economics", df: "Rise and fall irregularly in number or amount.", ex: "Currency exchange rates fluctuate daily based on international market pressures.", c: ["Fluctuate wildly", "Tend to fluctuate"] },
+      { w: "Imminent", i: "/ˈɪm.ɪ.nənt/", l: "C1", t: "Adj", d: "Academic Writing", df: "About to happen.", ex: "The seismologists warned that a massive earthquake was imminent in the region.", c: ["Imminent danger", "Imminent threat"] },
+      { w: "Induce", i: "/ɪnˈdjuːs/", l: "C1", t: "Verb", d: "Science", df: "Succeed in persuading or leading (someone) to do something; bring about or give rise to.", ex: "The medication is designed to induce a state of deep relaxation.", c: ["Induce sleep", "Induce a reaction"] },
+      { w: "Inevitable", i: "/ɪˈnev.ɪ.tə.bəl/", l: "C1", t: "Adj", d: "Academic Writing", df: "Certain to happen; unavoidable.", ex: "Economic restructuring is an inevitable consequence of rapid automation.", c: ["Inevitable outcome", "Almost inevitable"] },
+      { w: "Intervene", i: "/ˌɪn.təˈviːn/", l: "C1", t: "Verb", d: "Sociology", df: "Take part in something so as to prevent or alter a result or course of events.", ex: "The central bank was forced to intervene to stabilize the collapsing currency.", c: ["Intervene directly", "Quickly intervene"] },
+      { w: "Justify", i: "/ˈdʒʌs.tɪ.faɪ/", l: "C1", t: "Verb", d: "Methodology", df: "Show or prove to be right or reasonable.", ex: "The researchers must justify their chosen methodology in the opening chapter.", c: ["Justify a decision", "Difficult to justify"] },
+      { w: "Manifest", i: "/ˈmæn.ɪ.fest/", l: "C1", t: "Verb", d: "Academic Writing", df: "Display or show (a quality or feeling) by one's acts or appearance; demonstrate.", ex: "The stress of the examination period began to manifest as physical illness.", c: ["Manifest itself", "Clearly manifest"] },
+      { w: "Marginal", i: "/ˈmɑː.dʒɪ.nəl/", l: "C1", t: "Adj", d: "Economics", df: "Relating to or situated at the edge or margin of something; minor and not important.", ex: "The new tax policy will only have a marginal effect on middle-income earners.", c: ["Marginal difference", "Marginal benefit"] },
+      { w: "Mitigate", i: "/ˈmɪt.ɪ.ɡeɪt/", l: "C1", t: "Verb", d: "Methodology", df: "Make (something bad) less severe, harmful, or painful.", ex: "Strict building codes were implemented to mitigate the damage caused by future earthquakes.", c: ["Mitigate the risk", "Mitigate circumstances"] },
+      { w: "Nuance", i: "/ˈnjuː.ɑːns/", l: "C1", t: "Noun", d: "Linguistics", df: "A subtle difference in or shade of meaning, expression, or sound.", ex: "Automated translation software often fails to capture the cultural nuance of poetry.", c: ["Subtle nuance", "Grasp the nuance"] },
+      { w: "Obsolete", i: "/ˈɒb.səl.iːt/", l: "C1", t: "Adj", d: "Academic Writing", df: "No longer produced or used; out of date.", ex: "The rapid development of smartphones rendered traditional digital cameras largely obsolete.", c: ["Become obsolete", "Render obsolete"] },
+      { w: "Pervasive", i: "/pəˈveɪ.sɪv/", l: "C1", t: "Adj", d: "Sociology", df: "(Especially of an unwelcome influence or physical effect) spreading widely throughout an area or a group of people.", ex: "Ageism remains a pervasive problem within the tech industry.", c: ["Pervasive influence", "Highly pervasive"] },
+      { w: "Plausible", i: "/ˈplɔː.zɪ.bəl/", l: "C1", t: "Adj", d: "Academic Writing", df: "Seeming reasonable or probable.", ex: "The defendant failed to provide a plausible explanation for his whereabouts.", c: ["Plausible explanation", "Highly plausible"] },
+      { w: "Proponent", i: "/prəˈpəʊ.nənt/", l: "C1", t: "Noun", d: "Academic Writing", df: "A person who advocates a theory, proposal, or project.", ex: "She is a strong proponent of universal basic income as a solution to poverty.", c: ["Leading proponent", "Strong proponent"] },
+      { w: "Requisite", i: "/ˈrek.wɪ.zɪt/", l: "C1", t: "Adj", d: "Academic Writing", df: "Made necessary by particular circumstances or regulations.", ex: "The applicant lacked the requisite skills to manage a multinational team.", c: ["Requisite skills", "Requisite experience"] },
+      { w: "Appease", i: "/əˈpiːz/", l: "C1", t: "Verb", d: "Sociology", df: "Pacify or placate (someone) by acceding to their demands.", ex: "The minor concessions were not enough to appease the striking workers.", c: ["Appease the public", "Attempt to appease"] },
+      { w: "Abundant", i: "/əˈbʌn.dənt/", l: "C1", t: "Adj", d: "General", df: "Existing or available in large quantities; plentiful.", ex: "The region is known for its abundant natural resources, particularly natural gas.", c: ["Abundant supply", "Highly abundant"] },
+      { w: "Incipient", i: "/ɪnˈsɪp.i.ənt/", l: "C1", t: "Adj", d: "Science", df: "In an initial stage; beginning to happen or develop.", ex: "The scans detected an incipient tumor that required immediate intervention.", c: ["Incipient stage", "Incipient signs"] },
+      // --- B2 UPPER-INTERMEDIATE ---
+      { w: "Analyze", i: "/ˈæn.əl.aɪz/", l: "B2", t: "Verb", d: "Academic Writing", df: "Examine methodically and in detail the constitution or structure of something.", ex: "The students were asked to analyze the poem for recurring metaphorical themes.", c: ["Analyze data", "Critically analyze"] },
+      { w: "Conceptualize", i: "/kənˈsep.tʃu.ə.laɪz/", l: "B2", t: "Verb", d: "Methodology", df: "To form a concept or idea of something.", ex: "It was difficult for the beginners to conceptualize the abstract grammatical rules.", c: ["Conceptualize a theory"] },
+      { w: "Interpret", i: "/ɪnˈtɜː.prɪt/", l: "B2", t: "Verb", d: "Methodology", df: "Explain the meaning of information, words, or actions.", ex: "The historian must interpret the ancient texts carefully to avoid modern bias.", c: ["Interpret data", "Interpret meaning"] },
+      { w: "Significant", i: "/sɪɡˈnɪf.ɪ.kənt/", l: "B2", t: "Adj", d: "Academic Writing", df: "Sufficiently great or important to be worthy of attention.", ex: "There was a significant improvement in test scores following the intervention.", c: ["Highly significant", "Significant impact"] },
+      { w: "Acquire", i: "/əˈkwaɪər/", l: "B2", t: "Verb", d: "Academic Writing", df: "To buy or obtain for oneself; to learn or develop.", ex: "Children acquire their native language without formal grammatical instruction.", c: ["Acquire skills", "Acquire knowledge"] },
+      { w: "Fundamental", i: "/ˌfʌn.dəˈmen.təl/", l: "B2", t: "Adj", d: "Philosophy", df: "Forming a necessary base or core; of central importance.", ex: "Understanding basic algebra is fundamental to mastering advanced calculus.", c: ["Fundamental shift", "Fundamental principle"] },
+      { w: "Strategy", i: "/ˈstræt.ə.dʒi/", l: "B2", t: "Noun", d: "Economics", df: "A plan of action designed to achieve a long-term or overall aim.", ex: "The company developed a new marketing strategy to target younger demographics.", c: ["Develop a strategy", "Effective strategy"] },
+      { w: "Framework", i: "/ˈfreɪm.wɜːk/", l: "B2", t: "Noun", d: "Methodology", df: "An essential supporting structure of a building, vehicle, or object; a basic conceptual structure.", ex: "The essay must be built upon a solid theoretical framework.", c: ["Theoretical framework", "Legal framework"] },
+      { w: "Evaluate", i: "/ɪˈvæl.ju.eɪt/", l: "B2", t: "Verb", d: "Methodology", df: "To form an idea of the amount, number, or value of; assess.", ex: "The committee will evaluate the proposals based on feasibility and cost.", c: ["Critically evaluate", "Evaluate performance"] },
+      { w: "Crucial", i: "/ˈkruː.ʃəl/", l: "B2", t: "Adj", d: "Academic Writing", df: "Decisive or critical, especially in the success or failure of something.", ex: "Vitamins are crucial for maintaining a healthy immune system.", c: ["Crucial role", "Crucial factor"] },
+      { w: "Perspective", i: "/pəˈspek.tɪv/", l: "B2", t: "Noun", d: "Philosophy", df: "A particular attitude towards or way of regarding something; a point of view.", ex: "The novel is interesting because it is written from the perspective of the villain.", c: ["Historical perspective", "Alternative perspective"] },
+      { w: "Relevant", i: "/ˈrel.ə.vənt/", l: "B2", t: "Adj", d: "Academic Writing", df: "Closely connected or appropriate to the matter in hand.", ex: "Please ensure all data included in the report is highly relevant to the core thesis.", c: ["Highly relevant", "Relevant information"] },
+      { w: "Implement", i: "/ˈɪm.plɪ.ment/", l: "B2", t: "Verb", d: "Economics", df: "To put a decision, plan, agreement, etc. into effect.", ex: "The government plans to implement the new environmental regulations next year.", c: ["Implement policy", "Successfully implement"] },
+      { w: "Distinct", i: "/dɪˈstɪŋkt/", l: "B2", t: "Adj", d: "Academic Writing", df: "Recognizably different in nature from something else of a similar type.", ex: "The region is divided into three distinct cultural zones.", c: ["Distinct feature", "Distinct advantage"] },
+      { w: "Implicit", i: "/ɪmˈplɪs.ɪt/", l: "B2", t: "Adj", d: "Academic Writing", df: "Suggested though not directly expressed.", ex: "There was an implicit agreement that he would resign if the project failed.", c: ["Implicit assumption", "Implicit trust"] },
+      { w: "Explicit", i: "/ɪkˈsplɪs.ɪt/", l: "B2", t: "Adj", d: "Academic Writing", df: "Stated clearly and in detail, leaving no room for confusion or doubt.", ex: "The instructions on the exam paper were explicit and easy to follow.", c: ["Explicit instructions", "Explicit consent"] },
+      { w: "Comprehensive", i: "/ˌkɒm.prɪˈhen.sɪv/", l: "B2", t: "Adj", d: "Academic Writing", df: "Complete and including everything that is necessary.", ex: "The hospital offers comprehensive medical care for all ages.", c: ["Comprehensive review", "Comprehensive approach"] },
+      { w: "Dynamic", i: "/daɪˈnæm.ɪk/", l: "B2", t: "Adj", d: "Science", df: "Characterized by constant change, activity, or progress.", ex: "The modern global economy is a highly dynamic and unpredictable system.", c: ["Dynamic environment", "Dynamic process"] },
+      { w: "Sequential", i: "/sɪˈkwen.ʃəl/", l: "B2", t: "Adj", d: "Methodology", df: "Forming or following in a logical order or sequence.", ex: "The textbook chapters must be completed in a strict sequential order.", c: ["Sequential order", "Sequential steps"] },
+      { w: "Integrate", i: "/ˈɪn.tɪ.ɡreɪt/", l: "B2", t: "Verb", d: "Academic Writing", df: "To combine one thing with another to form a whole.", ex: "The curriculum aims to integrate technology seamlessly into daily lessons.", c: ["Fully integrate", "Integrate into"] },
+      { w: "Modify", i: "/ˈmɒd.ɪ.faɪ/", l: "B2", t: "Verb", d: "Methodology", df: "To make partial or minor changes to something, typically so as to improve it.", ex: "The engineers had to modify the engine design to meet new emissions standards.", c: ["Modify behavior", "Slightly modify"] },
+      { w: "Objective", i: "/əbˈdʒek.tɪv/", l: "B2", t: "Adj", d: "Methodology", df: "Not influenced by personal feelings or opinions in considering and representing facts.", ex: "A judge must remain entirely objective when hearing a case.", c: ["Objective assessment", "Remain objective"] },
+      { w: "Phase", i: "/feɪz/", l: "B2", t: "Noun", d: "Methodology", df: "A distinct period or stage in a process of change or forming part of something's development.", ex: "The construction project is currently entering its final phase.", c: ["Initial phase", "Critical phase"] },
+      { w: "Principle", i: "/ˈprɪn.sə.pəl/", l: "B2", t: "Noun", d: "Philosophy", df: "A fundamental truth or proposition that serves as the foundation for a system of belief.", ex: "The country was founded on the principle of equal rights for all citizens.", c: ["Core principle", "Guiding principle"] },
+      { w: "Proportion", i: "/prəˈpɔː.ʃən/", l: "B2", t: "Noun", d: "Methodology", df: "A part, share, or number considered in comparative relation to a whole.", ex: "A large proportion of the budget was spent on advertising.", c: ["High proportion", "Significant proportion"] },
+      { w: "Publish", i: "/ˈpʌb.lɪʃ/", l: "B2", t: "Verb", d: "Methodology", df: "To prepare and issue a book, journal, piece of music, or other work for public sale.", ex: "The university press will publish his doctoral thesis next spring.", c: ["Publish findings", "Recently published"] },
+      { w: "Resolve", i: "/rɪˈzɒlv/", l: "B2", t: "Verb", d: "Academic Writing", df: "To settle or find a solution to a problem, dispute, or contentious matter.", ex: "The mediator was hired to resolve the long-standing contract dispute.", c: ["Resolve a conflict", "Resolve an issue"] },
+      { w: "Sector", i: "/ˈsek.tər/", l: "B2", t: "Noun", d: "Economics", df: "An area or portion that is distinct from others.", ex: "Jobs in the manufacturing sector have declined sharply over the last decade.", c: ["Public sector", "Private sector"] },
+      { w: "Subsequent", i: "/ˈsʌb.sɪ.kwənt/", l: "B2", t: "Adj", d: "Methodology", df: "Coming after something in time; following.", ex: "The theory was disproved by subsequent research published in 2023.", c: ["Subsequent events", "Subsequent generation"] },
+      { w: "Underlie", i: "/ˌʌn.dəˈlaɪ/", l: "B2", t: "Verb", d: "Methodology", df: "To be a significant cause or basis of something even if not necessarily manifest.", ex: "We must understand the economic motives that underlie the conflict.", c: ["Underlying cause", "Underlying assumption"] },
+      { w: "Valid", i: "/ˈvæl.ɪd/", l: "B2", t: "Adj", d: "Methodology", df: "Having a sound basis in logic or fact; reasonable or cogent.", ex: "The student made a valid point regarding the flaws in the data collection.", c: ["Valid argument", "Valid reason"] }
+    ];
+
+    /* ══════════════════════════════════════════════════════════════════
+       UI RENDERING & INTERACTIVE LOGIC (FIXED SEARCH)
+    ══════════════════════════════════════════════════════════════════ */
+    const grid = document.getElementById('lexicon-grid');
+    const spotlight = document.getElementById('spotlight-panel');
+    const searchInput = document.getElementById('search-input');
+    const levelFilter = document.getElementById('level-filter');
+    const domainFilter = document.getElementById('domain-filter');
+    const wordCountDisplay = document.getElementById('word-count-display');
+
+    // Sort database alphabetically for cleaner UI presentation
+    lexicalDatabase.sort((a, b) => a.w.localeCompare(b.w));
+
+    function renderGrid(data) {
+      grid.innerHTML = '';
+      
+      // Update the total count dynamically
+      wordCountDisplay.textContent = `${data.length} / ${lexicalDatabase.length} TERMS`;
+
+      if (data.length === 0) {
+        grid.innerHTML = `<div class="no-results">No academic terms match your exact search parameters. Try adjusting your filters.</div>`;
+        spotlight.style.opacity = '0.5';
+        spotlight.style.pointerEvents = 'none';
+        return;
+      }
+
+      spotlight.style.opacity = '1';
+      spotlight.style.pointerEvents = 'auto';
+
+      data.forEach((item, index) => {
+        const badgeClass = item.l === 'C2' ? 'badge-c2' : item.l === 'C1' ? 'badge-c1' : 'badge-b2';
+        
+        const card = document.createElement('div');
+        card.className = `word-card ${index === 0 ? 'active' : ''}`;
+        card.innerHTML = `
+          <div class="wc-header">
+            <div>
+              <div class="wc-word">${item.w}</div>
+              <div class="wc-ipa">${item.i}</div>
+            </div>
+            <span class="wc-badge ${badgeClass}">${item.l}</span>
+          </div>
+          <div class="wc-type">${item.t} · ${item.d}</div>
+          <div class="wc-def">${item.df}</div>
+        `;
+
+        // Click Event: Update Spotlight and manage Active Class
+        card.addEventListener('click', () => {
+          document.querySelectorAll('.word-card').forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+          updateSpotlight(item);
+          
+          // Mobile specific logic to scroll to the panel
+          if(window.innerWidth <= 1024) {
+            spotlight.style.display = 'block';
+            spotlight.scrollIntoView({behavior: 'smooth'});
+          }
+        });
+
+        grid.appendChild(card);
+      });
+
+      // Always update spotlight with the top result of the current filtered array
+      if (data.length > 0) updateSpotlight(data[0]);
+    }
+
+    function updateSpotlight(item) {
+      const collocsHTML = item.c && item.c.length > 0 
+        ? item.c.map(col => `<span class="collocation-tag">${col}</span>`).join('') 
+        : '<span class="collocation-tag" style="color:var(--muted);border-color:var(--border);background:none;">No collocations logged</span>';
+      
+      spotlight.innerHTML = `
+        <div class="sl-badge">Active Focus</div>
+        <div class="sl-word">${item.w}</div>
+        <div class="sl-phonetics">
+          <div class="sl-ipa">${item.i}</div>
+          <div class="sl-audio" title="Play British Pronunciation" onclick="playAudio('${item.w}')">🔊</div>
+        </div>
+        <div class="sl-meta">${item.l} Level · ${item.t} · ${item.d} Domain</div>
+        <div class="sl-def">${item.df}</div>
+        <div class="sl-example">"${item.ex}"</div>
+        <div class="sl-collocs-title">Academic Collocations</div>
+        <div class="sl-collocs">${collocsHTML}</div>
+      `;
+    }
+
+    // Interactive Audio using SpeechSynthesis (Targeting UK Voice)
+    function playAudio(word) {
+      const utterance = new SpeechSynthesisUtterance(word);
+      const voices = window.speechSynthesis.getVoices();
+      // Ensure British English is used for the pronunciation
+      const ukVoice = voices.find(voice => voice.lang === 'en-GB' || voice.lang === 'en-UK');
+      if(ukVoice) utterance.voice = ukVoice;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Search and Filter Logic
+    function filterData() {
+      const searchTerm = searchInput.value.toLowerCase().trim();
+      const level = levelFilter.value;
+      const domain = domainFilter.value;
+
+      const filtered = lexicalDatabase.filter(item => {
+        // Search matches the Word OR the Definition
+        const matchesSearch = item.w.toLowerCase().includes(searchTerm) || item.df.toLowerCase().includes(searchTerm);
+        const matchesLevel = level === 'All' || item.l === level;
+        const matchesDomain = domain === 'All' || item.d === domain;
+        
+        return matchesSearch && matchesLevel && matchesDomain;
+      });
+
+      renderGrid(filtered);
+    }
+
+    // Attach Event Listeners to inputs
+    searchInput.addEventListener('input', filterData);
+    levelFilter.addEventListener('change', filterData);
+    domainFilter.addEventListener('change', filterData);
+
+    // Initial load
+    renderGrid(lexicalDatabase);
+  </script>
+</body>
+</html>
