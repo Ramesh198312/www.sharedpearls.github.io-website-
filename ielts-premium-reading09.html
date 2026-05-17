@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 09: Post-Colonial Narrative Structures | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- PREMIUM CRIMSON & GOLD PALETTE --- */
+    :root {
+      --primary-dark: #4A0404;    
+      --primary-main: #8E1628;    
+      --accent-gold: #D4AF37;     
+      --text-main: #2C3E50;       
+      --text-muted: #7F8C8D;
+      --bg-page: #FDFBF7;         
+      --bg-panel: #FFFFFF;
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+
+    /* --- HEADER --- */
+    header { 
+      background: var(--primary-main); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--accent-gold); 
+      flex-shrink: 0; z-index: 10; box-shadow: 0 4px 12px rgba(142, 22, 40, 0.2);
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; color: #FFF; }
+    .brand span { color: var(--accent-gold); font-style: italic; font-weight: 400; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #E8B4B8; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(255, 255, 255, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--accent-gold); background: rgba(255, 255, 255, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--primary-dark); background: var(--accent-gold); padding: 0.4rem 1.2rem; border-radius: 4px; }
+
+    /* --- WORKSPACE --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+
+    /* --- LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--primary-dark);
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #FFF;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; margin-bottom: 1rem; font-family: var(--font-passage); color: var(--accent-gold); max-width: 800px;}
+    .pre-test-overlay p { font-size: 1.15rem; max-width: 750px; line-height: 1.8; margin-bottom: 2.5rem; color: #FADBD8; }
+    .btn-start-large {
+      background: var(--accent-gold); color: var(--primary-dark); padding: 1.2rem 4rem; font-size: 1.1rem; font-weight: 700;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+    }
+    .btn-start-large:hover { background: #FFF; transform: scale(1.05); }
+
+    /* --- TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 1.8rem; margin-bottom: 2rem; color: var(--primary-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 0.95rem; color: var(--text-main); text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; margin-right: 12px; color: var(--primary-main); float: left; }
+
+    .right-panel h2 { font-size: 1.1rem; margin: 2rem 0 1rem; color: var(--primary-dark); border-bottom: 2px solid var(--accent-gold); padding-bottom: 5px; font-weight: 700; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.85rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--primary-main); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; }
+    
+    input[type="text"] { border: none; border-bottom: 2px solid #BDC3C7; background: transparent; font-size: 0.95rem; width: 160px; font-weight: 600; color: var(--primary-main); text-align: center; outline: none; transition: border-color 0.3s;}
+    input[type="text"]:focus { border-bottom-color: var(--primary-dark); }
+
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.2rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.9rem; font-weight: 500; color: var(--text-main); }
+    .box-item strong { font-family: var(--font-mono); color: var(--primary-main); margin-right: 5px;}
+    
+    /* --- BOTTOM NAV --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; align-items: center; justify-content: space-between; padding: 0 3rem;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 26px; height: 26px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main); font-weight: 600;
+    }
+    .nav-btn.answered { background: var(--primary-main); color: #FFF; border-color: var(--primary-main); }
+
+    .btn-submit-small { background: var(--primary-main); color: #FFF; border: none; padding: 0.6rem 2rem; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
+    .btn-submit-small:hover { background: var(--primary-dark); }
+
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      z-index: 200; text-align: center; border-top: 5px solid var(--primary-main); min-width: 400px;
+    }
+    .correct-answer { color: #27AE60 !important; font-weight: 700; border-bottom-color: #27AE60 !important; }
+    .wrong-answer { color: #E74C3C !important; border-bottom-color: #E74C3C !important; }
+    
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls</span> of Wisdom | Academic Reading</div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2 style="color: var(--primary-dark);">Assessment Finalized</h2>
+    <div style="font-size: 3.5rem; font-weight: 800; margin: 1rem 0; font-family: var(--font-mono); color: var(--primary-main);" id="final-score">0 / 40</div>
+    <p>Review the highlighted responses in the passages.</p>
+    <button class="btn-submit-small" style="margin-top: 1rem;" onclick="location.reload()">Restart Test</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <h2>Shifting Narrative Structures in 20th-Century Post-Colonial Literature</h2>
+      <p>This module investigates the departure from conventional Western narrative techniques. It evaluates comprehension of complex literary frameworks including polyphony, magical realism, and linguistic abrogation.</p>
+      <button class="btn-start-large" onclick="startTest()">Initiate Assessment</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Departure from the Colonial Gaze</h1>
+        
+        <p><span class="paragraph-label">A</span> Prior to the mid-20th century, literature concerning colonized territories was overwhelmingly dominated by the "colonial gaze." Novels authored by European writers, such as Joseph Conrad’s <i>Heart of Darkness</i>, established a narrative structure that placed the Western protagonist at the center of a linear, objective reality. In this structure, the colonized landscape and its inhabitants functioned merely as a static, exotic backdrop against which the European character experienced psychological development or moral crisis. The narrative voice was singularly authoritative, projecting an illusion of empirical truth while silencing indigenous perspectives.</p>
+        
+        <p><span class="paragraph-label">B</span> The emergence of post-colonial literature in the 1950s necessitated a radical subversion of this established narrative architecture. Post-colonial authors recognized that to tell their own stories, they could not rely on the very structural frameworks that had been used to marginalize them. One of the most profound structural shifts was the rejection of chronological, linear time. Western realism traditionally operates on a strict timeline—a clear beginning, middle, and end, reflecting a teleological view of history as constant progress. Post-colonial writers frequently fractured this linearity, introducing cyclical time to reflect indigenous temporal philosophies where the past, present, and future are deeply interwoven.</p>
+        
+        <p><span class="paragraph-label">C</span> Furthermore, the concept of the "individual protagonist" was frequently replaced by the "collective protagonist." In Western literature, the psychological journey of the solitary hero is paramount. However, many post-colonial societies function fundamentally as communal entities rather than collections of highly individualized actors. Authors began employing a communal narrative voice, where the 'hero' of the novel is not a single person, but an entire village or society experiencing the traumatic fracture of colonization.</p>
+        
+        <p><span class="paragraph-label">D</span> Chinua Achebe’s seminal 1958 novel, <i>Things Fall Apart</i>, is widely regarded as the foundational text of this structural revolution. Achebe did not merely write a story about the Igbo people of Nigeria; he structurally embedded their worldview into the prose. While the novel follows the life of Okonkwo, the narrative frequently diverts into communal folklore, ancestral myths, and the intricate legal proceedings of the village elders. To a traditional Western critic, these diversions might appear as structural flaws or tangent pacing. In reality, they are deliberate narrative strategies designed to force the reader to experience the world through a communal, rather than an individualized, lens.</p>
+        
+        <p><span class="paragraph-label">E</span> Central to Achebe’s structural intervention was his seamless integration of oral tradition into written text. Achebe famously stated, "Among the Igbo, the art of conversation is regarded very highly, and proverbs are the palm-oil with which words are eaten." By weaving proverbs directly into the narrative pacing, Achebe slowed the reader down, forcing them to engage with the rhetorical sophistication of a society that colonial literature had previously dismissed as primitive. This structural elevation of oral storytelling bridged the gap between pre-colonial history and modern literature.</p>
+        
+        <p><span class="paragraph-label">F</span> Ultimately, these shifting narrative structures were not mere stylistic experiments; they were acts of political reclamation. By dismantling the linear, authoritative, and highly individualized structures of the European novel, post-colonial authors began the arduous process of untangling their histories from the colonial gaze, proving that the way a story is told is just as ideological as the story itself.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>Polyphony and the Rise of Magical Realism</h1>
+        
+        <p><span class="paragraph-label">A</span> As post-colonial literature matured into the late 20th century, authors from Latin America and South Asia began employing increasingly complex structural frameworks to capture the chaotic realities of newly independent nations. The strict confines of "social realism"—which demanded objective, journalistic depictions of society—were deemed insufficient. Social realism belonged to the colonizer; it assumed that reality was a singular, empirical truth that could be neatly categorized. Post-colonial societies, however, were characterized by fractured identities, competing histories, and the lingering ghosts of imperialism. To represent this, a new narrative structure was required: Magical Realism.</p>
+        
+        <p><span class="paragraph-label">B</span> Magical Realism is frequently misunderstood as a subgenre of fantasy. Structurally, it is the exact opposite. In a fantasy novel, the author creates a fictional world with its own distinct rules. In Magical Realism, the narrative is deeply rooted in the mundane, historical reality of the real world, but the supernatural or inexplicable is treated as perfectly ordinary. When Gabriel García Márquez introduced a character ascending to heaven while folding laundry in <i>One Hundred Years of Solitude</i>, the narrative tone did not shift to awe or shock. The miraculous is structurally flattened to carry the exact same narrative weight as a political execution or a rainstorm.</p>
+        
+        <p><span class="paragraph-label">C</span> This structural flattening serves a profound political purpose. By blurring the lines between myth and empirical history, Magical Realism legitimizes indigenous belief systems that were previously eradicated by colonial rationalism. It suggests that the Western, scientific understanding of reality is not the only valid lens. Márquez utilized cyclical time relentlessly; characters repeat the exact mistakes of their ancestors, and even share identical names, creating a narrative loop that traps the reader in the inescapable, cyclical trauma of post-colonial Latin America.</p>
+        
+        <p><span class="paragraph-label">D</span> Parallel to Magical Realism is the structural implementation of "Polyphony." Originally coined by Russian literary theorist Mikhail Bakhtin to describe the novels of Dostoevsky, polyphony refers to a narrative structure featuring multiple, simultaneous voices and perspectives, none of which are granted absolute authority by the author. In traditional colonial literature, the narrator is a singular, omniscient voice of truth. Post-colonial authors weaponized Bakhtin’s concept of polyphony to destroy this singular authority.</p>
+        
+        <p><span class="paragraph-label">E</span> Salman Rushdie’s <i>Midnight’s Children</i> (1981) is the quintessential example of post-colonial polyphony. The protagonist, Saleem Sinai, possesses telepathic powers that allow him to hear the thoughts of every child born at the exact moment of India’s independence. Structurally, Rushdie's novel is a chaotic, deafening cacophony of competing voices, dialects, and contradictory memories. Saleem is a highly unreliable narrator, frequently admitting to forgetting or fabricating historical details. This structural unreliability forces the reader to accept that the history of a post-colonial nation cannot be summarized by a single, objective narrative; it is inherently fragmented and contradictory.</p>
+        
+        <p><span class="paragraph-label">F</span> The utilization of these complex structures—Magical Realism and Polyphony—demonstrates a sophisticated evolution in post-colonial thought. Authors were no longer simply writing "back" to the empire in the empire's own format. They were fundamentally breaking the empire's literary tools, forging new, hybridized structures capable of holding the vast, contradictory, and deeply magical realities of the post-colonial experience.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>The Linguistic Architecture: Abrogation and Appropriation</h1>
+        
+        <p><span class="paragraph-label">A</span> While narrative pacing and time are crucial structural elements, the most visceral battleground in post-colonial literature is the structural use of language itself. For decades, the English language served as the primary instrument of colonial administration, education, and cultural subjugation. Consequently, 20th-century post-colonial authors faced a profound structural dilemma: how can one write a narrative of liberation using the very language of the oppressor? This dilemma birthed two distinct, often conflicting, structural strategies within post-colonial literature: linguistic abrogation and linguistic appropriation.</p>
+        
+        <p><span class="paragraph-label">B</span> These twin concepts were formally codified in the seminal 1989 academic text, <i>The Empire Writes Back</i>, authored by Ashcroft, Griffiths, and Tiffin. According to their framework, "abrogation" is a structural refusal. It is the active rejection of standard, metropolitan British English as the ultimate benchmark of literary quality. When a post-colonial author engages in abrogation, they structurally refuse to italicize indigenous words, and they refuse to provide a glossary for the Western reader. By doing so, the author decenters the Western reader, forcing them into a position of linguistic disadvantage—a structural reversal of the colonial power dynamic.</p>
+        
+        <p><span class="paragraph-label">C</span> "Appropriation," conversely, is the process of seizing the English language and fundamentally remolding it to bear the weight of a different cultural experience. It involves bending the syntax, fracturing the grammar, and infusing the prose with the cadence of local dialects. This results in "creolization" or linguistic hybridity. An author utilizing appropriation does not abandon English; they conquer it, transforming it from a tool of subjugation into a highly customized vehicle for post-colonial expression.</p>
+        
+        <p><span class="paragraph-label">D</span> The ideological debate surrounding these structural choices was fiercely contested in the late 20th century, most notably between Kenyan author Ngũgĩ wa Thiong'o and Indian author Salman Rushdie. Ngũgĩ adopted an absolute, uncompromising stance. In his 1986 treatise <i>Decolonising the Mind</i>, Ngũgĩ argued that language and culture are inseparable. He posited that structurally molding English was a futile endeavor because the language itself carried the inescapable psychological baggage of imperialism. Consequently, Ngũgĩ structurally abandoned English entirely, vowing to write all his future novels and plays exclusively in his native Gikuyu. For Ngũgĩ, true structural liberation required a complete linguistic rupture from the colonial past.</p>
+        
+        <p><span class="paragraph-label">E</span> Rushdie, representing the opposing ideological pole, embraced maximum appropriation. Rushdie argued that the English language had outgrown its British origins and had become a global, malleable commodity. He championed the structural use of "Chutneyfication"—a term referring to the blending of standard English with Hindi, Urdu, and street-level slang. Rushdie structurally refused to translate cultural idioms, famously stating that the English language needed to be "remade to suit our own purposes." For Rushdie, the structural hybridity of language was not a symptom of colonial damage, but a vibrant, aggressive assertion of survival and evolution.</p>
+        
+        <p><span class="paragraph-label">F</span> Beyond vocabulary, appropriation deeply affected syntactic structures. Caribbean authors, such as Kamau Brathwaite, developed the concept of "Nation Language," which structurally mirrored the rhythmic, oral traditions of the Caribbean rather than the strict, silent pentameter of traditional English literature. Brathwaite argued that the hurricane does not roar in iambic pentameter; therefore, the Caribbean experience structurally required a different syntactic rhythm to be authentically conveyed.</p>
+        
+        <p><span class="paragraph-label">G</span> The integration of these linguistic structures forces the reader to experience the text actively rather than passively. When a Western reader encounters a hybridized, heavily appropriated text, they experience a deliberate structural friction. The text does not yield its meaning easily; it demands cognitive labor. This friction is a highly intentional narrative choice designed to simulate the disorientation of the post-colonial experience.</p>
+        
+        <p><span class="paragraph-label">H</span> In conclusion, the shifting narrative structures of 20th-century post-colonial literature cannot be fully understood without analyzing the architectural role of language. Whether an author chose the radical rupture of writing in indigenous tongues, or the subversive strategy of hacking the English language from the inside out, these linguistic choices were never merely aesthetic. They were profound, structural declarations of independence, permanently altering the topography of global literature.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–6: Matching Headings</h2>
+        <div class="instruction">Reading Passage 1 has six paragraphs, <strong>A–F</strong>. Choose the correct heading for each paragraph from the list below.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The illusion of empirical truth in early colonial texts</div>
+          <div class="box-item"><strong>ii</strong> Using traditional sayings to elevate storytelling structure</div>
+          <div class="box-item"><strong>iii</strong> The complete rejection of European languages</div>
+          <div class="box-item"><strong>iv</strong> Untangling history through structural dismantling</div>
+          <div class="box-item"><strong>v</strong> Replacing the solitary hero with a communal focus</div>
+          <div class="box-item"><strong>vi</strong> The deliberate introduction of cyclical time</div>
+          <div class="box-item"><strong>vii</strong> Why Western critics praised Igbo proverbs</div>
+          <div class="box-item"><strong>viii</strong> A foundational text that embedded an indigenous worldview</div>
+        </div>
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph A <input type="text" id="q1" oninput="markAnswer(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph B <input type="text" id="q2" oninput="markAnswer(2)"></div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph C <input type="text" id="q3" oninput="markAnswer(3)"></div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph D <input type="text" id="q4" oninput="markAnswer(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph E <input type="text" id="q5" oninput="markAnswer(5)"></div></div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">Paragraph F <input type="text" id="q6" oninput="markAnswer(6)"></div></div>
+
+        <h2>Questions 7–10: True/False/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the information in Passage 1? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">7</div><div class="q-text">The "colonial gaze" typically positioned indigenous people as dynamic, complex characters. <br><input type="text" id="q7" oninput="markAnswer(7)"></div></div>
+        <div class="q-item"><div class="q-num">8</div><div class="q-text">Western realism generally operates on a teleological view of history as constant progress. <br><input type="text" id="q8" oninput="markAnswer(8)"></div></div>
+        <div class="q-item"><div class="q-num">9</div><div class="q-text">Achebe's novel <i>Things Fall Apart</i> was initially banned by British colonial administrators. <br><input type="text" id="q9" oninput="markAnswer(9)"></div></div>
+        <div class="q-item"><div class="q-num">10</div><div class="q-text">Achebe wove proverbs into his narrative specifically to slow the reader down. <br><input type="text" id="q10" oninput="markAnswer(10)"></div></div>
+
+        <h2>Questions 11–13: Sentence Completion</h2>
+        <div class="instruction">Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-num">11</div><div class="q-text">Prior to the 1950s, colonial literature maintained an illusion of truth by utilizing a singularly <strong>11</strong> <input type="text" id="q11" oninput="markAnswer(11)">.</div></div>
+        <div class="q-item"><div class="q-num">12</div><div class="q-text">Instead of an individual hero, post-colonial authors often utilized a <strong>12</strong> <input type="text" id="q12" oninput="markAnswer(12)"> to reflect their society.</div></div>
+        <div class="q-item"><div class="q-num">13</div><div class="q-text">Traditional Western critics might mistakenly view Achebe's diversions into folklore as <strong>13</strong> <input type="text" id="q13" oninput="markAnswer(13)">.</div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18: Matching Features</h2>
+        <div class="instruction">Match each statement (14-18) with the correct person below. Write <strong>A, B, C, or D</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Gabriel García Márquez</div>
+          <div class="box-item"><strong>B</strong> Salman Rushdie</div>
+          <div class="box-item"><strong>C</strong> Mikhail Bakhtin</div>
+          <div class="box-item"><strong>D</strong> Joseph Conrad</div>
+        </div>
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">Employed a highly unreliable narrator to prove history is fragmented. <input type="text" id="q14" oninput="markAnswer(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">Originally coined a literary term to describe the novels of Dostoevsky. <input type="text" id="q15" oninput="markAnswer(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">Wrote a novel featuring a character possessing telepathic powers. <input type="text" id="q16" oninput="markAnswer(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">Used cyclical time to trap the reader in a narrative loop of repeated mistakes. <input type="text" id="q17" oninput="markAnswer(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">Structurally flattened miraculous events to carry the same weight as ordinary weather. <input type="text" id="q18" oninput="markAnswer(18)"></div></div>
+
+        <h2>Questions 19–23: Summary Completion</h2>
+        <div class="instruction">Complete the summary below using <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-text">
+          In the late 20th century, authors realized that <strong>19</strong> <input type="text" id="q19" oninput="markAnswer(19)"> was inadequate for describing post-colonial societies, which were filled with competing histories. They turned to Magical Realism, which differs from fantasy because it is deeply rooted in <strong>20</strong> <input type="text" id="q20" oninput="markAnswer(20)">. This technique legitimized indigenous beliefs. Additionally, authors used Polyphony, a structure containing <strong>21</strong> <input type="text" id="q21" oninput="markAnswer(21)"> that destroy the idea of a singular authority. In <i>Midnight's Children</i>, the protagonist is an <strong>22</strong> <input type="text" id="q22" oninput="markAnswer(22)"> who admits to fabricating details. Ultimately, post-colonial authors were not just writing back, they were building new, <strong>23</strong> <input type="text" id="q23" oninput="markAnswer(23)"> to hold their magical realities.
+        </div></div>
+
+        <h2>Questions 24–26: Yes/No/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">24</div><div class="q-text">Magical Realism functions by creating entirely fictional worlds with distinct, separate rules. <br><input type="text" id="q24" oninput="markAnswer(24)"></div></div>
+        <div class="q-item"><div class="q-num">25</div><div class="q-text">The political purpose of Magical Realism is to validate non-Western ways of understanding reality. <br><input type="text" id="q25" oninput="markAnswer(25)"></div></div>
+        <div class="q-item"><div class="q-num">26</div><div class="q-text">Mikhail Bakhtin strongly supported the political goals of 20th-century post-colonial authors. <br><input type="text" id="q26" oninput="markAnswer(26)"></div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31: Matching Information</h2>
+        <div class="instruction">Reading Passage 3 has eight paragraphs, <strong>A–H</strong>. Which paragraph contains the following information? Write <strong>A–H</strong>.</div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">An author's vow to exclusively use their native language for all future writings. <input type="text" id="q27" oninput="markAnswer(27)"></div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">The definition of seizing English and bending its syntax to fit a new culture. <input type="text" id="q28" oninput="markAnswer(28)"></div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">An explanation of how removing glossaries creates a linguistic disadvantage for Western readers. <input type="text" id="q29" oninput="markAnswer(29)"></div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">A comparison between natural weather events and poetic rhythmic structure. <input type="text" id="q30" oninput="markAnswer(30)"></div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">The overarching dilemma of writing a liberation narrative using the oppressor's language. <input type="text" id="q31" oninput="markAnswer(31)"></div></div>
+
+        <h2>Questions 32–36: Multiple Choice</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">32</div><div class="q-text">What is the primary goal of linguistic abrogation?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q32" value="A" onchange="markAnswer(32)"> A) To translate indigenous words perfectly into English.</label>
+            <label class="mcq-label"><input type="radio" name="q32" value="B" onchange="markAnswer(32)"> B) To actively reject standard British English as the ultimate benchmark.</label>
+            <label class="mcq-label"><input type="radio" name="q32" value="C" onchange="markAnswer(32)"> C) To write entirely in native dialects without using any English.</label>
+            <label class="mcq-label"><input type="radio" name="q32" value="D" onchange="markAnswer(32)"> D) To provide comprehensive glossaries for foreign readers.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">33</div><div class="q-text">Why did Ngũgĩ wa Thiong'o believe molding English was futile?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q33" value="A" onchange="markAnswer(33)"> A) Because he was not fluent enough to bend its syntax.</label>
+            <label class="mcq-label"><input type="radio" name="q33" value="B" onchange="markAnswer(33)"> B) Because his publishers demanded he write in Gikuyu.</label>
+            <label class="mcq-label"><input type="radio" name="q33" value="C" onchange="markAnswer(33)"> C) Because the language itself carried the inescapable baggage of imperialism.</label>
+            <label class="mcq-label"><input type="radio" name="q33" value="D" onchange="markAnswer(33)"> D) Because Salman Rushdie had already perfected linguistic appropriation.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">34</div><div class="q-text">What did Salman Rushdie mean by the term "Chutneyfication"?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q34" value="A" onchange="markAnswer(34)"> A) The blending of standard English with local languages and slang.</label>
+            <label class="mcq-label"><input type="radio" name="q34" value="B" onchange="markAnswer(34)"> B) The strict adherence to traditional British spelling.</label>
+            <label class="mcq-label"><input type="radio" name="q34" value="C" onchange="markAnswer(34)"> C) The refusal to publish books outside of India.</label>
+            <label class="mcq-label"><input type="radio" name="q34" value="D" onchange="markAnswer(34)"> D) The process of forgetting historical details.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">35</div><div class="q-text">How does a hybridized, heavily appropriated text affect the Western reader?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q35" value="A" onchange="markAnswer(35)"> A) It provides them with an easy, relaxing reading experience.</label>
+            <label class="mcq-label"><input type="radio" name="q35" value="B" onchange="markAnswer(35)"> B) It forces them to learn a new alphabet.</label>
+            <label class="mcq-label"><input type="radio" name="q35" value="C" onchange="markAnswer(35)"> C) It induces deliberate structural friction, demanding cognitive labor.</label>
+            <label class="mcq-label"><input type="radio" name="q35" value="D" onchange="markAnswer(35)"> D) It guarantees high sales in the European market.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">36</div><div class="q-text">According to the author, the linguistic choices of post-colonial writers were:
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q36" value="A" onchange="markAnswer(36)"> A) Merely aesthetic experiments to impress critics.</label>
+            <label class="mcq-label"><input type="radio" name="q36" value="B" onchange="markAnswer(36)"> B) Profound, structural declarations of independence.</label>
+            <label class="mcq-label"><input type="radio" name="q36" value="C" onchange="markAnswer(36)"> C) Largely ignored by the global literary community.</label>
+            <label class="mcq-label"><input type="radio" name="q36" value="D" onchange="markAnswer(36)"> D) Accidental byproducts of poor translation.</label>
+          </div>
+        </div></div>
+
+        <h2>Questions 37–40: Matching Sentence Endings</h2>
+        <div class="instruction">Complete each sentence with the correct ending, <strong>A–F</strong>, below. Write the correct letter in the box.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> represents a structural refusal to cater to the colonizer.</div>
+          <div class="box-item"><strong>B</strong> forces the reader to experience post-colonial disorientation.</div>
+          <div class="box-item"><strong>C</strong> required a syntax that mirrored rhythmic oral traditions.</div>
+          <div class="box-item"><strong>D</strong> abandoned English to avoid psychological imperialism.</div>
+          <div class="box-item"><strong>E</strong> proved that standard English is the only global commodity.</div>
+          <div class="box-item"><strong>F</strong> transformed English into a customized vehicle for expression.</div>
+        </div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">The concept of linguistic abrogation directly <input type="text" id="q37" oninput="markAnswer(37)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">Authors who practice linguistic appropriation successfully <input type="text" id="q38" oninput="markAnswer(38)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">Ngũgĩ wa Thiong'o's absolute ideological stance <input type="text" id="q39" oninput="markAnswer(39)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">Caribbean writers argued that their specific cultural experience <input type="text" id="q40" oninput="markAnswer(40)" style="width:60px;"></div></div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers"></div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest()">Submit Assessment</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // Passage 1: Headings (1-6)
+      q1: 'i', q2: 'vi', q3: 'v', q4: 'viii', q5: 'ii', q6: 'iv',
+      // Passage 1: T/F/NG (7-10)
+      q7: 'false', q8: 'true', q9: 'not given', q10: 'true',
+      // Passage 1: Sentence Completion (11-13)
+      q11: 'authoritative voice', q12: 'collective protagonist', q13: 'structural flaws',
+      
+      // Passage 2: Matching Features (14-18)
+      q14: 'b', q15: 'c', q16: 'b', q17: 'a', q18: 'a',
+      // Passage 2: Summary Completion (19-23)
+      q19: 'social realism', q20: 'historical reality', q21: 'multiple voices', q22: 'unreliable narrator', q23: 'hybridized structures',
+      // Passage 2: Y/N/NG (24-26)
+      q24: 'no', q25: 'yes', q26: 'not given',
+      
+      // Passage 3: Matching Info (27-31)
+      q27: 'd', q28: 'c', q29: 'b', q30: 'f', q31: 'a',
+      // Passage 3: MCQ (32-36)
+      q32: 'b', q33: 'c', q34: 'a', q35: 'c', q36: 'b',
+      // Passage 3: Sentence Endings (37-40)
+      q37: 'a', q38: 'f', q39: 'd', q40: 'c'
+    };
+
+    function initBottomNav() {
+      const container = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn'; btn.id = 'nb-'+i; btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        container.appendChild(btn);
+      }
+    }
+
+    function markAnswer(n) { 
+      const input = document.getElementById('q' + n);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${n}"]:checked`);
+      const btn = document.getElementById('nb-'+n);
+      if(isAnswered) {
+          btn.classList.add('answered');
+      } else {
+          btn.classList.remove('answered');
+      }
+    }
+
+    function scrollToQuestion(n) {
+      let tab = 1;
+      if(n >= 14 && n <= 26) tab = 2;
+      if(n >= 27 && n <= 40) tab = 3;
+      switchSection(tab);
+      
+      setTimeout(() => {
+        let qEl = document.getElementById('q'+n);
+        if(!qEl) {
+          const radio = document.querySelector(`input[name="q${n}"]`);
+          if(radio) qEl = radio.closest('.q-item');
+        } else {
+          qEl = qEl.closest('.q-item'); 
+        }
+
+        if(qEl) {
+          document.getElementById('right-panel').scrollTo({ top: qEl.offsetTop - 50, behavior: 'smooth' });
+          qEl.style.transition = 'background 0.3s';
+          qEl.style.background = '#FADBD8';
+          setTimeout(() => qEl.style.background = 'transparent', 1200);
+        }
+      }, 50);
+    }
+
+    function switchSection(n) {
+      document.querySelectorAll('.tab-btn, .section-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-'+n).classList.add('active');
+      document.getElementById('passage-'+n).classList.add('active');
+      document.getElementById('questions-'+n).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    let timerInterval;
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex';
+      initBottomNav();
+      let s = 3600;
+      timerInterval = setInterval(() => {
+        s--;
+        document.getElementById('timer').textContent = `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
+        if(s <= 0) submitTest();
+      }, 1000);
+    }
+
+    function submitTest() {
+      if(!confirm("Submit final assessment?")) return;
+      clearInterval(timerInterval);
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q'+i;
+        const input = document.getElementById(qId);
+        const ans = answerKey[qId];
+        
+        if(input) {
+          const userAns = input.value.trim().toLowerCase();
+          
+          if(userAns === ans || (ans.includes(userAns) && userAns.length > 3 && userAns !== 'true' && userAns !== 'false' && userAns !== 'yes' && userAns !== 'no')) {
+            score++; input.classList.add('correct-answer');
+          } else {
+            input.classList.add('wrong-answer');
+            input.value = userAns ? `${userAns} ❌ [${ans.toUpperCase()}]` : `❌ [${ans.toUpperCase()}]`;
+            input.style.width = "280px";
+          }
+          input.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if(selected && selected.value.toLowerCase() === ans) {
+            score++; selected.parentElement.classList.add('correct-answer');
+          } else {
+            if(selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${ans.toUpperCase()}"]`);
+            if(correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+      
+      document.getElementById('final-score').textContent = `${score} / 40`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.getElementById('btn-submit').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

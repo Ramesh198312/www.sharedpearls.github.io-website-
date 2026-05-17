@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 07: Academic Lexicons | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- PREMIUM NAVY & EMERALD PALETTE --- */
+    :root {
+      --navy-dark: #071022;   
+      --navy-main: #0E2041;   
+      --cerulean: #007EA7;    
+      --champagne: #D4AF37;   
+      --success-green: #064E3B; 
+      --bg-green-light: #ECFDF5;
+      --bg-page: #F4F6F8;
+      --bg-panel: #FFFFFF;
+      --border-subtle: #C8D3E0;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { font-family: var(--font-ui); color: var(--navy-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+
+    /* --- HEADER --- */
+    header { 
+      background: var(--navy-dark); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--champagne); 
+      flex-shrink: 0; z-index: 10;
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; color: #FFF; }
+    .brand span { color: var(--champagne); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #9BA4B5; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(0, 126, 167, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--cerulean); background: rgba(0, 126, 167, 0.15); }
+    
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--champagne); background: var(--navy-main); padding: 0.4rem 1.2rem; border-radius: 4px; }
+
+    /* --- WORKSPACE --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+
+    /* --- LOCK SCREEN (EMERALD THEME) --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--success-green);
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #FFF;
+    }
+    .pre-test-overlay h2 { font-size: 2.8rem; margin-bottom: 1rem; font-family: var(--font-passage); color: var(--champagne); }
+    .pre-test-overlay p { font-size: 1.15rem; max-width: 700px; line-height: 1.8; margin-bottom: 2.5rem; color: #D1FAE5; }
+    .btn-start-large {
+      background: var(--champagne); color: var(--navy-dark); padding: 1.2rem 4rem; font-size: 1.1rem; font-weight: 700;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+    }
+    .btn-start-large:hover { background: #FFF; transform: scale(1.05); }
+
+    /* --- TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 1.8rem; margin-bottom: 2rem; color: var(--navy-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 0.95rem; color: var(--navy-main); text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; margin-right: 12px; color: var(--cerulean); float: left; }
+
+    .right-panel h2 { font-size: 1.1rem; margin: 2rem 0 1rem; color: var(--navy-dark); border-bottom: 2px solid var(--champagne); padding-bottom: 5px; font-weight: 700; }
+    .instruction { font-style: italic; color: #576D8C; margin-bottom: 1.5rem; font-size: 0.85rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--cerulean); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; }
+    
+    input[type="text"] { border: none; border-bottom: 2px solid #8496B0; background: transparent; font-size: 0.95rem; width: 150px; font-weight: 600; color: var(--navy-dark); text-align: center; outline: none;}
+    input[type="text"]:focus { border-bottom-color: var(--cerulean); }
+
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.2rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.9rem; font-weight: 500; color: var(--navy-main); }
+    .box-item strong { font-family: var(--font-mono); color: var(--cerulean); margin-right: 5px;}
+    
+    /* --- FLOW CHART --- */
+    .flow-chart { background: var(--bg-green-light); border: 2px solid var(--success-green); padding: 2rem; border-radius: 8px; margin-top: 1rem; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .fc-box { background: #FFF; border: 1.5px solid var(--navy-main); padding: 1rem; margin: 5px 0; border-radius: 4px; text-align: center; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .fc-arrow { color: var(--success-green); font-size: 1.5rem; font-weight: bold; }
+
+    /* --- BOTTOM NAV --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; align-items: center; justify-content: space-between; padding: 0 3rem;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 26px; height: 26px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--navy-main); font-weight: 600;
+    }
+    .nav-btn.answered { background: var(--navy-main); color: #FFF; }
+
+    .btn-submit-small { background: var(--navy-main); color: #FFF; border: none; padding: 0.6rem 2rem; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase; }
+
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      z-index: 200; text-align: center; border-top: 5px solid var(--success-green); min-width: 400px;
+    }
+    .correct-answer { color: #27AE60 !important; font-weight: 700; }
+    .wrong-answer { color: #E74C3C !important; }
+    
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls</span> of Wisdom| <span>Academic Reading</span></div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2 style="color: var(--success-green);">Assessment Finalized</h2>
+    <div style="font-size: 3.5rem; font-weight: 800; margin: 1rem 0; font-family: var(--font-mono); color: var(--navy-dark);" id="final-score">0 / 40</div>
+    <p>Review the highlighted responses in the passages.</p>
+    <button class="btn-submit-small" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <h2>Developing Premium Academic Lexicons for Digital Platforms</h2>
+      <p>This module investigates the transition from print lexicography to dynamic digital lexicons, evaluating search algorithms, UI/UX cognitive load, and phonetic integration.</p>
+      <button class="btn-start-large" onclick="startTest()">Start 60-Minute Test</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Transition to Digital Lexicography</h1>
+        
+        <p><span class="paragraph-label">A</span> For centuries, the academic lexicon was defined by its physical constraints. The printed dictionary was a monumental achievement of scholarship, yet it was fundamentally static. Lexicographers were forced to make brutal editorial decisions regarding space, frequently omitting nuanced etymologies, secondary collocations, and contemporary neologisms to prevent the physical binding from tearing. Dr. Samuel Johnson’s seminal 1755 dictionary, while groundbreaking, established a paradigm of lexicography that prioritized brevity over exhaustive semantic mapping—a limitation that would persist until the late 20th century.</p>
+        
+        <p><span class="paragraph-label">B</span> The advent of the internet initiated the first wave of digital dictionaries in the 1990s. However, early digital lexicons were little more than optical character recognition (OCR) scans of their printed counterparts. They failed to utilize the dynamic potential of the digital medium. Many prominent linguists of the era argued that these "screen-based books" offered no pedagogical advantage over print. They posited that scrolling through a static alphabetical list on a low-resolution monitor actually increased reading fatigue and hindered vocabulary retention among second-language learners.</p>
+        
+        <p><span class="paragraph-label">C</span> A true paradigm shift occurred with the development of the "Premium Digital Lexicon" in the early 2010s. This marked the transition from a passive reference tool to an active, integrated learning environment. Modern lexicographers argue that a premium platform must abandon the linear, alphabetical constraints of print entirely. Instead, entries should be organized relationally, utilizing hyperlinked databases that connect words not by their spelling, but by their semantic fields, synonyms, and pragmatic usage across different academic disciplines.</p>
+        
+        <p><span class="paragraph-label">D</span> Central to this evolution is the implementation of the "working search box"—a feature that seems elementary but requires profound algorithmic complexity. In a printed dictionary, a user who misspells 'psychology' as 'sychology' will never find the entry. A premium digital lexicon, however, employs fuzzy matching and phonetic search algorithms. It anticipates user error, instantly bridging the gap between a learner's phonetic approximation and the correct orthographic form. Some software engineers claim that a robust search algorithm is actually more critical to a lexicon's success than the depth of its definitions.</p>
+        
+        <p><span class="paragraph-label">E</span> Despite the obvious advantages of digital lexicons, a vocal minority of traditional lexicographers maintain that the physical act of leafing through a printed dictionary facilitates serendipitous learning—the accidental discovery of adjacent words. They claim that digital search boxes, by taking the user directly to the target word, eliminate this valuable peripheral learning. Nevertheless, the consensus among modern applied linguists is that the targeted efficiency of premium digital platforms vastly outweighs the nostalgic benefits of print serendipity.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>Cognitive Load and UI/UX in Linguistic Platforms</h1>
+        
+        <p><span class="paragraph-label">A</span> In the realm of digital education, the quality of content is frequently undermined by poor User Interface (UI) and User Experience (UX) design. This is particularly critical in the development of premium academic lexicons designed for non-native English speakers. When a learner accesses a lexicon, they are already experiencing high cognitive demand as they attempt to decode complex linguistic information. If the digital platform is cluttered, unintuitive, or plagued by broken features, it induces "extraneous cognitive load," which can completely halt the learning process.</p>
+        
+        <p><span class="paragraph-label">B</span> One of the most common UX failures in early educational websites was the static presentation of phonetic data. Traditional dictionaries present pronunciation using the International Phonetic Alphabet (IPA). While mathematically precise, the IPA is virtually incomprehensible to the average student without specialized training. Early digital platforms simply replicated these static IPA symbols on screen. Research showed that 85% of users completely ignored this vital pronunciation data because the cognitive effort required to decode the symbols was too high.</p>
+        
+        <p><span class="paragraph-label">C</span> To resolve this, premium platforms introduced "scrollable pronunciation cards." This UX innovation revolutionized how learners interact with phonetics. Instead of a dense block of text, the user is presented with a clean, visually distinct card for each word. By simply scrolling or swiping, the card reveals an embedded audio file of a native speaker pronouncing the word, alongside a visual waveform and a simplified, respelled pronunciation guide (e.g., "fi-NANS"). This interactive, layered approach allows users to access phonetic data intuitively, significantly lowering the barrier to entry.</p>
+        
+        <p><span class="paragraph-label">D</span> The architecture of the search interface is equally vital to reducing cognitive load. A poorly optimized search box that requires exact spelling or fails to offer predictive text frustrates learners and increases abandonment rates. Premium platforms utilize "asynchronous JavaScript and XML" (AJAX) to power their search boxes. This allows the search function to query the database and present a dropdown list of predicted words in real-time as the user types, without needing to reload the entire web page. This instantaneous feedback loop keeps the learner engaged and drastically reduces the time spent searching.</p>
+        
+        <p><span class="paragraph-label">E</span> Furthermore, premium lexicons are increasingly integrating contextual data integration. Rather than presenting a single, monolithic definition, a word's entry is dynamically broken down by academic discipline. If a user searches for the word "capital," the platform uses tabbed navigation to separate its meaning in Economics (financial assets) from its meaning in Geography (a city). This compartmentalization of data prevents the user from being overwhelmed by a wall of text, ensuring that they only interact with the specific semantic nuance required for their immediate task.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>The Algorithmic Architecture of Premium Lexicons</h1>
+        
+        <p><span class="paragraph-label">A</span> The transition from a standard digital dictionary to a 'Premium Academic Lexicon' requires a foundational shift in data architecture. It is no longer sufficient to merely host a database of words and definitions; the platform must act as an intelligent, responsive ecosystem. This requires the integration of advanced Natural Language Processing (NLP) models, dynamic relational databases, and machine learning algorithms capable of analyzing contextual pragmatics. The development of such a platform is a massive logistical undertaking, requiring the seamless collaboration of computational linguists, software engineers, and lexicographers.</p>
+        
+        <p><span class="paragraph-label">B</span> At the core of a premium lexicon is its database structure. Early digital dictionaries utilized 'flat-file' databases or simple relational models (like SQL) where entries were stored in rigid, isolated tables. This structure is highly efficient for exact-match queries but fails to capture the fluid, interconnected nature of human language. Premium platforms have widely adopted 'Graph Databases'. In a graph database, words are not stored as isolated rows, but as 'nodes' connected by 'edges'. An edge defines the relationship between two nodes. For example, the node for "abundant" is connected to the node for "scarce" via an edge labeled 'antonym', and to "copious" via an edge labeled 'synonym'. This network architecture allows the software to map the entire semantic web of the English language.</p>
+        
+        <p><span class="paragraph-label">C</span> The implementation of a graph database fundamentally alters how the "working search box" operates. When a user inputs a query, the search algorithm does not simply scan for a matching string of letters. Instead, it initiates a 'Semantic Traversal Protocol' across the graph network. If a medical student searches for "heart attack," the algorithm navigates the edges connecting colloquial phrases to academic terminology, instantly redirecting the user to the premium entry for "myocardial infarction." This ability to bridge the gap between layman's terms and academic lexicon is the defining hallmark of a premium platform.</p>
+        
+        <p><span class="paragraph-label">D</span> Phonetic integration presents another significant architectural challenge. As established, user engagement relies heavily on functional, scrollable pronunciation cards. However, storing millions of high-fidelity audio files directly on the primary server creates massive latency issues, slowing down the website's loading speed and negatively impacting the UX. To circumvent this, premium platforms utilize Content Delivery Networks (CDNs). The actual text data (definitions, IPA symbols) is stored on the main server, but the audio files linked to the pronunciation cards are cached on a decentralized network of global servers. When a user clicks the audio icon, the file is delivered from the server geographically closest to them, ensuring instantaneous playback with zero buffering.</p>
+        
+        <p><span class="paragraph-label">E</span> Furthermore, the generation of these audio files is undergoing a technological revolution. Historically, platforms had to hire voice actors to record tens of thousands of individual words—a prohibitively expensive and time-consuming process. Today, premium lexicons utilize advanced Text-to-Speech (TTS) neural networks. These AI models do not sound like the robotic voices of the early 2000s; they are capable of replicating exact human prosody, regional accents, and emotional inflection. If a new neologism enters the academic lexicon, the TTS neural network can generate a flawless pronunciation audio file for the scrollable card in milliseconds, entirely bypassing the need for a recording studio.</p>
+        
+        <p><span class="paragraph-label">F</span> The integration of machine learning also enables 'Dynamic Contextual Corpora'. A corpus is a massive collection of written texts used to analyze how words are actually used in real life. Traditional lexicons feature static example sentences that quickly become outdated. Premium lexicons, however, employ web-scraping algorithms that constantly harvest data from newly published open-access academic journals. If a user searches for "mitigate," the lexicon does not just provide a generic example; it displays three real-world sentences demonstrating how "mitigate" was used in biology, economics, and law papers published within the last thirty days. This ensures the lexicon remains a living, breathing document.</p>
+        
+        <p><span class="paragraph-label">G</span> Operating such a complex, data-heavy platform necessitates rigorous security and maintenance protocols. The search box, being the primary point of user interaction, is highly vulnerable to 'SQL injection' attacks—a hacking technique where malicious code is typed into the search bar to destroy or steal the underlying database. Software engineers must implement strict 'input sanitization' protocols, ensuring that any text entered into the search box is stripped of executable code before it is allowed to query the graph database.</p>
+        
+        <p><span class="paragraph-label">H</span> Finally, the ultimate success of a Premium Academic Lexicon relies on its analytics engine. Every interaction on the platform—every misspelled search query, every swipe of a pronunciation card, every clicked synonym—is tracked and anonymized. This macro-data is fed back into the machine learning algorithm to optimize the UX. If the analytics reveal that 40% of users who search for "affect" immediately proceed to search for "effect," the algorithm autonomously updates the UI to display a contextual usage note comparing the two words directly on the search results page, preemptively answering the user's underlying question.</p>
+        
+        <p><span class="paragraph-label">I</span> In conclusion, developing a premium academic lexicon for digital platforms transcends basic lexicography. It is a masterclass in software engineering, UI/UX design, and cognitive science. By moving away from static files and embracing graph databases, CDN-hosted scrollable pronunciation cards, and real-time semantic search boxes, developers are not just digitizing dictionaries—they are building responsive, algorithmic ecosystems that actively participate in the educational journey of the user.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–6: Yes/No/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer in Passage 1? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">Dr. Samuel Johnson’s dictionary successfully included exhaustive semantic mapping of all words. <br><input type="text" id="q1" oninput="markAnswer(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">Early linguists believed that the first digital dictionaries caused reading fatigue. <br><input type="text" id="q2" oninput="markAnswer(2)"></div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">Premium platforms should organize words strictly by their alphabetical spelling. <br><input type="text" id="q3" oninput="markAnswer(3)"></div></div>
+        <div class="q-item"><div class="q-text">Some software engineers believe a good search algorithm is more important than deep definitions. <br><input type="text" id="q4" oninput="markAnswer(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">The traditional lexicographers claim that printed dictionaries are cheaper to produce than digital ones. <br><input type="text" id="q5" oninput="markAnswer(5)"></div></div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">Modern applied linguists generally prefer the efficiency of digital platforms over print serendipity. <br><input type="text" id="q6" oninput="markAnswer(6)"></div></div>
+
+        <h2>Questions 7–13: Summary Completion</h2>
+        <div class="instruction">Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+        <div class="q-item"><div class="q-text">
+          Historically, printed dictionaries were limited by physical constraints, forcing lexicographers to prioritize <strong>7</strong> <input type="text" id="q7" oninput="markAnswer(7)">. The first digital dictionaries in the 1990s were merely <strong>8</strong> <input type="text" id="q8" oninput="markAnswer(8)"> scans that offered little pedagogical value. The real shift happened in the 2010s, moving away from linear constraints towards hyperlinked databases based on <strong>9</strong> <input type="text" id="q9" oninput="markAnswer(9)">. A vital component of this is the working search box, which uses phonetic algorithms and <strong>10</strong> <input type="text" id="q10" oninput="markAnswer(10)"> to predict user errors. While traditionalists argue that digital platforms eliminate accidental learning, known as print <strong>11</strong> <input type="text" id="q11" oninput="markAnswer(11)">, modern linguists agree that targeted efficiency is superior.
+        </div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–19: Matching Headings</h2>
+        <div class="instruction">Choose the correct heading for each paragraph from the list below. Write <strong>i–viii</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> Breaking down definitions to prevent user overwhelm</div>
+          <div class="box-item"><strong>ii</strong> The high cognitive cost of decoding traditional phonetic symbols</div>
+          <div class="box-item"><strong>iii</strong> How search predictions lower abandonment rates</div>
+          <div class="box-item"><strong>iv</strong> The financial benefits of premium lexicon subscriptions</div>
+          <div class="box-item"><strong>v</strong> Using interactive cards to simplify audio access</div>
+          <div class="box-item"><strong>vi</strong> Why non-native speakers prefer physical books</div>
+          <div class="box-item"><strong>vii</strong> The impact of poor platform design on the learning process</div>
+        </div>
+        <div class="q-item"><div class="q-num">12</div><div class="q-text">Paragraph A <input type="text" id="q12" oninput="markAnswer(12)"></div></div>
+        <div class="q-item"><div class="q-num">13</div><div class="q-text">Paragraph B <input type="text" id="q13" oninput="markAnswer(13)"></div></div>
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">Paragraph C <input type="text" id="q14" oninput="markAnswer(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">Paragraph D <input type="text" id="q15" oninput="markAnswer(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">Paragraph E <input type="text" id="q16" oninput="markAnswer(16)"></div></div>
+
+        <h2>Questions 17–22: Matching Features</h2>
+        <div class="instruction">Match each statement with the correct UX/UI feature below. Write <strong>A, B, C, or D</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> International Phonetic Alphabet (IPA)</div>
+          <div class="box-item"><strong>B</strong> Scrollable Pronunciation Cards</div>
+          <div class="box-item"><strong>C</strong> AJAX Search Box</div>
+          <div class="box-item"><strong>D</strong> Tabbed Navigation</div>
+        </div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">Presents predicted words in real-time without reloading the webpage. <input type="text" id="q17" oninput="markAnswer(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">Separates a word's meaning based on specific academic disciplines. <input type="text" id="q18" oninput="markAnswer(18)"></div></div>
+        <div class="q-item"><div class="q-num">19</div><div class="q-text">Provides embedded audio files alongside visual waveforms. <input type="text" id="q19" oninput="markAnswer(19)"></div></div>
+        <div class="q-item"><div class="q-num">20</div><div class="q-text">Was ignored by 85% of users due to high decoding effort. <input type="text" id="q20" oninput="markAnswer(20)"></div></div>
+        <div class="q-item"><div class="q-num">21</div><div class="q-text">Replaces dense blocks of text with clean, swipable visual interfaces. <input type="text" id="q21" oninput="markAnswer(21)"></div></div>
+        <div class="q-item"><div class="q-num">22</div><div class="q-text">Provides instantaneous feedback to keep learners engaged. <input type="text" id="q22" oninput="markAnswer(22)"></div></div>
+
+        <h2>Questions 23–24: Multiple Choice</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">23</div><div class="q-text">What is the result of "extraneous cognitive load" in digital lexicons?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q23" value="A" onchange="markAnswer(23)"> A) Users learn vocabulary faster.</label>
+            <label class="mcq-label"><input type="radio" name="q23" value="B" onchange="markAnswer(23)"> B) The search algorithm works more efficiently.</label>
+            <label class="mcq-label"><input type="radio" name="q23" value="C" onchange="markAnswer(23)"> C) The learning process can be completely halted.</label>
+            <label class="mcq-label"><input type="radio" name="q23" value="D" onchange="markAnswer(23)"> D) The platform generates more audio files.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">24</div><div class="q-text">How does compartmentalization of data help the user?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q24" value="A" onchange="markAnswer(24)"> A) It prevents them from being overwhelmed by a wall of text.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="B" onchange="markAnswer(24)"> B) It forces them to learn the International Phonetic Alphabet.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="C" onchange="markAnswer(24)"> C) It automatically charges their credit card for premium access.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="D" onchange="markAnswer(24)"> D) It hides secondary meanings permanently.</label>
+          </div>
+        </div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        <h2>Questions 25–29: True/False/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the information in Passage 3? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">25</div><div class="q-text">Early digital dictionaries used graph databases to store entries. <br><input type="text" id="q25" oninput="markAnswer(25)"></div></div>
+        <div class="q-item"><div class="q-num">26</div><div class="q-text">In a graph database, the relationship between two word nodes is called an edge. <br><input type="text" id="q26" oninput="markAnswer(26)"></div></div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">Audio files for pronunciation cards are stored on the same main server as text definitions to increase speed. <br><input type="text" id="q27" oninput="markAnswer(27)"></div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">Modern Text-to-Speech (TTS) models can replicate regional accents and emotional inflection. <br><input type="text" id="q28" oninput="markAnswer(28)"></div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">Most hacking attempts on digital lexicons occur through the pronunciation audio files. <br><input type="text" id="q29" oninput="markAnswer(29)"></div></div>
+
+        <h2>Questions 30–35: Flow-chart Completion (Task Type 9)</h2>
+        <div class="instruction">Complete the flow-chart below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        
+        <div class="flow-chart">
+          <div style="font-family: var(--font-passage); font-weight: bold; font-size: 1.1rem; color: var(--navy-dark); margin-bottom: 10px; text-transform: uppercase;">Search Query Protocol in Premium Lexicons</div>
+          
+          <div class="fc-box"><strong>Step 1: User Input</strong><br>The user types a query into the working search box. Strict <strong>30</strong> <input type="text" id="q30" oninput="markAnswer(30)"> protocols strip away malicious code (e.g., SQL injection).</div>
+          <div class="fc-arrow">↓</div>
+          
+          <div class="fc-box"><strong>Step 2: Database Navigation</strong><br>The algorithm executes a Semantic Traversal Protocol across the <strong>31</strong> <input type="text" id="q31" oninput="markAnswer(31)">, linking layman's terms to academic entries.</div>
+          <div class="fc-arrow">↓</div>
+          
+          <div class="fc-box"><strong>Step 3: Media Retrieval</strong><br>Definitions are pulled from the main server, while audio for the pronunciation cards is instantly delivered via global <strong>32</strong> <input type="text" id="q32" oninput="markAnswer(32)"> to prevent buffering.</div>
+          <div class="fc-arrow">↓</div>
+          
+          <div class="fc-box"><strong>Step 4: Contextual Presentation</strong><br>Web-scraping algorithms provide dynamic sentences from recent open-access <strong>33</strong> <input type="text" id="q33" oninput="markAnswer(33)"> to show real-world usage.</div>
+          <div class="fc-arrow">↓</div>
+          
+          <div class="fc-box"><strong>Step 5: System Optimization</strong><br>The platform's <strong>34</strong> <input type="text" id="q34" oninput="markAnswer(34)"> tracks the interaction. Anonymized data is fed to the machine learning algorithm to autonomously update the <strong>35</strong> <input type="text" id="q35" oninput="markAnswer(35)">.</div>
+        </div>
+
+        <h2>Questions 36–40: Multiple Choice</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">36</div><div class="q-text">What is the primary advantage of a graph database over a flat-file database?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q36" value="A" onchange="markAnswer(36)"> A) It requires less electricity to run.</label>
+            <label class="mcq-label"><input type="radio" name="q36" value="B" onchange="markAnswer(36)"> B) It maps the interconnected semantic web of language rather than isolating entries.</label>
+            <label class="mcq-label"><input type="radio" name="q36" value="C" onchange="markAnswer(36)"> C) It automatically translates words into other languages.</label>
+            <label class="mcq-label"><input type="radio" name="q36" value="D" onchange="markAnswer(36)"> D) It is completely immune to SQL injection attacks.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">How does the Semantic Traversal Protocol help a medical student searching for "heart attack"?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q37" value="A" onchange="markAnswer(37)"> A) It displays an error message requiring proper academic spelling.</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="B" onchange="markAnswer(37)"> B) It plays an audio file of a heart beating.</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="C" onchange="markAnswer(37)"> C) It navigates edges to redirect them to "myocardial infarction".</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="D" onchange="markAnswer(37)"> D) It searches the internet for local hospital numbers.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">Why are traditional static example sentences becoming obsolete in premium lexicons?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q38" value="A" onchange="markAnswer(38)"> A) Because they are replaced by dynamic corpora harvested from recent academic journals.</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="B" onchange="markAnswer(38)"> B) Because students prefer to write their own example sentences.</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="C" onchange="markAnswer(38)"> C) Because storing sentences uses too much server space.</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="D" onchange="markAnswer(38)"> D) Because human voice actors refuse to record full sentences.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">What happens if analytics reveal that many users search for "affect" then "effect"?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q39" value="A" onchange="markAnswer(39)"> A) The system deletes the entry for "affect".</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="B" onchange="markAnswer(39)"> B) The system bans the users for misspelling.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="C" onchange="markAnswer(39)"> C) The algorithm autonomously updates the UI to show a comparison note.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="D" onchange="markAnswer(39)"> D) The platform emails a lexicographer to write a new article.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">What is the author's final conclusion about developing a premium academic lexicon?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q40" value="A" onchange="markAnswer(40)"> A) It is primarily a simple task of digitizing printed books.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="B" onchange="markAnswer(40)"> B) It transcends basic lexicography to become a masterclass in software engineering and cognitive science.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="C" onchange="markAnswer(40)"> C) It will eventually make human language obsolete.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="D" onchange="markAnswer(40)"> D) It is too expensive to maintain due to Voice Actor fees.</label>
+          </div>
+        </div></div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers"></div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest()">Submit Module</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // P1: Y/N/NG (1-6)
+      q1: 'no', q2: 'yes', q3: 'no', q4: 'yes', q5: 'not given', q6: 'yes',
+      // P1: Summary (7-11) Note: The UI mapped questions 7-11 but HTML listed 7-11 correctly in flow.
+      q7: 'brevity', q8: 'ocr', q9: 'semantic fields', q10: 'fuzzy matching', q11: 'serendipity',
+      
+      // P2: Headings (12-16) Note: The HTML question IDs are 12-16.
+      q12: 'vii', q13: 'ii', q14: 'v', q15: 'iii', q16: 'i',
+      // P2: Features (17-22)
+      q17: 'c', q18: 'd', q19: 'b', q20: 'a', q21: 'b', q22: 'c',
+      // P2: MCQ (23-24)
+      q23: 'c', q24: 'a',
+      
+      // P3: T/F/NG (25-29)
+      q25: 'false', q26: 'true', q27: 'false', q28: 'true', q29: 'not given',
+      // P3: Flow-chart (30-35)
+      q30: 'input sanitization', q31: 'graph network', q32: 'cdns', q33: 'academic journals', q34: 'analytics engine', q35: 'ui',
+      // P3: MCQ (36-40)
+      q36: 'b', q37: 'c', q38: 'a', q39: 'c', q40: 'b'
+    };
+
+    function initBottomNav() {
+      const container = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn'; btn.id = 'nb-'+i; btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        container.appendChild(btn);
+      }
+    }
+
+    function markAnswer(n) { 
+      const input = document.getElementById('q' + n);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${n}"]:checked`);
+      const btn = document.getElementById('nb-'+n);
+      if(isAnswered) btn.classList.add('answered'); else btn.classList.remove('answered');
+    }
+
+    function scrollToQuestion(n) {
+      let tab = 1;
+      if(n >= 12 && n <= 24) tab = 2;
+      if(n >= 25 && n <= 40) tab = 3;
+      switchSection(tab);
+      
+      setTimeout(() => {
+        let qEl = document.getElementById('q'+n);
+        if(!qEl) {
+          const radio = document.querySelector(`input[name="q${n}"]`);
+          if(radio) qEl = radio.closest('.q-item');
+        } else {
+          qEl = qEl.closest('.q-item') || qEl.closest('.fc-box'); 
+        }
+
+        if(qEl) {
+          document.getElementById('right-panel').scrollTo({ top: qEl.offsetTop - 50, behavior: 'smooth' });
+          qEl.style.transition = 'background 0.3s';
+          qEl.style.background = '#D1FAE5';
+          setTimeout(() => qEl.style.background = 'transparent', 1200);
+        }
+      }, 50);
+    }
+
+    function switchSection(n) {
+      document.querySelectorAll('.tab-btn, .section-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-'+n).classList.add('active');
+      document.getElementById('passage-'+n).classList.add('active');
+      document.getElementById('questions-'+n).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    let timerInterval;
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex';
+      initBottomNav();
+      let s = 3600;
+      timerInterval = setInterval(() => {
+        s--;
+        document.getElementById('timer').textContent = `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
+        if(s <= 0) submitTest();
+      }, 1000);
+    }
+
+    function submitTest() {
+      if(!confirm("Submit final assessment?")) return;
+      clearInterval(timerInterval);
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q'+i;
+        const input = document.getElementById(qId);
+        const ans = answerKey[qId];
+        
+        if(input) {
+          const userAns = input.value.trim().toLowerCase();
+          if(userAns === ans || (ans.includes(userAns) && userAns.length > 2 && userAns !== 'true' && userAns !== 'false' && userAns !== 'yes' && userAns !== 'no')) {
+            score++; input.classList.add('correct-answer');
+          } else {
+            input.classList.add('wrong-answer');
+            input.value = userAns ? `${userAns} ❌ [${ans.toUpperCase()}]` : `❌ [${ans.toUpperCase()}]`;
+            input.style.width = "260px";
+          }
+          input.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if(selected && selected.value.toLowerCase() === ans) {
+            score++; selected.parentElement.classList.add('correct-answer');
+          } else {
+            if(selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${ans.toUpperCase()}"]`);
+            if(correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+      
+      document.getElementById('final-score').textContent = `${score} / 40`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.getElementById('btn-submit').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

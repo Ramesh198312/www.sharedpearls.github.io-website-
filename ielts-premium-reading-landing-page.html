@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Premium Reading Test | Shared Pearls of Wisdom</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- NEW ACADEMIC EDITORIAL PALETTE --- */
+    :root {
+      --navy-dark: #0B162C;
+      --navy-main: #1A2C4D;
+      --cerulean: #007EA7;
+      --champagne: #D4AF37;
+      --bg-page: #F4F6F8;
+      --card-bg: #FFFFFF;
+      --text-main: #2C3E50;
+      --text-light: #7F8C8D;
+      --border-subtle: #E0E6ED;
+
+      --font-ui: 'Outfit', sans-serif;
+      --font-serif: 'Merriweather', serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-ui); background-color: var(--bg-page); color: var(--text-main); line-height: 1.6; }
+
+    /* --- TOP NAVIGATION --- */
+    header {
+      background-color: var(--navy-dark);
+      color: #FFFFFF;
+      padding: 1.2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid var(--champagne);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .brand { font-family: var(--font-serif); font-size: 1.6rem; font-weight: 700; }
+    .brand span { color: var(--champagne); font-style: italic; }
+    .app-title { font-weight: 900; letter-spacing: 1px; font-size: 1rem; color: rgb(235, 231, 231); text-transform: uppercase; }
+
+    /* --- HERO SECTION --- */
+    .hero {
+      background: linear-gradient(to right, var(--navy-dark), var(--navy-main));
+      color: #FFFFFF;
+      padding: 5rem 4rem;
+      text-align: center;
+    }
+    .hero h1 { font-family: var(--font-serif); font-size: 3rem; margin-bottom: 1rem; }
+    .hero p { font-size: 1.2rem; color: #BDC3C7; max-width: 800px; margin: 0 auto; font-weight: 300; }
+
+    /* --- MODULE LIBRARY GRID --- */
+    .library-container {
+      max-width: 1400px;
+      margin: 4rem auto;
+      padding: 0 4rem;
+    }
+    .section-header {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      color: var(--navy-dark);
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--border-subtle);
+      padding-bottom: 1rem;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    /* --- CARD DESIGN --- */
+    .module-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .module-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 4px;
+      background: var(--cerulean);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .module-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(11, 22, 44, 0.08);
+      border-color: var(--cerulean);
+    }
+    .module-card:hover::before { transform: scaleX(1); }
+
+    .module-number {
+      font-family: var(--font-serif);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--bg-page);
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      line-height: 1;
+      z-index: 1;
+    }
+
+    .theme-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--cerulean);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      z-index: 2;
+      position: relative;
+    }
+
+    .module-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      color: var(--navy-main);
+      line-height: 1.4;
+      margin-bottom: 2rem;
+      flex-grow: 1;
+      z-index: 2;
+      position: relative;
+    }
+
+    .btn-enter {
+      background: var(--bg-page);
+      color: var(--navy-dark);
+      border: 1px solid var(--border-subtle);
+      padding: 0.8rem 1.5rem;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      width: 100%;
+      z-index: 2;
+      position: relative;
+    }
+    .module-card:hover .btn-enter {
+      background: var(--navy-main);
+      color: #FFFFFF;
+      border-color: var(--navy-main);
+    }
+
+    @media (max-width: 768px) {
+      header, .hero, .library-container { padding-left: 2rem; padding-right: 2rem; }
+      .hero h1 { font-size: 2.2rem; }
+      .module-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls</span> of Wisdom</div>
+    <div class="app-title">The Premium Reading Test</div>
+  </header>
+
+  <section class="hero">
+    <h1>Academic Reading Library</h1>
+    <p>Select from 20 rigorous, IELTS reading modules. Each 60-minute test features three extended passages sourced from disciplines.</p>
+  </section>
+
+  <main class="library-container">
+    <h2 class="section-header">Module Selection (01 – 20)</h2>
+    
+    <div class="module-grid">
+      <div class="module-card">
+        <div class="module-number">01</div>
+        <div class="theme-tag">History of AI</div>
+        <div class="module-title">The Dawn of Machine Learning: Tracing the History of Artificial Intelligence</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">02</div>
+        <div class="theme-tag">Language & Pedagogy</div>
+        <div class="module-title">Algorithmic Scaffolding in Continuous Professional Development</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">03</div>
+        <div class="theme-tag">Financial Freedom</div>
+        <div class="module-title">The Wisdom Path: Ancient Philosophies for Modern Financial Freedom</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">04</div>
+        <div class="theme-tag">Philosophy</div>
+        <div class="module-title">Amor Fati: Stoicism and Psychological Resilience in High-Stress Environments</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">05</div>
+        <div class="theme-tag">Education Technology</div>
+        <div class="module-title">Evaluating AI-Enabled E-Portfolios in Digital Credentialing</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">06</div>
+        <div class="theme-tag">Academic Research</div>
+        <div class="module-title">Geographic Strata Sampling in Global Educational Paradigms</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">07</div>
+        <div class="theme-tag">Linguistics</div>
+        <div class="module-title">Developing Premium Academic Lexicons for Digital Platforms</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">08</div>
+        <div class="theme-tag">Sports Science</div>
+        <div class="module-title">The Biomechanics and Cognitive Mechanics of Elite Athletic Performance</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">09</div>
+        <div class="theme-tag">Literature</div>
+        <div class="module-title">Shifting Narrative Structures in 20th-Century Post-Colonial Literature</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">10</div>
+        <div class="theme-tag">Tourism</div>
+        <div class="module-title">Sustainable Ecotourism vs. Mass Commercialization in the 21st Century</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">11</div>
+        <div class="theme-tag">Travel & Transport</div>
+        <div class="module-title">The Future of High-Speed Rail Networks and Continental Connectivity</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">12</div>
+        <div class="theme-tag">Urbanization</div>
+        <div class="module-title">Megacities: The Architecture and Sociology of Modern Urbanization</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">13</div>
+        <div class="theme-tag">Child Development</div>
+        <div class="module-title">Cognitive Milestones: Navigating Children's Early Learning Phases</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">14</div>
+        <div class="theme-tag">Communication</div>
+        <div class="module-title">The Evolution of Digital Communication Paradigms in the Information Age</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">15</div>
+        <div class="theme-tag">Global Economy</div>
+        <div class="module-title">The Fragility and Economics of Just-In-Time Global Supply Chains</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">16</div>
+        <div class="theme-tag">Science & Technology</div>
+        <div class="module-title">Innovations and Grid Challenges in Renewable Energy Technologies</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">17</div>
+        <div class="theme-tag">Demographics</div>
+        <div class="module-title">Global Demographic Shifts and the Rapid Transformation of the Workforce</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">18</div>
+        <div class="theme-tag">Culture</div>
+        <div class="module-title">Cultural Heritage Preservation in an Era of Globalized Media</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">19</div>
+        <div class="theme-tag">Psychology</div>
+        <div class="module-title">The Psychology and Neuroplasticity of Adult Second Language Acquisition</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+
+      <div class="module-card">
+        <div class="module-number">20</div>
+        <div class="theme-tag">AI Ethics</div>
+        <div class="module-title">The Ethics and Biases of Algorithmic Decision Making in Public Policy</div>
+        <button class="btn-enter">Enter Module</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Select all premium interactive entry buttons
+      const actionButtons = document.querySelectorAll(".btn-enter");
+
+      actionButtons.forEach((button, index) => {
+        // Calculate standard index offset matching your local files (01 - 20)
+        const moduleNumber = String(index + 1).padStart(2, '0');
+        
+        button.addEventListener("click", () => {
+          // Fire clean window navigation destination matching standard structure
+          window.location.href = `ielts-premium-reading${moduleNumber}.html`;
+        });
+      });
+    });
+  </script>
+</body>
+</html>

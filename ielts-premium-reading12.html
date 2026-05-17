@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 12: Megacities & Urbanization | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- PREMIUM CRIMSON & GOLD PALETTE --- */
+    :root {
+      --primary-dark: #4A0404;    /* Deepest Burgundy */
+      --primary-main: #8E1628;    /* Crimson Red */
+      --accent-gold: #D4AF37;     /* Academic Gold */
+      --action-blue: #005A9C;     /* Pre-Test Button Blue */
+      --action-blue-hover: #003F6E;
+      --text-main: #2C3E50;       
+      --text-muted: #7F8C8D;
+      --bg-page: #FDFBF7;         
+      --bg-panel: #FFFFFF;
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+
+    /* --- HEADER --- */
+    header { 
+      background: lch(6.59% 51.69 305.33); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--accent-gold); 
+      flex-shrink: 0; z-index: 10; box-shadow: 0 4px 12px rgba(142, 22, 40, 0.2);
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; color: #FFF; }
+    .brand span { color: var(--accent-gold); font-style: italic; font-weight: 400; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #E8B4B8; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(255, 255, 255, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--accent-gold); background: rgba(255, 255, 255, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--primary-dark); background: var(--accent-gold); padding: 0.4rem 1.2rem; border-radius: 4px; }
+
+    /* --- WORKSPACE --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+
+    /* --- LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: hsl(139, 100%, 15%);
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #FFF;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; margin-bottom: 1rem; font-family: var(--font-passage); color: whitesmoke; max-width: 900px;}
+    .pre-test-overlay p { font-size: 1.15rem; max-width: 750px; line-height: 1.8; margin-bottom: 2.5rem; color: #FADBD8; }
+    .btn-start-large {
+      background: var(--action-blue); color: #FFF; padding: 1.2rem 4rem; font-size: 1.1rem; font-weight: 700;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .btn-start-large:hover { background: var(--action-blue-hover); transform: translateY(-2px); }
+
+    /* --- TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 1.8rem; margin-bottom: 2rem; color: var(--primary-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 0.95rem; color: var(--text-main); text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; margin-right: 12px; color: var(--primary-main); float: left; }
+
+    .right-panel h2 { font-size: 1.1rem; margin: 2rem 0 1rem; color: var(--primary-dark); border-bottom: 2px solid var(--accent-gold); padding-bottom: 5px; font-weight: 700; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.85rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--primary-main); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; }
+    
+    input[type="text"] { border: none; border-bottom: 2px solid #BDC3C7; background: transparent; font-size: 0.95rem; width: 160px; font-weight: 600; color: var(--primary-main); text-align: center; outline: none; transition: border-color 0.3s;}
+    input[type="text"]:focus { border-bottom-color: var(--primary-dark); }
+    input:disabled { color: var(--primary-dark); background: transparent; }
+
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.2rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.9rem; font-weight: 500; color: var(--text-main); }
+    .box-item strong { font-family: var(--font-mono); color: var(--primary-main); margin-right: 5px;}
+
+    /* --- TABLE COMPLETION UI --- */
+    .completion-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; background: #FFF; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .completion-table th, .completion-table td { border: 1px solid var(--border-subtle); padding: 14px; text-align: left; font-size: 0.9rem; line-height: 1.5; }
+    .completion-table th { background: var(--bg-page); color: var(--primary-dark); font-weight: 700; font-family: var(--font-passage); }
+    .completion-table td strong { color: var(--primary-main); }
+    .completion-table input[type="text"] { width: 130px; border-bottom: 2px solid var(--primary-main); }
+    
+    /* --- BOTTOM NAV --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; align-items: center; justify-content: space-between; padding: 0 3rem;
+      position: relative; z-index: 100;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 26px; height: 26px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main); font-weight: 600;
+    }
+    .nav-btn.answered { background: var(--primary-main); color: #FFF; border-color: var(--primary-main); }
+
+    .btn-submit-small { background: var(--action-blue-hover); color: #FFF; border: none; padding: 0.6rem 2rem; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
+    .btn-submit-small:hover { background: var(--primary-dark); }
+
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      z-index: 200; text-align: center; border-top: 5px solid var(--primary-main); min-width: 450px;
+    }
+    .correct-answer { color: #27AE60 !important; font-weight: 700; border-bottom-color: #27AE60 !important; }
+    .wrong-answer { color: #E74C3C !important; border-bottom-color: #E74C3C !important; }
+    
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls</span> of Wisdom | Academic Reading</div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2 style="color: var(--primary-dark);">Evaluation Complete</h2>
+    <div style="font-size: 3.5rem; font-weight: 800; margin: 1rem 0; font-family: var(--font-mono); color: var(--primary-main);" id="final-score">0 / 40</div>
+    <p style="margin-bottom: 1.5rem; color: var(--text-main);">The interface is now locked. Click below to review your answers.</p>
+    <button class="btn-submit-small" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <h2>Megacities: The Architecture and Sociology of Modern Urbanization</h2>
+      <p>This module investigates the sociological friction, architectural verticality, and informal economies defining the 21st-century metropolis.</p>
+      <button class="btn-start-large" onclick="startTest()">Initiate 60-minute Assessment</button>
+    </div>
+
+    <div class="dormant-overlay" id="dormant-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.3); z-index:50; pointer-events:none;"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Historical Emergence of the Megacity</h1>
+        
+        <p><span class="paragraph-label">A</span> Throughout the vast majority of human history, the global population was overwhelmingly agrarian and rural. As recently as 1800, barely 3% of the world's inhabitants resided in urban centers. The industrial revolution initiated a rapid migratory shift, yet the concept of the "megacity"—officially defined by the United Nations as a continuous metropolitan area housing an excess of 10 million inhabitants—is a profoundly modern phenomenon. In 1950, only two metropolitan regions on Earth qualified for this title: New York and Tokyo. Today, there are over thirty-three megacities globally, and demographic projections suggest this number will exceed forty-five by 2030, with the vast majority of this explosive growth occurring in the Global South.</p>
+        
+        <p><span class="paragraph-label">B</span> The sociological mechanisms driving this hyper-urbanization are traditionally categorized into "push" and "pull" factors. In developing nations, rural populations are frequently 'pushed' toward the metropolis due to agricultural industrialization, which replaces manual farm labor with machinery, alongside the devastating impacts of climate-induced droughts. Simultaneously, they are 'pulled' by the promise of centralized infrastructure, superior healthcare, and the agglomeration economies that theoretically provide diverse employment opportunities. However, the sheer velocity of this modern migration frequently overwhelms the administrative and structural capacities of the host city, resulting in acute infrastructural failure.</p>
+        
+        <p><span class="paragraph-label">C</span> Early 20th-century sociologists observed that the sheer scale of the metropolis fundamentally altered human psychology. German sociologist Georg Simmel, in his seminal 1903 essay <i>The Metropolis and Mental Life</i>, argued that the megacity assaults the human nervous system with an unprecedented volume of sensory stimuli—noise, speed, and chaotic interactions. To survive this relentless cognitive overload, Simmel posited that the urban dweller develops a "blasé attitude," a psychological shield characterized by emotional detachment, calculation, and a deliberate indifference to one's neighbors. In the megacity, anonymity is not an accident; it is a necessary survival mechanism.</p>
+        
+        <p><span class="paragraph-label">D</span> Economically, megacities operate as massive wealth concentrators, functioning almost as independent nation-states. The metropolitan region of Tokyo, for instance, possesses a Gross Domestic Product (GDP) that eclipses the national economic output of entire sovereign countries like Canada or South Korea. This concentration of capital accelerates innovation, as the dense proximity of universities, financial institutions, and tech sectors fosters a rapid exchange of intellectual property. Yet, this wealth generation is structurally asymmetrical, inevitably creating steep spatial inequalities within the city itself, geographically segregating the extreme wealth of the central business districts from the marginalized peripheries.</p>
+        
+        <p><span class="paragraph-label">E</span> Urban planners grappling with the physical expansion of megacities are locked in an ideological battle between two developmental models: "urban sprawl" and "hyper-densification." Sprawl, heavily favored in mid-20th-century North American cities like Los Angeles, prioritizes outward expansion via vast networks of highways and low-density suburban housing. While this model offers inhabitants more physical space, it is environmentally catastrophic, requiring massive per-capita carbon emissions for daily automotive commutes. Consequently, the contemporary architectural consensus has shifted decisively toward hyper-densification—building vertically rather than horizontally.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>Verticality and the Micro-Sociology of High-Rises</h1>
+        
+        <p><span class="paragraph-label">A</span> The architectural pivot toward hyper-densification is intrinsically linked to the mastery of vertical space. Before the late 19th century, the height of a building was limited by human physiology; few people were willing to climb more than six flights of stairs daily. The invention of the safety elevator by Elisha Otis in 1852, combined with the development of the Bessemer process—which allowed for the mass production of cheap, structurally resilient steel—shattered this biological ceiling. The load-bearing masonry walls of the past were replaced by internal steel skeletons, birthing the modern skyscraper and changing the topography of the city forever.</p>
+        
+        <p><span class="paragraph-label">B</span> As megacities build upwards to accommodate swelling populations, a new micro-sociology of the high-rise has emerged. Traditional urban sociology, pioneered by figures like Jane Jacobs in the 1960s, argued that healthy cities rely on "eyes on the street." Jacobs believed that vibrant, low-rise neighborhoods with mixed-use zoning (where people live, work, and shop on the same block) naturally self-police. The constant, casual surveillance of the sidewalk by shopkeepers and residents looking out of lower-floor windows creates an organic, spontaneous safety net and fosters deep community cohesion.</p>
+        
+        <p><span class="paragraph-label">C</span> The vertical megacity systematically severs this connection to the street. In a modern 60-story residential tower, inhabitants are physically and psychologically isolated from the pedestrian realm below. The "eyes on the street" are replaced by the electronic gaze of CCTV cameras in a sterilized, gated lobby. Architect and theorist Rem Koolhaas argues that the skyscraper is a paradoxical structure: it packs thousands of humans into an incredibly dense physical footprint, yet structurally isolates them from one another, creating an architecture of profound vertical loneliness.</p>
+        
+        <p><span class="paragraph-label">D</span> Furthermore, verticality has become a literal manifestation of socio-economic stratification. In the hyper-dense megacities of Asia and the Middle East, a phenomenon known as the "vertical gated community" has proliferated. The wealthiest citizens inhabit the penthouses—enjoying cleaner air, panoramic views, and exclusive express elevators. Meanwhile, lower-income residents are relegated to the noisy, polluted lower levels, or pushed entirely out of the city center. In some extreme architectural proposals, luxury towers are designed as self-contained biospheres, complete with their own schools, hospitals, and parks, allowing the elite to exist entirely independent of the struggling civic infrastructure below.</p>
+        
+        <p><span class="paragraph-label">E</span> Despite these sociological criticisms, the ecological necessity of verticality is difficult to refute. A well-designed, hyper-dense vertical city is exponentially more energy-efficient than horizontal sprawl. Centralized heating and cooling systems in high-rises waste less energy, and the concentration of populations allows for the economic viability of complex mass-transit networks like underground subways, drastically reducing the city's overall carbon footprint. The challenge for 21st-century architects is to design high-rises that retain this ecological efficiency while deliberately injecting spaces for spontaneous, horizontal community interaction—such as "sky gardens" and mid-tower communal plazas.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>Slum Topography and Informal Urbanism</h1>
+        
+        <p><span class="paragraph-label">A</span> While the glittering steel skyscrapers of the central business districts dominate the visual identity of the modern megacity, they do not represent the lived reality for a vast percentage of the urban population. In the rapidly expanding megacities of the Global South—such as Mumbai, Lagos, and São Paulo—the dominant form of urban growth is not planned hyper-densification, but "informal urbanism." Often pejoratively referred to as slums, shantytowns, or favelas, these informal settlements house an estimated one billion people globally. Urban theorist Mike Davis, in his influential book <i>Planet of Slums</i>, notes that the sheer scale of informal housing represents the most significant, yet least planned, architectural movement in human history.</p>
+        
+        <p><span class="paragraph-label">B</span> The genesis of the informal settlement lies in the failure of formal urban planning. When the velocity of rural-to-urban migration vastly outpaces the government's capacity to provide affordable housing and legal land tenure, migrants are forced to construct their own habitats. These settlements typically arise on the undesirable margins of the megacity—steep hillsides prone to landslides, floodplains, or directly adjacent to heavily polluting industrial zones. Because these settlements exist outside the legal cadastral maps of the city, they are systematically denied formal civic infrastructure, operating entirely without municipal water grids, formal sewage systems, or recognized police protection.</p>
+        
+        <p><span class="paragraph-label">C</span> To a traditional, Western-trained urban planner viewing an informal settlement from above, the topography appears to be one of pure, chaotic anarchy. The streets do not follow a rigid grid; the architecture is piecemeal, built from scavenged materials like corrugated iron, plastic tarps, and discarded bricks. However, sociologists who study the micro-mechanics of places like Dharavi (a massive informal settlement in Mumbai) argue that this "chaos" is highly functional. Informal urbanism is an organic, bottom-up architectural response to extreme poverty, featuring hidden, complex socioeconomic structures that are often highly resilient.</p>
+        
+        <p><span class="paragraph-label">D</span> Economically, informal settlements are not merely parasitic residential zones; they are fiercely productive, hyper-local industrial hubs. The informal economy operates outside government taxation and labor regulations, relying instead on incredibly dense, localized networks of trust and micro-credit. In Dharavi, the leather tanning, textile, and recycling industries generate an estimated $1 billion USD in annual economic output. Rather than a linear economy of consumption and waste (typical of formal urban zones), informal settlements are masters of the "circular economy." Scavengers collect waste from the wealthy high-rises, sorting and recycling plastics, metals, and electronics within the slum, creating an essential, albeit highly toxic, municipal service that the formal government fails to provide.</p>
+        
+        <p><span class="paragraph-label">E</span> The architectural logic of the informal settlement also contrasts sharply with the vertical isolation of the formal high-rise. Space in a slum is fluid and deeply communal. Because the interior of a tin-roofed shack is often unbearably hot and cramped, the majority of social and domestic life—cooking, child-rearing, commerce—spills out into the narrow, winding alleyways. This inadvertently creates a hyper-intense version of Jane Jacobs' "eyes on the street." The lack of private space necessitates constant, overlapping communal interaction, resulting in a social fabric that is remarkably dense and mutually supportive, despite the severe physical deprivations.</p>
+        
+        <p><span class="paragraph-label">F</span> The traditional governmental response to informal settlements has been aggressive eradication. Throughout the late 20th century, city municipalities frequently deployed bulldozers to clear slums, forcibly relocating inhabitants to sterile, high-rise public housing projects on the extreme periphery of the city. These "slum clearance" policies frequently proved disastrous. Relocating populations far from the city center severed their access to informal employment networks and destroyed the delicate communal support systems they had built, often plunging them deeper into poverty.</p>
+        
+        <p><span class="paragraph-label">G</span> Consequently, a new paradigm known as "Slum Upgrading" or "In-Situ Intervention" is gaining traction among progressive urbanists. Rather than destroying the informal settlement, municipalities attempt to integrate it into the formal city grid. This involves retrofitting the existing, organic topography with basic human infrastructure: pouring concrete paths to prevent mudslides, running legal electricity cables, and installing communal sanitation blocks, without displacing the residents or disrupting their established micro-economies. It is a pragmatic acknowledgment that informal urbanism is not a temporary blight to be erased, but a permanent, vital component of the 21st-century megacity.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        
+        <h2>Questions 1–7: True/False/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the information given in Reading Passage 1? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">In the year 1800, approximately 3% of the world's population lived in urban centers. <br><input type="text" id="q1" oninput="markAnswer(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">According to the UN, a megacity must have a population strictly between 5 million and 10 million people. <br><input type="text" id="q2" oninput="markAnswer(2)"></div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">Agricultural industrialization is considered a "push" factor that drives rural populations into cities. <br><input type="text" id="q3" oninput="markAnswer(3)"></div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">Georg Simmel believed that the "blasé attitude" was a sign of severe mental illness in city dwellers. <br><input type="text" id="q4" oninput="markAnswer(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">The GDP of the Tokyo metropolitan region is larger than the national output of Canada. <br><input type="text" id="q5" oninput="markAnswer(5)"></div></div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">Wealth generation in megacities usually distributes capital equally across all geographical sectors. <br><input type="text" id="q6" oninput="markAnswer(6)"></div></div>
+        <div class="q-item"><div class="q-num">7</div><div class="q-text">Urban sprawl is currently favored by modern architects because it reduces daily carbon emissions. <br><input type="text" id="q7" oninput="markAnswer(7)"></div></div>
+
+        <h2>Questions 8–13: Sentence Completion</h2>
+        <div class="instruction">Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-num">8</div><div class="q-text">The rapid migratory shift towards cities was initially sparked by the <strong>8</strong> <input type="text" id="q8" oninput="markAnswer(8)">.</div></div>
+        <div class="q-item"><div class="q-num">9</div><div class="q-text">Rural migrants are often pulled to the city by the promise of superior healthcare and <strong>9</strong> <input type="text" id="q9" oninput="markAnswer(9)">.</div></div>
+        <div class="q-item"><div class="q-num">10</div><div class="q-text">Simmel argued that the megacity creates an unprecedented volume of <strong>10</strong> <input type="text" id="q10" oninput="markAnswer(10)"> that assaults the nervous system.</div></div>
+        <div class="q-item"><div class="q-num">11</div><div class="q-text">To survive cognitive overload, city dwellers develop a psychological shield that embraces emotional <strong>11</strong> <input type="text" id="q11" oninput="markAnswer(11)">.</div></div>
+        <div class="q-item"><div class="q-num">12</div><div class="q-text">The concentration of universities and tech sectors in megacities accelerates <strong>12</strong> <input type="text" id="q12" oninput="markAnswer(12)">.</div></div>
+        <div class="q-item"><div class="q-num">13</div><div class="q-text">Modern architecture has shifted away from horizontal sprawl and decisively towards <strong>13</strong> <input type="text" id="q13" oninput="markAnswer(13)">.</div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        
+        <h2>Questions 14–19: Matching Headings</h2>
+        <div class="instruction">Reading Passage 2 has five paragraphs, <strong>A–E</strong>. Choose the correct heading for each paragraph from the list below.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The ecological defense of the vertical city</div>
+          <div class="box-item"><strong>ii</strong> Why skyscrapers are cheaper to build than traditional homes</div>
+          <div class="box-item"><strong>iii</strong> The technological breakthroughs that enabled verticality</div>
+          <div class="box-item"><strong>iv</strong> How altitude has become a measure of class segregation</div>
+          <div class="box-item"><strong>v</strong> The psychological isolation caused by modern high-rises</div>
+          <div class="box-item"><strong>vi</strong> How traditional street life creates an organic safety net</div>
+        </div>
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">Paragraph A <input type="text" id="q14" oninput="markAnswer(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">Paragraph B <input type="text" id="q15" oninput="markAnswer(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">Paragraph C <input type="text" id="q16" oninput="markAnswer(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">Paragraph D <input type="text" id="q17" oninput="markAnswer(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">Paragraph E <input type="text" id="q18" oninput="markAnswer(18)"></div></div>
+
+        <h2>Questions 19–23: Matching Features</h2>
+        <div class="instruction">Match each statement with the correct person or concept below. Write <strong>A, B, C, or D</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Jane Jacobs</div>
+          <div class="box-item"><strong>B</strong> Elisha Otis</div>
+          <div class="box-item"><strong>C</strong> Rem Koolhaas</div>
+          <div class="box-item"><strong>D</strong> Bessemer Process</div>
+        </div>
+        <div class="q-item"><div class="q-num">19</div><div class="q-text">Allowed for the mass production of cheap, structurally resilient steel. <input type="text" id="q19" oninput="markAnswer(19)"></div></div>
+        <div class="q-item"><div class="q-num">20</div><div class="q-text">Argued that mixed-use zoning and low-rise neighborhoods naturally self-police. <input type="text" id="q20" oninput="markAnswer(20)"></div></div>
+        <div class="q-item"><div class="q-num">21</div><div class="q-text">Invented the safety elevator, breaking the biological limit of building height. <input type="text" id="q21" oninput="markAnswer(21)"></div></div>
+        <div class="q-item"><div class="q-num">22</div><div class="q-text">Noted that skyscrapers paradoxically pack people together while structurally isolating them. <input type="text" id="q22" oninput="markAnswer(22)"></div></div>
+        <div class="q-item"><div class="q-num">23</div><div class="q-text">Believed healthy cities rely on the constant, casual surveillance of "eyes on the street." <input type="text" id="q23" oninput="markAnswer(23)"></div></div>
+
+        <h2>Questions 24–26: Multiple Choice</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">24</div><div class="q-text">In vertical gated communities, how are lower-income residents typically treated?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q24" value="A" onchange="markAnswer(24)"> A) They are given priority access to express elevators.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="B" onchange="markAnswer(24)"> B) They are relegated to lower, polluted levels or pushed out of the center.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="C" onchange="markAnswer(24)"> C) They are integrated smoothly with the wealthy penthouse owners.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="D" onchange="markAnswer(24)"> D) They are relocated to completely different cities.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">25</div><div class="q-text">Why is a well-designed hyper-dense city considered ecologically beneficial?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q25" value="A" onchange="markAnswer(25)"> A) Because it eliminates the need for any electricity.</label>
+            <label class="mcq-label"><input type="radio" name="q25" value="B" onchange="markAnswer(25)"> B) Because everyone is forced to use solar panels.</label>
+            <label class="mcq-label"><input type="radio" name="q25" value="C" onchange="markAnswer(25)"> C) Because central heating wastes less energy and mass-transit becomes viable.</label>
+            <label class="mcq-label"><input type="radio" name="q25" value="D" onchange="markAnswer(25)"> D) Because high-rises are usually built out of recycled materials.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">26</div><div class="q-text">What is a proposed solution by 21st-century architects to combat vertical loneliness?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q26" value="A" onchange="markAnswer(26)"> A) Banning high-rise construction completely.</label>
+            <label class="mcq-label"><input type="radio" name="q26" value="B" onchange="markAnswer(26)"> B) Injecting "sky gardens" and mid-tower communal plazas.</label>
+            <label class="mcq-label"><input type="radio" name="q26" value="C" onchange="markAnswer(26)"> C) Forcing residents to leave their doors open.</label>
+            <label class="mcq-label"><input type="radio" name="q26" value="D" onchange="markAnswer(26)"> D) Removing all security cameras from the building lobbies.</label>
+          </div>
+        </div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31: Matching Information</h2>
+        <div class="instruction">Reading Passage 3 has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write <strong>A–G</strong>.</div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">A description of the toxic but essential recycling services provided by slum dwellers. <input type="text" id="q27" oninput="markAnswer(27)"></div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">An explanation of how relocating residents to peripheral public housing destroys their support networks. <input type="text" id="q28" oninput="markAnswer(28)"></div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">The idea that slums inadvertently create a highly intense version of "eyes on the street". <input type="text" id="q29" oninput="markAnswer(29)"></div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">A progressive strategy that involves retrofitting slums with basic infrastructure without displacing residents. <input type="text" id="q30" oninput="markAnswer(30)"></div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">The reason why informal settlements are systematically denied formal civic infrastructure like sewage systems. <input type="text" id="q31" oninput="markAnswer(31)"></div></div>
+
+        <h2>Questions 32–36: Table Completion</h2>
+        <div class="instruction">Complete the table below based on the concepts presented in Reading Passage 3. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        
+        <table class="completion-table">
+          <thead>
+            <tr>
+              <th>Urban Paradigm</th>
+              <th>Physical Topography</th>
+              <th>Economic Structure</th>
+              <th>Social Space</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Formal City Planning</strong></td>
+              <td>Follows a rigid grid; located on recognized legal maps.</td>
+              <td>Operates a linear economy of consumption and waste. Regulated by taxation.</td>
+              <td>Characterized by <strong>32</strong> <input type="text" id="q32" oninput="markAnswer(32)"> in high-rises. Space is highly privatized.</td>
+            </tr>
+            <tr>
+              <td><strong>Informal Urbanism</strong> (e.g., Dharavi)</td>
+              <td>Organic, piecemeal architecture often built from <strong>33</strong> <input type="text" id="q33" oninput="markAnswer(33)">. Located on marginal lands.</td>
+              <td>Operates a highly productive <strong>34</strong> <input type="text" id="q34" oninput="markAnswer(34)"> based on recycling. Relies on micro-credit and trust.</td>
+              <td>Space is fluid and <strong>35</strong> <input type="text" id="q35" oninput="markAnswer(35)">. Domestic life spills into alleyways creating a dense <strong>36</strong> <input type="text" id="q36" oninput="markAnswer(36)">.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Questions 37–40: Yes/No/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">Informal settlements represent the most meticulously planned architectural movement in history. <br><input type="text" id="q37" oninput="markAnswer(37)"></div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">Sociologists studying Dharavi consider the area to be in a state of pure, non-functional anarchy. <br><input type="text" id="q38" oninput="markAnswer(38)"></div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">The informal economy in Dharavi generates roughly $1 billion USD annually. <br><input type="text" id="q39" oninput="markAnswer(39)"></div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">Slum Upgrading (In-Situ Intervention) is currently opposed by most modern city municipalities. <br><input type="text" id="q40" oninput="markAnswer(40)"></div></div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers"></div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest()">Submit Assessment</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // P1: T/F/NG (1-7)
+      q1: 'true', q2: 'false', q3: 'true', q4: 'false', q5: 'true', q6: 'false', q7: 'false',
+      // P1: Completion (8-13)
+      q8: 'industrial revolution', q9: 'agglomeration economies', q10: 'sensory stimuli', q11: 'detachment', q12: 'innovation', q13: 'hyper-densification',
+      
+      // P2: Headings (14-18)
+      q14: 'iii', q15: 'vi', q16: 'v', q17: 'iv', q18: 'i',
+      // P2: Matching Features (19-23)
+      q19: 'd', q20: 'a', q21: 'b', q22: 'c', q23: 'a',
+      // P2: MCQ (24-26)
+      q24: 'b', q25: 'c', q26: 'b',
+      
+      // P3: Matching Info (27-31)
+      q27: 'd', q28: 'f', q29: 'e', q30: 'g', q31: 'b',
+      // P3: Table Completion (32-36)
+      q32: 'vertical isolation', q33: 'scavenged materials', q34: 'circular economy', q35: 'communal', q36: 'social fabric',
+      // P3: Y/N/NG (37-40)
+      q37: 'no', q38: 'no', q39: 'yes', q40: 'not given'
+    };
+
+    function initBottomNav() {
+      const container = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn'; btn.id = 'nb-'+i; btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        container.appendChild(btn);
+      }
+    }
+
+    function markAnswer(n) { 
+      const input = document.getElementById('q' + n);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${n}"]:checked`);
+      const btn = document.getElementById('nb-'+n);
+      if(isAnswered) {
+          btn.classList.add('answered');
+      } else {
+          btn.classList.remove('answered');
+      }
+    }
+
+    function scrollToQuestion(n) {
+      let tab = 1;
+      if(n >= 14 && n <= 26) tab = 2;
+      if(n >= 27 && n <= 40) tab = 3;
+      switchSection(tab);
+      
+      setTimeout(() => {
+        let qEl = document.getElementById('q'+n);
+        if(!qEl) {
+          const radio = document.querySelector(`input[name="q${n}"]`);
+          if(radio) qEl = radio.closest('.q-item');
+        } else {
+          qEl = qEl.closest('.q-item') || qEl.closest('td'); 
+        }
+
+        if(qEl) {
+          document.getElementById('right-panel').scrollTo({ top: qEl.offsetTop - 50, behavior: 'smooth' });
+          qEl.style.transition = 'background 0.3s';
+          qEl.style.background = '#FADBD8';
+          setTimeout(() => qEl.style.background = 'transparent', 1200);
+        }
+      }, 50);
+    }
+
+    function switchSection(n) {
+      document.querySelectorAll('.tab-btn, .section-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-'+n).classList.add('active');
+      document.getElementById('passage-'+n).classList.add('active');
+      document.getElementById('questions-'+n).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    let timerInterval;
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex';
+      initBottomNav();
+      let s = 3600;
+      timerInterval = setInterval(() => {
+        s--;
+        document.getElementById('timer').textContent = `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
+        if(s <= 0) submitTest(true);
+      }, 1000);
+    }
+
+    function submitTest(auto = false) {
+      if(!auto && !confirm("Submit final assessment?")) return;
+      clearInterval(timerInterval);
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q'+i;
+        const input = document.getElementById(qId);
+        const ans = answerKey[qId];
+        
+        if(input) {
+          const userAns = input.value.trim().toLowerCase();
+          // Relaxed string matching
+          if(userAns === ans || (ans.includes(userAns) && userAns.length > 3 && userAns !== 'true' && userAns !== 'false' && userAns !== 'yes' && userAns !== 'no')) {
+            score++; input.classList.add('correct-answer');
+          } else {
+            input.classList.add('wrong-answer');
+            input.value = userAns ? `${userAns} ❌ [${ans.toUpperCase()}]` : `❌ [${ans.toUpperCase()}]`;
+            if (input.closest('td')) { input.style.width = "220px"; } else { input.style.width = "280px"; }
+          }
+          input.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if(selected && selected.value.toLowerCase() === ans) {
+            score++; selected.parentElement.classList.add('correct-answer');
+          } else {
+            if(selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${ans.toUpperCase()}"]`);
+            if(correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+      
+      document.getElementById('final-score').textContent = `${score} / 40`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('dormant-overlay').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

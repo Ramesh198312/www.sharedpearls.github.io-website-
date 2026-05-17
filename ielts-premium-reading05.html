@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 05: AI-Enabled E-Portfolios | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- ACADEMIC EDITORIAL PALETTE --- */
+    :root {
+      --navy-dark: #0B162C;
+      --navy-main: #1A2C4D;
+      --cerulean: #007EA7;
+      --champagne: #D4AF37;
+      --bg-page: #F4F6F8;
+      --bg-panel: #FFFFFF;
+      --text-main: #2C3E50;
+      --text-muted: #7F8C8D;
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+
+    /* --- HEADER --- */
+    header { 
+      background: var(--navy-dark); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--champagne); 
+      flex-shrink: 0; z-index: 10;
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; }
+    .brand span { color: var(--champagne); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #BDC3C7; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(0, 126, 167, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--cerulean); background: rgba(0, 126, 167, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--champagne); background: var(--navy-main); padding: 0.4rem 1.2rem; border-radius: 4px; }
+    .timer.warning { color: #E74C3C; animation: pulse 1s infinite; }
+
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+    /* --- WORKSPACE & PANELS --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+
+    /* --- LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background:  #f9f7f5;
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; color: var(--navy-dark); margin-bottom: 1rem; font-family: var(--font-passage); }
+    .pre-test-overlay p { font-size: 1.1rem; color: var(--text-muted); max-width: 650px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .btn-start-large {
+      background: var(--navy-main); color: #FFF; padding: 1.2rem 3rem; font-size: 1rem; font-weight: 600;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-start-large:hover { background: var(--cerulean); }
+
+    /* --- PASSAGE TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 2rem; margin-bottom: 2rem; color: var(--navy-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 0.95rem; color: #34495E; text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1.05rem; margin-right: 15px; color: var(--cerulean); float: left; padding-top: 3px; }
+
+    /* --- QUESTION TYPOGRAPHY --- */
+    .right-panel h2 { font-size: 1.15rem; margin: 2.5rem 0 1rem; color: var(--navy-dark); border-bottom: 2px solid var(--champagne); padding-bottom: 0.5rem; font-weight: 700; }
+    .right-panel h2:first-child { margin-top: 0; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; transition: 0.3s; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--cerulean); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; }
+    
+    input[type="text"] { padding: 0.2rem 0.5rem; border: none; border-bottom: 2px solid var(--text-muted); background: transparent; font-size: 0.95rem; width: 140px; font-family: var(--font-ui); font-weight: 600; color: var(--navy-dark); text-align: center; transition: 0.3s; outline: none;}
+    input[type="text"]:focus { border-bottom-color: var(--cerulean); }
+    input:disabled { color: var(--text-muted); cursor: not-allowed; }
+    
+    .mcq-options { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.95rem; color: #444; transition: 0.2s; }
+    .mcq-label:hover { color: var(--cerulean); }
+    .mcq-label input { margin-top: 4px; }
+    
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.2rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.9rem; font-weight: 500; }
+    .box-item strong { font-family: var(--font-mono); color: var(--cerulean); margin-right: 5px;}
+
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* --- BOTTOM NAVIGATION --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; 
+      align-items: center; justify-content: space-between; padding: 0 3rem;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.03); z-index: 100;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 28px; height: 28px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
+    }
+    .nav-btn:hover { border-color: var(--cerulean); color: var(--navy-dark); }
+    .nav-btn.answered { background: var(--cerulean); color: #FFF; border-color: var(--cerulean); }
+
+    /* Refined Submit Button */
+    .btn-submit-small {
+      background: var(--navy-main); color: #FFF; border: none; padding: 0.6rem 1.8rem;
+      font-size: 0.9rem; font-weight: 600; border-radius: 4px; cursor: pointer;
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-submit-small:hover { background: var(--cerulean); }
+
+    /* --- RESULTS MODAL --- */
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(11,22,44,0.2);
+      z-index: 200; text-align: center; border-top: 5px solid var(--champagne); min-width: 400px;
+    }
+    .results-modal h2 { font-family: var(--font-passage); color: var(--navy-dark); margin-bottom: 1rem; }
+    .score-display { font-size: 3.5rem; font-weight: 700; color: var(--navy-main); margin: 1rem 0; font-family: var(--font-mono); }
+    .btn-close { background: var(--cerulean); color: #FFF; border: none; padding: 0.8rem 2rem; font-weight: 600; border-radius: 4px; cursor: pointer; margin-top: 1.5rem; text-transform: uppercase; }
+    
+    .correct-answer { border-color: #27AE60 !important; color: #27AE60 !important; font-weight: 700; }
+    .wrong-answer { border-color: #E74C3C !important; color: #E74C3C !important; }
+    .dormant-overlay { display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.4); z-index: 50; }
+    body.test-completed .dormant-overlay { display: block; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls</span> of Wisdom | Premium Test</div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2>Evaluation Complete</h2>
+    <div class="score-display" id="final-score">0 <span style="font-size: 1.5rem; color: #7F8C8D;">/ 40</span></div>
+    <p>Review the exact answers and explanations below.</p>
+    <button class="btn-close" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <div style="color: var(--cerulean); font-weight: 700; letter-spacing: 2px; margin-bottom: 1rem;">MODULE 05</div>
+      <h2>AI-Enabled E-Portfolios in Digital Credentialing</h2>
+      <p>This module focuses on the intersection of artificial intelligence, teacher performance, and dynamic competency assessment. Passage 3 is extensively detailed to test high-level stamina. Note: Paragraphs are labelled (A, B, C...) to facilitate the first task. The navigation grid appears upon clicking start.</p>
+      <button class="btn-start-large" onclick="startTest()">Initiate 60-Minute Assessment</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Shift from Static Credentials to Dynamic E-Portfolios</h1>
+        
+        <p><span class="paragraph-label">A</span> For over a century, the evaluation of professional competency has relied upon the "static credential"—the traditional academic transcript or printed diploma. These documents served as terminal proof of an individual's capabilities at a fixed point in time. However, in an era defined by rapid technological obsolescence and the continuous evolution of professional standards, static credentials have grown increasingly inadequate. They offer a binary validation of attendance and graduation but fail to capture the nuanced, ongoing acquisition of micro-skills required in the modern workforce.</p>
+        
+        <p><span class="paragraph-label">B</span> In response to this systemic deficiency, the educational and corporate sectors began adopting the Electronic Portfolio (E-Portfolio) in the early 2000s. Unlike a static transcript, an E-Portfolio is a dynamic, curated collection of digital artifacts—such as project documentation, peer reviews, multimedia presentations, and reflective essays. It allows professionals to visually demonstrate *how* they apply theoretical knowledge in practical, high-stakes environments. Initially utilized primarily in creative industries like graphic design and architecture, the E-Portfolio has steadily infiltrated highly regulated professions, including medicine, engineering, and education.</p>
+        
+        <p><span class="paragraph-label">C</span> Despite its pedagogical advantages, the widespread adoption of the E-Portfolio faced a significant institutional hurdle: validation at scale. When an employer or licensing board receives a traditional transcript, verifying its authenticity requires a simple administrative check. Conversely, assessing a comprehensive E-Portfolio requires hours of subjective human review to verify that the artifacts genuinely represent the candidate's independent competence. This "evaluation bottleneck" prevented E-Portfolios from becoming the standardized currency of professional credentialing.</p>
+        
+        <p><span class="paragraph-label">D</span> The solution to this validation crisis has recently emerged through the integration of blockchain technology. By tokenizing digital artifacts on a decentralized ledger, institutions can cryptographically guarantee the origin, timestamp, and authenticity of a specific piece of work. When a candidate uploads a lesson plan or a technical schematic to their E-Portfolio, a "hash" is generated on the blockchain. Any subsequent alteration to the document invalidates the hash, instantly alerting reviewers to potential academic dishonesty or retroactive manipulation.</p>
+        
+        <p><span class="paragraph-label">E</span> Furthermore, the synthesis of E-Portfolios with Open Badges infrastructure allows for granular "micro-credentialing." Instead of waiting four years to issue a generalized degree, institutions can issue cryptographically secure badges for specific competencies as soon as they are mastered. A professional might earn an Open Badge for "Advanced Python Syntax" or "Conflict Resolution Strategies." These badges are embedded directly into the E-Portfolio, providing future employers with a hyper-specific, machine-readable map of the candidate's exact skill set.</p>
+        
+        <p><span class="paragraph-label">F</span> Ultimately, the transition toward dynamic digital credentialing marks a philosophical shift from "what you know" to "what you can continuously prove." As the half-life of professional knowledge shrinks, the ability to maintain and verify a real-time ledger of one's capabilities is becoming the central pillar of lifelong employability. However, the true disruptive potential of this technology will only be realized when the manual assessment of these vast portfolios is handed over to intelligent, algorithmic systems.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>AI's Moderating Role in Continuous Professional Development</h1>
+        
+        <p><span class="paragraph-label">A</span> As E-Portfolios expanded to contain gigabytes of longitudinal data, human evaluators became overwhelmed. The sheer volume of text, audio, and video artifacts made comprehensive manual assessment economically unviable for large-scale certification bodies. Consequently, researchers began exploring the integration of Artificial Intelligence (AI) to automate the analysis of these digital repositories. This technological convergence is particularly transformative in the realm of Continuous Professional Development (CPD) for educators.</p>
+        
+        <p><span class="paragraph-label">B</span> Continuous Professional Development for English language teachers has historically relied on sporadic workshops and self-reported surveys. These traditional methods notoriously suffer from low transfer-to-practice rates. Recent academic frameworks, however, seek to evaluate the role of Artificial Intelligence in moderating the relationship between CPD interventions and actual pedagogical performance. In this context, "moderation" refers to the AI's ability to amplify the effectiveness of the training by providing immediate, personalized, and data-driven feedback directly inside the teacher's E-Portfolio.</p>
+        
+        <p><span class="paragraph-label">C</span> The operational core of an AI-enabled E-Portfolio relies on advanced Natural Language Processing (NLP) models. When an English language teacher uploads a reflective essay or an audio recording of a classroom interaction, the NLP engine does not merely scan for grammatical correctness. It performs a sophisticated "semantic density analysis," evaluating the complexity of the pedagogical discourse. The AI can detect whether a teacher is utilizing high-order questioning techniques (such as asking students to evaluate or synthesize information) or relying on low-order, closed-ended recall questions.</p>
+        
+        <p><span class="paragraph-label">D</span> Once the analysis is complete, the AI generates a dynamic competency map. If the system detects a persistent deficiency—for instance, a lack of differentiated instruction strategies for lower-proficiency students—it autonomously recommends specific CPD modules tailored to address that precise gap. This creates a closed-loop system of professional growth: the teacher learns a new skill, applies it in the classroom, uploads the evidence to the E-Portfolio, and the AI evaluates the artifact to verify mastery before issuing a digital micro-credential.</p>
+        
+        <p><span class="paragraph-label">E</span> Beyond individual feedback, the aggregation of AI-analyzed E-Portfolios provides educational ministries with unprecedented macroscopic data. By analyzing the anonymized portfolios of thousands of language teachers, administrators can identify regional skills deficits in real-time. If the data reveals that educators in a specific province are uniformly struggling with integrating digital literacy into their syllabi, the ministry can instantly deploy targeted funding and CPD resources to that exact area, rather than relying on delayed, subjective inspectorate reports.</p>
+        
+        <p><span class="paragraph-label">F</span> Despite these profound advantages, the use of AI to moderate performance evaluations introduces valid anxieties regarding "algorithmic determinism." Critics argue that AI models, trained on specific datasets of "ideal" teaching, may unfairly penalize educators who employ unconventional, yet highly effective, culturally specific pedagogies. If the AI becomes the sole arbiter of what constitutes a "valid" credential, there is a risk of homogenizing the teaching profession, forcing diverse educators to conform to the narrow, predefined parameters of the machine learning model.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>Methodological Challenges: Geographic Strata Sampling and AI Moderation</h1>
+        
+        <p><span class="paragraph-label">A</span> As the deployment of AI-enabled E-Portfolios scales globally, academic researchers face the complex task of quantifying their efficacy. Studying the role of Artificial Intelligence in moderating the relationship between Continuous Professional Development (CPD) and performance requires rigorous, large-scale empirical research. However, educational landscapes are rarely uniform. A major methodological hazard in evaluating these systems is the failure to account for profound regional disparities in infrastructure, digital literacy, and socio-economic status.</p>
+        
+        <p><span class="paragraph-label">B</span> To accurately measure this moderating relationship without introducing severe sampling bias, researchers must employ sophisticated statistical techniques, specifically "stratified random sampling" utilizing accurate geographic strata. In standard random sampling, every individual in a population has an equal chance of selection. While theoretically sound, in a geographically diverse nation—such as Nepal, which features distinct ecological zones like the Terai (plains), Hilly, and Mountainous regions—simple random sampling may inadvertently select a disproportionate number of participants from densely populated urban centers, completely ignoring the realities of remote educators.</p>
+        
+        <p><span class="paragraph-label">C</span> Utilizing accurate geographic strata is essential when drawing samples from diverse topographies. A stratum is a subset of the population that shares at least one common characteristic. By dividing the national population of English language teachers into distinct geographic strata (e.g., urban plain, rural hill, remote mountain), and then randomly sampling proportionally from *within* each stratum, researchers ensure that the final dataset is a mathematically accurate microcosm of the entire nation. Correcting errors in sampling terminology and explicitly defining these strata is paramount for the integrity of the research.</p>
+        
+        <p><span class="paragraph-label">D</span> The necessity of geographic strata becomes glaringly obvious when analyzing the hardware requirements of AI-enabled E-Portfolios. These systems rely on cloud computing, requiring stable, high-speed broadband and consistent electricity. A study that only samples teachers from the capital city might conclude that the AI heavily moderates and improves CPD performance. However, if that same technology is deployed in a remote mountain stratum where internet access is sporadic, the AI intervention may actually *decrease* performance by creating administrative frustration and cognitive overload for the teacher.</p>
+        
+        <p><span class="paragraph-label">E</span> Furthermore, geographic strata often correlate heavily with variations in linguistic exposure and student proficiency. English language teachers operating in the Terai region, bordering major international trade routes, may interact with students who possess a significantly higher baseline exposure to English media than students in isolated high-altitude villages. If an AI NLP engine is trained exclusively on urban data, it may flag the rural teacher’s simplified instructional language as "low complexity" or "deficient," failing to recognize it as a necessary and highly effective pedagogical adaptation for that specific student demographic.</p>
+        
+        <p><span class="paragraph-label">F</span> The statistical phenomenon where the effect of an intervention varies across different subgroups is known as "heterogeneity of treatment effects." By employing rigorous geographic strata, researchers can isolate these heterogeneous effects. They can determine mathematically if the AI's moderation of CPD is universally beneficial, or if its efficacy degrades in specific topographies. This prevents the dangerous "one-size-fits-all" policy recommendations that have historically plagued national educational reforms.</p>
+        
+        <p><span class="paragraph-label">G</span> Proper sampling methodology also protects against "survivorship bias" in digital credentialing data. If researchers only analyze the E-Portfolios that are successfully completed and submitted to the centralized database, they are only studying the "survivors." They miss the critical data regarding *why* teachers in certain strata abandoned the platform. Was it due to a lack of digital literacy, software bugs, or fundamentally incompatible teaching philosophies? Robust strata sampling requires researchers to actively track down non-respondents across all regions to build a complete, unbiased picture of the technology's impact.</p>
+        
+        <p><span class="paragraph-label">H</span> In conclusion, as educational frameworks increasingly rely on algorithmic moderation, the burden of proof rests heavily on the research community. Demonstrating that AI can enhance performance is insufficient; researchers must prove that it does so equitably across all demographic and topographical realities. The precise calibration of geographic strata and flawless adherence to advanced sampling terminology are not mere statistical pedantry—they are the foundational mechanisms required to ensure that the digital future of professional credentialing is built upon empirical truth rather than localized assumptions.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–6</h2>
+        <div class="instruction">The Reading Passage has six paragraphs, <strong>A–F</strong>. Choose the correct heading for each paragraph from the list below. Write the correct number, <strong>i–viii</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> Securing artifacts through decentralized ledgers</div>
+          <div class="box-item"><strong>ii</strong> The manual evaluation bottleneck of large portfolios</div>
+          <div class="box-item"><strong>iii</strong> Awarding specialized badges for specific skills</div>
+          <div class="box-item"><strong>iv</strong> The obsolescence of binary academic diplomas</div>
+          <div class="box-item"><strong>v</strong> How to program a blockchain network</div>
+          <div class="box-item"><strong>vi</strong> A philosophical transition towards continuous verification</div>
+          <div class="box-item"><strong>vii</strong> The shift to dynamic, curated digital collections</div>
+          <div class="box-item"><strong>viii</strong> Why graphic designers resist digital credentialing</div>
+        </div>
+        
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph A <input type="text" id="q1" oninput="markNavAnswered(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph B <input type="text" id="q2" oninput="markNavAnswered(2)"></div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph C <input type="text" id="q3" oninput="markNavAnswered(3)"></div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph D <input type="text" id="q4" oninput="markNavAnswered(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph E <input type="text" id="q5" oninput="markNavAnswered(5)"></div></div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">Paragraph F <input type="text" id="q6" oninput="markNavAnswered(6)"></div></div>
+
+        <h2>Questions 7–10</h2>
+        <div class="instruction">Complete the summary. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+        <div class="q-item"><div class="q-text">
+          Historically, professional competency was judged by a <strong>7</strong> <input type="text" id="q7" oninput="markNavAnswered(7)">, which failed to show ongoing skill acquisition. The introduction of the E-Portfolio allowed professionals to display practical competence, but assessing them caused an <strong>8</strong> <input type="text" id="q8" oninput="markNavAnswered(8)"> for institutions. To solve this, developers utilized blockchain technology. By generating a cryptographic <strong>9</strong> <input type="text" id="q9" oninput="markNavAnswered(9)">, institutions can instantly detect retroactive manipulation. Additionally, this system supports the issuing of <strong>10</strong> <input type="text" id="q10" oninput="markNavAnswered(10)">, giving employers a detailed map of a candidate's abilities.
+        </div></div>
+
+        <h2>Questions 11–13</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">11</div><div class="q-text">What was a primary flaw of the traditional academic transcript?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q11" value="A" onchange="markNavAnswered(11)"> A) It was too easy to counterfeit using modern printers.</label>
+            <label class="mcq-label"><input type="radio" name="q11" value="B" onchange="markNavAnswered(11)"> B) It provided only a binary validation at a fixed point in time.</label>
+            <label class="mcq-label"><input type="radio" name="q11" value="C" onchange="markNavAnswered(11)"> C) It required hours of subjective human review to assess.</label>
+            <label class="mcq-label"><input type="radio" name="q11" value="D" onchange="markNavAnswered(11)"> D) It could only be issued by architecture schools.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">12</div><div class="q-text">How does blockchain prevent academic dishonesty in E-Portfolios?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q12" value="A" onchange="markNavAnswered(12)"> A) By preventing students from uploading media files.</label>
+            <label class="mcq-label"><input type="radio" name="q12" value="B" onchange="markNavAnswered(12)"> B) By automatically grading reflective essays.</label>
+            <label class="mcq-label"><input type="radio" name="q12" value="C" onchange="markNavAnswered(12)"> C) By invalidating the hash if a document is altered.</label>
+            <label class="mcq-label"><input type="radio" name="q12" value="D" onchange="markNavAnswered(12)"> D) By forcing candidates to take a live video examination.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">13</div><div class="q-text">According to the author, the central pillar of lifelong employability is now:
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q13" value="A" onchange="markNavAnswered(13)"> A) What you know.</label>
+            <label class="mcq-label"><input type="radio" name="q13" value="B" onchange="markNavAnswered(13)"> B) Working in highly regulated professions.</label>
+            <label class="mcq-label"><input type="radio" name="q13" value="C" onchange="markNavAnswered(13)"> C) The ability to maintain and verify a real-time ledger of capabilities.</label>
+            <label class="mcq-label"><input type="radio" name="q13" value="D" onchange="markNavAnswered(13)"> D) Attending traditional graduation ceremonies.</label>
+          </div>
+        </div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18</h2>
+        <div class="instruction">Do the following statements agree with the information given in Reading Passage 2? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">Traditional CPD methods for English language teachers have high transfer-to-practice rates. <br><input type="text" id="q14" oninput="markNavAnswered(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">"Moderation" refers to AI amplifying the effectiveness of training through personalized feedback. <br><input type="text" id="q15" oninput="markNavAnswered(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">The NLP engine is primarily focused on correcting a teacher's grammatical errors. <br><input type="text" id="q16" oninput="markNavAnswered(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">The AI system can autonomously recommend CPD modules based on detected deficiencies. <br><input type="text" id="q17" oninput="markNavAnswered(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">Educational ministries plan to completely replace human inspectors with AI within five years. <br><input type="text" id="q18" oninput="markNavAnswered(18)"></div></div>
+
+        <h2>Questions 19–22</h2>
+        <div class="instruction">Look at the following statements (Questions 19-22). Match each statement with the correct entity, <strong>A, B, C, or D</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Semantic Density Analysis</div>
+          <div class="box-item"><strong>B</strong> Dynamic Competency Map</div>
+          <div class="box-item"><strong>C</strong> Macroscopic Data Aggregation</div>
+          <div class="box-item"><strong>D</strong> Algorithmic Determinism</div>
+        </div>
+        <div class="q-item"><div class="q-num">19</div><div class="q-text">The ability of ministries to identify regional skills deficits in real-time. <input type="text" id="q19" oninput="markNavAnswered(19)"></div></div>
+        <div class="q-item"><div class="q-num">20</div><div class="q-text">The risk of penalizing effective, culturally specific teaching styles. <input type="text" id="q20" oninput="markNavAnswered(20)"></div></div>
+        <div class="q-item"><div class="q-num">21</div><div class="q-text">The evaluation of the pedagogical complexity of a teacher's discourse. <input type="text" id="q21" oninput="markNavAnswered(21)"></div></div>
+        <div class="q-item"><div class="q-num">22</div><div class="q-text">A system output that triggers autonomous recommendations for specific training modules. <input type="text" id="q22" oninput="markNavAnswered(22)"></div></div>
+
+        <h2>Questions 23–26</h2>
+        <div class="instruction">Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+        <div class="q-item"><div class="q-text">
+          Because E-Portfolios hold massive amounts of longitudinal data, manual assessment became economically <strong>23</strong> <input type="text" id="q23" oninput="markNavAnswered(23)">. To solve this, researchers use advanced <strong>24</strong> <input type="text" id="q24" oninput="markNavAnswered(24)"> models to evaluate the artifacts. The AI creates a closed-loop system of professional growth by verifying mastery before issuing a <strong>25</strong> <input type="text" id="q25" oninput="markNavAnswered(25)">. However, critics worry this could lead to <strong>26</strong> <input type="text" id="q26" oninput="markNavAnswered(26)"> of the teaching profession by enforcing narrow parameters.
+        </div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        
+        <h2>Questions 27–31</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">What is the primary danger of simple random sampling in a diverse nation?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q27" value="A" onchange="markNavAnswered(27)"> A) It prevents researchers from using cloud computing.</label>
+            <label class="mcq-label"><input type="radio" name="q27" value="B" onchange="markNavAnswered(27)"> B) It may disproportionately select participants from dense urban centers.</label>
+            <label class="mcq-label"><input type="radio" name="q27" value="C" onchange="markNavAnswered(27)"> C) It creates bugs in the Artificial Intelligence software.</label>
+            <label class="mcq-label"><input type="radio" name="q27" value="D" onchange="markNavAnswered(27)"> D) It forces remote educators to move to the capital city.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">How does accurate geographic strata sampling improve a dataset?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q28" value="A" onchange="markNavAnswered(28)"> A) It ensures the dataset is a mathematically accurate microcosm of the entire nation.</label>
+            <label class="mcq-label"><input type="radio" name="q28" value="B" onchange="markNavAnswered(28)"> B) It removes all teachers who have poor digital literacy.</label>
+            <label class="mcq-label"><input type="radio" name="q28" value="C" onchange="markNavAnswered(28)"> C) It ensures that only urban data is used to train the NLP engine.</label>
+            <label class="mcq-label"><input type="radio" name="q28" value="D" onchange="markNavAnswered(28)"> D) It guarantees high-speed broadband for all participants.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">Why might AI decrease performance for a remote mountain teacher?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q29" value="A" onchange="markNavAnswered(29)"> A) Because the teacher does not know how to speak English.</label>
+            <label class="mcq-label"><input type="radio" name="q29" value="B" onchange="markNavAnswered(29)"> B) Because the AI forces the teacher to use "survivorship bias".</label>
+            <label class="mcq-label"><input type="radio" name="q29" value="C" onchange="markNavAnswered(29)"> C) Because sporadic internet can cause administrative frustration and cognitive overload.</label>
+            <label class="mcq-label"><input type="radio" name="q29" value="D" onchange="markNavAnswered(29)"> D) Because the students refuse to participate in the study.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">What is "heterogeneity of treatment effects"?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q30" value="A" onchange="markNavAnswered(30)"> A) When an intervention has varying effects across different subgroups.</label>
+            <label class="mcq-label"><input type="radio" name="q30" value="B" onchange="markNavAnswered(30)"> B) When researchers successfully treat a computer virus.</label>
+            <label class="mcq-label"><input type="radio" name="q30" value="C" onchange="markNavAnswered(30)"> C) When all teachers improve equally after receiving CPD.</label>
+            <label class="mcq-label"><input type="radio" name="q30" value="D" onchange="markNavAnswered(30)"> D) When AI models are trained exclusively on Western datasets.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">What does survivorship bias cause researchers to miss?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q31" value="A" onchange="markNavAnswered(31)"> A) The successful portfolios uploaded to the centralized database.</label>
+            <label class="mcq-label"><input type="radio" name="q31" value="B" onchange="markNavAnswered(31)"> B) The exact geographic coordinates of the capital city.</label>
+            <label class="mcq-label"><input type="radio" name="q31" value="C" onchange="markNavAnswered(31)"> C) The reasons why certain teachers abandoned the platform.</label>
+            <label class="mcq-label"><input type="radio" name="q31" value="D" onchange="markNavAnswered(31)"> D) The grammatical mistakes made by advanced students.</label>
+          </div>
+        </div></div>
+
+        <h2>Questions 32–36</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer in Reading Passage 3? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">32</div><div class="q-text">Geographic strata sampling is easier to perform than simple random sampling. <br><input type="text" id="q32" oninput="markNavAnswered(32)"></div></div>
+        <div class="q-item"><div class="q-num">33</div><div class="q-text">Nepal features distinct ecological zones such as the Terai, Hilly, and Mountainous regions. <br><input type="text" id="q33" oninput="markNavAnswered(33)"></div></div>
+        <div class="q-item"><div class="q-num">34</div><div class="q-text">A rural teacher's simplified instructional language is always proof of poor pedagogical skills. <br><input type="text" id="q34" oninput="markNavAnswered(34)"></div></div>
+        <div class="q-item"><div class="q-num">35</div><div class="q-text">Robust strata sampling requires tracking down participants who did not complete their portfolios. <br><input type="text" id="q35" oninput="markNavAnswered(35)"></div></div>
+        <div class="q-item"><div class="q-num">36</div><div class="q-text">The government will provide funding to fix internet issues in mountainous regions. <br><input type="text" id="q36" oninput="markNavAnswered(36)"></div></div>
+
+        <h2>Questions 37–40</h2>
+        <div class="instruction">Complete each sentence with the correct ending, <strong>A–F</strong>, below. Write the correct letter in the box.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> causes administrative frustration and cognitive overload.</div>
+          <div class="box-item"><strong>B</strong> is paramount for the integrity of empirical research.</div>
+          <div class="box-item"><strong>C</strong> fails to recognize the necessity of pedagogical adaptation.</div>
+          <div class="box-item"><strong>D</strong> ensures the digital future is built upon empirical truth.</div>
+          <div class="box-item"><strong>E</strong> creates dangerous "one-size-fits-all" policy recommendations.</div>
+          <div class="box-item"><strong>F</strong> isolates heterogeneous treatment effects mathematically.</div>
+        </div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">Explicitly defining strata and correcting sampling terminology <input type="text" id="q37" oninput="markNavAnswered(37)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">Deploying cloud-dependent AI in areas with sporadic internet <input type="text" id="q38" oninput="markNavAnswered(38)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">An AI trained exclusively on urban data often <input type="text" id="q39" oninput="markNavAnswered(39)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">Rigorous adherence to advanced sampling methodology <input type="text" id="q40" oninput="markNavAnswered(40)" style="width:60px;"></div></div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers">
+      </div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest(false)">Submit Module</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // Passage 1
+      q1: 'iv', q2: 'vii', q3: 'ii', q4: 'i', q5: 'iii', q6: 'vi',
+      q7: 'static credential', q8: 'evaluation bottleneck', q9: 'hash', q10: 'open badges',
+      q11: 'b', q12: 'c', q13: 'c',
+      
+      // Passage 2
+      q14: 'false', q15: 'true', q16: 'false', q17: 'true', q18: 'not given',
+      q19: 'c', q20: 'd', q21: 'a', q22: 'b',
+      q23: 'unviable', q24: 'natural language processing', q25: 'micro-credential', q26: 'homogenizing',
+      
+      // Passage 3
+      q27: 'b', q28: 'a', q29: 'c', q30: 'a', q31: 'c',
+      q32: 'not given', q33: 'yes', q34: 'no', q35: 'yes', q36: 'not given',
+      q37: 'b', q38: 'a', q39: 'c', q40: 'd'
+    };
+
+    // Initialize Navigation
+    function initBottomNav() {
+      const navContainer = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn';
+        btn.id = 'nav-btn-' + i;
+        btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        navContainer.appendChild(btn);
+      }
+    }
+
+    function markNavAnswered(qNumber) {
+      const input = document.getElementById('q' + qNumber);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${qNumber}"]:checked`);
+      const navBtn = document.getElementById('nav-btn-' + qNumber);
+      if(isAnswered) navBtn.classList.add('answered');
+      else navBtn.classList.remove('answered');
+    }
+
+    function scrollToQuestion(qNumber) {
+      let targetTab = 1;
+      if (qNumber >= 14 && qNumber <= 26) targetTab = 2;
+      if (qNumber >= 27 && qNumber <= 40) targetTab = 3;
+      
+      switchSection(targetTab);
+      
+      setTimeout(() => {
+        let qElement = document.getElementById('q' + qNumber);
+        if (!qElement) {
+          const radioInput = document.querySelector(`input[name="q${qNumber}"]`);
+          if(radioInput) qElement = radioInput.closest('.q-item');
+        } else {
+          qElement = qElement.closest('.q-item');
+        }
+
+        if (qElement) {
+          document.getElementById('right-panel').scrollTo({
+            top: qElement.offsetTop - 50, behavior: 'smooth'
+          });
+          qElement.style.background = '#FEF08A';
+          setTimeout(() => qElement.style.background = '', 1000);
+        }
+      }, 50);
+    }
+
+    function switchSection(sectionNumber) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+      document.getElementById('tab-' + sectionNumber).classList.add('active');
+      document.getElementById('passage-' + sectionNumber).classList.add('active');
+      document.getElementById('questions-' + sectionNumber).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    /* --- TIMER & LAUNCH --- */
+    let timeRemaining = 3600;
+    let timerInterval;
+
+    function startTest() {
+      initBottomNav();
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex'; 
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        const m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+        const s = (timeRemaining % 60).toString().padStart(2, '0');
+        document.getElementById('timer').textContent = `${m}:${s}`;
+        
+        if(timeRemaining <= 300) document.getElementById('timer').classList.add('warning');
+        if(timeRemaining <= 0) submitTest(true);
+      }, 1000);
+    }
+
+    /* --- EVALUATION --- */
+    function submitTest(isAuto = false) {
+      if(!isAuto && !confirm("Confirm final submission?")) return;
+      clearInterval(timerInterval);
+      
+      let score = 0;
+      for(let i=1; i<=40; i++) {
+        const qId = 'q' + i;
+        const textInput = document.getElementById(qId);
+        const correctAns = answerKey[qId];
+        
+        if (textInput) {
+          const userAns = textInput.value.trim().toLowerCase();
+          
+          if (userAns === correctAns || (correctAns.includes(userAns) && userAns.length > 3) || (userAns === 'open badges' && qId === 'q10')) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else {
+            textInput.classList.add('wrong-answer');
+            textInput.value = userAns ? `${userAns} ❌ [${correctAns.toUpperCase()}]` : `❌ [${correctAns.toUpperCase()}]`;
+            textInput.style.width = "220px";
+          }
+          textInput.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if (selected && selected.value.toLowerCase() === correctAns) {
+            score++;
+            selected.parentElement.classList.add('correct-answer');
+          } else {
+            if (selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAns.toUpperCase()}"]`);
+            if (correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+
+      document.getElementById('final-score').innerHTML = `${score} <span style="font-size: 1.5rem; color: #7F8C8D;">/ 40</span>`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.body.classList.add('test-completed');
+      document.getElementById('btn-submit').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

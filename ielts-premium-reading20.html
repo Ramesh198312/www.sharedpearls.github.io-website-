@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 20: Algorithmic Biases in Public Policy | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Guardian+Text+Egyptian:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- COLOR PALETTE INSPIRED BY CNN.COM BROADCAST EDITORIAL --- */
+    :root {
+      --cnn-red: #CC0000;          
+      --deep-slate: #0C0C0C;       
+      --charcoal-text: #222222;    
+      --pure-white: #FFFFFF;
+      --light-grey: #F6F6F6;       
+      --border-grey: #E2E2E2;
+      --accent-blue: #0056B3;      
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Guardian Text Egyptian', 'Merriweather', serif; 
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-ui); color: var(--charcoal-text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--pure-white); }
+    
+    /* --- HEADER --- */
+    header { 
+      background: var(--deep-slate); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 4px solid var(--cnn-red); 
+      flex-shrink: 0; z-index: 10;
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.4rem; font-weight: 700; letter-spacing: -0.5px; }
+    .brand span { color: goldenrod; font-style: normal; font-weight: 900; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #A2A2A2; border: none; padding: 0 2rem; font-size: 0.9rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.2s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(255, 255, 255, 0.05); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--cnn-red); background: rgba(255, 255, 255, 0.08); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.15rem; font-weight: 700; color: #FFF; background: var(--accent-blue); padding: 0.4rem 1rem; border-radius: 2px; }
+    .timer.warning { animation: pulse 1s infinite; }
+    
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+    
+    /* --- WORKSPACE & PANELS --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--light-grey); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--pure-white); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-grey); z-index: 2; }
+    .right-panel { background: #FAFBFB; padding-bottom: 80px; }
+    
+    /* --- PRE-TEST LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #FAFBFB;
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem;
+    }
+    .pre-test-overlay h2 { font-size: 2.4rem; color: var(--deep-slate); margin-bottom: 1.5rem; font-family: var(--font-passage); font-weight: 700; max-width: 850px; line-height: 1.2; }
+    .pre-test-overlay p { font-size: 1.05rem; color: #444; max-width: 700px; line-height: 1.7; margin-bottom: 2.5rem; font-family: var(--font-ui); }
+    .btn-start-large {
+      background: hsl(235, 90%, 16%); color: #FFF; padding: 1.1rem 3.5rem; font-size: 1rem; font-weight: 700;
+      border: none; border-radius: 2px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.2s;
+    }
+    .btn-start-large:hover { background: hsl(101, 95%, 17%); }
+
+    /* --- PASSAGE FORMATTING --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 2.2rem; font-weight: 700; margin-bottom: 2rem; color: var(--deep-slate); line-height: 1.15; letter-spacing: -0.5px; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.4rem; line-height: 1.75; font-size: 1.05rem; color: var(--charcoal-text); text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; margin-right: 12px; color: var(--cnn-red); background: var(--light-grey); padding: 2px 6px; border: 1px solid var(--border-grey); float: left; border-radius: 2px; }
+
+    /* --- QUESTIONS FORMATTING --- */
+    .right-panel h2 { font-size: 1.15rem; margin: 2rem 0 1rem; color: var(--deep-slate); border-bottom: 2px solid var(--deep-slate); padding-bottom: 6px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .instruction { font-style: italic; color: #555; margin-bottom: 1.5rem; font-size: 0.9rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 12px; border-radius: 2px; background: var(--pure-white); border: 1px solid var(--border-grey); }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--cnn-red); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; color: var(--charcoal-text); }
+    
+    input[type="text"] { border: none; border-bottom: 2px solid #A2A2A2; background: transparent; font-size: 0.95rem; width: 170px; font-weight: 600; color: var(--accent-blue); text-align: center; outline: none; transition: border-color 0.2s;}
+    input[type="text"]:focus { border-bottom-color: var(--cnn-red); }
+    input:disabled { color: var(--deep-slate); background: transparent; }
+
+    .mcq-options { margin-top: 0.8rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; margin-bottom: 0.6rem; line-height: 1.4; }
+    .box-options { display: flex; flex-direction: column; gap: 8px; border-left: 3px solid var(--cnn-red); padding: 0.5rem 1rem; margin-bottom: 1.5rem; background: var(--light-grey); }
+    .box-item { font-size: 0.9rem; font-weight: 500; color: var(--charcoal-text); }
+    .box-item strong { font-family: var(--font-mono); color: var(--cnn-red); margin-right: 5px;}
+
+    /* --- FIXED & ALIGNED TABLE COMPLETION UI --- */
+    .table-container { width: 100%; overflow-x: auto; margin: 1.5rem 0; background: var(--pure-white); border: 1px solid var(--border-grey); border-radius: 4px; }
+    .completion-table { width: 100%; border-collapse: collapse; text-align: left; }
+    .completion-table th { background: var(--light-grey); color: var(--deep-slate); font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; padding: 12px 16px; border-bottom: 2px solid var(--border-grey); }
+    .completion-table td { padding: 16px; border-bottom: 1px solid var(--border-grey); font-size: 0.95rem; line-height: 1.6; vertical-align: top; color: var(--charcoal-text); }
+    
+    /* Strict Width & Alignment Specifications */
+    .col-framework { width: 30%; font-weight: 600; color: var(--deep-slate); }
+    .col-outcome { width: 70%; }
+    .completion-table input[type="text"] { width: 180px; display: inline-block; vertical-align: middle; margin: 0 4px; border-bottom: 2px solid var(--cnn-red); padding: 2px; height: 24px; text-align: left; font-size: 0.9rem; }
+
+    /* --- SUMMARY SCANNABILITY PANEL --- */
+    .summary-pane { background: var(--pure-white); border: 1px solid var(--border-grey); padding: 1.8rem; border-radius: 2px; line-height: 1.9; margin-bottom: 1.5rem; box-shadow: 0 2px 5px rgba(0,0,0,0.02); font-size: 0.95rem; }
+    .summary-pane input[type="text"] { width: 160px; }
+
+    /* --- BOTTOM INTERACTION BAR --- */
+    .bottom-nav-bar {
+      height: 70px; background: var(--pure-white); border-top: 1px solid var(--border-grey);
+      display: none; align-items: center; justify-content: space-between; padding: 0 3rem;
+      position: relative; z-index: 100;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 26px; height: 26px; background: var(--light-grey); border: 1px solid var(--border-grey);
+      border-radius: 2px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--charcoal-text); font-weight: 600;
+    }
+    .nav-btn.answered { background: var(--deep-slate); color: #FFF; border-color: var(--deep-slate); }
+
+    .btn-submit-small { background: var(--accent-blue); color: #FFF; border: none; padding: 0.6rem 2rem; font-weight: 700; border-radius: 2px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: background 0.2s;}
+    .btn-submit-small:hover { background: green; }
+
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 2px; box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+      z-index: 200; text-align: center; border-top: 6px solid var(--cnn-red); min-width: 480px;
+    }
+    .correct-answer { color: #1E7E34 !important; font-weight: 700; border-bottom-color: #1E7E34 !important; }
+    .wrong-answer { color: #BD2130 !important; border-bottom-color: #BD2130 !important; }
+    
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.3s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls</span> of Wisdom | <span>Academic Reading</span></div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2 style="color: var(--deep-slate); border:none; margin:0;">Assessment Evaluated</h2>
+    <div style="font-size: 3.8rem; font-weight: 900; margin: 12rem 0; font-family: var(--font-mono); color: var(--cnn-red);" id="final-score">0 / 40</div>
+    <p style="margin-bottom: 2rem; color: #444; font-size:0.95rem;">Review correct answers juxtaposed next to erroneous entries below.</p>
+    <button class="btn-submit-small" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <h2>The Ethics and Biases of Algorithmic Decision Making in Public Policy</h2>
+      <p>Welcome to Academic Reading. This reading test provides an uncompromising diagnostic evaluation assessing the complex mathematical, systemic, and civil rights challenges presented by automated policy frameworks.</p>
+      <button class="btn-start-large" onclick="startTest()">Start 60-Minute Test</button>
+    </div>
+
+    <div class="dormant-overlay" id="dormant-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.2); z-index:50; pointer-events:none;"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>Predictive Justice and Mathematical Realities</h1>
+        
+        <p><span class="paragraph-label">A</span> Over the last decade, municipal judicial systems across the globe have undergone a quiet technical overhaul. Faced with severe budget constraints and swelling processing backlogs, jurisdictions have increasingly delegated risk-assessment duties to proprietary machine-learning software. These algorithms, such as the widely deployed COMPAS architecture, evaluate arrest transcripts, geographic variables, and socioeconomic histories to assign a numeric "recidivism score" to defendants awaiting trial. This mathematical rating directly influences judicial determinations, swaying decisions on pre-trial bail allocations, flight-risk labels, and custodial sentencing durations.</p>
+        
+        <p><span class="paragraph-label">B</span> Proponents of automated jurisprudence present a compelling utilitarian argument. They assert that computer models eliminate erratic human subjectivities from the bench. Legal realists have long noted that human judges are highly vulnerable to cognitive fatigue, implicit biases, and extraneous environmental variables—exemplified by famous legal studies proving judges render significantly harsher sentences immediately prior to lunch breaks. Algorithms, by contrast, apply an unyielding, standardized calculus to every case, theoretically creating an impartial and highly predictable judicial baseline.</p>
+        
+        <p><span class="paragraph-label">C</span> However, investigative journalists and civil liberties advocates have exposed a darker structural truth. A landmark analysis revealed that these algorithms exhibit stark racial asymmetries, frequently misclassifying minority defendants as high-risk recidivists at double the rate of their white counterparts, despite identical underlying criminal records. This systemic anomaly is not caused by malicious programming, but by the math governing the predictive models themselves. Because algorithms train on historical data gathered during decades of disproportionate policing and systemic institutional biases, they naturally interpret historical profiling patterns as objective statistical truths, permanently locking past discriminatory practices into future policy actions.</p>
+        
+        <p><span class="paragraph-label">D</span> This flaw exposes the profound illusion of mathematical neutrality. Data is not a pure reflection of objective reality; it is a historical artifact produced by human systems and social structures. If a predictive model trains on arrest rates from neighborhoods that have been heavily over-policed for generations, the algorithm will confidently predict that individuals from those specific postcodes are highly likely to offend. The software functions as a sophisticated predictive echo chamber, mistaking the footprints of institutional bias for the mathematical laws of human behavior, creating a destructive feedback loop.</p>
+        
+        <p><span class="paragraph-label">E</span> Furthermore, the deployment of proprietary algorithms creates a severe constitutional crisis regarding procedural due process. Because these diagnostic programs are owned by private corporations, their underlying source code, weight parameters, and optimization metrics are strictly guarded as trade secrets. Defendants and their legal counsel are systematically denied the right to inspect or cross-examine the code that directly decides their freedom. This opaque institutional dynamic severs a foundational pillar of justice: the right of a citizen to understand, challenge, and confront the specific mechanisms of their accusation.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>Automated Welfare and Infrastructure Failures</h1>
+        
+        <p><span class="paragraph-label">A</span> The architectural migration toward algorithmic management is not confined to the criminal justice apparatus; it has rapidly transformed the administration of public welfare and social infrastructure. In a bid to maximize efficiency and root out systemic benefits fraud, national governments have turned to automated oversight systems. These automated engines utilize advanced data-matching techniques, scanning across vast tax databases, banking records, and employment registries to flag financial discrepancies and autonomously terminate welfare disbursements to individuals suspected of non-compliance.</p>
+        
+        <p><span class="paragraph-label">B</span> The human consequences of this structural automation can be devastating, a reality vividly illustrated by Australia's infamous "Robodebt" scandal. The automated system matched historical income data from social services against retrospective tax records, utilizing a highly flawed averaging calculation to infer that welfare recipients had earned unreported income. Operating with absolute automated authority and completely removing human caseworkers from the review process, the system generated hundreds of thousands of false debt notices, aggressively pursuing vulnerable citizens for immense debts they did not owe. The resulting financial distress triggered a profound social crisis, plunging thousands into deep poverty and causing widespread psychological trauma before being ruled completely unlawful.</p>
+        
+        <p><span class="paragraph-label">C</span> Sociologists analyze these digital overhauls through the lens of the "Automating Inequality" framework. Political scientist Virginia Eubanks argues that substituting human social workers with cold, algorithmic models acts as a technological screen, isolating the state from its poorest citizens. By framing systemic resource rationing as a neutral, technical optimization problem, governments can quietly reduce social safety nets under the guise of fiscal responsibility. The computer program becomes an unassailable digital gatekeeper, explicitly designed to maximize structural friction and deter vulnerable individuals from successfully claiming their legal rights.</p>
+        
+        <p><span class="paragraph-label">D</span> A primary structural failure in automated public policy is the absolute eradication of contextual nuance. Human caseworkers possess the cognitive flexibility and situational empathy necessary to understand the messy realities of human poverty—such as a medical emergency causing a temporary lapse in employment, or a sudden administrative delay by an employer. Algorithms, operating on rigid binary parameters, interpret any structural anomaly as an explicit act of fraud. In the automated state, the complex, fragile realities of human survival are stripped of context, leaving individuals entirely defenseless against a deaf, automated bureaucracy.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>The Black Box and Regulatory Frontiers</h1>
+        
+        <p><span class="paragraph-label">A</span> At the heart of the ethical crisis surrounding algorithmic public policy sits the insurmountable challenge of the "Black Box." Early computer programs operated on clear, linear logic loops; if a user input specific parameters, they could easily trace the explicit path the software traveled to arrive at its final conclusion. Modern machine-learning architectures, particularly deep neural networks, operate via an entirely different mathematical paradigm. These models adjust millions of internal weight parameters across deeply layered networks, arriving at final predictive decisions via computational pathways that are far too complex for human engineers to comprehensively map or interpret.</p>
+        
+        <p><span class="paragraph-label">B</span> This lack of interpretability creates a severe accountability vacuum in public governance. If an advanced machine-learning model decides that an applicant should be denied a mortgage, or that a family should have their children removed by child protective services, the state physically cannot provide a reasoned, step-by-step explanation for that action. This dynamic subverts the foundational principles of administrative law, which mandates that all state actions must be transparent, rational, and legally justifiable. Government entities are effectively insulating themselves from accountability by delegating complex moral choices to uninterpretable computer programs.</p>
+        
+        <p><span class="paragraph-label">C</span> Recognizing this systemic risk, international legal bodies are aggressively moving toward the next regulatory frontier. The European Union has pioneered this global legal response through the implementation of the Artificial Intelligence Act (AI Act). This comprehensive statute categorizes AI applications based on risk tiers, explicitly banning specific automated practices—such as facial recognition systems used for mass public surveillance or social scoring systems by governments—while placing strict, legally enforceable compliance requirements on "high-risk" deployments in public policy and infrastructure.</p>
+        
+        <p><span class="paragraph-label">D</span> Central to these new regulatory frameworks is the enforcement of "Explainable AI" (XAI) mandates and the legal right to human intervention. Under these evolving statutes, public entities are forbidden from deploying algorithmic systems that cannot offer an auditable, human-readable rationale for their determinations. Furthermore, regulations demand a permanent "human-in-the-loop" framework, ensuring that automated systems can only serve as advisory mechanisms, leaving final, binding policy decisions exclusively in the hands of accountable human professionals who can exercise moral discretion.</p>
+        
+        <p><span class="paragraph-label">E</span> Ultimately, the technical evolution of public administration requires a fundamental realization: technology can optimize processes, but it cannot outsource ethical responsibility. The pursuit of absolute efficiency through automation must never override the fundamental demands of human rights, equity, and civic transparency. As society stands on this digital precipice, the preservation of democratic governance depends on our willingness to bind automated systems to the same moral, ethical, and legal standards that we demand of ourselves.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–4: Table Completion</h2>
+        <div class="instruction">Complete the table below based on Passage 1. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+        
+        <div class="table-container">
+          <table class="completion-table">
+            <thead>
+              <tr>
+                <th class="col-framework">System/Concept</th>
+                <th class="col-outcome">Mathematical Calculus & Public Policy Outcome</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="col-framework">Proprietary Software</td>
+                <td>Deploys structures like COMPAS to issue a <strong>1</strong> <input type="text" id="q1" oninput="markAnswer(1)"> that influences sentencing durations.</td>
+              </tr>
+              <tr>
+                <td class="col-framework">Legal Realism</td>
+                <td>Argues human benches suffer from cognitive fatigue and severe <strong>2</strong> <input type="text" id="q2" oninput="markAnswer(2)"> immediately before meals.</td>
+              </tr>
+              <tr>
+                <td class="col-framework">Historical Data Training</td>
+                <td>Interpretation of past over-policing anomalies as <strong>3</strong> <input type="text" id="q3" oninput="markAnswer(3)">, locking structural profiling into law.</td>
+              </tr>
+              <tr>
+                <td class="col-framework">Private Corporations</td>
+                <td>Protect algorithmic source codes as private <strong>4</strong> <input type="text" id="q4" oninput="markAnswer(4)">, triggering a procedural due process crisis.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Questions 5–13: True/False/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the information given in Reading Passage 1? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">COMPAS architecture relies on manual human oversight to calculate numeric defendant metrics. <br><input type="text" id="q5" oninput="markAnswer(5)"></div></div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">Algorithms eliminate judicial variations by computing an unyielding, standardized calculus. <br><input type="text" id="q6" oninput="markAnswer(6)"></div></div>
+        <div class="q-item"><div class="q-num">7</div><div class="q-text">Data models can mistakenly identify footprints of historical bias as objective rules of human behavior. <br><input type="text" id="q7" oninput="markAnswer(7)"></div></div>
+        <div class="q-item"><div class="q-num">8</div><div class="q-text">Judicial platforms are legally mandated to compensate defendants misclassified by automated engines. <br><input type="text" id="q8" oninput="markAnswer(8)"></div></div>
+        <div class="q-item"><div class="q-num">9</div><div class="q-text">Legal counsel can routinely cross-examine corporate optimization metrics in modern criminal courts. <br><input type="text" id="q9" oninput="markAnswer(9)"></div></div>
+        <div class="q-item"><div class="q-num">10</div><div class="q-text">Data acts as an objective, pure reflection of absolute reality independent of human social systems. <br><input type="text" id="q10" oninput="markAnswer(10)"></div></div>
+        <div class="q-item"><div class="q-num">11</div><div class="q-text">Proprietary risk systems are primarily coded by independent nonprofit organizations. <br><input type="text" id="q11" oninput="markAnswer(11)"></div></div>
+        <div class="q-item"><div class="q-num">12</div><div class="q-text">Minority defendants without criminal history are classified as high-risk twice as often as equivalent white counterparts. <br><input type="text" id="q12" oninput="markAnswer(12)"></div></div>
+        <div class="q-item"><div class="q-num">13</div><div class="q-text">Predictive justice software cuts local municipal budget deficits by an average of fifty percent. <br><input type="text" id="q13" oninput="markAnswer(13)"></div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18: Matching Information</h2>
+        <div class="instruction">Reading Passage 2 has four paragraphs, <strong>A–D</strong>. Which paragraph contains the following information? Write the correct letter, <strong>A–D</strong>.</div>
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">A description of a technological screen utilized to distance state apparatuses from marginalized individuals. <input type="text" id="q14" oninput="markAnswer(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">The detailed explanation of an algorithmic calculation flaw based on retrospective income averaging. <input type="text" id="q15" oninput="markAnswer(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">A critique outlining how binary parameters cause the absolute destruction of contextual human nuance. <input type="text" id="q16" oninput="markAnswer(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">The operational process where data-matching tools cross-reference banking logs and tax registries. <input type="text" id="q17" oninput="markAnswer(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">An account of the emotional and psychological trauma triggered by automated infrastructure failure. <input type="text" id="q18" oninput="markAnswer(18)"></div></div>
+
+        <h2>Questions 19–26: Multiple Choice</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        
+        <div class="q-item"><div class="q-num">19</div><div class="q-text">Welfare automated systems use data-matching techniques to cross-reference data for what purpose?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q19" value="A" onchange="markAnswer(19)"> A) To calculate retrospective global wealth distributions.</label>
+            <label class="mcq-label"><input type="radio" name="q19" value="B" onchange="markAnswer(19)"> B) To identify financial discrepancies and eliminate benefits fraud.</label>
+            <label class="mcq-label"><input type="radio" name="q19" value="C" onchange="markAnswer(19)"> C) To train caseworkers in emotional and adaptive intelligence.</label>
+            <label class="mcq-label"><input type="radio" name="q19" value="D" onchange="markAnswer(19)"> D) To completely abolish statutory tax databases.</label>
+          </div>
+        </div></div>
+
+        <div class="q-item"><div class="q-num">20</div><div class="q-text">The Australian Robodebt crisis occurred because the automated engine mistakenly:
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q20" value="A" onchange="markAnswer(20)"> A) Transferred government assets to private banks.</label>
+            <label class="mcq-label"><input type="radio" name="q20" value="B" onchange="markAnswer(20)"> B) Deleted all historical employment data registries.</label>
+            <label class="mcq-label"><input type="radio" name="q20" value="C" onchange="markAnswer(20)"> C) Averaged retrospective earnings to infer unreported income.</label>
+            <label class="mcq-label"><input type="radio" name="q20" value="D" onchange="markAnswer(20)"> D) Allowed human social workers to double social security nets.</label>
+          </div>
+        </div></div>
+
+        <div class="q-item"><div class="q-num">21</div><div class="q-text">According to political scientist Virginia Eubanks, algorithmic welfare networks are used to:
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q21" value="A" onchange="markAnswer(21)"> A) Ration state resources under the technical guise of fiscal optimization.</label>
+            <label class="mcq-label"><input type="radio" name="q21" value="B" onchange="markAnswer(21)"> B) Help vulnerable citizens access legal rights more rapidly.</label>
+            <label class="mcq-label"><input type="radio" name="q21" value="C" onchange="markAnswer(21)"> C) Audit corporate banks for systemic financial corruption.</label>
+            <label class="mcq-label"><input type="radio" name="q21" value="D" onchange="markAnswer(21)"> D) Standardize the recruitment of human caseworkers.</label>
+          </div>
+        </div></div>
+
+        <div class="q-item"><div class="q-num">22</div><div class="q-text">Why are human caseworkers superior to algorithms when evaluating human poverty metrics?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q22" value="A" onchange="markAnswer(22)"> A) They can execute binary coding parameters much faster.</label>
+            <label class="mcq-label"><input type="radio" name="q22" value="B" onchange="markAnswer(22)"> B) They have direct access to corporate trade secrets.</label>
+            <label class="mcq-label"><input type="radio" name="q22" value="C" onchange="markAnswer(22)"> C) They possess the cognitive flexibility and empathy to assess structural situational anomalies.</label>
+            <label class="mcq-label"><input type="radio" name="q22" value="D" onchange="markAnswer(22)"> D) They are structurally isolated from municipal resource allocation constraints.</label>
+          </div>
+        </div></div>
+
+        <div class="q-item"><div class="q-num">23</div><div class="q-text">Welfare automation systems interpret unexpected structural variations as:
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q23" value="A" onchange="markAnswer(23)"> A) Technical system bugs.</label>
+            <label class="mcq-label"><input type="radio" name="q23" value="B" onchange="markAnswer(23)"> B) Intention to overpay taxes.</label>
+            <label class="mcq-label"><input type="radio" name="q23" value="C" onchange="markAnswer(23)"> C) Explicit acts of fraud.</label>
+            <label class="mcq-label"><input type="radio" name="q23" value="D" onchange="markAnswer(23)"> D) Caseworker computing errors.</label>
+          </div>
+        </div></div>
+
+        <div class="q-item"><div class="q-num">24</div><div class="q-text">The Robodebt system sent false debt notices after completely removing who from the loop?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q24" value="A" onchange="markAnswer(24)"> A) Bank tellers.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="B" onchange="markAnswer(24)"> B) Human caseworkers.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="C" onchange="markAnswer(24)"> C) Software engineers.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="D" onchange="markAnswer(24)"> D) Legal investigators.</label>
+          </div>
+        </div></div>
+
+        <div class="q-item"><div class="q-num">25</div><div class="q-text">Digital welfare platforms function as unassailable gatekeepers intended to:
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q25" value="A" onchange="markAnswer(25)"> A) Maximize structural friction to deter benefits claims.</label>
+            <label class="mcq-label"><input type="radio" name="q25" value="B" onchange="markAnswer(25)"> B) Seamlessly deliver social security funds.</label>
+            <label class="mcq-label"><input type="radio" name="q25" value="C" onchange="markAnswer(25)"> C) Identify and penalize over-policed neighborhoods.</label>
+            <label class="mcq-label"><input type="radio" name="q25" value="D" onchange="markAnswer(25)"> D) Distribute fiscal wealth to rural postcodes.</label>
+          </div>
+        </div></div>
+
+        <div class="q-item"><div class="q-num">26</div><div class="q-text">Virginia Eubanks' work analyzes automated state platforms using what conceptual label?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q26" value="A" onchange="markAnswer(26)"> A) Predictive Justice Equations.</label>
+            <label class="mcq-label"><input type="radio" name="q26" value="B" onchange="markAnswer(26)"> B) Automating Inequality Framework.</label>
+            <label class="mcq-label"><input type="radio" name="q26" value="C" onchange="markAnswer(26)"> C) Black Box Governance Paradigms.</label>
+            <label class="mcq-label"><input type="radio" name="q26" value="D" onchange="markAnswer(26)"> D) Non-Compliance Tax Curation.</label>
+          </div>
+        </div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31: Matching Headings</h2>
+        <div class="instruction">Reading Passage 3 has five paragraphs, <strong>A–E</strong>. Choose the correct heading for each paragraph from the list below.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The international statutory strategy and structural risk tiers</div>
+          <div class="box-item"><strong>ii</strong> Explaining structural weights within automated tax registries</div>
+          <div class="box-item"><strong>iii</strong> The unaccountable computational labyrinth of neural networks</div>
+          <div class="box-item"><strong>iv</strong> Imposing explainability mandates and human-in-the-loop oversight</div>
+          <div class="box-item"><strong>v</strong> Realizing ethical responsibility cannot be outsourced to code</div>
+          <div class="box-item"><strong>vi</strong> How accountability voids conflict with administrative principles</div>
+        </div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">Paragraph A <input type="text" id="q27" oninput="markAnswer(27)"></div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">Paragraph B <input type="text" id="q28" oninput="markAnswer(28)"></div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">Paragraph C <input type="text" id="q29" oninput="markAnswer(29)"></div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">Paragraph D <input type="text" id="q30" oninput="markAnswer(30)"></div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">Paragraph E <input type="text" id="q31" oninput="markAnswer(31)"></div></div>
+
+        <h2>Questions 32–36: Sentence Completion</h2>
+        <div class="instruction">Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-num">32</div><div class="q-text">Unlike deep neural models, early computing algorithms operated via clear, trace-friendly <strong>32</strong> <input type="text" id="q32" oninput="markAnswer(32)">.</div></div>
+        <div class="q-item"><div class="q-num">33</div><div class="q-text">Deep neural systems reach outcomes by shifting millions of internal <strong>33</strong> <input type="text" id="q33" oninput="markAnswer(33)">.</div></div>
+        <div class="q-item"><div class="q-num">34</div><div class="q-text">State institutions violate foundational tenets of <strong>34</strong> <input type="text" id="q34" oninput="markAnswer(34)"> when deploying uninterpretable platforms.</div></div>
+        <div class="q-item"><div class="q-num">35</div><div class="q-text">The European Union enforces data compliance tiers across public systems using the <strong>35</strong> <input type="text" id="q35" oninput="markAnswer(35)">.</div></div>
+        <div class="q-item"><div class="q-num">36</div><div class="q-text">Evolving modern statutes ensure final moral determinations remain human by enforcing a <strong>36</strong> <input type="text" id="q36" oninput="markAnswer(36)"> design.</div></div>
+
+        <h2>Questions 37–40: Yes/No/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the claims of the writer in Reading Passage 3? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">Deep neural pathways are far too complex for human engineers to comprehensively map or interpret. <br><input type="text" id="q37" oninput="markAnswer(37)"></div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">The AI Act totally permits the deployment of governmental public social scoring systems without exception. <br><input type="text" id="q38" oninput="markAnswer(38)"></div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">Explainable AI mandates prohibit public bodies from utilizing systems lacking clear auditable rationales. <br><input type="text" id="q39" oninput="markAnswer(39)"></div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">The majority of global software developers have actively lobbied against XAI transparency standards. <br><input type="text" id="q40" oninput="markAnswer(40)"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers"></div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest()">Submit Assessment</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // P1: Shuffled types (1-13)
+      q1: 'recidivism score', q2: 'implicit biases', q3: 'statistical truths', q4: 'trade secrets',
+      q5: 'false', q6: 'true', q7: 'true', q8: 'not given', q9: 'false', q10: 'false', q11: 'false', q12: 'true', q13: 'not given',
+      
+      // P2: Shuffled types (14-26)
+      q14: 'c', q15: 'b', q16: 'd', q17: 'a', q18: 'b',
+      q19: 'b', q20: 'c', q21: 'a', q22: 'c', q23: 'c', q24: 'b', q25: 'a', q26: 'b',
+      
+      // P3: Shuffled types (27-40)
+      q27: 'iii', q28: 'vi', q29: 'i', q30: 'iv', q31: 'v',
+      q32: 'logic loops', q33: 'weight parameters', q34: 'administrative law', q35: 'ai act', q36: 'human-in-the-loop',
+      q37: 'yes', q38: 'no', q39: 'yes', q40: 'not given'
+    };
+
+    function initBottomNav() {
+      const container = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn'; btn.id = 'nb-'+i; btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        container.appendChild(btn);
+      }
+    }
+
+    function markAnswer(n) { 
+      const input = document.getElementById('q' + n);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${n}"]:checked`);
+      const btn = document.getElementById('nb-'+n);
+      if(isAnswered) {
+          btn.classList.add('answered');
+      } else {
+          btn.classList.remove('answered');
+      }
+    }
+
+    function scrollToQuestion(n) {
+      let tab = 1;
+      if(n >= 14 && n <= 26) tab = 2;
+      if(n >= 27 && n <= 40) tab = 3;
+      switchSection(tab);
+      
+      setTimeout(() => {
+        let qEl = document.getElementById('q'+n);
+        if(!qEl) {
+          const radio = document.querySelector(`input[name="q${n}"]`);
+          if(radio) qEl = radio.closest('.q-item');
+        } else {
+          if(qEl.closest('td')) {
+             qEl = qEl.closest('td');
+          } else {
+             qEl = qEl.closest('.q-item'); 
+          }
+        }
+
+        if(qEl) {
+          document.getElementById('right-panel').scrollTo({ top: qEl.offsetTop - 50, behavior: 'smooth' });
+          qEl.style.transition = 'background 0.2s';
+          qEl.style.background = '#FFE6E6'; 
+          setTimeout(() => {
+              if(qEl.tagName === 'TD') {
+                  qEl.style.background = '#FFFFFF';
+              } else {
+                  qEl.style.background = 'transparent';
+              }
+          }, 1200);
+        }
+      }, 50);
+    }
+
+    function switchSection(n) {
+      document.querySelectorAll('.tab-btn, .section-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-'+n).classList.add('active');
+      document.getElementById('passage-'+n).classList.add('active');
+      document.getElementById('questions-'+n).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    let timerInterval;
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex';
+      initBottomNav();
+      let s = 3600;
+      timerInterval = setInterval(() => {
+        s--;
+        const timerEl = document.getElementById('timer');
+        timerEl.textContent = `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
+        if(s <= 300) timerEl.classList.add('warning');
+        if(s <= 0) submitTest(true);
+      }, 1000);
+    }
+
+    function submitTest(auto = false) {
+      if(!auto && !confirm("Conclude evaluation and freeze entries?")) return;
+      clearInterval(timerInterval);
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q'+i;
+        const input = document.getElementById(qId);
+        const ans = answerKey[qId];
+        
+        if(input) {
+          const userAns = input.value.trim().toLowerCase();
+          
+          if(userAns === ans || (ans.includes(userAns) && userAns.length > 4 && !['true','false','yes','no'].includes(ans))) {
+            score++; input.classList.add('correct-answer');
+          } else if (userAns === 'artificial intelligence act' && ans === 'ai act') {
+            score++; input.classList.add('correct-answer');
+          } else {
+            input.classList.add('wrong-answer');
+            input.value = userAns ? `${userAns} ❌ [${ans.toUpperCase()}]` : `❌ [${ans.toUpperCase()}]`;
+            
+            if(input.closest('td')) {
+              input.style.width = "215px";
+            } else {
+              input.style.width = "290px";
+            }
+          }
+          input.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if(selected && selected.value.toLowerCase() === ans) {
+            score++; selected.parentElement.classList.add('correct-answer');
+          } else {
+            if(selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${ans.toUpperCase()}"]`);
+            if(correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+      
+      document.getElementById('final-score').textContent = `${score} / 40`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('dormant-overlay').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

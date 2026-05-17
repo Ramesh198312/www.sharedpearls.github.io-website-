@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 10: Sustainable Ecotourism | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- PREMIUM CRIMSON & GOLD PALETTE (Module 02 Style) --- */
+    :root {
+      --primary-dark: #4A0404;    /* Deepest Burgundy */
+      --primary-main: #8E1628;    /* Crimson Red */
+      --accent-gold: #D4AF37;     /* Academic Gold */
+      --text-main: #2C3E50;       
+      --text-muted: #7F8C8D;
+      --bg-page: #FDFBF7;         
+      --bg-panel: #FFFFFF;
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+
+    /* --- HEADER --- */
+    header { 
+      background: var(--primary-main); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--accent-gold); 
+      flex-shrink: 0; z-index: 10; box-shadow: 0 4px 12px rgba(142, 22, 40, 0.2);
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; color: #FFF; }
+    .brand span { color: var(--accent-gold); font-style: italic; font-weight: 400; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #E8B4B8; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(255, 255, 255, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--accent-gold); background: rgba(255, 255, 255, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--primary-dark); background: #e0e0ea; padding: 0.4rem 1.2rem; border-radius: 4px; }
+
+    /* --- WORKSPACE --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+
+    /* --- LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: green;
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #FFF;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; margin-bottom: 1rem; font-family: var(--font-passage); color: var(--accent-gold); max-width: 900px;}
+    .pre-test-overlay p { font-size: 1.15rem; max-width: 750px; line-height: 1.8; margin-bottom: 2.5rem; color: #FADBD8; }
+    .btn-start-large {
+      background: var(--accent-gold); color: var(--primary-dark); padding: 1.2rem 4rem; font-size: 1.1rem; font-weight: 700;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+    }
+    .btn-start-large:hover { background: #FFF; transform: scale(1.05); }
+
+    /* --- TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 1.8rem; margin-bottom: 2rem; color: var(--primary-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 0.95rem; color: var(--text-main); text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; margin-right: 12px; color: var(--primary-main); float: left; }
+
+    .right-panel h2 { font-size: 1.1rem; margin: 2rem 0 1rem; color: var(--primary-dark); border-bottom: 2px solid var(--accent-gold); padding-bottom: 5px; font-weight: 700; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.85rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--primary-main); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; }
+    
+    input[type="text"] { border: none; border-bottom: 2px solid #BDC3C7; background: transparent; font-size: 0.95rem; width: 160px; font-weight: 600; color: var(--primary-main); text-align: center; outline: none; transition: border-color 0.3s;}
+    input[type="text"]:focus { border-bottom-color: var(--primary-dark); }
+    input:disabled { color: var(--primary-dark); background: transparent; }
+
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.2rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.9rem; font-weight: 500; color: var(--text-main); }
+    .box-item strong { font-family: var(--font-mono); color: var(--primary-main); margin-right: 5px;}
+    
+    /* --- BOTTOM NAV --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; align-items: center; justify-content: space-between; padding: 0 3rem;
+      position: relative; z-index: 100;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 26px; height: 26px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main); font-weight: 600;
+    }
+    .nav-btn.answered { background: var(--primary-main); color: #FFF; border-color: var(--primary-main); }
+
+    .btn-submit-small { background: green; color: #FFF; border: none; padding: 0.6rem 2rem; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
+    .btn-submit-small:hover { background: var(--primary-dark); }
+
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      z-index: 200; text-align: center; border-top: 5px solid var(--primary-main); min-width: 450px;
+    }
+    .correct-answer { color: #27AE60 !important; font-weight: 700; border-bottom-color: #27AE60 !important; }
+    .wrong-answer { color: #E74C3C !important; border-bottom-color: #E74C3C !important; }
+    
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls</span> of Wisdom | Academic Reading</div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2 style="color: var(--primary-dark);">Evaluation Complete</h2>
+    <div style="font-size: 3.5rem; font-weight: 800; margin: 1rem 0; font-family: var(--font-mono); color: var(--primary-main);" id="final-score">0 / 40</div>
+    <p style="margin-bottom: 1.5rem; color: var(--text-main);">The interface is now locked. Click below to review your answers.</p>
+    <button class="btn-submit-small" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <h2>Sustainable Ecotourism vs. Mass Commercialization in the 21st Century</h2>
+      <p>This reading module rigorously tests C1/C2 academic comprehension, evaluating the paradox of green travel, carrying capacities, and the phenomenon of 'greenwashing'.</p>
+      <button class="btn-start-large" onclick="startTest()">Enter 60-Minute Assessment</button>
+    </div>
+
+    <div class="dormant-overlay" id="dormant-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.3); z-index:50; pointer-events:none;"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Evolution and Dilution of Ecotourism</h1>
+        
+        <p><span class="paragraph-label">A</span> The conceptual framework of ecotourism emerged in the late 1980s as a direct ideological countermeasure to the destructive forces of mass commercial tourism. Architect Hector Ceballos-Lascuráin initially defined it as "traveling to relatively undisturbed or uncontaminated natural areas with the specific objective of studying, admiring, and enjoying the scenery." The foundational premise was elegantly simple: utilize the financial capital generated by international travelers to directly fund the conservation of fragile ecosystems, whilst simultaneously providing socio-economic upliftment to local indigenous populations. Ecotourism was designed to be a symbiotic relationship, replacing the extractive nature of traditional resort holidays.</p>
+        
+        <p><span class="paragraph-label">B</span> By the early 2000s, this niche sector had exploded into a multi-billion-dollar global industry. Recognizing the lucrative potential of environmentally conscious consumers, the broader travel industry rapidly adopted the lexicon of sustainability. The prefix 'eco' was appended to everything from monolithic cruise ships to massive concrete hotel developments. This widespread semantic dilution gave rise to the phenomenon known as "greenwashing"—the practice wherein a corporation spends significantly more capital on marketing themselves as environmentally friendly than on actually implementing sustainable practices.</p>
+        
+        <p><span class="paragraph-label">C</span> The core operational challenge of genuine ecotourism is distinguishing between 'nature-based tourism' and true 'ecotourism.' Many operators conflate the two. A company offering off-road jeep safaris through a protected rainforest is certainly providing nature-based tourism; however, if the vehicles destroy the undergrowth, pollute the local watershed, and the profits are entirely repatriated to a foreign multinational holding company, it explicitly violates the core tenets of ecotourism. True ecotourism demands a minimal environmental footprint and mandates that a significant portion of the financial yield is retained by the host community.</p>
+        
+        <p><span class="paragraph-label">D</span> To combat the proliferation of greenwashing, several international bodies attempted to introduce rigorous certification programs. The Global Sustainable Tourism Council (GSTC) established complex criteria evaluating everything from a lodge's wastewater management systems to its fair-trade employment contracts. However, the efficacy of these certifications remains highly contested. The bureaucratic burden and sheer financial cost of obtaining official eco-certification often exclude the small, authentically sustainable indigenous operators, while massive commercial resorts can afford the auditing fees required to secure the prestigious labels.</p>
+        
+        <p><span class="paragraph-label">E</span> Ultimately, the evolution of ecotourism highlights a profound market paradox. The very desire to experience and protect "untouched" wilderness inherently accelerates its exposure to human interference. As the demand for authentic, remote experiences continues to surge, the industry faces an existential crisis: how to scale a business model that is fundamentally predicated on the preservation of isolation.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>The Economic and Environmental Paradox of 'Green' Travel</h1>
+        
+        <p><span class="paragraph-label">A</span> The paradox of green travel is perhaps most visibly illustrated by examining the concept of "Carrying Capacity." Ecologist Dr. Fiona Halton defines carrying capacity as the maximum number of individuals a given ecosystem can support without experiencing irreversible environmental degradation. When a pristine destination is successfully marketed as a premier ecotourism hotspot, it almost inevitably attracts visitor numbers that shatter its natural carrying capacity. This results in severe infrastructural strain, habitat fragmentation, and the disruption of local wildlife breeding patterns.</p>
+        
+        <p><span class="paragraph-label">B</span> The Galápagos Islands serve as the archetypal warning for unmitigated ecotourism expansion. Originally celebrated as the ultimate triumph of conservation-funded travel, the archipelago experienced a 300% increase in tourist arrivals between 1990 and 2015. Sociologist Dr. Julian Perez notes that this influx forced a radical shift in the local economy. Fishermen and farmers abandoned traditional, sustainable agriculture to build cheap hostels and operate uncertified tour boats. Consequently, the islands became heavily reliant on imported food and diesel fuel from the mainland, exponentially increasing the carbon footprint of a destination famous for its environmental purity.</p>
+        
+        <p><span class="paragraph-label">C</span> Furthermore, the hyper-focus on "flagship species" frequently skews conservation priorities. Tourists overwhelmingly pay to see charismatic megafauna—such as pandas, tigers, or sea turtles. Conservation biologist Dr. Aris Thorne argues that this creates a "popularity contest" in ecology. Funds generated by ecotourism are disproportionately allocated to protecting these highly visible species, while critical but visually unappealing organisms—such as specific fungi, insects, or deep-sea algae that form the actual foundation of the ecosystem—are entirely ignored and left vulnerable to extinction.</p>
+        
+        <p><span class="paragraph-label">D</span> The economic narrative surrounding ecotourism also requires intense scrutiny. While the theoretical model promises local economic empowerment, the reality is frequently "economic leakage." Economist Sarah Lin demonstrated that in many developing nations, up to 80% of the money spent by eco-tourists leaks out of the host country. International airlines, foreign-owned eco-lodges, and Western tour operators capture the overwhelming majority of the profits. The local communities, whose ancestral lands are utilized for the tourism, are often relegated to low-paying, seasonal service jobs (e.g., maids, drivers) with little upward mobility.</p>
+        
+        <p><span class="paragraph-label">E</span> To rectify this, progressive operators are pushing for the implementation of "Community-Based Tourism" (CBT). In a true CBT model, the indigenous community retains absolute ownership of the land and the tourism infrastructure. The community council dictates the visitor quotas, manages the revenue distribution, and ensures that cultural traditions are not commodified into mere spectacles for foreign entertainment. While CBT represents a more ethical framework, it struggles to compete with the massive marketing budgets of commercial pseudo-ecotourism giants.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>Regenerative Tourism and Policy Interventions</h1>
+        
+        <p><span class="paragraph-label">A</span> As the detrimental impacts of mass commercialization become undeniable, academic discourse is shifting away from "sustainable tourism" toward a new, more demanding paradigm: "Regenerative Tourism." Sustainability, by its strict definition, implies maintaining the status quo—leaving a destination exactly as it was found. However, given the severe anthropogenic damage already inflicted upon global ecosystems by decades of mass travel and climate change, environmental theorists argue that simply 'doing no harm' is no longer sufficient. Regenerative tourism actively demands that the act of traveling leaves the destination ecologically and socially healthier than before the visitor arrived.</p>
+        
+        <p><span class="paragraph-label">B</span> This paradigm shift requires moving beyond voluntary corporate responsibility into the realm of strict governmental policy interventions. One of the most effective, albeit highly controversial, interventions is the implementation of "High-Value, Low-Volume" (HVLV) tourism caps. The Kingdom of Bhutan famously pioneered this model. Rather than attempting to attract millions of backpackers, Bhutan imposed a mandatory "Sustainable Development Fee" (SDF) on all international tourists, charging a high daily tariff just to enter the country. This tariff acts as a definitive filter, drastically reducing the sheer volume of foot traffic while ensuring the government receives massive capital injections to fund free healthcare, education, and reforestation projects.</p>
+        
+        <p><span class="paragraph-label">C</span> Critics of the HVLV model argue that it inherently transforms global travel into an elitist pursuit, restricting the educational and cultural benefits of nature exploration exclusively to the ultra-wealthy. They argue that nature should be a global commons, not a luxury commodity. Proponents, however, counter that the "democratization of travel" fueled by cheap, budget airlines is the exact mechanism responsible for destroying global ecosystems. They assert that the true cost of travel—including its carbon emissions and infrastructural strain—must be accurately reflected in its price tag.</p>
+        
+        <p><span class="paragraph-label">D</span> Technological innovation is also playing a crucial role in enforcing regenerative practices. Advances in satellite imaging and AI-driven data analytics allow environmental agencies to monitor the micro-degradation of coral reefs or forest canopies in real-time. If a specific diving site shows algorithmic signs of coral bleaching due to sunscreen toxicity or diver contact, the local government can instantly trigger a "dynamic closure," temporarily banning all tourism to that specific GPS coordinate until the ecosystem has demonstrably recovered.</p>
+        
+        <p><span class="paragraph-label">E</span> Furthermore, the aviation industry, recognizing its massive contribution to global greenhouse gas emissions, is facing intense regulatory pressure to decarbonize. While "carbon offsetting" (where tourists pay an extra fee to plant trees) was popular in the 2010s, it is increasingly viewed by scientists as a flawed, compensatory mechanism that does not address the root problem of atmospheric carbon injection. The future of long-haul ecotourism relies heavily on the accelerated development of Sustainable Aviation Fuel (SAF) and, eventually, hydrogen-electric propulsion systems.</p>
+        
+        <p><span class="paragraph-label">F</span> In conclusion, the 21st century marks the end of the naive assumption that ecotourism is an inherently benign activity. The transition from mass commercialization to true regenerative tourism requires a painful dismantling of the current travel economy. It demands that tourists accept higher costs and severe restrictions on their freedom of movement. It requires governments to prioritize long-term ecological survival over short-term GDP spikes. Ultimately, the survival of the world's most pristine environments depends not on our desire to visit them, but on our discipline to stay away when necessary.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–6: Matching Headings</h2>
+        <div class="instruction">Reading Passage 1 has five paragraphs, <strong>A–E</strong>. Choose the correct heading for each paragraph from the list below.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The difference between nature-based travel and true ecotourism</div>
+          <div class="box-item"><strong>ii</strong> The high cost of marketing vs actual conservation</div>
+          <div class="box-item"><strong>iii</strong> The foundational ideals of early eco-travel</div>
+          <div class="box-item"><strong>iv</strong> The inherent paradox of scaling isolated wilderness experiences</div>
+          <div class="box-item"><strong>v</strong> How mass tourism successfully rebuilt global economies</div>
+          <div class="box-item"><strong>vi</strong> The widespread adoption of 'greenwashing' by corporations</div>
+          <div class="box-item"><strong>vii</strong> The flaws and financial biases of official eco-certifications</div>
+        </div>
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph A <input type="text" id="q1" oninput="markAnswer(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph B <input type="text" id="q2" oninput="markAnswer(2)"></div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph C <input type="text" id="q3" oninput="markAnswer(3)"></div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph D <input type="text" id="q4" oninput="markAnswer(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph E <input type="text" id="q5" oninput="markAnswer(5)"></div></div>
+
+        <h2>Questions 6–9: True/False/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the information in Passage 1? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">Hector Ceballos-Lascuráin believed ecotourism should primarily benefit foreign holding companies. <br><input type="text" id="q6" oninput="markAnswer(6)"></div></div>
+        <div class="q-item"><div class="q-num">7</div><div class="q-text">Greenwashing occurs when marketing budgets exceed the money spent on actual sustainable practices. <br><input type="text" id="q7" oninput="markAnswer(7)"></div></div>
+        <div class="q-item"><div class="q-num">8</div><div class="q-text">Small, indigenous operators frequently refuse eco-certifications because they disagree with the rules. <br><input type="text" id="q8" oninput="markAnswer(8)"></div></div>
+        <div class="q-item"><div class="q-num">9</div><div class="q-text">A core mandate of true ecotourism is that host communities retain a significant portion of financial profits. <br><input type="text" id="q9" oninput="markAnswer(9)"></div></div>
+
+        <h2>Questions 10–13: Sentence Completion</h2>
+        <div class="instruction">Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-num">10</div><div class="q-text">Ecotourism was originally designed as an ideological countermeasure to traditional, destructive <strong>10</strong> <input type="text" id="q10" oninput="markAnswer(10)">.</div></div>
+        <div class="q-item"><div class="q-num">11</div><div class="q-text">The travel industry caused semantic dilution by appending the word 'eco' to massive concrete <strong>11</strong> <input type="text" id="q11" oninput="markAnswer(11)">.</div></div>
+        <div class="q-item"><div class="q-num">12</div><div class="q-text">Off-road jeep safaris that destroy the undergrowth are examples of mere <strong>12</strong> <input type="text" id="q12" oninput="markAnswer(12)"> rather than ecotourism.</div></div>
+        <div class="q-item"><div class="q-num">13</div><div class="q-text">Because eco-certification is expensive, it often excludes authentic <strong>13</strong> <input type="text" id="q13" oninput="markAnswer(13)">.</div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18: Matching Features</h2>
+        <div class="instruction">Match each statement (14-18) with the correct researcher below. Write <strong>A, B, C, or D</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Dr. Fiona Halton</div>
+          <div class="box-item"><strong>B</strong> Dr. Julian Perez</div>
+          <div class="box-item"><strong>C</strong> Dr. Aris Thorne</div>
+          <div class="box-item"><strong>D</strong> Sarah Lin</div>
+        </div>
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">Observed that a massive influx of tourists caused locals to abandon traditional agriculture. <input type="text" id="q14" oninput="markAnswer(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">Argues that focusing on charismatic megafauna leaves critical base organisms vulnerable to extinction. <input type="text" id="q15" oninput="markAnswer(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">Defines the maximum environmental limit an ecosystem can support without degradation. <input type="text" id="q16" oninput="markAnswer(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">Demonstrated that the majority of tourist spending leaves the host country. <input type="text" id="q17" oninput="markAnswer(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">Highlighting that relying on imported food increases a destination's carbon footprint. <input type="text" id="q18" oninput="markAnswer(18)"></div></div>
+
+        <h2>Questions 19–22: Summary Completion</h2>
+        <div class="instruction">Complete the summary below using <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-text">
+          A major issue in green travel is <strong>19</strong> <input type="text" id="q19" oninput="markAnswer(19)">, where up to 80% of tourist money is absorbed by foreign airlines and tour operators. Local indigenous people are usually left with seasonal, low-paying service jobs. To counter this, Community-Based Tourism (CBT) is promoted. In CBT, the local community maintains ownership of the land and dictates <strong>20</strong> <input type="text" id="q20" oninput="markAnswer(20)"> to prevent overcrowding. They also ensure their cultural traditions do not become mere <strong>21</strong> <input type="text" id="q21" oninput="markAnswer(21)"> for visitors. Unfortunately, CBT struggles to compete against the massive budgets of <strong>22</strong> <input type="text" id="q22" oninput="markAnswer(22)"> giants.
+        </div></div>
+
+        <h2>Questions 23–26: Yes/No/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">23</div><div class="q-text">A location's carrying capacity can easily be expanded by building more eco-lodges. <br><input type="text" id="q23" oninput="markAnswer(23)"></div></div>
+        <div class="q-item"><div class="q-num">24</div><div class="q-text">The Galápagos Islands saw a decrease in imported diesel fuel between 1990 and 2015. <br><input type="text" id="q24" oninput="markAnswer(24)"></div></div>
+        <div class="q-item"><div class="q-num">25</div><div class="q-text">Conservation funds are often unfairly distributed based on the visual appeal of an animal. <br><input type="text" id="q25" oninput="markAnswer(25)"></div></div>
+        <div class="q-item"><div class="q-num">26</div><div class="q-text">Community-Based Tourism guarantees higher profit margins than traditional commercial tourism. <br><input type="text" id="q26" oninput="markAnswer(26)"></div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31: Matching Information</h2>
+        <div class="instruction">Reading Passage 3 has six paragraphs, <strong>A–F</strong>. Which paragraph contains the following information? Write <strong>A–F</strong>.</div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">A description of a policy that purposefully restricts tourist numbers to generate high national revenue. <input type="text" id="q27" oninput="markAnswer(27)"></div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">The argument that budget airlines are primarily responsible for destroying global ecosystems. <input type="text" id="q28" oninput="markAnswer(28)"></div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">The definition of a paradigm that demands a location is left healthier than before. <input type="text" id="q29" oninput="markAnswer(29)"></div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">The use of AI and satellites to implement temporary bans on specific geographical coordinates. <input type="text" id="q30" oninput="markAnswer(30)"></div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">The conclusion that preserving nature relies on our discipline to avoid visiting it. <input type="text" id="q31" oninput="markAnswer(31)"></div></div>
+
+        <h2>Questions 32–36: Multiple Choice</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">32</div><div class="q-text">Why do environmental theorists believe "sustainability" is no longer sufficient?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q32" value="A" onchange="markAnswer(32)"> A) Because it is too expensive to implement.</label>
+            <label class="mcq-label"><input type="radio" name="q32" value="B" onchange="markAnswer(32)"> B) Because anthropogenic damage has already ruined many ecosystems, so maintaining the status quo is inadequate.</label>
+            <label class="mcq-label"><input type="radio" name="q32" value="C" onchange="markAnswer(32)"> C) Because tourists prefer to stay in luxury hotels.</label>
+            <label class="mcq-label"><input type="radio" name="q32" value="D" onchange="markAnswer(32)"> D) Because the word has been copyrighted by massive corporations.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">33</div><div class="q-text">What is a primary criticism of the High-Value, Low-Volume (HVLV) model?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q33" value="A" onchange="markAnswer(33)"> A) It completely destroys local healthcare systems.</label>
+            <label class="mcq-label"><input type="radio" name="q33" value="B" onchange="markAnswer(33)"> B) It creates too much carbon emission.</label>
+            <label class="mcq-label"><input type="radio" name="q33" value="C" onchange="markAnswer(33)"> C) It turns nature exploration into an elitist pursuit only the ultra-wealthy can afford.</label>
+            <label class="mcq-label"><input type="radio" name="q33" value="D" onchange="markAnswer(33)"> D) It forces tourists to plant trees manually.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">34</div><div class="q-text">How does 'dynamic closure' protect coral reefs?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q34" value="A" onchange="markAnswer(34)"> A) By permanently banning all humans from the ocean.</label>
+            <label class="mcq-label"><input type="radio" name="q34" value="B" onchange="markAnswer(34)"> B) By using algorithmic signs of bleaching to temporarily ban tourism until the reef recovers.</label>
+            <label class="mcq-label"><input type="radio" name="q34" value="C" onchange="markAnswer(34)"> C) By lowering the price of diving tours.</label>
+            <label class="mcq-label"><input type="radio" name="q34" value="D" onchange="markAnswer(34)"> D) By feeding the coral with synthetic nutrients.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">35</div><div class="q-text">Why is carbon offsetting now viewed as flawed by many scientists?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q35" value="A" onchange="markAnswer(35)"> A) It does not address the root problem of atmospheric carbon injection.</label>
+            <label class="mcq-label"><input type="radio" name="q35" value="B" onchange="markAnswer(35)"> B) It is too difficult to collect the fees from tourists.</label>
+            <label class="mcq-label"><input type="radio" name="q35" value="C" onchange="markAnswer(35)"> C) Trees release toxic gases when planted.</label>
+            <label class="mcq-label"><input type="radio" name="q35" value="D" onchange="markAnswer(35)"> D) Airlines refuse to participate in the programs.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">36</div><div class="q-text">The transition to true regenerative tourism will require:
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q36" value="A" onchange="markAnswer(36)"> A) Expanding budget airlines to remote locations.</label>
+            <label class="mcq-label"><input type="radio" name="q36" value="B" onchange="markAnswer(36)"> B) A painful dismantling of the current travel economy and higher costs for tourists.</label>
+            <label class="mcq-label"><input type="radio" name="q36" value="C" onchange="markAnswer(36)"> C) Replacing all national parks with virtual reality simulators.</label>
+            <label class="mcq-label"><input type="radio" name="q36" value="D" onchange="markAnswer(36)"> D) Ignoring global ecosystems to focus on short-term GDP spikes.</label>
+          </div>
+        </div></div>
+
+        <h2>Questions 37–40: Matching Sentence Endings</h2>
+        <div class="instruction">Complete each sentence with the correct ending, <strong>A–F</strong>, below. Write the correct letter in the box.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> heavily restricts foot traffic while funding free healthcare.</div>
+          <div class="box-item"><strong>B</strong> is an elitist policy that harms indigenous peoples.</div>
+          <div class="box-item"><strong>C</strong> leaves the destination ecologically healthier than before.</div>
+          <div class="box-item"><strong>D</strong> accurately reflects the environmental cost of carbon emissions.</div>
+          <div class="box-item"><strong>E</strong> monitors the micro-degradation of forest canopies in real time.</div>
+          <div class="box-item"><strong>F</strong> addresses the root problem of atmospheric carbon injection.</div>
+        </div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">Unlike basic sustainability, Regenerative Tourism <input type="text" id="q37" oninput="markAnswer(37)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">Bhutan's mandatory Sustainable Development Fee <input type="text" id="q38" oninput="markAnswer(38)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">Proponents of high tariffs argue that the true price tag of travel <input type="text" id="q39" oninput="markAnswer(39)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">The combination of AI and satellite imaging <input type="text" id="q40" oninput="markAnswer(40)" style="width:60px;"></div></div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers"></div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest()">Submit Assessment</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // P1: Headings (1-5)
+      q1: 'iii', q2: 'vi', q3: 'i', q4: 'vii', q5: 'iv', 
+      // P1: T/F/NG (6-9)
+      q6: 'false', q7: 'true', q8: 'not given', q9: 'true',
+      // P1: Sentence Completion (10-13)
+      q10: 'mass commercialization', q11: 'hotel developments', q12: 'nature-based tourism', q13: 'indigenous operators',
+      
+      // P2: Matching Features (14-18)
+      q14: 'b', q15: 'c', q16: 'a', q17: 'd', q18: 'b',
+      // P2: Summary Completion (19-22)
+      q19: 'economic leakage', q20: 'visitor quotas', q21: 'spectacles', q22: 'pseudo-ecotourism',
+      // P2: Y/N/NG (23-26)
+      q23: 'no', q24: 'no', q25: 'yes', q26: 'not given',
+      
+      // P3: Matching Info (27-31)
+      q27: 'b', q28: 'c', q29: 'a', q30: 'd', q31: 'f',
+      // P3: MCQ (32-36)
+      q32: 'b', q33: 'c', q34: 'b', q35: 'a', q36: 'b',
+      // P3: Sentence Endings (37-40)
+      q37: 'c', q38: 'a', q39: 'd', q40: 'e'
+    };
+
+    function initBottomNav() {
+      const container = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn'; btn.id = 'nb-'+i; btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        container.appendChild(btn);
+      }
+    }
+
+    function markAnswer(n) { 
+      const input = document.getElementById('q' + n);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${n}"]:checked`);
+      const btn = document.getElementById('nb-'+n);
+      if(isAnswered) {
+          btn.classList.add('answered');
+      } else {
+          btn.classList.remove('answered');
+      }
+    }
+
+    function scrollToQuestion(n) {
+      let tab = 1;
+      if(n >= 14 && n <= 26) tab = 2;
+      if(n >= 27 && n <= 40) tab = 3;
+      switchSection(tab);
+      
+      setTimeout(() => {
+        let qEl = document.getElementById('q'+n);
+        if(!qEl) {
+          const radio = document.querySelector(`input[name="q${n}"]`);
+          if(radio) qEl = radio.closest('.q-item');
+        } else {
+          qEl = qEl.closest('.q-item'); 
+        }
+
+        if(qEl) {
+          document.getElementById('right-panel').scrollTo({ top: qEl.offsetTop - 50, behavior: 'smooth' });
+          qEl.style.transition = 'background 0.3s';
+          qEl.style.background = '#FADBD8';
+          setTimeout(() => qEl.style.background = 'transparent', 1200);
+        }
+      }, 50);
+    }
+
+    function switchSection(n) {
+      document.querySelectorAll('.tab-btn, .section-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-'+n).classList.add('active');
+      document.getElementById('passage-'+n).classList.add('active');
+      document.getElementById('questions-'+n).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    let timerInterval;
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex';
+      initBottomNav();
+      let s = 3600;
+      timerInterval = setInterval(() => {
+        s--;
+        document.getElementById('timer').textContent = `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
+        if(s <= 0) submitTest(true);
+      }, 1000);
+    }
+
+    function submitTest(auto = false) {
+      if(!auto && !confirm("Submit final assessment?")) return;
+      clearInterval(timerInterval);
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q'+i;
+        const input = document.getElementById(qId);
+        const ans = answerKey[qId];
+        
+        if(input) {
+          const userAns = input.value.trim().toLowerCase();
+          // Relaxed string matching
+          if(userAns === ans || (ans.includes(userAns) && userAns.length > 3 && userAns !== 'true' && userAns !== 'false' && userAns !== 'yes' && userAns !== 'no')) {
+            score++; input.classList.add('correct-answer');
+          } else {
+            input.classList.add('wrong-answer');
+            input.value = userAns ? `${userAns} ❌ [${ans.toUpperCase()}]` : `❌ [${ans.toUpperCase()}]`;
+            input.style.width = "280px";
+          }
+          input.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if(selected && selected.value.toLowerCase() === ans) {
+            score++; selected.parentElement.classList.add('correct-answer');
+          } else {
+            if(selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${ans.toUpperCase()}"]`);
+            if(correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+      
+      document.getElementById('final-score').textContent = `${score} / 40`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('dormant-overlay').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

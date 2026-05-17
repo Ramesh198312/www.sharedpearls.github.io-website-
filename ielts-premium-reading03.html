@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 03: Philosophies of Financial Freedom | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- ACADEMIC EDITORIAL PALETTE --- */
+    :root {
+      --navy-dark: #0B162C;
+      --navy-main: #1A2C4D;
+      --cerulean: #007EA7;
+      --champagne: #D4AF37;
+      --bg-page: #F4F6F8;
+      --bg-panel: #FFFFFF;
+      --text-main: #2C3E50;
+      --text-muted: #7F8C8D;
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+
+    /* --- HEADER --- */
+    header { 
+      background: var(--navy-dark); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--champagne); 
+      flex-shrink: 0; z-index: 10;
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; }
+    .brand span { color: var(--champagne); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #BDC3C7; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(0, 126, 167, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--cerulean); background: rgba(0, 126, 167, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--champagne); background: var(--navy-main); padding: 0.4rem 1.2rem; border-radius: 4px; }
+    .timer.warning { color: #E74C3C; animation: pulse 1s infinite; }
+
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+    /* --- WORKSPACE & PANELS --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+
+    /* --- LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #f9f7f5;
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; color: var(--navy-dark); margin-bottom: 1rem; font-family: var(--font-passage); }
+    .pre-test-overlay p { font-size: 1.1rem; color: var(--text-muted); max-width: 650px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .btn-start-large {
+      background: var(--navy-main); color: #FFF; padding: 1.2rem 3rem; font-size: 1rem; font-weight: 600;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-start-large:hover { background: var(--cerulean); }
+
+    /* --- PASSAGE TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 2rem; margin-bottom: 2rem; color: var(--navy-dark); line-height: 1.3; }
+    
+    /* SCALED DOWN FONT SIZE AS REQUESTED */
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 0.95rem; color: #34495E; text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1.05rem; margin-right: 15px; color: var(--cerulean); float: left; padding-top: 3px; }
+
+    /* --- QUESTION TYPOGRAPHY --- */
+    .right-panel h2 { font-size: 1.15rem; margin: 2.5rem 0 1rem; color: var(--navy-dark); border-bottom: 2px solid var(--champagne); padding-bottom: 0.5rem; font-weight: 700; }
+    .right-panel h2:first-child { margin-top: 0; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; transition: 0.3s; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--cerulean); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; }
+    
+    input[type="text"] { padding: 0.2rem 0.5rem; border: none; border-bottom: 2px solid var(--text-muted); background: transparent; font-size: 0.95rem; width: 140px; font-family: var(--font-ui); font-weight: 600; color: var(--navy-dark); text-align: center; transition: 0.3s; outline: none;}
+    input[type="text"]:focus { border-bottom-color: var(--cerulean); }
+    input:disabled { color: var(--text-muted); cursor: not-allowed; }
+    
+    .mcq-options { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.95rem; color: #444; transition: 0.2s; }
+    .mcq-label:hover { color: var(--cerulean); }
+    .mcq-label input { margin-top: 4px; }
+    
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.2rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.9rem; font-weight: 500; }
+    .box-item strong { font-family: var(--font-mono); color: var(--cerulean); margin-right: 5px;}
+
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* --- BOTTOM NAVIGATION --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; /* Hidden until test starts */
+      align-items: center; justify-content: space-between; padding: 0 3rem;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.03); z-index: 100;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 28px; height: 28px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
+    }
+    .nav-btn:hover { border-color: var(--cerulean); color: var(--navy-dark); }
+    .nav-btn.answered { background: var(--cerulean); color: #FFF; border-color: var(--cerulean); }
+
+    /* Refined Submit Button */
+    .btn-submit-small {
+      background: var(--navy-main); color: #FFF; border: none; padding: 0.6rem 1.8rem;
+      font-size: 0.9rem; font-weight: 600; border-radius: 4px; cursor: pointer;
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-submit-small:hover { background: var(--cerulean); }
+
+    /* --- RESULTS MODAL --- */
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(11,22,44,0.2);
+      z-index: 200; text-align: center; border-top: 5px solid var(--champagne); min-width: 400px;
+    }
+    .results-modal h2 { font-family: var(--font-passage); color: var(--navy-dark); margin-bottom: 1rem; }
+    .score-display { font-size: 3.5rem; font-weight: 700; color: var(--navy-main); margin: 1rem 0; font-family: var(--font-mono); }
+    .btn-close { background: var(--cerulean); color: #FFF; border: none; padding: 0.8rem 2rem; font-weight: 600; border-radius: 4px; cursor: pointer; margin-top: 1.5rem; text-transform: uppercase; }
+    
+    .correct-answer { border-color: #27AE60 !important; color: #27AE60 !important; font-weight: 700; }
+    .wrong-answer { border-color: #E74C3C !important; color: #E74C3C !important; }
+    .dormant-overlay { display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.4); z-index: 50; }
+    body.test-completed .dormant-overlay { display: block; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls of Wisdom</span> | Premium Test</div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2>Evaluation Complete</h2>
+    <div class="score-display" id="final-score">0 <span style="font-size: 1.5rem; color: #7F8C8D;">/ 40</span></div>
+    <p>Review the exact answers and explanations below.</p>
+    <button class="btn-close" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <div style="color: var(--cerulean); font-weight: 700; letter-spacing: 2px; margin-bottom: 1rem;">MODULE 03</div>
+      <h2>Ancient Philosophies for Modern Financial Freedom</h2>
+      <p>This reading module contains 3 passages. Paragraph labels (A, B, C...) have been restored to properly facilitate the Matching Headings task. The navigation bar will appear once the timer begins.</p>
+      <button class="btn-start-large" onclick="startTest()">Initiate 60-Minute Assessment</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Classical Dichotomy of Wealth and Virtue</h1>
+        
+        <p><span class="paragraph-label">A</span> The pursuit of wealth has been a central preoccupation of human civilization, yet the philosophical frameworks governing our relationship with capital have drastically shifted over millennia. In classical Greek antiquity, the accumulation of wealth was viewed with profound suspicion, primarily due to its potential to corrupt civic virtue. Aristotle famously established a rigorous distinction between two economic concepts: *oikonomia* and *chrematistics*. Oikonomia, the root of the modern word 'economy', referred to the judicious management of a household to fulfill natural, biological needs. It was considered a noble, finite pursuit. Once a household generated enough resources for sustenance and comfort, the pursuit ceased, allowing citizens to engage in philosophy and politics.</p>
+        
+        <p><span class="paragraph-label">B</span> In stark contrast, Aristotle defined *chrematistics* as the art of accumulating wealth for its own sake—an unnatural, infinite pursuit driven by insatiable desire rather than actual necessity. According to Aristotelian ethics, chrematistics was fundamentally destabilizing to both the individual soul and the state. A man consumed by the desire for limitless gold would inevitable sacrifice his moral integrity, viewing fellow citizens merely as instruments for financial gain. This inherent distrust of surplus accumulation formed the bedrock of early Western economic philosophy.</p>
+        
+        <p><span class="paragraph-label">C</span> Epicureanism, emerging slightly later in Athens, reinforced this skepticism but through a psychological rather than political lens. Epicurus taught that the ultimate goal of human life was *ataraxia*—a state of profound tranquility and freedom from mental distress. He categorized human desires into three distinct tiers: natural and necessary (like food and shelter), natural but unnecessary (like luxurious banquets), and unnatural and unnecessary (like fame, immense wealth, and political power). Epicurus argued that the pursuit of the third tier guaranteed a life of misery. Because unnatural desires are socially constructed, they have no biological limit; a person can never have enough wealth or fame to satisfy a manufactured craving.</p>
+        
+        <p><span class="paragraph-label">D</span> However, it was the Stoics who provided perhaps the most nuanced classical framework for dealing with financial abundance. Unlike the Cynics, who demanded absolute poverty as a prerequisite for virtue, Stoicism introduced the concept of the "preferred indifferent." Prominent Stoics like Seneca—who was himself one of the wealthiest men in the Roman Empire—argued that wealth is not inherently evil, but it is entirely external to true happiness. Wealth is "preferred" because it provides physical comfort, but it is "indifferent" because it cannot make a person morally good or genuinely happy.</p>
+        
+        <p><span class="paragraph-label">E</span> The true danger of wealth, according to Seneca, lies in attachment. If an individual ties their psychological stability to their net worth, they become a slave to fortune. The Stoic must learn to possess wealth without being possessed by it. To cultivate this psychological resilience, Seneca regularly practiced *premeditatio malorum* (the premeditation of evils). He would deliberately spend several days each month dressing in rags and eating the coarsest food, practically demonstrating to himself that poverty was not something to be feared. By voluntarily experiencing hardship, he stripped wealth of its psychological power.</p>
+        
+        <p><span class="paragraph-label">F</span> These classical philosophies collectively suggest that the modern crisis of consumerism is not a failure of economics, but a failure of psychology. By conflating natural needs with unnatural desires, and by anchoring emotional wellbeing to external accumulations, modern society has constructed an economic paradigm that is fundamentally misaligned with human flourishing. The ancient warning remains clear: true financial freedom is not achieved by infinitely expanding one's means, but by radically containing one's desires.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>Behavioral Economics and the Hedonic Treadmill</h1>
+        
+        <p><span class="paragraph-label">A</span> As the Industrial Revolution transitioned into the hyper-consumerism of the 20th century, the philosophical warnings of antiquity were largely discarded in favor of perpetual economic growth. However, modern behavioral economics and psychology have inadvertently resurrected these ancient concepts through empirical research. Central to understanding modern consumer behavior is the concept of the "hedonic treadmill," a psychological phenomenon wherein individuals rapidly return to a baseline level of happiness despite major positive or negative changes in their financial status.</p>
+        
+        <p><span class="paragraph-label">B</span> When a person receives a significant salary increase, they experience an initial spike in dopamine and subjective well-being. They subsequently upgrade their lifestyle—purchasing a larger home, a premium vehicle, or expensive designer clothing. However, human beings possess an extraordinary capacity for psychological adaptation. Within a matter of months, the new, luxurious lifestyle becomes the baseline 'normal.' The initial joy dissipates, leaving the individual exactly as satisfied—or dissatisfied—as they were prior to the raise. To achieve another spike in happiness, they must acquire even more wealth, creating an exhausting, endless cycle of consumption.</p>
+        
+        <p><span class="paragraph-label">C</span> This cycle is deliberately accelerated by the sophisticated mechanics of the modern advertising industry. Drawing heavily on the work of evolutionary psychologists, marketers exploit deep-seated human insecurities regarding status and social belonging. Thorstein Veblen, a prominent sociologist, coined the term "conspicuous consumption" to describe the acquisition of luxury goods not for their practical utility, but to publicly display economic power and secure social hierarchy. In a society where community bonds are increasingly fragmented, consumer goods have become the primary semiotic language used to signal success and identity.</p>
+        
+        <p><span class="paragraph-label">D</span> Furthermore, behavioral economists like Daniel Kahneman have demonstrated that humans are deeply irrational actors when navigating financial decisions. Through Prospect Theory, Kahneman proved that humans are intensely loss-averse; the psychological pain of losing $1,000 is statistically twice as potent as the pleasure of gaining $1,000. This loss aversion keeps millions of individuals trapped in unfulfilling, high-stress careers. The fear of losing their current lifestyle prevents them from taking the calculated risks necessary to achieve true financial independence or pursue alternative, more meaningful vocational paths.</p>
+        
+        <p><span class="paragraph-label">E</span> In direct response to this psychological entrapment, the 21st century has witnessed the rise of minimalist counter-movements. Modern minimalism is not necessarily an ascetic rejection of the material world, but rather an intentional auditing of consumption. Adherents rigorously evaluate their purchases, eliminating items that do not provide deep, sustained value. By stepping off the hedonic treadmill, minimalists drastically reduce their monthly expenditure. This reduction in overhead is not viewed as a sacrifice, but as a strategic maneuver to purchase back the most valuable and non-renewable resource available to human beings: time.</p>
+        
+        <p><span class="paragraph-label">F</span> By marrying the psychological insights of behavioral economics with the intentional deprivation practiced by ancient Stoics, modern minimalists have constructed a formidable defense against the ubiquitous pressures of a consumer-driven economy. They recognize that the relentless pursuit of upgraded material possessions is a psychological trap engineered to maintain a compliant workforce, and that true autonomy begins the moment one declares that they already have 'enough.'</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>The Mathematics and Psychology of Financial Independence (FIRE)</h1>
+        
+        <p><span class="paragraph-label">A</span> The philosophical ideals of minimalism and classical Stoicism have found their most potent practical application in the modern FIRE (Financial Independence, Retire Early) movement. Originating in the late 1990s but proliferating rapidly via internet forums in the 2010s, the FIRE movement represents a radical departure from the traditional economic lifecycle. Instead of working until the state-mandated retirement age of 65, FIRE adherents aggressively optimize their savings rate—often banking between 50% and 75% of their net income—to accumulate a sustainable investment portfolio that allows them to abandon mandatory corporate labor in their 30s or 40s.</p>
+        
+        <p><span class="paragraph-label">B</span> At the architectural core of the FIRE movement lies a deceptively simple mathematical equation known colloquially as the "4% Rule." This rule was derived from the seminal 1998 Trinity Study, conducted by three professors of finance at Trinity University. The researchers analyzed historical market data from 1925 to 1995 to determine the "safe withdrawal rate" for a retirement portfolio composed of stocks and bonds. They concluded that if an investor withdraws exactly 4% of their initial portfolio value annually (adjusting subsequent withdrawals for inflation), the portfolio possesses a 95% mathematical probability of surviving a 30-year retirement period without being completely depleted, even when subjected to severe macroeconomic downturns.</p>
+        
+        <p><span class="paragraph-label">C</span> The application of the 4% rule provides FIRE adherents with a specific, calculable "FI Number" (Financial Independence Number). To determine the amount of capital required to retire, an individual simply multiplies their annual living expenses by 25. For instance, if an individual designs a minimalist lifestyle requiring $40,000 per year, their required portfolio size is $1,000,000. Once this critical mass of capital is invested in broad-market, low-cost index funds, the compound interest generated theoretically outpaces the rate of withdrawal, rendering the individual permanently financially autonomous.</p>
+        
+        <p><span class="paragraph-label">D</span> The acceleration toward this FI Number is dictated almost entirely by an individual's "savings rate" rather than their absolute income. In traditional financial planning, a 10% savings rate is standard, which necessitates roughly 40 years of labor to achieve retirement. However, because saving involves a dual mechanic—simultaneously increasing invested capital while lowering the baseline cost of living—the math becomes highly exponential. A person saving 50% of their income requires only one year of work to fund one year of freedom. A person saving 75% of their income requires only 7 years of work to permanently replace their living expenses through investment yields.</p>
+        
+        <p><span class="paragraph-label">E</span> Despite its mathematical elegance, the FIRE movement is not without significant structural and psychological risks. Foremost among the structural risks is the "Sequence of Returns Risk" (SORR). The 4% rule relies on historical averages; however, the stock market does not deliver average returns sequentially. If an early retiree encounters a severe market crash (such as the 2008 financial crisis) during the first three years of their retirement, withdrawing funds from a severely depressed portfolio permanently damages the principal. The compounding mechanism breaks down, and the portfolio faces a high probability of premature depletion, forcing the individual back into the labor market after a prolonged absence.</p>
+        
+        <p><span class="paragraph-label">F</span> To mitigate Sequence of Returns Risk, advanced FIRE practitioners employ sophisticated "drawdown strategies." These include maintaining a "bond tent" (a cash-equivalent buffer covering two to three years of expenses to avoid selling stocks during a crash) or utilizing dynamic withdrawal rates, where the individual voluntarily reduces their lifestyle expenditure during bearish market conditions. Furthermore, many adherents practice "Barista FIRE" or "Coast FIRE"—hybrid models where the individual leaves their high-stress corporate career but takes on part-time, low-stress employment to cover immediate living expenses, allowing their primary portfolio to continue compounding untouched.</p>
+        
+        <p><span class="paragraph-label">G</span> Beyond the mathematical vulnerabilities, the most profound challenges of early retirement are psychological. Traditional employment in modern society provides more than just a paycheck; it supplies a structured routine, a built-in social network, and a distinct sense of identity. When an individual abruptly severs this connection at age 35, they frequently suffer from a profound existential vacuum. The sudden acquisition of total temporal freedom—having 16 hours of unstructured time every single day—can lead to severe clinical depression, social isolation, and an overwhelming loss of purpose.</p>
+        
+        <p><span class="paragraph-label">H</span> The transition from the "accumulation phase" to the "decumulation phase" requires a radical psychological rewiring. For a decade, the individual has been hyper-focused on saving, optimizing, and treating every expenditure as a delay to their freedom. When they finally reach their FI number, the psychological habit of extreme frugality is difficult to break. Many early retirees suffer from "One More Year Syndrome"—a paralyzing anxiety that their portfolio is not quite large enough, causing them to continue working despite having mathematically sufficient funds. The fear of portfolio depletion replaces the joy of autonomy.</p>
+        
+        <p><span class="paragraph-label">I</span> Furthermore, the FIRE movement has faced legitimate sociological critiques regarding its inherent exclusivity and privilege. The aggressive savings rates required to achieve early retirement are mathematically impossible for individuals earning a minimum wage or struggling with generational poverty. The movement is overwhelmingly populated by high-earning professionals in the technology and engineering sectors who do not face systemic barriers to wealth accumulation. Critics argue that positioning FIRE as a universal solution ignores the devastating realities of wage stagnation, skyrocketing healthcare costs, and the dismantling of traditional social safety nets.</p>
+        
+        <p><span class="paragraph-label">J</span> In its most mature iteration, however, the FIRE movement transcends the mere avoidance of labor. It functions as an applied modern philosophy. By forcing individuals to ruthlessly calculate the exact monetary value of their time, it strips away the illusions of the consumerist hedonic treadmill. Financial independence becomes not an endpoint, but a foundational platform. Freed from the coercion of mandatory wage labor, the individual is finally liberated to engage in the highest forms of human endeavor—whether that be creative arts, community service, intensive parenting, or the pursuit of deep, intrinsic intellectual fulfillment, exactly as the ancient Greek philosophers had originally prescribed.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–6</h2>
+        <div class="instruction">Choose the correct heading for each paragraph from the list below. Write the correct number, <strong>i–viii</strong>, in the boxes provided.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> Practicing poverty to disarm the fear of it</div>
+          <div class="box-item"><strong>ii</strong> A psychological classification of desires</div>
+          <div class="box-item"><strong>iii</strong> The political necessity of infinite wealth</div>
+          <div class="box-item"><strong>iv</strong> A modern misdiagnosis of an ancient problem</div>
+          <div class="box-item"><strong>v</strong> The distinction between managing needs and chasing gold</div>
+          <div class="box-item"><strong>vi</strong> How wealth functions as a preferred external element</div>
+          <div class="box-item"><strong>vii</strong> The dangers of unnatural wealth accumulation</div>
+          <div class="box-item"><strong>viii</strong> How modern banks utilize ancient philosophies</div>
+        </div>
+        
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph A <input type="text" id="q1" oninput="markNavAnswered(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph B <input type="text" id="q2" oninput="markNavAnswered(2)"></div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph C <input type="text" id="q3" oninput="markNavAnswered(3)"></div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph D <input type="text" id="q4" oninput="markNavAnswered(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph E <input type="text" id="q5" oninput="markNavAnswered(5)"></div></div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">Paragraph F <input type="text" id="q6" oninput="markNavAnswered(6)"></div></div>
+
+        <h2>Questions 7–10</h2>
+        <div class="instruction">Complete the summary. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+        <div class="q-item"><div class="q-text">
+          Aristotle argued that managing a household effectively was known as <strong>7</strong> <input type="text" id="q7" oninput="markNavAnswered(7)">. He warned against the pursuit of wealth for its own sake, believing it would destroy a person's <strong>8</strong> <input type="text" id="q8" oninput="markNavAnswered(8)">. Later, Epicurus warned that pursuing fame or immense riches leads to misery because these desires have no <strong>9</strong> <input type="text" id="q9" oninput="markNavAnswered(9)">. The Stoic philosopher Seneca taught that a person must avoid emotional attachment to money, demonstrating this by occasionally wearing <strong>10</strong> <input type="text" id="q10" oninput="markNavAnswered(10)"> to conquer his fears.
+        </div></div>
+
+        <h2>Questions 11–13</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">11</div><div class="q-text">What was the primary goal of human life according to Epicurus?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q11" value="A" onchange="markNavAnswered(11)"> A) Accumulating enough wealth to enter politics.</label>
+            <label class="mcq-label"><input type="radio" name="q11" value="B" onchange="markNavAnswered(11)"> B) Achieving a state of profound tranquility.</label>
+            <label class="mcq-label"><input type="radio" name="q11" value="C" onchange="markNavAnswered(11)"> C) Deliberately experiencing starvation and hardship.</label>
+            <label class="mcq-label"><input type="radio" name="q11" value="D" onchange="markNavAnswered(11)"> D) Satisfying all unnatural desires.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">12</div><div class="q-text">How did the Stoics differ from the Cynics regarding wealth?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q12" value="A" onchange="markNavAnswered(12)"> A) Stoics demanded absolute poverty, while Cynics loved wealth.</label>
+            <label class="mcq-label"><input type="radio" name="q12" value="B" onchange="markNavAnswered(12)"> B) Stoics viewed wealth as evil; Cynics viewed it as good.</label>
+            <label class="mcq-label"><input type="radio" name="q12" value="C" onchange="markNavAnswered(12)"> C) Stoics believed wealth was acceptable but indifferent; Cynics demanded absolute poverty.</label>
+            <label class="mcq-label"><input type="radio" name="q12" value="D" onchange="markNavAnswered(12)"> D) There was no difference; both hated wealth.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">13</div><div class="q-text">What is the author's overall conclusion in Passage 1?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q13" value="A" onchange="markNavAnswered(13)"> A) The modern economy is mathematically flawed.</label>
+            <label class="mcq-label"><input type="radio" name="q13" value="B" onchange="markNavAnswered(13)"> B) True financial freedom requires containing one's desires.</label>
+            <label class="mcq-label"><input type="radio" name="q13" value="C" onchange="markNavAnswered(13)"> C) Seneca was a hypocrite because he was wealthy.</label>
+            <label class="mcq-label"><input type="radio" name="q13" value="D" onchange="markNavAnswered(13)"> D) People should never buy luxury goods.</label>
+          </div>
+        </div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18</h2>
+        <div class="instruction">Do the following statements agree with the information given in Reading Passage 2? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">The "hedonic treadmill" ensures that people remain permanently happier after a salary increase. <br><input type="text" id="q14" oninput="markNavAnswered(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">Marketers use evolutionary psychology to exploit human insecurities regarding status. <br><input type="text" id="q15" oninput="markNavAnswered(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">Thorstein Veblen argued that luxury goods are primarily bought for their practical usefulness. <br><input type="text" id="q16" oninput="markNavAnswered(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">Daniel Kahneman won a Nobel Prize for his work on Prospect Theory. <br><input type="text" id="q17" oninput="markNavAnswered(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">Loss aversion often prevents people from taking risks to change unfulfilling careers. <br><input type="text" id="q18" oninput="markNavAnswered(18)"></div></div>
+
+        <h2>Questions 19–22</h2>
+        <div class="instruction">Look at the following statements (Questions 19-22) and the list of researchers/concepts below. Match each statement with the correct entity, <strong>A, B, C, or D</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> The Hedonic Treadmill</div>
+          <div class="box-item"><strong>B</strong> Thorstein Veblen</div>
+          <div class="box-item"><strong>C</strong> Daniel Kahneman</div>
+          <div class="box-item"><strong>D</strong> Modern Minimalism</div>
+        </div>
+        <div class="q-item"><div class="q-num">19</div><div class="q-text">Proved mathematically that humans feel the pain of losing money twice as strongly as the joy of gaining it. <input type="text" id="q19" oninput="markNavAnswered(19)"></div></div>
+        <div class="q-item"><div class="q-num">20</div><div class="q-text">The psychological process where humans rapidly adapt to a new luxurious lifestyle. <input type="text" id="q20" oninput="markNavAnswered(20)"></div></div>
+        <div class="q-item"><div class="q-num">21</div><div class="q-text">An intentional movement focused on auditing consumption to buy back time. <input type="text" id="q21" oninput="markNavAnswered(21)"></div></div>
+        <div class="q-item"><div class="q-num">22</div><div class="q-text">Coined a term describing the purchase of goods specifically to display social power. <input type="text" id="q22" oninput="markNavAnswered(22)"></div></div>
+
+        <h2>Questions 23–26</h2>
+        <div class="instruction">Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+        <div class="q-item"><div class="q-text">
+          Consumer goods now act as a semiotic language used to signal identity and <strong>23</strong> <input type="text" id="q23" oninput="markNavAnswered(23)"> in a fragmented society. To combat this, minimalists conduct an intentional <strong>24</strong> <input type="text" id="q24" oninput="markNavAnswered(24)"> of their consumption. They reduce their monthly <strong>25</strong> <input type="text" id="q25" oninput="markNavAnswered(25)"> to free themselves from the economic trap. Ultimately, they recognize that upgraded possessions are engineered to keep the <strong>26</strong> <input type="text" id="q26" oninput="markNavAnswered(26)"> compliant.
+        </div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        
+        <h2>Questions 27–31</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">According to the Trinity Study, what is the primary purpose of the 4% rule?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q27" value="A" onchange="markNavAnswered(27)"> A) To guarantee an individual becomes a millionaire.</label>
+            <label class="mcq-label"><input type="radio" name="q27" value="B" onchange="markNavAnswered(27)"> B) To calculate the exact amount of taxes owed during retirement.</label>
+            <label class="mcq-label"><input type="radio" name="q27" value="C" onchange="markNavAnswered(27)"> C) To determine a withdrawal rate that prevents a portfolio from depleting over 30 years.</label>
+            <label class="mcq-label"><input type="radio" name="q27" value="D" onchange="markNavAnswered(27)"> D) To ensure stock market returns are always positive.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">What primarily dictates the speed at which someone reaches financial independence?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q28" value="A" onchange="markNavAnswered(28)"> A) Their absolute gross income.</label>
+            <label class="mcq-label"><input type="radio" name="q28" value="B" onchange="markNavAnswered(28)"> B) Their specific savings rate percentage.</label>
+            <label class="mcq-label"><input type="radio" name="q28" value="C" onchange="markNavAnswered(28)"> C) The performance of the 2008 stock market.</label>
+            <label class="mcq-label"><input type="radio" name="q28" value="D" onchange="markNavAnswered(28)"> D) Their ability to work part-time as a barista.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">What does 'Sequence of Returns Risk' mean in the context of the text?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q29" value="A" onchange="markNavAnswered(29)"> A) The danger of the stock market crashing early in retirement.</label>
+            <label class="mcq-label"><input type="radio" name="q29" value="B" onchange="markNavAnswered(29)"> B) The risk of forgetting your financial passwords.</label>
+            <label class="mcq-label"><input type="radio" name="q29" value="C" onchange="markNavAnswered(29)"> C) The possibility that inflation drops too low.</label>
+            <label class="mcq-label"><input type="radio" name="q29" value="D" onchange="markNavAnswered(29)"> D) The danger of keeping too much cash in a "bond tent".</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">What is "One More Year Syndrome"?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q30" value="A" onchange="markNavAnswered(30)"> A) Working an extra year because your employer begs you to stay.</label>
+            <label class="mcq-label"><input type="radio" name="q30" value="B" onchange="markNavAnswered(30)"> B) The psychological inability to quit working out of fear of running out of money.</label>
+            <label class="mcq-label"><input type="radio" name="q30" value="C" onchange="markNavAnswered(30)"> C) A physical illness caused by corporate stress.</label>
+            <label class="mcq-label"><input type="radio" name="q30" value="D" onchange="markNavAnswered(30)"> D) The legal requirement to give one year's notice before retiring.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">What is a major critique of the FIRE movement mentioned in the text?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q31" value="A" onchange="markNavAnswered(31)"> A) It encourages illegal tax evasion.</label>
+            <label class="mcq-label"><input type="radio" name="q31" value="B" onchange="markNavAnswered(31)"> B) It is mathematically flawed and doesn't work.</label>
+            <label class="mcq-label"><input type="radio" name="q31" value="C" onchange="markNavAnswered(31)"> C) It assumes everyone has a high income and ignores systemic poverty.</label>
+            <label class="mcq-label"><input type="radio" name="q31" value="D" onchange="markNavAnswered(31)"> D) It forces people to become academics.</label>
+          </div>
+        </div></div>
+
+        <h2>Questions 32–36</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer in Reading Passage 3? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">32</div><div class="q-text">The FIRE movement originated primarily via internet forums in the 1980s. <br><input type="text" id="q32" oninput="markNavAnswered(32)"></div></div>
+        <div class="q-item"><div class="q-num">33</div><div class="q-text">A person requiring $40,000 a year to live needs a portfolio of $1,000,000 to be financially independent. <br><input type="text" id="q33" oninput="markNavAnswered(33)"></div></div>
+        <div class="q-item"><div class="q-num">34</div><div class="q-text">A "bond tent" involves keeping cash reserves specifically to buy a house. <br><input type="text" id="q34" oninput="markNavAnswered(34)"></div></div>
+        <div class="q-item"><div class="q-num">35</div><div class="q-text">Early retirees often suffer from clinical depression due to a sudden loss of structure. <br><input type="text" id="q35" oninput="markNavAnswered(35)"></div></div>
+        <div class="q-item"><div class="q-num">36</div><div class="q-text">The government plans to ban the FIRE movement due to its impact on the workforce. <br><input type="text" id="q36" oninput="markNavAnswered(36)"></div></div>
+
+        <h2>Questions 37–40</h2>
+        <div class="instruction">Complete each sentence with the correct ending, <strong>A–F</strong>, below. Write the correct letter in the box.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> allows individuals to continue compounding their main portfolio while covering basic expenses.</div>
+          <div class="box-item"><strong>B</strong> requires an aggressive savings rate of 50% to 75%.</div>
+          <div class="box-item"><strong>C</strong> causes people to spend all their money on luxury goods.</div>
+          <div class="box-item"><strong>D</strong> functions as an applied modern philosophy that liberates individuals to pursue deep fulfillment.</div>
+          <div class="box-item"><strong>E</strong> completely ignores the impact of inflation.</div>
+          <div class="box-item"><strong>F</strong> is a psychological challenge when shifting from accumulation to decumulation.</div>
+        </div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">The radical departure from the traditional economic lifecycle <input type="text" id="q37" oninput="markNavAnswered(37)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">Taking on part-time "Barista FIRE" employment <input type="text" id="q38" oninput="markNavAnswered(38)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">Breaking the habit of extreme frugality <input type="text" id="q39" oninput="markNavAnswered(39)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">In its most mature iteration, the FIRE movement <input type="text" id="q40" oninput="markNavAnswered(40)" style="width:60px;"></div></div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers">
+      </div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest(false)">Submit Module</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // Passage 1
+      q1: 'v', q2: 'vii', q3: 'ii', q4: 'vi', q5: 'i', q6: 'iv',
+      q7: 'oikonomia', q8: 'moral integrity', q9: 'biological limit', q10: 'rags',
+      q11: 'b', q12: 'c', q13: 'b',
+      
+      // Passage 2
+      q14: 'false', q15: 'true', q16: 'false', q17: 'not given', q18: 'true',
+      q19: 'c', q20: 'a', q21: 'd', q22: 'b',
+      q23: 'success', q24: 'auditing', q25: 'expenditure', q26: 'workforce',
+      
+      // Passage 3
+      q27: 'c', q28: 'b', q29: 'a', q30: 'b', q31: 'c',
+      q32: 'no', q33: 'yes', q34: 'no', q35: 'yes', q36: 'not given',
+      q37: 'b', q38: 'a', q39: 'f', q40: 'd'
+    };
+
+    // Initialize Navigation
+    function initBottomNav() {
+      const navContainer = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn';
+        btn.id = 'nav-btn-' + i;
+        btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        navContainer.appendChild(btn);
+      }
+    }
+
+    function markNavAnswered(qNumber) {
+      const input = document.getElementById('q' + qNumber);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${qNumber}"]:checked`);
+      const navBtn = document.getElementById('nav-btn-' + qNumber);
+      if(isAnswered) navBtn.classList.add('answered');
+      else navBtn.classList.remove('answered');
+    }
+
+    function scrollToQuestion(qNumber) {
+      let targetTab = 1;
+      if (qNumber >= 14 && qNumber <= 26) targetTab = 2;
+      if (qNumber >= 27 && qNumber <= 40) targetTab = 3;
+      
+      switchSection(targetTab);
+      
+      setTimeout(() => {
+        let qElement = document.getElementById('q' + qNumber);
+        if (!qElement) {
+          const radioInput = document.querySelector(`input[name="q${qNumber}"]`);
+          if(radioInput) qElement = radioInput.closest('.q-item');
+        } else {
+          qElement = qElement.closest('.q-item');
+        }
+
+        if (qElement) {
+          document.getElementById('right-panel').scrollTo({
+            top: qElement.offsetTop - 50, behavior: 'smooth'
+          });
+          qElement.style.background = '#FEF08A';
+          setTimeout(() => qElement.style.background = '', 1000);
+        }
+      }, 50);
+    }
+
+    function switchSection(sectionNumber) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+      document.getElementById('tab-' + sectionNumber).classList.add('active');
+      document.getElementById('passage-' + sectionNumber).classList.add('active');
+      document.getElementById('questions-' + sectionNumber).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    /* --- TIMER & LAUNCH --- */
+    let timeRemaining = 3600;
+    let timerInterval;
+
+    function startTest() {
+      initBottomNav();
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex'; 
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        const m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+        const s = (timeRemaining % 60).toString().padStart(2, '0');
+        document.getElementById('timer').textContent = `${m}:${s}`;
+        
+        if(timeRemaining <= 300) document.getElementById('timer').classList.add('warning');
+        if(timeRemaining <= 0) submitTest(true);
+      }, 1000);
+    }
+
+    /* --- EVALUATION --- */
+    function submitTest(isAuto = false) {
+      if(!isAuto && !confirm("Confirm final submission?")) return;
+      clearInterval(timerInterval);
+      
+      let score = 0;
+      for(let i=1; i<=40; i++) {
+        const qId = 'q' + i;
+        const textInput = document.getElementById(qId);
+        const correctAns = answerKey[qId];
+        
+        if (textInput) {
+          const userAns = textInput.value.trim().toLowerCase();
+          
+          if (userAns === correctAns || (correctAns.includes(userAns) && userAns.length > 3)) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else {
+            textInput.classList.add('wrong-answer');
+            textInput.value = userAns ? `${userAns} ❌ [${correctAns.toUpperCase()}]` : `❌ [${correctAns.toUpperCase()}]`;
+            textInput.style.width = "220px";
+          }
+          textInput.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if (selected && selected.value.toLowerCase() === correctAns) {
+            score++;
+            selected.parentElement.classList.add('correct-answer');
+          } else {
+            if (selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAns.toUpperCase()}"]`);
+            if (correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+
+      document.getElementById('final-score').innerHTML = `${score} <span style="font-size: 1.5rem; color: #7F8C8D;">/ 40</span>`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.body.classList.add('test-completed');
+      document.getElementById('btn-submit').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

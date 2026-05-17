@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 01: The Dawn of Machine Learning | Shared Pearls</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- ACADEMIC EDITORIAL PALETTE --- */
+    :root {
+      --navy-dark: #0B162C;
+      --navy-main: #1A2C4D;
+      --cerulean: #007EA7;
+      --champagne: #D4AF37;
+      --bg-page: #f8f5f4;
+      --bg-panel: #FFFFFF;
+      --text-main: #2C3E50;
+      --text-muted: #7F8C8D;
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+
+    /* --- HEADER --- */
+    header { 
+      background: var(--navy-dark); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--champagne); 
+      flex-shrink: 0; z-index: 10;
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; }
+    .brand span { color: var(--champagne); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #BDC3C7; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(0, 126, 167, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--cerulean); background: rgba(0, 126, 167, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--champagne); background: var(--navy-main); padding: 0.4rem 1.2rem; border-radius: 4px; }
+    .timer.warning { color: #E74C3C; animation: pulse 1s infinite; }
+
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+    /* --- WORKSPACE & PANELS --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+
+    /* --- LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #f9f7f5;
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; color: var(--navy-dark); margin-bottom: 1rem; font-family: var(--font-passage); }
+    .pre-test-overlay p { font-size: 1.1rem; color: var(--text-muted); max-width: 650px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .btn-start-large {
+      background: var(--navy-main); color: #FFF; padding: 1.2rem 3rem; font-size: 1rem; font-weight: 600;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-start-large:hover { background: var(--cerulean); }
+
+    /* --- PASSAGE TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 2.2rem; margin-bottom: 2rem; color: var(--navy-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 1.1rem; color: #34495E; text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; margin-right: 15px; color: var(--cerulean); float: left; padding-top: 4px; }
+
+    /* --- QUESTION TYPOGRAPHY --- */
+    .right-panel h2 { font-size: 1.2rem; margin: 2.5rem 0 1rem; color: var(--navy-dark); border-bottom: 2px solid var(--champagne); padding-bottom: 0.5rem; font-weight: 700; }
+    .right-panel h2:first-child { margin-top: 0; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; transition: 0.3s; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--cerulean); min-width: 25px; }
+    .q-text { flex: 1; font-size: 1.05rem; line-height: 1.6; }
+    
+    input[type="text"] { padding: 0.3rem 0.5rem; border: none; border-bottom: 2px solid var(--text-muted); background: transparent; font-size: 1rem; width: 160px; font-family: var(--font-ui); font-weight: 600; color: var(--navy-dark); text-align: center; transition: 0.3s; outline: none;}
+    input[type="text"]:focus { border-bottom-color: var(--cerulean); }
+    input:disabled { color: var(--text-muted); cursor: not-allowed; }
+    
+    .mcq-options { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 1rem; color: #444; transition: 0.2s; }
+    .mcq-label:hover { color: var(--cerulean); }
+    .mcq-label input { margin-top: 4px; }
+    
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.5rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.95rem; font-weight: 500; }
+    .box-item strong { font-family: var(--font-mono); color: var(--cerulean); margin-right: 5px;}
+
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* --- BOTTOM NAVIGATION --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; /* Hidden until test starts */
+      align-items: center; justify-content: space-between; padding: 0 3rem;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.03); z-index: 100;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 28px; height: 28px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
+    }
+    .nav-btn:hover { border-color: var(--cerulean); color: var(--navy-dark); }
+    .nav-btn.answered { background: var(--cerulean); color: #FFF; border-color: var(--cerulean); }
+
+    /* Refined Submit Button */
+    .btn-submit-small {
+      background: var(--navy-main); color: #FFF; border: none; padding: 0.6rem 1.8rem;
+      font-size: 0.9rem; font-weight: 600; border-radius: 4px; cursor: pointer;
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-submit-small:hover { background: var(--cerulean); }
+
+    /* --- RESULTS MODAL --- */
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(11,22,44,0.2);
+      z-index: 200; text-align: center; border-top: 5px solid var(--champagne); min-width: 400px;
+    }
+    .results-modal h2 { font-family: var(--font-passage); color: var(--navy-dark); margin-bottom: 1rem; }
+    .score-display { font-size: 3.5rem; font-weight: 700; color: var(--navy-main); margin: 1rem 0; font-family: var(--font-mono); }
+    .btn-close { background: var(--cerulean); color: #FFF; border: none; padding: 0.8rem 2rem; font-weight: 600; border-radius: 4px; cursor: pointer; margin-top: 1.5rem; text-transform: uppercase; }
+    
+    .correct-answer { border-color: #27AE60 !important; color: #27AE60 !important; font-weight: 700; }
+    .wrong-answer { border-color: #E74C3C !important; color: #E74C3C !important; }
+    .dormant-overlay { display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.4); z-index: 50; }
+    body.test-completed .dormant-overlay { display: block; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls<span> <em>of</em> <em>Wisdom</em></span> | Premium Test</div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2>Evaluation Complete</h2>
+    <div class="score-display" id="final-score">0 <span style="font-size: 1.5rem; color: #7F8C8D;">/ 40</span></div>
+    <p>Review the exact answers and explanations below.</p>
+    <button class="btn-close" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <div style="color: var(--cerulean); font-weight: 700; letter-spacing: 2px; margin-bottom: 1rem;">MODULE 01</div>
+      <h2>The Dawn of Machine Learning</h2>
+      <p>This academic assessment contains 3 passages and 40 questions covering Symbolic AI, the Connectionist Revival, and the Deep Learning Era. The bottom navigation bar will appear once the timer begins.</p>
+      <button class="btn-start-large" onclick="startTest()">Initiate 60-Minute Assessment</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Dartmouth Workshop and the Symbolic AI Era</h1>
+        <p><span class="paragraph-label">A</span> The conceptual foundation of Artificial Intelligence (AI) can be traced back to antiquity, with myths of mechanical men and philosophical inquiries into the nature of human reasoning. However, the formal genesis of the field as a rigorous academic discipline is universally attributed to the summer of 1956. A young mathematician named John McCarthy convinced the Rockefeller Foundation to fund a two-month summer research project at Dartmouth College. McCarthy coined the term "Artificial Intelligence" in his proposal, specifically defining the endeavor as the conjecture that "every aspect of learning or any other feature of intelligence can in principle be so precisely described that a machine can be made to simulate it."</p>
+        <p><span class="paragraph-label">B</span> The Dartmouth Workshop brought together a cadre of brilliant minds, including Marvin Minsky, Claude Shannon, and Allen Newell. Newell, alongside Herbert A. Simon, presented a program called the Logic Theorist. This software was revolutionary; it was designed not merely to calculate numbers, but to perform automated reasoning. Using a heuristic search tree, the Logic Theorist managed to prove 38 of the first 52 theorems in Whitehead and Russell’s *Principia Mathematica*, and even found a new, more elegant proof for one of them. This astonishing early success ignited a period of profound optimism within the scientific community.</p>
+        <p><span class="paragraph-label">C</span> The two decades following Dartmouth are often referred to as the era of "Symbolic AI" or "Good Old-Fashioned AI" (GOFAI). The prevailing hypothesis during this epoch was that human intelligence could be entirely replicated through the manipulation of high-level symbols according to explicit logical rules. Researchers focused intensely on domains like algebra, geometric theorem proving, and games like chess. In 1965, Herbert Simon famously predicted that "machines will be capable, within twenty years, of doing any work a man can do."</p>
+        <p><span class="paragraph-label">D</span> Despite substantial government funding from agencies like DARPA, the initial optimism eventually fractured under the weight of computational reality. Symbolic AI programs functioned brilliantly within highly constrained, artificial environments known as "microworlds." However, when tasked with navigating the ambiguity, noise, and infinite variables of the real physical world, these programs failed catastrophically. The rule-based logic could not account for common sense—the vast repository of unwritten, implicit knowledge that human beings naturally possess to interpret visual scenes or understand spoken language.</p>
+        <p><span class="paragraph-label">E</span> The realization that early AI was fundamentally "brittle" culminated in the devastating Lighthill Report of 1973 in the United Kingdom. Professor Sir James Lighthill concluded that AI research had failed to achieve any of its grandiose promises, particularly in the realm of robotics and language translation. Consequently, the British government drastically severed funding for AI research, initiating what historians now call the first "AI Winter." In the United States, DARPA followed suit, demanding immediate, practical applications rather than funding theoretical, open-ended research. The dream of human-level machine intelligence was effectively placed in deep freeze for nearly a decade.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>The Connectionist Revival and Expert Systems</h1>
+        <p><span class="paragraph-label">A</span> Following the profound disappointment of the first AI Winter, the discipline experienced a commercial renaissance in the early 1980s, driven by a new paradigm known as "Expert Systems." Unlike earlier GOFAI programs that attempted to replicate general human intelligence, Expert Systems were narrowly focused. They were designed to emulate the decision-making ability of a human expert within a highly specific domain, such as diagnosing blood infections or configuring computer hardware. These systems utilized an "inference engine" to navigate a vast database of "if-then" rules supplied by human specialists.</p>
+        <p><span class="paragraph-label">B</span> The most famous of these, XCON (originally R1), was deployed by Digital Equipment Corporation (DEC) in 1980 to automatically configure customized computer systems for clients. By 1986, it was estimated that XCON was saving the company over forty million dollars annually. The sheer financial utility of Expert Systems triggered a massive corporate investment boom, ending the AI Winter and creating a billion-dollar global industry almost overnight.</p>
+        <p><span class="paragraph-label">C</span> However, the reign of Expert Systems was ephemeral. The architecture suffered from an insurmountable flaw known as the "knowledge acquisition bottleneck." To make the system smarter, software engineers had to interview human experts and manually hand-code thousands of new logical rules. If an expert system encountered a scenario not explicitly covered by its rules, it did not gracefully degrade; it simply crashed. By the late 1980s, maintaining these colossal, labyrinthine rule-bases became economically unviable, leading to the collapse of the Lisp Machine market and plunging the field into the second AI Winter.</p>
+        <p><span class="paragraph-label">D</span> Quietly, in the academic background of the 1980s, a fundamentally different approach to artificial intelligence was being revived: Connectionism. Instead of top-down logical rules, connectionists looked to biology for inspiration. They designed Artificial Neural Networks (ANNs)—mathematical architectures loosely modeled on the interconnected neurons of the human brain. The objective was not to program the machine with explicit rules, but to allow the machine to "learn" patterns from raw data by iteratively adjusting the statistical weights of its artificial neurons.</p>
+        <p><span class="paragraph-label">E</span> A major theoretical breakthrough occurred in 1986 when David Rumelhart, Geoffrey Hinton, and Ronald Williams popularized a mathematical algorithm called "backpropagation." Backpropagation provided a systematic method for a neural network to calculate its own errors and adjust its internal weights backwards through multiple layers of neurons. While theoretically profound, connectionism remained practically dormant throughout the 1990s. The algorithms required massive amounts of digital data to train on, and enormous computational power to execute—neither of which existed at the time.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>Deep Learning and the Big Data Revolution</h1>
+        <p><span class="paragraph-label">A</span> The modern explosion of artificial intelligence, which continues to dominate the 21st century, is fundamentally indebted to two convergent technological trends that matured in the early 2010s: the advent of Big Data and the repurposing of Graphics Processing Units (GPUs). Originally designed to render high-definition video games, GPUs were exceptionally proficient at performing thousands of simple mathematical calculations simultaneously. Researchers realized that this parallel processing architecture was the exact hardware required to train massive, multi-layered artificial neural networks—a process that became known as "Deep Learning."</p>
+        <p><span class="paragraph-label">B</span> The watershed moment for Deep Learning occurred in 2012 during the ImageNet Large Scale Visual Recognition Challenge. The competition required software to accurately classify over a million high-resolution images into 1,000 distinct categories. For years, traditional computer vision algorithms had plateaued at an error rate of around 25%. However, a deep convolutional neural network named AlexNet, designed by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton, obliterated the competition, achieving a groundbreaking error rate of 15.3%. This dramatic victory proved that given enough data and computational power, neural networks could vastly outperform human-coded algorithms.</p>
+        <p><span class="paragraph-label">C</span> Following the success of AlexNet, Deep Learning rapidly conquered other domains, most notably Natural Language Processing (NLP). The rigid, rule-based language translation systems of the 20th century were replaced by neural networks capable of ingesting vast swaths of internet text to learn the statistical probability of word sequences. In 2017, a team of researchers at Google published a seminal paper titled "Attention Is All You Need," introducing the "Transformer" architecture. Unlike previous models that processed text sequentially, Transformers could analyze entire sentences simultaneously, weighing the contextual relationship between distant words.</p>
+        <p><span class="paragraph-label">D</span> The Transformer architecture gave birth to Large Language Models (LLMs), which exhibit startling capabilities in summarization, coding, and creative writing. However, the opaque nature of these deep neural networks has sparked intense ethical debate. Because LLMs are trained on unfiltered data scraped from the internet, they frequently internalize and amplify human biases regarding race, gender, and socioeconomics. Furthermore, these models are prone to "hallucinations"—confidently generating plausible but entirely fictitious information.</p>
+        <p><span class="paragraph-label">E</span> As researchers push towards the holy grail of Artificial General Intelligence (AGI)—a machine capable of understanding and learning any intellectual task that a human can—the focus of the academic community has drastically shifted from mere capability to "alignment." Alignment research seeks to ensure that the objectives and behaviors of vastly superhuman AI systems remain synchronized with human values and safety constraints, a challenge that many experts consider the most critical technological hurdle of the 21st century.</p>
+      </div>
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–5</h2>
+        <div class="instruction">Do the following statements agree with the information given in Reading Passage 1? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">John McCarthy funded the Dartmouth workshop entirely out of his own personal finances. <br><input type="text" id="q1" oninput="markNavAnswered(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">The Logic Theorist software successfully discovered a new mathematical proof. <br><input type="text" id="q2" oninput="markNavAnswered(2)"></div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">Herbert Simon predicted that AI would surpass human intelligence by the year 2000. <br><input type="text" id="q3" oninput="markNavAnswered(3)"></div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">Symbolic AI programs struggled to operate effectively outside of constrained, artificial microworlds. <br><input type="text" id="q4" oninput="markNavAnswered(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">The Lighthill Report caused the United States government to increase funding for theoretical robotics. <br><input type="text" id="q5" oninput="markNavAnswered(5)"></div></div>
+
+        <h2>Questions 6–9</h2>
+        <div class="instruction">Match each achievement/concept to the correct researcher(s) <strong>A, B, C, or D</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> John McCarthy</div>
+          <div class="box-item"><strong>B</strong> Allen Newell & Herbert A. Simon</div>
+          <div class="box-item"><strong>C</strong> Sir James Lighthill</div>
+          <div class="box-item"><strong>D</strong> DARPA</div>
+        </div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">Created a program that proved theorems from Principia Mathematica. <input type="text" id="q6" oninput="markNavAnswered(6)"></div></div>
+        <div class="q-item"><div class="q-num">7</div><div class="q-text">Authored a report that effectively initiated the first AI Winter in the UK. <input type="text" id="q7" oninput="markNavAnswered(7)"></div></div>
+        <div class="q-item"><div class="q-num">8</div><div class="q-text">Officially coined the term "Artificial Intelligence". <input type="text" id="q8" oninput="markNavAnswered(8)"></div></div>
+        <div class="q-item"><div class="q-num">9</div><div class="q-text">Demanded that AI research focus on immediate, practical applications. <input type="text" id="q9" oninput="markNavAnswered(9)"></div></div>
+
+        <h2>Questions 10–13</h2>
+        <div class="instruction">Complete the summary. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+        <div class="q-item"><div class="q-text">
+          During the era of GOFAI, scientists believed human thought could be replicated using explicit <strong>10</strong> <input type="text" id="q10" oninput="markNavAnswered(10)">. While successful in specific domains, these programs lacked the implicit knowledge known as <strong>11</strong> <input type="text" id="q11" oninput="markNavAnswered(11)"> required to navigate the real world. Ultimately, because early AI was found to be fundamentally <strong>12</strong> <input type="text" id="q12" oninput="markNavAnswered(12)">, funding was slashed, placing the dream of machine intelligence into a decade-long <strong>13</strong> <input type="text" id="q13" oninput="markNavAnswered(13)">.
+        </div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–19</h2>
+        <div class="instruction">Choose the correct heading for each paragraph from the list below. Write <strong>i–viii</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The biological inspiration of neural networks</div>
+          <div class="box-item"><strong>ii</strong> A profitable, highly specific diagnostic era</div>
+          <div class="box-item"><strong>iii</strong> Why rule-based systems collapsed</div>
+          <div class="box-item"><strong>iv</strong> The algorithm that allowed networks to self-correct</div>
+          <div class="box-item"><strong>v</strong> The failure of early robotics</div>
+          <div class="box-item"><strong>vi</strong> Corporate wealth generated by XCON</div>
+        </div>
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">Paragraph A <input type="text" id="q14" oninput="markNavAnswered(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">Paragraph B <input type="text" id="q15" oninput="markNavAnswered(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">Paragraph C <input type="text" id="q16" oninput="markNavAnswered(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">Paragraph D <input type="text" id="q17" oninput="markNavAnswered(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">Paragraph E <input type="text" id="q18" oninput="markNavAnswered(18)"></div></div>
+        <div class="q-item"><div class="q-num">19</div><div class="q-text"><em>(Placeholder for standard format)</em> What caused the second AI winter? <input type="text" id="q19" oninput="markNavAnswered(19)"></div></div>
+
+        <h2>Questions 20–23</h2>
+        <div class="instruction">Write <strong>YES</strong> if the statement agrees with the claims of the writer, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">20</div><div class="q-text">Expert systems were designed to possess generalized human intelligence. <br><input type="text" id="q20" oninput="markNavAnswered(20)"></div></div>
+        <div class="q-item"><div class="q-num">21</div><div class="q-text">XCON was deployed by DEC to diagnose complex human blood infections. <br><input type="text" id="q21" oninput="markNavAnswered(21)"></div></div>
+        <div class="q-item"><div class="q-num">22</div><div class="q-text">Updating the rules in Expert Systems required extensive manual labor. <br><input type="text" id="q22" oninput="markNavAnswered(22)"></div></div>
+        <div class="q-item"><div class="q-num">23</div><div class="q-text">Backpropagation was instantly successful because of 1980s computer hardware. <br><input type="text" id="q23" oninput="markNavAnswered(23)"></div></div>
+
+        <h2>Questions 24–26</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">24</div><div class="q-text">What was the fatal flaw of Expert Systems?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q24" value="A" onchange="markNavAnswered(24)"> A) They lacked an inference engine.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="B" onchange="markNavAnswered(24)"> B) They crashed when facing undocumented scenarios.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="C" onchange="markNavAnswered(24)"> C) They cost forty million dollars to run.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="D" onchange="markNavAnswered(24)"> D) They relied too heavily on biological neural networks.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">25</div><div class="q-text">How do Artificial Neural Networks learn?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q25" value="A" onchange="markNavAnswered(25)"> A) By reading manual rules coded by human experts.</label>
+            <label class="mcq-label"><input type="radio" name="q25" value="B" onchange="markNavAnswered(25)"> B) By generating new Lisp Machine hardware.</label>
+            <label class="mcq-label"><input type="radio" name="q25" value="C" onchange="markNavAnswered(25)"> C) By adjusting statistical weights based on patterns in raw data.</label>
+            <label class="mcq-label"><input type="radio" name="q25" value="D" onchange="markNavAnswered(25)"> D) By solving theorems from Principia Mathematica.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">26</div><div class="q-text">Why did connectionism remain dormant in the 1990s?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q26" value="A" onchange="markNavAnswered(26)"> A) Backpropagation was mathematically flawed.</label>
+            <label class="mcq-label"><input type="radio" name="q26" value="B" onchange="markNavAnswered(26)"> B) There was insufficient data and computational power.</label>
+            <label class="mcq-label"><input type="radio" name="q26" value="C" onchange="markNavAnswered(26)"> C) Geoffrey Hinton abandoned the research.</label>
+            <label class="mcq-label"><input type="radio" name="q26" value="D" onchange="markNavAnswered(26)"> D) DARPA strictly prohibited neural network research.</label>
+          </div>
+        </div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31</h2>
+        <div class="instruction">Which paragraph contains the following information? Write <strong>A, B, C, D, or E</strong>.</div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">A description of how a model processes words simultaneously rather than sequentially. <input type="text" id="q27" oninput="markNavAnswered(27)"></div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">The danger of AI models generating convincing but false data. <input type="text" id="q28" oninput="markNavAnswered(28)"></div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">How gaming hardware was repurposed for AI calculations. <input type="text" id="q29" oninput="markNavAnswered(29)"></div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">The academic shift towards ensuring AI goals match human values. <input type="text" id="q30" oninput="markNavAnswered(30)"></div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">A competition that proved neural networks were superior to hand-coded algorithms. <input type="text" id="q31" oninput="markNavAnswered(31)"></div></div>
+
+        <h2>Questions 32–36</h2>
+        <div class="instruction">Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-text">
+          Deep Learning became viable because <strong>32</strong> <input type="text" id="q32" oninput="markNavAnswered(32)"> could perform mathematical calculations simultaneously. In 2012, a model named <strong>33</strong> <input type="text" id="q33" oninput="markNavAnswered(33)"> lowered the error rate in image classification to 15.3%. Later, Google introduced the <strong>34</strong> <input type="text" id="q34" oninput="markNavAnswered(34)"> architecture, which revolutionized text translation. However, because modern LLMs are trained on unfiltered internet text, they often amplify human <strong>35</strong> <input type="text" id="q35" oninput="markNavAnswered(35)">. To prevent future harm, experts are now highly focused on <strong>36</strong> <input type="text" id="q36" oninput="markNavAnswered(36)"> to keep machines safe.
+        </div></div>
+
+        <h2>Questions 37–40</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">Prior to 2012, what was the typical error rate for traditional computer vision?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q37" value="A" onchange="markNavAnswered(37)"> A) 15.3%</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="B" onchange="markNavAnswered(37)"> B) Around 25%</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="C" onchange="markNavAnswered(37)"> C) 0%</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="D" onchange="markNavAnswered(37)"> D) Over 50%</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">The "Attention Is All You Need" paper revolutionized which field?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q38" value="A" onchange="markNavAnswered(38)"> A) Image classification</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="B" onchange="markNavAnswered(38)"> B) Robotics hardware</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="C" onchange="markNavAnswered(38)"> C) Natural Language Processing</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="D" onchange="markNavAnswered(38)"> D) Game rendering</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">What is an AI "hallucination"?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q39" value="A" onchange="markNavAnswered(39)"> A) Generating entirely fictitious information confidently.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="B" onchange="markNavAnswered(39)"> B) Crashing when given an undocumented rule.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="C" onchange="markNavAnswered(39)"> C) Scraping too much data from the internet.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="D" onchange="markNavAnswered(39)"> D) Processing images sequentially.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">What defines Artificial General Intelligence (AGI)?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q40" value="A" onchange="markNavAnswered(40)"> A) A machine built entirely from biological neurons.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="B" onchange="markNavAnswered(40)"> B) A system that configures computer hardware efficiently.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="C" onchange="markNavAnswered(40)"> C) A machine capable of learning any intellectual task a human can.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="D" onchange="markNavAnswered(40)"> D) An algorithm that plays chess perfectly.</label>
+          </div>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers">
+      </div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest(false)">Submit Module</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // Passage 1
+      q1: 'false', q2: 'true', q3: 'not given', q4: 'true', q5: 'false',
+      q6: 'b', q7: 'c', q8: 'a', q9: 'd',
+      q10: 'logical rules', q11: 'common sense', q12: 'brittle', q13: 'deep freeze',
+      
+      // Passage 2
+      q14: 'ii', q15: 'vi', q16: 'iii', q17: 'i', q18: 'iv', q19: 'knowledge acquisition bottleneck',
+      q20: 'no', q21: 'no', q22: 'yes', q23: 'no',
+      q24: 'b', q25: 'c', q26: 'b',
+      
+      // Passage 3
+      q27: 'c', q28: 'd', q29: 'a', q30: 'e', q31: 'b',
+      q32: 'gpus', q33: 'alexnet', q34: 'transformer', q35: 'biases', q36: 'alignment',
+      q37: 'b', q38: 'c', q39: 'a', q40: 'c'
+    };
+
+    // Initialize Navigation
+    function initBottomNav() {
+      const navContainer = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn';
+        btn.id = 'nav-btn-' + i;
+        btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        navContainer.appendChild(btn);
+      }
+    }
+
+    function markNavAnswered(qNumber) {
+      const input = document.getElementById('q' + qNumber);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${qNumber}"]:checked`);
+      const navBtn = document.getElementById('nav-btn-' + qNumber);
+      if(isAnswered) navBtn.classList.add('answered');
+      else navBtn.classList.remove('answered');
+    }
+
+    function scrollToQuestion(qNumber) {
+      let targetTab = 1;
+      if (qNumber >= 14 && qNumber <= 26) targetTab = 2;
+      if (qNumber >= 27 && qNumber <= 40) targetTab = 3;
+      
+      switchSection(targetTab);
+      
+      setTimeout(() => {
+        let qElement = document.getElementById('q' + qNumber);
+        if (!qElement) {
+          const radioInput = document.querySelector(`input[name="q${qNumber}"]`);
+          if(radioInput) qElement = radioInput.closest('.q-item');
+        } else {
+          qElement = qElement.closest('.q-item');
+        }
+
+        if (qElement) {
+          document.getElementById('right-panel').scrollTo({
+            top: qElement.offsetTop - 50, behavior: 'smooth'
+          });
+          qElement.style.background = '#FEF08A';
+          setTimeout(() => qElement.style.background = '', 1000);
+        }
+      }, 50);
+    }
+
+    function switchSection(sectionNumber) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+      document.getElementById('tab-' + sectionNumber).classList.add('active');
+      document.getElementById('passage-' + sectionNumber).classList.add('active');
+      document.getElementById('questions-' + sectionNumber).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    /* --- TIMER & LAUNCH --- */
+    let timeRemaining = 3600;
+    let timerInterval;
+
+    function startTest() {
+      initBottomNav();
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex'; // Reveals nav bar
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        const m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+        const s = (timeRemaining % 60).toString().padStart(2, '0');
+        document.getElementById('timer').textContent = `${m}:${s}`;
+        
+        if(timeRemaining <= 300) document.getElementById('timer').classList.add('warning');
+        if(timeRemaining <= 0) submitTest(true);
+      }, 1000);
+    }
+
+    /* --- EVALUATION --- */
+    function submitTest(isAuto = false) {
+      if(!isAuto && !confirm("Confirm final submission?")) return;
+      clearInterval(timerInterval);
+      
+      let score = 0;
+      for(let i=1; i<=40; i++) {
+        const qId = 'q' + i;
+        const textInput = document.getElementById(qId);
+        const correctAns = answerKey[qId];
+        
+        if (textInput) {
+          const userAns = textInput.value.trim().toLowerCase();
+          if (userAns === correctAns || (correctAns.includes(userAns) && userAns.length > 3)) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else {
+            textInput.classList.add('wrong-answer');
+            textInput.value = userAns ? `${userAns} ❌ [${correctAns.toUpperCase()}]` : `❌ [${correctAns.toUpperCase()}]`;
+            textInput.style.width = "280px";
+          }
+          textInput.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if (selected && selected.value.toLowerCase() === correctAns) {
+            score++;
+            selected.parentElement.classList.add('correct-answer');
+          } else {
+            if (selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAns.toUpperCase()}"]`);
+            if (correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+
+      document.getElementById('final-score').innerHTML = `${score} <span style="font-size: 1.5rem; color: #7F8C8D;">/ 40</span>`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.body.classList.add('test-completed');
+      document.getElementById('btn-submit').style.display = 'none';
+    }
+
+  </script>
+</body>
+</html>

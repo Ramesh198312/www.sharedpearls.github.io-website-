@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 17: Global Demographic Shifts | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- ACADEMIC EDITORIAL PALETTE --- */
+    :root {
+      --navy-dark: #0B162C;
+      --navy-main: #1A2C4D;
+      --cerulean: #007EA7;
+      --champagne: #D4AF37;
+      --bg-page: #F4F6F8;
+      --bg-panel: #FFFFFF;
+      --text-main: #2C3E50;
+      --text-muted: #7F8C8D;
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+    
+    /* --- HEADER --- */
+    header { 
+      background: var(--navy-dark); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--champagne); 
+      flex-shrink: 0; z-index: 10;
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; }
+    .brand span { color: var(--champagne); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #BDC3C7; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(0, 126, 167, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--cerulean); background: rgba(0, 126, 167, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--champagne); background: var(--navy-main); padding: 0.4rem 1.2rem; border-radius: 4px; }
+    .timer.warning { color: #E74C3C; animation: pulse 1s infinite; }
+    
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    
+    /* --- WORKSPACE & PANELS --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+    
+    /* --- LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #f9f7f5;
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; color: var(--navy-dark); margin-bottom: 1rem; font-family: var(--font-passage); max-width: 900px; }
+    .pre-test-overlay p { font-size: 1.1rem; color: var(--text-muted); max-width: 700px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .btn-start-large {
+      background: var(--navy-main); color: #FFF; padding: 1.2rem 3rem; font-size: 1rem; font-weight: 600;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-start-large:hover { background: var(--cerulean); }
+
+    /* --- TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 1.8rem; margin-bottom: 2rem; color: var(--navy-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 0.95rem; color: var(--text-main); text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; margin-right: 12px; color: var(--cerulean); float: left; }
+
+    .right-panel h2 { font-size: 1.1rem; margin: 2rem 0 1rem; color: var(--navy-dark); border-bottom: 2px solid var(--champagne); padding-bottom: 5px; font-weight: 700; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.85rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--cerulean); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; }
+    
+    input[type="text"] { border: none; border-bottom: 2px solid #BDC3C7; background: transparent; font-size: 0.95rem; width: 170px; font-weight: 600; color: var(--cerulean); text-align: center; outline: none; transition: border-color 0.3s;}
+    input[type="text"]:focus { border-bottom-color: var(--navy-main); }
+    input:disabled { color: var(--navy-dark); background: transparent; }
+
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.2rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.9rem; font-weight: 500; color: var(--text-main); }
+    .box-item strong { font-family: var(--font-mono); color: var(--cerulean); margin-right: 5px;}
+    
+    /* --- BOTTOM NAV --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; align-items: center; justify-content: space-between; padding: 0 3rem;
+      position: relative; z-index: 100;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 26px; height: 26px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main); font-weight: 600;
+    }
+    .nav-btn.answered { background: var(--navy-main); color: #FFF; border-color: var(--navy-main); }
+
+    .btn-submit-small { background: var(--cerulean); color: #FFF; border: none; padding: 0.6rem 2rem; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
+    .btn-submit-small:hover { background: var(--navy-main); }
+
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      z-index: 200; text-align: center; border-top: 5px solid var(--cerulean); min-width: 450px;
+    }
+    .correct-answer { color: #27AE60 !important; font-weight: 700; border-bottom-color: #27AE60 !important; }
+    .wrong-answer { color: #E74C3C !important; border-bottom-color: #E74C3C !important; }
+    
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls</span> of Wisdom | <span>Academic Reading</span></div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2 style="color: var(--navy-dark);">Evaluation Complete</h2>
+    <div style="font-size: 3.5rem; font-weight: 800; margin: 1rem 0; font-family: var(--font-mono); color: var(--cerulean);" id="final-score">0 / 40</div>
+    <p style="margin-bottom: 1.5rem; color: var(--text-main);">The interface is now locked. Click below to review your answers.</p>
+    <button class="btn-submit-small" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <h2>Demographics: Global Demographic Shifts and the Rapid Transformation of the Workforce</h2>
+      <p>This premium module assesses reading comprehension regarding the macroeconomic impacts of the 'Silver Tsunami', the generational recalibration of corporate labor, and the geopolitical implications of the African demographic dividend.</p>
+      <button class="btn-start-large" onclick="startTest()">Initiate Assessment</button>
+    </div>
+
+    <div class="dormant-overlay" id="dormant-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.3); z-index:50; pointer-events:none;"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Silver Tsunami and the Inverted Pyramid</h1>
+        
+        <p><span class="paragraph-label">A</span> For the vast majority of human history, the global population structure closely resembled a perfect pyramid: a massive base of children and young adults supporting a progressively smaller apex of the elderly. This structure was maintained by high birth rates offsetting equally high mortality rates. However, the advent of the industrial revolution, followed by 20th-century breakthroughs in sanitation, antibiotics, and agricultural yields, initiated the "demographic transition." Death rates plummeted, leading to a temporary population explosion. Subsequently, as societies urbanized and women gained widespread access to education and contraception, birth rates also began to fall, stabilizing the population growth curve.</p>
+        
+        <p><span class="paragraph-label">B</span> In the 21st century, this transition has entered an unprecedented and highly disruptive final phase: the inversion of the population pyramid. Across the developed world—and increasingly in middle-income nations—the Total Fertility Rate (TFR) has collapsed well below the "replacement level" of 2.1 children per woman required to maintain a stable population. Concurrently, advancements in gerontological medicine have dramatically extended life expectancies. The resulting phenomenon, often colloquially termed the "Silver Tsunami," features a rapidly expanding cohort of retirees resting upon a shrinking foundation of working-age adults.</p>
+        
+        <p><span class="paragraph-label">C</span> The macroeconomic implications of this structural inversion are profound, measured primarily by the Old-Age Dependency Ratio (OADR). The OADR calculates the number of individuals aged 65 and older per 100 people of working age (15–64). A high OADR signals extreme economic distress. As the proportion of retirees swells, the financial burden on the active workforce intensifies. Governments face a shrinking tax base precisely at the moment when public expenditure on pensions, healthcare, and specialized eldercare is skyrocketing. Economists warn that without radical structural reform, heavily aged nations face a future of chronic economic stagnation and severe sovereign debt crises.</p>
+        
+        <p><span class="paragraph-label">D</span> Japan serves as the archetypal case study for this demographic frontier. It is the world's first "super-aging" society, where more than 28% of the population is over 65, and annual adult diaper sales routinely eclipse infant diaper sales. The Japanese workforce has been shrinking since 1995, resulting in thousands of abandoned rural homes (<i>akiya</i>) and chronic labor shortages in essential sectors like construction and healthcare. Despite severe economic stagnation since the 1990s, Japan has managed to avoid total systemic collapse through massive government borrowing and heavy investments in industrial robotics, effectively substituting mechanical labor for missing human capital.</p>
+        
+        <p><span class="paragraph-label">E</span> To mitigate the impending crisis, governments worldwide are desperately experimenting with policy levers. The most mathematically direct, yet politically explosive, solution is raising the statutory retirement age to reflect expanding lifespans, a move that frequently triggers widespread civil unrest, as seen in France. Alternatively, nations like South Korea and Hungary have implemented aggressive "pro-natalist" policies, offering massive cash subsidies, tax exemptions, and subsidized childcare to incentivize childbirth. However, sociologists note that these financial incentives have universally failed to meaningfully reverse the cultural and economic realities that drive declining fertility, suggesting that the inverted pyramid is an irreversible feature of modern civilization.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>Generational Paradigm Shifts in the Corporate Workforce</h1>
+        
+        <p><span class="paragraph-label">A</span> As the demographic reality of a shrinking labor pool takes hold, a secondary, equally disruptive shift is occurring within the sociology of the workplace itself. The mass retirement of the "Baby Boomer" generation and the ascension of Millennials and Generation Z to middle and senior management have fundamentally rewritten the "psychological contract" of employment. For decades, the corporate paradigm operated on a transactional foundation of extrinsic motivation: employees offered unswerving loyalty, long hours, and geographical stability in direct exchange for linear career progression, job security, and a robust pension.</p>
+        
+        <p><span class="paragraph-label">B</span> The incoming generations, however, entered the workforce during a period marked by profound structural precarity—weathering the 2008 financial crisis, a global pandemic, and rampant inflation. Witnessing the erosion of corporate pensions and the normalization of mass layoffs, younger workers have largely abandoned the concept of corporate loyalty. Instead, their motivation has shifted heavily toward the intrinsic. Modern labor surveys consistently demonstrate that Gen Z professionals prioritize workplace flexibility, mental health support, and a firm’s alignment with their personal ethical values (such as environmental sustainability and social justice) almost as highly as base financial compensation.</p>
+        
+        <p><span class="paragraph-label">C</span> This recalibration of values has fueled the explosive growth of the "gig economy" and freelance labor markets. Unwilling to accept the rigid hierarchies and mandated office presence of the traditional corporate structure, millions of highly skilled workers are opting for the autonomy of independent contracting. While this provides unparalleled geographical and temporal freedom—accelerated by post-pandemic telecommuting technologies—it simultaneously strips workers of traditional safety nets, such as employer-sponsored healthcare and paid medical leave, transferring the economic risk entirely from the corporation onto the individual.</p>
+        
+        <p><span class="paragraph-label">D</span> For those who remain within the traditional corporate structure, the shifting paradigm has manifested in the viral phenomenon of "Quiet Quitting." Mischaracterized by older management as sheer laziness, organizational psychologists define quiet quitting as a deliberate, rational recalibration of work-life boundaries. It is the active refusal to consistently exceed the explicit parameters of a job description without corresponding financial compensation. It represents a total rejection of "hustle culture," where self-worth is inherently tied to professional over-exertion, signaling a profound burnout among the younger demographic.</p>
+        
+        <p><span class="paragraph-label">E</span> To survive this demographic and cultural transition, legacy corporations are being forced to adapt their management architectures. The authoritarian, top-down leadership styles that dominated the 20th century are proving toxic to Gen Z retention. Progressive firms are transitioning toward decentralized, outcome-based management structures. In this model, managers do not dictate *how* or *when* an employee completes a task, only that the final objective is met. This shift towards extreme flexibility is no longer viewed as a corporate perk, but as an absolute baseline requirement for attracting human capital in a progressively tightening labor market.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>The Automation Paradox and the African Dividend</h1>
+        
+        <p><span class="paragraph-label">A</span> The intersection of a rapidly shrinking global workforce and the exponential rise of Artificial Intelligence (AI) presents both an existential threat and a crucial lifeline. In heavily aged societies like Germany, South Korea, and China, automation is no longer viewed merely as a tool for corporate profit maximization; it is an absolute macroeconomic necessity. Without the mass integration of AI, autonomous logistics, and industrial robotics, these nations simply will not possess enough human workers to maintain their current levels of gross domestic product (GDP) or support their massive retired populations.</p>
+        
+        <p><span class="paragraph-label">B</span> However, economists caution against viewing AI as a frictionless solution, highlighting the "Automation Paradox." Dr. Elias Thorne, a leading labor economist, argues that while AI successfully eliminates routine, repetitive tasks, it simultaneously generates a massive demand for highly complex, technologically sophisticated roles—jobs that require nuanced critical thinking, emotional intelligence, and advanced programming capabilities. The paradox lies in the fact that aging, shrinking populations are uniquely ill-equipped to rapidly reskill their remaining, older workforce to fill these newly created, highly demanding technical positions, leading to severe, chronic skill mismatches.</p>
+        
+        <p><span class="paragraph-label">C</span> While the Global North grapples with demographic contraction, Sub-Saharan Africa represents a staggering geographical anomaly. The continent is experiencing a massive "youth bulge." By 2050, it is projected that one in four people on Earth will be African, with the continent boasting the world's youngest median age. Development economist Dr. Amina Sen points out that this represents a potential "Demographic Dividend"—a period of extraordinary economic growth that occurs when a country's working-age population is significantly larger than its non-working dependents, a phenomenon that historically fueled the rise of the "Asian Tigers" in the late 20th century.</p>
+        
+        <p><span class="paragraph-label">D</span> Realizing this dividend, however, is not guaranteed. Prof. Julian Vargas, a geopolitical risk analyst, warns that a youth bulge is a double-edged sword. If African governments fail to rapidly develop robust educational infrastructure and generate millions of formal sector jobs, the demographic dividend could quickly mutate into a demographic disaster. A massive population of young, educated, but chronically unemployed individuals is the precise historical recipe for severe civil unrest, political instability, and mass forced migration.</p>
+        
+        <p><span class="paragraph-label">E</span> To bridge the gap between the aging North and the youthful South, the global economy is increasingly relying on "tele-migration." Sociologist Sarah Lin notes that the normalization of remote work allows Western corporations to engage in global labor arbitrage without the political friction of physical immigration. A tech firm in London can now seamlessly hire software developers in Nairobi or Lagos, integrating the African youth bulge directly into the European economy via broadband cables, sidestepping the restrictive border policies that typically inhibit human movement.</p>
+        
+        <p><span class="paragraph-label">F</span> Ultimately, the 21st century will be defined by how the global economy reconciles these extreme demographic disparities. The traditional geopolitical hierarchies, based largely on military might or natural resource extraction, are being rapidly superseded by the availability and quality of human capital. In the coming decades, the true wealth of a nation will not be measured by what lies beneath its soil, but by the age, education, and adaptability of the people walking upon it.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        
+        <h2>Questions 1–5: Matching Headings</h2>
+        <div class="instruction">Reading Passage 1 has five paragraphs, <strong>A–E</strong>. Choose the correct heading for each paragraph from the list below.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The failure of financial incentives to boost birth rates</div>
+          <div class="box-item"><strong>ii</strong> Using mechanical labor to survive a shrinking workforce</div>
+          <div class="box-item"><strong>iii</strong> The historical shift from high mortality to stable growth</div>
+          <div class="box-item"><strong>iv</strong> The economic distress caused by an expanding retiree class</div>
+          <div class="box-item"><strong>v</strong> Why urban populations suffer from worse health outcomes</div>
+          <div class="box-item"><strong>vi</strong> The global collapse of the total fertility rate below 2.1</div>
+        </div>
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph A <input type="text" id="q1" oninput="markAnswer(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph B <input type="text" id="q2" oninput="markAnswer(2)"></div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph C <input type="text" id="q3" oninput="markAnswer(3)"></div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph D <input type="text" id="q4" oninput="markAnswer(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph E <input type="text" id="q5" oninput="markAnswer(5)"></div></div>
+
+        <h2>Questions 6–9: True/False/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the information given in Reading Passage 1? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">Before the industrial revolution, high birth rates were generally offset by equally high mortality rates. <br><input type="text" id="q6" oninput="markAnswer(6)"></div></div>
+        <div class="q-item"><div class="q-num">7</div><div class="q-text">The Old-Age Dependency Ratio calculates the number of children under 15 compared to working adults. <br><input type="text" id="q7" oninput="markAnswer(7)"></div></div>
+        <div class="q-item"><div class="q-num">8</div><div class="q-text">In Japan, annual sales of adult diapers now regularly exceed those of infant diapers. <br><input type="text" id="q8" oninput="markAnswer(8)"></div></div>
+        <div class="q-item"><div class="q-num">9</div><div class="q-text">Raising the statutory retirement age in France was universally supported by its citizens. <br><input type="text" id="q9" oninput="markAnswer(9)"></div></div>
+
+        <h2>Questions 10–13: Sentence Completion</h2>
+        <div class="instruction">Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-num">10</div><div class="q-text">A Total Fertility Rate of 2.1 is required to maintain a <strong>10</strong> <input type="text" id="q10" oninput="markAnswer(10)">.</div></div>
+        <div class="q-item"><div class="q-num">11</div><div class="q-text">Heavily aged nations risk chronic stagnation and severe <strong>11</strong> <input type="text" id="q11" oninput="markAnswer(11)"> if reforms are not made.</div></div>
+        <div class="q-item"><div class="q-num">12</div><div class="q-text">Japan substituted missing human capital by heavily investing in <strong>12</strong> <input type="text" id="q12" oninput="markAnswer(12)">.</div></div>
+        <div class="q-item"><div class="q-num">13</div><div class="q-text">South Korea offers cash subsidies and tax exemptions as part of aggressive <strong>13</strong> <input type="text" id="q13" oninput="markAnswer(13)">.</div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        
+        <h2>Questions 14–17: Matching Information</h2>
+        <div class="instruction">Reading Passage 2 has five paragraphs, <strong>A–E</strong>. Which paragraph contains the following information? Write <strong>A–E</strong>.</div>
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">A description of a leadership model that focuses purely on final results rather than processes. <input type="text" id="q14" oninput="markAnswer(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">The idea that younger workers prioritize ethical values and mental health similarly to base salary. <input type="text" id="q15" oninput="markAnswer(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">The definition of a traditional employment contract built on unswerving loyalty and long hours. <input type="text" id="q16" oninput="markAnswer(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">An explanation of an employment trend that removes traditional safety nets like paid medical leave. <input type="text" id="q17" oninput="markAnswer(17)"></div></div>
+
+        <h2>Questions 18–21: Multiple Choice</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">How do younger generations generally view traditional corporate loyalty?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q18" value="A" onchange="markAnswer(18)"> A) As the only way to secure a robust pension.</label>
+            <label class="mcq-label"><input type="radio" name="q18" value="B" onchange="markAnswer(18)"> B) As an outdated concept they have largely abandoned due to structural precarity.</label>
+            <label class="mcq-label"><input type="radio" name="q18" value="C" onchange="markAnswer(18)"> C) As a legally binding requirement for employment.</label>
+            <label class="mcq-label"><input type="radio" name="q18" value="D" onchange="markAnswer(18)"> D) As highly desirable but impossible to achieve.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">19</div><div class="q-text">What is a major disadvantage of participating in the "gig economy"?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q19" value="A" onchange="markAnswer(19)"> A) It forces workers to commute to a central office every day.</label>
+            <label class="mcq-label"><input type="radio" name="q19" value="B" onchange="markAnswer(19)"> B) It requires workers to manage massive teams of employees.</label>
+            <label class="mcq-label"><input type="radio" name="q19" value="C" onchange="markAnswer(19)"> C) It shifts all economic risk from the corporation entirely onto the individual.</label>
+            <label class="mcq-label"><input type="radio" name="q19" value="D" onchange="markAnswer(19)"> D) It explicitly forbids working for environmental charities.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">20</div><div class="q-text">How do organizational psychologists define "Quiet Quitting"?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q20" value="A" onchange="markAnswer(20)"> A) As an act of sheer laziness and incompetence.</label>
+            <label class="mcq-label"><input type="radio" name="q20" value="B" onchange="markAnswer(20)"> B) As secretly searching for a new job while at the office.</label>
+            <label class="mcq-label"><input type="radio" name="q20" value="C" onchange="markAnswer(20)"> C) As a rational recalibration of boundaries and refusal to over-exert without pay.</label>
+            <label class="mcq-label"><input type="radio" name="q20" value="D" onchange="markAnswer(20)"> D) As an illegal breach of the psychological employment contract.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">21</div><div class="q-text">Why are progressive firms transitioning to decentralized management?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q21" value="A" onchange="markAnswer(21)"> A) Because top-down, authoritarian styles are toxic to retaining Gen Z talent.</label>
+            <label class="mcq-label"><input type="radio" name="q21" value="B" onchange="markAnswer(21)"> B) Because it makes it easier to fire older workers.</label>
+            <label class="mcq-label"><input type="radio" name="q21" value="C" onchange="markAnswer(21)"> C) Because the government mandates flexible hours for all companies.</label>
+            <label class="mcq-label"><input type="radio" name="q21" value="D" onchange="markAnswer(21)"> D) Because they can no longer afford to rent large office buildings.</label>
+          </div>
+        </div></div>
+
+        <h2>Questions 22–26: Summary Completion</h2>
+        <div class="instruction">Complete the summary below using <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        
+        <div class="q-item"><div class="q-text">
+          The corporate workplace is undergoing a rapid transition. Older generations operated on a model of <strong>22</strong> <input type="text" id="q22" oninput="markAnswer(22)">, trading extreme loyalty for linear career progression. However, after experiencing rampant inflation and mass layoffs, younger workers have experienced a shift toward the <strong>23</strong> <input type="text" id="q23" oninput="markAnswer(23)">. Many avoid traditional hierarchies by joining the gig economy, which offers freedom but lacks traditional <strong>24</strong> <input type="text" id="q24" oninput="markAnswer(24)"> like paid medical leave. Inside corporations, young workers engage in "Quiet Quitting", which is a deliberate rejection of toxic <strong>25</strong> <input type="text" id="q25" oninput="markAnswer(25)">. To attract talent, progressive companies must now offer extreme flexibility as a basic <strong>26</strong> <input type="text" id="q26" oninput="markAnswer(26)"> rather than a mere perk.
+        </div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        
+        <h2>Questions 27–31: Yes/No/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer in Reading Passage 3? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">For aging nations like Germany, integrating AI is an absolute macroeconomic necessity. <br><input type="text" id="q27" oninput="markAnswer(27)"></div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">AI primarily generates demand for simple, routine manual labor jobs. <br><input type="text" id="q28" oninput="markAnswer(28)"></div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">By 2050, it is projected that Africa will have the world's oldest median age. <br><input type="text" id="q29" oninput="markAnswer(29)"></div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">The "Demographic Dividend" historically fueled the rapid economic rise of the Asian Tigers. <br><input type="text" id="q30" oninput="markAnswer(30)"></div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">Tele-migration requires complex visas and physical border crossings. <br><input type="text" id="q31" oninput="markAnswer(31)"></div></div>
+
+        <h2>Questions 32–35: Matching Features</h2>
+        <div class="instruction">Match each description with the correct expert below. Write <strong>A, B, C, or D</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Dr. Elias Thorne</div>
+          <div class="box-item"><strong>B</strong> Dr. Amina Sen</div>
+          <div class="box-item"><strong>C</strong> Prof. Julian Vargas</div>
+          <div class="box-item"><strong>D</strong> Sarah Lin</div>
+        </div>
+        <div class="q-item"><div class="q-num">32</div><div class="q-text">Warns that high youth unemployment is a historical recipe for civil unrest and forced migration. <input type="text" id="q32" oninput="markAnswer(32)"></div></div>
+        <div class="q-item"><div class="q-num">33</div><div class="q-text">Observes that remote work allows corporations to utilize African labor without physical immigration. <input type="text" id="q33" oninput="markAnswer(33)"></div></div>
+        <div class="q-item"><div class="q-num">34</div><div class="q-text">Points out that a large working-age population presents a potential period of extraordinary economic growth. <input type="text" id="q34" oninput="markAnswer(34)"></div></div>
+        <div class="q-item"><div class="q-num">35</div><div class="q-text">Argues that AI creates severe skill mismatches by demanding highly complex technical roles. <input type="text" id="q35" oninput="markAnswer(35)"></div></div>
+
+        <h2>Questions 36–40: Matching Sentence Endings</h2>
+        <div class="instruction">Complete each sentence with the correct ending, <strong>A–F</strong>, below. Write the correct letter in the box.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> sidesteps restrictive physical border policies.</div>
+          <div class="box-item"><strong>B</strong> will mutate into a disastrous wave of political instability.</div>
+          <div class="box-item"><strong>C</strong> are poorly equipped to reskill their remaining older workforce.</div>
+          <div class="box-item"><strong>D</strong> relies entirely on natural resource extraction.</div>
+          <div class="box-item"><strong>E</strong> will be measured by the adaptability and education of its people.</div>
+          <div class="box-item"><strong>F</strong> must mass-integrate automation to maintain their GDP.</div>
+        </div>
+        <div class="q-item"><div class="q-num">36</div><div class="q-text">Nations facing a rapidly shrinking labor pool <input type="text" id="q36" oninput="markAnswer(36)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">Due to the Automation Paradox, heavily aged societies <input type="text" id="q37" oninput="markAnswer(37)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">Without robust job creation, a massive youth bulge <input type="text" id="q38" oninput="markAnswer(38)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">Tele-migration facilitated by broadband technology <input type="text" id="q39" oninput="markAnswer(39)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">In the 21st century, the true geopolitical wealth of a nation <input type="text" id="q40" oninput="markAnswer(40)" style="width:60px;"></div></div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers"></div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest()">Submit Assessment</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // P1: Headings (1-5)
+      q1: 'iii', q2: 'vi', q3: 'iv', q4: 'ii', q5: 'i',
+      // P1: T/F/NG (6-9)
+      q6: 'true', q7: 'false', q8: 'true', q9: 'false',
+      // P1: Sentence Completion (10-13)
+      q10: 'stable population', q11: 'sovereign debt', q12: 'industrial robotics', q13: 'pro-natalist policies',
+      
+      // P2: Matching Info (14-17)
+      q14: 'e', q15: 'b', q16: 'a', q17: 'c',
+      // P2: MCQ (18-21)
+      q18: 'b', q19: 'c', q20: 'c', q21: 'a',
+      // P2: Summary Completion (22-26)
+      q22: 'extrinsic motivation', q23: 'intrinsic', q24: 'safety nets', q25: 'hustle culture', q26: 'baseline requirement',
+      
+      // P3: Y/N/NG (27-31)
+      q27: 'yes', q28: 'no', q29: 'no', q30: 'yes', q31: 'no',
+      // P3: Matching Features (32-35)
+      q32: 'c', q33: 'd', q34: 'b', q35: 'a',
+      // P3: Sentence Endings (36-40)
+      q36: 'f', q37: 'c', q38: 'b', q39: 'a', q40: 'e'
+    };
+
+    function initBottomNav() {
+      const container = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn'; btn.id = 'nb-'+i; btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        container.appendChild(btn);
+      }
+    }
+
+    function markAnswer(n) { 
+      const input = document.getElementById('q' + n);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${n}"]:checked`);
+      const btn = document.getElementById('nb-'+n);
+      if(isAnswered) {
+          btn.classList.add('answered');
+      } else {
+          btn.classList.remove('answered');
+      }
+    }
+
+    function scrollToQuestion(n) {
+      let tab = 1;
+      if(n >= 14 && n <= 26) tab = 2;
+      if(n >= 27 && n <= 40) tab = 3;
+      switchSection(tab);
+      
+      setTimeout(() => {
+        let qEl = document.getElementById('q'+n);
+        if(!qEl) {
+          const radio = document.querySelector(`input[name="q${n}"]`);
+          if(radio) qEl = radio.closest('.q-item');
+        } else {
+          // Check if it's inside a summary box or normal item
+          if(qEl.closest('.q-item')) {
+            qEl = qEl.closest('.q-item'); 
+          }
+        }
+
+        if(qEl) {
+          document.getElementById('right-panel').scrollTo({ top: qEl.offsetTop - 50, behavior: 'smooth' });
+          qEl.style.transition = 'background 0.3s';
+          qEl.style.background = '#e6f7ff'; 
+          setTimeout(() => {
+              qEl.style.background = 'transparent';
+          }, 1200);
+        }
+      }, 50);
+    }
+
+    function switchSection(n) {
+      document.querySelectorAll('.tab-btn, .section-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-'+n).classList.add('active');
+      document.getElementById('passage-'+n).classList.add('active');
+      document.getElementById('questions-'+n).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    let timerInterval;
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex';
+      initBottomNav();
+      let s = 3600;
+      timerInterval = setInterval(() => {
+        s--;
+        const timerEl = document.getElementById('timer');
+        timerEl.textContent = `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
+        if(s <= 300) timerEl.classList.add('warning');
+        if(s <= 0) submitTest(true);
+      }, 1000);
+    }
+
+    function submitTest(auto = false) {
+      if(!auto && !confirm("Submit final assessment?")) return;
+      clearInterval(timerInterval);
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q'+i;
+        const input = document.getElementById(qId);
+        const ans = answerKey[qId];
+        
+        if(input) {
+          const userAns = input.value.trim().toLowerCase();
+          
+          // Relaxed string matching
+          if(userAns === ans || (ans.includes(userAns) && userAns.length > 3 && !['true','false','yes','no'].includes(ans))) {
+            score++; input.classList.add('correct-answer');
+          } else if ((userAns === "debt crises" && ans === "sovereign debt") || (userAns === "pro-natalist" && ans === "pro-natalist policies")) {
+            score++; input.classList.add('correct-answer'); 
+          } else {
+            input.classList.add('wrong-answer');
+            input.value = userAns ? `${userAns} ❌ [${ans.toUpperCase()}]` : `❌ [${ans.toUpperCase()}]`;
+            
+            if(input.style.width === "60px") {
+              input.style.width = "120px";
+            } else {
+              input.style.width = "250px";
+            }
+          }
+          input.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if(selected && selected.value.toLowerCase() === ans) {
+            score++; selected.parentElement.classList.add('correct-answer');
+          } else {
+            if(selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${ans.toUpperCase()}"]`);
+            if(correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+      
+      document.getElementById('final-score').textContent = `${score} / 40`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('dormant-overlay').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

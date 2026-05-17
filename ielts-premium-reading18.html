@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 18: Cultural Heritage Preservation | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- ACADEMIC EDITORIAL PALETTE --- */
+    :root {
+      --navy-dark: #0B162C;
+      --navy-main: #1A2C4D;
+      --cerulean: #007EA7;
+      --champagne: #D4AF37;
+      --bg-page: #F4F6F8;
+      --bg-panel: #FFFFFF;
+      --text-main: #2C3E50;
+      --text-muted: #7F8C8D;
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+    
+    /* --- HEADER --- */
+    header { 
+      background: var(--navy-dark); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--champagne); 
+      flex-shrink: 0; z-index: 10;
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; }
+    .brand span { color: var(--champagne); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #BDC3C7; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(0, 126, 167, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--cerulean); background: rgba(0, 126, 167, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--champagne); background: var(--navy-main); padding: 0.4rem 1.2rem; border-radius: 4px; }
+    .timer.warning { color: #E74C3C; animation: pulse 1s infinite; }
+    
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    
+    /* --- WORKSPACE & PANELS --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+    
+    /* --- LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #f9f7f5;
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; color: var(--navy-dark); margin-bottom: 1rem; font-family: var(--font-passage); max-width: 900px; }
+    .pre-test-overlay p { font-size: 1.1rem; color: var(--text-muted); max-width: 700px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .btn-start-large {
+      background: var(--navy-main); color: #FFF; padding: 1.2rem 3rem; font-size: 1rem; font-weight: 600;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-start-large:hover { background: var(--cerulean); }
+
+    /* --- TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 1.8rem; margin-bottom: 2rem; color: var(--navy-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 0.95rem; color: var(--text-main); text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; margin-right: 12px; color: var(--cerulean); float: left; }
+
+    .right-panel h2 { font-size: 1.1rem; margin: 2rem 0 1rem; color: var(--navy-dark); border-bottom: 2px solid var(--champagne); padding-bottom: 5px; font-weight: 700; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.85rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--cerulean); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; }
+    
+    input[type="text"] { border: none; border-bottom: 2px solid #BDC3C7; background: transparent; font-size: 0.95rem; width: 170px; font-weight: 600; color: var(--cerulean); text-align: center; outline: none; transition: border-color 0.3s;}
+    input[type="text"]:focus { border-bottom-color: var(--navy-main); }
+    input:disabled { color: var(--navy-dark); background: transparent; }
+
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.2rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.9rem; font-weight: 500; color: var(--text-main); }
+    .box-item strong { font-family: var(--font-mono); color: var(--cerulean); margin-right: 5px;}
+
+    /* --- TABLE COMPLETION UI --- */
+    .completion-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; background: #FFF; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+    .completion-table th, .completion-table td { border: 1px solid var(--border-subtle); padding: 14px; text-align: left; font-size: 0.9rem; line-height: 1.5; }
+    .completion-table th { background: var(--bg-page); color: var(--navy-dark); font-weight: 700; font-family: var(--font-passage); }
+    .completion-table td strong { color: var(--cerulean); }
+    .completion-table input[type="text"] { width: 130px; border-bottom: 2px solid var(--cerulean); }
+    
+    /* --- BOTTOM NAV --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; align-items: center; justify-content: space-between; padding: 0 3rem;
+      position: relative; z-index: 100;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 26px; height: 26px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main); font-weight: 600;
+    }
+    .nav-btn.answered { background: var(--navy-main); color: #FFF; border-color: var(--navy-main); }
+
+    .btn-submit-small { background: var(--cerulean); color: #FFF; border: none; padding: 0.6rem 2rem; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
+    .btn-submit-small:hover { background: var(--navy-main); }
+
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      z-index: 200; text-align: center; border-top: 5px solid var(--cerulean); min-width: 450px;
+    }
+    .correct-answer { color: #27AE60 !important; font-weight: 700; border-bottom-color: #27AE60 !important; }
+    .wrong-answer { color: #E74C3C !important; border-bottom-color: #E74C3C !important; }
+    
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls</span> of Wisdom | <span>Academic Reading</span></div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2 style="color: var(--navy-dark);">Evaluation Complete</h2>
+    <div style="font-size: 3.5rem; font-weight: 800; margin: 1rem 0; font-family: var(--font-mono); color: var(--cerulean);" id="final-score">0 / 40</div>
+    <p style="margin-bottom: 1.5rem; color: var(--text-main);">The interface is now locked. Click below to review your answers.</p>
+    <button class="btn-submit-small" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <h2>Cultural Heritage Preservation in an Era of Globalised Media</h2>
+      <p>This academic assessment measures your reading comprehension on the homogenization of global culture, the economics of heritage tourism, and the legal frameworks protecting intangible heritage. Structured strictly per your specifications.</p>
+      <button class="btn-start-large" onclick="startTest()">Start 60-Minute Test</button>
+    </div>
+
+    <div class="dormant-overlay" id="dormant-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.3); z-index:50; pointer-events:none;"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Homogenization of Culture vs. Digital Archives</h1>
+        
+        <p><span class="paragraph-label">A</span> The 21st century has witnessed an unparalleled acceleration in the globalization of media. Facilitated by broadband internet and multinational streaming conglomerates, cultural products—from Hollywood cinema to Western pop music—are disseminated globally instantaneously. While this has fostered a degree of unprecedented global connectivity, cultural anthropologists warn of a severe side effect: cultural homogenization. The pervasive reach of dominant media ecosystems threatens to drown out indigenous narratives, accelerating the extinction of localized dialects, oral traditions, and unique cultural paradigms. It is estimated that of the roughly 7,000 languages spoken today, nearly half are at risk of vanishing before the end of the century.</p>
+        
+        <p><span class="paragraph-label">B</span> This process is frequently conceptualized as "linguistic imperialism." Sociologist Dr. Phillip Phillipson argued that the dominance of English as the lingua franca of the internet and international business subtly devalues minority languages, relegating them to the domestic sphere while English is elevated to the sphere of economic advancement. As younger generations in developing nations naturally gravitate toward the dominant linguistic mediums offering the highest socioeconomic mobility, traditional languages—and the profound cultural epistemologies encoded within them—are rapidly discarded.</p>
+        
+        <p><span class="paragraph-label">C</span> In response to this existential threat, technologists and heritage organizations are forming unlikely alliances to build massive digital archives. One pioneering initiative is the Rosetta Project, spearheaded by the Long Now Foundation. The project aims to compile a publicly accessible digital library of all documented human languages. By archiving audio recordings, grammatical structures, and translated texts, the Rosetta Project serves as a linguistic 'seed bank', ensuring that even if a language ceases to be spoken natively, its structural DNA and cultural memory remain available for future scholars and potential revitalization efforts.</p>
+        
+        <p><span class="paragraph-label">D</span> The digital preservation effort extends far beyond linguistics into the physical realm of architectural heritage. Organizations like CyArk are utilizing advanced 3D photogrammetry and LiDAR (Light Detection and Ranging) scanning to create millimeter-accurate digital twins of the world's most vulnerable monuments. From the ancient city of Bagan in Myanmar to the ruins of Pompeii, these structures are constantly threatened by natural disasters, climate change, and human conflict. Should an earthquake or act of war destroy the physical site, the digital blueprint allows for hyper-accurate physical reconstruction or immersive virtual reality exploration.</p>
+        
+        <p><span class="paragraph-label">E</span> However, the reliance on digital preservation introduces its own complex set of vulnerabilities, chief among them being "digital obsolescence." Physical artifacts, such as stone carvings or parchment, can endure for millennia with relatively little maintenance. Conversely, digital data is highly ephemeral. File formats become obsolete, storage drives degrade (known as data rot), and maintaining massive servers requires continuous, expensive energy inputs. Archiving culture digitally is not a one-time achievement; it demands active, perpetual migration of data to new platforms as technology evolves.</p>
+        
+        <p><span class="paragraph-label">F</span> Furthermore, critics of the digital archive movement point out a philosophical limitation. Dr. Helena Vargas argues that creating a flawless 3D scan of a temple or recording a folk song effectively "mummifies" the culture. Cultural heritage, she asserts, is inherently a living, breathing, and evolving phenomenon. While digital archives successfully preserve the physical dimensions and acoustic properties of heritage, they fundamentally fail to capture the living social context—the community rituals, shared beliefs, and daily human interactions—that give those artifacts their actual meaning.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>The Economics of Heritage Tourism and Authenticity</h1>
+        
+        <p><span class="paragraph-label">A</span> As global travel becomes increasingly accessible, heritage tourism has emerged as a multi-billion-dollar economic engine. For many developing nations and historic municipalities, leveraging their cultural heritage is the primary strategy for generating foreign exchange, stimulating local employment, and funding the maintenance of historic sites. However, the intersection of mass consumer tourism and cultural preservation is frequently fraught with tension, giving rise to a phenomenon academics label "cultural commodification."</p>
+        
+        <p><span class="paragraph-label">B</span> Cultural commodification occurs when local traditions, rituals, or artifacts are altered, packaged, and sold to satisfy the expectations of foreign tourists. Sociologist Dean MacCannell coined the term "staged authenticity" to describe this process. Tourists typically travel seeking a genuine, untouched cultural experience. However, to accommodate massive crowds and standardized tour schedules, local communities often artificially construct 'authentic' experiences. A sacred dance that historically occurred once a year for religious purposes may be condensed into a 20-minute daily performance in a hotel lobby, fundamentally stripping the ritual of its original spiritual significance and reducing it to mere exotic entertainment.</p>
+        
+        <p><span class="paragraph-label">C</span> The Maasai people of East Africa provide a stark illustration of this dynamic. Historically semi-nomadic pastoralists, many Maasai communities have been drawn into the orbit of the safari tourism industry. While tourism revenue has provided vital capital for schools and medical clinics, it has also incentivized a performative culture. Maasai warriors are frequently employed to pose for photographs in traditional garb or perform jumping dances on demand for tourists. Anthropologists note that this economic dependency risks transforming a living culture into a static caricature of itself, tailored entirely to the Western tourist's preconceived, often stereotypical, imagination of Africa.</p>
+        
+        <p><span class="paragraph-label">D</span> In urban settings, the influx of heritage tourists frequently triggers "tourism gentrification." Cities celebrated for their historic architecture, such as Venice or Kyoto, suffer from the phenomenon of "overtourism." The sheer volume of visitors drives up local real estate prices as residential apartments are converted into lucrative short-term holiday rentals. Essential local businesses—grocery stores, hardware shops, and local cafes—are forced out, replaced by souvenir stalls and international luxury brands. Consequently, the local inhabitants who actually sustain the city's living culture are priced out of their own historic centers, transforming once-vibrant neighborhoods into hollow, open-air museums.</p>
+        
+        <p><span class="paragraph-label">E</span> To counter these destructive trends, progressive urban planners and tourism boards are experimenting with "degrowth" strategies and community-based tourism models. In cities like Amsterdam and Barcelona, authorities have aggressively restricted the construction of new hotels in the historic center and banned massive cruise ships from docking near heritage zones. The objective is to prioritize the quality of life of the local resident over the unchecked expansion of tourist volume, recognizing that without a thriving local population, the very soul of the cultural heritage site is inevitably lost.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>Intangible Cultural Heritage and Legal Frameworks</h1>
+        
+        <p><span class="paragraph-label">A</span> For decades, global efforts regarding heritage preservation were heavily biased toward the tangible. The focus was predominantly Eurocentric, prioritizing the physical conservation of cathedrals, statues, and archaeological ruins. It was not until 2003 that the international community, via the UNESCO Convention for the Safeguarding of the Intangible Cultural Heritage, formally recognized that the most vital components of human culture are often invisible. Intangible Cultural Heritage (ICH) encompasses oral traditions, performing arts, social practices, rituals, and traditional craftsmanship—the living expressions passed down from generation to generation.</p>
+        
+        <p><span class="paragraph-label">B</span> Unlike a stone monument, which can be fenced off and restored, intangible heritage exists exclusively within the minds and bodies of the practitioners. If a master weaver dies without passing on their complex techniques, or if an indigenous community is displaced from the specific ecological environment required for their traditional agricultural practices, that heritage is extinguished instantly and irrevocably. Safeguarding ICH, therefore, requires a fundamentally different approach; it necessitates supporting the communities themselves, ensuring they have the economic stability and social freedom to continue practicing and transmitting their traditions.</p>
+        
+        <p><span class="paragraph-label">C</span> One of the most contentious battlegrounds in the realm of intangible heritage is the inadequacy of modern legal frameworks, specifically Western Intellectual Property (IP) law. Traditional IP systems, such as copyrights and patents, are designed to protect the original innovations of an identifiable individual or corporation for a limited period of time. Intangible cultural heritage, however, defies these parameters. A traditional folk song or an indigenous medicinal recipe is collectively owned, has evolved over centuries, and belongs to an entire community rather than a single author.</p>
+        
+        <p><span class="paragraph-label">D</span> This legal incompatibility leaves traditional knowledge highly vulnerable to misappropriation, a practice commonly referred to as "cultural appropriation" or, in scientific contexts, "biopiracy." Multinational pharmaceutical companies have frequently patented the active compounds found in traditional indigenous medicines, generating billions in profits without providing any financial compensation to the communities that discovered and utilized the plant's properties for generations. Similarly, global fast-fashion brands routinely mass-produce garments featuring sacred indigenous geometric patterns, completely disregarding the spiritual significance of the designs and undercutting local artisans.</p>
+        
+        <p><span class="paragraph-label">E</span> Attempting to rectify this, legal scholars are advocating for the development of "<i>sui generis</i>" (unique, of its own kind) legal systems specifically tailored to protect collective traditional knowledge. These frameworks would grant indigenous communities perpetual, collective rights over their cultural expressions, allowing them to legally challenge unauthorized commercial exploitation. Countries like New Zealand, through the Waitangi Tribunal, have begun exploring frameworks that formally recognize the Māori people's collective authority (<i>tino rangatiratanga</i>) over their intangible cultural treasures (<i>taonga</i>).</p>
+        
+        <p><span class="paragraph-label">F</span> The debate over intangible heritage preservation ultimately revolves around the question of ownership and control in a hyper-connected world. While globalization inherently involves cultural exchange and blending, true preservation ensures that this exchange is equitable rather than extractive. Developing robust legal protections for intangible heritage is not about locking culture in a vault to prevent outsiders from experiencing it; rather, it is about ensuring that the communities who birthed the culture retain the power to dictate how it is shared, commercialized, and evolved.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        
+        <h2>Questions 1–4: Multiple Choice</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">What is the primary consequence of dominant media ecosystems according to cultural anthropologists?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q1" value="A" onchange="markAnswer(1)"> A) The rapid improvement of broadband internet globally.</label>
+            <label class="mcq-label"><input type="radio" name="q1" value="B" onchange="markAnswer(1)"> B) The acceleration of cultural homogenization and the loss of local dialects.</label>
+            <label class="mcq-label"><input type="radio" name="q1" value="C" onchange="markAnswer(1)"> C) A massive increase in the funding of Hollywood cinema.</label>
+            <label class="mcq-label"><input type="radio" name="q1" value="D" onchange="markAnswer(1)"> D) The immediate creation of 7,000 new human languages.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">How does the Rosetta Project intend to help preserve languages?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q2" value="A" onchange="markAnswer(2)"> A) By forcing young generations to only speak native dialects.</label>
+            <label class="mcq-label"><input type="radio" name="q2" value="B" onchange="markAnswer(2)"> B) By printing physical books in every known language.</label>
+            <label class="mcq-label"><input type="radio" name="q2" value="C" onchange="markAnswer(2)"> C) By acting as a digital 'seed bank' for audio and grammatical structures.</label>
+            <label class="mcq-label"><input type="radio" name="q2" value="D" onchange="markAnswer(2)"> D) By banning English from being used on the internet.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">What is a major vulnerability of archiving cultural heritage digitally?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q3" value="A" onchange="markAnswer(3)"> A) Digital files can easily be destroyed by earthquakes.</label>
+            <label class="mcq-label"><input type="radio" name="q3" value="B" onchange="markAnswer(3)"> B) Stone carvings are much cheaper to scan than parchment.</label>
+            <label class="mcq-label"><input type="radio" name="q3" value="C" onchange="markAnswer(3)"> C) The issue of "digital obsolescence" and data rot requires perpetual maintenance.</label>
+            <label class="mcq-label"><input type="radio" name="q3" value="D" onchange="markAnswer(3)"> D) Nobody has access to the servers where the data is stored.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">What is Dr. Helena Vargas's main criticism of 3D scanning cultural sites?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q4" value="A" onchange="markAnswer(4)"> A) It fails to capture the living, breathing social context of the community.</label>
+            <label class="mcq-label"><input type="radio" name="q4" value="B" onchange="markAnswer(4)"> B) The scans are not millimeter-accurate as promised.</label>
+            <label class="mcq-label"><input type="radio" name="q4" value="C" onchange="markAnswer(4)"> C) It costs too much money to operate LiDAR technology.</label>
+            <label class="mcq-label"><input type="radio" name="q4" value="D" onchange="markAnswer(4)"> D) It accidentally damages the physical ruins during the scanning process.</label>
+          </div>
+        </div></div>
+
+        <h2>Questions 5–8: True/False/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the information given in Reading Passage 1? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">English is often elevated to the sphere of economic advancement in developing nations. <br><input type="text" id="q5" oninput="markAnswer(5)"></div></div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">The Rosetta Project charges a high subscription fee for access to its digital library. <br><input type="text" id="q6" oninput="markAnswer(6)"></div></div>
+        <div class="q-item"><div class="q-text">CyArk primarily uses traditional photography rather than lasers to document ruins. <br><input type="text" id="q7" oninput="markAnswer(7)"></div></div>
+        <div class="q-item"><div class="q-num">8</div><div class="q-text">Physical artifacts like stone carvings require less ongoing maintenance than digital data archives. <br><input type="text" id="q8" oninput="markAnswer(8)"></div></div>
+
+        <h2>Questions 9–13: Matching Information</h2>
+        <div class="instruction">Reading Passage 1 has six paragraphs, <strong>A–F</strong>. Which paragraph contains the following information? Write <strong>A–F</strong>.</div>
+        <div class="q-item"><div class="q-num">9</div><div class="q-text">A description of how younger generations discard traditions for upward socioeconomic mobility. <input type="text" id="q9" oninput="markAnswer(9)"></div></div>
+        <div class="q-item"><div class="q-num">10</div><div class="q-text">The argument that recording a cultural practice effectively 'mummifies' it. <input type="text" id="q10" oninput="markAnswer(10)"></div></div>
+        <div class="q-item"><div class="q-num">11</div><div class="q-text">An estimate indicating that nearly 50% of current human languages are at risk. <input type="text" id="q11" oninput="markAnswer(11)"></div></div>
+        <div class="q-item"><div class="q-num">12</div><div class="q-text">How continuous, expensive energy inputs are required to maintain massive digital servers. <input type="text" id="q12" oninput="markAnswer(12)"></div></div>
+        <div class="q-item"><div class="q-num">13</div><div class="q-text">The use of digital blueprints to potentially reconstruct physical sites destroyed by natural disasters. <input type="text" id="q13" oninput="markAnswer(13)"></div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        
+        <h2>Questions 14–17: Table Completion</h2>
+        <div class="instruction">Complete the table below based on Passage 2. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        
+        <table class="completion-table">
+          <thead>
+            <tr>
+              <th>Concept / Group</th>
+              <th>Description / Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Cultural Commodification</strong></td>
+              <td>Altering and selling traditions to satisfy foreign tourists, often creating <strong>14</strong> <input type="text" id="q14" oninput="markAnswer(14)"> instead of genuine experiences.</td>
+            </tr>
+            <tr>
+              <td><strong>The Maasai People</strong></td>
+              <td>Economic dependency on safaris risks turning their living culture into a static <strong>15</strong> <input type="text" id="q15" oninput="markAnswer(15)">.</td>
+            </tr>
+            <tr>
+              <td><strong>Overtourism</strong></td>
+              <td>Drives up real estate, causing <strong>16</strong> <input type="text" id="q16" oninput="markAnswer(16)">, pushing local inhabitants out of historic city centers.</td>
+            </tr>
+            <tr>
+              <td><strong>Urban Planners</strong></td>
+              <td>Responding to destruction by implementing aggressive <strong>17</strong> <input type="text" id="q17" oninput="markAnswer(17)">, such as banning massive cruise ships.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Questions 18–21: Yes/No/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer in Reading Passage 2? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">Heritage tourism has completely failed to generate foreign exchange for developing nations. <br><input type="text" id="q18" oninput="markAnswer(18)"></div></div>
+        <div class="q-item"><div class="q-num">19</div><div class="q-text">A sacred dance condensed for a hotel lobby loses its original spiritual significance. <br><input type="text" id="q19" oninput="markAnswer(19)"></div></div>
+        <div class="q-item"><div class="q-num">20</div><div class="q-text">The Maasai people primarily use tourism revenue to invest in European real estate. <br><input type="text" id="q20" oninput="markAnswer(20)"></div></div>
+        <div class="q-item"><div class="q-num">21</div><div class="q-text">Cities like Amsterdam recognize that losing the local population destroys the soul of a cultural site. <br><input type="text" id="q21" oninput="markAnswer(21)"></div></div>
+
+        <h2>Questions 22–26: Matching Features</h2>
+        <div class="instruction">Match each description with the correct entity/group below. Write <strong>A, B, C, or D</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Dean MacCannell</div>
+          <div class="box-item"><strong>B</strong> The Maasai</div>
+          <div class="box-item"><strong>C</strong> Local inhabitants</div>
+          <div class="box-item"><strong>D</strong> Progressive urban planners</div>
+        </div>
+        <div class="q-item"><div class="q-num">22</div><div class="q-text">Experimenting with community-based tourism models to prioritize resident quality of life. <input type="text" id="q22" oninput="markAnswer(22)"></div></div>
+        <div class="q-item"><div class="q-num">23</div><div class="q-text">Coined a specific term to describe the artificial construction of 'genuine' cultural experiences. <input type="text" id="q23" oninput="markAnswer(23)"></div></div>
+        <div class="q-item"><div class="q-num">24</div><div class="q-text">Are frequently forced out of historic centers when short-term holiday rentals drive up real estate prices. <input type="text" id="q24" oninput="markAnswer(24)"></div></div>
+        <div class="q-item"><div class="q-num">25</div><div class="q-text">Are sometimes paid to pose for photographs, tailoring their culture to Western stereotypes. <input type="text" id="q25" oninput="markAnswer(25)"></div></div>
+        <div class="q-item"><div class="q-num">26</div><div class="q-text">Are responsible for actually sustaining a city's living culture. <input type="text" id="q26" oninput="markAnswer(26)"></div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        
+        <h2>Questions 27–32: Matching Headings</h2>
+        <div class="instruction">Reading Passage 3 has six paragraphs, <strong>A–F</strong>. Choose the correct heading for each paragraph from the list below.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> Developing <i>sui generis</i> legal frameworks for collective rights</div>
+          <div class="box-item"><strong>ii</strong> The physical bias in early historical preservation</div>
+          <div class="box-item"><strong>iii</strong> The ultimate goal of equitable cultural exchange</div>
+          <div class="box-item"><strong>iv</strong> How biopiracy funds global healthcare initiatives</div>
+          <div class="box-item"><strong>v</strong> The fundamental differences between IP law and traditional knowledge</div>
+          <div class="box-item"><strong>vi</strong> The fragility of practices reliant on living communities</div>
+          <div class="box-item"><strong>vii</strong> Corporate misappropriation of indigenous medicines and designs</div>
+        </div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">Paragraph A <input type="text" id="q27" oninput="markAnswer(27)"></div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">Paragraph B <input type="text" id="q28" oninput="markAnswer(28)"></div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">Paragraph C <input type="text" id="q29" oninput="markAnswer(29)"></div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">Paragraph D <input type="text" id="q30" oninput="markAnswer(30)"></div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">Paragraph E <input type="text" id="q31" oninput="markAnswer(31)"></div></div>
+        <div class="q-item"><div class="q-num">32</div><div class="q-text">Paragraph F <input type="text" id="q32" oninput="markAnswer(32)"></div></div>
+
+        <h2>Questions 33–36: Sentence Completion</h2>
+        <div class="instruction">Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-num">33</div><div class="q-text">Before 2003, global preservation efforts were predominantly <strong>33</strong> <input type="text" id="q33" oninput="markAnswer(33)">, focusing on physical conservation like ruins.</div></div>
+        <div class="q-item"><div class="q-num">34</div><div class="q-text">Unlike monuments, intangible heritage exists exclusively within the minds and <strong>34</strong> <input type="text" id="q34" oninput="markAnswer(34)"> of practitioners.</div></div>
+        <div class="q-item"><div class="q-num">35</div><div class="q-text">Western IP systems are intended to protect the innovations of a single author for a <strong>35</strong> <input type="text" id="q35" oninput="markAnswer(35)"> of time.</div></div>
+        <div class="q-item"><div class="q-num">36</div><div class="q-text">Fast-fashion brands frequently mass-produce sacred indigenous <strong>36</strong> <input type="text" id="q36" oninput="markAnswer(36)">, ignoring their spiritual significance.</div></div>
+
+        <h2>Questions 37–40: True/False/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer in Reading Passage 3? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">Intangible Cultural Heritage can be instantly extinguished if an indigenous community is displaced from their specific ecological environment. <br><input type="text" id="q37" oninput="markAnswer(37)"></div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">Traditional indigenous medicinal recipes usually have one clearly identifiable author who holds the copyright. <br><input type="text" id="q38" oninput="markAnswer(38)"></div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">Multinational pharmaceutical companies actively support sui generis legal systems. <br><input type="text" id="q39" oninput="markAnswer(39)"></div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">Robust legal protections aim to ensure communities retain the power to dictate how their culture is commercialized. <br><input type="text" id="q40" oninput="markAnswer(40)"></div></div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers"></div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest()">Submit Test</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // P1: MCQ (1-4)
+      q1: 'b', q2: 'c', q3: 'c', q4: 'a',
+      // P1: T/F/NG (5-8)
+      q5: 'true', q6: 'not given', q7: 'false', q8: 'true',
+      // P1: Matching Info (9-13)
+      q9: 'b', q10: 'f', q11: 'a', q12: 'e', q13: 'd',
+      
+      // P2: Table Completion (14-17)
+      q14: 'staged authenticity', q15: 'caricature', q16: 'tourism gentrification', q17: 'degrowth strategies',
+      // P2: Y/N/NG (18-21)
+      q18: 'no', q19: 'yes', q20: 'not given', q21: 'yes',
+      // P2: Matching Features (22-26)
+      q22: 'd', q23: 'a', q24: 'c', q25: 'b', q26: 'c',
+      
+      // P3: Matching Headings (27-32)
+      q27: 'ii', q28: 'vi', q29: 'v', q30: 'vii', q31: 'i', q32: 'iii',
+      // P3: Sentence Completion (33-36)
+      q33: 'eurocentric', q34: 'bodies', q35: 'limited period', q36: 'geometric patterns',
+      // P3: T/F/NG (37-40)
+      q37: 'true', q38: 'false', q39: 'not given', q40: 'true'
+    };
+
+    function initBottomNav() {
+      const container = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn'; btn.id = 'nb-'+i; btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        container.appendChild(btn);
+      }
+    }
+
+    function markAnswer(n) { 
+      const input = document.getElementById('q' + n);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${n}"]:checked`);
+      const btn = document.getElementById('nb-'+n);
+      if(isAnswered) {
+          btn.classList.add('answered');
+      } else {
+          btn.classList.remove('answered');
+      }
+    }
+
+    function scrollToQuestion(n) {
+      let tab = 1;
+      if(n >= 14 && n <= 26) tab = 2;
+      if(n >= 27 && n <= 40) tab = 3;
+      switchSection(tab);
+      
+      setTimeout(() => {
+        let qEl = document.getElementById('q'+n);
+        if(!qEl) {
+          const radio = document.querySelector(`input[name="q${n}"]`);
+          if(radio) qEl = radio.closest('.q-item');
+        } else {
+          // Account for inputs inside tables or normal lists
+          if(qEl.closest('td')) {
+             qEl = qEl.closest('td');
+          } else {
+             qEl = qEl.closest('.q-item'); 
+          }
+        }
+
+        if(qEl) {
+          document.getElementById('right-panel').scrollTo({ top: qEl.offsetTop - 50, behavior: 'smooth' });
+          qEl.style.transition = 'background 0.3s';
+          qEl.style.background = '#e6f7ff'; 
+          setTimeout(() => {
+              qEl.style.background = 'transparent';
+          }, 1200);
+        }
+      }, 50);
+    }
+
+    function switchSection(n) {
+      document.querySelectorAll('.tab-btn, .section-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-'+n).classList.add('active');
+      document.getElementById('passage-'+n).classList.add('active');
+      document.getElementById('questions-'+n).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    let timerInterval;
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex';
+      initBottomNav();
+      let s = 3600;
+      timerInterval = setInterval(() => {
+        s--;
+        const timerEl = document.getElementById('timer');
+        timerEl.textContent = `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
+        if(s <= 300) timerEl.classList.add('warning');
+        if(s <= 0) submitTest(true);
+      }, 1000);
+    }
+
+    function submitTest(auto = false) {
+      if(!auto && !confirm("Submit final assessment?")) return;
+      clearInterval(timerInterval);
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q'+i;
+        const input = document.getElementById(qId);
+        const ans = answerKey[qId];
+        
+        if(input) {
+          const userAns = input.value.trim().toLowerCase();
+          
+          // Relaxed matching
+          if(userAns === ans || (ans.includes(userAns) && userAns.length > 3 && !['true','false','yes','no'].includes(ans))) {
+            score++; input.classList.add('correct-answer');
+          } else if ((userAns === "degrowth" && ans === "degrowth strategies")) {
+            score++; input.classList.add('correct-answer');
+          } else {
+            input.classList.add('wrong-answer');
+            input.value = userAns ? `${userAns} ❌ [${ans.toUpperCase()}]` : `❌ [${ans.toUpperCase()}]`;
+            
+            // Layout adjustments for wrong answers in different UI containers
+            if(input.style.width === "60px") {
+              input.style.width = "120px";
+            } else if (input.closest('td')) {
+              input.style.width = "200px";
+            } else {
+              input.style.width = "280px";
+            }
+          }
+          input.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if(selected && selected.value.toLowerCase() === ans) {
+            score++; selected.parentElement.classList.add('correct-answer');
+          } else {
+            if(selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${ans.toUpperCase()}"]`);
+            if(correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+      
+      document.getElementById('final-score').textContent = `${score} / 40`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('dormant-overlay').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

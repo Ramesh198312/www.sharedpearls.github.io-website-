@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 08: Biomechanics & Cognitive Mechanics | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- PREMIUM CRIMSON & GOLD PALETTE (Module 02 Aesthetic) --- */
+    :root {
+      --primary-dark: #4A0404;    /* Deepest Burgundy */
+      --primary-main: #8E1628;    /* Crimson Red */
+      --accent-gold: #D4AF37;     /* Academic Gold */
+      --text-main: #2C3E50;       
+      --text-muted: #7F8C8D;
+      --bg-page: #FDFBF7;         /* Warm Ivory/Cream background */
+      --bg-panel: #FFFFFF;
+      --bg-highlight: #FDF8E7;    /* Light gold for highlights */
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+
+    /* --- HEADER --- */
+    header { 
+      background: var(--primary-main); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--accent-gold); 
+      flex-shrink: 0; z-index: 10; box-shadow: 0 4px 12px rgba(142, 22, 40, 0.2);
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; color: #FFF; }
+    .brand span { color: var(--accent-gold); font-style: italic; font-weight: 400; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #E8B4B8; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(255, 255, 255, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--accent-gold); background: rgba(255, 255, 255, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--primary-dark); background: var(--accent-gold); padding: 0.4rem 1.2rem; border-radius: 4px; }
+
+    /* --- WORKSPACE --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+
+    /* --- LOCK SCREEN (CRIMSON THEME) --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: var(--primary-dark);
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #FFF;
+    }
+    .pre-test-overlay h2 { font-size: 2.8rem; margin-bottom: 1rem; font-family: var(--font-passage); color: var(--accent-gold); }
+    .pre-test-overlay p { font-size: 1.15rem; max-width: 750px; line-height: 1.8; margin-bottom: 2.5rem; color: #FADBD8; }
+    .btn-start-large {
+      background: var(--accent-gold); color: var(--primary-dark); padding: 1.2rem 4rem; font-size: 1.1rem; font-weight: 700;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+    }
+    .btn-start-large:hover { background: #FFF; transform: scale(1.05); }
+
+    /* --- TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 1.8rem; margin-bottom: 2rem; color: var(--primary-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 0.95rem; color: var(--text-main); text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; margin-right: 12px; color: var(--primary-main); float: left; }
+
+    .right-panel h2 { font-size: 1.1rem; margin: 2rem 0 1rem; color: var(--primary-dark); border-bottom: 2px solid var(--accent-gold); padding-bottom: 5px; font-weight: 700; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.85rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--primary-main); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; }
+    
+    input[type="text"] { border: none; border-bottom: 2px solid #BDC3C7; background: transparent; font-size: 0.95rem; width: 160px; font-weight: 600; color: var(--primary-main); text-align: center; outline: none; transition: border-color 0.3s;}
+    input[type="text"]:focus { border-bottom-color: var(--primary-dark); }
+
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.2rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.9rem; font-weight: 500; color: var(--text-main); }
+    .box-item strong { font-family: var(--font-mono); color: var(--primary-main); margin-right: 5px;}
+    
+    /* --- BOTTOM NAV --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; align-items: center; justify-content: space-between; padding: 0 3rem;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 26px; height: 26px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main); font-weight: 600;
+    }
+    .nav-btn.answered { background: var(--primary-main); color: #FFF; border-color: var(--primary-main); }
+
+    .btn-submit-small { background: var(--primary-main); color: #FFF; border: none; padding: 0.6rem 2rem; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
+    .btn-submit-small:hover { background: var(--primary-dark); }
+
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      z-index: 200; text-align: center; border-top: 5px solid var(--primary-main); min-width: 400px;
+    }
+    .correct-answer { color: #27AE60 !important; font-weight: 700; border-bottom-color: #27AE60 !important; }
+    .wrong-answer { color: #E74C3C !important; border-bottom-color: #E74C3C !important; }
+    
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls</span> of Wisdom| <em style="color: #d0ddf0ae;">Academic Reading</em></div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2 style="color: var(--primary-dark);">Assessment Finalized</h2>
+    <div style="font-size: 3.5rem; font-weight: 800; margin: 1rem 0; font-family: var(--font-mono); color: var(--primary-main);" id="final-score">0 / 40</div>
+    <p>Review the highlighted responses in the passages.</p>
+    <button class="btn-submit-small" style="margin-top: 1rem;" onclick="location.reload()">Restart Test</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <h2>Biomechanics & Cognitive Mechanics</h2>
+      <p>This premium module evaluates reading comprehension across the kinematics, psychology, and technological synthesis of elite athletic performance.</p>
+      <button class="btn-start-large" onclick="startTest()">Initiate Assessment</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Biomechanics of Elite Movement</h1>
+        
+        <p><span class="paragraph-label">A</span> The formal study of human biomechanics—the application of mechanical laws to living structures—can trace its empirical origins to the late 19th century. Photographer Eadweard Muybridge famously utilized a sequence of rapidly triggered still cameras to capture the precise gait of a galloping horse, proving that all four hooves leave the ground simultaneously. This rudimentary sequence photography laid the foundational methodology for modern biomechanics: breaking down complex, fluid, high-speed biological motion into discrete, quantifiable frames of data.</p>
+        
+        <p><span class="paragraph-label">B</span> Modern sports biomechanics is broadly divided into two primary sub-disciplines: kinematics and kinetics. Kinematics is the descriptive geometry of motion. It analyzes the positions, velocities, and accelerations of the body's segments without regard for the forces that cause the movement. A kinematic analysis of a golf swing, for instance, measures the exact angle of the elbow and the rotational velocity of the hips. Conversely, kinetics is the study of the underlying physical forces—such as gravity, friction, and muscle torque—that generate or alter motion. Understanding elite performance requires a synthesis of both disciplines.</p>
+        
+        <p><span class="paragraph-label">C</span> A critical concept in biomechanical efficiency is the "kinetic chain." Human movement is rarely isolated to a single joint or muscle group; it is a sequential transfer of momentum. Consider a professional tennis serve. The movement initiates at the feet, pushing against the ground to generate ground reaction forces (GRF). This energy travels up through the legs, transferring to the rotation of the hips and the core, before finally whipping through the shoulder, elbow, and wrist. An elite athlete does not necessarily possess significantly more upper-body strength than an amateur; rather, they have optimized the timing of this kinetic chain, ensuring maximum energy is transferred into the racket with minimal leakage.</p>
+        
+        <p><span class="paragraph-label">D</span> Beyond maximizing power output, biomechanics is the primary science utilized in injury prevention. High-performance sports subject the human skeleton and connective tissues to immense shear forces and mechanical torque. By utilizing force plates and 3D motion-capture technology in laboratory settings, researchers can identify micro-deviations in an athlete's gait. For example, if a marathon runner experiences an excessive inward roll of the foot (overpronation) during the stance phase, they are exponentially more susceptible to tibial stress fractures. Minor mechanical adjustments can mitigate these destructive loads.</p>
+        
+        <p><span class="paragraph-label">E</span> Sprinters provide a fascinating case study in optimizing ground reaction forces. While novices believe sprinting speed is generated entirely by moving the legs faster, elite sprinters actually spend less time in the air and apply massive amounts of force to the ground in extremely short contact windows. Usain Bolt's record-breaking speeds were achieved not by moving his legs faster than his competitors, but by taking longer strides and hitting the track with greater kinetic force, utilizing the ground to propel his mass forward efficiently.</p>
+        
+        <p><span class="paragraph-label">F</span> As tracking technology has miniaturized, biomechanics has moved from the sterile laboratory to the live field of play. However, physical mechanics has an absolute biological ceiling. Bones can only withstand a specific threshold of torque before shattering, and fast-twitch muscle fibers have maximum contraction speeds. Recognizing that the physical ceiling of human performance is rapidly approaching, sports scientists have begun pivoting their focus toward the ultimate frontier of elite performance: the human brain.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>The Cognitive Engine: Neural Efficiency and the Quiet Eye</h1>
+        
+        <p><span class="paragraph-label">A</span> Once an athlete reaches the elite echelon, the physical disparities between competitors become negligible. Olympic finalists in the 100-meter dash or professional tennis players share nearly identical physiological profiles. The true differentiator between a gold medalist and a runner-up resides not in muscle fibers, but in the cognitive architecture of the brain. Elite sports are fundamentally a test of rapid information processing, decision-making under extreme duress, and the execution of complex motor programs.</p>
+        
+        <p><span class="paragraph-label">B</span> One of the most significant cognitive disparities between novices and experts is visual search strategy. When a novice attempts to return a 120-mph tennis serve, their eyes dart erratically around the court, attempting to process the opponent's face, the racket, and the trajectory of the ball simultaneously. This erratic visual tracking overwhelms the brain's processing capacity. Elite athletes, conversely, employ highly economical visual strategies. They do not watch the ball leave the racket; they fixate their gaze on specific kinematic cues—such as the rotation of the opponent's hips or the angle of their shoulder—milliseconds before the ball is even struck.</p>
+        
+        <p><span class="paragraph-label">C</span> This phenomenon was famously codified by Dr. Joan Vickers as the "Quiet Eye." Using specialized eye-tracking technology, Vickers discovered that elite athletes exhibit a prolonged, steady visual fixation on a specific target immediately preceding the execution of a complex motor skill. For a basketball player shooting a free throw, the Quiet Eye is the final, steady fixation on the rim before the shooting motion begins. Vickers found that the duration of the Quiet Eye directly correlates with accuracy; experts hold this fixation significantly longer than novices, filtering out distracting peripheral visual "noise."</p>
+        
+        <p><span class="paragraph-label">D</span> The ability to filter noise is neurobiologically represented by the "Neural Efficiency Hypothesis." Functional magnetic resonance imaging (fMRI) studies reveal a paradox: when novices perform a sports-related cognitive task, their brains show massive, widespread activation across the cerebral cortex. They are thinking intensely about every movement. When an expert performs the same task, their brain exhibits surprisingly low levels of cortical activation. The expert has automated the motor program, shifting the workload from the conscious, energy-intensive prefrontal cortex to the subconscious basal ganglia. This neural efficiency allows the elite athlete to perform complex tasks effortlessly, reserving cognitive bandwidth for high-level tactical adjustments.</p>
+        
+        <p><span class="paragraph-label">E</span> This automated processing enables extraordinary anticipation. Sports scientists use the "occlusion paradigm" to study this. In an occlusion test, a soccer goalkeeper watches a video of a penalty kick being taken, but the video goes completely black a split-second before the striker's foot hits the ball. The goalkeeper must predict where the ball will go. Novices perform no better than random chance. Elite goalkeepers, however, can accurately predict the trajectory by subconsciously reading the minute biomechanical positioning of the striker's planting foot and torso angle prior to the blackout.</p>
+        
+        <p><span class="paragraph-label">F</span> The realization that cognitive mechanics dictate elite performance has triggered a revolution in sports training. Modern elite academies now employ full-time cognitive psychologists. Training regimens feature strobe glasses that limit visual input to train the Quiet Eye, and virtual reality simulators to accelerate the development of anticipatory skills. The consensus is clear: the modern athlete cannot rely on physical training alone; they must actively construct and refine their cognitive engine.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>The Technological Synthesis and the Ethics of Cognitive Enhancement</h1>
+        
+        <p><span class="paragraph-label">A</span> The 21st century has witnessed the inevitable synthesis of biomechanics and cognitive neuroscience, driven entirely by exponential advancements in wearable technology and machine learning. Historically, gathering physiological data required tethering an athlete to cumbersome laboratory equipment. Today, the modern athlete is a walking sensor network, continuously generating gigabytes of granular data regarding their physical and neurological states. This convergence, however, is plunging the sporting world into profound ethical and psychological controversies.</p>
+        
+        <p><span class="paragraph-label">B</span> The primary driver of this synthesis is the Inertial Measurement Unit (IMU). These microscopic sensors, woven directly into compression garments, measure acceleration, rotational velocity, and magnetic orientation in real-time on the live field of play. A pitcher in baseball can throw a fastball during a live game, and coaches instantly receive a 3D biomechanical rendering of his elbow torque and shoulder rotation on a tablet. This field-based data collection has allowed sports scientists to observe how an athlete's mechanics degrade under actual competitive fatigue, something impossible to replicate in a sterile laboratory.</p>
+        
+        <p><span class="paragraph-label">C</span> This tidal wave of biomechanical data is fed into advanced predictive algorithms. Machine learning models analyze the micro-fluctuations in an athlete's kinetic chain to identify patterns indicative of impending soft-tissue failure. If an algorithm detects that a soccer player has subtly shifted 3% of their landing force from their right knee to their left hip over the course of three matches—a deviation invisible to the human eye—the medical staff is alerted to bench the player before a catastrophic hamstring tear occurs. Injury prediction has shifted from reactive medicine to proactive, algorithmic risk management.</p>
+        
+        <p><span class="paragraph-label">D</span> However, the technological frontier has pushed past biomechanics into direct cognitive intervention. The most controversial development is Transcranial Direct Current Stimulation (tDCS). Devices like "Halo Sport" resemble standard audio headphones but contain electrodes that deliver a mild electrical current to the athlete's motor cortex. Proponents of tDCS argue that this electrical stimulation induces a state of "hyper-plasticity" in the brain. If an athlete practices a specific biomechanical movement—such as a golf swing—while wearing the device, the neural pathways governing that motor program are allegedly forged significantly faster. It is the technological acceleration of muscle memory.</p>
+        
+        <p><span class="paragraph-label">E</span> The emergence of tDCS has ignited a fierce debate regarding "neuro-doping." The World Anti-Doping Agency (WADA), traditionally tasked with policing chemical enhancements like anabolic steroids, finds itself fundamentally ill-equipped to regulate cognitive stimulation. A chemical leaves a traceable metabolite in the bloodstream; electrical stimulation leaves no biological footprint once the device is removed. Critics argue that tDCS creates an unlevel playing field, providing wealthy teams with technological shortcuts to neuro-adaptation, while poorer nations are left relying on traditional, slower methods of practice.</p>
+        
+        <p><span class="paragraph-label">F</span> Beyond the regulatory nightmare, sports psychologists are sounding the alarm regarding the psychological toll of "hyper-quantification." When an athlete's sleep architecture, heart rate variability, joint torque, and cortical activation are constantly monitored, graded, and optimized by algorithms, the athlete risks losing their sense of bodily autonomy. They are reduced from human competitors to biological machines operating under continuous surveillance. Several high-profile athletes have recently spoken out about the severe anxiety induced by waking up and seeing a "poor recovery" metric on their wearable device, which subsequently destroys their confidence before they even step onto the field.</p>
+        
+        <p><span class="paragraph-label">G</span> This anxiety feeds into the "Athletic Paradox." Decades of cognitive science prove that elite performance relies on the Neural Efficiency Hypothesis—shifting motor control to the subconscious to allow for fluid, automatic movement. However, the relentless influx of biomechanical data forces the athlete to constantly think about their mechanics consciously. When an expert athlete over-analyzes a subconscious movement, they disrupt the automated motor program, resulting in a severe drop in performance—a phenomenon commonly known as "choking" under pressure. By attempting to mathematically perfect the athlete, technology risks paralyzing them.</p>
+        
+        <p><span class="paragraph-label">H</span> In the final analysis, the pursuit of elite athletic performance is standing at a dangerous precipice. While the fusion of biomechanics, cognitive science, and machine learning offers unprecedented insights into human capability, it threatens to strip the humanity from the sport. The ultimate athlete of the future will not be the one who gathers the most data, nor the one who electrically stimulates their brain the longest. The ultimate competitor will be the one who possesses the psychological discipline to utilize the algorithmic data during training, but entirely discard it when the whistle blows, trusting instead in the silent, intuitive flow of their cognitive engine.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–6: True/False/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the information in Passage 1? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">Eadweard Muybridge utilized a video camera to prove that all four hooves of a horse leave the ground. <br><input type="text" id="q1" oninput="markAnswer(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">Kinematics focuses exclusively on the underlying physical forces that cause human movement. <br><input type="text" id="q2" oninput="markAnswer(2)"></div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">During a professional tennis serve, the initial energy is generated by ground reaction forces at the feet. <br><input type="text" id="q3" oninput="markAnswer(3)"></div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">Elite athletes always have significantly more upper-body muscle mass than amateur athletes. <br><input type="text" id="q4" oninput="markAnswer(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">Sprinters achieve top speeds by maximizing the amount of time they spend in the air between strides. <br><input type="text" id="q5" oninput="markAnswer(5)"></div></div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">The physical mechanics of the human skeleton have an absolute biological ceiling. <br><input type="text" id="q6" oninput="markAnswer(6)"></div></div>
+
+        <h2>Questions 7–13: Summary Completion</h2>
+        <div class="instruction">Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-text">
+          Modern sports biomechanics evolved from early sequence <strong>7</strong> <input type="text" id="q7" oninput="markAnswer(7)"> into two main fields. The descriptive geometry of movement is known as <strong>8</strong> <input type="text" id="q8" oninput="markAnswer(8)">, while the study of the forces generating motion is called <strong>9</strong> <input type="text" id="q9" oninput="markAnswer(9)">. A key concept is the sequential transfer of momentum, known as the <strong>10</strong> <input type="text" id="q10" oninput="markAnswer(10)">, which must be optimized for power. Biomechanics is also used for <strong>11</strong> <input type="text" id="q11" oninput="markAnswer(11)">, identifying destructive loads like mechanical <strong>12</strong> <input type="text" id="q12" oninput="markAnswer(12)">. As tracking technology improves, scientists are shifting their focus away from physical mechanics and toward the <strong>13</strong> <input type="text" id="q13" oninput="markAnswer(13)">.
+        </div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–19: Matching Headings</h2>
+        <div class="instruction">Choose the correct heading for each paragraph from the list below. Write <strong>i–viii</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> Predicting actions before they happen</div>
+          <div class="box-item"><strong>ii</strong> The physical ceiling and the shift to cognitive dominance</div>
+          <div class="box-item"><strong>iii</strong> Differences in visual tracking between skill levels</div>
+          <div class="box-item"><strong>iv</strong> Why elite athletes use performance-enhancing drugs</div>
+          <div class="box-item"><strong>v</strong> Automating movement to save brain energy</div>
+          <div class="box-item"><strong>vi</strong> The financial cost of cognitive psychology</div>
+          <div class="box-item"><strong>vii</strong> Training the mind to improve sporting outcomes</div>
+          <div class="box-item"><strong>viii</strong> The critical final visual fixation discovered by Vickers</div>
+        </div>
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">Paragraph A <input type="text" id="q14" oninput="markAnswer(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">Paragraph B <input type="text" id="q15" oninput="markAnswer(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">Paragraph C <input type="text" id="q16" oninput="markAnswer(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">Paragraph D <input type="text" id="q17" oninput="markAnswer(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">Paragraph E <input type="text" id="q18" oninput="markAnswer(18)"></div></div>
+        <div class="q-item"><div class="q-num">19</div><div class="q-text">Paragraph F <input type="text" id="q19" oninput="markAnswer(19)"></div></div>
+
+        <h2>Questions 20–23: Matching Features</h2>
+        <div class="instruction">Match each description with the correct concept/research below. Write <strong>A, B, C, or D</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Visual Search Strategy</div>
+          <div class="box-item"><strong>B</strong> The Quiet Eye</div>
+          <div class="box-item"><strong>C</strong> Neural Efficiency Hypothesis</div>
+          <div class="box-item"><strong>D</strong> Occlusion Paradigm</div>
+        </div>
+        <div class="q-item"><div class="q-num">20</div><div class="q-text">Explains why experts show low levels of cortical activation during tasks. <input type="text" id="q20" oninput="markAnswer(20)"></div></div>
+        <div class="q-item"><div class="q-num">21</div><div class="q-text">Involves a steady visual fixation on a target right before a complex motor skill. <input type="text" id="q21" oninput="markAnswer(21)"></div></div>
+        <div class="q-item"><div class="q-num">22</div><div class="q-text">A testing method where video is blacked out to study anticipation skills. <input type="text" id="q22" oninput="markAnswer(22)"></div></div>
+        <div class="q-item"><div class="q-num">23</div><div class="q-text">Demonstrates how novices erratically track faces, rackets, and balls simultaneously. <input type="text" id="q23" oninput="markAnswer(23)"></div></div>
+
+        <h2>Questions 24–26: Yes/No/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">24</div><div class="q-text">Elite athletes generally possess different physiological profiles than novices at the Olympic level. <br><input type="text" id="q24" oninput="markAnswer(24)"></div></div>
+        <div class="q-item"><div class="q-num">25</div><div class="q-text">Novice goalkeepers performed better than random chance during the video blackout tests. <br><input type="text" id="q25" oninput="markAnswer(25)"></div></div>
+        <div class="q-item"><div class="q-num">26</div><div class="q-text">Modern sports academies utilize strobe glasses to intentionally limit visual input during training. <br><input type="text" id="q26" oninput="markAnswer(26)"></div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31: Matching Information</h2>
+        <div class="instruction">Reading Passage 3 has eight paragraphs, <strong>A–H</strong>. Which paragraph contains the following information? Write <strong>A–H</strong>.</div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">An explanation of how electrical current supposedly speeds up muscle memory. <input type="text" id="q27" oninput="markAnswer(27)"></div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">A description of athletes suffering anxiety from poor recovery metrics on their wearables. <input type="text" id="q28" oninput="markAnswer(28)"></div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">The reason why the World Anti-Doping Agency (WADA) struggles to regulate tDCS devices. <input type="text" id="q29" oninput="markAnswer(29)"></div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">How predictive algorithms monitor subtle landing force shifts to prevent soft-tissue tears. <input type="text" id="q30" oninput="markAnswer(30)"></div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">The definition of "choking" as a result of consciously over-analyzing automated movements. <input type="text" id="q31" oninput="markAnswer(31)"></div></div>
+
+        <h2>Questions 32–36: Matching Sentence Endings</h2>
+        <div class="instruction">Complete each sentence with the correct ending, <strong>A–G</strong>, below. Write the correct letter in the box.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> induces hyper-plasticity to forge neural pathways faster.</div>
+          <div class="box-item"><strong>B</strong> forces athletes to constantly think about their mechanics consciously.</div>
+          <div class="box-item"><strong>C</strong> measures acceleration and rotational velocity on the live field.</div>
+          <div class="box-item"><strong>D</strong> leaves no biological footprint in the bloodstream.</div>
+          <div class="box-item"><strong>E</strong> requires athletes to ignore all physical training entirely.</div>
+          <div class="box-item"><strong>F</strong> allows algorithms to predict impending injuries.</div>
+          <div class="box-item"><strong>G</strong> trusts in their silent, intuitive flow during competition.</div>
+        </div>
+        <div class="q-item"><div class="q-num">32</div><div class="q-text">The Inertial Measurement Unit (IMU) <input type="text" id="q32" oninput="markAnswer(32)"></div></div>
+        <div class="q-item"><div class="q-num">33</div><div class="q-text">Transcranial Direct Current Stimulation (tDCS) supposedly <input type="text" id="q33" oninput="markAnswer(33)"></div></div>
+        <div class="q-item"><div class="q-num">34</div><div class="q-text">WADA cannot easily regulate "neuro-doping" because it <input type="text" id="q34" oninput="markAnswer(34)"></div></div>
+        <div class="q-item"><div class="q-num">35</div><div class="q-text">The Athletic Paradox occurs when too much data <input type="text" id="q35" oninput="markAnswer(35)"></div></div>
+        <div class="q-item"><div class="q-num">36</div><div class="q-text">The ultimate future competitor uses data in training but <input type="text" id="q36" oninput="markAnswer(36)"></div></div>
+
+        <h2>Questions 37–40: Multiple Choice</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">What is the primary advantage of IMUs over traditional laboratory equipment?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q37" value="A" onchange="markAnswer(37)"> A) They are much cheaper to manufacture.</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="B" onchange="markAnswer(37)"> B) They allow data collection on the live field under actual competitive fatigue.</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="C" onchange="markAnswer(37)"> C) They prevent concussions during impact sports.</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="D" onchange="markAnswer(37)"> D) They directly stimulate the motor cortex.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">How has injury prediction changed with machine learning?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q38" value="A" onchange="markAnswer(38)"> A) It has moved from proactive management to reactive medicine.</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="B" onchange="markAnswer(38)"> B) It now ignores the kinetic chain entirely.</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="C" onchange="markAnswer(38)"> C) It has shifted from reactive medicine to proactive, algorithmic risk management.</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="D" onchange="markAnswer(38)"> D) It relies solely on the athlete's verbal feedback.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">According to critics, what is the socio-economic danger of tDCS?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q39" value="A" onchange="markAnswer(39)"> A) It provides wealthy teams with an unlevel playing field for neuro-adaptation.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="B" onchange="markAnswer(39)"> B) It destroys the wearable technology market.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="C" onchange="markAnswer(39)"> C) It decreases the salaries of elite athletes.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="D" onchange="markAnswer(39)"> D) It forces poorer nations to build sterile laboratories.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">What is the overarching theme of Passage 3?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q40" value="A" onchange="markAnswer(40)"> A) The complete obsolescence of human coaches.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="B" onchange="markAnswer(40)"> B) The synthesis of technology and biology, and its ethical and psychological limits.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="C" onchange="markAnswer(40)"> C) The legal process of banning steroids in professional baseball.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="D" onchange="markAnswer(40)"> D) Why cognitive psychology is inferior to physical strength training.</label>
+          </div>
+        </div></div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers"></div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest()">Submit Assessment</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // Passage 1: T/F/NG
+      q1: 'false', q2: 'false', q3: 'true', q4: 'false', q5: 'false', q6: 'true',
+      // Passage 1: Summary
+      q7: 'photography', q8: 'kinematics', q9: 'kinetics', q10: 'kinetic chain', q11: 'injury prevention', q12: 'torque', q13: 'human brain',
+      
+      // Passage 2: Headings
+      q14: 'ii', q15: 'iii', q16: 'viii', q17: 'v', q18: 'i', q19: 'vii',
+      // Passage 2: Features
+      q20: 'c', q21: 'b', q22: 'd', q23: 'a',
+      // Passage 2: Y/N/NG
+      q24: 'no', q25: 'no', q26: 'yes',
+      
+      // Passage 3: Matching Info
+      q27: 'd', q28: 'f', q29: 'e', q30: 'c', q31: 'g',
+      // Passage 3: Sentence Endings
+      q32: 'c', q33: 'a', q34: 'd', q35: 'b', q36: 'g',
+      // Passage 3: MCQ
+      q37: 'b', q38: 'c', q39: 'a', q40: 'b'
+    };
+
+    function initBottomNav() {
+      const container = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn'; btn.id = 'nb-'+i; btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        container.appendChild(btn);
+      }
+    }
+
+    function markAnswer(n) { 
+      const input = document.getElementById('q' + n);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${n}"]:checked`);
+      const btn = document.getElementById('nb-'+n);
+      if(isAnswered) btn.classList.add('answered'); else btn.classList.remove('answered');
+    }
+
+    function scrollToQuestion(n) {
+      let tab = 1;
+      if(n >= 14 && n <= 26) tab = 2;
+      if(n >= 27 && n <= 40) tab = 3;
+      switchSection(tab);
+      
+      setTimeout(() => {
+        let qEl = document.getElementById('q'+n);
+        if(!qEl) {
+          const radio = document.querySelector(`input[name="q${n}"]`);
+          if(radio) qEl = radio.closest('.q-item');
+        } else {
+          qEl = qEl.closest('.q-item'); 
+        }
+
+        if(qEl) {
+          document.getElementById('right-panel').scrollTo({ top: qEl.offsetTop - 50, behavior: 'smooth' });
+          qEl.style.transition = 'background 0.3s';
+          qEl.style.background = '#FADBD8';
+          setTimeout(() => qEl.style.background = 'transparent', 1200);
+        }
+      }, 50);
+    }
+
+    function switchSection(n) {
+      document.querySelectorAll('.tab-btn, .section-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-'+n).classList.add('active');
+      document.getElementById('passage-'+n).classList.add('active');
+      document.getElementById('questions-'+n).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    let timerInterval;
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex';
+      initBottomNav();
+      let s = 3600;
+      timerInterval = setInterval(() => {
+        s--;
+        document.getElementById('timer').textContent = `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
+        if(s <= 0) submitTest();
+      }, 1000);
+    }
+
+    function submitTest() {
+      if(!confirm("Submit final assessment?")) return;
+      clearInterval(timerInterval);
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q'+i;
+        const input = document.getElementById(qId);
+        const ans = answerKey[qId];
+        
+        if(input) {
+          const userAns = input.value.trim().toLowerCase();
+          // Relaxed matching
+          if(userAns === ans || (ans.includes(userAns) && userAns.length > 3 && userAns !== 'true' && userAns !== 'false' && userAns !== 'yes' && userAns !== 'no')) {
+            score++; input.classList.add('correct-answer');
+          } else {
+            input.classList.add('wrong-answer');
+            input.value = userAns ? `${userAns} ❌ [${ans.toUpperCase()}]` : `❌ [${ans.toUpperCase()}]`;
+            input.style.width = "280px";
+          }
+          input.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if(selected && selected.value.toLowerCase() === ans) {
+            score++; selected.parentElement.classList.add('correct-answer');
+          } else {
+            if(selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${ans.toUpperCase()}"]`);
+            if(correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+      
+      document.getElementById('final-score').textContent = `${score} / 40`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.getElementById('btn-submit').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

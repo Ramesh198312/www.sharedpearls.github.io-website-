@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 04: Amor Fati & Resilience | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- ACADEMIC EDITORIAL PALETTE --- */
+    :root {
+      --navy-dark: #0B162C;
+      --navy-main: #1A2C4D;
+      --cerulean: #007EA7;
+      --champagne: #D4AF37;
+      --bg-page: #F4F6F8;
+      --bg-panel: #FFFFFF;
+      --text-main: #2C3E50;
+      --text-muted: #7F8C8D;
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+
+    /* --- HEADER --- */
+    header { 
+      background: var(--navy-dark); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--champagne); 
+      flex-shrink: 0; z-index: 10;
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; }
+    .brand span { color: var(--champagne); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #BDC3C7; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(0, 126, 167, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--cerulean); background: rgba(0, 126, 167, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--champagne); background: var(--navy-main); padding: 0.4rem 1.2rem; border-radius: 4px; }
+    .timer.warning { color: #E74C3C; animation: pulse 1s infinite; }
+
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+    /* --- WORKSPACE & PANELS --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+
+    /* --- LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #f9f7f5;
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; color: var(--navy-dark); margin-bottom: 1rem; font-family: var(--font-passage); }
+    .pre-test-overlay p { font-size: 1.1rem; color: var(--text-muted); max-width: 650px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .btn-start-large {
+      background: var(--navy-main); color: #FFF; padding: 1.2rem 3rem; font-size: 1rem; font-weight: 600;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-start-large:hover { background: var(--cerulean); }
+
+    /* --- PASSAGE TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 2rem; margin-bottom: 2rem; color: var(--navy-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 0.95rem; color: #34495E; text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1.05rem; margin-right: 15px; color: var(--cerulean); float: left; padding-top: 3px; }
+
+    /* --- QUESTION TYPOGRAPHY --- */
+    .right-panel h2 { font-size: 1.15rem; margin: 2.5rem 0 1rem; color: var(--navy-dark); border-bottom: 2px solid var(--champagne); padding-bottom: 0.5rem; font-weight: 700; }
+    .right-panel h2:first-child { margin-top: 0; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.9rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; transition: 0.3s; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--cerulean); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; }
+    
+    input[type="text"] { padding: 0.2rem 0.5rem; border: none; border-bottom: 2px solid var(--text-muted); background: transparent; font-size: 0.95rem; width: 140px; font-family: var(--font-ui); font-weight: 600; color: var(--navy-dark); text-align: center; transition: 0.3s; outline: none;}
+    input[type="text"]:focus { border-bottom-color: var(--cerulean); }
+    input:disabled { color: var(--text-muted); cursor: not-allowed; }
+    
+    .mcq-options { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.95rem; color: #444; transition: 0.2s; }
+    .mcq-label:hover { color: var(--cerulean); }
+    .mcq-label input { margin-top: 4px; }
+    
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.2rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.9rem; font-weight: 500; }
+    .box-item strong { font-family: var(--font-mono); color: var(--cerulean); margin-right: 5px;}
+
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* --- BOTTOM NAVIGATION --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; 
+      align-items: center; justify-content: space-between; padding: 0 3rem;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.03); z-index: 100;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 28px; height: 28px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
+    }
+    .nav-btn:hover { border-color: var(--cerulean); color: var(--navy-dark); }
+    .nav-btn.answered { background: var(--cerulean); color: #FFF; border-color: var(--cerulean); }
+
+    .btn-submit-small {
+      background: var(--navy-main); color: #FFF; border: none; padding: 0.6rem 1.8rem;
+      font-size: 0.9rem; font-weight: 600; border-radius: 4px; cursor: pointer;
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-submit-small:hover { background: var(--cerulean); }
+
+    /* --- RESULTS MODAL --- */
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(11,22,44,0.2);
+      z-index: 200; text-align: center; border-top: 5px solid var(--champagne); min-width: 400px;
+    }
+    .results-modal h2 { font-family: var(--font-passage); color: var(--navy-dark); margin-bottom: 1rem; }
+    .score-display { font-size: 3.5rem; font-weight: 700; color: var(--navy-main); margin: 1rem 0; font-family: var(--font-mono); }
+    .btn-close { background: var(--cerulean); color: #FFF; border: none; padding: 0.8rem 2rem; font-weight: 600; border-radius: 4px; cursor: pointer; margin-top: 1.5rem; text-transform: uppercase; }
+    
+    .correct-answer { border-color: #27AE60 !important; color: #27AE60 !important; font-weight: 700; }
+    .wrong-answer { border-color: #E74C3C !important; color: #E74C3C !important; }
+    .dormant-overlay { display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.4); z-index: 50; }
+    body.test-completed .dormant-overlay { display: block; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls <em>of Wisdom</em></span> | Premium Test</div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2>Evaluation Complete</h2>
+    <div class="score-display" id="final-score">0 <span style="font-size: 1.5rem; color: #7F8C8D;">/ 40</span></div>
+    <p>Review the exact answers and explanations below.</p>
+    <button class="btn-close" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <div style="color: var(--cerulean); font-weight: 700; letter-spacing: 2px; margin-bottom: 1rem;">MODULE 04</div>
+      <h2>Amor Fati: Stoicism & Psychological Resilience</h2>
+      <p>This module evaluates reading comprehension using authentic IELTS task types: Matching Headings, True/False/Not Given, Yes/No/Not Given, Matching Features, and Summary Completion. The navigation grid will appear upon clicking start.</p>
+      <button class="btn-start-large" onclick="startTest()">Initiate 60-Minute Assessment</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Architecture of the Stoic Mind</h1>
+        
+        <p><span class="paragraph-label">A</span> Stoicism, a school of Hellenistic philosophy founded in Athens by Zeno of Citium in the early 3rd century BC, was not merely a set of abstract doctrines but a comprehensive program for living a resilient life. At its core lies the "dichotomy of control," the rigorous mental discipline of distinguishing between what is "up to us" (*prohairesis*) and what is not. By anchoring their well-being exclusively to their internal character and choices—factors within their absolute control—the Stoics sought to achieve *ataraxia*, a state of profound tranquility impervious to the fluctuations of external fortune.</p>
+        
+        <p><span class="paragraph-label">B</span> Central to this internal discipline was the concept of *Amor Fati*, or "love of fate." While the term was popularized much later by the German philosopher Friedrich Nietzsche, the psychological seed was planted by the Roman Stoics Epictetus and Marcus Aurelius. To love one's fate is to view everything that happens—including tragedy, illness, and professional failure—not as an obstacle, but as a necessary and even beneficial ingredient for growth. This is a radical cognitive shift from passive resignation to active embrace. The Stoic does not simply tolerate the inevitable; they welcome it as the specific "terrain" they have been assigned to navigate.</p>
+        
+        <p><span class="paragraph-label">C</span> Marcus Aurelius, the Roman Emperor and author of *Meditations*, utilized the metaphor of fire to describe this resilience. He wrote, "A blazing fire makes flame and brightness out of everything that is thrown into it." For the Stoic, high-stress environments are not threats to be avoided, but the very fuel required for the flame of virtue to burn brighter. This perspective is increasingly being validated by modern clinical psychology, particularly in the development of Cognitive Behavioral Therapy (CBT), which draws heavily on the Stoic principle that it is not events that disturb us, but our *judgments* about them.</p>
+        
+        <p><span class="paragraph-label">D</span> To achieve this state of equanimity, the Stoics practiced "premeditatio malorum"—the premeditation of evils. Unlike modern "positive thinking," which often encourages individuals to visualize success, the Stoics spent time visualizing every possible disaster: bankruptcy, exile, or the death of loved ones. This was not a morbid fixation but a prophylactic measure. By mentally rehearsing these events, they stripped the future of its ability to surprise or shatter them. When the disaster actually occurred, the Stoic was psychologically inoculated, responding with strategic action rather than emotional paralysis.</p>
+        
+        <p><span class="paragraph-label">E</span> Furthermore, Stoicism emphasized the "cosmopolitan" nature of human existence. They believed that all human beings are part of a single, rational community governed by *logos*, or universal reason. This perspective allowed them to detach from narrow, ego-driven concerns. When faced with a workplace conflict or a social slight, a Stoic would zoom out, viewing the event from a cosmic perspective—the "view from above." From this altitude, the petty stressors of daily life appear insignificant, allowing the individual to maintain their composure and focus on their broader duties to society.</p>
+        
+        <p><span class="paragraph-label">F</span> Despite its ancient origins, the relevance of Stoicism to the 21st century is striking. In an era of unprecedented digital noise and global volatility, the demand for internal stability has never been higher. Modern professionals in high-stakes fields—from elite sports to silicon valley—are adopting "Modern Stoicism" as a toolkit for high performance. However, critics suggest that Stoicism can be misused as a shield for corporate indifference, encouraging workers to "endure" toxic environments rather than seeking systemic change. Nevertheless, as a method for individual psychological fortification, the Stoic architecture remains an unrivaled philosophical fortress.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>Psychological Resilience in the Modern Corporate Arena</h1>
+        
+        <p><span class="paragraph-label">A</span> In the hyper-competitive landscape of global commerce, "resilience" has transitioned from a desirable soft skill to an essential survival mechanism. Occupational psychologists define resilience not as an innate trait possessed by a lucky few, but as a dynamic process of positive adaptation in the face of significant adversity. As workloads increase and job security diminishes, the ability to "bounce back" from professional setbacks has become the primary predictor of long-term career success and mental health.</p>
+        
+        <p><span class="paragraph-label">B</span> The translation of ancient Stoic principles into modern psychology was largely pioneered by Albert Ellis, who developed Rational Emotive Behavior Therapy (REBT) in the 1950s. Ellis directly credited the Stoic philosopher Epictetus with the foundational premise of his therapy: that our emotional disturbances are caused not by objective events, but by our irrational beliefs regarding those events. Similarly, Aaron Beck, the founding father of Cognitive Behavioral Therapy (CBT), utilized "cognitive restructuring" to help patients identify and dismantle the catastrophizing thought patterns that undermine resilience in high-stress corporate environments.</p>
+        
+        <p><span class="paragraph-label">C</span> Another critical component of professional resilience is the establishment of "boundary management." In the age of constant connectivity, the line between labor and life has become perilously blurred. High-performance individuals who fail to implement "digital sunsets"—periods of total disconnection from work-related technology—suffer from chronic sympathetic nervous system arousal. This state of constant "fight or flight" eventually leads to cognitive exhaustion and burnout. True resilience requires the discipline to rest as intensely as one works, allowing the prefrontal cortex to recover from the demands of rapid decision-making.</p>
+        
+        <p><span class="paragraph-label">D</span> Resilience is also deeply linked to the concept of "meaning-making." Viktor Frankl, a psychiatrist and Holocaust survivor, observed that those who could find a "why" behind their suffering were significantly more likely to survive extreme hardship. He developed Logotherapy based on this principle. In a corporate context, professionals who connect their daily labor to a broader sense of purpose—whether it be providing for their family, solving a technical problem, or serving their community—are vastly more resilient to the mundane stressors of the office. Purpose acts as a psychological anchor.</p>
+        
+        <p><span class="paragraph-label">E</span> Furthermore, the modern understanding of resilience owes much to Martin Seligman's research on "learned helplessness." Seligman demonstrated that when individuals feel they have no control over their circumstances, they eventually give up, even when opportunities for escape present themselves. To counter this, Seligman advocated for "learned optimism," training individuals to view setbacks as temporary, specific, and external, rather than permanent, pervasive, and personal. This perfectly mirrors the Stoic dichotomy of control, equipping modern workers with the mental scaffolding to thrive amidst corporate volatility.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>The Longitudinal Impact of Deterministic Acceptance on Neuroplasticity</h1>
+        
+        <p><span class="paragraph-label">A</span> The intersection of ancient Stoic ethics and modern cognitive neuroscience provides a profound framework for understanding human agency under extreme stress. If the universe is viewed through a deterministic lens—where events unfold as the inevitable result of prior conditions—then the concept of *Amor Fati* is not merely a psychological comfort, but a rational alignment with reality. To test the biological impact of this philosophical stance, a massive longitudinal study was launched at the Geneva Institute for Cognitive Science. The study tracked the psychological and neurological trajectories of 3,500 individuals in high-stress professions, ranging from trauma surgeons to air traffic controllers, over a period of exactly fifteen years.</p>
+        
+        <p><span class="paragraph-label">B</span> The primary objective of the Geneva study was to evaluate the efficacy of "Fatalistic Acceptance" as a biological coping mechanism. The researchers utilized functional magnetic resonance imaging (fMRI) alongside a specific biometric marker: Heart Rate Variability (HRV). HRV is widely recognized in the medical community as a robust indicator of autonomic nervous system health and emotional regulation. A higher HRV indicates a flexible, resilient nervous system capable of rapidly transitioning from a stressed "fight-or-flight" state back to a calm "rest-and-digest" baseline.</p>
+        
+        <p><span class="paragraph-label">C</span> Participants were divided into two distinct cohorts. Group A was instructed in traditional "active problem-solving" strategies. This conventional Western approach emphasizes the need to manipulate and change the external environment to reduce stress. Group B, however, was introduced to "Stoic Reframing." They underwent intensive training focused on the dichotomy of control and the radical acceptance of external outcomes, explicitly practicing *premeditatio malorum* (the premeditation of evils). After the first five years of the study, the biometric data revealed a stark divergence: Group B exhibited a 14% higher baseline HRV compared to Group A, suggesting a superior physiological ability to maintain composure during crises.</p>
+        
+        <p><span class="paragraph-label">D</span> However, the most profound and surprising data emerged during the "Second Phase" of the study, which entirely coincided with the unprecedented global economic disruption of 2008. The financial collapse triggered widespread layoffs and institutional panic across all the sectors analyzed in the study. During this period, Group A suffered a staggering 42% increase in clinical anxiety diagnoses and stress-related workplace absences. In sharp contrast, Group B’s mental health metrics remained remarkably stable, showing only a negligible 3% variation from their pre-crisis baseline.</p>
+        
+        <p><span class="paragraph-label">E</span> Qualitative interviews conducted immediately following the 2008 crash revealed the cognitive mechanics behind this divergence. Members of Group B reported viewing the market collapse as an "externally inevitable" event, likening it to a natural disaster such as a storm at sea. Because they had actively rehearsed worst-case scenarios, the shock value of the event was neutralized. Instead of wasting critical cognitive energy on resentment, blame, or paralyzing "what if" scenarios, they immediately focused their mental bandwidth entirely on the few factors still within their absolute control: their personal spending habits, their localized vocational skills, and their emotional reactions to the crisis.</p>
+        
+        <p><span class="paragraph-label">F</span> The neurological data supporting these interviews was groundbreaking. fMRI scans of Group B participants taken while they were exposed to simulated high-stress scenarios showed significantly reduced hyperactivation in the amygdala—the brain's primary fear center. Simultaneously, these participants showed increased blood flow and structural density in the prefrontal cortex, the area responsible for logical reasoning and executive function. The researchers concluded that the sustained practice of Stoic acceptance actually induced "neuroplasticity," fundamentally rewiring the brain's default architectural response to threat.</p>
+        
+        <p><span class="paragraph-label">G</span> These findings have sweeping implications for the field of "Predictive Analytics" within corporate human resources. If an individual’s biological resilience can be systematically boosted by philosophical indoctrination, then traditional hiring metrics—which focus predominantly on past experience and raw IQ—are vastly insufficient. Forward-thinking multinational firms are now beginning to explore the integration of "Philosophical Stress Tests" into their executive recruitment processes. These assessments aim to evaluate a candidate’s inherent ability to distinguish between internal and external variables under intense pressure. The ultimate goal is to identify individuals with a high "Stoic Quotient" (SQ), predicting their capacity to function effectively in the volatile "black swan" environments that increasingly characterize the 21st-century global economy.</p>
+        
+        <p><span class="paragraph-label">H</span> Predictably, the introduction of the SQ metric has provoked fierce academic and ethical criticism. Detractors argue that prioritizing a "Stoic Quotient" inherently favors passivity over passion. Sociologists warn that if an employee is trained to truly "love their fate," they may lose the revolutionary drive required to improve their working conditions or to challenge unethical, exploitative leadership. There is, critics argue, a dangerously fine line between the noble resilience of the Stoic and the apathetic compliance of the fatalist. If corporations train an entire generation of workers to simply accept the "inevitable" toxicities of the modern workplace without complaint, we risk creating a deeply compliant but intellectually stagnant workforce.</p>
+        
+        <p><span class="paragraph-label">I</span> The lead researchers of the Geneva study vehemently contest this interpretation, arguing that it relies on a fundamental misunderstanding of Stoic philosophy. Radical acceptance of a negative event does not equate to the acceptance of injustice. A true Stoic practitioner accepts that a problem exists without emotional resistance (Amor Fati), but immediately pivots to ask, "What is the most virtuous, effective internal action I can take to resolve or fight this?" The acceptance simply removes the blinding fog of anger and panic, allowing for more precise, strategic rebellion against toxic systems.</p>
+        
+        <p><span class="paragraph-label">J</span> In its final conclusion, the fifteen-year longitudinal study definitively proves that the ancient Stoic toolkit is not a dusty relic of antiquity, but a highly effective, neurologically valid technology. As our socioeconomic systems become exponentially more complex and unpredictable, the ability to stand in the center of the storm with unshakeable equanimity becomes the ultimate competitive advantage. Whether analyzed through the pristine lens of modern fMRI machines or the ancient scrolls of Athens, the conclusion remains brilliantly identical: the only true, unassailable freedom is found in the absolute mastery of one's own mind.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–6</h2>
+        <div class="instruction">Reading Passage 1 has six paragraphs, <strong>A–F</strong>. Choose the correct heading for each paragraph from the list below. Write the correct number, <strong>i–viii</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> Using a cosmic perspective to minimize daily stress</div>
+          <div class="box-item"><strong>ii</strong> Distinguishing between internal power and external chance</div>
+          <div class="box-item"><strong>iii</strong> The danger of Stoicism as a tool for corporate neglect</div>
+          <div class="box-item"><strong>iv</strong> A technique for disarming future disasters</div>
+          <div class="box-item"><strong>v</strong> The transition from passive resignation to welcoming fate</div>
+          <div class="box-item"><strong>vi</strong> Why Stoics preferred absolute poverty over wealth</div>
+          <div class="box-item"><strong>vii</strong> The validation of ancient tactics in modern therapy</div>
+          <div class="box-item"><strong>viii</strong> The origins of the Stoic school in Athens</div>
+        </div>
+        
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph A <input type="text" id="q1" oninput="markNavAnswered(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph B <input type="text" id="q2" oninput="markNavAnswered(2)"></div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph C <input type="text" id="q3" oninput="markNavAnswered(3)"></div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph D <input type="text" id="q4" oninput="markNavAnswered(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph E <input type="text" id="q5" oninput="markNavAnswered(5)"></div></div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">Paragraph F <input type="text" id="q6" oninput="markNavAnswered(6)"></div></div>
+
+        <h2>Questions 7–13</h2>
+        <div class="instruction">Do the following statements agree with the information given in Reading Passage 1? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">7</div><div class="q-text">Zeno of Citium believed that external fortune was entirely within human control. <br><input type="text" id="q7" oninput="markNavAnswered(7)"></div></div>
+        <div class="q-item"><div class="q-num">8</div><div class="q-text">Friedrich Nietzsche was the first philosopher to invent the concept of loving one's fate. <br><input type="text" id="q8" oninput="markNavAnswered(8)"></div></div>
+        <div class="q-item"><div class="q-num">9</div><div class="q-text">Marcus Aurelius believed that high-stress environments could enhance a person's virtue. <br><input type="text" id="q9" oninput="markNavAnswered(9)"></div></div>
+        <div class="q-item"><div class="q-num">10</div><div class="q-text">Modern "positive thinking" requires individuals to visualize bankruptcy and exile. <br><input type="text" id="q10" oninput="markNavAnswered(10)"></div></div>
+        <div class="q-item"><div class="q-num">11</div><div class="q-text">Premeditatio malorum was designed to prevent emotional paralysis during a crisis. <br><input type="text" id="q11" oninput="markNavAnswered(11)"></div></div>
+        <div class="q-item"><div class="q-num">12</div><div class="q-text">The "view from above" requires individuals to climb to high altitudes to meditate. <br><input type="text" id="q12" oninput="markNavAnswered(12)"></div></div>
+        <div class="q-item"><div class="q-num">13</div><div class="q-text">Critics argue that modern corporations might use Stoicism to avoid improving the workplace. <br><input type="text" id="q13" oninput="markNavAnswered(13)"></div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18</h2>
+        <div class="instruction">Look at the following statements (Questions 14-18) and the list of researchers below. Match each statement with the correct researcher, <strong>A, B, C, or D</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Albert Ellis</div>
+          <div class="box-item"><strong>B</strong> Aaron Beck</div>
+          <div class="box-item"><strong>C</strong> Viktor Frankl</div>
+          <div class="box-item"><strong>D</strong> Martin Seligman</div>
+        </div>
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">Trained people to view setbacks as temporary and external rather than permanent. <input type="text" id="q14" oninput="markNavAnswered(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">Developed a therapy based on dismantling catastrophizing thought patterns. <input type="text" id="q15" oninput="markNavAnswered(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">Argued that finding a purpose behind suffering heavily increases survival chances. <input type="text" id="q16" oninput="markNavAnswered(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">Credited Epictetus for the idea that irrational beliefs, not events, cause emotional disturbance. <input type="text" id="q17" oninput="markNavAnswered(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">Demonstrated that individuals will give up if they feel they have no control over their circumstances. <input type="text" id="q18" oninput="markNavAnswered(18)"></div></div>
+
+        <h2>Questions 19–26</h2>
+        <div class="instruction">Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+        <div class="q-item"><div class="q-text">
+          In the modern corporate world, resilience is not an innate trait but a process of positive <strong>19</strong> <input type="text" id="q19" oninput="markNavAnswered(19)">. To maintain this resilience, workers must practice "boundary management." Failing to observe <strong>20</strong> <input type="text" id="q20" oninput="markNavAnswered(20)"> can leave a worker in a state of constant fight or flight, which ultimately causes <strong>21</strong> <input type="text" id="q21" oninput="markNavAnswered(21)"> and burnout. It is crucial to rest intensely so the <strong>22</strong> <input type="text" id="q22" oninput="markNavAnswered(22)"> can recover from rapid decision-making.<br><br>
+          Additionally, professionals who practice <strong>23</strong> <input type="text" id="q23" oninput="markNavAnswered(23)"> by linking their work to a broader purpose are better equipped to handle stress. According to researchers like Seligman, teaching workers <strong>24</strong> <input type="text" id="q24" oninput="markNavAnswered(24)"> helps them avoid giving up. This modern approach mirrors the ancient Stoic <strong>25</strong> <input type="text" id="q25" oninput="markNavAnswered(25)"> of control, providing the necessary mental <strong>26</strong> <input type="text" id="q26" oninput="markNavAnswered(26)"> to thrive in unpredictable environments.
+        </div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer in Reading Passage 3? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">A high Heart Rate Variability (HRV) indicates that a person remains in a stressed state for a long time. <br><input type="text" id="q27" oninput="markNavAnswered(27)"></div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">Group A was taught to change their external environment to reduce stress. <br><input type="text" id="q28" oninput="markNavAnswered(28)"></div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">During the 2008 financial crash, Group B experienced a significant spike in clinical anxiety. <br><input type="text" id="q29" oninput="markNavAnswered(29)"></div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">fMRI scans showed that Stoic practice reduced hyperactivation in the brain's fear center. <br><input type="text" id="q30" oninput="markNavAnswered(30)"></div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">The researchers agreed with critics that Stoicism forces workers to passively accept unethical leadership. <br><input type="text" id="q31" oninput="markNavAnswered(31)"></div></div>
+
+        <h2>Questions 32–36</h2>
+        <div class="instruction">Reading Passage 3 has ten paragraphs, <strong>A–J</strong>. Which paragraph contains the following information? Write the correct letter, <strong>A–J</strong>.</div>
+        <div class="q-item"><div class="q-num">32</div><div class="q-text">The idea that acceptance clears the mind for strategic rebellion against injustice. <input type="text" id="q32" oninput="markNavAnswered(32)"></div></div>
+        <div class="q-item"><div class="q-num">33</div><div class="q-text">A description of how Group B participants shifted their focus only to factors they could control during the 2008 crash. <input type="text" id="q33" oninput="markNavAnswered(33)"></div></div>
+        <div class="q-item"><div class="q-num">34</div><div class="q-text">The suggestion that corporations might use "Philosophical Stress Tests" in recruitment. <input type="text" id="q34" oninput="markNavAnswered(34)"></div></div>
+        <div class="q-item"><div class="q-text">The definition of HRV and its relationship to the autonomic nervous system. <input type="text" id="q35" oninput="markNavAnswered(35)"></div></div>
+        <div class="q-item"><div class="q-num">36</div><div class="q-text">The neurological evidence showing increased blood flow to the area responsible for logical reasoning. <input type="text" id="q36" oninput="markNavAnswered(36)"></div></div>
+
+        <h2>Questions 37–40</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">What was the outcome for Group B after the first five years of the study?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q37" value="A" onchange="markNavAnswered(37)"> A) They quit their high-stress professions.</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="B" onchange="markNavAnswered(37)"> B) They developed a 14% higher baseline HRV than Group A.</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="C" onchange="markNavAnswered(37)"> C) They suffered a 42% increase in anxiety.</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="D" onchange="markNavAnswered(37)"> D) Their prefrontal cortex began to shrink.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">How did Group B view the 2008 market collapse?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q38" value="A" onchange="markNavAnswered(38)"> A) As an externally inevitable event, like a natural disaster.</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="B" onchange="markNavAnswered(38)"> B) As an opportunity to complain about leadership.</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="C" onchange="markNavAnswered(38)"> C) As a direct result of their own personal failure.</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="D" onchange="markNavAnswered(38)"> D) As a reason to abandon Stoicism.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">Why do sociologists criticize the "Stoic Quotient" (SQ) metric?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q39" value="A" onchange="markNavAnswered(39)"> A) It costs too much money to test candidates.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="B" onchange="markNavAnswered(39)"> B) It is not based on actual fMRI scanning data.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="C" onchange="markNavAnswered(39)"> C) It may create an apathetic workforce that accepts toxic conditions.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="D" onchange="markNavAnswered(39)"> D) It forces workers to engage in aggressive rebellion.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">What is the ultimate conclusion of the Geneva longitudinal study?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q40" value="A" onchange="markNavAnswered(40)"> A) Stoicism is merely a psychological comfort without biological proof.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="B" onchange="markNavAnswered(40)"> B) Absolute mastery of the mind is the ultimate competitive advantage.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="C" onchange="markNavAnswered(40)"> C) Traditional hiring metrics (IQ and experience) are flawless.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="D" onchange="markNavAnswered(40)"> D) Group A had a superior response to the 2008 financial crisis.</label>
+          </div>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers">
+      </div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest(false)">Submit Module</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // Passage 1
+      q1: 'ii', q2: 'v', q3: 'vii', q4: 'iv', q5: 'i', q6: 'iii',
+      q7: 'false', q8: 'false', q9: 'true', q10: 'false', q11: 'true', q12: 'false', q13: 'true',
+      
+      // Passage 2
+      q14: 'd', q15: 'b', q16: 'c', q17: 'a', q18: 'd',
+      q19: 'adaptation', q20: 'digital sunsets', q21: 'cognitive exhaustion', q22: 'prefrontal cortex', 
+      q23: 'meaning-making', q24: 'learned optimism', q25: 'dichotomy', q26: 'scaffolding',
+      
+      // Passage 3
+      q27: 'no', q28: 'yes', q29: 'no', q30: 'yes', q31: 'no',
+      q32: 'i', q33: 'e', q34: 'g', q35: 'b', q36: 'f',
+      q37: 'b', q38: 'a', q39: 'c', q40: 'b'
+    };
+
+    // Initialize Navigation
+    function initBottomNav() {
+      const navContainer = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn';
+        btn.id = 'nav-btn-' + i;
+        btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        navContainer.appendChild(btn);
+      }
+    }
+
+    function markNavAnswered(qNumber) {
+      const input = document.getElementById('q' + qNumber);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${qNumber}"]:checked`);
+      const navBtn = document.getElementById('nav-btn-' + qNumber);
+      if(isAnswered) navBtn.classList.add('answered');
+      else navBtn.classList.remove('answered');
+    }
+
+    function scrollToQuestion(qNumber) {
+      let targetTab = 1;
+      if (qNumber >= 14 && qNumber <= 26) targetTab = 2;
+      if (qNumber >= 27 && qNumber <= 40) targetTab = 3;
+      
+      switchSection(targetTab);
+      
+      setTimeout(() => {
+        let qElement = document.getElementById('q' + qNumber);
+        if (!qElement) {
+          const radioInput = document.querySelector(`input[name="q${qNumber}"]`);
+          if(radioInput) qElement = radioInput.closest('.q-item');
+        } else {
+          qElement = qElement.closest('.q-item');
+        }
+
+        if (qElement) {
+          document.getElementById('right-panel').scrollTo({
+            top: qElement.offsetTop - 50, behavior: 'smooth'
+          });
+          qElement.style.background = '#FEF08A';
+          setTimeout(() => qElement.style.background = '', 1000);
+        }
+      }, 50);
+    }
+
+    function switchSection(sectionNumber) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+      document.getElementById('tab-' + sectionNumber).classList.add('active');
+      document.getElementById('passage-' + sectionNumber).classList.add('active');
+      document.getElementById('questions-' + sectionNumber).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    /* --- TIMER & LAUNCH --- */
+    let timeRemaining = 3600;
+    let timerInterval;
+
+    function startTest() {
+      initBottomNav();
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex'; 
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        const m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+        const s = (timeRemaining % 60).toString().padStart(2, '0');
+        document.getElementById('timer').textContent = `${m}:${s}`;
+        
+        if(timeRemaining <= 300) document.getElementById('timer').classList.add('warning');
+        if(timeRemaining <= 0) submitTest(true);
+      }, 1000);
+    }
+
+    /* --- EVALUATION --- */
+    function submitTest(isAuto = false) {
+      if(!isAuto && !confirm("Confirm final submission?")) return;
+      clearInterval(timerInterval);
+      
+      let score = 0;
+      for(let i=1; i<=40; i++) {
+        const qId = 'q' + i;
+        const textInput = document.getElementById(qId);
+        const correctAns = answerKey[qId];
+        
+        if (textInput) {
+          const userAns = textInput.value.trim().toLowerCase();
+          
+          if (userAns === correctAns || (correctAns.includes(userAns) && userAns.length > 3) || (userAns === 'meaning making' && qId === 'q23')) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else {
+            textInput.classList.add('wrong-answer');
+            textInput.value = userAns ? `${userAns} ❌ [${correctAns.toUpperCase()}]` : `❌ [${correctAns.toUpperCase()}]`;
+            textInput.style.width = "230px";
+          }
+          textInput.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if (selected && selected.value.toLowerCase() === correctAns) {
+            score++;
+            selected.parentElement.classList.add('correct-answer');
+          } else {
+            if (selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAns.toUpperCase()}"]`);
+            if (correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+
+      document.getElementById('final-score').innerHTML = `${score} <span style="font-size: 1.5rem; color: #7F8C8D;">/ 40</span>`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.body.classList.add('test-completed');
+      document.getElementById('btn-submit').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

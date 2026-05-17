@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 11: High-Speed Rail Networks | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- PREMIUM CRIMSON & GOLD PALETTE --- */
+    :root {
+      --primary-dark: #4A0404;    /* Deepest Burgundy */
+      --primary-main: #8E1628;    /* Crimson Red */
+      --accent-gold: #D4AF37;     /* Academic Gold */
+      --action-blue: #005A9C;     /* Pre-Test Button Blue (User Requested) */
+      --action-blue-hover: #003F6E;
+      --text-main: #2C3E50;       
+      --text-muted: #7F8C8D;
+      --bg-page: #FDFBF7;         
+      --bg-panel: #FFFFFF;
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+
+    /* --- HEADER --- */
+    header { 
+      background: var(--primary-main); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--accent-gold); 
+      flex-shrink: 0; z-index: 10; box-shadow: 0 4px 12px rgba(142, 22, 40, 0.2);
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; color: #FFF; }
+    .brand span { color: var(--accent-gold); font-style: italic; font-weight: 400; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #E8B4B8; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(255, 255, 255, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--accent-gold); background: rgba(255, 255, 255, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--primary-dark); background: var(--accent-gold); padding: 0.4rem 1.2rem; border-radius: 4px; }
+
+    /* --- WORKSPACE --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+
+    /* --- LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: hsl(240, 98%, 17%);
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #FFF;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; margin-bottom: 1rem; font-family: var(--font-passage); color: var(--accent-gold); max-width: 900px;}
+    .pre-test-overlay p { font-size: 1.15rem; max-width: 750px; line-height: 1.8; margin-bottom: 2.5rem; color: #FADBD8; }
+    .btn-start-large {
+      background: var(--action-blue); color: #FFF; padding: 1.2rem 4rem; font-size: 1.1rem; font-weight: 700;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    .btn-start-large:hover { background: var(--action-blue-hover); transform: translateY(-2px); }
+
+    /* --- TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 1.8rem; margin-bottom: 2rem; color: var(--primary-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 0.95rem; color: var(--text-main); text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; margin-right: 12px; color: var(--primary-main); float: left; }
+
+    .right-panel h2 { font-size: 1.1rem; margin: 2rem 0 1rem; color: var(--primary-dark); border-bottom: 2px solid var(--accent-gold); padding-bottom: 5px; font-weight: 700; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.85rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--primary-main); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; }
+    
+    input[type="text"] { border: none; border-bottom: 2px solid #BDC3C7; background: transparent; font-size: 0.95rem; width: 160px; font-weight: 600; color: var(--primary-main); text-align: center; outline: none; transition: border-color 0.3s;}
+    input[type="text"]:focus { border-bottom-color: var(--primary-dark); }
+    input:disabled { color: var(--primary-dark); background: transparent; }
+
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.2rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.9rem; font-weight: 500; color: var(--text-main); }
+    .box-item strong { font-family: var(--font-mono); color: var(--primary-main); margin-right: 5px;}
+    
+    /* --- BOTTOM NAV --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; align-items: center; justify-content: space-between; padding: 0 3rem;
+      position: relative; z-index: 100;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 26px; height: 26px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main); font-weight: 600;
+    }
+    .nav-btn.answered { background: var(--primary-main); color: #FFF; border-color: var(--primary-main); }
+
+    .btn-submit-small { background: #26c007; color: #FFF; border: none; padding: 0.6rem 2rem; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
+    .btn-submit-small:hover { background: var(--primary-dark); }
+
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      z-index: 200; text-align: center; border-top: 5px solid var(--primary-main); min-width: 450px;
+    }
+    .correct-answer { color: #27AE60 !important; font-weight: 700; border-bottom-color: #27AE60 !important; }
+    .wrong-answer { color: #E74C3C !important; border-bottom-color: #E74C3C !important; }
+    
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls</span> of Wisdom | Academic Reading</div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2 style="color: var(--primary-dark);">Evaluation Complete</h2>
+    <div style="font-size: 3.5rem; font-weight: 800; margin: 1rem 0; font-family: var(--font-mono); color: var(--primary-main);" id="final-score">0 / 40</div>
+    <p style="margin-bottom: 1.5rem; color: var(--text-main);">The interface is now locked. Click below to review your answers.</p>
+    <button class="btn-submit-small" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <h2>The Future of High-Speed Rail Networks and Continental Connectivity</h2>
+      <p>This module investigates the mechanical, economic, and geopolitical implications of High-Speed Rail (HSR). It evaluates C1/C2 comprehension regarding agglomeration economies, maglev technology, and the carbon paradox of infrastructure.</p>
+      <button class="btn-start-large" onclick="startTest()">Initiate 60-Minute Assessment</button>
+    </div>
+
+    <div class="dormant-overlay" id="dormant-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.3); z-index:50; pointer-events:none;"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Evolution and Mechanics of High-Speed Rail</h1>
+        
+        <p><span class="paragraph-label">A</span> The modern era of High-Speed Rail (HSR) was inaugurated in October 1964 with the launch of Japan's Tokaido Shinkansen, purposefully timed to coincide with the Tokyo Olympics. Operating at a then-unprecedented commercial speed of 210 km/h, the "bullet train" revolutionized intercity travel. Prior to the Shinkansen, the global consensus among transport economists was that passenger rail was an obsolete technology, destined to be entirely supplanted by the rapidly expanding aviation and automotive sectors. The Shinkansen proved that rail could not only compete but completely dominate the 500-kilometer transport corridor, sparking a renaissance in railway engineering across Europe and Asia.</p>
+        
+        <p><span class="paragraph-label">B</span> Traditional HSR operates on the principle of "steel-wheel-on-steel-rail." While simple in concept, scaling this technology to speeds exceeding 300 km/h requires overcoming immense mechanical hurdles. The primary limitation is the "adhesion limit"—the physical friction required between the wheel and the rail for the train to accelerate and brake safely. At extreme speeds, this friction decreases dramatically. Furthermore, traditional HSR requires a continuous supply of electricity delivered via overhead wires, known as a catenary system. At speeds approaching 350 km/h, the aerodynamic drag and physical vibration of the pantograph (the apparatus connecting the train to the wire) can cause severe electrical arcing and mechanical fatigue.</p>
+        
+        <p><span class="paragraph-label">C</span> To bypass the limitations of friction and catenary wear, engineers developed Magnetic Levitation (Maglev) technology. Maglev eliminates moving mechanical parts by utilizing extremely powerful superconducting magnets to suspend the train several centimeters above a concrete guideway. There are two primary competing systems: Electrodynamic Suspension (EDS), favored by Japan, which relies on repulsive magnetic forces, and Electromagnetic Suspension (EMS), utilized in Germany and China, which utilizes attractive magnetic forces. Because Maglev trains do not touch the track, they suffer zero rolling resistance, limited only by aerodynamic drag, allowing them to theoretically achieve commercial speeds surpassing 600 km/h.</p>
+        
+        <p><span class="paragraph-label">D</span> Despite the technological marvel of both traditional HSR and Maglev, the greatest barrier to continental connectivity is topographical geometry. High-speed trains have notoriously poor tolerance for gradients (hills) and require exceptionally large curve radii. A traditional freight train can navigate a sharp curve at 80 km/h; a train traveling at 350 km/h requires a curve radius of at least 7,000 meters to prevent catastrophic derailment. Consequently, HSR lines cannot simply follow the natural topography of the land. They require massive civil engineering interventions, including the construction of extensive viaducts across valleys and deep-bore tunnels through mountains.</p>
+        
+        <p><span class="paragraph-label">E</span> This rigid geometric requirement results in staggering capital expenditure. The cost of constructing a single kilometer of HSR track in varied terrain frequently exceeds $50 million USD. This massive initial investment demands a high "carbon payback period." While electrically powered HSR is vastly greener than aviation during operation, the pouring of millions of tons of concrete and the forging of specialized steel rails release immense quantities of CO2. Transport ecologists estimate that an HSR line must operate at high passenger capacity for roughly 15 to 20 years just to offset the greenhouse gases emitted during its construction phase.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>Economic Geography and Urban Topography</h1>
+        
+        <p><span class="paragraph-label">A</span> The implementation of a High-Speed Rail network does not merely alter travel times; it fundamentally rewrites the economic geography of a nation. One of the primary economic justifications for HSR is the creation of "agglomeration economies." Agglomeration theory posits that when businesses, talent, and capital are brought closer together (either physically or temporally), their productivity increases exponentially due to the rapid exchange of ideas and reduced friction of trade. By shrinking the travel time between two distinct metropolitan areas to under an hour, HSR effectively fuses them into a single, massive mega-region, allowing companies in one city to easily tap into the labor pool of another.</p>
+        
+        <p><span class="paragraph-label">B</span> However, urban economist Dr. Aris Thorne cautions that this fusion is rarely symmetrical. The phenomenon known as the "Sucking Effect" (or the Pump Effect) frequently devastates secondary cities situated along the HSR corridor. When a mid-sized town is suddenly connected to a dominant economic hub via high-speed rail, the capital and highly skilled labor from the smaller town are often 'sucked' into the larger metropolis. Rather than decentralizing wealth, the HSR line inadvertently accelerates the concentration of economic power in primary tier-one cities, leaving the peripheral nodes as mere bedroom communities.</p>
+        
+        <p><span class="paragraph-label">C</span> The physical arrival of an HSR station triggers intense shifts in local urban planning, categorized under Transit-Oriented Development (TOD). Because HSR relies on massive volume to achieve profitability, planners zone the immediate radius surrounding the station for ultra-high-density commercial and residential real estate. The goal is to capture the immense foot traffic generated by the rail line. In cities like Lyon and Kyoto, the HSR station is no longer just a transport hub; it is the commercial heart of the city, replete with luxury retail, corporate headquarters, and high-rise apartments.</p>
+        
+        <p><span class="paragraph-label">D</span> This urban restructuring is driven by a behavioral constant formulated by physicist Cesare Marchetti. "Marchetti's Constant" observes that throughout human history—from walking to horse-drawn carriages to modern transit—the average human has consistently budgeted roughly one hour per day for their commute. HSR does not decrease the amount of time people spend traveling; rather, it drastically expands the geographic radius of that one hour. A worker can now comfortably live 200 kilometers away from their office, fundamentally altering the traditional boundaries of suburban sprawl.</p>
+        
+        <p><span class="paragraph-label">E</span> The integration of HSR into daily commuting, however, raises profound questions regarding social equity. Sociologist Dr. Elena Rostova points out that the operational costs of maintaining high-speed tracks and advanced rolling stock mandate high ticket prices. In many Western nations, HSR has essentially become a luxury transport mode subsidized by public tax dollars but utilized almost exclusively by the wealthy business class. If low-income populations are priced out of the high-speed network, they cannot access the agglomeration economies it creates, thereby exacerbating national wealth inequality.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>Continental Connectivity and the Geopolitics of Rail</h1>
+        
+        <p><span class="paragraph-label">A</span> As national networks mature, the ultimate frontier of High-Speed Rail is trans-continental connectivity. Rail infrastructure is no longer viewed merely as a domestic utility; it has evolved into a potent instrument of geopolitical statecraft. By funding, constructing, and controlling the physical steel arteries that connect sovereign nations, superpowers can exert immense economic and political influence over entire continents. The rail line becomes a physical manifestation of soft power, binding smaller nations to the technological standards and economic orbits of the investing hegemon.</p>
+        
+        <p><span class="paragraph-label">B</span> The most ambitious example of this is China’s Belt and Road Initiative (BRI). A core pillar of the BRI is the exportation of Chinese HSR technology to Southeast Asia, Africa, and Eastern Europe. By offering state-backed loans and engineering expertise to construct high-speed corridors in developing nations, China secures long-term resource contracts and opens new markets for its exports. However, international relations scholars heavily debate the ethics of this expansion, pointing to the risk of "debt-trap diplomacy." If a smaller nation defaults on the massive loans required to build the HSR infrastructure, the investing superpower may demand equity in critical national assets, such as strategic ports or mines, effectively eroding the host nation's sovereignty.</p>
+        
+        <p><span class="paragraph-label">C</span> In stark contrast to the state-directed expansion of the BRI, the European Union is attempting to forge continental connectivity through complex regulatory harmonization. The Trans-European Transport Network (TEN-T) aims to seamlessly link the disparate rail networks of EU member states. Historically, Europe was plagued by severe "interoperability" issues. A train traveling from Spain to France would encounter a change in track gauge (the width between the rails), requiring passengers to physically disembark and change trains. Furthermore, different nations utilized entirely different electrical voltages and signaling software.</p>
+        
+        <p><span class="paragraph-label">D</span> To solve this, the EU mandated the implementation of the European Rail Traffic Management System (ERTMS). This standardized, computerized signaling protocol theoretically allows a single locomotive to cross multiple national borders without stopping. However, the retrofitting of legacy domestic tracks to meet ERTMS standards is agonizingly slow and financially burdensome. Member states frequently prioritize their internal domestic routes over the continent-spanning cross-border connections, highlighting the inherent tension between national self-interest and the utopian vision of a borderless, pan-European railway.</p>
+        
+        <p><span class="paragraph-label">E</span> Regardless of geopolitical motivation, the expansion of continental HSR directly challenges the dominance of the short-haul aviation sector. Transport economists have identified a distinct "sweet spot" for HSR dominance: routes spanning between 400 and 800 kilometers. On these routes, the total travel time of an HSR journey—which drops passengers directly in the city center—frequently undercuts the total time of a flight when factoring in airport security, boarding procedures, and transit from remote suburban airports. In response to climate change mandates, several European nations, such as France, have taken the unprecedented step of legally banning domestic short-haul flights where a high-speed rail alternative of under two and a half hours exists.</p>
+        
+        <p><span class="paragraph-label">F</span> Looking beyond the constraints of atmospheric friction, innovators are theorizing the next leap in continental connectivity: the "Hyperloop." Operating on the principles of vactrain technology, a Hyperloop involves firing magnetically levitated pods through sealed, near-vacuum tubes. By eliminating almost all aerodynamic drag, theoretical speeds could exceed 1,000 km/h. While currently in the nascent stages of prototyping, if the immense material science challenges of maintaining a massive vacuum over hundreds of kilometers can be solved, the Hyperloop could theoretically displace medium-haul aviation, fundamentally redefining the physics and politics of global travel.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–5: Matching Information</h2>
+        <div class="instruction">Reading Passage 1 has five paragraphs, <strong>A–E</strong>. Which paragraph contains the following information? Write <strong>A–E</strong>.</div>
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">An explanation of how electrical power is traditionally delivered to the train. <input type="text" id="q1" oninput="markAnswer(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">The reason why high-speed tracks cannot follow the natural hills and valleys of the earth. <input type="text" id="q2" oninput="markAnswer(2)"></div></div>
+        <div class="q-item"><div class="q-text">An estimate of how long a rail line must run to neutralize its initial construction emissions. <input type="text" id="q3" oninput="markAnswer(3)"></div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">The historical event that proved passenger rail was not an obsolete technology. <input type="text" id="q4" oninput="markAnswer(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">A comparison of two different magnetic levitation systems used internationally. <input type="text" id="q5" oninput="markAnswer(5)"></div></div>
+
+        <h2>Questions 6–9: True/False/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the information in Passage 1? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">Prior to 1964, experts believed aviation and cars would completely replace passenger trains. <br><input type="text" id="q6" oninput="markAnswer(6)"></div></div>
+        <div class="q-item"><div class="q-num">7</div><div class="q-text">At extremely high speeds, the physical friction between a steel wheel and track increases. <br><input type="text" id="q7" oninput="markAnswer(7)"></div></div>
+        <div class="q-item"><div class="q-num">8</div><div class="q-text">The Japanese EDS Maglev system is significantly cheaper to build than the German EMS system. <br><input type="text" id="q8" oninput="markAnswer(8)"></div></div>
+        <div class="q-item"><div class="q-num">9</div><div class="q-text">Traditional freight trains can navigate much sharper curves than high-speed passenger trains. <br><input type="text" id="q9" oninput="markAnswer(9)"></div></div>
+
+        <h2>Questions 10–13: Sentence Completion</h2>
+        <div class="instruction">Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-num">10</div><div class="q-text">At speeds near 350 km/h, the train's pantograph can suffer from severe mechanical fatigue and electrical <strong>10</strong> <input type="text" id="q10" oninput="markAnswer(10)">.</div></div>
+        <div class="q-item"><div class="q-num">11</div><div class="q-text">Maglev trains theoretically have no rolling resistance and are only limited by <strong>11</strong> <input type="text" id="q11" oninput="markAnswer(11)">.</div></div>
+        <div class="q-item"><div class="q-num">12</div><div class="q-text">To maintain safety, a train traveling at 350 km/h requires an extremely large <strong>12</strong> <input type="text" id="q12" oninput="markAnswer(12)">.</div></div>
+        <div class="q-item"><div class="q-num">13</div><div class="q-text">The forging of steel and pouring of concrete means new rail lines have a high <strong>13</strong> <input type="text" id="q13" oninput="markAnswer(13)"> period before they are truly green.</div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–18: Matching Headings</h2>
+        <div class="instruction">Choose the correct heading for each paragraph from the list below. Write <strong>i–viii</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The constant daily time budget for human travel</div>
+          <div class="box-item"><strong>ii</strong> Why high ticket prices damage national railway networks</div>
+          <div class="box-item"><strong>iii</strong> The unintended drainage of wealth from smaller towns</div>
+          <div class="box-item"><strong>iv</strong> Fusing distinct cities to multiply business productivity</div>
+          <div class="box-item"><strong>v</strong> How public taxes are used to fund airports instead of trains</div>
+          <div class="box-item"><strong>vi</strong> The ethical problem of creating a luxury transport mode</div>
+          <div class="box-item"><strong>vii</strong> Redesigning city centers around high-volume stations</div>
+        </div>
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">Paragraph A <input type="text" id="q14" oninput="markAnswer(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">Paragraph B <input type="text" id="q15" oninput="markAnswer(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">Paragraph C <input type="text" id="q16" oninput="markAnswer(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">Paragraph D <input type="text" id="q17" oninput="markAnswer(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">Paragraph E <input type="text" id="q18" oninput="markAnswer(18)"></div></div>
+
+        <h2>Questions 19–22: Matching Features</h2>
+        <div class="instruction">Match each statement (19-22) with the correct researcher or theory below. Write <strong>A, B, C, or D</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> Agglomeration Theory</div>
+          <div class="box-item"><strong>B</strong> Dr. Aris Thorne</div>
+          <div class="box-item"><strong>C</strong> Cesare Marchetti</div>
+          <div class="box-item"><strong>D</strong> Dr. Elena Rostova</div>
+        </div>
+        <div class="q-item"><div class="q-num">19</div><div class="q-text">Suggests that productivity increases exponentially when businesses and talent are brought closer together. <input type="text" id="q19" oninput="markAnswer(19)"></div></div>
+        <div class="q-item"><div class="q-num">20</div><div class="q-text">Warns that high-speed rail can inadvertently suck capital and talent out of secondary cities. <input type="text" id="q20" oninput="markAnswer(20)"></div></div>
+        <div class="q-item"><div class="q-num">21</div><div class="q-text">Argues that excluding low-income populations from HSR networks exacerbates wealth inequality. <input type="text" id="q21" oninput="markAnswer(21)"></div></div>
+        <div class="q-item"><div class="q-num">22</div><div class="q-text">Observed that humans have historically dedicated roughly one hour per day to commuting. <input type="text" id="q22" oninput="markAnswer(22)"></div></div>
+
+        <h2>Questions 23–26: Summary Completion</h2>
+        <div class="instruction">Complete the summary below using <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-text">
+          High-Speed Rail demands significant urban restructuring, a process known as <strong>23</strong> <input type="text" id="q23" oninput="markAnswer(23)">. Because the rail line requires high volume to be profitable, planners zone the area around the station for high-density <strong>24</strong> <input type="text" id="q24" oninput="markAnswer(24)">. This transforms the station from a simple transit hub into the commercial heart of the city. Additionally, HSR expands the geographical range of suburban living. However, because maintaining the tracks and <strong>25</strong> <input type="text" id="q25" oninput="markAnswer(25)"> is highly expensive, ticket prices rise. If these trains become accessible only to the wealthy business class, it raises deep questions regarding <strong>26</strong> <input type="text" id="q26" oninput="markAnswer(26)">.
+        </div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31: Multiple Choice</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">How can a superpower use high-speed rail as an instrument of statecraft?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q27" value="A" onchange="markAnswer(27)"> A) By moving military troops across borders secretly.</label>
+            <label class="mcq-label"><input type="radio" name="q27" value="B" onchange="markAnswer(27)"> B) By forcing other nations to use their local currency.</label>
+            <label class="mcq-label"><input type="radio" name="q27" value="C" onchange="markAnswer(27)"> C) By binding smaller nations to the hegemon's technological standards and economic orbits.</label>
+            <label class="mcq-label"><input type="radio" name="q27" value="D" onchange="markAnswer(27)"> D) By intentionally building slow trains to stall foreign economic growth.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">What is a major concern regarding "debt-trap diplomacy" in the Belt and Road Initiative?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q28" value="A" onchange="markAnswer(28)"> A) Developing nations may run out of steel.</label>
+            <label class="mcq-label"><input type="radio" name="q28" value="B" onchange="markAnswer(28)"> B) The investing superpower may demand equity in critical national assets if loans are defaulted on.</label>
+            <label class="mcq-label"><input type="radio" name="q28" value="C" onchange="markAnswer(28)"> C) The trains built are often of poor quality and break down quickly.</label>
+            <label class="mcq-label"><input type="radio" name="q28" value="D" onchange="markAnswer(28)"> D) European nations refuse to ride on trains built by Asian companies.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">What historical issue plagued the European rail network?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q29" value="A" onchange="markAnswer(29)"> A) A complete lack of passenger demand.</label>
+            <label class="mcq-label"><input type="radio" name="q29" value="B" onchange="markAnswer(29)"> B) The trains were too fast for the old tracks.</label>
+            <label class="mcq-label"><input type="radio" name="q29" value="C" onchange="markAnswer(29)"> C) Severe "interoperability" issues, such as differing track gauges and signaling software.</label>
+            <label class="mcq-label"><input type="radio" name="q29" value="D" onchange="markAnswer(29)"> D) Constant strikes by railway workers across the continent.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">Why does HSR dominate aviation on routes between 400 and 800 kilometers?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q30" value="A" onchange="markAnswer(30)"> A) Because train tickets are always cheaper than plane tickets.</label>
+            <label class="mcq-label"><input type="radio" name="q30" value="B" onchange="markAnswer(30)"> B) Because passengers enjoy the scenery more than flying.</label>
+            <label class="mcq-label"><input type="radio" name="q30" value="C" onchange="markAnswer(30)"> C) Because HSR drops passengers in the city center, saving the time wasted at remote airports.</label>
+            <label class="mcq-label"><input type="radio" name="q30" value="D" onchange="markAnswer(30)"> D) Because planes are not allowed to fly under 800 kilometers legally in most countries.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">What is the primary technological hurdle for the theoretical "Hyperloop"?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q31" value="A" onchange="markAnswer(31)"> A) Maintaining a massive vacuum over hundreds of kilometers.</label>
+            <label class="mcq-label"><input type="radio" name="q31" value="B" onchange="markAnswer(31)"> B) Designing comfortable seats for the pods.</label>
+            <label class="mcq-label"><input type="radio" name="q31" value="C" onchange="markAnswer(31)"> C) Convincing passengers to travel in a windowless tube.</label>
+            <label class="mcq-label"><input type="radio" name="q31" value="D" onchange="markAnswer(31)"> D) Generating enough electricity to power the magnets.</label>
+          </div>
+        </div></div>
+
+        <h2>Questions 32–36: Yes/No/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">32</div><div class="q-text">China's Belt and Road Initiative is primarily focused on domestic railway expansion rather than international exports. <br><input type="text" id="q32" oninput="markAnswer(32)"></div></div>
+        <div class="q-item"><div class="q-num">33</div><div class="q-text">The European Union successfully standardized all track gauges across its member states by 2020. <br><input type="text" id="q33" oninput="markAnswer(33)"></div></div>
+        <div class="q-item"><div class="q-num">34</div><div class="q-text">Retrofitting legacy tracks to meet ERTMS standards is a fast and inexpensive process. <br><input type="text" id="q34" oninput="markAnswer(34)"></div></div>
+        <div class="q-item"><div class="q-num">35</div><div class="q-text">France has legally banned some domestic short-haul flights to combat climate change. <br><input type="text" id="q35" oninput="markAnswer(35)"></div></div>
+        <div class="q-item"><div class="q-num">36</div><div class="q-text">The Hyperloop relies on the principles of vactrain technology to eliminate aerodynamic drag. <br><input type="text" id="q36" oninput="markAnswer(36)"></div></div>
+
+        <h2>Questions 37–40: Matching Sentence Endings</h2>
+        <div class="instruction">Complete each sentence with the correct ending, <strong>A–F</strong>, below. Write the correct letter.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> allows a single locomotive to theoretically cross borders without stopping.</div>
+          <div class="box-item"><strong>B</strong> secures long-term resource contracts for the investing hegemon.</div>
+          <div class="box-item"><strong>C</strong> undercuts the total travel time of short-haul aviation.</div>
+          <div class="box-item"><strong>D</strong> requires passengers to disembark and change trains.</div>
+          <div class="box-item"><strong>E</strong> limits the speed of traditional freight trains.</div>
+          <div class="box-item"><strong>F</strong> could fundamentally redefine the physics of global travel.</div>
+        </div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">Exporting HSR technology via state-backed loans <input type="text" id="q37" oninput="markAnswer(37)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">Historically, a change in track gauge at a national border <input type="text" id="q38" oninput="markAnswer(38)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">The implementation of the standardized ERTMS protocol <input type="text" id="q39" oninput="markAnswer(39)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">Solving the material science challenges of the Hyperloop <input type="text" id="q40" oninput="markAnswer(40)" style="width:60px;"></div></div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers"></div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest()">Submit Assessment</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // P1: Matching Info (1-5)
+      q1: 'b', q2: 'd', q3: 'e', q4: 'a', q5: 'c', 
+      // P1: T/F/NG (6-9)
+      q6: 'true', q7: 'false', q8: 'not given', q9: 'true',
+      // P1: Sentence Completion (10-13)
+      q10: 'arcing', q11: 'aerodynamic drag', q12: 'curve radius', q13: 'carbon payback',
+      
+      // P2: Headings (14-18)
+      q14: 'iv', q15: 'iii', q16: 'vii', q17: 'i', q18: 'vi',
+      // P2: Matching Features (19-22)
+      q19: 'a', q20: 'b', q21: 'd', q22: 'c',
+      // P2: Summary Completion (23-26)
+      q23: 'transit-oriented development', q24: 'real estate', q25: 'rolling stock', q26: 'social equity',
+      
+      // P3: MCQ (27-31)
+      q27: 'c', q28: 'b', q29: 'c', q30: 'c', q31: 'a',
+      // P3: Y/N/NG (32-36)
+      q32: 'no', q33: 'not given', q34: 'no', q35: 'yes', q36: 'yes',
+      // P3: Sentence Endings (37-40)
+      q37: 'b', q38: 'd', q39: 'a', q40: 'f'
+    };
+
+    function initBottomNav() {
+      const container = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn'; btn.id = 'nb-'+i; btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        container.appendChild(btn);
+      }
+    }
+
+    function markAnswer(n) { 
+      const input = document.getElementById('q' + n);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${n}"]:checked`);
+      const btn = document.getElementById('nb-'+n);
+      if(isAnswered) {
+          btn.classList.add('answered');
+      } else {
+          btn.classList.remove('answered');
+      }
+    }
+
+    function scrollToQuestion(n) {
+      let tab = 1;
+      if(n >= 14 && n <= 26) tab = 2;
+      if(n >= 27 && n <= 40) tab = 3;
+      switchSection(tab);
+      
+      setTimeout(() => {
+        let qEl = document.getElementById('q'+n);
+        if(!qEl) {
+          const radio = document.querySelector(`input[name="q${n}"]`);
+          if(radio) qEl = radio.closest('.q-item');
+        } else {
+          qEl = qEl.closest('.q-item'); 
+        }
+
+        if(qEl) {
+          document.getElementById('right-panel').scrollTo({ top: qEl.offsetTop - 50, behavior: 'smooth' });
+          qEl.style.transition = 'background 0.3s';
+          qEl.style.background = '#FADBD8';
+          setTimeout(() => qEl.style.background = 'transparent', 1200);
+        }
+      }, 50);
+    }
+
+    function switchSection(n) {
+      document.querySelectorAll('.tab-btn, .section-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-'+n).classList.add('active');
+      document.getElementById('passage-'+n).classList.add('active');
+      document.getElementById('questions-'+n).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    let timerInterval;
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex';
+      initBottomNav();
+      let s = 3600;
+      timerInterval = setInterval(() => {
+        s--;
+        document.getElementById('timer').textContent = `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
+        if(s <= 0) submitTest(true);
+      }, 1000);
+    }
+
+    function submitTest(auto = false) {
+      if(!auto && !confirm("Submit final assessment?")) return;
+      clearInterval(timerInterval);
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q'+i;
+        const input = document.getElementById(qId);
+        const ans = answerKey[qId];
+        
+        if(input) {
+          const userAns = input.value.trim().toLowerCase();
+          // Relaxed string matching for text inputs
+          if(userAns === ans || (ans.includes(userAns) && userAns.length > 3 && userAns !== 'true' && userAns !== 'false' && userAns !== 'yes' && userAns !== 'no')) {
+            score++; input.classList.add('correct-answer');
+          } else {
+            input.classList.add('wrong-answer');
+            input.value = userAns ? `${userAns} ❌ [${ans.toUpperCase()}]` : `❌ [${ans.toUpperCase()}]`;
+            input.style.width = "280px";
+          }
+          input.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if(selected && selected.value.toLowerCase() === ans) {
+            score++; selected.parentElement.classList.add('correct-answer');
+          } else {
+            if(selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${ans.toUpperCase()}"]`);
+            if(correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+      
+      document.getElementById('final-score').textContent = `${score} / 40`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('dormant-overlay').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

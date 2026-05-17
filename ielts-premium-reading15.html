@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 15: Global Supply Chains | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- ACADEMIC EDITORIAL PALETTE --- */
+    :root {
+      --navy-dark: #0B162C;
+      --navy-main: #1A2C4D;
+      --cerulean: #007EA7;
+      --champagne: #D4AF37;
+      --bg-page: #F4F6F8;
+      --bg-panel: #FFFFFF;
+      --text-main: #2C3E50;
+      --text-muted: #7F8C8D;
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+    
+    /* --- HEADER --- */
+    header { 
+      background: var(--navy-dark); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--champagne); 
+      flex-shrink: 0; z-index: 10;
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; }
+    .brand span { color: var(--champagne); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #BDC3C7; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(0, 126, 167, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--cerulean); background: rgba(0, 126, 167, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--champagne); background: var(--navy-main); padding: 0.4rem 1.2rem; border-radius: 4px; }
+    .timer.warning { color: #E74C3C; animation: pulse 1s infinite; }
+    
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    
+    /* --- WORKSPACE & PANELS --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+    
+    /* --- LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #f9f7f5;
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; color: var(--navy-dark); margin-bottom: 1rem; font-family: var(--font-passage); max-width: 900px; }
+    .pre-test-overlay p { font-size: 1.1rem; color: var(--text-muted); max-width: 650px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .btn-start-large {
+      background: var(--navy-main); color: #FFF; padding: 1.2rem 3rem; font-size: 1rem; font-weight: 600;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-start-large:hover { background: var(--cerulean); }
+
+    /* --- TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 1.8rem; margin-bottom: 2rem; color: var(--navy-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 0.95rem; color: var(--text-main); text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; margin-right: 12px; color: var(--cerulean); float: left; }
+
+    .right-panel h2 { font-size: 1.1rem; margin: 2rem 0 1rem; color: var(--navy-dark); border-bottom: 2px solid var(--champagne); padding-bottom: 5px; font-weight: 700; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.85rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--cerulean); min-width: 25px; }
+    .q-text { flex: 1; font-size: 0.95rem; line-height: 1.6; }
+    
+    input[type="text"] { border: none; border-bottom: 2px solid #BDC3C7; background: transparent; font-size: 0.95rem; width: 150px; font-weight: 600; color: var(--cerulean); text-align: center; outline: none; transition: border-color 0.3s;}
+    input[type="text"]:focus { border-bottom-color: var(--navy-main); }
+    input:disabled { color: var(--navy-dark); background: transparent; }
+
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 0.9rem; margin-bottom: 0.8rem; }
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.2rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.9rem; font-weight: 500; color: var(--text-main); }
+    .box-item strong { font-family: var(--font-mono); color: var(--cerulean); margin-right: 5px;}
+
+    /* --- FLOW CHART UI --- */
+    .flow-chart-container { display: flex; flex-direction: column; align-items: center; background: var(--bg-page); padding: 2rem; border-radius: 6px; border: 1px solid var(--border-subtle); margin-bottom: 2rem; }
+    .flow-box { border: 2px solid var(--cerulean); background: #FFF; padding: 15px 20px; border-radius: 8px; width: 85%; text-align: center; font-size: 0.9rem; font-weight: 500; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    .flow-box input { width: 140px; border-bottom: 2px solid var(--cerulean); margin: 0 5px; }
+    .flow-arrow { font-size: 1.5rem; color: var(--champagne); font-weight: 900; margin: 8px 0; }
+    
+    /* --- BOTTOM NAV --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; align-items: center; justify-content: space-between; padding: 0 3rem;
+      position: relative; z-index: 100;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 26px; height: 26px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main); font-weight: 600;
+    }
+    .nav-btn.answered { background: var(--navy-main); color: #FFF; border-color: var(--navy-main); }
+
+    .btn-submit-small { background: var(--cerulean); color: #FFF; border: none; padding: 0.6rem 2rem; font-weight: 700; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
+    .btn-submit-small:hover { background: var(--navy-main); }
+
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      z-index: 200; text-align: center; border-top: 5px solid var(--cerulean); min-width: 450px;
+    }
+    .correct-answer { color: #27AE60 !important; font-weight: 700; border-bottom-color: #27AE60 !important; }
+    .wrong-answer { color: #E74C3C !important; border-bottom-color: #E74C3C !important; }
+    
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls</span> | Module 15</div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2 style="color: var(--navy-dark);">Evaluation Complete</h2>
+    <div style="font-size: 3.5rem; font-weight: 800; margin: 1rem 0; font-family: var(--font-mono); color: var(--cerulean);" id="final-score">0 / 40</div>
+    <p style="margin-bottom: 1.5rem; color: var(--text-main);">The interface is now locked. Click below to review your answers in the text.</p>
+    <button class="btn-submit-small" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <h2>Global Economy: The Fragility and Economics of Just-In-Time Supply Chains</h2>
+      <p>This module investigates the macroeconomic mechanics, logistics vulnerabilities, and paradigm shifts defining modern global trade. The module rigorously adheres to standard IELTS formatting, including Match Headings, Flow Chart Completion, and YES/NO/NOT GIVEN.</p>
+      <button class="btn-start-large" onclick="startTest()">Initiate Assessment</button>
+    </div>
+
+    <div class="dormant-overlay" id="dormant-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.3); z-index:50; pointer-events:none;"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Origins and Mechanics of Just-In-Time (JIT)</h1>
+        
+        <p><span class="paragraph-label">A</span> The foundational architecture of the modern global economy was conceived not in the financial districts of London or Wall Street, but on the factory floors of post-WWII Japan. Following the devastation of the war, the Japanese automotive industry faced severe material shortages and lacked the massive capital required to warehouse vast inventories. In response, Taiichi Ohno, an engineer at Toyota, conceptualized the Toyota Production System (TPS). Ohno systematically dismantled the Western manufacturing paradigm of "Just-In-Case" (JIC) production—where factories built massive stockpiles of parts in case of future shortages—replacing it with a hyper-efficient methodology known as "Just-In-Time" (JIT).</p>
+        
+        <p><span class="paragraph-label">B</span> The core philosophical pillar of JIT is the absolute eradication of <i>muda</i>, a Japanese term translating to "waste." In Ohno's view, storing surplus inventory was the ultimate form of waste. Warehouses require land, electricity, security, and staffing; moreover, parts sitting idle represent trapped financial capital. Under the JIT model, components are delivered to the assembly line at the exact moment they are required to be attached to the chassis. By operating with near-zero inventory, Toyota drastically reduced overhead costs, freeing up massive amounts of financial capital to be reinvested into research and development.</p>
+        
+        <p><span class="paragraph-label">C</span> By the 1990s, the localized success of the Toyota Production System had triggered a global logistical revolution. Driven by the advent of standardized shipping containers and advanced digital tracking software, multinational corporations realized that JIT could be scaled beyond single factories. They began treating the entire planet as a single, sprawling assembly line. Raw materials extracted in Australia could be processed in China, assembled in Vietnam, and delivered to a retail shelf in Europe precisely when consumer algorithms predicted a spike in demand.</p>
+        
+        <p><span class="paragraph-label">D</span> The economic benefits of this globalized JIT system were historically unprecedented. By relentlessly driving down production and warehousing costs, multinational corporations achieved extraordinary profit margins. More significantly for the general public, JIT created massive deflationary pressure on consumer goods. Products ranging from consumer electronics to fast fashion became radically cheaper. For three decades, the seamless execution of global supply chains subsidized the high standard of living enjoyed by the Western world, creating an era of frictionless hyper-consumerism.</p>
+        
+        <p><span class="paragraph-label">E</span> However, this spectacular efficiency harbored a deeply systemic flaw. The mathematical optimization of JIT relied entirely on the elimination of redundancy. The system operated on the fundamental assumption that the world was entirely frictionless—that maritime shipping lanes would remain open, geopolitical tensions would remain stable, and labor forces would remain healthy. By removing the "fat" from the supply chain (the stockpiles and buffer inventories), corporations had inadvertently removed the "shock absorbers" necessary to survive a systemic crisis. The global economy had become an exquisite, but highly fragile, glass bridge.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>Systemic Shocks and the Domino Effect</h1>
+        
+        <p><span class="paragraph-label">A</span> The inherent fragility of a redundancy-free global supply chain is best understood through the lens of chaos theory; a microscopic disruption in one geographical node can cascade into a catastrophic failure thousands of miles away. Because global manufacturers rely on precise, continuous deliveries of highly specialized parts, the failure of a single supplier can stall an entire multinational production line within days. This interconnected vulnerability transforms local incidents into global economic crises.</p>
+        
+        <p><span class="paragraph-label">B</span> This domino effect was vividly illustrated during the 2011 Fukushima earthquake in Japan and the subsequent floods in Thailand. While the immediate humanitarian disasters were localized, the economic tremors were global. Specifically, the disasters wiped out facilities producing a niche metallic pigment used in automotive paint, as well as critical semiconductor fabrication plants. Without these exact components, major automobile manufacturers in Detroit and Germany were forced to halt vehicle production lines for weeks, exposing the danger of relying on highly concentrated, regionalized suppliers.</p>
+        
+        <p><span class="paragraph-label">C</span> Perhaps the most perilous geographic chokepoint in the modern JIT system involves the semiconductor industry. The vast majority of the world's advanced microchips—essential for everything from smartphones to advanced military hardware—are manufactured by a single entity: the Taiwan Semiconductor Manufacturing Company (TSMC). If geopolitical conflict or natural disaster were to disrupt TSMC's operations, the global technology sector would immediately grind to a halt, as there is currently zero redundancy in the global system capable of replacing TSMC's manufacturing volume or precision.</p>
+        
+        <p><span class="paragraph-label">D</span> Beyond manufacturing chokepoints, the physical logistics networks are equally vulnerable. In March 2021, a massive container ship, the Ever Given, became wedged diagonally across the Suez Canal, blocking one of the world's most critical maritime arteries. For nearly a week, over $9 billion worth of daily global trade was paralyzed. Because European factories operated on strict JIT schedules, they possessed no buffer stock. The delay of a single vessel caused assembly lines across the continent to idle, vividly highlighting the mechanical fragility of maritime trade.</p>
+        
+        <p><span class="paragraph-label">E</span> These physical supply shocks are frequently exacerbated by a psychological and mathematical phenomenon known as the "Bullwhip Effect." The Bullwhip Effect occurs when retailers notice a slight, temporary spike in consumer demand for a product. Fearful of running out of stock (stockouts), retailers panic and order double the required amount from wholesalers. The wholesalers exaggerate this trend, ordering quadruple the amount from manufacturers. Finally, manufacturers ramp up operations and wildly over-order raw materials. By the time the massive volume of goods is produced and shipped, the initial consumer panic has subsided. This leaves the entire supply chain clogged with excess inventory, forcing companies to implement steep discounts to clear warehouse space, thereby destroying their profit margins.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>Moving Forward: From 'Just-In-Time' to 'Just-In-Case'</h1>
+        
+        <p><span class="paragraph-label">A</span> The cascading disruptions of the early 2020s, heavily catalyzed by a global health pandemic, acted as a brutal stress test for the JIT methodology. The results forced a profound reckoning within corporate boardrooms. Economists and supply chain architects realized that decades of extreme financial optimization had resulted in an unacceptable level of operational risk. Efficiency had been achieved at the total expense of resilience. Consequently, the global economy is currently undergoing a painful, multi-trillion-dollar structural realignment.</p>
+        
+        <p><span class="paragraph-label">B</span> The most visible aspect of this realignment is the pivot toward "nearshoring" and "reshoring." Rather than relying on extended supply lines stretching across the Pacific Ocean, Western corporations are actively migrating manufacturing back to domestic soil or to neighboring countries (such as the United States nearshoring to Mexico). By drastically shortening the physical distance between the factory and the consumer, companies reduce their exposure to maritime logistics failures and geopolitical volatility.</p>
+        
+        <p><span class="paragraph-label">C</span> For industries heavily reliant on Asian infrastructure, a parallel strategy known as "China Plus One" is rapidly gaining traction. Recognizing the danger of allowing a single nation to hold a monopoly over global manufacturing, multinational corporations are deliberately diversifying their geographic footprint. While maintaining their primary operations in China, they are actively building secondary, parallel supply chains in emerging industrial hubs like Vietnam, India, and Malaysia. This ensures that if operations in one nation are disrupted, production can smoothly shift to the alternative node.</p>
+        
+        <p><span class="paragraph-label">D</span> Accompanying this geographic shift is a fundamental reversal in inventory philosophy. The dogma of holding zero inventory is being abandoned in favor of strategic buffering. Companies are quietly returning to a limited version of the "Just-In-Case" model, purposely spending capital to warehouse critical components and raw materials. While this reduces short-term financial liquidity, it acts as an essential insurance policy, ensuring that assembly lines can continue running even if global shipping temporarily freezes.</p>
+        
+        <p><span class="paragraph-label">E</span> To manage these more complex, diversified networks, corporations are heavily investing in artificial intelligence. Advanced machine learning algorithms now allow companies to construct "digital twins"—exact, real-time virtual simulations of their physical supply chains. These digital twins can instantly model the impact of a hurricane in the Atlantic or a port strike in Europe, autonomously rerouting shipments and redirecting manufacturing orders to unaffected regions before the disruption fully materializes.</p>
+        
+        <p><span class="paragraph-label">F</span> However, this transition from efficiency to resilience carries a severe macroeconomic consequence: inflation. The JIT era of offshore manufacturing was defined by cheap labor and minimal overhead, which suppressed the prices of consumer goods. Reshoring manufacturing to Western nations with strict labor laws, environmental regulations, and higher wages inherently increases the cost of production. Similarly, paying to store "Just-In-Case" inventory adds a permanent cost layer to the balance sheet. These massive structural costs will inevitably be passed on to the consumer.</p>
+        
+        <p><span class="paragraph-label">G</span> Ultimately, the golden era of hyper-globalization and frictionless, ultra-cheap consumer goods has drawn to a close. The pendulum has definitively swung away from mathematically perfect efficiency toward robust survivability. As corporations and governments prioritize national security and supply chain sovereignty, the future of the global economy will be defined by highly regionalized, heavily buffered, and noticeably more expensive trade networks.</p>
+      </div>
+
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        
+        <h2>Questions 1–5: Matching Headings</h2>
+        <div class="instruction">Reading Passage 1 has five paragraphs, <strong>A–E</strong>. Choose the correct heading for each paragraph from the list below.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The illusion of a frictionless world</div>
+          <div class="box-item"><strong>ii</strong> The deflationary impact on consumer goods</div>
+          <div class="box-item"><strong>iii</strong> The birth of Toyota's waste reduction philosophy</div>
+          <div class="box-item"><strong>iv</strong> The rise of containerization and global assembly</div>
+          <div class="box-item"><strong>v</strong> Why traditional hoarding failed entirely</div>
+          <div class="box-item"><strong>vi</strong> The financial capital freed by precise timing</div>
+        </div>
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">Paragraph A <input type="text" id="q1" oninput="markAnswer(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">Paragraph B <input type="text" id="q2" oninput="markAnswer(2)"></div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">Paragraph C <input type="text" id="q3" oninput="markAnswer(3)"></div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">Paragraph D <input type="text" id="q4" oninput="markAnswer(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">Paragraph E <input type="text" id="q5" oninput="markAnswer(5)"></div></div>
+
+        <h2>Questions 6–13: Sentence Completion</h2>
+        <div class="instruction">Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">Prior to JIT, Western manufacturing utilized stockpiles in a system known as <strong>6</strong> <input type="text" id="q6" oninput="markAnswer(6)">.</div></div>
+        <div class="q-item"><div class="q-num">7</div><div class="q-text">Taiichi Ohno's primary goal was the complete elimination of <strong>7</strong> <input type="text" id="q7" oninput="markAnswer(7)">.</div></div>
+        <div class="q-item"><div class="q-num">8</div><div class="q-text">By not holding excess inventory, companies freed up massive amounts of <strong>8</strong> <input type="text" id="q8" oninput="markAnswer(8)"> for research.</div></div>
+        <div class="q-item"><div class="q-num">9</div><div class="q-text">The expansion of JIT in the 1990s treated the entire world as a single sprawling <strong>9</strong> <input type="text" id="q9" oninput="markAnswer(9)">.</div></div>
+        <div class="q-item"><div class="q-num">10</div><div class="q-text">For consumers, the efficiency of global JIT created massive <strong>10</strong> <input type="text" id="q10" oninput="markAnswer(10)"> on goods.</div></div>
+        <div class="q-item"><div class="q-num">11</div><div class="q-text">The entire JIT philosophy dangerously assumed the world was completely <strong>11</strong> <input type="text" id="q11" oninput="markAnswer(11)">.</div></div>
+        <div class="q-item"><div class="q-num">12</div><div class="q-text">Severe systemic flaws arise because the JIT system has entirely eliminated <strong>12</strong> <input type="text" id="q12" oninput="markAnswer(12)">.</div></div>
+        <div class="q-item"><div class="q-num">13</div><div class="q-text">Without buffer stockpiles, supply chains lacked the necessary <strong>13</strong> <input type="text" id="q13" oninput="markAnswer(13)"> to survive a crisis.</div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        
+        <h2>Questions 14–19: Yes/No/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the views of the writer in Reading Passage 2? Write <strong>YES</strong>, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">The 2011 Fukushima earthquake only impacted Japanese domestic supply chains. <br><input type="text" id="q14" oninput="markAnswer(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">Taiwan Semiconductor Manufacturing Company (TSMC) is an example of a dangerous geographical chokepoint. <br><input type="text" id="q15" oninput="markAnswer(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">The Ever Given blockage in the Suez Canal took exactly three months to resolve fully. <br><input type="text" id="q16" oninput="markAnswer(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">Maritime shipping routes are generally considered the safest and most reliable part of the supply chain. <br><input type="text" id="q17" oninput="markAnswer(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">The Bullwhip Effect explains how tiny consumer demand changes cause massive manufacturing overreactions. <br><input type="text" id="q18" oninput="markAnswer(18)"></div></div>
+        <div class="q-item"><div class="q-num">19</div><div class="q-text">During the Bullwhip Effect, manufacturers usually receive highly accurate demand data directly from retailers. <br><input type="text" id="q19" oninput="markAnswer(19)"></div></div>
+
+        <h2>Questions 20–26: Flow Chart Completion</h2>
+        <div class="instruction">Complete the flow chart below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+        
+        <div class="flow-chart-container">
+          <h3 style="color: var(--navy-dark); font-family: var(--font-passage); margin-bottom: 1rem;">The Cascade of The Bullwhip Effect</h3>
+          
+          <div class="flow-box">Step 1: Retailers notice a slight, temporary <br><strong>20</strong> <input type="text" id="q20" oninput="markAnswer(20)"> for a specific product.</div>
+          <div class="flow-arrow">&#8595;</div>
+          
+          <div class="flow-box">Step 2: Fearful of stockouts, retailers panic and double their orders to the <br><strong>21</strong> <input type="text" id="q21" oninput="markAnswer(21)">.</div>
+          <div class="flow-arrow">&#8595;</div>
+          
+          <div class="flow-box">Step 3: This trend is exaggerated, leading to massive volume demands placed on the <br><strong>22</strong> <input type="text" id="q22" oninput="markAnswer(22)">.</div>
+          <div class="flow-arrow">&#8595;</div>
+          
+          <div class="flow-box">Step 4: Operations ramp up wildly, resulting in an extreme over-ordering of <br><strong>23</strong> <input type="text" id="q23" oninput="markAnswer(23)">.</div>
+          <div class="flow-arrow">&#8595;</div>
+          
+          <div class="flow-box">Step 5: Consumer panic subsides, leaving the supply chain clogged with massive amounts of excess <br><strong>24</strong> <input type="text" id="q24" oninput="markAnswer(24)">.</div>
+          <div class="flow-arrow">&#8595;</div>
+          
+          <div class="flow-box">Step 6: To clear warehouses, companies must implement steep <br><strong>25</strong> <input type="text" id="q25" oninput="markAnswer(25)">, which ultimately destroys their <br><strong>26</strong> <input type="text" id="q26" oninput="markAnswer(26)">.</div>
+        </div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        
+        <h2>Questions 27–31: True/False/Not Given</h2>
+        <div class="instruction">Do the following statements agree with the information given in Reading Passage 3? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">The global pandemic proved that supply chain efficiency was successfully balanced with resilience. <br><input type="text" id="q27" oninput="markAnswer(27)"></div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">"Nearshoring" involves migrating manufacturing to neighboring countries to shorten physical distances. <br><input type="text" id="q28" oninput="markAnswer(28)"></div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">The "China Plus One" strategy aims to completely remove all manufacturing from China immediately. <br><input type="text" id="q29" oninput="markAnswer(29)"></div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">Digital twins use artificial intelligence to simulate and bypass potential supply chain disruptions. <br><input type="text" id="q30" oninput="markAnswer(30)"></div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">Reshoring manufacturing back to Western nations is universally supported by all local politicians. <br><input type="text" id="q31" oninput="markAnswer(31)"></div></div>
+
+        <h2>Questions 32–36: Matching Information</h2>
+        <div class="instruction">Reading Passage 3 has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write <strong>A–G</strong>.</div>
+        <div class="q-item"><div class="q-num">32</div><div class="q-text">An explanation of how higher domestic labor costs will inevitably increase consumer prices. <input type="text" id="q32" oninput="markAnswer(32)"></div></div>
+        <div class="q-item"><div class="q-num">33</div><div class="q-text">The idea that purposely holding warehouse inventory is returning to favor as an insurance policy. <input type="text" id="q33" oninput="markAnswer(33)"></div></div>
+        <div class="q-item"><div class="q-num">34</div><div class="q-text">A description of a strategy involving nations like Vietnam and India to diversify geographic risk. <input type="text" id="q34" oninput="markAnswer(34)"></div></div>
+        <div class="q-item"><div class="q-num">35</div><div class="q-text">A conclusion stating that robust, regionalized economics are replacing frictionless hyper-globalization. <input type="text" id="q35" oninput="markAnswer(35)"></div></div>
+        <div class="q-item"><div class="q-num">36</div><div class="q-text">The realization by economists that extreme efficiency had resulted in a dangerous lack of resilience. <input type="text" id="q36" oninput="markAnswer(36)"></div></div>
+
+        <h2>Questions 37–40: Matching Sentence Endings</h2>
+        <div class="instruction">Complete each sentence with the correct ending, <strong>A–F</strong>, below. Write the correct letter in the box.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>A</strong> allows companies to simulate digital twins of their networks in real-time.</div>
+          <div class="box-item"><strong>B</strong> inherently raises consumer prices due to higher labor and regulation costs.</div>
+          <div class="box-item"><strong>C</strong> proves that maritime shipping is no longer needed in the modern era.</div>
+          <div class="box-item"><strong>D</strong> acts as a protective "just-in-case" measure against sudden shipping freezes.</div>
+          <div class="box-item"><strong>E</strong> requires completely abandoning all factories located in Asia.</div>
+          <div class="box-item"><strong>F</strong> marks the definitive end of an era defined by ultra-cheap consumer goods.</div>
+        </div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">Moving manufacturing back to domestic Western soil <input type="text" id="q37" oninput="markAnswer(37)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">Strategic inventory buffering in warehouses <input type="text" id="q38" oninput="markAnswer(38)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">Advanced artificial intelligence and machine learning <input type="text" id="q39" oninput="markAnswer(39)" style="width:60px;"></div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">The structural transition toward resilient, regionalized supply chains <input type="text" id="q40" oninput="markAnswer(40)" style="width:60px;"></div></div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers"></div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest()">Submit Assessment</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // P1: Headings (1-5)
+      q1: 'iii', q2: 'vi', q3: 'iv', q4: 'ii', q5: 'i',
+      // P1: Sentence Completion (6-13)
+      q6: 'just-in-case', q7: 'waste', q8: 'financial capital', q9: 'assembly line', 
+      q10: 'deflationary pressure', q11: 'frictionless', q12: 'redundancy', q13: 'shock absorbers',
+      
+      // P2: Y/N/NG (14-19)
+      q14: 'no', q15: 'yes', q16: 'not given', q17: 'not given', q18: 'yes', q19: 'no',
+      // P2: Flow Chart (20-26)
+      q20: 'spike in demand', q21: 'wholesalers', q22: 'manufacturers', q23: 'raw materials', 
+      q24: 'inventory', q25: 'discounts', q26: 'profit margins',
+      
+      // P3: T/F/NG (27-31)
+      q27: 'false', q28: 'true', q29: 'false', q30: 'true', q31: 'not given',
+      // P3: Matching Info (32-36)
+      q32: 'f', q33: 'd', q34: 'c', q35: 'g', q36: 'a',
+      // P3: Sentence Endings (37-40)
+      q37: 'b', q38: 'd', q39: 'a', q40: 'f'
+    };
+
+    function initBottomNav() {
+      const container = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn'; btn.id = 'nb-'+i; btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        container.appendChild(btn);
+      }
+    }
+
+    function markAnswer(n) { 
+      const input = document.getElementById('q' + n);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${n}"]:checked`);
+      const btn = document.getElementById('nb-'+n);
+      if(isAnswered) {
+          btn.classList.add('answered');
+      } else {
+          btn.classList.remove('answered');
+      }
+    }
+
+    function scrollToQuestion(n) {
+      let tab = 1;
+      if(n >= 14 && n <= 26) tab = 2;
+      if(n >= 27 && n <= 40) tab = 3;
+      switchSection(tab);
+      
+      setTimeout(() => {
+        let qEl = document.getElementById('q'+n);
+        if(!qEl) {
+          const radio = document.querySelector(`input[name="q${n}"]`);
+          if(radio) qEl = radio.closest('.q-item');
+        } else {
+          // Check if it's inside a flow chart box
+          if(qEl.closest('.flow-box')) {
+            qEl = qEl.closest('.flow-box');
+          } else {
+            qEl = qEl.closest('.q-item'); 
+          }
+        }
+
+        if(qEl) {
+          document.getElementById('right-panel').scrollTo({ top: qEl.offsetTop - 50, behavior: 'smooth' });
+          qEl.style.transition = 'background 0.3s';
+          qEl.style.background = '#e6f7ff'; 
+          setTimeout(() => {
+              if(qEl.classList.contains('flow-box')) {
+                  qEl.style.background = '#FFF'; 
+              } else {
+                  qEl.style.background = 'transparent';
+              }
+          }, 1200);
+        }
+      }, 50);
+    }
+
+    function switchSection(n) {
+      document.querySelectorAll('.tab-btn, .section-content').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-'+n).classList.add('active');
+      document.getElementById('passage-'+n).classList.add('active');
+      document.getElementById('questions-'+n).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    let timerInterval;
+    function startTest() {
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex';
+      initBottomNav();
+      let s = 3600;
+      timerInterval = setInterval(() => {
+        s--;
+        const timerEl = document.getElementById('timer');
+        timerEl.textContent = `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`;
+        if(s <= 300) timerEl.classList.add('warning');
+        if(s <= 0) submitTest(true);
+      }, 1000);
+    }
+
+    function submitTest(auto = false) {
+      if(!auto && !confirm("Submit final assessment?")) return;
+      clearInterval(timerInterval);
+      let score = 0;
+      
+      for(let i=1; i<=40; i++) {
+        const qId = 'q'+i;
+        const input = document.getElementById(qId);
+        const ans = answerKey[qId];
+        
+        if(input) {
+          const userAns = input.value.trim().toLowerCase();
+          
+          // Relaxed string matching
+          if(userAns === ans || (ans.includes(userAns) && userAns.length > 3 && !['true','false','yes','no'].includes(ans))) {
+            score++; input.classList.add('correct-answer');
+          } else if ((userAns === "muda" && ans === "waste") || (userAns === "demand spike" && ans === "spike in demand")) {
+            score++; input.classList.add('correct-answer'); // Accept valid alternatives
+          } else {
+            input.classList.add('wrong-answer');
+            input.value = userAns ? `${userAns} ❌ [${ans.toUpperCase()}]` : `❌ [${ans.toUpperCase()}]`;
+            
+            if(input.style.width === "60px") {
+              input.style.width = "120px";
+            } else if (input.closest('.flow-box')) {
+              input.style.width = "200px";
+            } else {
+              input.style.width = "280px";
+            }
+          }
+          input.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if(selected && selected.value.toLowerCase() === ans) {
+            score++; selected.parentElement.classList.add('correct-answer');
+          } else {
+            if(selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${ans.toUpperCase()}"]`);
+            if(correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+      
+      document.getElementById('final-score').textContent = `${score} / 40`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.getElementById('btn-submit').style.display = 'none';
+      document.getElementById('dormant-overlay').style.display = 'block';
+    }
+  </script>
+</body>
+</html>

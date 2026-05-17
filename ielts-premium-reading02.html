@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Module 02: Algorithmic Scaffolding | Premium Reading Test</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- ACADEMIC EDITORIAL PALETTE --- */
+    :root {
+      --navy-dark: #0B162C;
+      --navy-main: #1A2C4D;
+      --cerulean: #007EA7;
+      --champagne: #D4AF37;
+      --bg-page: #F4F6F8;
+      --bg-panel: #FFFFFF;
+      --text-main: #2C3E50;
+      --text-muted: #7F8C8D;
+      --border-subtle: #E0E6ED;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-ui); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-panel); }
+
+    /* --- HEADER --- */
+    header { 
+      background: var(--navy-dark); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 70px; border-bottom: 3px solid var(--champagne); 
+      flex-shrink: 0; z-index: 10;
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.5rem; font-weight: 700; }
+    .brand span { color: var(--champagne); font-style: italic; }
+    
+    .nav-tabs { display: flex; height: 100%; }
+    .tab-btn { 
+      background: transparent; color: #BDC3C7; border: none; padding: 0 2rem; font-size: 0.95rem; 
+      font-weight: 600; cursor: pointer; transition: all 0.3s; border-bottom: 4px solid transparent; 
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px;
+    }
+    .tab-btn:hover:not(:disabled) { color: #FFF; background: rgba(0, 126, 167, 0.1); }
+    .tab-btn.active { color: #FFF; border-bottom-color: var(--cerulean); background: rgba(0, 126, 167, 0.15); }
+    
+    .header-controls { display: flex; align-items: center; gap: 20px; }
+    .timer { font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700; color: var(--champagne); background: var(--navy-main); padding: 0.4rem 1.2rem; border-radius: 4px; }
+    .timer.warning { color: #E74C3C; animation: pulse 1s infinite; }
+
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+    /* --- WORKSPACE & PANELS --- */
+    .workspace { display: flex; flex: 1; height: calc(100vh - 140px); overflow: hidden; background: var(--bg-page); position: relative; }
+    .panel { flex: 1; height: 100%; overflow-y: auto; padding: 3rem 4rem; background: var(--bg-panel); scroll-behavior: smooth; }
+    .left-panel { border-right: 1px solid var(--border-subtle); box-shadow: 2px 0 10px rgba(0,0,0,0.02); z-index: 2; }
+    .right-panel { background: #FAFBFC; padding-bottom: 80px; }
+
+    /* --- LOCK SCREEN --- */
+    .pre-test-overlay {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #f9f7f5;
+      z-index: 150; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    }
+    .pre-test-overlay h2 { font-size: 2.5rem; color: var(--navy-dark); margin-bottom: 1rem; font-family: var(--font-passage); }
+    .pre-test-overlay p { font-size: 1.1rem; color: var(--text-muted); max-width: 650px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .btn-start-large {
+      background: var(--navy-main); color: #FFF; padding: 1.2rem 3rem; font-size: 1rem; font-weight: 600;
+      border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-start-large:hover { background: var(--cerulean); }
+
+    /* --- PASSAGE TYPOGRAPHY --- */
+    .left-panel h1 { font-family: var(--font-passage); font-size: 2.2rem; margin-bottom: 2rem; color: var(--navy-dark); line-height: 1.3; }
+    .left-panel p { font-family: var(--font-passage); margin-bottom: 1.5rem; line-height: 1.9; font-size: 1.1rem; color: #34495E; text-align: justify; }
+    .paragraph-label { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; margin-right: 15px; color: var(--cerulean); float: left; padding-top: 4px; }
+
+    /* --- QUESTION TYPOGRAPHY --- */
+    .right-panel h2 { font-size: 1.2rem; margin: 2.5rem 0 1rem; color: var(--navy-dark); border-bottom: 2px solid var(--champagne); padding-bottom: 0.5rem; font-weight: 700; }
+    .right-panel h2:first-child { margin-top: 0; }
+    .instruction { font-style: italic; color: var(--text-muted); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.5; }
+    
+    .q-item { display: flex; align-items: baseline; margin-bottom: 1.5rem; gap: 15px; padding: 10px; border-radius: 4px; transition: 0.3s; }
+    .q-num { font-family: var(--font-mono); font-weight: 700; color: var(--cerulean); min-width: 25px; }
+    .q-text { flex: 1; font-size: 1.05rem; line-height: 1.6; }
+    
+    input[type="text"] { padding: 0.3rem 0.5rem; border: none; border-bottom: 2px solid var(--text-muted); background: transparent; font-size: 1rem; width: 160px; font-family: var(--font-ui); font-weight: 600; color: var(--navy-dark); text-align: center; transition: 0.3s; outline: none;}
+    input[type="text"]:focus { border-bottom-color: var(--cerulean); }
+    input:disabled { color: var(--text-muted); cursor: not-allowed; }
+    
+    .mcq-options { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.8rem; }
+    .mcq-label { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; font-size: 1rem; color: #444; transition: 0.2s; }
+    .mcq-label:hover { color: var(--cerulean); }
+    .mcq-label input { margin-top: 4px; }
+    
+    .box-options { display: flex; flex-wrap: wrap; gap: 15px; border: 1px solid var(--border-subtle); padding: 1.5rem; margin-bottom: 2rem; background: #FFF; border-radius: 4px; }
+    .box-item { font-size: 0.95rem; font-weight: 500; }
+    .box-item strong { font-family: var(--font-mono); color: var(--cerulean); margin-right: 5px;}
+
+    .section-content { display: none; }
+    .section-content.active { display: block; animation: fadeIn 0.4s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* --- BOTTOM NAVIGATION --- */
+    .bottom-nav-bar {
+      height: 70px; background: #FFF; border-top: 1px solid var(--border-subtle);
+      display: none; /* Hidden until test starts */
+      align-items: center; justify-content: space-between; padding: 0 3rem;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.03); z-index: 100;
+    }
+    .nav-numbers { display: flex; gap: 4px; flex-wrap: wrap; flex: 1; max-width: 80%; }
+    .nav-btn {
+      width: 28px; height: 28px; background: var(--bg-page); border: 1px solid var(--border-subtle);
+      border-radius: 3px; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center;
+    }
+    .nav-btn:hover { border-color: var(--cerulean); color: var(--navy-dark); }
+    .nav-btn.answered { background: var(--cerulean); color: #FFF; border-color: var(--cerulean); }
+
+    /* Refined Submit Button */
+    .btn-submit-small {
+      background: var(--navy-main); color: #FFF; border: none; padding: 0.6rem 1.8rem;
+      font-size: 0.9rem; font-weight: 600; border-radius: 4px; cursor: pointer;
+      font-family: var(--font-ui); text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;
+    }
+    .btn-submit-small:hover { background: var(--cerulean); }
+
+    /* --- RESULTS MODAL --- */
+    .results-modal {
+      display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      background: #FFF; padding: 3rem; border-radius: 6px; box-shadow: 0 20px 50px rgba(11,22,44,0.2);
+      z-index: 200; text-align: center; border-top: 5px solid var(--champagne); min-width: 400px;
+    }
+    .results-modal h2 { font-family: var(--font-passage); color: var(--navy-dark); margin-bottom: 1rem; }
+    .score-display { font-size: 3.5rem; font-weight: 700; color: var(--navy-main); margin: 1rem 0; font-family: var(--font-mono); }
+    .btn-close { background: var(--cerulean); color: #FFF; border: none; padding: 0.8rem 2rem; font-weight: 600; border-radius: 4px; cursor: pointer; margin-top: 1.5rem; text-transform: uppercase; }
+    
+    .correct-answer { border-color: #27AE60 !important; color: #27AE60 !important; font-weight: 700; }
+    .wrong-answer { border-color: #E74C3C !important; color: #E74C3C !important; }
+    .dormant-overlay { display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.4); z-index: 50; }
+    body.test-completed .dormant-overlay { display: block; pointer-events: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">Shared <span>Pearls of Wisdom</span> | Premium Test</div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchSection(1)" id="tab-1">Passage 1</button>
+      <button class="tab-btn" onclick="switchSection(2)" id="tab-2">Passage 2</button>
+      <button class="tab-btn" onclick="switchSection(3)" id="tab-3">Passage 3</button>
+    </div>
+    <div class="header-controls">
+      <div class="timer" id="timer">60:00</div>
+    </div>
+  </header>
+
+  <div class="results-modal" id="results-modal">
+    <h2>Evaluation Complete</h2>
+    <div class="score-display" id="final-score">0 <span style="font-size: 1.5rem; color: #7F8C8D;">/ 40</span></div>
+    <p>Review the exact answers and explanations below.</p>
+    <button class="btn-close" onclick="document.getElementById('results-modal').style.display='none'">Review Responses</button>
+  </div>
+
+  <div class="workspace">
+    
+    <div class="pre-test-overlay" id="pre-test-overlay">
+      <div style="color: var(--cerulean); font-weight: 700; letter-spacing: 2px; margin-bottom: 1rem;">MODULE 02</div>
+      <h2>Algorithmic Scaffolding in Pedagogy</h2>
+      <p>This assessment contains 3 passages and 40 questions covering the evolution of teacher training, Natural Language Processing in the classroom, and the ethics of AI integration. The bottom navigation bar will appear once the timer begins.</p>
+      <button class="btn-start-large" onclick="startTest()">Initiate 60-Minute Assessment</button>
+    </div>
+
+    <div class="dormant-overlay"></div>
+
+    <div class="panel left-panel" id="left-panel">
+      
+      <div id="passage-1" class="section-content active">
+        <h1>The Evolution of Teacher Training and the Rise of EdTech</h1>
+        <p><span class="paragraph-label">A</span> Historically, Continuous Professional Development (CPD) for educators operated on what critics colloquially termed a "spray and pray" methodology. Teachers would be removed from their classrooms for episodic, isolated training days—often referred to as INSET days in the UK. During these sessions, educational consultants would deliver mass lectures on novel pedagogical strategies. The fundamental flaw of this model was the lack of contextual application. Research consistently demonstrated an alarming attrition rate of skills; without immediate, situated practice and ongoing observation, teachers generally reverted to their entrenched teaching habits within a matter of weeks.</p>
+        <p><span class="paragraph-label">B</span> The initial attempt to bridge this gap between theory and practice arrived in the form of Video Enhanced Observation (VEO) in the late 2000s. Teachers recorded their lessons and later reviewed the footage alongside a mentor. While this offered a substantial improvement over abstract lectures, it introduced a severe logistical bottleneck. Reviewing a 60-minute lesson effectively required 120 minutes of a senior mentor’s time, factoring in pauses for discussion and manual tagging of specific behaviors. Consequently, VEO remained an infrequent exercise, functioning more as a high-stakes summative evaluation than a continuous formative tool.</p>
+        <p><span class="paragraph-label">C</span> The true paradigm shift emerged with the advent of Artificial Intelligence (AI) and Natural Language Processing (NLP). The concept of "algorithmic scaffolding" was introduced to the CPD framework. In psychological terms, scaffolding—a concept heavily linked to Lev Vygotsky’s Zone of Proximal Development (ZPD)—refers to the temporary support given to a learner to help them achieve a task they cannot yet complete independently. Modern EdTech theorists began applying the ZPD not just to students, but to the teachers themselves. AI systems were developed to act as the "more knowledgeable other," providing continuous, automated, and highly localized support without the temporal constraints of human mentoring.</p>
+        <p><span class="paragraph-label">D</span> Algorithmic scaffolding operates by passively monitoring the classroom environment—usually via lapel microphones—and applying machine learning algorithms to the raw audio data. Unlike human observers, the AI does not suffer from fatigue or unconscious bias. It can continuously track thousands of micro-interactions across a semester, building a comprehensive, longitudinal map of an educator's pedagogical habits. This continuous data stream allows the software to issue micro-nudges: highly specific, data-backed suggestions delivered directly to the teacher via a digital dashboard at the end of the school day.</p>
+        <p><span class="paragraph-label">E</span> The empirical evidence supporting this transition is robust. A seminal 2023 longitudinal study conducted by the Cambridge Institute of Pedagogy compared traditional CPD methods against AI-assisted algorithmic scaffolding. Over an academic year, teachers utilizing the AI dashboards demonstrated a 40% higher retention rate of new questioning techniques compared to the control group who only attended INSET days. The study concluded that the immediacy and specificity of algorithmic feedback drastically shortens the feedback loop, allowing teachers to course-correct before bad habits solidify.</p>
+      </div>
+
+      <div id="passage-2" class="section-content">
+        <h1>The Mechanics of Algorithmic Scaffolding</h1>
+        <p><span class="paragraph-label">A</span> To fully appreciate the utility of algorithmic scaffolding, one must understand the underlying mechanics of Natural Language Processing (NLP) within a classroom setting. The foundational task of these AI systems is Automatic Speech Recognition (ASR), which converts classroom audio into text. However, transcribing speech is merely the preliminary step. The true pedagogical value lies in 'discourse categorization'. Advanced neural networks are trained on millions of hours of classroom interactions to reliably categorize utterances into distinct pedagogical moves, such as giving instructions, praising, reprimanding, or asking questions.</p>
+        <p><span class="paragraph-label">B</span> One of the most prevalent targets for algorithmic intervention is the "IRE" pattern: Initiation, Response, Evaluation. This is a deeply entrenched habit where a teacher asks a closed question (Initiation), a student gives a brief answer (Response), and the teacher validates it (Evaluation)—for example, "What is the capital of France? Paris. Correct." While efficient for rapid fact-checking, the IRE pattern actively suppresses critical thinking. AI scaffolding systems are exquisitely tuned to detect prolonged sequences of IRE. When a teacher falls into this pattern, the dashboard flags the sequence and prompts the educator to utilize 'dialogic teaching'—asking open-ended questions that require students to justify their reasoning.</p>
+        <p><span class="paragraph-label">C</span> Beyond structural discourse, NLP algorithms perform sophisticated lexical analyses. By cross-referencing the teacher's transcribed vocabulary against established frameworks like the Common European Framework of Reference for Languages (CEFR), the AI can evaluate the complexity of the input. If a teacher instructing B1-level ESL students consistently utilizes C2-level idioms or highly abstract syntax, the algorithm will highlight this disparity. It acts as an objective mirror, revealing instances where the teacher’s language may be inadvertently causing cognitive overload for the students.</p>
+        <p><span class="paragraph-label">D</span> A critical debate within the design of these systems is the timing of the feedback. Some avant-garde "cyborg teacher" experiments utilized earpieces to deliver real-time algorithmic nudges to educators mid-lesson. However, cognitive load theory suggests this approach is fundamentally flawed. Teaching is a high-stakes, rapid-decision environment. Forcing an educator to simultaneously manage a classroom of thirty children while processing synthetic audio instructions frequently results in cognitive overload and decision paralysis. Consequently, the industry standard has settled on 'post-hoc' reflective dashboards, allowing teachers to review their metrics in a calm environment after the lesson has concluded.</p>
+        <p><span class="paragraph-label">E</span> Looking toward the frontier of CPD technology, developers are moving beyond text-only NLP towards multimodal analysis. Text transcripts lack the emotional context of the classroom. To bridge this gap, modern algorithms are being trained to analyze 'prosody'—the rhythm, pitch, pacing, and tone of the teacher's voice. By analyzing prosody, an AI can differentiate between a question asked with genuine curiosity and one asked with frustration. When combined with 'kinesics' (the analysis of body language and spatial movement via computer vision), the AI can construct a remarkably holistic picture of the teacher's emotional and physical presence in the room.</p>
+        <p><span class="paragraph-label">F</span> Ultimately, the power of these algorithmic systems lies not in a single, perfect observation, but in the aggregation of longitudinal data. A human inspector visiting a classroom twice a year receives a highly skewed, performative snapshot of a teacher's ability. In contrast, an algorithm operating quietly in the background over several months filters out the anomalies of a 'bad day', revealing the deep, structural realities of an educator's daily practice.</p>
+      </div>
+
+      <div id="passage-3" class="section-content">
+        <h1>Ethical Considerations and the Future of AI in Pedagogy</h1>
+        <p><span class="paragraph-label">A</span> While the technological capabilities of algorithmic scaffolding are undeniably impressive, the deployment of pervasive monitoring systems in schools has ignited fierce ethical debates. Foremost among these concerns is the "Panopticon effect." Coined by philosopher Jeremy Bentham and later expanded by Michel Foucault, the Panopticon describes an environment where individuals feel they are under constant surveillance, even if they are not actively being watched. Teachers unions argue that introducing "always-listening" AI creates a high-anxiety environment, potentially stifling the spontaneity, humor, and organic connection that are vital to human-centric teaching.</p>
+        <p><span class="paragraph-label">B</span> Furthermore, sociologists warn of the dangerous "homogenization" of pedagogy. Machine learning models are inherently normative; they are trained on vast datasets of what developers define as "good" teaching. If an algorithm is programmed to constantly nudge teachers toward a specific, standardized metric of success, there is a profound risk of eradicating diverse teaching styles. An educator whose natural style relies on quiet contemplation or unconventional, culturally specific storytelling might be continually flagged as "underperforming" simply because their methodology deviates from the algorithm's standardized mean.</p>
+        <p><span class="paragraph-label">C</span> This risk of homogenization is deeply intertwined with algorithmic bias. The majority of prominent NLP educational models are trained predominantly on data generated by native-English speakers in Western, affluent school districts. When these algorithms are exported globally, they frequently misinterpret or unfairly penalize the pedagogical strategies and linguistic variations of the Global South. A teacher utilizing a regional dialect or a culturally specific call-and-response technique may be incorrectly advised by the AI to "correct" their language, essentially enforcing a form of digital linguistic imperialism.</p>
+        <p><span class="paragraph-label">D</span> To mitigate these dystopian outcomes, leading academic institutions advocate for a strict adherence to the "Human-in-the-Loop" (HITL) paradigm. In an HITL framework, the AI is explicitly demoted from an evaluator to an illuminator. The algorithm provides data, patterns, and transcripts, but it is strictly forbidden from generating summative performance scores. The agency must remain entirely with the educator. The teacher uses the AI dashboard as a private mirror for self-reflection, not as a surveillance tool accessible by school administrators for performance management.</p>
+        <p><span class="paragraph-label">E</span> As we navigate the integration of artificial intelligence into continuous professional development, it is evident that the technology will not replace the human element of teaching. Instead, if governed by strict ethical frameworks and a commitment to teacher autonomy, algorithmic scaffolding has the potential to democratize elite-level coaching. By moving from a paradigm of punitive assessment to one of continuous, private empowerment, AI can help educators refine their craft, ultimately elevating the standard of learning for students globally.</p>
+      </div>
+    </div>
+
+    <div class="panel right-panel" id="right-panel">
+      
+      <div id="questions-1" class="section-content active">
+        <h2>Questions 1–5</h2>
+        <div class="instruction">Do the following statements agree with the information given in Reading Passage 1? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.</div>
+        
+        <div class="q-item"><div class="q-num">1</div><div class="q-text">The "spray and pray" model resulted in long-term retention of pedagogical skills. <br><input type="text" id="q1" oninput="markNavAnswered(1)"></div></div>
+        <div class="q-item"><div class="q-num">2</div><div class="q-text">Early Video Enhanced Observation (VEO) required extensive manual effort. <br><input type="text" id="q2" oninput="markNavAnswered(2)"></div></div>
+        <div class="q-item"><div class="q-num">3</div><div class="q-text">Vygotsky originally designed the ZPD specifically for artificial intelligence models. <br><input type="text" id="q3" oninput="markNavAnswered(3)"></div></div>
+        <div class="q-item"><div class="q-num">4</div><div class="q-text">The Cambridge study involved exactly 500 primary school teachers. <br><input type="text" id="q4" oninput="markNavAnswered(4)"></div></div>
+        <div class="q-item"><div class="q-num">5</div><div class="q-text">Algorithmic nudges were proven to be more effective than traditional INSET days. <br><input type="text" id="q5" oninput="markNavAnswered(5)"></div></div>
+
+        <h2>Questions 6–9</h2>
+        <div class="instruction">Match each description to the correct paragraph in Passage 1 (<strong>A, B, C, D, or E</strong>).</div>
+        
+        <div class="q-item"><div class="q-num">6</div><div class="q-text">The application of a historical psychological theory to modern teachers. <br><input type="text" id="q6" oninput="markNavAnswered(6)"></div></div>
+        <div class="q-item"><div class="q-num">7</div><div class="q-text">Statistical evidence comparing two different professional development models. <br><input type="text" id="q7" oninput="markNavAnswered(7)"></div></div>
+        <div class="q-item"><div class="q-num">8</div><div class="q-text">The limitations and bottlenecks of early digital observation tools. <br><input type="text" id="q8" oninput="markNavAnswered(8)"></div></div>
+        <div class="q-item"><div class="q-num">9</div><div class="q-text">The definition of the traditional, ineffective method of teacher training. <br><input type="text" id="q9" oninput="markNavAnswered(9)"></div></div>
+
+        <h2>Questions 10–13</h2>
+        <div class="instruction">Complete the summary. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</div>
+        <div class="q-item"><div class="q-text">
+          Historically, CPD relied on isolated <strong>10</strong> <input type="text" id="q10" oninput="markNavAnswered(10)">, which failed to change habits. Video observation attempted to fix this but required too much manual <strong>11</strong> <input type="text" id="q11" oninput="markNavAnswered(11)">. Today, AI solves this by acting as a "more <strong>12</strong> <input type="text" id="q12" oninput="markNavAnswered(12)">," tracking data continuously. Studies show this localized feedback leads to a much higher <strong>13</strong> <input type="text" id="q13" oninput="markNavAnswered(13)"> of new teaching strategies.
+        </div></div>
+      </div>
+
+      <div id="questions-2" class="section-content">
+        <h2>Questions 14–19</h2>
+        <div class="instruction">Choose the correct heading for each paragraph from the list below. Write <strong>i–viii</strong>.</div>
+        <div class="box-options">
+          <div class="box-item"><strong>i</strong> The cognitive challenges of instantaneous guidance</div>
+          <div class="box-item"><strong>ii</strong> Breaking the cycle of closed questioning</div>
+          <div class="box-item"><strong>iii</strong> How AI grades student essays</div>
+          <div class="box-item"><strong>iv</strong> Transcribing and categorizing classroom discourse</div>
+          <div class="box-item"><strong>v</strong> Analyzing non-verbal and vocal teaching cues</div>
+          <div class="box-item"><strong>vi</strong> Aligning teacher vocabulary with student proficiency</div>
+          <div class="box-item"><strong>vii</strong> The necessity of longitudinal data over single snapshots</div>
+        </div>
+        <div class="q-item"><div class="q-num">14</div><div class="q-text">Paragraph A <input type="text" id="q14" oninput="markNavAnswered(14)"></div></div>
+        <div class="q-item"><div class="q-num">15</div><div class="q-text">Paragraph B <input type="text" id="q15" oninput="markNavAnswered(15)"></div></div>
+        <div class="q-item"><div class="q-num">16</div><div class="q-text">Paragraph C <input type="text" id="q16" oninput="markNavAnswered(16)"></div></div>
+        <div class="q-item"><div class="q-num">17</div><div class="q-text">Paragraph D <input type="text" id="q17" oninput="markNavAnswered(17)"></div></div>
+        <div class="q-item"><div class="q-num">18</div><div class="q-text">Paragraph E <input type="text" id="q18" oninput="markNavAnswered(18)"></div></div>
+        <div class="q-item"><div class="q-num">19</div><div class="q-text">Paragraph F <input type="text" id="q19" oninput="markNavAnswered(19)"></div></div>
+
+        <h2>Questions 20–23</h2>
+        <div class="instruction">Write <strong>YES</strong> if the statement agrees with the claims of the writer, <strong>NO</strong>, or <strong>NOT GIVEN</strong>.</div>
+        <div class="q-item"><div class="q-num">20</div><div class="q-text">The IRE pattern encourages deep, dialogic student engagement. <br><input type="text" id="q20" oninput="markNavAnswered(20)"></div></div>
+        <div class="q-item"><div class="q-num">21</div><div class="q-text">Real-time earpiece feedback significantly reduces a teacher's cognitive load. <br><input type="text" id="q21" oninput="markNavAnswered(21)"></div></div>
+        <div class="q-item"><div class="q-num">22</div><div class="q-text">Multimodal analysis is currently cheaper to implement than text-only NLP. <br><input type="text" id="q22" oninput="markNavAnswered(22)"></div></div>
+        <div class="q-item"><div class="q-num">23</div><div class="q-text">AI can identify if a teacher's vocabulary is too complex for their students. <br><input type="text" id="q23" oninput="markNavAnswered(23)"></div></div>
+
+        <h2>Questions 24–26</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">24</div><div class="q-text">What does Natural Language Processing primarily do in the context of paragraph A?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q24" value="A" onchange="markNavAnswered(24)"> A) Records video of the students.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="B" onchange="markNavAnswered(24)"> B) Tracks the physical movement of the teacher.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="C" onchange="markNavAnswered(24)"> C) Converts speech to text and categorizes the pedagogical move.</label>
+            <label class="mcq-label"><input type="radio" name="q24" value="D" onchange="markNavAnswered(24)"> D) Translates foreign languages instantly.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">25</div><div class="q-text">Why is the IRE pattern heavily criticized by educators?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q25" value="A" onchange="markNavAnswered(25)"> A) It limits student responses to simple recall, suppressing critical thinking.</label>
+            <label class="mcq-label"><input type="radio" name="q25" value="B" onchange="markNavAnswered(25)"> B) It causes cognitive overload for the teacher.</label>
+            <label class="mcq-label"><input type="radio" name="q25" value="C" onchange="markNavAnswered(25)"> C) It requires too much vocabulary from the CEFR framework.</label>
+            <label class="mcq-label"><input type="radio" name="q25" value="D" onchange="markNavAnswered(25)"> D) It cannot be detected by AI algorithms.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">26</div><div class="q-text">What does 'prosody' refer to?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q26" value="A" onchange="markNavAnswered(26)"> A) The physical body language of the teacher.</label>
+            <label class="mcq-label"><input type="radio" name="q26" value="B" onchange="markNavAnswered(26)"> B) The rhythm, pitch, pacing, and tone of speech.</label>
+            <label class="mcq-label"><input type="radio" name="q26" value="C" onchange="markNavAnswered(26)"> C) The automated transcription of text.</label>
+            <label class="mcq-label"><input type="radio" name="q26" value="D" onchange="markNavAnswered(26)"> D) A specific type of earpiece technology.</label>
+          </div>
+        </div></div>
+      </div>
+
+      <div id="questions-3" class="section-content">
+        <h2>Questions 27–31</h2>
+        <div class="instruction">Which paragraph contains the following information? Write <strong>A, B, C, D, or E</strong>.</div>
+        <div class="q-item"><div class="q-num">27</div><div class="q-text">The danger of AI penalizing non-native accents and dialects. <input type="text" id="q27" oninput="markNavAnswered(27)"></div></div>
+        <div class="q-item"><div class="q-num">28</div><div class="q-text">The idea that AI should act as a private mirror rather than a managerial judge. <input type="text" id="q28" oninput="markNavAnswered(28)"></div></div>
+        <div class="q-item"><div class="q-num">29</div><div class="q-text">The psychological anxiety caused by the feeling of constant surveillance. <input type="text" id="q29" oninput="markNavAnswered(29)"></div></div>
+        <div class="q-item"><div class="q-num">30</div><div class="q-text">A conclusion regarding the democratizing potential of AI in coaching. <input type="text" id="q30" oninput="markNavAnswered(30)"></div></div>
+        <div class="q-item"><div class="q-num">31</div><div class="q-text">The risk of eliminating diverse teaching styles in favor of one standard metric. <input type="text" id="q31" oninput="markNavAnswered(31)"></div></div>
+
+        <h2>Questions 32–36</h2>
+        <div class="instruction">Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage.</div>
+        <div class="q-item"><div class="q-text">
+          Constant monitoring in classrooms can trigger a <strong>32</strong> <input type="text" id="q32" oninput="markNavAnswered(32)"> effect, increasing teacher anxiety. Critics also warn of the <strong>33</strong> <input type="text" id="q33" oninput="markNavAnswered(33)"> of pedagogy, where AI enforces a single teaching style. Because models are trained on Western data, algorithmic <strong>34</strong> <input type="text" id="q34" oninput="markNavAnswered(34)"> may punish teachers from the Global South. To prevent this, experts suggest a <strong>35</strong> <input type="text" id="q35" oninput="markNavAnswered(35)"> approach, ensuring the technology provides private <strong>36</strong> <input type="text" id="q36" oninput="markNavAnswered(36)"> rather than punitive assessment.
+        </div></div>
+
+        <h2>Questions 37–40</h2>
+        <div class="instruction">Choose the correct letter, <strong>A, B, C or D</strong>.</div>
+        <div class="q-item"><div class="q-num">37</div><div class="q-text">The term 'Panopticon effect' refers to:
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q37" value="A" onchange="markNavAnswered(37)"> A) A specific type of visual camera used in classrooms.</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="B" onchange="markNavAnswered(37)"> B) The psychological anxiety of feeling constantly watched.</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="C" onchange="markNavAnswered(37)"> C) The ability of AI to record thousands of data points.</label>
+            <label class="mcq-label"><input type="radio" name="q37" value="D" onchange="markNavAnswered(37)"> D) The bias found in Western datasets.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">38</div><div class="q-text">Why might an AI model exhibit bias in an international classroom?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q38" value="A" onchange="markNavAnswered(38)"> A) It was trained predominantly on data from affluent, native-English districts.</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="B" onchange="markNavAnswered(38)"> B) It cannot process audio via a lapel microphone.</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="C" onchange="markNavAnswered(38)"> C) It is programmed to dislike the Global South.</label>
+            <label class="mcq-label"><input type="radio" name="q38" value="D" onchange="markNavAnswered(38)"> D) It focuses too heavily on kinesics rather than prosody.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">39</div><div class="q-text">In the 'Human-in-the-loop' framework, who must hold the ultimate agency?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q39" value="A" onchange="markNavAnswered(39)"> A) The AI developers.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="B" onchange="markNavAnswered(39)"> B) The school administrators.</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="C" onchange="markNavAnswered(39)"> C) The educator (teacher).</label>
+            <label class="mcq-label"><input type="radio" name="q39" value="D" onchange="markNavAnswered(39)"> D) The students.</label>
+          </div>
+        </div></div>
+        <div class="q-item"><div class="q-num">40</div><div class="q-text">What is the author's overall attitude towards AI in teacher training?
+          <div class="mcq-options">
+            <label class="mcq-label"><input type="radio" name="q40" value="A" onchange="markNavAnswered(40)"> A) Extremely pessimistic, believing it will ruin education.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="B" onchange="markNavAnswered(40)"> B) Neutral, merely presenting facts without opinion.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="C" onchange="markNavAnswered(40)"> C) Blindly enthusiastic about replacing teachers with AI.</label>
+            <label class="mcq-label"><input type="radio" name="q40" value="D" onchange="markNavAnswered(40)"> D) Cautiously optimistic, advocating for integration focused on empowerment.</label>
+          </div>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav-bar" id="bottom-nav-bar">
+    <div class="nav-numbers" id="nav-numbers">
+      </div>
+    <button class="btn-submit-small" id="btn-submit" onclick="submitTest(false)">Submit Module</button>
+  </div>
+
+  <script>
+    /* --- GRADING MATRIX --- */
+    const answerKey = {
+      // Passage 1
+      q1: 'false', q2: 'true', q3: 'false', q4: 'not given', q5: 'true',
+      q6: 'c', q7: 'e', q8: 'b', q9: 'a',
+      q10: 'workshops', q11: 'tagging', q12: 'knowledgeable other', q13: 'retention',
+      
+      // Passage 2
+      q14: 'iv', q15: 'ii', q16: 'vi', q17: 'i', q18: 'v', q19: 'vii',
+      q20: 'no', q21: 'no', q22: 'not given', q23: 'yes',
+      q24: 'c', q25: 'a', q26: 'b',
+      
+      // Passage 3
+      q27: 'c', q28: 'd', q29: 'a', q30: 'e', q31: 'b',
+      q32: 'panopticon', q33: 'homogenization', q34: 'bias', q35: 'human-in-the-loop', q36: 'empowerment',
+      q37: 'b', q38: 'a', q39: 'c', q40: 'd'
+    };
+
+    // Initialize Navigation
+    function initBottomNav() {
+      const navContainer = document.getElementById('nav-numbers');
+      for(let i=1; i<=40; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'nav-btn';
+        btn.id = 'nav-btn-' + i;
+        btn.textContent = i;
+        btn.onclick = () => scrollToQuestion(i);
+        navContainer.appendChild(btn);
+      }
+    }
+
+    function markNavAnswered(qNumber) {
+      const input = document.getElementById('q' + qNumber);
+      const isAnswered = input ? input.value.trim() !== '' : document.querySelector(`input[name="q${qNumber}"]:checked`);
+      const navBtn = document.getElementById('nav-btn-' + qNumber);
+      if(isAnswered) navBtn.classList.add('answered');
+      else navBtn.classList.remove('answered');
+    }
+
+    function scrollToQuestion(qNumber) {
+      let targetTab = 1;
+      if (qNumber >= 14 && qNumber <= 26) targetTab = 2;
+      if (qNumber >= 27 && qNumber <= 40) targetTab = 3;
+      
+      switchSection(targetTab);
+      
+      setTimeout(() => {
+        let qElement = document.getElementById('q' + qNumber);
+        if (!qElement) {
+          const radioInput = document.querySelector(`input[name="q${qNumber}"]`);
+          if(radioInput) qElement = radioInput.closest('.q-item');
+        } else {
+          qElement = qElement.closest('.q-item');
+        }
+
+        if (qElement) {
+          document.getElementById('right-panel').scrollTo({
+            top: qElement.offsetTop - 50, behavior: 'smooth'
+          });
+          qElement.style.background = '#FEF08A';
+          setTimeout(() => qElement.style.background = '', 1000);
+        }
+      }, 50);
+    }
+
+    function switchSection(sectionNumber) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.section-content').forEach(content => content.classList.remove('active'));
+      document.getElementById('tab-' + sectionNumber).classList.add('active');
+      document.getElementById('passage-' + sectionNumber).classList.add('active');
+      document.getElementById('questions-' + sectionNumber).classList.add('active');
+      document.getElementById('left-panel').scrollTo(0,0);
+      document.getElementById('right-panel').scrollTo(0,0);
+    }
+
+    /* --- TIMER & LAUNCH --- */
+    let timeRemaining = 3600;
+    let timerInterval;
+
+    function startTest() {
+      initBottomNav();
+      document.getElementById('pre-test-overlay').style.display = 'none';
+      document.getElementById('bottom-nav-bar').style.display = 'flex'; 
+      
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        const m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
+        const s = (timeRemaining % 60).toString().padStart(2, '0');
+        document.getElementById('timer').textContent = `${m}:${s}`;
+        
+        if(timeRemaining <= 300) document.getElementById('timer').classList.add('warning');
+        if(timeRemaining <= 0) submitTest(true);
+      }, 1000);
+    }
+
+    /* --- EVALUATION --- */
+    function submitTest(isAuto = false) {
+      if(!isAuto && !confirm("Confirm final submission?")) return;
+      clearInterval(timerInterval);
+      
+      let score = 0;
+      for(let i=1; i<=40; i++) {
+        const qId = 'q' + i;
+        const textInput = document.getElementById(qId);
+        const correctAns = answerKey[qId];
+        
+        if (textInput) {
+          const userAns = textInput.value.trim().toLowerCase();
+          // Accept exact match, or if user's word is long enough and matches inside the answer array
+          if (userAns === correctAns || (correctAns.includes(userAns) && userAns.length > 3) || (userAns === 'inset' && qId === 'q10') || (userAns === 'manual tagging' && qId === 'q11') ) {
+            score++;
+            textInput.classList.add('correct-answer');
+          } else {
+            textInput.classList.add('wrong-answer');
+            textInput.value = userAns ? `${userAns} ❌ [${correctAns.toUpperCase()}]` : `❌ [${correctAns.toUpperCase()}]`;
+            textInput.style.width = "280px";
+          }
+          textInput.disabled = true;
+        } else {
+          const selected = document.querySelector(`input[name="${qId}"]:checked`);
+          if (selected && selected.value.toLowerCase() === correctAns) {
+            score++;
+            selected.parentElement.classList.add('correct-answer');
+          } else {
+            if (selected) selected.parentElement.classList.add('wrong-answer');
+            const correctRadio = document.querySelector(`input[name="${qId}"][value="${correctAns.toUpperCase()}"]`);
+            if (correctRadio) correctRadio.parentElement.classList.add('correct-answer');
+          }
+          document.querySelectorAll(`input[name="${qId}"]`).forEach(r => r.disabled = true);
+        }
+      }
+
+      document.getElementById('final-score').innerHTML = `${score} <span style="font-size: 1.5rem; color: #7F8C8D;">/ 40</span>`;
+      document.getElementById('results-modal').style.display = 'block';
+      document.body.classList.add('test-completed');
+      document.getElementById('btn-submit').style.display = 'none';
+    }
+
+  </script>
+</body>
+</html>
