@@ -48,7 +48,6 @@
         </div>
 
         <nav class="flex-1 py-8 flex flex-col gap-2 px-3 overflow-y-auto custom-scroll">
-            <!-- Updated Overview Button -->
             <button onclick="navigate('dashboard')" id="nav-dashboard" class="nav-btn active flex items-center gap-4 px-4 py-3 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-all font-medium">
                 <i class="ph ph-squares-four text-2xl"></i>
                 <span class="hidden md:block">Vocabulary Overview</span>
@@ -86,27 +85,26 @@
     </aside>
 
     <main class="flex-1 relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] bg-parchment flex flex-col">
-        <!-- Topbar -->
         <header class="h-20 glass-panel border-b border-slate-200 px-8 flex items-center justify-between z-10 shrink-0">
             <h2 id="view-title" class="text-2xl font-serif font-bold text-oxford">Dashboard Overview</h2>
             <div class="flex items-center gap-4">
-                <button class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-oxford shadow-sm transition">
-                    <i class="ph ph-magnifying-glass text-xl"></i>
-                </button>
-                <div class="h-10 w-10 rounded-full bg-oxford text-white flex items-center justify-center font-bold font-serif shadow-md border-2 border-gold cursor-pointer">
-                    JD
+                <div class="relative">
+                    <input type="text" id="global-search" placeholder="Search vocabulary..." class="pl-10 pr-4 py-2 rounded-full border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-gold/50 shadow-sm w-48 md:w-64 transition-all">
+                    <i class="ph ph-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-lg"></i>
+                </div>
+                <div class="text-sm font-semibold text-oxford bg-white px-4 py-2 rounded-full border border-slate-200 shadow-sm italic hidden md:block">
+                    Shared Pearls of Wisdom
                 </div>
             </div>
         </header>
 
-        <!-- View Container -->
         <div id="content-container" class="flex-1 overflow-auto p-8 relative">
             <!-- Content injected by JS -->
         </div>
     </main>
 
     <script>
-        // Highly compressed data structure to fit all words: w=word, p=pos, f=form, m=meaning, e=example, c=collocations
+        // Existing Data from Prompt
         const rawData = {
             "B1": [
                 {w:"Tangle", p:"Noun", f:"Singular (Plural: Tangles)", m:"An untidy mass of things that are not in a state of order.", e:"Her hair was in a tangle after the windy boat ride.", c:["tangle of hair", "hopeless tangle", "untangle a knot"]},
@@ -209,7 +207,6 @@
             ]
         };
 
-        // Inject the newly requested 66 words with phonemics, synonyms, and origins
         const newWords = {
             "B1": [
                 {w:"Aisle", ph:"/aɪl/", p:"Noun", f:"Singular", m:"A long, narrow space between rows of seats in an aircraft, cinema, or church.", s:"theatre auditorium", o:"French, 17th Century", e:"You'll find the shampoo and the soap in the fourth aisle from the entrance.", c:["walk down the aisle", "supermarket aisle", "window or aisle"]},
@@ -276,7 +273,7 @@
                 {w:"Malfeasance", ph:"/ˌmælˈfiː.zəns/", p:"Noun", f:"Singular", m:"An example of dishonest and illegal behaviour, especially by a person in authority.", s:"wrongdoing, misconduct", o:"Anglo-Norman French, late 17th century", e:"Several cases of malpractice and malfeasance in the financial world are currently being investigated.", c:["corporate malfeasance", "financial malfeasance", "accused of malfeasance"]},
                 {w:"Malign", ph:"/məˈlaɪn/", p:"Noun", f:"Singular", m:"Causing or intending to cause harm or evil.", s:"evil, malicious", o:"England, 12th Century", e:"Foreign domination had a malign influence on local politics.", c:["malign influence", "malign effect", "malign intent"]},
                 {w:"Minatory", ph:"/ˈmɪn.ə.tər.i/", p:"Adjective", f:"Adjective", m:"Expressing a warning or a threat.", s:"threatening", o:"1525–35, Latin", e:"This minatory approach hasn't scared children off hard drugs.", c:["minatory tone", "minatory warning", "minatory gesture"]},
-                {w:"Nadir", ph:"/ˈneɪ.dɪər/", p:"Adjective", f:"Adjective", m:"The worst moment, or the moment of least hope and least achievement.", s:"low-point", o:"1350–1400, Old French", e:"The defeat was the nadir of her career.", c:["reach the nadir", "absolute nadir", "nadir of the recession"]},
+                {w:"Nadir", ph:"/ˈneɪ.dɪər/", p:"Noun", f:"Singular", m:"The worst moment, or the moment of least hope and least achievement.", s:"low-point", o:"1350–1400, Old French", e:"The defeat was the nadir of her career.", c:["reach the nadir", "absolute nadir", "nadir of the recession"]},
                 {w:"Nascent", ph:"/ˈnæs.ənt/", p:"Adjective", f:"Adjective", m:"Only recently formed or started, but likely to grow larger quickly.", s:"recently developed", o:"French, 14th Century", e:"Everyone in this nascent business is still struggling with basic issues.", c:["nascent industry", "nascent democracy", "nascent stage"]},
                 {w:"Pedagogue", ph:"/ˈped.ə.ɡɒɡ/", p:"Noun", f:"Singular", m:"A teacher who gives too much attention to formal rules and is not interesting.", s:"instructor", o:"Latin, 1650s", e:"To what extent might music institutions and pedagogues have been neglecting a fundamental emphasis in this area?", c:["strict pedagogue", "boring pedagogue", "traditional pedagogue"]},
                 {w:"Philately", ph:"/fɪˈlæt.əl.i/", p:"Noun", f:"Singular", m:"The collection and study of postage stamps, postmarks, and related materials.", s:"stamp collecting", o:"1860–65, French", e:"Philately service in Nepal has no long history.", c:["study philately", "interest in philately", "philately exhibition"]},
@@ -288,14 +285,243 @@
             ]
         };
 
-        // Combine the existing rawData with the new words safely
+        // Fully Formatted Word Additions precisely categorized into CEFR tiers 
+        const docWords = {
+            "B1": [
+                {w:"Adhere", p:"Verb", f:"Adheres", m:"Stick fast to a surface or substance.", e:"The paint will adhere well to the wood.", c:["adhere to", "strictly adhere", "adhere firmly"]},
+                {w:"Adore", p:"Verb", f:"Adores", m:"Love and respect deeply.", e:"He absolutely adores his grandchildren.", c:["absolutely adore", "adore completely", "adore someone"]},
+                {w:"Spacious", p:"Adjective", f:"-", m:"Having ample space.", e:"They moved into a very spacious apartment.", c:["spacious room", "spacious house", "spacious area"]},
+                {w:"Genesis", p:"Noun", f:"-", m:"The origin or mode of formation of something.", e:"The genesis of the project was quite complex.", c:["very genesis", "true genesis", "genesis of"]},
+                {w:"Novice", p:"Noun", f:"Novices", m:"A beginner or inexperienced person.", e:"He is a complete novice when it comes to programming.", c:["complete novice", "rank novice", "absolute novice"]},
+                {w:"Paradox", p:"Noun", f:"Paradoxes", m:"A seemingly absurd or self-contradictory statement.", e:"It's a curious paradox that drinking a lot of water can make you thirsty.", c:["curious paradox", "apparent paradox", "seeming paradox"]},
+                {w:"Paramount", p:"Adjective", f:"-", m:"More important than anything else.", e:"Safety is of paramount importance.", c:["paramount importance", "paramount concern", "absolutely paramount"]},
+                {w:"Substantial", p:"Adjective", f:"-", m:"Of considerable importance, size, or worth.", e:"A substantial amount of money was raised.", c:["substantial amount", "substantial sum", "substantial evidence"]},
+                {w:"Pivot", p:"Verb", f:"Pivots", m:"The central point or shaft on which a mechanism turns.", e:"The door pivots on its hinges.", c:["pivot around", "pivot quickly", "pivot away"]},
+                {w:"Predicament", p:"Noun", f:"Predicaments", m:"A difficult, unpleasant, or embarrassing situation.", e:"I'm in a terrible predicament.", c:["terrible predicament", "awkward predicament", "difficult predicament"]},
+                {w:"Prevail", p:"Verb", f:"Prevails", m:"Prove more powerful than opposing forces; be victorious.", e:"Common sense will ultimately prevail.", c:["prevail over", "ultimately prevail", "prevail upon"]},
+                {w:"Prosperity", p:"Noun", f:"-", m:"The state of being prosperous.", e:"A long period of peace and prosperity.", c:["economic prosperity", "future prosperity", "bring prosperity"]},
+                {w:"Proximity", p:"Noun", f:"-", m:"Nearness in space, time, or relationship.", e:"Do not operate in close proximity to the machine.", c:["close proximity", "immediate proximity", "proximity to"]},
+                {w:"Relevant", p:"Adjective", f:"-", m:"Closely connected or appropriate to the matter at hand.", e:"The candidate's experience is highly relevant to the job.", c:["highly relevant", "relevant details", "relevant experience"]},
+                {w:"Remnant", p:"Noun", f:"Remnants", m:"A small remaining quantity of something.", e:"He sat sewing a remnant of fabric.", c:["last remnant", "small remnant", "remnant of"]},
+                {w:"Replica", p:"Noun", f:"Replicas", m:"An exact copy or model of something.", e:"She bought a replica of the Eiffel Tower.", c:["exact replica", "scale replica", "faithful replica"]},
+                {w:"Robust", p:"Adjective", f:"-", m:"Strong and healthy; vigorous.", e:"The Caplan family is a robust group.", c:["robust health", "robust system", "robust economy"]},
+                {w:"Sanctuary", p:"Noun", f:"Sanctuaries", m:"A place of refuge or safety.", e:"The refugees sought sanctuary in the church.", c:["wildlife sanctuary", "safe sanctuary", "find sanctuary"]},
+                {w:"Savory", p:"Adjective", f:"-", m:"Belonging to the category that is salty or spicy rather than sweet.", e:"They preferred savory snacks over sweet ones.", c:["savory dish", "savory flavor", "sweet and savory"]},
+                {w:"Sheer", p:"Adjective", f:"-", m:"Nothing other than; unmitigated.", e:"She giggled with sheer delight.", c:["sheer size", "sheer numbers", "sheer luck"]},
+                {w:"Simile", p:"Noun", f:"Similes", m:"A figure of speech involving the comparison of one thing with another.", e:"The writer used an apt simile to describe the scene.", c:["use a simile", "apt simile", "clever simile"]},
+                {w:"Simulate", p:"Verb", f:"Simulates", m:"Imitate the appearance or character of.", e:"Red ochre intended to simulate blood.", c:["simulate conditions", "simulate an environment", "accurately simulate"]}
+            ],
+            "B2": [
+                {w:"Adjacent", p:"Adjective", f:"-", m:"Next to or adjoining something else.", e:"They worked in adjacent rooms.", c:["adjacent to", "adjacent building", "immediately adjacent"]},
+                {w:"Admonish", p:"Verb", f:"Admonishes", m:"Reprimand firmly.", e:"She admonished him for appearing at breakfast unshaven.", c:["admonish strictly", "gently admonish", "admonish someone"]},
+                {w:"Adversary", p:"Noun", f:"Adversaries", m:"One's opponent in a contest, conflict, or dispute.", e:"He beat his old adversary in the quarter-finals.", c:["formidable adversary", "political adversary", "defeat an adversary"]},
+                {w:"Advocacy", p:"Noun", f:"-", m:"Public support for or recommendation of a particular cause or policy.", e:"Her strong advocacy of women's rights.", c:["strong advocacy", "advocacy group", "tireless advocacy"]},
+                {w:"Aesthetic", p:"Adjective", f:"-", m:"Concerned with beauty or the appreciation of beauty.", e:"The pictures give great aesthetic pleasure.", c:["aesthetic appeal", "aesthetic pleasure", "highly aesthetic"]},
+                {w:"Affinity", p:"Noun", f:"Affinities", m:"A spontaneous or natural liking or sympathy for someone or something.", e:"He has an affinity for the music of Berlioz.", c:["natural affinity", "close affinity", "feel an affinity"]},
+                {w:"Affirmation", p:"Noun", f:"Affirmations", m:"The action or process of affirming something or being affirmed.", e:"He nodded in affirmation.", c:["positive affirmation", "nod in affirmation", "seek affirmation"]},
+                {w:"Adversity", p:"Noun", f:"Adversities", m:"Difficulties; misfortune.", e:"Resilience in the face of adversity.", c:["face adversity", "overcome adversity", "times of adversity"]},
+                {w:"Agility", p:"Noun", f:"-", m:"Ability to move quickly and easily.", e:"Though he was without formal training, his agility was remarkable.", c:["remarkable agility", "mental agility", "physical agility"]},
+                {w:"Allege", p:"Verb", f:"Alleges", m:"Claim or assert that someone has done something illegal or wrong, typically without proof.", e:"He alleged that he had been assaulted.", c:["falsely allege", "allege that", "commonly allege"]},
+                {w:"Alleviate", p:"Verb", f:"Alleviates", m:"Make (suffering, deficiency, or a problem) less severe.", e:"He couldn't prevent her pain, only alleviate it.", c:["alleviate symptoms", "alleviate pain", "help alleviate"]},
+                {w:"Allure", p:"Noun", f:"-", m:"The quality of being powerfully and mysteriously attractive or fascinating.", e:"People for whom gold holds no allure.", c:["hold no allure", "powerful allure", "irresistible allure"]},
+                {w:"Allude", p:"Verb", f:"Alludes", m:"Suggest or call attention to indirectly; hint at.", e:"She had a way of alluding to Jean but never saying her name.", c:["allude to", "frequently allude", "indirectly allude"]},
+                {w:"Ambience", p:"Noun", f:"-", m:"The character and atmosphere of a place.", e:"The relaxed ambience of the cocktail lounge.", c:["relaxed ambience", "pleasant ambience", "create an ambience"]},
+                {w:"Amiable", p:"Adjective", f:"-", m:"Having or displaying a friendly and pleasant manner.", e:"An amiable, unassuming fellow.", c:["amiable conversation", "amiable personality", "perfectly amiable"]},
+                {w:"Amicable", p:"Adjective", f:"-", m:"Characterized by friendliness and absence of discord.", e:"There will be an amicable settlement of the dispute.", c:["amicable agreement", "amicable relationship", "amicable split"]},
+                {w:"Amiss", p:"Adjective", f:"-", m:"Not quite right; inappropriate or out of place.", e:"There was something amiss about his calculations.", c:["something amiss", "go amiss", "take amiss"]},
+                {w:"Anguish", p:"Noun", f:"-", m:"Severe mental or physical pain or suffering.", e:"She shut her eyes in anguish.", c:["mental anguish", "cry in anguish", "suffer anguish"]},
+                {w:"Animosity", p:"Noun", f:"Animosities", m:"Strong hostility.", e:"He no longer felt any animosity toward her.", c:["feel animosity", "deep animosity", "personal animosity"]},
+                {w:"Annihilate", p:"Verb", f:"Annihilates", m:"Destroy utterly; obliterate.", e:"A simple bomb of this type could annihilate them all.", c:["completely annihilate", "annihilate the enemy", "threaten to annihilate"]},
+                {w:"Apathy", p:"Noun", f:"-", m:"Lack of interest, enthusiasm, or concern.", e:"Widespread apathy among students.", c:["widespread apathy", "public apathy", "feeling of apathy"]},
+                {w:"Baffle", p:"Verb", f:"Baffles", m:"Totally bewilder or perplex.", e:"An unexplained occurrence that baffled everyone.", c:["completely baffle", "baffle scientists", "tend to baffle"]},
+                {w:"Belittle", p:"Verb", f:"Belittles", m:"Make (someone or something) seem unimportant.", e:"This is not to belittle his role.", c:["belittle achievements", "tend to belittle", "constantly belittle"]},
+                {w:"Benign", p:"Adjective", f:"-", m:"Gentle and kindly.", e:"Her face was calm and benign.", c:["benign tumor", "benign smile", "benign neglect"]},
+                {w:"Boisterous", p:"Adjective", f:"-", m:"Noisy, energetic, and cheerful; rowdy.", e:"The boisterous conviviality associated with taverns of that period.", c:["boisterous crowd", "boisterous laughter", "boisterous behavior"]},
+                {w:"Bolster", p:"Verb", f:"Bolsters", m:"Support or strengthen; prop up.", e:"The fall in interest rates is starting to bolster confidence.", c:["bolster confidence", "bolster the argument", "help bolster"]},
+                {w:"Bountiful", p:"Adjective", f:"-", m:"Large in quantity; abundant.", e:"The ocean provided a bountiful supply of fresh food.", c:["bountiful harvest", "bountiful supply", "truly bountiful"]},
+                {w:"Buoyant", p:"Adjective", f:"-", m:"Able or apt to stay afloat or rise to the top of a liquid or gas.", e:"A buoyant economy.", c:["buoyant mood", "buoyant economy", "remain buoyant"]},
+                {w:"Calamity", p:"Noun", f:"Calamities", m:"An event causing great and often sudden damage or distress.", e:"The fire was the latest calamity to strike the area.", c:["natural calamity", "suffer a calamity", "major calamity"]},
+                {w:"Candor", p:"Noun", f:"-", m:"The quality of being open and honest in expression; frankness.", e:"A man of refreshing candor.", c:["refreshing candor", "absolute candor", "speak with candor"]},
+                {w:"Cascade", p:"Noun", f:"Cascades", m:"A small waterfall, typically one of several that fall in stages down a steep rocky slope.", e:"The waterfall raced down in a series of cascades.", c:["cascade of water", "beautiful cascade", "tumbling cascade"]},
+                {w:"Catalyst", p:"Noun", f:"Catalysts", m:"A substance that increases the rate of a chemical reaction without itself undergoing any permanent chemical change.", e:"Chlorine acts as a catalyst promoting the breakdown of ozone.", c:["act as a catalyst", "powerful catalyst", "chemical catalyst"]},
+                {w:"Chronic", p:"Adjective", f:"-", m:"Persisting for a long time or constantly recurring.", e:"Chronic bronchitis.", c:["chronic pain", "chronic illness", "chronic shortage"]},
+                {w:"Chronicle", p:"Noun", f:"Chronicles", m:"A factual written account of important or historical events in the order of their occurrence.", e:"A vast chronicle of Spanish history.", c:["historical chronicle", "detailed chronicle", "write a chronicle"]},
+                {w:"Clandestine", p:"Adjective", f:"-", m:"Kept secret or done secretively.", e:"She deserved better than these clandestine meetings.", c:["clandestine meeting", "clandestine operation", "clandestine affair"]},
+                {w:"Colloquial", p:"Adjective", f:"-", m:"Used in ordinary or familiar conversation.", e:"Colloquial and everyday language.", c:["colloquial speech", "colloquial expression", "highly colloquial"]},
+                {w:"Clientele", p:"Noun", f:"-", m:"Clients collectively.", e:"An upscale clientele.", c:["wealthy clientele", "regular clientele", "attract a clientele"]},
+                {w:"Palpable", p:"Adjective", f:"-", m:"Able to be touched or felt.", e:"The palpable bump at the bridge of the nose.", c:["palpable tension", "palpable sense", "palpable relief"]},
+                {w:"Sarcasm", p:"Noun", f:"-", m:"The use of irony to mock or convey contempt.", e:"His voice, hardened by sarcasm, could not hide his grief.", c:["heavy sarcasm", "detect sarcasm", "hint of sarcasm"]},
+                {w:"Scoff", p:"Verb", f:"Scoffs", m:"Speak to someone or about something in a scornfully derisive or mocking way.", e:"Department officials scoffed at the allegations.", c:["scoff at", "scoff loudly", "tend to scoff"]},
+                {w:"Seclusion", p:"Noun", f:"-", m:"The state of being private and away from other people.", e:"They enjoyed ten days of peace and seclusion.", c:["total seclusion", "strict seclusion", "live in seclusion"]},
+                {w:"Sedate", p:"Adjective", f:"-", m:"Calm, dignified, and unhurried.", e:"In the old days, business was carried on at a rather more sedate pace.", c:["sedate pace", "sedate lifestyle", "remain sedate"]},
+                {w:"Senile", p:"Adjective", f:"-", m:"Having or showing the weaknesses or diseases of old age.", e:"She couldn't cope with her senile husband.", c:["senile dementia", "go senile", "senile decay"]},
+                {w:"Severity", p:"Noun", f:"-", m:"The fact or condition of being severe.", e:"Sentences should reflect the severity of the crime.", c:["severity of the illness", "increase in severity", "extreme severity"]},
+                {w:"Shrewd", p:"Adjective", f:"-", m:"Having or showing sharp powers of judgment; astute.", e:"She was shrewd enough to guess the motive.", c:["shrewd businessman", "shrewd observation", "very shrewd"]},
+                {w:"Skeptic", p:"Noun", f:"Skeptics", m:"A person inclined to question or doubt all accepted opinions.", e:"He's a skeptic about the value of the new technology.", c:["confirmed skeptic", "remain a skeptic", "vocal skeptic"]}
+            ],
+            "C1": [
+                {w:"Adjuration", p:"Noun", f:"Adjurations", m:"A solemn oath or earnest urging.", e:"He made an adjuration to his followers.", c:["solemn adjuration", "earnest adjuration", "final adjuration"]},
+                {w:"Adulation", p:"Noun", f:"-", m:"Obsequious flattery.", e:"He found it difficult to cope with the adulation of the fans.", c:["widespread adulation", "public adulation", "constant adulation"]},
+                {w:"Affidavit", p:"Noun", f:"Affidavits", m:"A written statement confirmed by oath or affirmation.", e:"A former employee swore an affidavit relating to his claim.", c:["swear an affidavit", "sworn affidavit", "sign an affidavit"]},
+                {w:"Affliction", p:"Noun", f:"Afflictions", m:"Something that causes pain or suffering.", e:"A crippling affliction of the nervous system.", c:["terrible affliction", "suffer an affliction", "common affliction"]},
+                {w:"Affluence", p:"Noun", f:"-", m:"The state of having a great deal of money; wealth.", e:"A sign of our growing affluence.", c:["great affluence", "growing affluence", "material affluence"]},
+                {w:"Agglomeration", p:"Noun", f:"Agglomerations", m:"A mass or collection of things; an assemblage.", e:"The arts center is an agglomeration of theaters.", c:["large agglomeration", "urban agglomeration", "confused agglomeration"]},
+                {w:"Adulterate", p:"Verb", f:"Adulterates", m:"Render something poorer in quality by adding another substance.", e:"The meat was ground fine and adulterated with potato flour.", c:["adulterate food", "heavily adulterate", "adulterate with water"]},
+                {w:"Alacrity", p:"Noun", f:"-", m:"Brisk and cheerful readiness.", e:"She accepted the invitation with alacrity.", c:["with alacrity", "great alacrity", "show alacrity"]},
+                {w:"Allegory", p:"Noun", f:"Allegories", m:"A story, poem, or picture that can be interpreted to reveal a hidden meaning.", e:"Pilgrim's Progress is an allegory of the spiritual journey.", c:["political allegory", "powerful allegory", "read as an allegory"]},
+                {w:"Alms", p:"Noun", f:"-", m:"Money or food given to poor people.", e:"The riders stopped to distribute alms.", c:["give alms", "distribute alms", "ask for alms"]},
+                {w:"Amalgamate", p:"Verb", f:"Amalgamates", m:"Combine or unite to form one organization or structure.", e:"He amalgamated his company with another.", c:["amalgamate with", "decide to amalgamate", "amalgamate effectively"]},
+                {w:"Ambivalence", p:"Noun", f:"-", m:"The state of having mixed feelings or contradictory ideas about something or someone.", e:"The law's ambivalence about the importance of a victim's identity.", c:["deep ambivalence", "feel ambivalence", "moral ambivalence"]},
+                {w:"Ambulatory", p:"Adjective", f:"-", m:"Relating to or adapted for walking.", e:"Continuous ambulatory peritoneal dialysis.", c:["ambulatory patient", "ambulatory care", "ambulatory surgery"]},
+                {w:"Ameliorate", p:"Verb", f:"Ameliorates", m:"Make (something bad or unsatisfactory) better.", e:"The reform did much to ameliorate living standards.", c:["ameliorate conditions", "help to ameliorate", "seek to ameliorate"]},
+                {w:"Amenable", p:"Adjective", f:"-", m:"Open and responsive to suggestion; easily persuaded or controlled.", e:"Parents who have had easy amenities and amenable children.", c:["amenable to reason", "highly amenable", "prove amenable"]},
+                {w:"Amenities", p:"Noun", f:"-", m:"A desirable or useful feature or facility of a building or place.", e:"Heating is regarded as a basic amenity.", c:["local amenities", "basic amenities", "public amenities"]},
+                {w:"Amorous", p:"Adjective", f:"-", m:"Showing, feeling, or relating to sexual desire.", e:"She rejected his amorous advances.", c:["amorous advances", "amorous intentions", "amorous glance"]},
+                {w:"Amorphous", p:"Adjective", f:"-", m:"Without a clearly defined shape or form.", e:"Amorphous blue forms and straight black lines.", c:["amorphous mass", "amorphous shape", "amorphous solid"]},
+                {w:"Anachronism", p:"Noun", f:"Anachronisms", m:"A thing belonging or appropriate to a period other than that in which it exists.", e:"Everything was as it would have appeared in centuries past apart from one anachronism, a bright yellow excavator.", c:["historical anachronism", "glaring anachronism", "seem like an anachronism"]},
+                {w:"Anomalous", p:"Adjective", f:"-", m:"Deviating from what is standard, normal, or expected.", e:"An anomalous situation.", c:["anomalous result", "anomalous situation", "highly anomalous"]},
+                {w:"Appellation", p:"Noun", f:"Appellations", m:"A name or title.", e:"The city fully justifies its appellation 'the Pearl of the Orient'.", c:["earn the appellation", "formal appellation", "descriptive appellation"]},
+                {w:"Antipathy", p:"Noun", f:"Antipathies", m:"A deep-seated feeling of dislike; aversion.", e:"His fundamental antipathy to capitalism.", c:["deep antipathy", "strong antipathy", "feel antipathy"]},
+                {w:"Arduous", p:"Adjective", f:"-", m:"Involving or requiring strenuous effort; difficult and tiring.", e:"An arduous journey.", c:["arduous task", "arduous journey", "arduous process"]},
+                {w:"Artifice", p:"Noun", f:"Artifices", m:"Clever or cunning devices or expedients, especially as used to trick or deceive others.", e:"Artifice and outright fakery.", c:["use artifice", "cunning artifice", "clever artifice"]},
+                {w:"Assiduous", p:"Adjective", f:"-", m:"Showing great care and perseverance.", e:"She was assiduous in pointing out every feature.", c:["assiduous attention", "assiduous research", "highly assiduous"]},
+                {w:"Assuage", p:"Verb", f:"Assuages", m:"Make (an unpleasant feeling) less intense.", e:"The letter assuaged the fears of most members.", c:["assuage fears", "assuage guilt", "help assuage"]},
+                {w:"Astute", p:"Adjective", f:"-", m:"Having or showing an ability to accurately assess situations or people and turn this to one's advantage.", e:"An astute businessman.", c:["astute observation", "astute politician", "very astute"]},
+                {w:"Atrocity", p:"Noun", f:"Atrocities", m:"An extremely wicked or cruel act, typically one involving physical violence or injury.", e:"War atrocities.", c:["commit an atrocity", "terrible atrocity", "report an atrocity"]},
+                {w:"Avarice", p:"Noun", f:"-", m:"Extreme greed for wealth or material gain.", e:"He was rich beyond the dreams of avarice.", c:["greed and avarice", "driven by avarice", "blind avarice"]},
+                {w:"Aversion", p:"Noun", f:"Aversions", m:"A strong dislike or disinclination.", e:"He had a deep-seated aversion to most forms of exercise.", c:["strong aversion", "deep aversion", "have an aversion"]},
+                {w:"Bard", p:"Noun", f:"Bards", m:"A poet, traditionally one reciting epics and associated with a particular oral tradition.", e:"Our national bard, Robert Burns.", c:["famous bard", "wandering bard", "the national bard"]},
+                {w:"Banal", p:"Adjective", f:"-", m:"So lacking in originality as to be obvious and boring.", e:"Songs with banal, repeated words.", c:["banal conversation", "banal pop songs", "incredibly banal"]},
+                {w:"Baleful", p:"Adjective", f:"-", m:"Threatening harm; menacing.", e:"Bill shot a baleful glance in her direction.", c:["baleful look", "baleful influence", "baleful stare"]},
+                {w:"Bantering", p:"Verb/Adj", f:"-", m:"Talk or exchange remarks in a good-humored teasing way.", e:"The men bantered with the waitresses.", c:["bantering tone", "good-natured bantering", "light bantering"]},
+                {w:"Barefaced", p:"Adjective", f:"-", m:"Shameless and undisguised.", e:"A barefaced lie.", c:["barefaced lie", "barefaced cheek", "barefaced audacity"]},
+                {w:"Belie", p:"Verb", f:"Belies", m:"Fail to give a true notion or impression of (something); disguise or contradict.", e:"His lively, alert manner belied his years.", c:["completely belie", "belie the fact", "tend to belie"]},
+                {w:"Belligerent", p:"Adjective", f:"-", m:"Hostile and aggressive.", e:"A bull-necked, belligerent old man.", c:["belligerent attitude", "belligerent tone", "highly belligerent"]},
+                {w:"Benediction", p:"Noun", f:"Benedictions", m:"The utterance or bestowing of a blessing, especially at the end of a religious service.", e:"He dismissed the congregation with a benediction.", c:["offer a benediction", "final benediction", "pronounce a benediction"]},
+                {w:"Bequeath", p:"Verb", f:"Bequeaths", m:"Leave (a personal estate or one's body) to a person or other beneficiary by a will.", e:"An identical sum was bequeathed by Margaret.", c:["bequeath money", "bequeath to", "generously bequeath"]},
+                {w:"Beseech", p:"Verb", f:"Beseeches", m:"Ask (someone) urgently and fervently to do something; implore; entreat.", e:"They beseeched him to stay.", c:["earnestly beseech", "beseech someone", "desperately beseech"]},
+                {w:"Blandishment", p:"Noun", f:"Blandishments", m:"A flattering or pleasing statement or action used to persuade someone gently to do something.", e:"The blandishments of the travel brochure.", c:["sweet blandishment", "ignore blandishments", "resist blandishments"]},
+                {w:"Bovine", p:"Adjective", f:"-", m:"Relating to or affecting cattle.", e:"Bovine tuberculosis.", c:["bovine spongiform encephalopathy", "bovine expression", "bovine features"]},
+                {w:"Cacophonous", p:"Adjective", f:"-", m:"Involving or producing a harsh, discordant mixture of sounds.", e:"The cacophonous sound of slot machines.", c:["cacophonous noise", "cacophonous racket", "highly cacophonous"]},
+                {w:"Camaraderie", p:"Noun", f:"-", m:"Mutual trust and friendship among people who spend a lot of time together.", e:"A genuine camaraderie on the hockey team.", c:["spirit of camaraderie", "genuine camaraderie", "team camaraderie"]},
+                {w:"Canvass", p:"Verb", f:"Canvasses", m:"Solicit votes from (electors in a constituency).", e:"In each ward, two workers canvassed some 2,000 voters.", c:["canvass opinion", "canvass for votes", "house-to-house canvass"]},
+                {w:"Capacious", p:"Adjective", f:"-", m:"Having a lot of space; roomy.", e:"She rummaged in her capacious handbag.", c:["capacious bag", "capacious memory", "capacious room"]},
+                {w:"Specious", p:"Adjective", f:"-", m:"Superficially plausible, but actually wrong.", e:"A specious argument.", c:["specious argument", "specious reasoning", "highly specious"]},
+                {w:"Capricious", p:"Adjective", f:"-", m:"Given to sudden and unaccountable changes of mood or behavior.", e:"It's terrible to feel our livelihood hinges on a capricious boss.", c:["capricious wind", "capricious nature", "highly capricious"]},
+                {w:"Cataclysm", p:"Noun", f:"Cataclysms", m:"A large-scale and violent event in the natural world.", e:"The cataclysm at the end of the Cretaceous Period.", c:["global cataclysm", "environmental cataclysm", "survive a cataclysm"]},
+                {w:"Catharsis", p:"Noun", f:"Catharses", m:"The process of releasing, and thereby providing relief from, strong or repressed emotions.", e:"Music is a means of catharsis for them.", c:["emotional catharsis", "experience catharsis", "sense of catharsis"]},
+                {w:"Metamorphosis", p:"Noun", f:"Metamorphoses", m:"A change of the form or nature of a thing or person into a completely different one.", e:"His metamorphosis from presidential candidate to talk-show host.", c:["complete metamorphosis", "undergo metamorphosis", "gradual metamorphosis"]},
+                {w:"Ceremonious", p:"Adjective", f:"-", m:"Relating or appropriate to grand and formal occasions.", e:"A great ceremonious banquet.", c:["ceremonious occasion", "ceremonious bow", "highly ceremonious"]},
+                {w:"Certitude", p:"Noun", f:"-", m:"Absolute certainty or conviction that something is the case.", e:"The question may never be answered with certitude.", c:["moral certitude", "absolute certitude", "with certitude"]},
+                {w:"Chagrin", p:"Noun", f:"-", m:"Distress or embarrassment at having failed or been humiliated.", e:"Jeff, much to his chagrin, wasn't invited.", c:["much to his chagrin", "feel chagrin", "deep chagrin"]},
+                {w:"Expostulations", p:"Noun", f:"Plural", m:"Earnest and kindly protests.", e:"I dismissed his expostulations.", c:["mild expostulations", "angry expostulations", "ignore expostulations"]},
+                {w:"Extrapolations", p:"Noun", f:"Plural", m:"Conclusions drawn from specific facts.", e:"Sizes were estimated by extrapolations.", c:["make extrapolations", "wild extrapolations", "statistical extrapolations"]},
+                {w:"Chicanery", p:"Noun", f:"-", m:"The use of trickery to achieve a political, financial, or legal purpose.", e:"An underhanded person who schemes corruption and political chicanery.", c:["political chicanery", "legal chicanery", "resort to chicanery"]},
+                {w:"Shenanigans", p:"Noun", f:"Plural", m:"Secret or dishonest activity or maneuvering.", e:"The chairman was accused of financial shenanigans.", c:["political shenanigans", "financial shenanigans", "up to shenanigans"]},
+                {w:"Chimerical", p:"Adjective", f:"-", m:"Hoped for but illusory or impossible to achieve.", e:"A chimerical plan.", c:["chimerical idea", "chimerical dream", "purely chimerical"]},
+                {w:"Chivalrous", p:"Adjective", f:"-", m:"Courteous and gallant, especially toward women.", e:"Shall I be chivalrous and offer you my coat?", c:["chivalrous knight", "chivalrous act", "highly chivalrous"]},
+                {w:"Circuitous", p:"Adjective", f:"-", m:"Longer than the most direct way.", e:"The canal followed a circuitous route.", c:["circuitous route", "circuitous path", "circuitous explanation"]},
+                {w:"Circumlocution", p:"Noun", f:"Circumlocutions", m:"The use of many words where fewer would do.", e:"His admission came after years of circumlocution.", c:["use circumlocution", "avoid circumlocution", "master of circumlocution"]},
+                {w:"Circumscribe", p:"Verb", f:"Circumscribes", m:"Restrict something within limits.", e:"Their movements were strictly monitored and circumscribed.", c:["strictly circumscribe", "carefully circumscribe", "circumscribe the power"]},
+                {w:"Circumspect", p:"Adjective", f:"-", m:"Wary and unwilling to take risks.", e:"The officials were very circumspect in their statements.", c:["highly circumspect", "remain circumspect", "circumspect approach"]}
+            ],
+            "C2": [
+                {w:"Nefarious", p:"Adjective", f:"-", m:"Wicked or criminal.", e:"The nefarious activities of the organized-crime syndicates.", c:["nefarious activities", "nefarious purpose", "nefarious plot"]},
+                {w:"Nihilism", p:"Noun", f:"-", m:"The rejection of all religious and moral principles, often in the belief that life is meaningless.", e:"He was drawn into a destructive nihilism.", c:["descend into nihilism", "philosophical nihilism", "moral nihilism"]},
+                {w:"Nirvana", p:"Noun", f:"-", m:"A transcendent state in which there is neither suffering, desire, nor sense of self.", e:"They sought to attain nirvana.", c:["reach nirvana", "state of nirvana", "attain nirvana"]},
+                {w:"Nomadic", p:"Adjective", f:"-", m:"Living the life of a nomad; wandering.", e:"Nomadic herdsmen.", c:["nomadic lifestyle", "nomadic tribe", "nomadic existence"]},
+                {w:"Nomenclature", p:"Noun", f:"Nomenclatures", m:"The devising or choosing of names for things, especially in a science or other discipline.", e:"The Linnean system of zoological nomenclature.", c:["binomial nomenclature", "standard nomenclature", "scientific nomenclature"]},
+                {w:"Obfuscate", p:"Verb", f:"Obfuscates", m:"Render obscure, unclear, or unintelligible.", e:"The spelling changes will deform some familiar words and obfuscate their etymological origins.", c:["tend to obfuscate", "deliberately obfuscate", "obfuscate the issue"]},
+                {w:"Obliterate", p:"Verb", f:"Obliterates", m:"Destroy utterly; wipe out.", e:"The memory was so painful that he obliterated it from his mind.", c:["completely obliterate", "obliterate the memory", "obliterate the landscape"]},
+                {w:"Odious", p:"Adjective", f:"-", m:"Extremely unpleasant; repulsive.", e:"A pretty odious character.", c:["odious crime", "odious task", "find odious"]},
+                {w:"Olfactory", p:"Adjective", f:"-", m:"Relating to the sense of smell.", e:"The olfactory organs.", c:["olfactory nerve", "olfactory sense", "olfactory system"]},
+                {w:"Oligarchy", p:"Noun", f:"Oligarchies", m:"A small group of people having control of a country, organization, or institution.", e:"The ruling oligarchy of military men around the president.", c:["ruling oligarchy", "corrupt oligarchy", "wealthy oligarchy"]},
+                {w:"Opaque", p:"Adjective", f:"-", m:"Not able to be seen through; not transparent.", e:"The windows were opaque with steam.", c:["opaque glass", "opaque language", "completely opaque"]},
+                {w:"Ostentatious", p:"Adjective", f:"-", m:"Characterized by vulgar or pretentious display.", e:"Books that people buy and display ostentatiously but never actually finish.", c:["ostentatious display", "ostentatious wealth", "highly ostentatious"]},
+                {w:"Outlandish", p:"Adjective", f:"-", m:"Looking or sounding bizarre or unfamiliar.", e:"Outlandish, brightly colored clothes.", c:["outlandish ideas", "outlandish claims", "outlandish outfit"]},
+                {w:"Painstaking", p:"Adjective", f:"-", m:"Done with or employing great care and thoroughness.", e:"Painstaking attention to detail.", c:["painstaking research", "painstaking detail", "painstaking work"]},
+                {w:"Inadvertently", p:"Adverb", f:"-", m:"Without intention; accidentally.", e:"His name had been inadvertently omitted from the list.", c:["inadvertently caused", "inadvertently left", "inadvertently reveal"]},
+                {w:"Panacea", p:"Noun", f:"Panaceas", m:"A solution or remedy for all difficulties or diseases.", e:"The panacea for all corporate ills.", c:["universal panacea", "magic panacea", "see as a panacea"]},
+                {w:"Paucity", p:"Noun", f:"-", m:"The presence of something only in small or insufficient quantities or amounts.", e:"A paucity of information.", c:["paucity of evidence", "paucity of information", "relative paucity"]},
+                {w:"Pedagogue", p:"Noun", f:"Pedagogues", m:"A teacher, especially a strict or pedantic one.", e:"He was a formidable pedagogue.", c:["strict pedagogue", "boring pedagogue", "traditional pedagogue"]},
+                {w:"Penury", p:"Noun", f:"-", m:"Extreme poverty; destitution.", e:"He died in a state of virtual penury.", c:["live in penury", "state of penury", "reduce to penury"]},
+                {w:"Perennial", p:"Adjective", f:"-", m:"Lasting or existing for a long or apparently infinite time.", e:"His perennial distrust of the media.", c:["perennial problem", "perennial favorite", "perennial plant"]},
+                {w:"Perfunctory", p:"Adjective", f:"-", m:"(Of an action or gesture) carried out with a minimum of effort or reflection.", e:"He gave a perfunctory nod.", c:["perfunctory examination", "perfunctory nod", "perfunctory attempt"]},
+                {w:"Pervasive", p:"Adjective", f:"-", m:"Spreading widely throughout an area or a group of people.", e:"Ageism is pervasive and entrenched in our society.", c:["pervasive influence", "pervasive smell", "all-pervasive"]},
+                {w:"Philanderer", p:"Noun", f:"Philanderers", m:"A man who frequently enters into casual sexual relationships with women.", e:"He was known as a wealthy philanderer.", c:["notorious philanderer", "wealthy philanderer", "serial philanderer"]},
+                {w:"Philistine", p:"Noun", f:"Philistines", m:"A person who is hostile or indifferent to culture and the arts.", e:"I am a complete philistine when it comes to paintings.", c:["cultural philistine", "complete philistine", "ignorant philistine"]},
+                {w:"Hypocrite", p:"Noun", f:"Hypocrites", m:"A person who indulges in hypocrisy.", e:"The story tells of a hypocrite who preaches temperance but drinks secretly.", c:["rank hypocrite", "complete hypocrite", "call someone a hypocrite"]},
+                {w:"Pinnacle", p:"Noun", f:"Pinnacles", m:"The most successful point; the culmination.", e:"He had reached the pinnacle of his career.", c:["pinnacle of success", "reach the pinnacle", "highest pinnacle"]},
+                {w:"Pivotal", p:"Adjective", f:"-", m:"Of crucial importance in relation to the development or success of something else.", e:"The alliance that played a pivotal role in the revolution.", c:["pivotal role", "pivotal moment", "pivotal figure"]},
+                {w:"Plethora", p:"Noun", f:"-", m:"A large or excessive amount of (something).", e:"A plethora of committees and subcommittees.", c:["plethora of options", "plethora of information", "veritable plethora"]},
+                {w:"Plummet", p:"Verb", f:"Plummets", m:"Fall or drop straight down at high speed.", e:"A climber was killed when he plummeted 300 feet down an icy gully.", c:["plummet to earth", "prices plummet", "plummet rapidly"]},
+                {w:"Poignancy", p:"Noun", f:"-", m:"The quality of evoking a keen sense of sadness or regret.", e:"The pregnancy has a special poignancy for her family.", c:["special poignancy", "added poignancy", "great poignancy"]},
+                {w:"Posterity", p:"Noun", f:"-", m:"All future generations of people.", e:"The victims' names are recorded for posterity.", c:["for posterity", "preserve for posterity", "sake of posterity"]},
+                {w:"Pristine", p:"Adjective", f:"-", m:"In its original condition; unspoiled.", e:"Pristine copies of an early magazine.", c:["pristine condition", "pristine wilderness", "keep pristine"]},
+                {w:"Prodigal", p:"Adjective", f:"-", m:"Spending money or resources freely and recklessly.", e:"Prodigal habits die hard.", c:["prodigal son", "prodigal spending", "prodigal lifestyle"]},
+                {w:"Prodigious", p:"Adjective", f:"-", m:"Remarkably or impressively great in extent, size, or degree.", e:"The stove consumed a prodigious amount of fuel.", c:["prodigious amount", "prodigious talent", "prodigious memory"]},
+                {w:"Profligate", p:"Adjective", f:"-", m:"Recklessly extravagant or wasteful in the use of resources.", e:"Profligate consumers of energy.", c:["profligate spending", "profligate behavior", "profligate lifestyle"]},
+                {w:"Proliferate", p:"Verb", f:"Proliferates", m:"Increase rapidly in numbers; multiply.", e:"The science fiction magazines that proliferated in the 1920s.", c:["proliferate rapidly", "continue to proliferate", "allow to proliferate"]},
+                {w:"Prolific", p:"Adjective", f:"-", m:"Producing much fruit or foliage or many offspring.", e:"In captivity, tigers are prolific breeders.", c:["prolific writer", "prolific scorer", "highly prolific"]},
+                {w:"Propensity", p:"Noun", f:"Propensities", m:"An inclination or natural tendency to behave in a particular way.", e:"A propensity for violence.", c:["natural propensity", "propensity to", "strong propensity"]},
+                {w:"Prosaic", p:"Adjective", f:"-", m:"Having the style or diction of prose; lacking poetic beauty.", e:"Prosaic language can't convey the experience.", c:["prosaic truth", "prosaic reality", "prosaic description"]},
+                {w:"Prowess", p:"Noun", f:"-", m:"Skill or expertise in a particular activity or field.", e:"His prowess as a fisherman.", c:["physical prowess", "military prowess", "athletic prowess"]},
+                {w:"Pseudonym", p:"Noun", f:"Pseudonyms", m:"A fictitious name, especially one used by an author.", e:"I wrote under the pseudonym of Evelyn Hervey.", c:["write under a pseudonym", "use a pseudonym", "adopt a pseudonym"]},
+                {w:"Pugnacity", p:"Noun", f:"-", m:"A natural disposition to be aggressive or belligerent.", e:"He was a man of rough pugnacity.", c:["aggressive pugnacity", "show pugnacity", "natural pugnacity"]},
+                {w:"Quandary", p:"Noun", f:"Quandaries", m:"A state of perplexity or uncertainty over what to do in a difficult situation.", e:"Kate is in a quandary.", c:["in a quandary", "moral quandary", "terrible quandary"]},
+                {w:"Queer", p:"Adjective", f:"-", m:"Strange; odd.", e:"She had a queer feeling that they were being watched.", c:["queer feeling", "queer sight", "act queer"]},
+                {w:"Querulous", p:"Adjective", f:"-", m:"Complaining in a petulant or whining manner.", e:"She became querulous and demanding.", c:["querulous voice", "querulous tone", "querulous complaints"]},
+                {w:"Quintessence", p:"Noun", f:"-", m:"The most perfect or typical example of a quality or class.", e:"He was the quintessence of political professionalism.", c:["pure quintessence", "very quintessence", "quintessence of"]},
+                {w:"Ramification", p:"Noun", f:"Ramifications", m:"A consequence of an action or event, especially when complex or unwelcome.", e:"Any change is bound to have legal ramifications.", c:["legal ramifications", "serious ramifications", "political ramifications"]},
+                {w:"Rapture", p:"Noun", f:"Raptures", m:"A feeling of intense pleasure or joy.", e:"Leonora listened with rapture.", c:["pure rapture", "state of rapture", "listen with rapture"]},
+                {w:"Rupture", p:"Verb", f:"Ruptures", m:"Break or burst suddenly.", e:"If the main artery ruptures he could die.", c:["rupture a blood vessel", "cause a rupture", "suddenly rupture"]},
+                {w:"Rapport", p:"Noun", f:"Rapports", m:"A close and harmonious relationship.", e:"She was able to establish a good rapport with the children.", c:["establish rapport", "build rapport", "good rapport"]},
+                {w:"Ravenous", p:"Adjective", f:"-", m:"Extremely hungry.", e:"I'd been out all day and was ravenous.", c:["absolutely ravenous", "feel ravenous", "ravenous appetite"]},
+                {w:"Recuperate", p:"Verb", f:"Recuperates", m:"Recover from illness or exertion.", e:"She has been recuperating from a shoulder wound.", c:["fully recuperate", "time to recuperate", "help to recuperate"]},
+                {w:"Redundant", p:"Adjective", f:"-", m:"Not or no longer needed or useful.", e:"Many of the old skills had become redundant.", c:["made redundant", "become redundant", "redundant employees"]},
+                {w:"Refrain", p:"Verb", f:"Refrains", m:"Stop oneself from doing something.", e:"She refrained from comment.", c:["refrain from", "please refrain", "managed to refrain"]},
+                {w:"Abstain", p:"Verb", f:"Abstains", m:"Restrain oneself from doing or enjoying something.", e:"Abstaining from chocolate.", c:["abstain from voting", "abstain from alcohol", "decide to abstain"]},
+                {w:"Regime", p:"Noun", f:"Regimes", m:"A government, especially an authoritarian one.", e:"Ideological opponents of the regime.", c:["authoritarian regime", "totalitarian regime", "corrupt regime"]},
+                {w:"Reimburse", p:"Verb", f:"Reimburses", m:"Repay (a person who has spent or lost money).", e:"The investors should be reimbursed for their losses.", c:["fully reimburse", "reimburse expenses", "seek to reimburse"]},
+                {w:"Disburse", p:"Verb", f:"Disburses", m:"Pay out (money from a fund).", e:"$67 million of the pledged aid had already been disbursed.", c:["disburse funds", "disburse money", "slow to disburse"]},
+                {w:"Reinstate", p:"Verb", f:"Reinstates", m:"Restore (someone or something) to their former position or condition.", e:"The union threatened strike action if he was not reinstated.", c:["fully reinstate", "campaign to reinstate", "reinstate a policy"]},
+                {w:"Reiterate", p:"Verb", f:"Reiterates", m:"Say something again or a number of times, typically for emphasis or clarity.", e:"She reiterated that the administration would remain steadfast in its support.", c:["reiterate a point", "reiterate the importance", "constantly reiterate"]},
+                {w:"Relinquish", p:"Verb", f:"Relinquishes", m:"Voluntarily cease to keep or claim; give up.", e:"He relinquished his managerial role to become chief executive.", c:["relinquish control", "relinquish power", "relinquish a claim"]},
+                {w:"Rendezvous", p:"Noun", f:"Rendezvous", m:"A meeting at an agreed time and place.", e:"Edward turned up late for their rendezvous.", c:["secret rendezvous", "arrange a rendezvous", "midnight rendezvous"]},
+                {w:"Repellent", p:"Adjective", f:"-", m:"Able to repel a particular thing; impervious to a particular substance.", e:"Water-repellent nylon.", c:["water repellent", "insect repellent", "find repellent"]},
+                {w:"Repercussion", p:"Noun", f:"Repercussions", m:"An unintended consequence occurring some time after an event or action.", e:"The move would have grave repercussions for the entire region.", c:["serious repercussions", "severe repercussions", "economic repercussions"]},
+                {w:"Reprimand", p:"Noun", f:"Reprimands", m:"A rebuke, especially an official one.", e:"The golfer received a reprimand for a breach of rules.", c:["severe reprimand", "official reprimand", "issue a reprimand"]},
+                {w:"Repugnance", p:"Noun", f:"-", m:"Intense disgust.", e:"Our growing repugnance at the bleeding meat.", c:["feel repugnance", "deep repugnance", "moral repugnance"]},
+                {w:"Requisite", p:"Adjective", f:"-", m:"Made necessary by particular circumstances or regulations.", e:"The application will not be processed until the requisite fee is paid.", c:["requisite skills", "requisite number", "lack the requisite"]},
+                {w:"Residual", p:"Adjective", f:"-", m:"Remaining after the greater part or quantity has gone.", e:"The withdrawal of residual occupying forces.", c:["residual income", "residual effect", "residual amount"]},
+                {w:"Resumption", p:"Noun", f:"-", m:"The action of beginning something again after a pause or interruption.", e:"With peace came the resumption of foreign imports.", c:["resumption of talks", "immediate resumption", "temporary resumption"]},
+                {w:"Rhetoric", p:"Noun", f:"-", m:"The art of effective or persuasive speaking or writing.", e:"He is using a common figure of rhetoric.", c:["empty rhetoric", "political rhetoric", "soaring rhetoric"]},
+                {w:"Rudimentary", p:"Adjective", f:"-", m:"Involving or limited to basic principles.", e:"He received a rudimentary education.", c:["rudimentary knowledge", "rudimentary skills", "rudimentary understanding"]},
+                {w:"Sacrosanct", p:"Adjective", f:"-", m:"Regarded as too important or valuable to be interfered with.", e:"The individual's right to work has been upheld as sacrosanct.", c:["sacrosanct principle", "remain sacrosanct", "considered sacrosanct"]},
+                {w:"Sagacious", p:"Adjective", f:"-", m:"Having or showing keen mental discernment and good judgment.", e:"They were sagacious enough to avoid any outright confrontation.", c:["sagacious leader", "sagacious advice", "highly sagacious"]},
+                {w:"Sadistic", p:"Adjective", f:"-", m:"Deriving pleasure from inflicting pain, suffering, or humiliation on others.", e:"She took a sadistic pleasure in her torment.", c:["sadistic pleasure", "sadistic killer", "highly sadistic"]},
+                {w:"Salubrious", p:"Adjective", f:"-", m:"Health-giving; healthy.", e:"Salubrious weather.", c:["salubrious climate", "less than salubrious", "salubrious surroundings"]},
+                {w:"Salvage", p:"Verb", f:"Salvages", m:"Rescue a wrecked or disabled ship or its cargo from loss at sea.", e:"An emerald and gold cross was salvaged from the wreck.", c:["salvage operation", "attempt to salvage", "salvage what's left"]},
+                {w:"Sanguine", p:"Adjective", f:"-", m:"Optimistic or positive, especially in an apparently bad or difficult situation.", e:"He is sanguine about prospects for the global economy.", c:["sanguine disposition", "remain sanguine", "fairly sanguine"]},
+                {w:"Scrupulous", p:"Adjective", f:"-", m:"Diligent, thorough, and extremely attentive to details.", e:"The research has been carried out with scrupulous attention to detail.", c:["scrupulous attention", "scrupulous care", "highly scrupulous"]},
+                {w:"Seminal", p:"Adjective", f:"-", m:"Strongly influencing later developments.", e:"His seminal work on chaos theory.", c:["seminal work", "seminal paper", "seminal influence"]},
+                {w:"Serendipity", p:"Noun", f:"-", m:"The occurrence and development of events by chance in a happy or beneficial way.", e:"A fortunate stroke of serendipity.", c:["stroke of serendipity", "sheer serendipity", "happy serendipity"]},
+                {w:"Serenity", p:"Noun", f:"-", m:"The state of being calm, peaceful, and untroubled.", e:"An oasis of serenity amidst the bustling city.", c:["inner serenity", "sense of serenity", "peace and serenity"]},
+                {w:"Shambolic", p:"Adjective", f:"-", m:"Chaotic, disorganized, or mismanaged.", e:"The department's shambolic accounting.", c:["shambolic performance", "completely shambolic", "shambolic state"]},
+                {w:"Sinecure", p:"Noun", f:"Sinecures", m:"A position requiring little or no work but giving the holder status or financial benefit.", e:"Political sinecures for the supporters of ministers.", c:["comfortable sinecure", "treat as a sinecure", "lucrative sinecure"]},
+                {w:"Skirmish", p:"Noun", f:"Skirmishes", m:"An episode of irregular or unpremeditated fighting.", e:"The unit was caught in a skirmish on the border.", c:["minor skirmish", "border skirmish", "brief skirmish"]}
+            ]
+        };
+
+        // Combine the existing rawData, newWords from prompt, and docWords safely
         for (const level in newWords) {
-            if(rawData[level]) {
-                rawData[level].push(...newWords[level]);
-            }
+            if(rawData[level]) rawData[level].push(...newWords[level]);
+        }
+        for (const level in docWords) {
+            if(rawData[level]) rawData[level].push(...docWords[level]);
         }
 
-        // Rehydrate compressed data into expected format and include new advanced fields
+        // Rehydrate data into expected structure
         const vocabData = {};
         for (const level in rawData) {
             vocabData[level] = rawData[level].map((item, index) => ({
@@ -462,7 +688,6 @@
         function renderWordDetail(wordObj) {
             const container = document.getElementById('word-detail-container');
             
-            // Highlight the target word inside collocations
             const highlightWord = (phrase, target) => {
                 const regex = new RegExp(`(${target})`, 'gi');
                 return phrase.replace(regex, `<span class="font-bold text-oxford">$1</span>`);
@@ -470,7 +695,6 @@
 
             container.innerHTML = `
                 <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden fade-in relative">
-                    <!-- Premium Header -->
                     <div class="bg-oxford p-10 relative overflow-hidden">
                         <div class="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
                             <i class="ph-fill ph-quotes text-9xl"></i>
@@ -496,7 +720,6 @@
                         </div>
                     </div>
 
-                    <!-- Body -->
                     <div class="p-10">
                         <div class="mb-10">
                             <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Definition</h3>
@@ -537,9 +760,21 @@
             `;
         }
 
-        // Initialize App on Overview Page safely
+        // Global Search Setup
+        document.getElementById('global-search').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            if (!term) return;
+            for (const level in vocabData) {
+                const found = vocabData[level].find(w => w.word.toLowerCase().includes(term));
+                if (found) {
+                    navigate('level', level);
+                    setTimeout(() => selectWord(found.id, level), 50);
+                    return;
+                }
+            }
+        });
+
         function initApp() {
-            // Self-healing script for environments where <head> scripts might be skipped on navigation
             if (typeof tailwind === 'undefined') {
                 let script = document.createElement('script');
                 script.src = 'https://cdn.tailwindcss.com';
