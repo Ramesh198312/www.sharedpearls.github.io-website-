@@ -382,8 +382,8 @@
                                 Welcome to your premium vocabulary suite. Explore high-impact terminology curated for CEFR levels B1 through C2, complete with British phonetics and authentic collocations.
                             </p>
                             <div class="flex gap-4">
-                                <button onclick="navigate('level', 'C2')" class="bg-gold text-oxford px-8 py-3.5 rounded-xl font-bold hover:bg-yellow-500 transition shadow-lg shadow-gold/20 flex items-center gap-2">
-                                    Start C2 Mastery <i class="ph-bold ph-arrow-right"></i>
+                                <button onclick="navigate('level', 'B1')" class="bg-gold text-oxford px-8 py-3.5 rounded-xl font-bold hover:bg-yellow-500 transition shadow-lg shadow-gold/20 flex items-center gap-2">
+                                    Start B1 Mastery <i class="ph-bold ph-arrow-right"></i>
                                 </button>
                             </div>
                         </div>
@@ -537,10 +537,22 @@
             `;
         }
 
-        // Initialize App on Overview Page
-        window.onload = () => {
+        // Initialize App on Overview Page safely
+        function initApp() {
+            // Self-healing script for environments where <head> scripts might be skipped on navigation
+            if (typeof tailwind === 'undefined') {
+                let script = document.createElement('script');
+                script.src = 'https://cdn.tailwindcss.com';
+                document.head.appendChild(script);
+            }
             navigate('dashboard');
-        };
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
     </script>
 </body>
 </html>
