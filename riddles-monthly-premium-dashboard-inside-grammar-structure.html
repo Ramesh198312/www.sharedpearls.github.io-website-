@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Riddle Vault | Premium Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #FDFBF7; }
+        h1, h2, h3 { font-family: 'EB Garamond', serif; }
+        .parchment { background: #F5E6CA; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .riddle-card { background: #FFFFFF; border: 1px solid #E5D3B3; }
+        .input-parchment { border-bottom: 2px solid #C4A484; background: transparent; }
+        .input-parchment:focus { border-bottom-color: #8B4513; outline: none; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen">
+
+    <nav class="border-b border-stone-200 bg-[#FDFBF7] px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="showDashboard()">
+            <div class="bg-[#8B4513] text-[#FDFBF7] p-2 rounded"><i class="ph-fill ph-scroll text-2xl"></i></div>
+            <h1 class="text-2xl font-bold text-[#8B4513]">The Riddle Vault</h1>
+        </div>
+        <div id="stats" class="flex gap-6 font-semibold text-sm">
+            <span>Score: <span id="current-score" class="text-[#8B4513]">0</span></span>
+            <span>Progress: <span id="solved-count" class="text-[#8B4513]">0</span>/200</span>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-6 py-10">
+        <div id="view-dashboard" class="fade-in text-center py-10">
+            <div class="mb-10">
+                <h2 class="text-5xl font-bold text-[#8B4513] mb-4">Welcome, Traveler.</h2>
+                <p class="text-xl text-stone-600 italic">"The mind is a treasure; riddles are the key."</p>
+            </div>
+            <div class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-lg border border-stone-200">
+                <div class="mb-6 text-left">
+                    <p class="font-semibold text-stone-800 mb-2">Your Current Status:</p>
+                    <div class="h-3 w-full bg-stone-100 rounded-full overflow-hidden border border-stone-200">
+                        <div id="progress-bar-main" class="h-full bg-[#8B4513] transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+                <button onclick="startRiddles()" class="w-full bg-[#8B4513] text-[#FDFBF7] py-4 text-xl font-semibold rounded-lg hover:bg-[#6F370D] transition shadow-md">
+                    Enter the Vault
+                </button>
+            </div>
+        </div>
+
+        <div id="view-riddle" class="hidden fade-in">
+            <div id="riddle-container" class="riddle-card p-8 md:p-12 rounded-lg shadow-xl">
+                <p id="riddle-text" class="text-2xl md:text-3xl font-serif mb-10 leading-relaxed text-slate-800 italic">
+                    <!-- Riddle text injected here -->
+                </p>
+                
+                <div class="space-y-6">
+                    <input type="text" id="user-answer" placeholder="Your Answer..." class="w-full text-xl p-3 input-parchment focus:bg-stone-50 transition">
+                    <div class="flex gap-4">
+                        <button onclick="checkAnswer()" class="flex-1 bg-[#8B4513] text-[#FDFBF7] py-3 font-semibold hover:bg-[#6F370D] transition">Submit Answer</button>
+                        <button onclick="showClue()" class="px-6 py-3 border border-[#8B4513] text-[#8B4513] font-semibold hover:bg-stone-100 transition">Reveal Clue (-5 pts)</button>
+                    </div>
+                </div>
+
+                <div id="clue-box" class="mt-6 hidden p-4 bg-stone-100 border border-[#C4A484] rounded text-stone-700 italic">
+                    <span class="font-bold text-[#8B4513]">Clue:</span> <span id="clue-text"></span>
+                </div>
+
+                <div id="feedback" class="mt-8 hidden p-4 rounded text-center font-semibold"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const riddleData = [
+            { id: 1, text: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?", answer: "Echo", clue: "It repeats your words." },
+            { id: 2, text: "You measure my life in hours and I serve you by expiring. I’m quick when I’m thin and slow when I’m fat. The wind is my enemy.", answer: "Candle", clue: "Used for lighting, gets shorter as it burns." },
+            { id: 3, text: "I have cities, but no houses. I have mountains, but no trees. I have water, but no fish. What am I?", answer: "Map", clue: "Shows the world on paper." },
+            { id: 4, text: "I’m light as a feather, yet the strongest man can’t hold me for much more than a minute.", answer: "Breath", clue: "You do it every moment." },
+            { id: 5, text: "What has keys but can’t open locks?", answer: "Piano", clue: "It makes music." },
+            { id: 6, text: "What has to be broken before you can use it?", answer: "Egg", clue: "Common breakfast item." },
+            { id: 7, text: "What is full of holes but still holds water?", answer: "Sponge", clue: "Used for cleaning." },
+            { id: 8, text: "What gets wetter the more it dries?", answer: "Towel", clue: "Used after a shower." },
+            { id: 9, text: "What can you catch, but not throw?", answer: "Cold", clue: "You get this in winter." },
+            { id: 10, text: "What has legs, but doesn’t walk?", answer: "Table", clue: "Furniture." },
+            { id: 11, text: "What has hands, but can’t clap?", answer: "Clock", clue: "Tells time." },
+            { id: 12, text: "What has many pages but isn’t a book?", answer: "Calendar", clue: "Tracks days." },
+            { id: 13, text: "What can you open, but never close?", answer: "Banana", clue: "Fruit." },
+            { id: 14, text: "What belongs to you, but others use it more than you do?", answer: "Name", clue: "Given at birth." },
+            { id: 15, text: "What has a neck, but no head?", answer: "Bottle", clue: "Holds liquids." },
+            { id: 16, text: "What gets bigger when you take more away from it?", answer: "Hole", clue: "In the ground." },
+            { id: 17, text: "What can you hold in your left hand but not your right?", answer: "Elbow", clue: "Part of your arm." },
+            { id: 18, text: "What is always coming but never arrives?", answer: "Tomorrow", clue: "Next day." },
+            { id: 19, text: "What has one eye, but can’t see?", answer: "Needle", clue: "Used for sewing." },
+            { id: 20, text: "What has a face and two hands, but no arms or legs?", answer: "Clock", clue: "Tells time." },
+            { id: 21, text: "What is so fragile that saying its name breaks it?", answer: "Silence", clue: "Not loud." },
+            { id: 22, text: "What has to be kept, even after you give it to someone else?", answer: "Promise", clue: "Word of honor." },
+            { id: 23, text: "What starts with a P, ends with an E, and has thousands of letters?", answer: "Post office", clue: "Mail." },
+            { id: 24, text: "What can run, but never walks?", answer: "River", clue: "Water." },
+            { id: 25, text: "What has a thumb and four fingers, but is not alive?", answer: "Glove", clue: "Clothing." },
+            { id: 26, text: "What kind of coat is best put on wet?", answer: "Paint", clue: "Coats walls." },
+            { id: 27, text: "What has many teeth, but can’t bite?", answer: "Comb", clue: "For hair." },
+            { id: 28, text: "What goes up, but never comes down?", answer: "Age", clue: "Time." },
+            { id: 29, text: "What is black when it’s clean and white when it’s dirty?", answer: "Chalkboard", clue: "In a classroom." },
+            { id: 30, text: "What can you break, even if you never pick it up or touch it?", answer: "Promise", clue: "Commitment." },
+            { id: 31, text: "What gets shorter when you add two letters to it?", answer: "Short", clue: "Length." },
+            { id: 32, text: "What has a bed but never sleeps, has a mouth but never speaks?", answer: "River", clue: "Nature." },
+            { id: 33, text: "What starts with T, ends with T, and has T in it?", answer: "Teapot", clue: "Beverage." },
+            { id: 34, text: "What has cities but no houses, mountains but no trees, water but no fish?", answer: "Map", clue: "Geography." },
+            { id: 35, text: "What is always in front of you but can’t be seen?", answer: "Future", clue: "Time." },
+            { id: 36, text: "What can you keep after giving it to someone?", answer: "Word", clue: "Speech." },
+            { id: 37, text: "What can you catch but not throw?", answer: "Cold", clue: "Illness." },
+            { id: 38, text: "What is full of holes but still holds water?", answer: "Sponge", clue: "Kitchen." },
+            { id: 39, text: "What has many keys but can’t open a single lock?", answer: "Piano", clue: "Music." },
+            { id: 40, text: "What is round as a ball, light as a feather, but the strongest man can’t hold it for long?", answer: "Breath", clue: "Essential." },
+            { id: 41, text: "What has a head and a tail but no body?", answer: "Coin", clue: "Money." },
+            { id: 42, text: "What can fill a room but takes up no space?", answer: "Light", clue: "Illumination." },
+            { id: 43, text: "What has to be broken before you can use it?", answer: "Egg", clue: "Cooking." },
+            { id: 44, text: "What has words but never speaks?", answer: "Book", clue: "Reading." },
+            { id: 45, text: "What has a thumb and four fingers, but no flesh, skin, or bone?", answer: "Glove", clue: "Winter." },
+            { id: 46, text: "What is seen in the middle of March and April that can’t be seen at the beginning or end of either month?", answer: "Letter R", clue: "Spelling." },
+            { id: 47, text: "What is as big as an elephant but weighs nothing?", answer: "Shadow", clue: "Dark." },
+            { id: 48, text: "What can travel all around the world while staying in a corner?", answer: "Stamp", clue: "Mail." },
+            { id: 49, text: "What kind of room has no doors or windows?", answer: "Mushroom", clue: "Fungi." },
+            { id: 50, text: "What is always behind you, but you never see it?", answer: "Past", clue: "History." },
+            { id: 51, text: "I start with an E, end with an E, but only contain one letter. What am I?", answer: "Envelope", clue: "Used for mailing letters." },
+            { id: 52, text: "I fly without wings and cry without eyes. Wherever I go, darkness follows. What am I?", answer: "Cloud", clue: "Often brings rain." },
+  { id: 53, text: "I am thrown away when you want to use me, and brought back when you are done. What am I?", answer: "Anchor", clue: "Used by ships at sea." },
+  { id: 54, text: "What word is defined incorrectly in every dictionary?", answer: "Incorrectly", clue: "It's a play on words." },
+  { id: 55, text: "Take off my skin and I won't cry, but you might. What am I?", answer: "Onion", clue: "Used in cooking, makes eyes water." },
+  { id: 56, text: "I occur once in a minute, twice in a moment, but never in a thousand years. What am I?", answer: "The letter M", clue: "Look at the spelling." },
+  { id: 57, text: "I go up and down but never move. What am I?", answer: "Staircase", clue: "Found in multi-story houses." },
+  { id: 58, text: "What gets cleaned while you clean your teeth?", answer: "Toothbrush", clue: "Essential for dental hygiene." },
+  { id: 59, text: "I reflect everything, but I see nothing. What am I?", answer: "Mirror", clue: "Used for grooming." },
+  { id: 60, text: "I have colors but no paint. I appear after the rain. What am I?", answer: "Rainbow", clue: "Visible in the sky." },
+  { id: 61, text: "I have a needle but no thread. I point the way but have no feet. What am I?", answer: "Compass", clue: "Used for navigation." },
+  { id: 62, text: "I go up when the rain comes down. What am I?", answer: "Umbrella", clue: "Keeps you dry." },
+  { id: 63, text: "I twinkle at night but have no light of my own. What am I?", answer: "Star", clue: "Visible in the night sky." },
+  { id: 64, text: "I change my shape but have no body. What am I?", answer: "Moon", clue: "Orbits the Earth." },
+  { id: 65, text: "I have a mouth but never speak, I have lava but no heart. What am I?", answer: "Volcano", clue: "Geological feature." },
+  { id: 66, text: "I have a ring but no finger. What am I?", answer: "Telephone", clue: "Used to communicate." },
+  { id: 67, text: "I am brown, hot, and keep you awake. What am I?", answer: "Coffee", clue: "Morning beverage." },
+  { id: 68, text: "I am a leaf, but I am not a tree. What am I?", answer: "Tea", clue: "Popular hot drink." },
+  { id: 69, text: "I have two eyes but cannot see. What am I?", answer: "Glasses", clue: "Used for better vision." },
+  { id: 70, text: "I am a hole in the wall that lets in light. What am I?", answer: "Window", clue: "Part of a house." },
+  { id: 71, text: "I can be open or closed, but I am never really a person. What am I?", answer: "Door", clue: "Entrance or exit." },
+  { id: 72, text: "I can open doors but I am not a person. What am I?", answer: "Key", clue: "Used with a lock." },
+  { id: 73, text: "I guard your secrets but I am not a person. What am I?", answer: "Lock", clue: "Provides security." },
+  { id: 74, text: "I travel the world but stay in your hand. What am I?", answer: "Suitcase", clue: "Used for travel." },
+  { id: 75, text: "I carry your load but have no muscles. What am I?", answer: "Backpack", clue: "Used by students." },
+  { id: 76, text: "I spill my guts to help you write. What am I?", answer: "Pen", clue: "Office supply." },
+  { id: 77, text: "I grow shorter as I grow older. What am I?", answer: "Pencil", clue: "Requires sharpening." },
+  { id: 78, text: "I correct your mistakes but disappear in the process. What am I?", answer: "Eraser", clue: "Used to remove pencil marks." },
+  { id: 79, text: "I have lines but no words. What am I?", answer: "Ruler", clue: "Used for measuring." },
+  { id: 80, text: "I am made of trees but have no leaves. What am I?", answer: "Paper", clue: "Used for writing." },
+  { id: 81, text: "I have two blades but cannot cut on my own. What am I?", answer: "Scissors", clue: "Used for cutting." },
+  { id: 82, text: "I stick things together but have no hands. What am I?", answer: "Glue", clue: "Adhesive material." },
+  { id: 83, text: "I bind things together but have no rope. What am I?", answer: "Stapler", clue: "Office tool." },
+  { id: 84, text: "I am sticky but not glue. What am I?", answer: "Tape", clue: "Used for holding things." },
+  { id: 85, text: "I have a mouse but am not a cat. What am I?", answer: "Computer", clue: "Electronic device." },
+  { id: 86, text: "I have a face but no expression. What am I?", answer: "Screen", clue: "Part of a monitor." },
+  { id: 87, text: "I have power but cannot move. What am I?", answer: "Battery", clue: "Energy source." },
+  { id: 88, text: "I give power but cannot move. What am I?", answer: "Socket", clue: "Wall outlet." },
+  { id: 89, text: "I produce light but have no flame. What am I?", answer: "Lightbulb", clue: "Found in lamps." },
+  { id: 90, text: "I move air to keep you cool. What am I?", answer: "Fan", clue: "Summer appliance." },
+  { id: 91, text: "I keep you warm at night. What am I?", answer: "Blanket", clue: "Bedding item." },
+  { id: 92, text: "I support your head while you sleep. What am I?", answer: "Pillow", clue: "Bedding item." },
+  { id: 93, text: "I help you get clean, but I disappear when I'm used. What am I?", answer: "Soap", clue: "Bathroom item." },
+  { id: 94, text: "I am for your hair and make bubbles. What am I?", answer: "Shampoo", clue: "Shower product." },
+  { id: 95, text: "I am for your teeth and smell like mint. What am I?", answer: "Toothpaste", clue: "Dental hygiene." },
+  { id: 96, text: "I rain down on you to get you clean. What am I?", answer: "Shower", clue: "Bathroom facility." },
+  { id: 97, text: "I make a shrill sound when you blow through me. What am I?", answer: "Whistle", clue: "Used by referees." },
+  { id: 98, text: "I have a skin but no fruit, you beat me to make music. What am I?", answer: "Drum", clue: "Percussion instrument." },
+  { id: 99, text: "I have strings but no bow, you strum me to make music. What am I?", answer: "Guitar", clue: "Musical instrument." },
+  { id: 100, text: "I capture moments but have no memory of my own. What am I?", answer: "Camera", clue: "Used for photography." },
+      { id: 101, text: "I can be hot, I can be cold, I can be small, I can be bold. I dance without feet and eat without a mouth. What am I?", answer: "Fire", clue: "Used to heat homes." },
+  { id: 102, text: "I have squares but no shapes, I have pieces but no puzzles. What am I?", answer: "Chessboard", clue: "Used for a strategic game." },
+  { id: 103, text: "I have keys but no locks, space but no room, and I allow you to enter but never leave. What am I?", answer: "Keyboard", clue: "Part of a computer." },
+  { id: 104, text: "I am black and white and read all over. What am I?", answer: "Newspaper", clue: "Delivered to your door." },
+  { id: 105, text: "If you have me, you want to share me. If you share me, you haven't kept me. What am I?", answer: "Secret", clue: "Confidential information." },
+  { id: 106, text: "I have a peak but no top, I have a foot but no toes. What am I?", answer: "Mountain", clue: "Geological formation." },
+  { id: 107, text: "I have a hull but no body, I travel far but stay on the water. What am I?", answer: "Ship", clue: "Used for transport." },
+  { id: 108, text: "I fall but never break, I run but have no legs. What am I?", answer: "Waterfall", clue: "Natural phenomenon." },
+  { id: 109, text: "I have an eye but cannot see, I spin around but have no feet. What am I?", answer: "Hurricane", clue: "Powerful storm." },
+  { id: 110, text: "I have bark but no bite, I have leaves but no books. What am I?", answer: "Tree", clue: "Nature's giant." },
+  { id: 111, text: "I have rows but cannot sow, I am sharp but not a blade. What am I?", answer: "Teeth", clue: "Part of your mouth." },
+  { id: 112, text: "I am full of hot air, but I'm not a person. What am I?", answer: "Balloon", clue: "Used for parties." },
+  { id: 113, text: "I bring distant things closer, but I am not magic. What am I?", answer: "Telescope", clue: "Used by astronomers." },
+  { id: 114, text: "I make small things look large, but I am not a giant. What am I?", answer: "Microscope", clue: "Used in labs." },
+  { id: 115, text: "I have a degree but no diploma, I rise but never fall. What am I?", answer: "Thermometer", clue: "Measures temperature." },
+  { id: 116, text: "I attract but have no charm, I cling but have no hands. What am I?", answer: "Magnet", clue: "Sticks to metal." },
+  { id: 117, text: "I have teeth but no mouth, I keep you closed but have no hands. What am I?", answer: "Zipper", clue: "Found on jackets." },
+  { id: 118, text: "I have a lot of money but cannot spend it, I hold your cards but have no hands. What am I?", answer: "Wallet", clue: "Carries your cash." },
+  { id: 119, text: "I protect you from rain but I am not an umbrella. What am I?", answer: "Raincoat", clue: "Clothing item." },
+  { id: 120, text: "I tell the time but have no gears, I follow the sun but have no eyes. What am I?", answer: "Sundial", clue: "Ancient timekeeper." },
+  { id: 121, text: "I have a head but no brain, I have a bed but never sleep. What am I?", answer: "Lettuce", clue: "Used in salads." },
+  { id: 122, text: "I have a tail but no body, I have a head but no brain. What am I?", answer: "Comet", clue: "Space object." },
+  { id: 123, text: "I am a rock but I float. What am I?", answer: "Pumice", clue: "Volcanic stone." },
+  { id: 124, text: "I speak every language but have no tongue. What am I?", answer: "Dictionary", clue: "Reference book." },
+  { id: 125, text: "I have many needles but cannot sew. What am I?", answer: "Pine tree", clue: "Evergreen plant." },
+  { id: 126, text: "I have a handle but am not a door, I hold your coffee but am not a cup. What am I?", answer: "Mug", clue: "Drinking vessel." },
+  { id: 127, text: "I am always hungry, I must always be fed. The finger I lick will soon turn red. What am I?", answer: "Fire", clue: "Consumes everything." },
+  { id: 128, text: "I am light as a feather, yet the strongest man cannot hold me for much more than a minute. What am I?", answer: "Breath", clue: "Vital for life." },
+  { id: 129, text: "I have no voice, but I can tell stories. I have no brain, but I can teach you. What am I?", answer: "Book", clue: "Reading material." },
+  { id: 130, text: "I have a spine but no bones. What am I?", answer: "Book", clue: "Reading material." },
+  { id: 131, text: "I am round as a ball, light as a feather, but the strongest man can’t hold it for long. What am I?", answer: "Breath", clue: "Vital for life." },
+  { id: 132, text: "I have a face but no arms or legs. What am I?", answer: "Clock", clue: "Tells time." },
+  { id: 133, text: "I am easy to get into but hard to get out of. What am I?", answer: "Trouble", clue: "A difficult situation." },
+  { id: 134, text: "I have no doors, but I have many rooms. What am I?", answer: "Honeycomb", clue: "Made by bees." },
+  { id: 135, text: "I have no voice, but I scream when I'm angry. What am I?", answer: "Whistle", clue: "Makes a loud sound." },
+  { id: 136, text: "I have no legs, but I travel. What am I?", answer: "Cloud", clue: "Moves in the sky." },
+  { id: 137, text: "I have no eyes, but I cry. What am I?", answer: "Cloud", clue: "Rain-maker." },
+  { id: 138, text: "I am always running but have no legs. What am I?", answer: "Nose", clue: "Runny symptom." },
+  { id: 139, text: "I have many teeth but cannot bite. What am I?", answer: "Comb", clue: "Grooms hair." },
+  { id: 140, text: "I have no heart, but I have a beat. What am I?", answer: "Drum", clue: "Percussion instrument." },
+  { id: 141, text: "I have no mouth, but I tell stories. What am I?", answer: "Picture", clue: "Worth a thousand words." },
+  { id: 142, text: "I have no life, but I can die. What am I?", answer: "Battery", clue: "Runs out of power." },
+  { id: 143, text: "I have no wings, but I can fly. What am I?", answer: "Time", clue: "Flies when you're having fun." },
+  { id: 144, text: "I have no locks, but I can be opened. What am I?", answer: "Mind", clue: "Keep it open." },
+  { id: 145, text: "I have no legs, but I can hop. What am I?", answer: "Kangaroo", clue: "Australian animal." },
+  { id: 146, text: "I have no hands, but I can clap. What am I?", answer: "Thunder", clue: "Follows lightning." },
+  { id: 147, text: "I have no voice, but I can sing. What am I?", answer: "Bird", clue: "Sings in the morning." },
+  { id: 148, text: "I have no eyes, but I can see. What am I?", answer: "Potato", clue: "Has eyes." },
+  { id: 149, text: "I have no legs, but I can crawl. What am I?", answer: "Snake", clue: "Reptile." },
+  { id: 150, text: "I have no wings, but I can hover. What am I?", answer: "Helicopter", clue: "Aircraft." },  
+{ id: 151, text: "I have a tongue but cannot speak, I have a sole but cannot walk. What am I?", answer: "Shoe", clue: "You wear me every day." },
+  { id: 152, text: "I have a neck but no head, I have two arms but no hands. What am I?", answer: "Shirt", clue: "You wear me on your torso." },
+  { id: 153, text: "I have a frame but no picture, I have panes but feel no pain. What am I?", answer: "Window", clue: "Lets light into a room." },
+  { id: 154, text: "I have a lid but no eye, I have a bottom but no legs. What am I?", answer: "Box", clue: "Used for storage." },
+  { id: 155, text: "I have a spine but no bones, I have pages but no story of my own. What am I?", answer: "Notebook", clue: "Used for writing notes." },
+  { id: 156, text: "I have a cap but no hair, I have a point but no argument. What am I?", answer: "Pen", clue: "Used for writing." },
+  { id: 157, text: "I have a shell but no sea, I have a white but no black (usually). What am I?", answer: "Egg", clue: "A breakfast staple." },
+  { id: 158, text: "I am a fruit that is often mistaken for a vegetable. What am I?", answer: "Tomato", clue: "Red and juicy." },
+  { id: 159, text: "I have a dial but no phone, I have hands but no arms. What am I?", answer: "Watch", clue: "Tells the time." },
+  { id: 160, text: "I have a wick but no candle, I have wax but I am not a candle. What am I?", answer: "Ear", clue: "Produces cerumen." },
+  { id: 161, text: "I have a bank but no money, I have a bed but never sleep. What am I?", answer: "River", clue: "A natural flowing stream." },
+  { id: 162, text: "I have a crown but no kingdom, I have a root but no tree. What am I?", answer: "Tooth", clue: "Part of your mouth." },
+  { id: 163, text: "I have a tail but no body, I have a head but no brain. What am I?", answer: "Coin", clue: "Used for currency." },
+  { id: 164, text: "I have cities but no people, I have mountains but no trees, I have water but no fish. What am I?", answer: "Map", clue: "Cartographic document." },
+  { id: 165, text: "I have keys but no locks, I have space but no room, you can enter but never leave. What am I?", answer: "Keyboard", clue: "Computer peripheral." },
+  { id: 166, text: "I have a ring but no finger, I have a network but no web. What am I?", answer: "Telephone", clue: "Communication device." },
+  { id: 167, text: "I have a leaf but no tree, I have a vein but no blood. What am I?", answer: "Book", clue: "Turn my pages." },
+  { id: 168, text: "I have a eye but cannot see, I am long and thin. What am I?", answer: "Needle", clue: "Used for sewing." },
+  { id: 169, text: "I have a hook but no fish, I have an eye but no face. What am I?", answer: "Fishing hook", clue: "Used to catch fish." },
+  { id: 170, text: "I have a handle but no door, I have a blade but I am not a knife. What am I?", answer: "Sword", clue: "A weapon." },
+  { id: 171, text: "I have many faces but only one body. What am I?", answer: "Dice", clue: "Used in games." },
+  { id: 172, text: "I have no voice but I can talk to you. What am I?", answer: "Letter", clue: "Written message." },
+  { id: 173, text: "I have no heart but I have a beat. What am I?", answer: "Clock", clue: "Tick-tock sound." },
+  { id: 174, text: "I have no mouth but I tell tales. What am I?", answer: "Book", clue: "Read me." },
+  { id: 175, text: "I have no wings but I can fly through the sky. What am I?", answer: "Rocket", clue: "Space vehicle." },
+  { id: 176, text: "I have no legs but I run fast. What am I?", answer: "Water", clue: "Runs in a stream." },
+  { id: 177, text: "I have no hands but I can hold things. What am I?", answer: "Bag", clue: "Container." },
+  { id: 178, text: "I have no eyes but I see everything. What am I?", answer: "Sun", clue: "Observes the world." },
+  { id: 179, text: "I have no brain but I have a memory. What am I?", answer: "Computer", clue: "Stores information." },
+  { id: 180, text: "I have no ears but I can hear everything. What am I?", answer: "Microphone", clue: "Records sound." },
+  { id: 181, text: "I have no nose but I can smell. What am I?", answer: "Smell", clue: "Sensory perception." },
+  { id: 182, text: "I have no skin but I have pores. What am I?", answer: "Sponge", clue: "Absorbs water." },
+  { id: 183, text: "I have no hair but I have a scalp. What am I?", answer: "Mountain", clue: "Top of the mountain." },
+  { id: 184, text: "I have no teeth but I can crush. What am I?", answer: "Press", clue: "Industrial tool." },
+  { id: 185, text: "I have no legs but I can jump. What am I?", answer: "Spring", clue: "Coiled metal." },
+  { id: 186, text: "I have no voice but I can shout. What am I?", answer: "Echo", clue: "Reflected sound." },
+  { id: 187, text: "I have no face but I have a clock. What am I?", answer: "Watch", clue: "Timepiece." },
+  { id: 188, text: "I have no blood but I have veins. What am I?", answer: "Leaf", clue: "Plant part." },
+  { id: 189, text: "I have no bones but I have a skeleton. What am I?", answer: "Building", clue: "Structural frame." },
+  { id: 190, text: "I have no soul but I can cry. What am I?", answer: "Cloud", clue: "Rains." },
+  { id: 191, text: "I have no money but I am rich. What am I?", answer: "Earth", clue: "Rich in resources." },
+  { id: 192, text: "I have no doors but I have a key. What am I?", answer: "Piano", clue: "Musical instrument." },
+  { id: 193, text: "I have no feet but I have a tread. What am I?", answer: "Tire", clue: "Used on cars." },
+  { id: 194, text: "I have no mouth but I can swallow. What am I?", answer: "Drain", clue: "Removes water." },
+  { id: 195, text: "I have no lungs but I can breathe. What am I?", answer: "Fire", clue: "Consumes oxygen." },
+  { id: 196, text: "I have no eyes but I can watch. What am I?", answer: "Camera", clue: "Records images." },
+  { id: 197, text: "I have no wings but I can soar. What am I?", answer: "Kite", clue: "Flys in the wind." },
+  { id: 198, text: "I have no legs but I can stand. What am I?", answer: "Lamp", clue: "Provides light." },
+  { id: 199, text: "I have no teeth but I can bite. What am I?", answer: "Frost", clue: "Cold temperature." },
+  { id: 200, text: "I have no end but I have a beginning. What am I?", answer: "Circle", clue: "Round shape." }
+];
+
+        let state = {
+            currentIdx: 0,
+            score: 0,
+            solved: []
+        };
+
+        function showDashboard() {
+            document.getElementById('view-dashboard').classList.remove('hidden');
+            document.getElementById('view-riddle').classList.add('hidden');
+        }
+
+        function startRiddles() {
+            document.getElementById('view-dashboard').classList.add('hidden');
+            document.getElementById('view-riddle').classList.remove('hidden');
+            renderRiddle();
+        }
+
+        function renderRiddle() {
+            const riddle = riddleData[state.currentIdx];
+            if (!riddle) {
+                document.getElementById('riddle-container').innerHTML = `<h2 class='text-center text-2xl font-serif'>Congratulations! You've mastered all 50 riddles. Your final score is ${state.score}.</h2><button onclick="location.reload()" class='block mx-auto mt-6 bg-[#8B4513] text-white px-8 py-3 rounded'>Restart Vault</button>`;
+                return;
+            }
+            document.getElementById('riddle-text').innerText = riddle.text;
+            document.getElementById('user-answer').value = "";
+            document.getElementById('feedback').className = "mt-8 hidden p-4 rounded text-center font-semibold";
+            document.getElementById('clue-box').classList.add('hidden'); 
+            updateUI();
+        }
+
+        function checkAnswer() {
+            const userAns = document.getElementById('user-answer').value.trim().toLowerCase();
+            const correct = riddleData[state.currentIdx].answer.toLowerCase();
+            const feedback = document.getElementById('feedback');
+
+            if (userAns === correct) {
+                state.score += 20;
+                state.solved.push(riddleData[state.currentIdx].id);
+                feedback.innerText = "Correct! Well done.";
+                feedback.className = "mt-8 p-4 rounded text-center font-semibold bg-green-100 text-green-800";
+                setTimeout(nextRiddle, 1500);
+            } else {
+                feedback.innerText = "Not quite, keep thinking!";
+                feedback.className = "mt-8 p-4 rounded text-center font-semibold bg-red-100 text-red-800";
+            }
+            feedback.classList.remove('hidden');
+            updateUI();
+        }
+
+        function showClue() {
+            const riddle = riddleData[state.currentIdx];
+            state.score = Math.max(0, state.score - 5);
+            document.getElementById('clue-text').innerText = riddle.clue;
+            document.getElementById('clue-box').classList.remove('hidden');
+            updateUI();
+        }
+
+        function nextRiddle() {
+            state.currentIdx++;
+            renderRiddle();
+        }
+
+        function updateUI() {
+            document.getElementById('current-score').innerText = state.score;
+            document.getElementById('solved-count').innerText = state.solved.length;
+            const progress = (state.solved.length / riddleData.length) * 100;
+            document.getElementById('progress-bar-main').style.width = `${progress}%`;
+        }
+    </script>
+</body>
+</html>
