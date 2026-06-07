@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Premium Lexicon | CEFR Vocabulary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        oxford: '#002147',
+                        gold: '#D4AF37',
+                        champagne: '#F7E7CE',
+                        parchment: '#FCFBF8'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F3F4F6; }
+        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.5); }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Custom scrollbar for word list */
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 8px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="text-slate-800 font-sans h-screen overflow-hidden flex">
+
+    <aside class="w-20 md:w-64 bg-oxford text-white flex flex-col shadow-2xl z-20 transition-all duration-300 relative">
+        <div class="p-6 flex items-center justify-center md:justify-start gap-3 border-b border-white/10">
+            <i class="ph-fill ph-books text-gold text-3xl"></i>
+            <h1 class="text-xl font-serif font-bold tracking-wide hidden md:block">Lexicon<span class="text-gold">Pro</span></h1>
+        </div>
+
+        <nav class="flex-1 py-8 flex flex-col gap-2 px-3 overflow-y-auto custom-scroll">
+            <!-- Updated Overview Button -->
+            <button onclick="navigate('dashboard')" id="nav-dashboard" class="nav-btn active flex items-center gap-4 px-4 py-3 rounded-xl bg-white/10 text-white hover:bg-white/20 transition-all font-medium">
+                <i class="ph ph-squares-four text-2xl"></i>
+                <span class="hidden md:block">Vocabulary Overview</span>
+            </button>
+            
+            <div class="mt-6 mb-2 px-4 hidden md:block text-xs font-bold tracking-widest text-white/40 uppercase">CEFR Tiers</div>
+            
+            <button onclick="navigate('level', 'B1')" id="nav-B1" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all font-medium">
+                <div class="w-6 h-6 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xs font-bold border border-emerald-500/30">B1</div>
+                <span class="hidden md:block">Intermediate</span>
+            </button>
+            <button onclick="navigate('level', 'B2')" id="nav-B2" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all font-medium">
+                <div class="w-6 h-6 rounded bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-bold border border-blue-500/30">B2</div>
+                <span class="hidden md:block">Upper-Inter.</span>
+            </button>
+            <button onclick="navigate('level', 'C1')" id="nav-C1" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all font-medium">
+                <div class="w-6 h-6 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center text-xs font-bold border border-purple-500/30">C1</div>
+                <span class="hidden md:block">Advanced</span>
+            </button>
+            <button onclick="navigate('level', 'C2')" id="nav-C2" class="nav-btn flex items-center gap-4 px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all font-medium">
+                <div class="w-6 h-6 rounded bg-gold/20 text-gold flex items-center justify-center text-xs font-bold border border-gold/30">C2</div>
+                <span class="hidden md:block">Proficient</span>
+            </button>
+        </nav>
+
+        <div class="p-4 border-t border-white/10">
+            <div class="bg-gradient-to-br from-gold/20 to-transparent border border-gold/30 p-3 md:p-4 rounded-xl flex items-center gap-3">
+                <i class="ph-fill ph-crown text-gold text-2xl"></i>
+                <div class="hidden md:block">
+                    <p class="text-xs font-bold text-gold uppercase tracking-wider">Premium Access</p>
+                    <p class="text-xs text-white/60 mt-0.5">All tiers unlocked</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 relative overflow-hidden bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] bg-parchment flex flex-col">
+        <!-- Topbar -->
+        <header class="h-20 glass-panel border-b border-slate-200 px-8 flex items-center justify-between z-10 shrink-0">
+            <h2 id="view-title" class="text-2xl font-serif font-bold text-oxford">Dashboard Overview</h2>
+            <div class="flex items-center gap-4">
+                <button class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-oxford shadow-sm transition">
+                    <i class="ph ph-magnifying-glass text-xl"></i>
+                </button>
+                <div class="h-10 w-10 rounded-full bg-oxford text-white flex items-center justify-center font-bold font-serif shadow-md border-2 border-gold cursor-pointer">
+                    JD
+                </div>
+            </div>
+        </header>
+
+        <!-- View Container -->
+        <div id="content-container" class="flex-1 overflow-auto p-8 relative">
+            <!-- Content injected by JS -->
+        </div>
+    </main>
+
+    <script>
+        // Highly compressed data structure to fit all words: w=word, p=pos, f=form, m=meaning, e=example, c=collocations
+        const rawData = {
+            "B1": [
+                {w:"Tangle", p:"Noun", f:"Singular (Plural: Tangles)", m:"An untidy mass of things that are not in a state of order.", e:"Her hair was in a tangle after the windy boat ride.", c:["tangle of hair", "hopeless tangle", "untangle a knot"]},
+                {w:"Moon", p:"Verb", f:"Verb (3rd Person: Moons)", m:"To move or spend time in a way that shows a lack of care and interest and no clear purpose.", e:"Stop mooning around and do your homework.", c:["moon around", "moon over someone", "idly moon"]},
+                {w:"Sweetmeat", p:"Noun", f:"Singular (Plural: Sweetmeats)", m:"A small piece of sweet food, made of or covered in sugar.", e:"The children were given sweetmeats during the festival.", c:["sugary sweetmeat", "traditional sweetmeat", "box of sweetmeats"]},
+                {w:"Prophet", p:"Noun", f:"Singular (Plural: Prophets)", m:"A person regarded as an inspired teacher or proclaimer of the will of God.", e:"He believed he was a prophet sent to save the people.", c:["true prophet", "false prophet", "words of a prophet"]},
+                {w:"Whiff", p:"Noun", f:"Singular (Plural: Whiffs)", m:"A brief and faint smell.", e:"I caught a whiff of her perfume as she walked by.", c:["catch a whiff", "faint whiff", "whiff of smoke"]},
+                {w:"Temptation", p:"Noun", f:"Singular (Plural: Temptations)", m:"A desire to do something, especially something wrong or unwise.", e:"He resisted the temptation to eat another piece of cake.", c:["resist temptation", "give in to temptation", "overwhelming temptation"]},
+                {w:"Frugal", p:"Adjective", f:"Adjective (N/A)", m:"Simple and plain and costing little.", e:"He lived a frugal lifestyle to save money for his travels.", c:["frugal lifestyle", "frugal meal", "frugal habits"]},
+                {w:"Supplant", p:"Verb", f:"Verb (3rd Person: Supplants)", m:"To replace.", e:"The new technology will eventually supplant the old systems.", c:["supplant entirely", "supplant a rival", "gradually supplant"]},
+                {w:"Lagoon", p:"Noun", f:"Singular (Plural: Lagoons)", m:"An area of sea water separated from the sea by a reef.", e:"They swam in the crystal-clear waters of the blue lagoon.", c:["blue lagoon", "tropical lagoon", "coral lagoon"]},
+                {w:"Canopy", p:"Noun", f:"Singular (Plural: Canopies)", m:"A cover fixed over a seat or bed, etc.", e:"The forest canopy blocked out most of the sunlight.", c:["forest canopy", "dense canopy", "protective canopy"]},
+                {w:"Shaft", p:"Noun", f:"Singular (Plural: Shafts)", m:"A beam of light.", e:"A shaft of sunlight broke through the dark clouds.", c:["shaft of light", "narrow shaft", "shaft of sunlight"]},
+                {w:"Swerve", p:"Verb", f:"Verb (3rd Person: Swerves)", m:"Change or cause to change direction abruptly.", e:"The car had to swerve to avoid hitting the deer.", c:["swerve sharply", "sudden swerve", "swerve to avoid"]},
+                {w:"Adrift", p:"Adjective", f:"Adjective (N/A)", m:"A boat moving on the water uncontrolled.", e:"The small boat was cast adrift in the middle of the ocean.", c:["cast adrift", "set adrift", "hopelessly adrift"]},
+                {w:"Stupor", p:"Noun", f:"Singular (Plural: Stupors)", m:"A state in which a person’s thoughts are not clear.", e:"He lay there in a drunken stupor.", c:["drunken stupor", "deep stupor", "fall into a stupor"]},
+                {w:"Reverence", p:"Noun", f:"Singular (N/A)", m:"Deep respect for someone or something.", e:"The old man was treated with great reverence by his village.", c:["deep reverence", "show reverence", "reverence for nature"]},
+                {w:"Steeples", p:"Noun", f:"Plural (Singular: Steeple)", m:"Tall towers with a spire on top, rising above the roof of a church.", e:"The town's skyline was dotted with church steeples.", c:["church steeples", "tall steeples", "pointy steeples"]},
+                {w:"Stacks", p:"Noun", f:"Plural (Singular: Stack)", m:"Piles or heaps of something.", e:"There were stacks of books covering his entire desk.", c:["stacks of paper", "neat stacks", "stacks of money"]},
+                {w:"Helt", p:"Verb", f:"Verb (Archaic/Dialect)", m:"To lift or carry.", e:"He helt the heavy sack over his shoulder.", c:["helt high", "helt heavily", "helt together"]},
+                {w:"Fringe", p:"Noun", f:"Singular (Plural: Fringes)", m:"The front part of someone's hair, cut so that it hangs over the forehead.", e:"She decided to get a fringe cut at the salon.", c:["cut a fringe", "long fringe", "trim the fringe"]},
+                {w:"Accommodate", p:"Verb", f:"Verb (3rd Person: Accommodates)", m:"To provide with a place to live or to be stored in.", e:"New students may be accommodated in halls of residence.", c:["accommodate guests", "fully accommodate", "accommodate needs"]},
+                {w:"Aisle", p:"Noun", f:"Singular (Plural: Aisles)", m:"A long, narrow space between rows of seats in an aircraft, cinema, or church.", e:"You'll find the shampoo and the soap in the fourth aisle.", c:["walk down the aisle", "supermarket aisle", "window or aisle"]},
+                {w:"Embarrass", p:"Verb", f:"Verb (3rd Person: Embarrasses)", m:"To cause someone to feel nervous, worried, or uncomfortable.", e:"I didn't want to embarrass her in front of her friends.", c:["deeply embarrass", "embarrass publicly", "intentionally embarrass"]},
+                {w:"Weird", p:"Adjective", f:"Adjective (N/A)", m:"Very strange and unusual, unexpected, or not natural.", e:"She'd cooked up some weird scheme to earn a fortune.", c:["weird feeling", "weird noise", "really weird"]}
+            ],
+            "B2": [
+                {w:"Eccentric", p:"Adjective", f:"Adjective (N/A)", m:"Unconventional and strange.", e:"My uncle is known for his eccentric habits.", c:["eccentric behavior", "eccentric billionaire", "mildly eccentric"]},
+                {w:"Claustrophobic", p:"Adjective", f:"Adjective (N/A)", m:"Afraid of living in confined places.", e:"He felt claustrophobic in the tiny elevator.", c:["feel claustrophobic", "claustrophobic space", "highly claustrophobic"]},
+                {w:"Cynical", p:"Adjective", f:"Adjective (N/A)", m:"Concerned only with one's own interests; believing people are selfish.", e:"She has a cynical view of modern politics.", c:["cynical view", "highly cynical", "cynical smile"]},
+                {w:"Velvety", p:"Adjective", f:"Adjective (N/A)", m:"Having a smooth, soft appearance, feel, or taste.", e:"The wine had a rich, velvety texture.", c:["velvety texture", "velvety smooth", "velvety voice"]},
+                {w:"Piqued", p:"Adjective", f:"Adjective (N/A)", m:"Irritated or resentful.", e:"She was piqued by his lack of attention.", c:["feel piqued", "piqued interest", "mildly piqued"]},
+                {w:"Strenuous", p:"Adjective", f:"Adjective (N/A)", m:"Requiring or using great effort or exertion.", e:"Avoid strenuous exercise immediately after a large meal.", c:["strenuous effort", "strenuous exercise", "strenuous objection"]},
+                {w:"Desolate", p:"Adjective", f:"Adjective (N/A)", m:"Feeling or showing great unhappiness or loneliness; bleak.", e:"The desolate landscape stretched for miles without a single tree.", c:["desolate landscape", "feel desolate", "desolate wasteland"]},
+                {w:"Delicacy", p:"Noun", f:"Singular (Plural: Delicacies)", m:"A fine food item.", e:"Caviar is considered a great delicacy in many countries.", c:["local delicacy", "rare delicacy", "culinary delicacy"]},
+                {w:"Hypocritical", p:"Adjective", f:"Adjective (N/A)", m:"Characterized by behavior that contradicts what one claims to believe or feel.", e:"It's hypocritical to tell others to recycle when you don't do it yourself.", c:["hypocritical behavior", "highly hypocritical", "hypocritical statement"]},
+                {w:"Hubbub", p:"Noun", f:"Singular (N/A)", m:"A loud confusing noise.", e:"He could barely hear her over the hubbub of the crowded market.", c:["loud hubbub", "hubbub of voices", "create a hubbub"]},
+                {w:"Imperceptible", p:"Adjective", f:"Adjective (N/A)", m:"Unable to be noticed or felt because of being very slight.", e:"There was an imperceptible change in his tone of voice.", c:["almost imperceptible", "imperceptible shift", "imperceptible difference"]},
+                {w:"Obliterated", p:"Adjective/Verb", f:"Adjective/Past Participle", m:"Removed all signs of something, either by destroying or covering it.", e:"The entire village was obliterated by the volcanic eruption.", c:["completely obliterated", "obliterated from memory", "virtually obliterated"]},
+                {w:"Exaltation", p:"Noun", f:"Singular (N/A)", m:"A very strong feeling of happiness.", e:"She smiled in exaltation as she crossed the finish line.", c:["feeling of exaltation", "pure exaltation", "state of exaltation"]},
+                {w:"Sombre", p:"Adjective", f:"Adjective (N/A)", m:"Dark and dull; serious.", e:"The attendees wore sombre clothing to the funeral.", c:["sombre mood", "sombre colors", "sombre reflection"]},
+                {w:"Rosette", p:"Noun", f:"Singular (Plural: Rosettes)", m:"An object or arrangement resembling a rose.", e:"The winning horse was awarded a beautiful red rosette.", c:["ribbon rosette", "decorative rosette", "wear a rosette"]},
+                {w:"Prostrate", p:"Adjective", f:"Adjective (N/A)", m:"Lying with the face down and arms stretched out, especially as a sign of respect.", e:"The worshippers lay prostrate on the temple floor.", c:["lie prostrate", "fall prostrate", "prostrate oneself"]},
+                {w:"Talisman", p:"Noun", f:"Singular (Plural: Talismans)", m:"An object thought to have magic powers and to bring good luck.", e:"He wore a small silver talisman around his neck for protection.", c:["lucky talisman", "ancient talisman", "protective talisman"]},
+                {w:"Flabbergasted", p:"Adjective", f:"Adjective (N/A)", m:"Feeling or showing intense shock, surprise, or wonder.", e:"I was absolutely flabbergasted when they announced my name as the winner.", c:["utterly flabbergasted", "leave flabbergasted", "flabbergasted by the news"]},
+                {w:"Multifarious", p:"Adjective", f:"Adjective (N/A)", m:"Many and of various types.", e:"The museum holds a multifarious collection of ancient artifacts.", c:["multifarious activities", "multifarious duties", "multifarious nature"]},
+                {w:"Magnanimous", p:"Adjective", f:"Adjective (N/A)", m:"Generous or forgiving towards enemies or less powerful rivals.", e:"The winning team was magnanimous in victory.", c:["magnanimous gesture", "truly magnanimous", "magnanimous leader"]},
+                {w:"Decrepit", p:"Adjective", f:"Adjective (N/A)", m:"Ruined because of age or neglect.", e:"They bought a decrepit old house and spent years restoring it.", c:["decrepit building", "decrepit old man", "look decrepit"]},
+                {w:"Imposter", p:"Noun", f:"Singular (Plural: Imposters)", m:"A person who pretends to be someone else.", e:"The man claiming to be a doctor was exposed as an imposter.", c:["expose an imposter", "feel like an imposter", "clever imposter"]},
+                {w:"Outlandish", p:"Adjective", f:"Adjective (N/A)", m:"That looks or sounds unfamiliar or bizarre.", e:"She arrived wearing an outlandish outfit covered in neon feathers.", c:["outlandish claims", "outlandish behavior", "outlandish ideas"]},
+                {w:"Seamless", p:"Adjective", f:"Adjective (N/A)", m:"Moving from one thing to another easily and without any interruptions.", e:"The transition to the new software was completely seamless.", c:["seamless transition", "seamless integration", "seamless experience"]}
+            ],
+            "C1": [
+                {w:"Tete-a-tete", p:"Noun", f:"Singular (Plural: Tete-a-tetes)", m:"A private conversation between two people, usually in an intimate setting.", e:"They had a quiet tete-a-tete in the corner of the restaurant.", c:["intimate tete-a-tete", "private tete-a-tete", "enjoy a tete-a-tete"]},
+                {w:"Unconciliated", p:"Adjective", f:"Adjective (N/A)", m:"Uncompromised, not agreeing.", e:"The two opposing political factions remained unconciliated.", c:["remain unconciliated", "unconciliated differences", "unconciliated parties"]},
+                {w:"Encomiums", p:"Noun", f:"Plural (Singular: Encomium)", m:"A piece of writing that praises someone or something highly.", e:"The retiring professor received many encomiums from his colleagues.", c:["shower with encomiums", "write an encomium", "lavish encomiums"]},
+                {w:"Ingot", p:"Noun", f:"Singular (Plural: Ingots)", m:"A piece of metal, usually in the shape of a narrow brick.", e:"The thieves stole several solid gold ingots from the vault.", c:["gold ingot", "iron ingot", "cast an ingot"]},
+                {w:"Pidgin", p:"Noun", f:"Singular (N/A)", m:"A grammatically simplified language used for communication between groups.", e:"They communicated using a form of English pidgin.", c:["speak pidgin", "pidgin English", "develop a pidgin"]},
+                {w:"Exhume", p:"Verb", f:"Verb (3rd Person: Exhumes)", m:"To dig out from the ground after it has been buried.", e:"The police ordered the body to be exhumed for further testing.", c:["exhume a body", "exhume remains", "order to exhume"]},
+                {w:"Wastrels", p:"Noun", f:"Plural (Singular: Wastrel)", m:"A person who does nothing positive with his life; good for nothing.", e:"He was a wealthy wastrel who spent his days drinking and gambling.", c:["idle wastrel", "bunch of wastrels", "drunken wastrel"]},
+                {w:"Gibber", p:"Verb", f:"Verb (3rd Person: Gibbers)", m:"To speak quickly in a way that cannot be understood.", e:"The terrified man could only gibber in response to the questions.", c:["gibber in fear", "gibber uncontrollably", "hear someone gibber"]},
+                {w:"Transverse", p:"Adjective", f:"Adjective (N/A)", m:"In a position or direction that is at an angle of 90 degrees to something else.", e:"The building is supported by massive transverse beams.", c:["transverse axis", "transverse section", "transverse plane"]},
+                {w:"Spasmodically", p:"Adverb", f:"Adverb (N/A)", m:"Related to a sudden involuntary muscular contraction; occurring in brief, irregular bursts.", e:"The engine coughed spasmodically before dying completely.", c:["jerk spasmodically", "twitch spasmodically", "work spasmodically"]},
+                {w:"Rationalize", p:"Verb", f:"Verb (3rd Person: Rationalizes)", m:"Attempt to explain or justify with logical reasons, even if these are not appropriate.", e:"He tried to rationalize his bad behavior by blaming his stressful job.", c:["rationalize behavior", "attempt to rationalize", "rationalize a decision"]},
+                {w:"Concubine", p:"Noun", f:"Singular (Plural: Concubines)", m:"Mistress; woman who lives with a man but has lower status than his wife.", e:"The emperor had hundreds of concubines in his palace.", c:["royal concubine", "take a concubine", "status of a concubine"]},
+                {w:"Treadmill", p:"Adjective/Noun", f:"Singular (Plural: Treadmills)", m:"Monotonous or wearisome, giving no satisfaction.", e:"He felt trapped on the corporate treadmill.", c:["corporate treadmill", "daily treadmill", "step off the treadmill"]},
+                {w:"Stupefied", p:"Adjective", f:"Adjective (N/A)", m:"Astonished or shocked to the point of being unable to think clearly.", e:"She stared at the enormous bill in a stupefied silence.", c:["stupefied silence", "look stupefied", "completely stupefied"]},
+                {w:"Castaway", p:"Noun", f:"Singular (Plural: Castaways)", m:"A person ashore as a survivor of a shipwreck.", e:"The castaway survived on coconuts and rainwater for months.", c:["stranded castaway", "lone castaway", "rescue a castaway"]},
+                {w:"Celestial", p:"Adjective", f:"Adjective (N/A)", m:"Belonging or relating to the heaven or the sky.", e:"We admired the celestial bodies through the large telescope.", c:["celestial bodies", "celestial sphere", "celestial navigation"]},
+                {w:"Conjecture", p:"Noun", f:"Singular (Plural: Conjectures)", m:"An opinion or conclusion formed on the basis of incomplete information.", e:"The rumors about his resignation are purely conjecture at this point.", c:["pure conjecture", "matter of conjecture", "fuel conjecture"]},
+                {w:"Catechism", p:"Noun", f:"Singular (Plural: Catechisms)", m:"Religious instruction, especially in Roman Catholic tradition.", e:"The children attended catechism classes every Sunday morning.", c:["teach catechism", "learn the catechism", "catechism classes"]},
+                {w:"Impertinence", p:"Noun", f:"Singular (N/A)", m:"Lack of respect; rudeness.", e:"She was punished for her blatant impertinence towards the teacher.", c:["gross impertinence", "punish impertinence", "display impertinence"]},
+                {w:"Antiquarian", p:"Adjective", f:"Adjective (N/A)", m:"Relating to antiques or rare old books.", e:"He owned a famous antiquarian bookstore in London.", c:["antiquarian books", "antiquarian society", "antiquarian interest"]},
+                {w:"Ingenuous", p:"Adjective", f:"Adjective (N/A)", m:"Innocent and unsuspecting.", e:"Her ingenuous smile charmed everyone in the room.", c:["ingenuous smile", "ingenuous manner", "completely ingenuous"]},
+                {w:"Befuddled", p:"Adjective", f:"Adjective (N/A)", m:"Utterly confused.", e:"The complex instructions left the students completely befuddled.", c:["completely befuddled", "look befuddled", "befuddled mind"]}
+            ],
+            "C2": [
+                {w:"Moulting", p:"Adjective/Noun", f:"Adjective (N/A)", m:"Molting, the process of shedding hair or feathers to make way for new growth.", e:"The moulting bird looked quite scruffy as it lost its winter feathers.", c:["moulting season", "moulting process", "moulting animal"]},
+                {w:"Liverwurst", p:"Noun", f:"Singular (N/A)", m:"Meat sausage also known as liver sausage.", e:"He made a simple sandwich with rye bread and liverwurst.", c:["slice of liverwurst", "liverwurst sandwich", "spread liverwurst"]},
+                {w:"Vernix", p:"Noun", f:"Singular (N/A)", m:"A greasy deposit covering the skin of a baby at birth.", e:"The newborn was still covered in a white layer of vernix.", c:["layer of vernix", "protective vernix", "wash off vernix"]},
+                {w:"Batture", p:"Noun", f:"Singular (Plural: Battures)", m:"An alluvial land by a riverside, especially in low land areas.", e:"They built their small cabin on the batture near the Mississippi River.", c:["river batture", "build on the batture", "flooded batture"]},
+                {w:"Unprovisioned", p:"Adjective", f:"Adjective (N/A)", m:"Without supplies of food and other necessary things.", e:"The army marched into the harsh winter utterly unprovisioned.", c:["leave unprovisioned", "entirely unprovisioned", "unprovisioned journey"]},
+                {w:"Dominie", p:"Noun", f:"Singular (Plural: Dominies)", m:"A school master (Scottish); a pastor or clergyman (US).", e:"The strict old dominie demanded absolute silence in his classroom.", c:["strict dominie", "village dominie", "old dominie"]},
+                {w:"Morocco", p:"Noun", f:"Singular (N/A)", m:"A fine soft material used for making covers for books.", e:"The rare first edition was beautifully bound in red morocco.", c:["bound in morocco", "red morocco", "crushed morocco"]},
+                {w:"Incunabula", p:"Noun", f:"Plural (Singular: Incunabulum)", m:"An early printed book, especially one printed before 1501.", e:"The university library boasts a significant collection of European incunabula.", c:["rare incunabula", "collection of incunabula", "study incunabula"]},
+                {w:"Magniloquence", p:"Noun", f:"Singular (N/A)", m:"Use of high-flown, bombastic language.", e:"His speech was full of magniloquence but lacked any real substance.", c:["pompous magniloquence", "display magniloquence", "empty magniloquence"]},
+                {w:"Doppelganger", p:"Noun", f:"Singular (Plural: Doppelgangers)", m:"A spirit that looks exactly like a living person, or an exact double.", e:"I saw someone at the mall who was your exact doppelganger.", c:["exact doppelganger", "evil doppelganger", "meet a doppelganger"]},
+                {w:"Stigmatize", p:"Verb", f:"Verb (3rd Person: Stigmatizes)", m:"To describe or consider someone as something very bad, worthy of extreme disapproval.", e:"People with mental health issues are often unfairly stigmatized by society.", c:["unfairly stigmatized", "stigmatize a group", "socially stigmatized"]},
+                {w:"Poised", p:"Adjective", f:"Adjective (N/A)", m:"In a state of balance; calm and collected.", e:"The gymnast stood poised on the balance beam before her routine.", c:["poised to strike", "remain poised", "calm and poised"]},
+                {w:"Palpably", p:"Adverb", f:"Adverb (N/A)", m:"Noticeably or clearly; so intensely as to seem almost tangible.", e:"The tension in the courtroom was palpably thick before the verdict.", c:["palpably tense", "palpably false", "feel palpably"]},
+                {w:"Boudoir", p:"Noun", f:"Singular (Plural: Boudoirs)", m:"A woman’s bedroom or small private room.", e:"She retired to her elegant boudoir to prepare for the evening gala.", c:["elegant boudoir", "private boudoir", "boudoir photography"]},
+                {w:"Beseeching", p:"Adjective", f:"Adjective (N/A)", m:"Appealing or begging for something in a desperate way.", e:"She gave him a beseeching look, hoping he would change his mind.", c:["beseeching look", "beseeching voice", "beseeching eyes"]},
+                {w:"Implore", p:"Verb", f:"Verb (3rd Person: Implores)", m:"Beg someone desperately to do something.", e:"I implore you to reconsider your decision before it's too late.", c:["implore someone", "desperately implore", "earnestly implore"]},
+                {w:"Expedients", p:"Noun", f:"Plural (Singular: Expedient)", m:"Means of attaining an end, especially ones which are convenient but possibly improper.", e:"The desperate government resorted to extreme political expedients to maintain power.", c:["resort to expedients", "political expedients", "temporary expedients"]},
+                {w:"Scruples", p:"Noun", f:"Plural (Singular: Scruple)", m:"Feelings of doubt or hesitation with regard to the morality of an action.", e:"He had no scruples about stealing from his own company.", c:["moral scruples", "have no scruples", "overcome scruples"]},
+                {w:"Contritely", p:"Adverb", f:"Adverb (N/A)", m:"In a way that shows you feel very sorry and guilty for something bad you have done.", e:"He hung his head and contritely apologized for breaking the vase.", c:["apologize contritely", "speak contritely", "smile contritely"]},
+                {w:"Impetuously", p:"Adverb", f:"Adverb (N/A)", m:"In an impulsive way, without considering the results.", e:"She impetuously quit her job without having another one lined up.", c:["act impetuously", "decide impetuously", "rush impetuously"]},
+                {w:"Aberration", p:"Noun", f:"Singular (Plural: Aberrations)", m:"A departure from what is normal, usual, or expected, typically an unwelcome one.", e:"An example of a mental aberration is schizophrenia.", c:["mental aberration", "temporary aberration", "statistical aberration"]},
+                {w:"Accomplice", p:"Noun", f:"Singular (Plural: Accomplices)", m:"A person who helps someone else to commit a crime or to do something morally wrong.", e:"The thieves and two accomplices made away with over $25,000 in cash.", c:["willing accomplice", "unwitting accomplice", "accomplice to murder"]}
+            ]
+        };
+
+        // Inject the newly requested 66 words with phonemics, synonyms, and origins
+        const newWords = {
+            "B1": [
+                {w:"Aisle", ph:"/aɪl/", p:"Noun", f:"Singular", m:"A long, narrow space between rows of seats in an aircraft, cinema, or church.", s:"theatre auditorium", o:"French, 17th Century", e:"You'll find the shampoo and the soap in the fourth aisle from the entrance.", c:["walk down the aisle", "supermarket aisle", "window or aisle"]},
+                {w:"Embarrass", ph:"/ɪmˈbær.əs/", p:"Verb", f:"Verb", m:"To cause someone to feel nervous, worried, or uncomfortable.", s:"humiliate", o:"1680s, Spanish", e:"I didn't want to embarrass her in front of her friends.", c:["deeply embarrass", "embarrass publicly", "intentionally embarrass"]},
+                {w:"Weird", ph:"/wɪəd/", p:"Adjective", f:"Adjective", m:"Very strange and unusual, unexpected, or not natural.", s:"unnatural, peculiar", o:"1815, Old English (US)", e:"She'd cooked up some weird scheme that was going to earn her a fortune.", c:["weird scheme", "weird feeling", "really weird"]}
+            ],
+            "B2": [
+                {w:"Accommodate", ph:"/əˈkɒm.ə.deɪt/", p:"Verb", f:"Verb", m:"To provide with a place to live or to be stored in.", s:"Arrange, serve", o:"1530s, Latin", e:"New students may be accommodated in halls of residence.", c:["accommodate guests", "fully accommodate", "accommodate needs"]},
+                {w:"Ambiguous", ph:"/æmˈbɪɡ.ju.əs/", p:"Adjective", f:"Adjective", m:"Unclear in Meaning; capable of being interpreted in different ways.", s:"Confusing", o:"1520–30, Latin", e:"The poem we read in English class was ambiguous; no one had any idea what the poet was trying to say.", c:["ambiguous statement", "highly ambiguous", "remain ambiguous"]},
+                {w:"Cliché", ph:"/ˈkliː.ʃeɪ/", p:"Noun", f:"Singular", m:"An overused saying or idea.", s:"Overused phrase", o:"1825, French", e:"The expression “You can’t judge a book by its cover” is a cliché, which has been used by people many times.", c:["worn-out cliché", "avoid clichés", "sound like a cliché"]},
+                {w:"Etiquette", ph:"/ˈet.ɪ.ket/", p:"Noun", f:"Singular", m:"Conventional requirements to social behaviour.", s:"good manners, courtesy", o:"1740–50, French", e:"The people have strict notions of etiquette and gradations of rank.", c:["strict etiquette", "breach of etiquette", "social etiquette"]},
+                {w:"Millennium", ph:"/mɪˈlen.i.əm/", p:"Noun", f:"Singular", m:"A period of 1,000 years, or the time when a period of 1,000 years ends.", s:"A thousandth anniversary", o:"1630–40, New Latin", e:"The corpse had lain preserved in the soil for almost two millennia.", c:["new millennium", "turn of the millennium", "third millennium"]},
+                {w:"Playwright", ph:"/ˈpleɪ.raɪt/", p:"Noun", f:"Singular", m:"A person who writes plays.", s:"dramatist", o:"1680-90, English", e:"Powerful as a comic playwright, he was not a poet in the proper sense of the term.", c:["famous playwright", "comic playwright", "successful playwright"]}
+            ],
+            "C1": [
+                {w:"Accomplice", ph:"/əˈkɑːm.plɪs/", p:"Noun", f:"Singular", m:"A person who helps someone else to commit a crime or to do something morally wrong.", s:"Collaborator, helper", o:"1580s, Old French", e:"The thieves and two accomplices made away with over $25,000 in cash.", c:["willing accomplice", "unwitting accomplice", "accomplice to murder"]},
+                {w:"Annihilation", ph:"/əˌnaɪ.əˈleɪ.ʃən/", p:"Noun", f:"Singular", m:"Complete destruction, so that nothing or no one is left.", s:"destroying, demolishing", o:"late Middle English, Latin", e:"This was a blueprint for the annihilation of an entire religious culture.", c:["total annihilation", "nuclear annihilation", "face annihilation"]},
+                {w:"Apocalypse", ph:"/əˈpɒk.ə.lɪps/", p:"Noun", f:"Singular", m:"A prophetic prophecy especially of disasters.", s:"revelation, disclosure", o:"Late 14th Century, Latin", e:"The apocalypse of nuclear war has been spread everywhere.", c:["impending apocalypse", "nuclear apocalypse", "survive the apocalypse"]},
+                {w:"Audacious", ph:"/ɔːˈdeɪ.ʃəs/", p:"Adjective", f:"Adjective", m:"Showing a willingness to take risks or offend people.", s:"Bold, fearless, intrepid", o:"1540–50, Latin", e:"His idea is equal parts ambitious and audacious.", c:["audacious plan", "audacious decision", "highly audacious"]},
+                {w:"Cache", ph:"/kæʃ/", p:"Noun", f:"Singular", m:"A hidden store of things, or the place where they are kept.", s:"Store, reserve", o:"1585-95, French", e:"The enemy never found our cache of food.", c:["weapons cache", "hidden cache", "discover a cache"]},
+                {w:"Camaraderie", ph:"/ˌkæm.əˈrɑː.dər.i/", p:"Noun", f:"Singular", m:"A feeling of friendliness towards people that you work or share an experience with.", s:"good fellowship", o:"French, Mid-nineteenth Century", e:"You will surely have a feeling of camaraderie when you spend an hour with them.", c:["sense of camaraderie", "develop camaraderie", "team camaraderie"]},
+                {w:"Clandestine", ph:"/klænˈdes.tɪn/", p:"Adjective", f:"Adjective", m:"Secret, sneaky.", s:"concealed", o:"1825–35, French", e:"The head of the CIA was upset when the agency’s clandestine activities in Central America were discussed.", c:["clandestine meeting", "clandestine operation", "clandestine affair"]},
+                {w:"Colloquial", ph:"/kəˈləʊ.kwi.əl/", p:"Adjective", f:"Adjective", m:"Pertaining to conversational or common speech.", s:"informal", o:"England, 1751", e:"Their more colloquial argument was that there was nothing mysterious about wealth.", c:["colloquial expression", "colloquial speech", "colloquial language"]},
+                {w:"Connoisseur", ph:"/ˌkɒn.əˈsɜːr/", p:"Noun", f:"Singular", m:"A person who knows a lot about and enjoys one of the arts, or food, drink, etc.", s:"expert, specialist", o:"French, early 18th Century", e:"The mushrooms had the chewy, savory flavor preferred by connoisseurs.", c:["wine connoisseur", "art connoisseur", "discerning connoisseur"]},
+                {w:"Exhaustive", ph:"/ɪɡˈzɔː.stɪv/", p:"Adjective", f:"Adjective", m:"Thorough, complete.", s:"rigorous", o:"1780s, English (US)", e:"Before you use a parachute, you should examine it exhaustively for defects.", c:["exhaustive research", "exhaustive list", "exhaustive study"]},
+                {w:"Grotesque", ph:"/ɡrəʊˈtesk/", p:"Adjective", f:"Adjective", m:"Strange and unpleasant especially in a silly way.", s:"hideous, unattractive", o:"Italian, Mid 16th Century", e:"By now she'd had so much cosmetic surgery that she looked quite grotesque.", c:["grotesque exaggeration", "grotesque monster", "look grotesque"]},
+                {w:"Guerrilla", ph:"/ɡəˈrɪl.ə/", p:"Noun", f:"Singular", m:"A member of an unofficial military group that is trying to change the government by making sudden, unexpected attacks on the official army forces.", s:"freedom fighter", o:"1800–10, Spanish", e:"A small band of guerrillas has blown up a train in the mountains.", c:["guerrilla warfare", "guerrilla fighters", "guerrilla tactics"]},
+                {w:"Hackneyed", ph:"/ˈhæk.nid/", p:"Adjective", f:"Adjective", m:"Overused.", s:"Worn-out, old, stale", o:"12th Century, English (Britain)", e:"Michael’s book was full of clichés and hackneyed phrases.", c:["hackneyed phrase", "hackneyed plot", "become hackneyed"]},
+                {w:"Harass", ph:"/ˈhær.əs/", p:"Verb", f:"Verb", m:"To continue to annoy or upset someone over a period of time.", s:"irritate, tease", o:"1610, French", e:"Stop harassing me.", c:["sexually harass", "constantly harass", "harass physically"]},
+                {w:"Hyperbole", ph:"/haɪˈpɜː.bə.li/", p:"Noun", f:"Singular", m:"Exaggerated statements or claims not meant to be taken literally.", s:"exaggeration", o:"15th Century, Greek", e:"He vowed revenge with oaths and hyperboles.", c:["use hyperbole", "prone to hyperbole", "sheer hyperbole"]},
+                {w:"Mnemonic", ph:"/nɪˈmɒn.ɪk/", p:"Noun", f:"Singular", m:"Something such as a very short poem or a special word used to help a person remember something.", s:"remembering, reminding", o:"Greek, Mid 18th Century", e:"The musical notes on the lines go EGBDF- use the mnemonic 'Every good boy deserves fun'.", c:["mnemonic device", "useful mnemonic", "create a mnemonic"]},
+                {w:"Paediatrician", ph:"/ˌpiː.di.əˈtrɪʃ.ən/", p:"Noun", f:"Singular", m:"A doctor who has special training in medical care for children.", s:"baby doctor", o:"Greece, in 1472", e:"One baby visited a paediatrician and was admitted to the hospital 1 day later.", c:["consult a paediatrician", "local paediatrician", "expert paediatrician"]},
+                {w:"Pseudonym", ph:"/ˈsjuː.də.nɪm/", p:"Noun", f:"Singular", m:"Fictitious name assumed by an author.", s:"pen name", o:"French, 1840s", e:"George Orwell was a pseudonym - his real name was Eric Blair.", c:["write under a pseudonym", "adopt a pseudonym", "use a pseudonym"]},
+                {w:"Renaissance", ph:"/rɪˈneɪ.səns/", p:"Noun", f:"Singular", m:"The revival of European art and literature under the influence of classical models in the 14th–16th centuries.", s:"regeneration, rebirth", o:"Italy, 1858", e:"Although it isn't so much a time as a state of mind, historians plot the Renaissance as moving around Europe for a couple of centuries.", c:["Italian Renaissance", "Renaissance art", "cultural renaissance"]},
+                {w:"Schizophrenia", ph:"/ˌskɪt.səˈfriː.ni.ə/", p:"Noun", f:"Singular", m:"A mental disorder where you perceive things incorrectly, often imagining things that are not real.", s:"Mentally ill, foolish", o:"1912, Modern Latin", e:"Parents should contact a healthcare professional if their child begins to have auditory or visual hallucinations.", c:["diagnosed with schizophrenia", "paranoid schizophrenia", "suffer from schizophrenia"]},
+                {w:"Unanimous", ph:"/juːˈnæn.ɪ.məs/", p:"Adjective", f:"Adjective", m:"Agreed by all.", s:"accepting, agreeing", o:"Latin, early 17th Century", e:"The new format has unanimous support.", c:["unanimous decision", "unanimous vote", "unanimous agreement"]}
+            ],
+            "C2": [
+                {w:"Aberration", ph:"/ˌæb.əˈreɪ.ʃən/", p:"Noun", f:"Singular", m:"A departure from what is normal, usual, or expected, typically an unwelcome one.", s:"abnormality, irregularity", o:"1585–95, Latin", e:"An example of a mental aberration is schizophrenia.", c:["mental aberration", "temporary aberration", "statistical aberration"]},
+                {w:"Acerbity", ph:"/əˈsɜː.bə.ti/", p:"Noun", f:"Singular", m:"The quality of being spoken or written in a way that is direct, clever, and cruel.", s:"bitterness, sharpness", o:"1565–75, Latin", e:"She was known for her acerbity.", c:["speak with acerbity", "noted for acerbity", "tone of acerbity"]},
+                {w:"Antediluvian", ph:"/ˌæn.ti.dɪˈluː.vi.ən/", p:"Adjective", f:"Adjective", m:"Ridiculously old-fashioned, outdated.", s:"Ancient, primitive", o:"1640–50, Latin", e:"The young scientists accidentally found gigantic bones of antediluvian animals.", c:["antediluvian attitudes", "antediluvian monster", "seemingly antediluvian"]},
+                {w:"Apocryphal", ph:"/əˈpɒk.rɪ.fəl/", p:"Adjective", f:"Adjective", m:"An apocryphal story is probably not true although it is often told and believed by some people to have happened.", s:"Untrue", o:"1580–90, Middle English", e:"It's a good story but I dare say it's apocryphal.", c:["apocryphal story", "apocryphal tale", "largely apocryphal"]},
+                {w:"Ascetic", ph:"/əˈset.ɪk/", p:"Adjective", f:"Adjective", m:"Characterized by severe self-discipline and abstention from all forms of indulgence, typically for religious reasons.", s:"Austere", o:"1640–50, Greek", e:"He tried living an ascetic life for a long time, but he eventually gave up.", c:["ascetic lifestyle", "ascetic monk", "highly ascetic"]},
+                {w:"Assuage", ph:"/əˈsweɪdʒ/", p:"Verb", f:"Verb", m:"To make unpleasant feelings less strong.", s:"Mitigate, appease", o:"1250–1300, French", e:"The government has tried to assuage the public's fears.", c:["assuage fears", "assuage guilt", "assuage hunger"]},
+                {w:"Bacchanalian", ph:"/ˌbæk.əˈneɪ.li.ən/", p:"Noun", f:"Singular", m:"Noisy party with a lot of drinking.", s:"entertaining", o:"Italy, 1560s", e:"By the time the bacchanalian party ended, everyone was vomiting up their alcohol.", c:["bacchanalian feast", "bacchanalian revelry", "wildly bacchanalian"]},
+                {w:"Braggadocio", ph:"/ˌbræɡ.əˈdəʊ.tʃi.əʊ/", p:"Noun", f:"Singular", m:"Great confidence that someone expresses in their own abilities and qualities.", s:"Confidence, self-assurance", o:"1590, Italian", e:"For all his braggadocio, he must have had moments of doubt.", c:["empty braggadocio", "full of braggadocio", "macho braggadocio"]},
+                {w:"Chauvinism", ph:"/ˈʃəʊ.vɪ.nɪ.zəm/", p:"Noun", f:"Singular", m:"Extreme lover of one’s country.", s:"nationalism, patriotism", o:"England, late 19th Century", e:"The war stimulated an intense national chauvinism.", c:["male chauvinism", "national chauvinism", "blind chauvinism"]},
+                {w:"Cynosure", ph:"/ˈsɪn.ə.ʒʊər/", p:"Noun", f:"Singular", m:"A person or thing that is the centre of attention or admiration.", s:"focus", o:"1590–1600, Latin", e:"I never chanced to see its kind in any market; it would be the cynosure of all eyes there.", c:["cynosure of all eyes", "become the cynosure", "cynosure of attention"]},
+                {w:"Dilettante", ph:"/ˌdɪl.əˈtæn.ti/", p:"Noun", f:"Singular", m:"Aimless follower of an art or a field of knowledge.", s:"apprentice, beginner", o:"Mid 18th Century, Latin", e:"He's a bit of a dilettante as far as wine is concerned.", c:["mere dilettante", "wealthy dilettante", "dilettante approach"]},
+                {w:"Debauchery", ph:"/dɪˈbɔː.tʃər.i/", p:"Noun", f:"Singular", m:"Wild behaviour with alcohol.", s:"evil, unethical", o:"England, 17th Century", e:"He has gained notoriety over his involvement in debauchery.", c:["life of debauchery", "drunken debauchery", "descend into debauchery"]},
+                {w:"Esoteric", ph:"/ˌiː.səˈter.ɪk/", p:"Adjective", f:"Adjective", m:"Hard to understand, understood by only a selected few.", s:"Peculiar", o:"1650s, Greek", e:"The author’s books were so esoteric that no one except his mother ever bought any of them.", c:["esoteric knowledge", "highly esoteric", "esoteric subject"]},
+                {w:"Facile", ph:"/ˈfæs.aɪl/", p:"Adjective", f:"Adjective", m:"Ability to do something easily and well.", s:"Painless", o:"Latin, late 15th Century", e:"We must avoid facile recriminations about who was to blame.", c:["facile solution", "facile victory", "facile explanation"]},
+                {w:"Fortuitous", ph:"/fɔːˈtʃuː.ɪ.təs/", p:"Adjective", f:"Adjective", m:"Occurring by chance.", s:"accidental", o:"1650s, Latin", e:"The object was so perfectly formed that its creation could not have been fortuitous.", c:["fortuitous event", "fortuitous timing", "highly fortuitous"]},
+                {w:"Gerontology", ph:"/ˌdʒer.ənˈtɒl.ə.dʒi/", p:"Noun", f:"Singular", m:"The scientific study of the biological, psychological, and sociological phenomena associated with old age and aging.", s:"The study of the elderly", o:"1903, Greek", e:"However, gerontology researchers have begun to study the best practices that are in use by various centers.", c:["social gerontology", "field of gerontology", "gerontology department"]},
+                {w:"Gossamer", ph:"/ˈɡɒs.ə.mər/", p:"Noun", f:"Singular", m:"The very thin thread that spiders produce to make webs.", s:"delicate, insubstantial", o:"England, 15th Century", e:"The gossamer veil seemed to float about the bride as she walked down the street.", c:["fine gossamer", "gossamer wings", "gossamer threads"]},
+                {w:"Grandiloquent", ph:"/ɡrænˈdɪl.ə.kwənt/", p:"Adjective", f:"Adjective", m:"Using a lot of big, fancy words in an attempt to sound impressive.", s:"pompous", o:"1590s, Latin", e:"The president’s speech was grandiloquent rather than eloquent; there were some six-dollar words and some impressive phrases.", c:["grandiloquent speech", "grandiloquent style", "sound grandiloquent"]},
+                {w:"Halcyon", ph:"/ˈhæl.si.ən/", p:"Adjective", f:"Adjective", m:"A very happy or successful period in the past.", s:"calm, peaceful", o:"Latin, 1350", e:"She recalled the halcyon days of her youth.", c:["halcyon days", "halcyon era", "halcyon period"]},
+                {w:"Harangue", ph:"/həˈræŋ/", p:"Noun", f:"Singular", m:"Long speech.", s:"passionate speech", o:"French, 1530s", e:"A drunk in the station was haranguing passers-by.", c:["deliver a harangue", "lengthy harangue", "angry harangue"]},
+                {w:"Idiosyncrasy", ph:"/ˌɪd.i.əˈsɪŋ.krə.si/", p:"Noun", f:"Singular", m:"A strange or unusual habit.", s:"peculiarity, eccentricity", o:"Greek, early 17th Century", e:"One of the idiosyncrasies of this printer is that you can't stop it once it has started.", c:["personal idiosyncrasy", "charming idiosyncrasy", "quirky idiosyncrasy"]},
+                {w:"Junta", ph:"/ˈdʒʌn.tə/", p:"Noun", f:"Singular", m:"A government, especially a military one, that has taken power in a country by force and not by election.", s:"absolutism", o:"Latin, early 17th Century", e:"The military junta has today broadcast an appeal for calm.", c:["military junta", "ruling junta", "overthrow the junta"]},
+                {w:"Lachrymose", ph:"/ˈlæk.rɪ.məʊs/", p:"Adjective", f:"Adjective", m:"Sad or likely to cry often and easily.", s:"tearful; sad", o:"Latin, 1727", e:"He is better known for his lachrymose ballads than hard rock numbers.", c:["lachrymose tale", "lachrymose expression", "lachrymose state"]},
+                {w:"Lackadaisical", ph:"/ˌlæk.əˈdeɪ.zɪ.kəl/", p:"Adjective", f:"Adjective", m:"Lacking interest or effort.", s:"lazy", o:"the UK, 1768", e:"His teachers did not approve of his lackadaisical approach to homework.", c:["lackadaisical approach", "lackadaisical attitude", "seem lackadaisical"]},
+                {w:"Lugubrious", ph:"/ləˈɡuː.bri.əs/", p:"Adjective", f:"Adjective", m:"Sad and serious.", s:"unhappy", o:"1595–1605, Latin", e:"His lugubrious face always lowers my confidence level.", c:["lugubrious expression", "lugubrious tone", "lugubrious manner"]},
+                {w:"Malfeasance", ph:"/ˌmælˈfiː.zəns/", p:"Noun", f:"Singular", m:"An example of dishonest and illegal behaviour, especially by a person in authority.", s:"wrongdoing, misconduct", o:"Anglo-Norman French, late 17th century", e:"Several cases of malpractice and malfeasance in the financial world are currently being investigated.", c:["corporate malfeasance", "financial malfeasance", "accused of malfeasance"]},
+                {w:"Malign", ph:"/məˈlaɪn/", p:"Noun", f:"Singular", m:"Causing or intending to cause harm or evil.", s:"evil, malicious", o:"England, 12th Century", e:"Foreign domination had a malign influence on local politics.", c:["malign influence", "malign effect", "malign intent"]},
+                {w:"Minatory", ph:"/ˈmɪn.ə.tər.i/", p:"Adjective", f:"Adjective", m:"Expressing a warning or a threat.", s:"threatening", o:"1525–35, Latin", e:"This minatory approach hasn't scared children off hard drugs.", c:["minatory tone", "minatory warning", "minatory gesture"]},
+                {w:"Nadir", ph:"/ˈneɪ.dɪər/", p:"Adjective", f:"Adjective", m:"The worst moment, or the moment of least hope and least achievement.", s:"low-point", o:"1350–1400, Old French", e:"The defeat was the nadir of her career.", c:["reach the nadir", "absolute nadir", "nadir of the recession"]},
+                {w:"Nascent", ph:"/ˈnæs.ənt/", p:"Adjective", f:"Adjective", m:"Only recently formed or started, but likely to grow larger quickly.", s:"recently developed", o:"French, 14th Century", e:"Everyone in this nascent business is still struggling with basic issues.", c:["nascent industry", "nascent democracy", "nascent stage"]},
+                {w:"Pedagogue", ph:"/ˈped.ə.ɡɒɡ/", p:"Noun", f:"Singular", m:"A teacher who gives too much attention to formal rules and is not interesting.", s:"instructor", o:"Latin, 1650s", e:"To what extent might music institutions and pedagogues have been neglecting a fundamental emphasis in this area?", c:["strict pedagogue", "boring pedagogue", "traditional pedagogue"]},
+                {w:"Philately", ph:"/fɪˈlæt.əl.i/", p:"Noun", f:"Singular", m:"The collection and study of postage stamps, postmarks, and related materials.", s:"stamp collecting", o:"1860–65, French", e:"Philately service in Nepal has no long history.", c:["study philately", "interest in philately", "philately exhibition"]},
+                {w:"Sacrosanct", ph:"/ˈsæk.rə.sæŋkt/", p:"Adjective", f:"Adjective", m:"Thought to be too important or too special to be changed.", s:"inviolable", o:"Latin, Late 15th Century", e:"I'm willing to help on any weekday, but my weekends are sacrosanct.", c:["sacrosanct principle", "remain sacrosanct", "considered sacrosanct"]},
+                {w:"Surreptitious", ph:"/ˌsʌr.əpˈtɪʃ.əs/", p:"Adjective", f:"Adjective", m:"Kept secret, especially because it would not be approved of.", s:"stolen, furtive", o:"Mid-15th Century, Latin", e:"She seemed to be listening to what I was saying, but I couldn't help noticing her surreptitious glances at the clock.", c:["surreptitious glance", "surreptitious meeting", "surreptitious entry"]},
+                {w:"Underpin", ph:"/ˌʌn.dəˈpɪn/", p:"Verb", f:"Verb", m:"To give support, strength or a basic structure to something.", s:"bolster", o:"No origin provided", e:"He presented data to underpin his argument.", c:["underpin an argument", "underpin a theory", "firmly underpin"]},
+                {w:"Unequivocal", ph:"/ˌʌn.ɪˈkwɪv.ə.kəl/", p:"Adjective", f:"Adjective", m:"Unambiguous; leaving no doubt.", s:"apparent, clear", o:"Late Latin, 1599", e:"Few of the candidates have yet staked out unequivocal positions on the hot-button issues.", c:["unequivocal support", "unequivocal evidence", "unequivocal statement"]},
+                {w:"Virtuoso", ph:"/ˌvɜː.tʃuˈəʊ.səʊ/", p:"Noun", f:"Singular", m:"Masterful musician.", s:"expert, specialist", o:"Italian 1610", e:"Famous mainly for his wonderful voice, Cole Porter was also a virtuoso on the piano.", c:["piano virtuoso", "virtuoso performance", "musical virtuoso"]}
+            ]
+        };
+
+        // Combine the existing rawData with the new words safely
+        for (const level in newWords) {
+            if(rawData[level]) {
+                rawData[level].push(...newWords[level]);
+            }
+        }
+
+        // Rehydrate compressed data into expected format and include new advanced fields
+        const vocabData = {};
+        for (const level in rawData) {
+            vocabData[level] = rawData[level].map((item, index) => ({
+                id: `${level.toLowerCase()}_${index}`,
+                word: item.w,
+                ph: item.ph || null,
+                pos: item.p,
+                form: item.f,
+                meaning: item.m,
+                example: item.e,
+                collocations: item.c,
+                synonyms: item.s || null,
+                origin: item.o || null
+            }));
+        }
+
+        let currentActiveWord = null;
+
+        function playBritishAudio(wordText) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(wordText);
+                utterance.lang = 'en-GB'; 
+                utterance.rate = 0.9; 
+                utterance.pitch = 1.0;
+
+                const voices = window.speechSynthesis.getVoices();
+                const britishVoice = voices.find(voice => voice.lang === 'en-GB' || voice.name.includes('UK English'));
+                if (britishVoice) utterance.voice = britishVoice;
+
+                window.speechSynthesis.speak(utterance);
+
+                const btnIcon = document.getElementById('audio-icon');
+                if(btnIcon) {
+                    btnIcon.classList.remove('ph-speaker-high');
+                    btnIcon.classList.add('ph-speaker-high', 'text-gold', 'animate-pulse');
+                    utterance.onend = () => {
+                        btnIcon.classList.remove('text-gold', 'animate-pulse');
+                        btnIcon.classList.add('ph-speaker-high');
+                    };
+                }
+            } else {
+                alert("Text-to-Speech is not supported in this browser.");
+            }
+        }
+
+        window.speechSynthesis.onvoiceschanged = function() {
+            window.speechSynthesis.getVoices();
+        };
+
+        function navigate(view, level = null) {
+            const container = document.getElementById('content-container');
+            const title = document.getElementById('view-title');
+            
+            // Update sidebar active states
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white/10', 'bg-white/20', 'text-white');
+                btn.classList.add('text-white/70');
+            });
+
+            if (view === 'dashboard') {
+                document.getElementById('nav-dashboard').classList.remove('text-white/70');
+                document.getElementById('nav-dashboard').classList.add('bg-white/20', 'text-white');
+                title.innerText = "Vocabulary Overview";
+                renderDashboard(container);
+            } else if (view === 'level' && level) {
+                document.getElementById(`nav-${level}`).classList.remove('text-white/70');
+                document.getElementById(`nav-${level}`).classList.add('bg-white/10', 'text-white');
+                title.innerHTML = `Tier <span class="text-gold">${level}</span> Vocabulary`;
+                renderLevelView(container, level);
+            }
+        }
+
+        function renderDashboard(container) {
+            container.innerHTML = `
+                <div class="fade-in max-w-5xl mx-auto">
+                    <div class="bg-oxford text-white rounded-3xl p-10 shadow-2xl relative overflow-hidden mb-10">
+                        <div class="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+                            <i class="ph-fill ph-student text-9xl scale-150"></i>
+                        </div>
+                        <div class="relative z-10">
+                            <h2 class="text-4xl font-serif font-bold mb-4">Master the Academic Lexicon</h2>
+                            <p class="text-white/80 text-lg max-w-2xl mb-8 leading-relaxed">
+                                Welcome to your premium vocabulary suite. Explore high-impact terminology curated for CEFR levels B1 through C2, complete with British phonetics and authentic collocations.
+                            </p>
+                            <div class="flex gap-4">
+                                <button onclick="navigate('level', 'C2')" class="bg-gold text-oxford px-8 py-3.5 rounded-xl font-bold hover:bg-yellow-500 transition shadow-lg shadow-gold/20 flex items-center gap-2">
+                                    Start C2 Mastery <i class="ph-bold ph-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        ${generateTierCard('B1', 'Intermediate', 'bg-emerald-50 text-emerald-700 border-emerald-200', 'text-emerald-500', vocabData['B1'].length)}
+                        ${generateTierCard('B2', 'Upper-Intermediate', 'bg-blue-50 text-blue-700 border-blue-200', 'text-blue-500', vocabData['B2'].length)}
+                        ${generateTierCard('C1', 'Advanced', 'bg-purple-50 text-purple-700 border-purple-200', 'text-purple-500', vocabData['C1'].length)}
+                        ${generateTierCard('C2', 'Proficient', 'bg-amber-50 text-amber-700 border-amber-200', 'text-amber-500', vocabData['C2'].length)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateTierCard(level, title, colors, iconColor, count) {
+            return `
+                <div onclick="navigate('level', '${level}')" class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-xl hover:-translate-y-1 transition cursor-pointer group">
+                    <div class="w-12 h-12 rounded-xl ${colors} flex items-center justify-center font-bold text-xl mb-4 border">
+                        ${level}
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg group-hover:text-oxford transition">${title}</h3>
+                    <p class="text-slate-500 text-sm mt-1">${count} words categorized</p>
+                </div>
+            `;
+        }
+
+        function renderLevelView(container, level) {
+            const words = vocabData[level] || [];
+            currentActiveWord = words[0]; 
+
+            container.innerHTML = `
+                <div class="fade-in h-full flex flex-col md:flex-row gap-8 max-w-7xl mx-auto">
+                    <!-- Left Sidebar: Word List -->
+                    <div class="w-full md:w-80 flex flex-col h-[40vh] md:h-full shrink-0">
+                        <div class="bg-white rounded-t-2xl border border-slate-200 p-4 border-b-0 shadow-sm z-10 flex justify-between items-center">
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">${words.length} Words Found</span>
+                        </div>
+                        <div class="bg-white border border-slate-200 rounded-b-2xl shadow-sm flex-1 overflow-y-auto custom-scroll p-2" id="word-list">
+                            ${words.map(w => `
+                                <button onclick="selectWord('${w.id}', '${level}')" id="btn-${w.id}" class="w-full text-left p-4 rounded-xl mb-1 transition-all ${w.id === currentActiveWord.id ? 'bg-oxford text-white shadow-md' : 'hover:bg-slate-50 text-slate-700'}">
+                                    <div class="font-serif font-bold text-lg">${w.word}</div>
+                                    <div class="text-xs mt-1 ${w.id === currentActiveWord.id ? 'text-white/70' : 'text-slate-400'} uppercase tracking-wider font-semibold">${w.pos}</div>
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Right Area: Word Detail Card -->
+                    <div class="flex-1 h-full overflow-y-auto pb-10 custom-scroll pr-2" id="word-detail-container">
+                        <!-- Detail injected here -->
+                    </div>
+                </div>
+            `;
+            
+            if(currentActiveWord) {
+                renderWordDetail(currentActiveWord);
+            }
+        }
+
+        function selectWord(wordId, level) {
+            const words = vocabData[level];
+            currentActiveWord = words.find(w => w.id === wordId);
+            
+            document.querySelectorAll('#word-list button').forEach(btn => {
+                btn.className = "w-full text-left p-4 rounded-xl mb-1 transition-all hover:bg-slate-50 text-slate-700";
+                btn.querySelector('div:last-child').className = "text-xs mt-1 text-slate-400 uppercase tracking-wider font-semibold";
+            });
+            const activeBtn = document.getElementById(`btn-${wordId}`);
+            activeBtn.className = "w-full text-left p-4 rounded-xl mb-1 transition-all bg-oxford text-white shadow-md";
+            activeBtn.querySelector('div:last-child').className = "text-xs mt-1 text-white/70 uppercase tracking-wider font-semibold";
+
+            renderWordDetail(currentActiveWord);
+        }
+
+        function renderWordDetail(wordObj) {
+            const container = document.getElementById('word-detail-container');
+            
+            // Highlight the target word inside collocations
+            const highlightWord = (phrase, target) => {
+                const regex = new RegExp(`(${target})`, 'gi');
+                return phrase.replace(regex, `<span class="font-bold text-oxford">$1</span>`);
+            };
+
+            container.innerHTML = `
+                <div class="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden fade-in relative">
+                    <!-- Premium Header -->
+                    <div class="bg-oxford p-10 relative overflow-hidden">
+                        <div class="absolute right-0 top-0 opacity-10 transform translate-x-1/4 -translate-y-1/4">
+                            <i class="ph-fill ph-quotes text-9xl"></i>
+                        </div>
+                        <div class="relative z-10 flex justify-between items-start">
+                            <div>
+                                <h2 class="text-5xl font-serif font-bold text-white mb-3 tracking-wide flex items-baseline gap-4">
+                                    ${wordObj.word}
+                                    ${wordObj.ph ? `<span class="text-2xl font-sans text-gold/80 font-normal tracking-normal">${wordObj.ph}</span>` : ''}
+                                </h2>
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <span class="bg-gold/20 text-gold border border-gold/30 px-3 py-1 rounded-md text-sm font-bold uppercase tracking-wider shadow-sm">
+                                        ${wordObj.pos}
+                                    </span>
+                                    <span class="text-white/70 text-sm font-medium border-l border-white/20 pl-3">
+                                        ${wordObj.form}
+                                    </span>
+                                </div>
+                            </div>
+                            <button onclick="playBritishAudio('${wordObj.word}')" class="bg-white hover:bg-slate-100 text-oxford w-16 h-16 rounded-full flex items-center justify-center shadow-2xl transition transform hover:scale-105 group border-2 border-transparent hover:border-gold">
+                                <i id="audio-icon" class="ph-fill ph-speaker-high text-3xl group-hover:text-oxford transition"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="p-10">
+                        <div class="mb-10">
+                            <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Definition</h3>
+                            <p class="text-2xl font-serif text-slate-800 leading-relaxed border-l-4 border-gold pl-6 py-1 bg-gradient-to-r from-gold/5 to-transparent rounded-r-xl">
+                                ${wordObj.meaning}
+                            </p>
+                            ${wordObj.synonyms || wordObj.origin ? `
+                                <div class="mt-6 pl-6 flex flex-wrap gap-4">
+                                    ${wordObj.synonyms ? `<div class="bg-slate-50 border border-slate-200 px-4 py-2 rounded-lg shadow-sm"><span class="font-bold text-slate-400 uppercase tracking-widest text-xs block mb-1">Synonyms</span><span class="text-slate-700 font-medium text-sm">${wordObj.synonyms}</span></div>` : ''}
+                                    ${wordObj.origin ? `<div class="bg-slate-50 border border-slate-200 px-4 py-2 rounded-lg shadow-sm"><span class="font-bold text-slate-400 uppercase tracking-widest text-xs block mb-1">Origin</span><span class="text-slate-700 font-medium text-sm">${wordObj.origin}</span></div>` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div class="mb-10">
+                            <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Contextual Example</h3>
+                            <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 text-lg text-slate-700 italic flex gap-4">
+                                <i class="ph-fill ph-quotes text-gold text-2xl shrink-0 mt-1"></i>
+                                <span>"${wordObj.example}"</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
+                                <i class="ph-fill ph-link text-lg"></i> Natural Collocations
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                ${wordObj.collocations.map(col => `
+                                    <div class="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-center text-center shadow-sm hover:border-oxford/30 transition cursor-default">
+                                        <span class="font-medium text-slate-800">${highlightWord(col, wordObj.word)}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <p class="text-xs text-slate-400 mt-4 text-center">Collocations are words that naturally go together in native British English.</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize App on Overview Page
+        window.onload = () => {
+            navigate('dashboard');
+        };
+    </script>
+</body>
+</html>
