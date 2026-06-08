@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Listening Dashboard</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ieltsRed: '#E31837',
+                        ieltsNavy: '#00205B',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .fade-in { animation: fadeIn 0.4s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Audio Visualizer Animation */
+        .bar { width: 4px; background: #E31837; border-radius: 2px; margin: 0 2px; transform-origin: bottom; transition: height 0.1s ease; }
+        .playing .bar { animation: equalize 1s infinite alternate; }
+        .playing .bar:nth-child(1) { animation-delay: 0.1s; animation-duration: 0.8s; }
+        .playing .bar:nth-child(2) { animation-delay: 0.3s; animation-duration: 1.1s; }
+        .playing .bar:nth-child(3) { animation-delay: 0s; animation-duration: 0.9s; }
+        .playing .bar:nth-child(4) { animation-delay: 0.4s; animation-duration: 1.2s; }
+        .playing .bar:nth-child(5) { animation-delay: 0.2s; animation-duration: 0.7s; }
+        
+        @keyframes equalize {
+            0% { transform: scaleY(0.2); }
+            50% { transform: scaleY(1); }
+            100% { transform: scaleY(0.4); }
+        }
+
+        /* Custom Input styling for fill-in-blanks */
+        .fill-blank-input {
+            border: none;
+            border-bottom: 2px solid #cbd5e1;
+            background: transparent;
+            padding: 2px 8px;
+            font-weight: 600;
+            color: #00205B;
+            width: 150px;
+            transition: all 0.2s;
+            outline: none;
+            text-align: center;
+        }
+        .fill-blank-input:focus {
+            border-bottom-color: #E31837;
+            background: #fff1f2;
+        }
+        .fill-blank-input.correct {
+            border-bottom-color: #10b981;
+            color: #10b981;
+            background: #ecfdf5;
+        }
+        .fill-blank-input.incorrect {
+            border-bottom-color: #ef4444;
+            color: #ef4444;
+            background: #fef2f2;
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 selection:bg-ieltsRed selection:text-white overflow-hidden h-screen flex">
+
+    <aside class="w-72 bg-ieltsNavy text-white flex-col hidden lg:flex shadow-2xl z-20">
+        <div class="p-8 pb-4">
+            <h1 class="text-3xl font-extrabold tracking-tight flex items-center gap-3">
+                <span class="bg-ieltsRed text-white p-1.5 rounded-lg shadow-lg">
+                    <i class="ph-fill ph-headphones text-2xl"></i>
+                </span>
+                IELTS Pro
+            </h1>
+            <p class="text-ieltsNavy text-xs mt-2 bg-white/20 inline-block px-2 py-0.5 rounded backdrop-blur-sm border border-white/10 font-medium tracking-wide">
+                Listening Module
+            </p>
+        </div>
+
+        <nav class="flex-1 px-4 mt-8 space-y-1.5 overflow-y-auto" id="sidebar-nav">
+            <button onclick="switchTab('dashboard')" class="nav-btn active w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition text-sm font-bold bg-ieltsRed text-white shadow-md" data-tab="dashboard">
+                <i class="ph ph-squares-four text-xl"></i> Dashboard
+            </button>
+            <button onclick="switchTab('library')" class="nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition text-sm font-bold text-white/70 hover:bg-white/10 hover:text-white" data-tab="library">
+                <i class="ph ph-books text-xl"></i> Test Library
+            </button>
+            <button onclick="switchTab('performance')" class="nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition text-sm font-bold text-white/70 hover:bg-white/10 hover:text-white" data-tab="performance">
+                <i class="ph ph-trend-up text-xl"></i> Analytics
+            </button>
+            <button onclick="switchTab('settings')" class="nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition text-sm font-bold text-white/70 hover:bg-white/10 hover:text-white" data-tab="settings">
+                <i class="ph ph-gear text-xl"></i> Settings
+            </button>
+        </nav>
+
+        <div class="p-6 bg-black/10 border-t border-white/5">
+            <div id="sidebar-premium-status" class="p-4 rounded-xl border bg-white/5 border-white/10 transition-all">
+                <div class="flex items-center gap-3 mb-3">
+                    <div id="sidebar-avatar-container" class="bg-white/20 p-2 rounded-full"><i class="ph ph-user text-white"></i></div>
+                    <div class="flex flex-col">
+                        <span id="sidebar-plan-name" class="font-bold text-sm">Free Account</span>
+                        <span class="text-xs text-white/60">Target Band: 8.5</span>
+                    </div>
+                </div>
+                <button id="sidebar-toggle-btn" onclick="togglePremium()" class="w-full mt-2 bg-ieltsRed text-white text-sm font-bold py-2.5 rounded-lg hover:bg-red-700 transition shadow-lg shadow-red-900/50">
+                    Unlock Premium
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden relative w-full">
+        
+        <!-- Mobile Header -->
+        <header class="lg:hidden bg-ieltsNavy p-4 flex justify-between items-center shadow-md z-20">
+            <h1 class="text-xl font-bold text-white flex items-center gap-2">
+                <span class="bg-ieltsRed text-white p-1 rounded-md"><i class="ph-fill ph-headphones"></i></span>
+                IELTS Pro
+            </h1>
+            <div class="flex items-center gap-4">
+                <button onclick="switchTab('library')" class="text-white/80 hover:text-white text-2xl">
+                    <i class="ph ph-books"></i>
+                </button>
+                <button onclick="togglePremium()" class="relative" id="mobile-premium-btn">
+                    <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white border border-white/30">
+                        <i class="ph ph-user"></i>
+                    </div>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Scrollable Area -->
+        <div class="flex-1 overflow-auto bg-[#F8F9FA] relative">
+            <div class="w-full max-w-7xl mx-auto h-full p-4 md:p-8">
+
+                <div id="view-dashboard" class="view-section fade-in">
+                    <header class="mb-10 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+                        <div>
+                            <h2 class="text-3xl md:text-4xl font-extrabold text-ieltsNavy">Listening Dashboard</h2>
+                            <p class="text-slate-500 mt-2 text-lg">Tune your ears to global accents and academic contexts.</p>
+                        </div>
+                        <div id="dash-upgrade-banner" class="inline-flex items-center gap-3 bg-red-50 px-5 py-3 rounded-xl border border-red-100 text-ieltsRed text-sm font-bold shadow-sm cursor-pointer hover:bg-red-100 transition" onclick="showUpgradeModal()">
+                            <i class="ph-fill ph-crown text-xl"></i>
+                            Access Section 3 & 4 (Academic)
+                        </div>
+                    </header>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-10">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+                            <div class="bg-ieltsNavy p-3 rounded-xl text-white shadow-sm w-fit mb-4"><i class="ph ph-target text-2xl"></i></div>
+                            <div>
+                                <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Target Band</p>
+                                <p class="text-4xl font-extrabold text-ieltsNavy">8.5</p>
+                                <p class="text-slate-400 text-xs font-semibold mt-2">Listening Module</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+                            <div class="bg-ieltsRed p-3 rounded-xl text-white shadow-sm w-fit mb-4"><i class="ph ph-check-circle text-2xl"></i></div>
+                            <div>
+                                <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Tests Completed</p>
+                                <p class="text-4xl font-extrabold text-ieltsRed">14</p>
+                                <p class="text-slate-400 text-xs font-semibold mt-2">+2 this week</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+                            <div class="bg-emerald-600 p-3 rounded-xl text-white shadow-sm w-fit mb-4"><i class="ph ph-chart-line-up text-2xl"></i></div>
+                            <div>
+                                <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Average Score</p>
+                                <p class="text-4xl font-extrabold text-emerald-600">34/40</p>
+                                <p class="text-slate-400 text-xs font-semibold mt-2">Top 15% globally</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+                            <div class="bg-indigo-600 p-3 rounded-xl text-white shadow-sm w-fit mb-4"><i class="ph ph-headphones text-2xl"></i></div>
+                            <div>
+                                <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Hours Listened</p>
+                                <p class="text-4xl font-extrabold text-indigo-600">8h 20m</p>
+                                <p class="text-slate-400 text-xs font-semibold mt-2">Active practice time</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                        <div class="xl:col-span-2 bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 relative overflow-hidden group">
+                            <i class="ph-fill ph-play-circle text-[250px] absolute -bottom-10 -right-10 text-slate-50 group-hover:text-red-50 transition duration-500 z-0"></i>
+                            <div class="relative z-10">
+                                <h3 class="text-xl font-extrabold text-ieltsNavy mb-6 flex items-center gap-2">
+                                    <i class="ph-fill ph-lightning text-amber-500 text-2xl"></i> Next Recommended Test
+                                </h3>
+                                <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-6 md:p-8 border border-slate-200/60 shadow-inner">
+                                    <div class="flex items-center gap-2 mb-4">
+                                        <span class="bg-ieltsNavy text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Section 3 • Education</span>
+                                        <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                                            <i class="ph ph-users"></i> Multiple Speakers
+                                        </span>
+                                    </div>
+                                    <h4 class="font-extrabold text-slate-900 text-2xl md:text-3xl mb-3">University Assignment Discussion</h4>
+                                    <p class="text-slate-600 mb-8 max-w-xl text-sm md:text-base leading-relaxed">
+                                        Practice identifying speaker opinions and agreements in an academic context. Features multiple choice and matching questions typical of Section 3.
+                                    </p>
+                                    <button onclick="switchTab('library')" class="w-full sm:w-auto px-8 py-4 bg-ieltsRed hover:bg-red-700 text-white rounded-xl font-bold transition shadow-lg shadow-red-200/50 flex items-center justify-center gap-2 text-lg">
+                                        <i class="ph-fill ph-headphones"></i> Start Audio Session
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200">
+                            <h3 class="text-xl font-extrabold text-ieltsNavy mb-6 flex items-center gap-2">
+                                <i class="ph-fill ph-fire text-orange-500 text-2xl"></i> Popular Categories
+                            </h3>
+                            <div class="space-y-4" id="trending-topics-container">
+                                <!-- Trending topics injected by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-library" class="view-section hidden fade-in pb-16">
+                    <div class="mb-10 bg-ieltsNavy text-white p-8 md:p-12 rounded-3xl shadow-xl relative overflow-hidden">
+                        <i class="ph ph-waves text-[300px] absolute right-0 bottom-0 opacity-5 transform translate-x-1/4 translate-y-1/4"></i>
+                        <div class="relative z-10 max-w-3xl">
+                            <h2 class="text-3xl md:text-5xl font-extrabold mb-4">Comprehensive Test Library</h2>
+                            <p class="text-blue-100 text-lg leading-relaxed">
+                                Experience authentic computer-delivered IELTS conditions. Sections 1 & 2 cover everyday social contexts, while Sections 3 & 4 dive into rigorous academic discourse.
+                            </p>
+                        </div>
+                    </div>
+                    <div id="library-content" class="space-y-12">
+                        <!-- Dynamic Sections injected by JS -->
+                    </div>
+                </div>
+
+                <div id="view-session" class="view-section hidden fade-in max-w-5xl mx-auto h-[calc(100vh-8rem)] flex flex-col relative">
+                    
+                    <!-- Header Actions -->
+                    <div class="flex justify-between items-center mb-4 shrink-0">
+                        <button onclick="endSession()" class="flex items-center gap-2 text-slate-500 hover:text-ieltsNavy transition font-bold bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-200">
+                            <i class="ph ph-arrow-left text-lg"></i> Exit Test
+                        </button>
+                        <div class="bg-amber-100 text-amber-800 px-4 py-2 rounded-lg font-bold text-sm border border-amber-200 flex items-center gap-2">
+                            <i class="ph ph-warning-circle text-lg"></i> Simulated Audio - Mock Exam
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-xl border border-slate-200 flex-1 flex flex-col overflow-hidden relative">
+                        
+                        <!-- Sticky Audio Player Top Bar -->
+                        <div class="bg-ieltsNavy p-4 md:p-6 text-white shrink-0 border-b-4 border-ieltsRed flex flex-col md:flex-row items-center gap-6 z-20 shadow-md">
+                            
+                            <div class="flex items-center gap-4 shrink-0">
+                                <button id="audio-play-btn" onclick="toggleAudio()" class="w-14 h-14 bg-ieltsRed hover:bg-red-600 rounded-full flex items-center justify-center text-white shadow-lg transition transform hover:scale-105 active:scale-95 border-2 border-red-400">
+                                    <i id="audio-play-icon" class="ph-fill ph-play text-2xl"></i>
+                                </button>
+                                
+                                <div class="flex h-8 items-end gap-[1px] w-12" id="audio-visualizer">
+                                    <div class="bar h-2"></div>
+                                    <div class="bar h-4"></div>
+                                    <div class="bar h-8"></div>
+                                    <div class="bar h-3"></div>
+                                    <div class="bar h-6"></div>
+                                </div>
+                            </div>
+
+                            <div class="flex-1 w-full flex flex-col gap-2">
+                                <div class="flex justify-between items-center text-xs font-bold text-blue-200 tracking-wider">
+                                    <span id="session-title-display" class="truncate max-w-[200px] sm:max-w-md">Loading...</span>
+                                    <div class="flex items-center gap-2 bg-black/20 px-2 py-1 rounded">
+                                        <i class="ph ph-clock"></i> <span id="audio-timer">00:00</span> / <span id="audio-duration">00:00</span>
+                                    </div>
+                                </div>
+                                <div class="w-full h-2.5 bg-blue-900 rounded-full overflow-hidden relative cursor-pointer" onclick="seekAudio(event)" id="progress-container">
+                                    <div id="audio-progress-bar" class="h-full bg-ieltsRed w-0 rounded-full transition-all duration-200 relative">
+                                        <div class="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Questions Area (Scrollable) -->
+                        <div class="flex-1 overflow-y-auto p-6 md:p-10 bg-[#F8F9FA] relative" id="questions-container">
+                            <!-- Injected by JS -->
+                        </div>
+
+                        <!-- Results Overlay (Hidden by default) -->
+                        <div id="session-results-overlay" class="absolute inset-0 bg-white/95 backdrop-blur-sm z-30 hidden flex-col items-center justify-center p-8 text-center border-t-8 border-emerald-500">
+                            <div class="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mb-6 shadow-inner">
+                                <i class="ph-fill ph-check-circle text-6xl text-emerald-500"></i>
+                            </div>
+                            <h2 class="text-4xl font-extrabold text-ieltsNavy mb-2">Test Completed</h2>
+                            <p class="text-xl text-slate-600 mb-8 font-medium">You scored <span id="result-score" class="text-emerald-600 font-extrabold text-3xl mx-2">0/0</span> marks.</p>
+                            
+                            <div class="flex gap-4">
+                                <button onclick="reviewAnswers()" class="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition border border-slate-300">
+                                    Review Answers
+                                </button>
+                                <button onclick="endSession()" class="px-6 py-3 bg-ieltsNavy hover:bg-blue-900 text-white font-bold rounded-xl shadow-lg transition">
+                                    Return to Library
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Footer Actions -->
+                        <div class="p-4 md:p-6 border-t border-slate-200 bg-white flex justify-between items-center shrink-0 z-20">
+                            <p class="text-sm font-medium text-slate-500 hidden md:block"><i class="ph-fill ph-info text-ieltsNavy"></i> Ensure you have answered all questions.</p>
+                            <button id="submit-answers-btn" onclick="submitAnswers()" class="w-full md:w-auto px-8 py-3.5 bg-ieltsNavy hover:bg-blue-900 text-white rounded-xl font-bold transition shadow-md flex items-center justify-center gap-2">
+                                <i class="ph ph-paper-plane-tilt text-xl"></i> Submit Answers
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-performance" class="view-section hidden fade-in flex flex-col items-center justify-center h-full min-h-[50vh] text-slate-500">
+                    <div class="bg-slate-100 p-8 rounded-full mb-6"><i class="ph ph-trend-up text-6xl text-slate-300"></i></div>
+                    <h2 class="text-2xl font-bold text-ieltsNavy">Detailed Analytics</h2>
+                    <p class="mt-2 text-slate-400">Track your band score progression here. Coming soon.</p>
+                </div>
+                <div id="view-settings" class="view-section hidden fade-in flex flex-col items-center justify-center h-full min-h-[50vh] text-slate-500">
+                    <div class="bg-slate-100 p-8 rounded-full mb-6"><i class="ph ph-gear text-6xl text-slate-300"></i></div>
+                    <h2 class="text-2xl font-bold text-ieltsNavy">Account Settings</h2>
+                    <p class="mt-2 text-slate-400">Manage audio preferences and subscriptions.</p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <div id="upgrade-modal" class="fixed inset-0 bg-ieltsNavy/90 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-8 md:p-10 shadow-2xl text-center transform transition-all border-t-8 border-ieltsRed scale-95" id="upgrade-modal-content">
+            <div class="w-20 h-20 bg-gradient-to-br from-red-50 to-red-100 text-ieltsRed rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner border border-red-200">
+                <i class="ph-fill ph-crown text-4xl"></i>
+            </div>
+            <h2 class="text-3xl font-extrabold text-ieltsNavy mb-4">Unlock Academic Sections</h2>
+            <p class="text-slate-600 mb-8 leading-relaxed text-lg">
+                To achieve a Band 8.0+, you must master the complexities of Section 3 (Multiple Speakers) and Section 4 (Academic Lectures). 
+            </p>
+            <ul class="text-left space-y-3 mb-8 bg-slate-50 p-4 rounded-xl border border-slate-100 text-slate-700">
+                <li class="flex items-center gap-3"><i class="ph-fill ph-check-circle text-emerald-500"></i> Full access to Section 3 & 4</li>
+                <li class="flex items-center gap-3"><i class="ph-fill ph-check-circle text-emerald-500"></i> Advanced vocabulary analysis</li>
+                <li class="flex items-center gap-3"><i class="ph-fill ph-check-circle text-emerald-500"></i> Distractor identification training</li>
+            </ul>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button onclick="hideUpgradeModal()" class="flex-1 px-6 py-4 rounded-xl font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">
+                    Continue Free
+                </button>
+                <button onclick="activatePremium()" class="flex-1 px-6 py-4 rounded-xl font-bold text-white bg-ieltsRed hover:bg-red-700 shadow-xl shadow-red-200/50 transition flex items-center justify-center gap-2">
+                    Upgrade Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Source: IELTS Listening Mock Data
+        const listeningData = {
+            section1: [
+                { 
+                    id: 's1_1', title: 'Hotel Booking Enquiry', category: 'Social Survival', premium: false, duration: 65,
+                    desc: 'A conversation between a receptionist and a customer booking a room.',
+                    transcript: "Good morning, thank you for calling the Grand Hotel. How can I assist you today? ... Hi, I would like to book a room. My first name is Thomas. T-H-O-M-A-S. And my surname is Fletcher. F-L-E-T-C-H-E-R. ... Excellent, Mr. Fletcher. Are you looking for a single or a double room? ... I will be traveling with my wife, so a Double room, please. ... Understood. And what is your date of arrival? ... We will be arriving on the 14th of August. ... Perfect, your double room is booked for August 14th.",
+                    questions: [
+                        { id: 'q1', type: 'fill', text: 'Customer First Name:', answer: 'Thomas' },
+                        { id: 'q2', type: 'fill', text: 'Customer Surname:', answer: 'Fletcher' },
+                        { id: 'q3', type: 'mcq', text: 'What type of room does the customer book?', options: ['Single', 'Double', 'Family Suite'], answer: 'Double' },
+                        { id: 'q4', type: 'fill', text: 'Date of arrival: 14th', answer: 'August' }
+                    ]
+                },
+                { 
+                    id: 's1_2', title: 'Joining a Leisure Club', category: 'Social Survival', premium: false, duration: 75,
+                    desc: 'A student enquiring about gym memberships over the phone.',
+                    transcript: "Hello, I am calling to ask about joining the leisure club. ... Certainly! We have three tiers. Bronze, Silver, and Gold. If you want pool access, you will need the Gold membership. ... Okay, I am a student. How much is the monthly fee for students? ... With a valid student ID, it is exactly 25 pounds a month. ... Great. When can I come in for the free induction? ... Our free inductions are held every week on Tuesday. ... Thanks, I will see you on Tuesday.",
+                    questions: [
+                        { id: 'q1', type: 'mcq', text: 'Which membership includes pool access?', options: ['Bronze', 'Silver', 'Gold'], answer: 'Gold' },
+                        { id: 'q2', type: 'fill', text: 'Monthly fee for students: £', answer: '25' },
+                        { id: 'q3', type: 'fill', text: 'Free induction is held on:', answer: 'Tuesday' }
+                    ]
+                }
+            ],
+            section2: [
+                { 
+                    id: 's2_1', title: 'Local Park Redevelopment', category: 'General Monologue', premium: false, duration: 90,
+                    desc: 'A local councillor explaining upcoming changes to the community park.',
+                    transcript: "Welcome everyone to the community hall. I am here to discuss the upcoming local park redevelopment. While some have mentioned a lack of facilities, the main reason for this project is actually safety concerns due to uneven pathways. ... We are making several changes. For instance, the old fountain is broken and will be removed. In its place, we will build a comfortable seating area for families. ... Please note, for these heavy works to take place safely, the park will be completely closed during the month of November.",
+                    questions: [
+                        { id: 'q1', type: 'mcq', text: 'The main reason for the redevelopment is:', options: ['Safety concerns', 'Lack of facilities', 'Increase in local population'], answer: 'Safety concerns' },
+                        { id: 'q2', type: 'mcq', text: 'What will replace the old fountain?', options: ['A playground', 'A seating area', 'A flower garden'], answer: 'A seating area' },
+                        { id: 'q3', type: 'fill', text: 'The park will be closed during the month of', answer: 'November' }
+                    ]
+                }
+            ],
+            section3: [
+                { 
+                    id: 's3_1', title: 'Marine Biology Assignment', category: 'Educational Conversation', premium: true, duration: 110,
+                    desc: 'Two students and a tutor discussing an upcoming presentation on coral reefs.',
+                    transcript: "Let's review our marine biology assignment on coral reefs. Sarah, are we focusing on tourism impact? ... No, Mark, we agreed to focus our presentation specifically on bleaching events. ... Right. I need to research the effect of water temperature on the bleaching process. ... Exactly. And Mark, you are responsible for designing the slides once we have the data. ... Got it. Our tutor gave us one warning though: we must make sure not to use too much technical jargon, so everyone can understand.",
+                    questions: [
+                        { id: 'q1', type: 'mcq', text: 'What aspect of coral reefs are they focusing on?', options: ['Tourism impact', 'Bleaching events', 'Fish biodiversity'], answer: 'Bleaching events' },
+                        { id: 'q2', type: 'fill', text: 'Sarah needs to research the effect of water', answer: 'temperature' },
+                        { id: 'q3', type: 'fill', text: 'Mark is responsible for designing the', answer: 'slides' },
+                        { id: 'q4', type: 'mcq', text: 'The tutor warns them not to use too much:', options: ['Technical jargon', 'Statistical data', 'Historical context'], answer: 'Technical jargon' }
+                    ]
+                },
+                { 
+                    id: 's3_2', title: 'History Field Trip Planning', category: 'Educational Conversation', premium: true, duration: 105,
+                    desc: 'Students debating which historical site to visit for their thesis.',
+                    transcript: "We need to finalize the destination for our history field trip. ... I originally wanted to visit the old castle. ... We had to reject the castle because it is currently under renovation, so we would not be able to go inside. ... That is true. So what is the alternative? ... We decided we will go and visit the Roman baths instead. They have great guided tours.",
+                    questions: [
+                        { id: 'q1', type: 'mcq', text: 'Why did they reject the castle?', options: ['Too expensive', 'Too far away', 'Currently under renovation'], answer: 'Currently under renovation' },
+                        { id: 'q2', type: 'fill', text: 'They decided to visit the Roman', answer: 'baths' }
+                    ]
+                }
+            ],
+            section4: [
+                { 
+                    id: 's4_1', title: 'The Evolution of Urban Architecture', category: 'Academic Lecture', premium: true, duration: 150,
+                    desc: 'A university lecture on how the industrial revolution shaped modern cities.',
+                    transcript: "Good morning class. Today we discuss the evolution of urban architecture. Before the 19th century, materials were limited. Buildings were primarily constructed from wood and stone. ... The major turning point was the invention of the safety elevator, which, combined with steel frames, allowed for the construction of skyscrapers. ... However, early urbanization had severe drawbacks. The primary negative consequence was poor sanitation, leading to outbreaks of disease. ... Today, the focus has shifted entirely. Modern urban planners prioritize environmental sustainability above all else.",
+                    questions: [
+                        { id: 'q1', type: 'fill', text: 'Before the 19th century, buildings were primarily constructed from wood and', answer: 'stone' },
+                        { id: 'q2', type: 'fill', text: 'The invention of the safety elevator allowed for the construction of', answer: 'skyscrapers' },
+                        { id: 'q3', type: 'mcq', text: 'What was the primary negative consequence of early urbanization?', options: ['Traffic congestion', 'Poor sanitation', 'Loss of agricultural land'], answer: 'Poor sanitation' },
+                        { id: 'q4', type: 'fill', text: 'Modern urban planners prioritize environmental', answer: 'sustainability' }
+                    ]
+                }
+            ]
+        };
+
+        // Application State
+        let state = {
+            isPremium: false,
+            activeSession: null,
+            audioConfig: {
+                isPlaying: false,
+                currentTime: 0,
+                duration: 0,
+                interval: null
+            },
+            userAnswers: {},
+            isReviewMode: false
+        };
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = 'nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition text-sm font-bold text-white/70 hover:bg-white/10 hover:text-white';
+                if(btn.dataset.tab === tabId) {
+                    btn.className = 'nav-btn active w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition text-sm font-bold bg-ieltsRed text-white shadow-md';
+                }
+            });
+
+            if(tabId === 'library') renderLibrary();
+        }
+
+        function togglePremium() {
+            state.isPremium = !state.isPremium;
+            updatePremiumUI();
+            if(!document.getElementById('view-library').classList.contains('hidden')) {
+                renderLibrary();
+            }
+        }
+
+        function activatePremium() {
+            state.isPremium = true;
+            hideUpgradeModal();
+            updatePremiumUI();
+            if(!document.getElementById('view-library').classList.contains('hidden')) {
+                renderLibrary();
+            }
+        }
+
+        function updatePremiumUI() {
+            const statusBox = document.getElementById('sidebar-premium-status');
+            const avatar = document.getElementById('sidebar-avatar-container');
+            const planName = document.getElementById('sidebar-plan-name');
+            const toggleBtn = document.getElementById('sidebar-toggle-btn');
+            const mobileBtn = document.getElementById('mobile-premium-btn');
+            const dashBanner = document.getElementById('dash-upgrade-banner');
+
+            if (state.isPremium) {
+                statusBox.className = 'p-4 rounded-xl border bg-gradient-to-br from-red-500/20 to-transparent border-red-500/50 transition-all';
+                avatar.className = 'bg-ieltsRed p-2 rounded-full shadow-md';
+                avatar.innerHTML = '<i class="ph-fill ph-crown text-white"></i>';
+                planName.innerText = 'Premium Scholar';
+                planName.classList.add('text-ieltsRed');
+                toggleBtn.innerText = 'Revert to Free (Demo)';
+                toggleBtn.className = 'w-full mt-2 bg-white/10 text-white hover:text-white text-xs font-semibold py-2 rounded-lg border border-white/20 hover:bg-white/20 transition';
+                mobileBtn.innerHTML = '<div class="w-8 h-8 rounded-full bg-ieltsRed border-2 border-white flex items-center justify-center shadow-lg"><i class="ph-fill ph-crown text-white"></i></div>';
+                if(dashBanner) dashBanner.classList.add('hidden');
+            } else {
+                statusBox.className = 'p-4 rounded-xl border bg-white/5 border-white/10 transition-all';
+                avatar.className = 'bg-white/20 p-2 rounded-full';
+                avatar.innerHTML = '<i class="ph ph-user text-white"></i>';
+                planName.innerText = 'Free Account';
+                planName.classList.remove('text-ieltsRed');
+                toggleBtn.innerText = 'Unlock Premium';
+                toggleBtn.className = 'w-full mt-2 bg-ieltsRed text-white text-sm font-bold py-2.5 rounded-lg hover:bg-red-700 transition shadow-lg shadow-red-900/50';
+                mobileBtn.innerHTML = '<div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white border border-white/30"><i class="ph ph-user"></i></div>';
+                if(dashBanner) dashBanner.classList.remove('hidden');
+            }
+            renderTrendingTopics();
+        }
+
+        function showUpgradeModal() {
+            const modal = document.getElementById('upgrade-modal');
+            const content = document.getElementById('upgrade-modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function hideUpgradeModal() {
+            const modal = document.getElementById('upgrade-modal');
+            const content = document.getElementById('upgrade-modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function renderTrendingTopics() {
+            const container = document.getElementById('trending-topics-container');
+            const topics = [
+                { title: 'The Evolution of Urban Architecture', cat: 'Section 4', prem: true, icon: 'ph-buildings' },
+                { title: 'Marine Biology Assignment', cat: 'Section 3', prem: true, icon: 'ph-fish-simple' },
+                { title: 'Hotel Booking Enquiry', cat: 'Section 1', prem: false, icon: 'ph-bed' },
+            ];
+
+            container.innerHTML = topics.map(item => `
+                <div class="group flex items-center justify-between p-3.5 rounded-xl hover:bg-blue-50 border border-transparent hover:border-blue-100 cursor-pointer transition" onclick="switchTab('library')">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-slate-100 p-2.5 rounded-lg text-slate-500 group-hover:text-ieltsNavy group-hover:bg-white transition shadow-sm">
+                            <i class="${item.icon} text-xl"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-sm text-slate-900 group-hover:text-ieltsNavy transition">${item.title}</span>
+                            <span class="text-xs text-slate-500 font-medium">${item.cat}</span>
+                        </div>
+                    </div>
+                    ${item.prem && !state.isPremium 
+                        ? `<i class="ph-fill ph-lock-key text-slate-300"></i>` 
+                        : `<i class="ph ph-caret-right text-slate-300 group-hover:text-ieltsRed transition transform group-hover:translate-x-1"></i>`
+                    }
+                </div>
+            `).join('');
+        }
+
+        function renderLibrary() {
+            const container = document.getElementById('library-content');
+            
+            const sectionsMeta = [
+                { key: 'section1', title: "Section 1: Social Survival", desc: "A conversation between two people set in an everyday social context. Focus on basic facts." },
+                { key: 'section2', title: "Section 2: Social Monologue", desc: "A monologue set in an everyday social context, e.g., a speech about local facilities." },
+                { key: 'section3', title: "Section 3: Educational Context", desc: "A conversation between up to four people set in an educational or training context." },
+                { key: 'section4', title: "Section 4: Academic Lecture", desc: "A monologue on an academic subject. Focus on understanding complex ideas and detailed info." }
+            ];
+
+            let html = '';
+            sectionsMeta.forEach(secMeta => {
+                const data = listeningData[secMeta.key];
+                if(!data) return;
+
+                html += `
+                    <section>
+                        <div class="mb-6 flex items-end gap-4 border-b border-slate-200 pb-3">
+                            <div class="bg-ieltsNavy text-white px-3 py-1.5 rounded-lg font-bold text-xl">${secMeta.key.replace('section', 'S')}</div>
+                            <div>
+                                <h3 class="text-2xl font-extrabold text-slate-900">${secMeta.title}</h3>
+                                <p class="text-sm text-slate-500 mt-0.5">${secMeta.desc}</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                `;
+
+                data.forEach(item => {
+                    const isLocked = item.premium && !state.isPremium;
+                    const encodedItem = encodeURIComponent(JSON.stringify(item));
+                    
+                    html += `
+                        <div onclick="startSession('${encodedItem}')" class="relative group bg-white p-6 rounded-2xl border-2 transition-all cursor-pointer flex flex-col h-full
+                            ${isLocked ? 'border-slate-100 bg-slate-50 opacity-90' : 'border-transparent shadow-sm hover:shadow-xl hover:border-ieltsNavy/20 hover:-translate-y-1'}">
+                            
+                            <div class="flex justify-between items-start mb-3">
+                                <span class="text-xs font-bold tracking-wider text-ieltsRed uppercase bg-red-50 px-2 py-1 rounded border border-red-100">${item.category}</span>
+                                ${item.premium ? (state.isPremium ? `<div class="bg-amber-100 p-1.5 rounded-md shadow-sm"><i class="ph-fill ph-crown text-amber-600"></i></div>` : `<div class="bg-slate-200 p-1.5 rounded-md"><i class="ph-fill ph-lock-key text-slate-500"></i></div>`) : ''}
+                            </div>
+                            
+                            <h4 class="text-xl font-bold leading-tight mb-2 ${isLocked ? 'text-slate-500' : 'text-slate-900 group-hover:text-ieltsNavy'}">${item.title}</h4>
+                            <p class="text-sm text-slate-500 mb-6 line-clamp-2">${item.desc}</p>
+                            
+                            <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between text-sm">
+                                <span class="text-slate-500 font-bold flex items-center gap-1"><i class="ph ph-clock"></i> ${formatTimeStr(item.duration)}</span>
+                                <span class="text-slate-500 font-bold flex items-center gap-1"><i class="ph ph-list-numbers"></i> ${item.questions.length} Qs</span>
+                            </div>
+
+                            ${isLocked ? `
+                                <div class="absolute inset-0 bg-white/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl backdrop-blur-sm z-10">
+                                    <span class="bg-ieltsNavy text-white text-sm font-bold py-2 px-5 rounded-full flex items-center gap-2 shadow-2xl">
+                                        <i class="ph-fill ph-lock-key"></i> Premium Access
+                                    </span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                });
+                html += `</div></section>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function formatTimeStr(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function startSession(encodedItem) {
+            const item = JSON.parse(decodeURIComponent(encodedItem));
+            
+            if (item.premium && !state.isPremium) {
+                showUpgradeModal();
+                return;
+            }
+
+            // Stop any ongoing speech
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+
+            // Reset state
+            state.activeSession = item;
+            state.audioConfig = {
+                isPlaying: false,
+                currentTime: 0,
+                duration: item.duration,
+                interval: null
+            };
+            state.userAnswers = {};
+            state.isReviewMode = false;
+            
+            // Setup UI
+            document.getElementById('session-title-display').innerText = item.title;
+            document.getElementById('audio-duration').innerText = formatTimeStr(item.duration);
+            document.getElementById('audio-timer').innerText = "00:00";
+            document.getElementById('audio-progress-bar').style.width = '0%';
+            
+            // Adjust visual duration to roughly match the spoken text length (approx 130 words per min)
+            if (item.transcript) {
+                const wordCount = item.transcript.split(' ').length;
+                state.audioConfig.duration = Math.max(30, Math.floor((wordCount / 130) * 60) + 10);
+                document.getElementById('audio-duration').innerText = formatTimeStr(state.audioConfig.duration);
+            }
+
+            resetAudioUI();
+            hideResultsOverlay();
+            renderQuestions();
+            switchTab('session');
+        }
+
+        function toggleAudio() {
+            if(state.audioConfig.currentTime >= state.audioConfig.duration) {
+                // Restart if finished
+                state.audioConfig.currentTime = 0;
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }
+
+            state.audioConfig.isPlaying = !state.audioConfig.isPlaying;
+            
+            const visualizer = document.getElementById('audio-visualizer');
+            const playIcon = document.getElementById('audio-play-icon');
+            
+            if (state.audioConfig.isPlaying) {
+                visualizer.classList.add('playing');
+                playIcon.className = 'ph-fill ph-pause text-2xl';
+                
+                // Play Text-to-Speech
+                if ('speechSynthesis' in window) {
+                    if (window.speechSynthesis.paused) {
+                        window.speechSynthesis.resume();
+                    } else if (!window.speechSynthesis.speaking) {
+                        const utterance = new SpeechSynthesisUtterance(state.activeSession.transcript);
+                        utterance.rate = 0.85; // A comfortable, clear pace for an IELTS test
+                        utterance.pitch = 1;
+                        window.speechSynthesis.speak(utterance);
+                    }
+                }
+
+                startAudioTimer();
+            } else {
+                visualizer.classList.remove('playing');
+                playIcon.className = 'ph-fill ph-play text-2xl';
+                clearInterval(state.audioConfig.interval);
+
+                // Pause Text-to-Speech
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.pause();
+                }
+            }
+        }
+
+        function resetAudioUI() {
+            const visualizer = document.getElementById('audio-visualizer');
+            const playIcon = document.getElementById('audio-play-icon');
+            visualizer.classList.remove('playing');
+            playIcon.className = 'ph-fill ph-play text-2xl';
+            clearInterval(state.audioConfig.interval);
+
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function startAudioTimer() {
+            clearInterval(state.audioConfig.interval);
+            state.audioConfig.interval = setInterval(() => {
+                if(state.audioConfig.currentTime < state.audioConfig.duration) {
+                    state.audioConfig.currentTime += 0.5; // Update every half second for smoothness
+                    updateProgressUI();
+                } else {
+                    // Audio finished
+                    toggleAudio();
+                }
+            }, 500);
+        }
+
+        function updateProgressUI() {
+            const curr = state.audioConfig.currentTime;
+            const dur = state.audioConfig.duration;
+            document.getElementById('audio-timer').innerText = formatTimeStr(curr);
+            const percentage = (curr / dur) * 100;
+            document.getElementById('audio-progress-bar').style.width = `${percentage}%`;
+        }
+
+        function seekAudio(e) {
+            const container = document.getElementById('progress-container');
+            const rect = container.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const percentage = clickX / rect.width;
+            
+            state.audioConfig.currentTime = percentage * state.audioConfig.duration;
+            updateProgressUI();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            const questions = state.activeSession.questions;
+            
+            let html = `<div class="bg-white p-6 md:p-10 rounded-2xl shadow-sm border border-slate-200">
+                            <h3 class="text-xl font-bold text-ieltsNavy mb-6 pb-4 border-b border-slate-100">Questions 1 - ${questions.length}</h3>
+                            <div class="space-y-8">`;
+
+            questions.forEach((q, index) => {
+                const qNum = index + 1;
+                html += `<div class="question-block" id="block-${q.id}">`;
+                
+                if (q.type === 'fill') {
+                    // Split text to place input field
+                    const parts = q.text.split(':');
+                    const preText = parts[0] + ':';
+                    const postText = parts[1] || '';
+                    
+                    html += `
+                        <div class="flex flex-wrap items-center gap-2 text-lg">
+                            <span class="font-bold text-ieltsNavy w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center text-sm shrink-0">${qNum}</span>
+                            <span class="text-slate-800 font-medium">${preText}</span>
+                            <input type="text" id="input-${q.id}" class="fill-blank-input" placeholder="WRITE HERE" oninput="saveAnswer('${q.id}', this.value)" autocomplete="off" spellcheck="false">
+                            <span class="text-slate-800 font-medium">${postText}</span>
+                        </div>
+                        <div id="feedback-${q.id}" class="text-sm font-bold mt-2 ml-8 hidden"></div>
+                    `;
+                } else if (q.type === 'mcq') {
+                    html += `
+                        <div class="flex items-start gap-3">
+                            <span class="font-bold text-ieltsNavy w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center text-sm shrink-0 mt-1">${qNum}</span>
+                            <div class="flex-1">
+                                <p class="text-lg font-medium text-slate-800 mb-3">${q.text}</p>
+                                <div class="space-y-2 ml-2">
+                                    ${q.options.map((opt, oIdx) => {
+                                        const letter = String.fromCharCode(65 + oIdx);
+                                        return `
+                                        <label class="flex items-center gap-3 cursor-pointer group p-2 rounded hover:bg-slate-50 transition">
+                                            <div class="relative flex items-center">
+                                                <input type="radio" name="radio-${q.id}" value="${opt}" class="peer sr-only" onchange="saveAnswer('${q.id}', this.value)">
+                                                <div class="w-6 h-6 rounded-full border-2 border-slate-300 peer-checked:border-ieltsRed peer-checked:bg-ieltsRed flex items-center justify-center transition">
+                                                    <div class="w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100 transition"></div>
+                                                </div>
+                                            </div>
+                                            <span class="font-bold text-slate-500 group-hover:text-slate-800 transition">${letter}.</span>
+                                            <span class="text-slate-700">${opt}</span>
+                                        </label>
+                                        `;
+                                    }).join('')}
+                                </div>
+                                <div id="feedback-${q.id}" class="text-sm font-bold mt-3 ml-2 hidden"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                html += `</div>`;
+            });
+
+            html += `</div></div>`;
+            container.innerHTML = html;
+        }
+
+        function saveAnswer(qId, value) {
+            if(!state.isReviewMode) {
+                state.userAnswers[qId] = value.trim();
+            }
+        }
+
+        function submitAnswers() {
+            if(state.isReviewMode) return;
+
+            // Stop audio
+            if(state.audioConfig.isPlaying) toggleAudio();
+
+            let score = 0;
+            const questions = state.activeSession.questions;
+
+            questions.forEach(q => {
+                const userAns = (state.userAnswers[q.id] || '').toLowerCase();
+                const correctAns = q.answer.toLowerCase();
+                
+                const isCorrect = userAns === correctAns;
+                if (isCorrect) score++;
+
+                // Visual Feedback prep
+                const feedbackEl = document.getElementById(`feedback-${q.id}`);
+                
+                if (q.type === 'fill') {
+                    const inputEl = document.getElementById(`input-${q.id}`);
+                    inputEl.disabled = true;
+                    if(isCorrect) {
+                        inputEl.classList.add('correct');
+                    } else {
+                        inputEl.classList.add('incorrect');
+                        feedbackEl.innerHTML = `Correct answer: <span class="text-emerald-600">${q.answer}</span>`;
+                        feedbackEl.classList.remove('hidden');
+                    }
+                } else if (q.type === 'mcq') {
+                    // Disable radios
+                    document.querySelectorAll(`input[name="radio-${q.id}"]`).forEach(radio => {
+                        radio.disabled = true;
+                        const label = radio.closest('label');
+                        
+                        if (radio.value === q.answer) {
+                            // Highlight correct answer
+                            label.classList.add('bg-emerald-50', 'border', 'border-emerald-200');
+                            label.querySelector('.w-6').classList.add('!border-emerald-500', '!bg-emerald-500');
+                        } else if (radio.checked && radio.value !== q.answer) {
+                            // Highlight wrong selection
+                            label.classList.add('bg-red-50', 'border', 'border-red-200');
+                            label.querySelector('.w-6').classList.add('!border-red-500', '!bg-red-500');
+                        }
+                    });
+                }
+            });
+
+            // Show Overlay
+            document.getElementById('result-score').innerText = `${score}/${questions.length}`;
+            document.getElementById('session-results-overlay').classList.remove('hidden');
+            document.getElementById('session-results-overlay').classList.add('flex');
+            
+            document.getElementById('submit-answers-btn').classList.add('hidden');
+            state.isReviewMode = true;
+        }
+
+        function reviewAnswers() {
+            document.getElementById('session-results-overlay').classList.add('hidden');
+            document.getElementById('session-results-overlay').classList.remove('flex');
+            // User can now scroll through highlighted answers
+        }
+
+        function hideResultsOverlay() {
+            document.getElementById('session-results-overlay').classList.add('hidden');
+            document.getElementById('session-results-overlay').classList.remove('flex');
+            document.getElementById('submit-answers-btn').classList.remove('hidden');
+        }
+
+        function endSession() {
+            resetAudioUI();
+            state.activeSession = null;
+            switchTab('library');
+        }
+
+        // Initialize
+        window.onload = () => {
+            renderTrendingTopics();
+            // Automatically switch to Dashboard on load
+        };
+    </script>
+</body>
+</html>

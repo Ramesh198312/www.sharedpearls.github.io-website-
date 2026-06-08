@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IELTS Academic Writing Premium Vault | Shared Pearls</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- MASTER COHESIVE BRAND PALETTE --- */
+    :root {
+      --navy-dark: #0A1128;
+      --navy-main: #1C2541;
+      --cerulean: #007EA7;
+      --champagne: #D4AF37;
+      --bg-page: #F4F7F6;
+      --bg-panel: #FFFFFF;
+      --text-main: #2B2D42;
+      --text-muted: #6C757D;
+      --border-subtle: #D8E2DC;
+      --success: #2EC4B6;
+      
+      --font-ui: 'Outfit', sans-serif;
+      --font-passage: 'Merriweather', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-ui); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; background: var(--bg-page); overflow-y: scroll; }
+    
+    /* --- MASTER Header NAVIGATION --- */
+    header { 
+      background: var(--navy-dark); color: #FFF; display: flex; justify-content: space-between; 
+      align-items: center; padding: 0 3rem; height: 75px; border-bottom: 3px solid var(--champagne); 
+      flex-shrink: 0; z-index: 100;
+    }
+    .brand { font-family: var(--font-passage); font-size: 1.4rem; font-weight: 700; }
+    .brand span { color: var(--champagne); font-style: italic; }
+    .header-right { display: flex; align-items: center; gap: 20px; }
+    .btn-back-dash { background: transparent; border: 1px solid var(--champagne); color: var(--champagne); padding: 0.4rem 1rem; font-family: var(--font-ui); font-size: 0.8rem; font-weight: 600; border-radius: 4px; cursor: pointer; text-transform: uppercase; display: none; transition: all 0.2s; }
+    .btn-back-dash:hover { background: var(--champagne); color: var(--navy-dark); }
+    .score-banner { font-family: var(--font-mono); font-size: 1.1rem; color: var(--champagne); font-weight: 700; background: var(--navy-main); padding: 0.4rem 1.2rem; border-radius: 4px; display: block; }
+
+    /* --- PORTAL CORE LAYOUT --- */
+    .portal-container { flex: 1; padding: 3rem; max-width: 1400px; width: 100%; margin: 0 auto; }
+    .portal-title { font-family: var(--font-passage); font-size: 2.2rem; color: var(--navy-dark); margin-bottom: 0.5rem; }
+    .portal-desc { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2.5rem; }
+    
+    /* --- FILTER SYSTEM --- */
+    .filter-bar { display: flex; gap: 10px; margin-bottom: 2rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1rem; }
+    .filter-btn { background: #FFF; border: 1px solid var(--border-subtle); padding: 0.5rem 1.5rem; font-family: var(--font-ui); font-size: 0.85rem; font-weight: 600; border-radius: 20px; cursor: pointer; transition: all 0.2s; color: var(--text-muted); }
+    .filter-btn:hover { border-color: var(--cerulean); color: var(--navy-dark); }
+    .filter-btn.active { background: var(--navy-main); color: #FFF; border-color: var(--navy-main); }
+
+    /* --- RESPONSE GRID SYSTEM --- */
+    .test-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; padding-bottom: 3rem; }
+    .test-card { background: #FFF; border: 1px solid var(--border-subtle); border-radius: 6px; padding: 2rem; display: flex; flex-direction: column; position: relative; transition: all 0.25s; }
+    .test-card:hover { transform: translateY(-4px); border-color: var(--cerulean); box-shadow: 0 10px 25px rgba(10,17,40,0.05); }
+    .test-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--cerulean); border-top-left-radius: 6px; border-top-right-radius: 6px; opacity: 0; transition: opacity 0.2s; }
+    .test-card.t2::before { background: var(--champagne); }
+    .test-card:hover::before { opacity: 1; }
+    
+    .tc-meta { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1rem; }
+    .tc-index { color: var(--champagne); }
+    .test-card.t2 .tc-index { color: var(--cerulean); }
+    .tc-tag { color: var(--cerulean); background: rgba(0,126,167,0.06); padding: 2px 8px; border-radius: 2px; font-size: 0.7rem; }
+    .test-card.t2 .tc-tag { color: var(--champagne); background: rgba(212,175,55,0.08); }
+    
+    .tc-title { font-family: var(--font-passage); font-size: 1.2rem; color: var(--navy-main); line-height: 1.4; margin-bottom: 1rem; flex-grow: 1; }
+    .tc-focus { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 4px; }
+    .tc-focus span { font-family: var(--font-mono); font-size: 0.75rem; font-weight: bold; color: var(--text-main); }
+    
+    .tc-btn { width: 100%; background: var(--bg-page); border: 1px solid var(--border-subtle); color: var(--navy-dark); padding: 0.7rem; font-family: var(--font-ui); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.5px; border-radius: 4px; cursor: pointer; transition: all 0.2s; text-align: center; text-decoration: none; }
+    .test-card:hover .tc-btn { background: var(--navy-dark); color: #FFF; border-color: var(--navy-dark); }
+
+    /* --- ACTIVE WORKSPACE STUB --- */
+    .writing-workspace-view { display: none; padding: 3rem; font-family: var(--font-passage); font-size: 1.3rem; text-align: center; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">IELTS Academic <span>Premium</span> | Writing Performance Suite</div>
+    <div class="header-right">
+      <button class="btn-back-dash" id="back-dash-btn" onclick="backToDashboard()">← Return Dashboard</button>
+      <div class="score-banner" id="module-counter">20 Modules Available</div>
+    </div>
+  </header>
+
+  <main class="portal-container" id="dashboard-view">
+    <h1 class="portal-title">Academic Production Vault</h1>
+    <p class="portal-desc">Access your 20 interactive premium writing modules. Practice real test simulations with advanced structural layouts matching Task 1 Data Reports and Task 2 Discursive Essays.</p>
+    
+    <div class="filter-bar">
+      <button class="filter-btn active" id="f-all" onclick="filterModules('all')">All Components</button>
+      <button class="filter-btn" id="f-t1" onclick="filterModules('task1')">Task 1 (Data Analytics)</button>
+      <button class="filter-btn" id="f-t2" onclick="filterModules('task2')">Task 2 (Discursive Essays)</button>
+    </div>
+
+    <div class="test-grid" id="writing-grid-container"></div>
+  </main>
+
+  <div class="writing-workspace-view" id="workspace-view">
+    Writing workspace module interface active. Dynamic prompt tracking loaded.
+  </div>
+
+  <script>
+    /* --- COMPREHENSIVE REGISTRATION FOR ALL 20 ACADEMIC WRITING MODULES --- */
+    const writingDataset = [
+      // --- TASK 1: DATA ANALYTICS (01 - 06) ---
+      {
+        id: "task1",
+        type: "Task 1",
+        subtype: "Bar Chart",
+        title: "Global Renewable Infrastructure Capital Expenditures (2020–2025)",
+        focus: "Comparative Data Grouping & Static Highlighting",
+        target: "150+ Words | 20 Minutes"
+      },
+      {
+        id: "task1",
+        type: "Task 1",
+        subtype: "Line Graph",
+        title: "Fluctuations in Microplastic Concentrations Across Core Marine Ecosystems",
+        focus: "Trend Directionality, Rate of Change & Intersection Points",
+        target: "150+ Words | 20 Minutes"
+      },
+      {
+        id: "task1",
+        type: "Task 1",
+        subtype: "Pie Chart",
+        title: "Proportional Shift in Household Energy Allocations Across Five Countries",
+        focus: "Percentage Distribution Mapping & Structural Synthesis",
+        target: "150+ Words | 20 Minutes"
+      },
+      {
+        id: "task1",
+        type: "Task 1",
+        subtype: "Table Matrix",
+        title: "Demographic Metrics and Literacy Rates Across Regional Geographic Strata",
+        focus: "Complex Row/Column Cross-Analysis & Significant Data Isolation",
+        target: "150+ Words | 20 Minutes"
+      },
+      {
+        id: "task1",
+        type: "Task 1",
+        subtype: "Process Diagram",
+        title: "Mechanical Lifecycle and Chemical Refining of Perovskite Solar Wafers",
+        focus: "Sequential Sequencing, Passive Voice Structures & Phase Grouping",
+        target: "150+ Words | 20 Minutes"
+      },
+      {
+        id: "task1",
+        type: "Task 1",
+        subtype: "Map Comparison",
+        title: "Urban Transformations and Infrastructure Sprawl in a Coastal Settlement",
+        focus: "Spatial Locational Transitions & Chronological Architecture Shifts",
+        target: "150+ Words | 20 Minutes"
+      },
+
+      // --- TASK 2: DISCURSIVE ESSAYS (07 - 20) ---
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Agree / Disagree",
+        title: "The Automation of Secondary Education Classrooms Through AI Interfaces",
+        focus: "Unidirectional Thesis Construction & Counter-Argument Refutation",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Discuss Both Views",
+        title: "Corporate Funding of Higher Education vs. Absolute Public Subsidies",
+        focus: "Balanced Dual-Perspective Analysis & Distinct Personal Position Integration",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Advantages & Disadvantages",
+        title: "The Expansion of Decentralized Digital Remote Hubs in Global Megacities",
+        focus: "Weight Evaluation Framework & Cohesive Paragraph Transition Modeling",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Problem & Solution",
+        title: "Systemic Staffing Shortages and Declining Performance Metrics in Rural Postcodes",
+        focus: "Causal Connection Linking & Feasible Policy Allocation Mapping",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Double Question",
+        title: "The Growth of Freelance Digital Markets: Financial Freedom or Economic Precarity?",
+        focus: "Dual-Pronged Task Response Fulfillment & Syntactic Range Mapping",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Agree / Disagree",
+        title: "Imposing Entry Volume Caps on Historic Urban Environments Facing Overtourism",
+        focus: "Strong Position Stability & Lexical Sophistication in Conservation Contexts",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Discuss Both Views",
+        title: "Preserving Ancient Regional Traditions vs. Embracing Global Commercialization",
+        focus: "Sociological Lexicon Production & Comparative Argument Mapping Structures",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Advantages & Disadvantages",
+        title: "Replacing Traditional Publishing Houses with Open-Access Digital Repository Systems",
+        focus: "Logical Progression Continuity & Academic Criterion Scaffolding",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Problem & Solution",
+        title: "The Proliferation of Synthetic Disinformation Models Across Communication Media",
+        focus: "Root-Cause Diagnostics & Multi-Tiered Algorithmic Resolution Formulas",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Agree / Disagree",
+        title: "Synaptic Pruning Realities Prove Language Immersion Budgets Must Focus on Early Childhood",
+        focus: "Neurocognitive Argumentation Models & Subordinate Clausal Framework Architecture",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Discuss Both Views",
+        title: "Should Governments Prioritize Continental Bullet Rail Infrastructure Over Short-Haul Aviation?",
+        focus: "Environmental Macro-Economics & Structural Cohesion Linking Networks",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Double Question",
+        title: "The Financialization of Universities: Why Are Scholars Replaced by Corporate Executives?",
+        focus: "Administrative Analysis Metrics & Institutional Argumentation Tracking",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Agree / Disagree",
+        title: "The Complete Replacement of Human Lexicographers by Natural Language Processing Storage Databases",
+        focus: "Advanced Technological Synthesis & Structural Coherence Constraints",
+        target: "250+ Words | 40 Minutes"
+      },
+      {
+        id: "task2",
+        type: "Task 2",
+        subtype: "Problem & Solution",
+        title: "The Involuntary Expansion of Urban Slums and Overloaded Utility Systems in Global Megacities",
+        focus: "Macro-Engineering Problem Identification & Complex Mitigation Modeling",
+        target: "250+ Words | 40 Minutes"
+      }
+    ];
+
+    /* --- RENDERING MATRIX ENGINE --- */
+    function renderWritingDashboard(filterType = "all") {
+      const container = document.getElementById("writing-grid-container");
+      let htmlMarkup = "";
+      let displayedCounter = 0;
+
+      writingDataset.forEach((module, idx) => {
+        // Evaluate condition constraints based on current filter active tab
+        if (filterType === "task1" && module.id !== "task1") return;
+        if (filterType === "task2" && module.id !== "task2") return;
+        
+        displayedCounter++;
+        const paddingIndex = String(idx + 1).padStart(2, '0');
+        const classificationClass = module.id === "task2" ? "test-card t2" : "test-card";
+
+        htmlMarkup += `
+          <div class="${classificationClass}">
+            <div class="tc-meta">
+              <span class="tc-index">Module ${paddingIndex}</span>
+              <span class="tc-tag">${module.subtype}</span>
+            </div>
+            <h3 class="tc-title">${module.title}</h3>
+            <div class="tc-focus">
+              <p>Type: <b>${module.type}</b></p>
+              <p>Criterion Target Focus:</p>
+              <span>→ ${module.focus}</span>
+              <p style="margin-top:6px;">Parameters: <i>${module.target}</i></p>
+            </div>
+            <button class="tc-btn" onclick="launchWritingWorkspace(${idx})">Initialize Workspace →</button>
+          </div>
+        `;
+      });
+
+      container.innerHTML = htmlMarkup;
+    }
+
+    /* --- CONTROL ACTIONS --- */
+    function filterModules(type) {
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      
+      if (type === 'all') document.getElementById('f-all').classList.add('active');
+      if (type === 'task1') document.getElementById('f-t1').classList.add('active');
+      if (type === 'task2') document.getElementById('f-t2').classList.add('active');
+
+      renderWritingDashboard(type);
+    }
+
+    function launchWritingWorkspace(index) {
+      // Toggle visibility structures to workspace mock view
+      document.getElementById("dashboard-view").style.display = "none";
+      document.getElementById("workspace-view").style.display = "flex";
+      document.getElementById("back-dash-btn").style.display = "block";
+      
+      const targetModule = writingDataset[index];
+      document.getElementById("module-counter").textContent = `${targetModule.type} : ${targetModule.subtype}`;
+      
+      document.getElementById("workspace-view").innerHTML = `
+        <div style="background:#FFF; padding:3rem; border-radius:8px; border:1px solid var(--border-subtle); max-width:800px; width:100%; margin:auto; text-align:left;">
+          <span style="font-family:var(--font-mono); font-size:0.8rem; background:rgba(0,126,167,0.08); color:var(--cerulean); padding:4px 10px; border-radius:3px; font-weight:bold; text-transform:uppercase;">${targetModule.type} Advanced Simulator</span>
+          <h2 style="font-family:var(--font-passage); color:var(--navy-dark); margin-top:1rem; margin-bottom:1.5rem; line-height:1.4;">${targetModule.title}</h2>
+          <div style="font-size:0.95rem; color:var(--text-main); font-family:var(--font-ui); background:var(--bg-page); padding:1.5rem; border-left:4px solid var(--champagne); margin-bottom:2rem;">
+            <strong>Diagnostic Criterion Focus:</strong> ${targetModule.focus} <br>
+            <strong style="display:inline-block; margin-top:8px;">Timing Constraints:</strong> ${targetModule.target}
+          </div>
+          <p style="font-size:1rem; font-style:italic; color:var(--text-muted); text-align:center;">Interactive response panels, multi-tier criterion scaffolding grids, and text editors are ready for next stage connection loops.</p>
+        </div>
+      `;
+    }
+
+    function backToDashboard() {
+      document.getElementById("dashboard-view").style.display = "block";
+      document.getElementById("workspace-view").style.display = "none";
+      document.getElementById("back-dash-btn").style.display = "none";
+      document.getElementById("module-counter").textContent = "20 Modules Available";
+    }
+
+    // Initialize compilation loops on startup
+    renderWritingDashboard();
+  </script>
+</body>
+</html>

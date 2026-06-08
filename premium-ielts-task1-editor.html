@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentic CD-IELTS Writing Simulator & AI Grader</title>
+    <style>
+        /* --- INSPERA ASSESSMENT EXAM THEME (FJORD) --- */
+        :root {
+            --inspera-blue: #0076a8;
+            --inspera-dark: #333333;
+            --inspera-bg: #f4f4f4;
+            --inspera-border: #cccccc;
+            --inspera-panel: #ffffff;
+            --inspera-text: #222222;
+            --inspera-focus: #41b6e6;
+            --inspera-success: #2ec4b6;
+            --inspera-error: #e71d36;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, Helvetica, sans-serif; background-color: var(--inspera-bg); color: var(--inspera-text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+        /* --- EXAM HEADER --- */
+        header {
+            background-color: var(--inspera-dark);
+            color: #ffffff;
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+        .header-left { font-weight: bold; font-size: 16px; letter-spacing: 1px; }
+        .header-center { display: flex; align-items: center; gap: 10px; }
+        .timer { font-weight: bold; background: #000; padding: 4px 12px; border-radius: 15px; letter-spacing: 1px; }
+        .timer.warning { color: #ff4d4d; }
+        .header-right { display: flex; gap: 15px; }
+        .header-btn { background: transparent; border: 1px solid #fff; color: #fff; padding: 4px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; }
+        .header-btn:hover { background: rgba(255,255,255,0.1); }
+        .header-btn.submit-btn { background: var(--inspera-blue); border-color: var(--inspera-blue); font-weight: bold; }
+        .header-btn.submit-btn:hover { background: #005a82; }
+
+        /* --- SPLIT EXAM WORKSPACE --- */
+        .workspace {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            padding: 15px;
+            gap: 15px;
+        }
+
+        /* --- LEFT PANE (STIMULUS) --- */
+        .stimulus-pane {
+            flex: 1;
+            background: var(--inspera-panel);
+            border: 1px solid var(--inspera-border);
+            border-radius: 3px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .prompt-content { padding: 30px; font-size: 15px; line-height: 1.6; }
+        .prompt-content h2 { font-size: 18px; margin-bottom: 20px; color: var(--inspera-dark); }
+        .instruction-box { border: 1px solid var(--inspera-border); padding: 15px; margin-bottom: 25px; background: #fafafa; }
+        .instruction-box p { margin-bottom: 0.5rem; }
+        .bold-instruction { font-weight: bold; }
+        
+        .diagram-wrapper { width: 100%; display: flex; justify-content: center; margin-top: 20px; }
+        
+        .instructor-controls { background: #e6f2f7; padding: 10px 15px; border-bottom: 1px solid var(--inspera-border); display: flex; align-items: center; gap: 10px; font-size: 12px; }
+        .instructor-controls select { padding: 4px; border: 1px solid var(--inspera-border); border-radius: 3px; max-width: 400px; }
+
+        /* --- RIGHT PANE (RESPONSE) --- */
+        .response-pane {
+            flex: 1;
+            background: var(--inspera-panel);
+            border: 1px solid var(--inspera-border);
+            border-radius: 3px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .editor-container { flex: 1; padding: 20px; }
+        .exam-textarea {
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--inspera-border);
+            border-radius: 3px;
+            padding: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+        .exam-textarea:focus { border-color: var(--inspera-focus); box-shadow: 0 0 0 1px var(--inspera-focus); }
+        .word-count-bar {
+            padding: 10px 20px;
+            background: #fafafa;
+            border-top: 1px solid var(--inspera-border);
+            font-size: 13px;
+            color: #555;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        /* --- DIAGNOSTIC REPORT MODAL OVERLAY --- */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;
+        }
+        .modal-card {
+            background: #FFF; width: 85%; height: 85%; max-width: 1100px; border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow: hidden;
+        }
+        .modal-header {
+            background: var(--inspera-dark); color: #FFF; padding: 15px 25px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-body { flex: 1; display: flex; overflow: hidden; background: var(--inspera-bg); }
+        
+        /* Modal Tabs */
+        .modal-sidebar { width: 240px; background: #FFF; border-right: 1px solid var(--inspera-border); display: flex; flex-direction: column; }
+        .report-tab-btn {
+            background: transparent; border: none; padding: 15px 20px; text-align: left;
+            font-size: 13px; font-weight: bold; color: #555; border-bottom: 1px solid var(--inspera-bg);
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+        }
+        .report-tab-btn:hover { background: var(--inspera-bg); }
+        .report-tab-btn.active { background: rgba(0, 118, 168, 0.08); color: var(--inspera-blue); border-left: 4px solid var(--inspera-blue); }
+        .sub-score { font-family: monospace; font-size: 14px; background: var(--inspera-dark); color: #FFF; padding: 2px 6px; border-radius: 3px; }
+        .report-tab-btn.active .sub-score { background: var(--inspera-blue); }
+
+        .report-content-pane { flex: 1; padding: 30px; overflow-y: auto; background: #FFF; margin: 15px; border: 1px solid var(--inspera-border); border-radius: 3px; }
+        .criterion-title { font-size: 18px; font-weight: bold; color: var(--inspera-dark); margin-bottom: 10px; border-bottom: 2px solid var(--inspera-bg); padding-bottom: 10px; }
+        .feedback-list { margin-top: 15px; margin-left: 20px; line-height: 1.8; font-size: 14px; }
+        .feedback-list li { margin-bottom: 12px; }
+        .badge-penalty { background: var(--inspera-error); color: #FFF; padding: 2px 6px; font-size: 11px; font-weight: bold; border-radius: 2px; text-transform: uppercase; }
+
+        /* --- EXAM FOOTER (NAVIGATION) --- */
+        footer {
+            background-color: var(--inspera-panel); border-top: 1px solid var(--inspera-border);
+            height: 60px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; flex-shrink: 0;
+        }
+        .nav-arrows { display: flex; gap: 10px; }
+        .nav-arrow { background: #fff; border: 1px solid var(--inspera-border); padding: 8px 15px; cursor: pointer; border-radius: 3px; font-weight: bold; color: var(--inspera-dark); }
+        .nav-arrow:hover { background: #f0f0f0; }
+        
+        .part-nav { display: flex; gap: 5px; }
+        .part-btn {
+            background: #fff; border: 1px solid var(--inspera-border); width: 40px; height: 40px; 
+            border-radius: 3px; cursor: pointer; font-weight: bold; color: var(--inspera-dark);
+            display: flex; justify-content: center; align-items: center;
+        }
+        .part-btn:hover { background: #f0f0f0; }
+        .part-btn.active { background: var(--inspera-blue); color: #fff; border-color: var(--inspera-blue); }
+
+        /* --- SVG/TABLE CORE SCHEMATICS --- */
+        svg { background: #fff; font-family: Arial, sans-serif; }
+        .axis { stroke: #333; stroke-width: 1; }
+        .grid { stroke: #eee; stroke-dasharray: 4; }
+        .ielts-table { border-collapse: collapse; width: 100%; font-size: 14px; text-align: center; }
+        .ielts-table th, .ielts-table td { border: 1px solid #333; padding: 10px; }
+        .ielts-table th { background: #f4f4f4; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">IELTS Academic Simulation</div>
+        <div class="header-center">
+            <span>Time remaining:</span>
+            <span class="timer" id="exam-timer">60:00</span>
+        </div>
+        <div class="header-right">
+            <button class="header-btn help-btn">Help</button>
+            <button class="header-btn submit-btn" onclick="openDiagnosticReport()">Submit Component</button>
+        </div>
+    </header>
+
+    <div class="workspace">
+        
+        <div class="stimulus-pane">
+            <div class="instructor-controls" id="instructor-bar">
+                <strong>Module Selection:</strong>
+                <select id="module-selector" onchange="loadSelectedModule()">
+                    </select>
+            </div>
+            
+            <div class="prompt-content" id="prompt-container"></div>
+        </div>
+
+        <div class="response-pane">
+            <div class="editor-container">
+                <textarea class="exam-textarea" id="response-area" placeholder="Type your response here... Your content will sync automatically."></textarea>
+            </div>
+            <div class="word-count-bar">
+                Word count: <span id="word-count">0</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="nav-arrows">
+            <button class="nav-arrow" onclick="switchPart(1)" id="btn-prev" style="visibility:hidden;">&larr; Previous Section</button>
+        </div>
+        <div class="part-nav">
+            <button class="part-btn active" id="btn-part1" onclick="switchPart(1)">1</button>
+            <button class="part-btn" id="btn-part2" onclick="switchPart(2)">2</button>
+        </div>
+        <div class="nav-arrows">
+            <button class="nav-arrow" onclick="switchPart(2)" id="btn-next">Next Section &rarr;</button>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="report-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 style="font-size:16px;">AI Band Descriptor Performance Matrix</h3>
+                <button onclick="closeModal()" style="background:transparent; border:none; color:#FFF; font-size:20px; cursor:pointer; font-weight:bold;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-sidebar">
+                    <button class="report-tab-btn active" id="tab-btn-overall" onclick="switchReportTab('overall')">
+                        <span>Overall Score</span> <span class="sub-score" id="score-overall" style="background:var(--inspera-blue);">--</span>
+                    </button>
+                    <button class="report-tab-btn" id="tab-btn-ta" onclick="switchReportTab('ta')">
+                        <span id="label-ta">Task Achievement</span> <span class="sub-score" id="score-ta">--</span>
+                    </button>
+                    <button class="report-tab-btn" id="tab-btn-cc" onclick="switchReportTab('cc')">
+                        <span>Coherence & Cohesion</span> <span class="sub-score" id="score-cc">--</span>
+                    </button>
+                    <button class="report-tab-btn" id="tab-btn-lr" onclick="switchReportTab('lr')">
+                        <span>Lexical Resource</span> <span class="sub-score" id="score-lr">--</span>
+                    </button>
+                    <button class="report-tab-btn" id="tab-btn-gra" onclick="switchReportTab('gra')">
+                        <span>Grammar Range & Accuracy</span> <span class="sub-score" id="score-gra">--</span>
+                    </button>
+                </div>
+                <div class="report-content-pane" id="report-text-pane">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- DYNAMIC CAMBRIDGE TEST BENCHSETS --- */
+        
+        const task1Data = [
+            { id: "bar", title: "Bar Chart: Consumer Goods", instruction: "The chart below shows the expenditure of two countries on consumer goods in 2010.", diagram: `<svg width="450" height="230" viewBox="0 0 450 230"><text x="225" y="25" font-size="13" font-weight="bold" text-anchor="middle">Expenditure on Consumer Goods (Pounds Sterling)</text><line x1="50" y1="180" x2="420" y2="180" class="axis" /><line x1="50" y1="40" x2="50" y2="180" class="axis" /><text x="40" y="185" font-size="11" text-anchor="end">0</text><text x="40" y="115" font-size="11" text-anchor="end">200k</text><line x1="50" y1="110" x2="420" y2="110" class="grid" /><text x="40" y="45" font-size="11" text-anchor="end">400k</text><line x1="50" y1="40" x2="420" y2="40" class="grid" /><text x="120" y="200" font-size="12" text-anchor="middle">Cars</text><rect x="85" y="65" width="30" height="115" fill="#333" /><rect x="120" y="100" width="30" height="80" fill="#aaa" /><text x="230" y="200" font-size="12" text-anchor="middle">Computers</text><rect x="195" y="90" width="30" height="90" fill="#333" /><rect x="230" y="50" width="30" height="130" fill="#aaa" /><text x="340" y="200" font-size="12" text-anchor="middle">Books</text><rect x="305" y="130" width="30" height="50" fill="#333" /><rect x="340" y="160" width="30" height="20" fill="#aaa" /></svg>` },
+            { id: "line", title: "Line Graph: Cinema Trends", instruction: "The graph below gives information about cinema attendance in Australia between 1990 and 2010.", diagram: `<svg width="450" height="230" viewBox="0 0 450 230"><text x="225" y="25" font-size="13" font-weight="bold" text-anchor="middle">Cinema Attendance Metrics (%)</text><line x1="50" y1="180" x2="420" y2="180" class="axis" /><line x1="50" y1="40" x2="50" y2="180" class="axis" /><text x="40" y="185" font-size="11" text-anchor="end">0%</text><text x="40" y="115" font-size="11" text-anchor="end">50%</text><line x1="50" y1="110" x2="420" y2="110" class="grid" /><text x="40" y="45" font-size="11" text-anchor="end">100%</text><line x1="50" y1="40" x2="420" y2="40" class="grid" /><text x="80" y="200" font-size="11" text-anchor="middle">1990</text><text x="180" y="200" font-size="11" text-anchor="middle">1995</text><text x="280" y="200" font-size="11" text-anchor="middle">2000</text><text x="380" y="200" font-size="11" text-anchor="middle">2010</text><polyline points="80,110 180,90 280,100 380,60" fill="none" stroke="#333" stroke-width="2" /><polyline points="80,150 180,130 280,110 380,120" fill="none" stroke="#aaa" stroke-width="2" stroke-dasharray="4,4" /></svg>` },
+            { id: "pie", title: "Pie Chart: Migration Reasons", instruction: "The pie charts below show the main reasons for migration to and from the UK in 2007.", diagram: `<div style="display:flex; justify-content:space-around; width:100%; margin-top:20px;"><div style="text-align:center; font-size:12px; font-weight:bold;">Immigration (578k)<br><br><div style="width:110px; height:110px; border-radius:50%; background:conic-gradient(#333 0% 40%, #888 40% 70%, #ccc 70% 100%); border:1px solid #333; margin:auto;"></div></div><div style="text-align:center; font-size:12px; font-weight:bold;">Emigration (327k)<br><br><div style="width:110px; height:110px; border-radius:50%; background:conic-gradient(#333 0% 30%, #888 30% 65%, #ccc 65% 100%); border:1px solid #333; margin:auto;"></div></div></div>` },
+            { id: "table", title: "Table: Urban Transit", instruction: "The table below gives information about the underground railway systems in six cities.", diagram: `<table class="ielts-table"><tr><th>City</th><th>Date opened</th><th>Kilometres of route</th><th>Passengers (Millions/yr)</th></tr><tr><td>London</td><td>1863</td><td>394</td><td>775</td></tr><tr><td>Paris</td><td>1900</td><td>199</td><td>1191</td></tr><tr><td>Tokyo</td><td>1927</td><td>155</td><td>1927</td></tr></table>` },
+            { id: "map", title: "Map: Spatial Development", instruction: "The maps below show the centre of a small town called Islip as it is now, and plans for its development.", diagram: `<div style="display:flex; gap:20px; font-size:12px; text-align:center;"><div style="border:1px dashed #333; padding:15px; background:#fff;"><strong>Present Layout</strong><div style="width:150px; height:100px; background:#eee; margin-top:10px; position:relative; border:1px solid #999;"><span style="position:absolute; top:40px; left:20px;">Main Road System</span></div></div><div style="border:1px dashed #333; padding:15px; background:#fff;"><strong>Future Proposal</strong><div style="width:150px; height:100px; background:#eee; margin-top:10px; position:relative; border:1px solid #999;"><span style="position:absolute; top:40px; left:20px; color:var(--inspera-blue); font-weight:bold;">Ring Road Track</span></div></div></div>` },
+            { id: "multi", title: "Hybrid: Pie + Table", instruction: "The pie chart illustrates land degradation variables, and the table outlines regional modifications during the 1990s.", diagram: `<div style="display:flex; flex-direction:column; gap:15px; align-items:center; width:100%;"><div style="width:90px; height:90px; border-radius:50%; background:conic-gradient(#333 0% 50%, #aaa 50% 100%); border:1px solid #333;"></div><table class="ielts-table" style="font-size:12px;"><tr><th>Region</th><th>Deforestation</th><th>Over-cultivation</th></tr><tr><td>Europe</td><td>9.8 %</td><td>7.7 %</td></tr><tr><td>Oceania</td><td>1.7 %</td><td>0 %</td></tr></table></div>` }
+        ];
+
+        const task2Data = [
+            { id: "q1", title: "Agree / Disagree: Community Service", instruction: "Some people believe that unpaid community service should be a compulsory part of high school programmes (for example working for a charity, improving the neighbourhood or teaching sports to younger children).", prompt: "To what extent do you agree or disagree?" },
+            { id: "q2", title: "Discuss Both Views: University Funding", instruction: "Some people believe that university education should be free for everyone. Others think that students should pay for their higher education.", prompt: "Discuss both these views and give your own opinion." },
+            { id: "q3", title: "Advantages / Disadvantages: Remote Work", instruction: "More and more people are choosing to work from home rather than commute to an office every day.", prompt: "Do the advantages of this development outweigh the disadvantages?" },
+            { id: "q4", title: "Problem & Solution: Urban Pollution", instruction: "In many cities around the world, pollution levels are rising rapidly.", prompt: "What are the main causes of this, and what solutions can you suggest?" },
+            { id: "q5", title: "Double Question: Ready-made Food", instruction: "Many people nowadays prefer to buy ready-made food rather than cook at home.", prompt: "Why is this? Is this a positive or negative development?" },
+            { id: "q6", title: "Agree / Disagree: Artificial Intelligence", instruction: "Artificial intelligence is increasingly being used in the workplace. Some people believe this will lead to massive unemployment, while others think it will create new opportunities.", prompt: "To what extent do you agree or disagree?" },
+            { id: "q7", title: "Discuss Both Views: Crime Prevention", instruction: "Some people think that the best way to reduce crime is to give longer prison sentences. Others, however, believe there are better alternative ways of reducing crime.", prompt: "Discuss both these views and give your own opinion." }
+        ];
+
+        // --- INTERNAL EXAM STATE STORAGE ---
+        let currentPart = 1;
+        let responses = { 1: "", 2: "" };
+        let metricsCache = { ta: 0, cc: 0, lr: 0, gra: 0, overall: 0 };
+
+        function initExam() {
+            updateSelectorOptions();
+            document.getElementById('response-area').addEventListener('input', function() {
+                responses[currentPart] = this.value;
+                updateWordCount(this.value);
+            });
+            startTimerCountdown();
+        }
+
+        function updateSelectorOptions() {
+            const selector = document.getElementById('module-selector');
+            selector.innerHTML = '';
+            
+            const dataSource = currentPart === 1 ? task1Data : task2Data;
+            
+            dataSource.forEach((item, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = item.title;
+                selector.appendChild(option);
+            });
+            
+            loadSelectedModule();
+        }
+
+        function loadSelectedModule() {
+            const index = document.getElementById('module-selector').value;
+            if (currentPart === 1) {
+                renderTask1Workspace(task1Data[index]);
+                document.getElementById('label-ta').innerText = "Task Achievement";
+            } else {
+                renderTask2Workspace(task2Data[index]);
+                document.getElementById('label-ta').innerText = "Task Response";
+            }
+        }
+
+        function renderTask1Workspace(moduleObj) {
+            document.getElementById('prompt-container').innerHTML = `
+                <div class="instruction-box">
+                    <p class="bold-instruction">You should spend about 20 minutes on this task.</p>
+                    <p>${moduleObj.instruction}</p>
+                    <p><strong>Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</strong></p>
+                    <p>Write at least 150 words.</p>
+                </div>
+                <div class="diagram-wrapper">${moduleObj.diagram}</div>
+            `;
+        }
+
+        function renderTask2Workspace(moduleObj) {
+            document.getElementById('prompt-container').innerHTML = `
+                <div class="instruction-box">
+                    <p class="bold-instruction">You should spend about 40 minutes on this task.</p>
+                    <p>Write about the following topic:</p>
+                    <br>
+                    <p style="font-size:16px; font-style:italic; border-left:3px solid var(--inspera-blue); padding-left:15px;">${moduleObj.instruction}</p>
+                    <br>
+                    <p class="bold-instruction">${moduleObj.prompt}</p>
+                    <br>
+                    <p>Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>
+                    <p>Write at least 250 words.</p>
+                </div>
+            `;
+        }
+
+        function switchPart(partNum) {
+            currentPart = partNum;
+            document.getElementById('btn-part1').classList.toggle('active', partNum === 1);
+            document.getElementById('btn-part2').classList.toggle('active', partNum === 2);
+            document.getElementById('btn-prev').style.visibility = partNum === 1 ? 'hidden' : 'visible';
+            document.getElementById('btn-next').style.visibility = partNum === 2 ? 'hidden' : 'visible';
+
+            updateSelectorOptions();
+
+            document.getElementById('response-area').value = responses[partNum];
+            updateWordCount(responses[partNum]);
+        }
+
+        function updateWordCount(text) {
+            const tokens = text.trim().split(/\s+/).filter(t => t.length > 0);
+            document.getElementById('word-count').innerText = tokens.length;
+        }
+
+        /* --- DIAGNOSTIC COMPILATION CRITERION METRICS ENGINE (REPAIRED) --- */
+        function calculateBandGrades(wordCount) {
+            // Standard baseline execution algorithms (assuming high proficiency for placeholder)
+            let ta = 6.5, cc = 7.0, lr = 6.0, gra = 6.5;
+            const threshold = currentPart === 1 ? 150 : 250;
+
+            // EXAMINER FIX: Severe penalties for inadequate responses
+            if (wordCount === 0) {
+                ta = 0; cc = 0; lr = 0; gra = 0;
+            } else if (wordCount <= 20) {
+                // Fragment or memorized chunk. Barely scorable.
+                ta = 1.0; cc = 1.0; lr = 1.0; gra = 1.0;
+            } else if (wordCount <= 50) {
+                // Extremely short response. Fails to address the prompt fully.
+                ta = 2.0; cc = 2.0; lr = 2.0; gra = 2.0;
+            } else if (wordCount <= 100) {
+                // Short response. Cannot demonstrate range.
+                ta = 3.0; cc = 3.0; lr = 3.5; gra = 3.5;
+            } else if (wordCount < threshold) {
+                // Standard under-length penalty (caps Task Achievement/Response)
+                ta = 5.0; 
+                cc = Math.min(cc, 5.5); // Hard to demonstrate progression in short texts
+                lr = Math.min(lr, 6.0);
+                gra = Math.min(gra, 6.0);
+            }
+
+            const mean = (ta + cc + lr + gra) / 4;
+            // IELTS specific fractional rounding constraints (.25 -> .5, .75 -> 8.0)
+            let rounded = Math.round(mean * 2) / 2;
+            if (mean - Math.floor(mean) === 0.25) rounded = Math.floor(mean) + 0.5;
+            if (mean - Math.floor(mean) === 0.75) rounded = Math.floor(mean) + 1.0;
+
+            metricsCache = { ta: ta, cc: cc, lr: lr, gra: gra, overall: rounded };
+        }
+
+        function openDiagnosticReport() {
+            const textStr = document.getElementById('response-area').value;
+            const wordsNum = textStr.trim().split(/\s+/).filter(t => t.length > 0).length;
+
+            calculateBandGrades(wordsNum);
+
+            // Update Metric Badges
+            document.getElementById('score-overall').innerText = metricsCache.overall.toFixed(1);
+            document.getElementById('score-ta').innerText = metricsCache.ta.toFixed(1);
+            document.getElementById('score-cc').innerText = metricsCache.cc.toFixed(1);
+            document.getElementById('score-lr').innerText = metricsCache.lr.toFixed(1);
+            document.getElementById('score-gra').innerText = metricsCache.gra.toFixed(1);
+
+            document.getElementById('report-modal').style.display = 'flex';
+            switchReportTab('overall');
+        }
+
+        function switchReportTab(tabId) {
+            document.querySelectorAll('.report-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-btn-${tabId}`).classList.add('active');
+
+            const contentPane = document.getElementById('report-text-pane');
+            const textStr = document.getElementById('response-area').value;
+            const wordsNum = textStr.trim().split(/\s+/).filter(t => t.length > 0).length;
+            const threshold = currentPart === 1 ? 150 : 250;
+            const taLabel = currentPart === 1 ? "Task Achievement" : "Task Response";
+
+            if(tabId === 'overall') {
+                contentPane.innerHTML = `
+                    <h4 class="criterion-title">Performance Summary Profile (Part ${currentPart})</h4>
+                    <p>Your draft contains <strong>${wordsNum} words</strong>. The aggregate processing model calculates an estimated performance band of <strong>${metricsCache.overall.toFixed(1)}</strong> for this module execution sequence.</p>
+                    <ul class="feedback-list">
+                        <li><strong>Examiner Strategy Tip:</strong> Always plan your paragraphs before writing. A clear structure is essential for high bands in Coherence and Cohesion.</li>
+                        <li><strong>Time Tracking Profile:</strong> Maintain structural balance. Leave 3-5 minutes at the end of the section for proofreading syntax and spelling errors.</li>
+                    </ul>
+                `;
+            } else if (tabId === 'ta') {
+                let penaltyText = "";
+                if (wordsNum === 0) {
+                    penaltyText = `<span class="badge-penalty">No Response</span><br><br>No text was submitted for evaluation.`;
+                } else if (wordsNum <= 50) {
+                    penaltyText = `<span class="badge-penalty">Severe Length Penalty Triggered</span><br><br>The submitted response is radically under the minimum threshold. It is assessed as a fragment or memorised chunk, resulting in a severe penalty across all bands.`;
+                } else if (wordsNum < threshold) {
+                    penaltyText = `<span class="badge-penalty">Length Penalty Triggered</span><br><br>The submitted response fails to achieve the structural minimum length barrier of ${threshold} words. This directly caps your ${taLabel} capability at a maximum of Band 5.0.`;
+                } else {
+                    penaltyText = `The report satisfies the fundamental scale parameters of the Cambridge exam lengths rules.`;
+                }
+
+                contentPane.innerHTML = `
+                    <h4 class="criterion-title">${taLabel} Assessment</h4>
+                    <p>${penaltyText}</p>
+                    <ul class="feedback-list">
+                        <li><strong>Address the Prompt:</strong> Ensure every part of the question is covered. Missing a section will limit your score.</li>
+                        <li><strong>Clear Position:</strong> For Task 2, your opinion must be clear throughout the essay, ideally stated in the introduction and conclusion.</li>
+                    </ul>
+                `;
+            } else if (tabId === 'cc') {
+                contentPane.innerHTML = `
+                    <h4 class="criterion-title">Coherence & Cohesion Analysis</h4>
+                    <p>Paragraph progression requires clear central topics. To reach Band 8+, transition networks must remain seamless rather than robotic.</p>
+                    <ul class="feedback-list">
+                        <li><strong>Discursive Anchors:</strong> Increase complex transitional phrases to link ideas logically between and within paragraphs.</li>
+                        <li><strong>Referencing:</strong> Avoid repetitive nouns. Substitute using accurate pronoun tracing parameters (<em>"this dynamic", "these factors"</em>).</li>
+                    </ul>
+                `;
+            } else if (tabId === 'lr') {
+                contentPane.innerHTML = `
+                    <h4 class="criterion-title">Lexical Resource Diagnostics</h4>
+                    <p>Vocabulary range must demonstrate precision and flexibility to access elite scales.</p>
+                    <ul class="feedback-list">
+                        <li><strong>Synonym Optimization:</strong> Avoid repeating vocabulary from the prompt. Paraphrase using high-level, context-appropriate academic language.</li>
+                        <li><strong>Collocation Precision:</strong> Utilize natural structural combinations rather than translating directly from your native language.</li>
+                    </ul>
+                `;
+            } else if (tabId === 'gra') {
+                contentPane.innerHTML = `
+                    <h4 class="criterion-title">Grammatical Range & Accuracy</h4>
+                    <p>Syntax structures must be error-free to maximize grades. Prioritize a mix of simple and complex sentence forms.</p>
+                    <ul class="feedback-list">
+                        <li><strong>Complex Clause Engineering:</strong> Use a variety of subordinate clauses, conditionals, and relative structures accurately.</li>
+                        <li><strong>Punctuation and Control:</strong> Ensure commas and full stops are used correctly to avoid run-on sentences or fragments.</li>
+                    </ul>
+                `;
+            }
+        }
+
+        function closeModal() { document.getElementById('report-modal').style.display = 'none'; }
+        
+        function startTimerCountdown() {
+            let s = 3600; const el = document.getElementById('exam-timer');
+            setInterval(() => { s--; if(s<0) return; let m=Math.floor(s/60), sec=s%60; el.innerText=(m<10?"0"+m:m)+":"+(sec<10?"0"+sec:sec); if(s<=300) el.classList.add('warning'); }, 1000);
+        }
+
+        window.onload = initExam;
+    </script>
+</body>
+</html>

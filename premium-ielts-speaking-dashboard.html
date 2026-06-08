@@ -1,0 +1,1001 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Speaking Dashboard</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ieltsRed: '#E31837',
+                        ieltsNavy: '#00205B',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+      /* ═══════════════════════════════════════════
+       PREMIUM BRAND VARIABLES
+    ═══════════════════════════════════════════ */
+    :root {
+      --brand-red: #A51C30; /* Premium Crimson */
+      --brand-red-dark: #A51C30;
+      --brand-gold: lab(71.92% 15.76 74.29);
+      --brand-dark: #222222;
+      --brand-grey: #4B525A;
+      --bg-light: #F9F9F9;
+      --bg-white: #FFFFFF;
+      --border-color: #EAEAEA;
+      
+      --font-body: 'Inter', sans-serif;
+      --font-heading: 'Playfair Display', serif;
+      
+      --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
+      --shadow-hover: 0 12px 24px rgba(165,28,48,0.15);
+      --transition: all 0.3s ease;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-body); background: var(--bg-white); color: var(--brand-dark); line-height: 1.6; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    /* ═══════════════════════════════════════════
+       NAVIGATION & BREADCRUMBS
+    ═══════════════════════════════════════════ */
+    .navbar {
+      background: var(--brand-red);
+      color: var(--bg-white);
+      padding: 1.5rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .navbar-brand { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 700; }
+    .navbar-brand em { color: var(--brand-gold); font-style: italic; }
+
+    .nav-logo { display: flex; align-items: center; gap: 3px; text-decoration: none; padding: 0.8rem 0; }
+    .logo-img { height: 85px; width: auto; object-fit: contain; border-radius: 2px; }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--gold); letter-spacing: 0.02em; line-height: 1; }
+    .logo-text span { color: var(--paper); font-style: italic; }
+
+    .nav-links { display: flex; gap: 2rem; font-weight: 500; font-size: 0.95rem; }
+    .nav-links a { position: relative; padding-bottom: 0.25rem; transition: var(--transition); }
+    .nav-links a:hover { color: var(--brand-gold); }
+    .btn-book {
+      background: var(--bg-white); color: var(--brand-red); padding: 0.75rem 1.5rem;
+      border-radius: 4px; font-weight: 600; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 0.5rem;
+    }
+    .btn-book:hover { background: var(--brand-gold); color: var(--bg-white); }
+
+    .breadcrumbs {
+      background: var(--bg-white); padding: 1rem 5%; border-bottom: 1px solid var(--border-color);
+      font-size: 0.85rem; color: var(--brand-grey); display: flex; gap: 0.5rem; align-items: center;
+    }
+    .breadcrumbs a:hover { color: var(--brand-red); text-decoration: underline; }
+    .breadcrumbs span { color: var(--border-color); }
+    .breadcrumbs .active { color: var(--brand-dark); font-weight: 600; }
+
+    /* ═══════════════════════════════════════════
+       HERO SECTION (Mirrors ielts.org header)
+    ═══════════════════════════════════════════ */
+    .hero {
+      background: var(--brand-red); color: var(--bg-white);
+      padding: 4rem 5%; display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    /* Abstract background pattern placeholder */
+    .hero::before {
+      content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 50%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+      z-index: 1; pointer-events: none;
+    }
+    .hero-container {
+      max-width: 1200px; width: 100%; display: flex; align-items: center; gap: 4rem; z-index: 2;
+    }
+    .hero-image-wrap img { 
+    border-radius: 8px; 
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2); 
+    width: 100%; 
+    max-width: 400px; 
+    margin: 0 auto; 
+    object-fit: cover; 
+    aspect-ratio: 3.1/5; 
+    }
+    .hero-content { flex: 1.2; }
+    .hero-title { font-family: var(--font-heading); font-size: 3.5rem; font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; }
+    .hero-title em { color: var(--brand-gold); }
+    .hero-strapline { font-size: 1.25rem; font-weight: 300; opacity: 0.9; }
+
+    /* ═══════════════════════════════════════════
+       INTRO TEXT
+    ═══════════════════════════════════════════ */
+    .intro-section { padding: 5rem 5% 4rem; text-align: center; background: var(--bg-white); }
+    .intro-container { max-width: 800px; margin: 0 auto; }
+    .intro-text p { font-size: 1.125rem; color: var(--brand-dark); margin-bottom: 1.5rem; }
+    .intro-text strong { color: var(--brand-red); font-weight: 600; }
+
+    /* ═══════════════════════════════════════════
+       4-CARD GRID (Test Format)
+    ═══════════════════════════════════════════ */
+    .cards-panel { padding: 0 5% 5rem; max-width: 1300px; margin: 0 auto; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+    
+    .card-component {
+      background: var(--bg-white); border: 1px solid var(--border-color); border-radius: 6px;
+      overflow: hidden; transition: var(--transition); cursor: pointer; display: flex; flex-direction: column;
+      height: 100%; box-shadow: var(--shadow-sm);
+    }
+    .card-component:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); border-color: rgba(165,28,48,0.3); }
+    
+    .card-img-wrap { width: 100%; aspect-ratio: 1/1; background: var(--bg-light); display: flex; align-items: center; justify-content: center; padding: 2rem;}
+    /* Placeholder circles for icons */
+    .card-icon-placeholder { width: 120px; height: 120px; border-radius: 50%; background: var(--brand-red); display: flex; align-items: center; justify-content: center; font-size: 3rem; color: white; box-shadow: inset 0 -4px 0 rgba(0,0,0,0.1);}
+    
+    .card-body { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+    .card-title {
+      font-family: var(--font-heading); font-size: 1.5rem; color: var(--brand-dark); margin-bottom: 0.75rem;
+      display: flex; justify-content: space-between; align-items: center; transition: var(--transition);
+    }
+    .card-component:hover .card-title { color: var(--brand-red); }
+    
+    /* Arrow Icon SVG */
+    .arrow-icon { width: 20px; height: 20px; fill: currentColor; transition: transform 0.3s ease; }
+    .card-component:hover .arrow-icon { transform: translateX(5px); }
+    
+    .card-summary { font-size: 0.9rem; color: var(--brand-grey); }
+
+    /* ═══════════════════════════════════════════
+       3-CARD GRID (Preparation Resources)
+    ═══════════════════════════════════════════ */
+    .prep-section { background: var(--bg-light); padding: 5rem 5%; border-top: 1px solid var(--border-color); }
+    .prep-container { max-width: 1200px; margin: 0 auto; }
+    .section-heading { font-family: var(--font-heading); font-size: 2.5rem; color: var(--brand-dark); margin-bottom: 3rem; text-align: left; }
+    
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .prep-card {
+      background: var(--bg-white); border-radius: 6px; overflow: hidden;
+      box-shadow: var(--shadow-sm); transition: var(--transition); cursor: pointer;
+    }
+    .prep-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+    
+    .prep-img { width: 100%; height: 250px; object-fit: cover; background: #ddd; }
+    .prep-body { padding: 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .prep-title { font-family: var(--font-heading); font-size: 1.35rem; color: var(--brand-dark); font-weight: 600; line-height: 1.3;}
+    .prep-title span { color: var(--brand-red); }
+    .prep-card:hover .prep-title { color: var(--brand-red); }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════════════ */
+    .footer { background: var(--brand-dark); color: var(--bg-white); padding: 4rem 5% 2rem; text-align: center; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.9rem; color: #A0A0A0; transition: var(--transition); }
+    .footer-links a:hover { color: var(--bg-white); text-decoration: underline; }
+    .footer-copy { font-size: 0.8rem; color: #777; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE DESIGN
+    ═══════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .hero-container { flex-direction: column; text-align: center; gap: 2rem;}
+      .hero-title { font-size: 3rem; }
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; } /* Hide for simplicity in this demo */
+      .grid-4, .grid-3 { grid-template-columns: 1fr; }
+      .hero-title { font-size: 2.5rem; }
+      .section-heading { font-size: 2rem; text-align: center; }
+    }
+    /* ═══════════════════════════════════════════
+       HAMBURGER MENU STYLING
+    ═══════════════════════════════════════════ */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background-color: var(--bg-white);
+      transition: var(--transition);
+      border-radius: 2px;
+    }
+
+    /* Update the existing mobile media query */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex; /* Show the button on mobile */
+      }
+      
+      /* Change nav-links from display:none to a dropdown */
+      .nav-links {
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--brand-red);
+        padding: 0;
+        max-height: 0;
+        overflow: hidden; /* Hides the menu initially */
+        transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+      
+      /* The class added by Javascript to open the menu */
+      .nav-links.active {
+        max-height: 300px;
+        padding: 1rem 5% 2rem;
+        gap: 1.5rem;
+      }
+
+      /* Animates the hamburger into an "X" when open */
+      .hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+      .hamburger.active span:nth-child(2) { opacity: 0; }
+      .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+      
+      .btn-book { display: none; } /* Optional: Hide the access button on very small screens to save space */
+    }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 selection:bg-ieltsRed selection:text-white overflow-hidden h-screen flex">
+
+    <aside class="w-72 bg-ieltsNavy text-white flex-col hidden lg:flex shadow-2xl z-20">
+        <div class="p-8 pb-4">
+            <h1 class="text-3xl font-extrabold tracking-tight flex items-center gap-3">
+                <span class="bg-ieltsRed text-white p-1.5 rounded-lg">
+                    <i class="ph-fill ph-microphone text-2xl"></i>
+                </span>
+                IELTS Pro
+            </h1>
+            <p class="text-ieltsNavy text-xs mt-2 bg-white/20 inline-block px-2 py-0.5 rounded backdrop-blur-sm border border-white/10 font-medium">
+                World-Standard Prep
+            </p>
+        </div>
+
+        <nav class="flex-1 px-4 mt-8 space-y-1.5 overflow-y-auto" id="sidebar-nav">
+            <button onclick="switchTab('dashboard')" class="nav-btn active w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition text-sm font-bold bg-ieltsRed text-white shadow-md" data-tab="dashboard">
+                <i class="ph ph-house text-xl"></i> Dashboard
+            </button>
+            <button onclick="switchTab('library')" class="nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition text-sm font-bold text-white/70 hover:bg-white/10 hover:text-white" data-tab="library">
+                <i class="ph ph-book-open text-xl"></i> Practice Library
+            </button>
+            <button onclick="switchTab('performance')" class="nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition text-sm font-bold text-white/70 hover:bg-white/10 hover:text-white" data-tab="performance">
+                <i class="ph ph-chart-bar text-xl"></i> Performance Analytics
+            </button>
+            <button onclick="switchTab('settings')" class="nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition text-sm font-bold text-white/70 hover:bg-white/10 hover:text-white" data-tab="settings">
+                <i class="ph ph-gear text-xl"></i> Account Settings
+            </button>
+        </nav>
+
+        <div class="p-6 bg-black/10">
+            <div id="sidebar-premium-status" class="p-4 rounded-xl border bg-white/5 border-white/10">
+                <div class="flex items-center gap-3 mb-3">
+                    <div id="sidebar-avatar-container" class="bg-white/20 p-1.5 rounded-full"><i class="ph ph-user text-white"></i></div>
+                    <div class="flex flex-col">
+                        <span id="sidebar-plan-name" class="font-bold text-sm">Free Account</span>
+                        <span class="text-xs text-white/60">Target Band: 8.0</span>
+                    </div>
+                </div>
+                <button id="sidebar-toggle-btn" onclick="togglePremium()" class="w-full mt-2 bg-ieltsRed text-white text-sm font-bold py-2.5 rounded-lg hover:bg-red-700 transition shadow-lg shadow-red-900/50">
+                    Unlock All Topics
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col overflow-hidden relative w-full">
+        <!-- Mobile Header -->
+        <header class="lg:hidden bg-ieltsNavy p-4 flex justify-between items-center shadow-md z-20">
+            <h1 class="text-xl font-bold text-white flex items-center gap-2">
+                <span class="bg-ieltsRed text-white p-1 rounded-md"><i class="ph-fill ph-microphone"></i></span>
+                IELTS Pro
+            </h1>
+            <div class="flex items-center gap-4">
+                <button onclick="switchTab('library')" class="text-white/80 hover:text-white text-2xl">
+                    <i class="ph ph-book-open"></i>
+                </button>
+                <button onclick="togglePremium()" class="relative" id="mobile-premium-btn">
+                    <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white border border-white/30">
+                        <i class="ph ph-user"></i>
+                    </div>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main View Container -->
+        <div class="flex-1 overflow-auto bg-[#F8F9FA] p-4 md:p-8">
+            <div class="w-full max-w-7xl mx-auto relative h-full">
+
+                <div id="view-dashboard" class="view-section fade-in">
+                    <header class="mb-10 flex flex-col md:flex-row md:justify-between md:items-end gap-4">
+                        <div>
+                            <h2 class="text-3xl md:text-4xl font-extrabold text-ieltsNavy">Welcome back, Candidate</h2>
+                            <p class="text-slate-500 mt-2 text-lg">Continue your preparation for the global standard.</p>
+                        </div>
+                        <div id="dash-upgrade-banner" class="inline-flex items-center gap-3 bg-red-50 px-5 py-3 rounded-xl border border-red-100 text-ieltsRed text-sm font-bold shadow-sm cursor-pointer" onclick="showUpgradeModal()">
+                            <i class="ph-fill ph-crown text-xl"></i>
+                            Upgrade to access full STEM & Tech topics
+                        </div>
+                    </header>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-10">
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+                            <div class="bg-ieltsNavy p-3 rounded-xl text-white shadow-sm w-fit mb-4"><i class="ph ph-medal text-2xl"></i></div>
+                            <div>
+                                <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Target Band</p>
+                                <p class="text-4xl font-extrabold text-ieltsNavy">8.0</p>
+                                <p class="text-slate-400 text-xs font-semibold mt-2">Academic Module</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+                            <div class="bg-ieltsRed p-3 rounded-xl text-white shadow-sm w-fit mb-4"><i class="ph ph-microphone text-2xl"></i></div>
+                            <div>
+                                <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Completed Tasks</p>
+                                <p class="text-4xl font-extrabold text-ieltsRed">24</p>
+                                <p class="text-slate-400 text-xs font-semibold mt-2">+5 this week</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+                            <div class="bg-emerald-600 p-3 rounded-xl text-white shadow-sm w-fit mb-4"><i class="ph ph-clock text-2xl"></i></div>
+                            <div>
+                                <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Speaking Time</p>
+                                <p class="text-4xl font-extrabold text-emerald-600">3h 45m</p>
+                                <p class="text-slate-400 text-xs font-semibold mt-2">+45m this week</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between h-full">
+                            <div class="bg-indigo-600 p-3 rounded-xl text-white shadow-sm w-fit mb-4"><i class="ph ph-globe text-2xl"></i></div>
+                            <div>
+                                <p class="text-slate-500 text-sm font-bold uppercase tracking-wider mb-1">Topics Covered</p>
+                                <p class="text-4xl font-extrabold text-indigo-600">12/45</p>
+                                <p class="text-slate-400 text-xs font-semibold mt-2">26% of Syllabus</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+                        <div class="xl:col-span-2 bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200 relative overflow-hidden">
+                            <i class="ph ph-microscope text-[200px] absolute top-0 right-0 p-8 opacity-5"></i>
+                            <div class="relative z-10">
+                                <h3 class="text-xl font-extrabold text-ieltsNavy mb-6 flex items-center gap-2">
+                                    <i class="ph-fill ph-play-circle text-ieltsRed text-2xl"></i> Next Recommended Session
+                                </h3>
+                                <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl p-6 border border-slate-200/60 shadow-inner">
+                                    <div class="flex items-center gap-2 mb-3">
+                                        <span class="bg-ieltsNavy text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Part 3 • Discussion</span>
+                                        <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                                            <i class="ph ph-globe"></i> Globalisation
+                                        </span>
+                                    </div>
+                                    <h4 class="font-extrabold text-slate-900 text-2xl mb-3">International Education</h4>
+                                    <p class="text-slate-600 mb-8 max-w-lg text-sm md:text-base">
+                                        Explore complex themes regarding the long-term benefits of studying abroad and the impact of globalization on local traditions.
+                                    </p>
+                                    <button onclick="switchTab('library')" class="w-full sm:w-auto px-8 py-3.5 bg-ieltsRed hover:bg-red-700 text-white rounded-xl font-bold transition shadow-lg shadow-red-200/50 flex items-center justify-center gap-2">
+                                        Start Session <i class="ph ph-caret-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-200">
+                            <h3 class="text-xl font-extrabold text-ieltsNavy mb-6 flex items-center gap-2">
+                                <i class="ph-fill ph-star text-amber-400 text-2xl"></i> Trending Disciplines
+                            </h3>
+                            <div class="space-y-4" id="trending-topics-container">
+                                <!-- Trending topics injected by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-library" class="view-section hidden fade-in pb-16">
+                    <div class="mb-10 bg-ieltsNavy text-white p-8 rounded-3xl shadow-lg relative overflow-hidden">
+                        <i class="ph ph-globe text-[250px] absolute right-0 bottom-0 opacity-10 transform translate-x-1/4 translate-y-1/4"></i>
+                        <h2 class="text-3xl md:text-4xl font-extrabold mb-3 relative z-10">Global Practice Library</h2>
+                        <p class="text-blue-200 max-w-2xl text-lg relative z-10">
+                            Master the speaking test with authentic prompts spanning technology, urbanization, space exploration, and more. Select a discipline to begin.
+                        </p>
+                    </div>
+                    <div id="library-content" class="space-y-16">
+                        <!-- Dynamic Sections injected by JS -->
+                    </div>
+                </div>
+
+                <div id="view-session" class="view-section hidden fade-in max-w-4xl mx-auto min-h-[80vh] flex flex-col">
+                    <button onclick="endSession()" class="flex items-center gap-2 text-slate-500 hover:text-ieltsNavy mb-6 w-fit transition font-bold">
+                        <i class="ph ph-arrow-left text-xl"></i> Exit Session
+                    </button>
+
+                    <div class="bg-white rounded-3xl shadow-xl border border-slate-200 flex-1 flex flex-col overflow-hidden">
+                        <!-- Header -->
+                        <div class="bg-ieltsNavy p-8 text-white relative overflow-hidden">
+                            <i id="session-icon" class="ph ph-microphone text-[200px] absolute top-0 right-0 p-4 opacity-10 transform translate-x-1/4 -translate-y-1/4"></i>
+                            <div class="relative z-10">
+                                <div class="flex items-center gap-3 mb-4">
+                                    <span id="session-part-badge" class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-widest border border-white/30 backdrop-blur-sm">PART</span>
+                                    <span id="session-category-badge" class="bg-ieltsRed text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-widest">CATEGORY</span>
+                                </div>
+                                <h2 id="session-title" class="text-3xl font-extrabold">Title</h2>
+                                <p id="session-progress" class="mt-3 text-blue-200 font-semibold text-lg hidden">Question 1 of X</p>
+                            </div>
+                        </div>
+
+                        <!-- Content Area -->
+                        <div class="flex-1 p-6 md:p-12 flex flex-col items-center justify-center text-center bg-[#F8F9FA]">
+                            
+                            <!-- Part 1 & 3 UI Container -->
+                            <div id="session-standard-ui" class="w-full max-w-2xl hidden">
+                                <div class="bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-slate-100 mb-12">
+                                    <h3 id="session-question-text" class="text-2xl md:text-4xl font-bold text-ieltsNavy leading-relaxed">
+                                        "Question text..."
+                                    </h3>
+                                </div>
+                                
+                                <div class="flex flex-col items-center gap-8">
+                                    <div id="standard-timer" class="text-6xl font-mono tabular-nums font-light text-slate-300">0:00</div>
+                                    <button id="standard-record-btn" onclick="toggleRecording()" class="w-24 h-24 rounded-full flex items-center justify-center shadow-2xl transition-all transform hover:scale-105 active:scale-95 border-4 bg-ieltsRed text-white border-ieltsRed">
+                                        <i id="standard-record-icon" class="ph ph-microphone text-4xl"></i>
+                                    </button>
+                                    <p id="standard-record-status" class="text-base font-bold uppercase tracking-wider text-slate-400">Tap to start recording</p>
+                                </div>
+                            </div>
+
+                            <!-- Part 2 UI Container -->
+                            <div id="session-part2-ui" class="w-full max-w-3xl text-left flex flex-col md:flex-row gap-8 hidden">
+                                <!-- Cue Card -->
+                                <div class="flex-1 bg-white border border-slate-200 rounded-3xl p-8 relative shadow-md">
+                                    <div class="absolute -top-4 left-8 bg-ieltsNavy text-white text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider shadow-md">
+                                        Candidate Task Card
+                                    </div>
+                                    <h3 id="p2-prompt" class="text-2xl font-extrabold text-slate-900 mb-6 mt-4 leading-tight">Prompt...</h3>
+                                    <p class="text-slate-500 font-bold mb-3 uppercase tracking-wider text-sm">You should say:</p>
+                                    <ul id="p2-bullets" class="space-y-4 mb-6">
+                                        <!-- Bullets injected by JS -->
+                                    </ul>
+                                    <div class="p-4 bg-blue-50 rounded-xl border border-blue-100">
+                                        <p id="p2-conclusion" class="text-ieltsNavy font-bold text-lg">Conclusion...</p>
+                                    </div>
+                                </div>
+
+                                <!-- Timer Controls -->
+                                <div class="md:w-72 flex flex-col items-center justify-center gap-8 bg-white p-8 rounded-3xl border border-slate-200 shadow-md h-fit">
+                                    <div class="text-center w-full">
+                                        <p id="p2-timer-label" class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Preparation Time</p>
+                                        <div id="p2-timer-display" class="text-6xl font-mono tabular-nums font-light w-full py-4 rounded-2xl bg-slate-50 border text-ieltsNavy border-blue-50">
+                                            1:00
+                                        </div>
+                                    </div>
+
+                                    <button id="p2-action-btn" onclick="handleP2Action()" class="w-full bg-ieltsRed text-white py-4 rounded-xl font-bold hover:bg-red-700 transition flex items-center justify-center gap-2 shadow-lg shadow-red-200">
+                                        <i id="p2-action-icon" class="ph ph-microphone text-xl"></i> <span id="p2-action-text">Start Speaking</span>
+                                    </button>
+                                    
+                                    <div id="p2-prep-warning" class="flex items-start gap-2 text-sm text-slate-500 bg-slate-50 p-3 rounded-lg w-full">
+                                        <i class="ph-fill ph-warning-circle text-amber-500 text-xl shrink-0"></i>
+                                        <p>You have 1 minute to make notes. Use paper and pencil.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Footer Navigation (Part 1 & 3) -->
+                        <div id="session-footer" class="p-6 border-t border-slate-200 flex justify-between items-center bg-white hidden">
+                            <div id="footer-category" class="text-sm font-bold text-slate-400 uppercase tracking-wider">CATEGORY Module</div>
+                            <button onclick="nextQuestion()" id="next-q-btn" class="flex items-center gap-2 bg-ieltsNavy text-white px-8 py-3.5 rounded-xl font-bold hover:bg-blue-900 transition shadow-md">
+                                Next Question <i class="ph ph-caret-right text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generic Coming Soon -->
+                <div id="view-performance" class="view-section hidden fade-in flex flex-col items-center justify-center h-full min-h-[50vh] text-slate-500">
+                    <div class="bg-slate-100 p-8 rounded-full mb-6"><i class="ph ph-chart-bar text-6xl text-slate-300"></i></div>
+                    <h2 class="text-2xl font-bold text-ieltsNavy">Performance Analytics</h2>
+                    <p class="mt-2 text-slate-400">This feature is currently under development.</p>
+                </div>
+                <div id="view-settings" class="view-section hidden fade-in flex flex-col items-center justify-center h-full min-h-[50vh] text-slate-500">
+                    <div class="bg-slate-100 p-8 rounded-full mb-6"><i class="ph ph-gear text-6xl text-slate-300"></i></div>
+                    <h2 class="text-2xl font-bold text-ieltsNavy">Account Settings</h2>
+                    <p class="mt-2 text-slate-400">This feature is currently under development.</p>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Upgrade Modal -->
+    <div id="upgrade-modal" class="fixed inset-0 bg-ieltsNavy/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-8 shadow-2xl text-center transform transition-all border-t-8 border-ieltsRed scale-95" id="upgrade-modal-content">
+            <div class="w-20 h-20 bg-red-50 text-ieltsRed rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                <i class="ph ph-globe text-4xl"></i>
+            </div>
+            <h2 class="text-3xl font-extrabold text-ieltsNavy mb-3">Unlock World-Standard Topics</h2>
+            <p class="text-slate-600 mb-8 leading-relaxed">
+                Access the complete library of advanced disciplines including AI, Urbanisation, and Globalisation. Practice under exam conditions to achieve your Band 8.0+.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button onclick="hideUpgradeModal()" class="flex-1 px-6 py-3.5 rounded-xl font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition">
+                    Continue Free
+                </button>
+                <button onclick="activatePremium()" class="flex-1 px-6 py-3.5 rounded-xl font-bold text-white bg-ieltsRed hover:bg-red-700 shadow-lg shadow-red-200 transition flex items-center justify-center gap-2">
+                    <i class="ph-fill ph-crown text-xl"></i> Upgrade to Premium
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Source
+        const ieltsData = {
+            part1: [
+                { id: 'p1_1', title: 'Everyday Technology', category: 'Technology', premium: false, icon: 'ph-cpu', questions: ['What kinds of technology do you use every day?', 'How has technology changed the way you communicate?', 'Is there any new technology you would like to buy?', 'Do you think people rely too much on technology?'] },
+                { id: 'p1_2', title: 'Hometown & Urban Life', category: 'Urbanisation', premium: false, icon: 'ph-buildings', questions: ['Where is your hometown?', 'Is it a big city or a small town?', 'How has your hometown changed in recent years?', 'What is the public transport like in your town?'] },
+                { id: 'p1_3', title: 'Science in School', category: 'STEM', premium: true, icon: 'ph-microscope', questions: ['Did you enjoy studying science at school?', 'What was your favorite science subject?', 'Do you think science is important for everyone to study?', 'Have you ever watched a science documentary?'] },
+                { id: 'p1_4', title: 'Travel & Holidays', category: 'Tourism', premium: true, icon: 'ph-airplane-tilt', questions: ['Do you like traveling?', 'What is the most beautiful place you have visited?', 'Do you prefer traveling alone or with friends?', 'Where would you like to go for your next holiday?'] },
+                { id: 'p1_5', title: 'Global News & Media', category: 'Globalisation', premium: true, icon: 'ph-globe', questions: ['How do you usually get your news?', 'Do you prefer reading local or international news?', 'Has the way you consume news changed over the years?', 'Do you think it is important to follow global events?'] },
+            ],
+            part2: [
+                { id: 'p2_1', title: 'An AI Application', category: 'AI', premium: false, icon: 'ph-cpu', prompt: 'Describe an artificial intelligence tool or application you use or know about.', bullets: ['What the tool is', 'How it works', 'How often you use it'], conclusion: 'And explain how it has impacted your daily life or work.' },
+                { id: 'p2_2', title: 'A New Public Building', category: 'Construction', premium: true, icon: 'ph-buildings', prompt: 'Describe a new public building you have seen or visited.', bullets: ['Where it is located', 'What it looks like', 'What it is used for'], conclusion: 'And explain how you feel about its design and impact on the city.' },
+                { id: 'p2_3', title: 'A Space Documentary', category: 'Space', premium: true, icon: 'ph-rocket-launch', prompt: 'Describe a documentary or movie you watched about space exploration.', bullets: ['What the title was', 'What specific space topic it covered', 'When you watched it'], conclusion: 'And explain why you found it interesting or memorable.' },
+                { id: 'p2_4', title: 'Studying a Foreign Culture', category: 'Education', premium: true, icon: 'ph-globe', prompt: 'Describe a foreign culture you would like to learn more about.', bullets: ['Which culture it is', 'Where you first heard about it', 'What aspects of it interest you the most'], conclusion: 'And explain why you want to learn more about this specific culture.' },
+            ],
+            part3: [
+                { id: 'p3_1', title: 'The Future of AI (Linked to P2_1)', category: 'AI', premium: false, icon: 'ph-cpu', questions: ['Will artificial intelligence eventually replace human workers in most industries?', 'What are the ethical concerns surrounding AI development?', 'How should schools adapt their curriculums to prepare students for an AI-driven world?', 'Can AI ever possess true creativity or emotional intelligence?'] },
+                { id: 'p3_2', title: 'Modern Urbanisation (Linked to P2_2)', category: 'Construction', premium: true, icon: 'ph-buildings', questions: ['What are the main advantages and disadvantages of living in a rapidly growing metropolis?', 'How can city planners ensure that new developments are environmentally sustainable?', 'Should historical buildings always be preserved, even if they hinder new infrastructure?', 'How does urbanisation affect social cohesion within communities?'] },
+                { id: 'p3_3', title: 'Space Exploration (Linked to P2_3)', category: 'Space', premium: true, icon: 'ph-rocket-launch', questions: ['Should governments spend taxpayer money on space exploration when there are problems on Earth?', 'What role will private companies play in the future of space travel?', 'How might the discovery of extraterrestrial life impact human society?', 'Do you believe humanity will eventually colonize other planets?'] },
+                { id: 'p3_4', title: 'International Education (Linked to P2_4)', category: 'Education', premium: true, icon: 'ph-globe', questions: ['What are the long-term benefits of studying abroad for young people?', 'Does globalization threaten local cultures and traditions?', 'How has the internet changed the way people understand foreign cultures?', 'Should a universal language be adopted for global business and education?'] },
+            ]
+        };
+
+        // Application State
+        let state = {
+            isPremium: false,
+            activeSession: null,
+            currentStep: 0,
+            isRecording: false,
+            timer: 0,
+            prepMode: true,
+            p2Timer: 60,
+            intervalId: null
+        };
+
+        function switchTab(tabId) {
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            // Show target view
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+            
+            // Update Sidebar
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = 'nav-btn w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition text-sm font-bold text-white/70 hover:bg-white/10 hover:text-white';
+                if(btn.dataset.tab === tabId) {
+                    btn.className = 'nav-btn active w-full flex items-center gap-4 px-4 py-3.5 rounded-xl transition text-sm font-bold bg-ieltsRed text-white shadow-md';
+                }
+            });
+
+            if(tabId === 'library') renderLibrary();
+        }
+
+        function togglePremium() {
+            state.isPremium = !state.isPremium;
+            updatePremiumUI();
+            if(document.getElementById('view-library').classList.contains('hidden') === false) {
+                renderLibrary();
+            }
+        }
+
+        function activatePremium() {
+            state.isPremium = true;
+            hideUpgradeModal();
+            updatePremiumUI();
+            renderLibrary();
+        }
+
+        function updatePremiumUI() {
+            // Sidebar UI update
+            const statusBox = document.getElementById('sidebar-premium-status');
+            const avatar = document.getElementById('sidebar-avatar-container');
+            const planName = document.getElementById('sidebar-plan-name');
+            const toggleBtn = document.getElementById('sidebar-toggle-btn');
+            const mobileBtn = document.getElementById('mobile-premium-btn');
+            const dashBanner = document.getElementById('dash-upgrade-banner');
+
+            if (state.isPremium) {
+                statusBox.className = 'p-4 rounded-xl border bg-gradient-to-br from-[#E31837]/20 to-transparent border-[#E31837]/50';
+                avatar.className = 'bg-ieltsRed p-1.5 rounded-full';
+                avatar.innerHTML = '<i class="ph-fill ph-crown text-white"></i>';
+                planName.innerText = 'Premium Scholar';
+                toggleBtn.innerText = 'Revert to Free (Demo)';
+                toggleBtn.className = 'w-full mt-2 bg-white/10 text-white hover:text-white text-xs font-semibold py-2 rounded-lg border border-white/20 hover:bg-white/20 transition';
+                mobileBtn.innerHTML = '<div class="w-8 h-8 rounded-full bg-ieltsRed border-2 border-white flex items-center justify-center shadow-lg"><i class="ph-fill ph-crown text-white"></i></div>';
+                if(dashBanner) dashBanner.classList.add('hidden');
+            } else {
+                statusBox.className = 'p-4 rounded-xl border bg-white/5 border-white/10';
+                avatar.className = 'bg-white/20 p-1.5 rounded-full';
+                avatar.innerHTML = '<i class="ph ph-user text-white"></i>';
+                planName.innerText = 'Free Account';
+                toggleBtn.innerText = 'Unlock All Topics';
+                toggleBtn.className = 'w-full mt-2 bg-ieltsRed text-white text-sm font-bold py-2.5 rounded-lg hover:bg-red-700 transition shadow-lg shadow-red-900/50';
+                mobileBtn.innerHTML = '<div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white border border-white/30"><i class="ph ph-user"></i></div>';
+                if(dashBanner) dashBanner.classList.remove('hidden');
+            }
+            renderTrendingTopics();
+        }
+
+        function showUpgradeModal() {
+            const modal = document.getElementById('upgrade-modal');
+            const content = document.getElementById('upgrade-modal-content');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function hideUpgradeModal() {
+            const modal = document.getElementById('upgrade-modal');
+            const content = document.getElementById('upgrade-modal-content');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function renderTrendingTopics() {
+            const container = document.getElementById('trending-topics-container');
+            const topics = [
+                { title: 'The Future of AI', category: 'AI', part: 'Part 3', prem: false, icon: 'ph-cpu' },
+                { title: 'A Space Documentary', category: 'Space', part: 'Part 2', prem: true, icon: 'ph-rocket-launch' },
+                { title: 'Science in School', category: 'STEM', part: 'Part 1', prem: true, icon: 'ph-microscope' },
+            ];
+
+            container.innerHTML = topics.map(item => `
+                <div class="group flex items-center justify-between p-4 rounded-xl hover:bg-[#F8F9FA] border border-transparent hover:border-slate-200 cursor-pointer transition" onclick="switchTab('library')">
+                    <div class="flex items-center gap-4">
+                        <div class="bg-slate-100 p-2.5 rounded-lg text-slate-500 group-hover:text-ieltsNavy group-hover:bg-blue-50 transition">
+                            <i class="${item.icon} text-xl"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-sm text-slate-900">${item.title}</span>
+                            <span class="text-xs text-slate-500 font-medium">${item.category} • ${item.part}</span>
+                        </div>
+                    </div>
+                    ${item.prem && !state.isPremium 
+                        ? `<i class="ph-fill ph-lock-key text-slate-300"></i>` 
+                        : `<i class="ph ph-caret-right text-slate-300 group-hover:text-ieltsRed transition transform group-hover:translate-x-1"></i>`
+                    }
+                </div>
+            `).join('');
+        }
+
+        function renderLibrary() {
+            const container = document.getElementById('library-content');
+            
+            const sections = [
+                { title: "Part 1: Introduction & Interview", desc: "Everyday topics and general knowledge. Focus on fluency and extending answers. (4-5 minutes)", data: ieltsData.part1, part: 'part1' },
+                { title: "Part 2: Long Turn (Cue Card)", desc: "Speak for up to 2 minutes on a specific academic or personal topic. 1 minute prep included.", data: ieltsData.part2, part: 'part2' },
+                { title: "Part 3: Two-way Discussion", desc: "In-depth, abstract discussions linked to Part 2 themes. Focus on analysis and opinion. (4-5 minutes)", data: ieltsData.part3, part: 'part3' }
+            ];
+
+            let html = '';
+            sections.forEach(sec => {
+                html += `
+                    <section>
+                        <div class="mb-6 border-b border-slate-200 pb-4">
+                            <h3 class="text-2xl font-extrabold text-ieltsNavy">${sec.title}</h3>
+                            <p class="text-base text-slate-500 mt-1">${sec.desc}</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                `;
+
+                sec.data.forEach(item => {
+                    const isLocked = item.premium && !state.isPremium;
+                    const encodedItem = encodeURIComponent(JSON.stringify(item));
+                    
+                    html += `
+                        <div onclick="startSession('${encodedItem}', '${sec.part}')" class="relative group bg-white p-6 rounded-2xl border-2 transition-all cursor-pointer flex flex-col h-full
+                            ${isLocked ? 'border-slate-100 bg-slate-50 opacity-90' : 'border-transparent shadow-sm hover:shadow-xl hover:border-ieltsRed/20 hover:-translate-y-1'}">
+                            
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-3 rounded-xl ${isLocked ? 'bg-slate-200 text-slate-400' : 'bg-blue-50 text-ieltsNavy'}">
+                                    <i class="${item.icon} text-2xl"></i>
+                                </div>
+                                ${item.premium ? (state.isPremium ? `<div class="bg-amber-100 p-1.5 rounded-md"><i class="ph-fill ph-crown text-amber-600"></i></div>` : `<div class="bg-slate-200 p-1.5 rounded-md"><i class="ph-fill ph-lock-key text-slate-500"></i></div>`) : ''}
+                            </div>
+                            
+                            <div class="mb-6">
+                                <span class="text-xs font-bold tracking-wider text-slate-400 uppercase block mb-1">${item.category}</span>
+                                <h4 class="text-lg font-bold leading-tight ${isLocked ? 'text-slate-500' : 'text-slate-900 group-hover:text-ieltsNavy'}">${item.title}</h4>
+                            </div>
+                            
+                            <div class="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between text-sm">
+                                <span class="text-slate-500 font-medium">${sec.part === 'part2' ? '1 Cue Card' : `${item.questions.length} Questions`}</span>
+                                <span class="font-bold flex items-center gap-1 transition ${isLocked ? 'text-slate-400' : 'text-ieltsRed group-hover:translate-x-1'}">
+                                    ${isLocked ? 'Locked' : 'Begin'} <i class="ph ph-caret-right"></i>
+                                </span>
+                            </div>
+
+                            ${isLocked ? `
+                                <div class="absolute inset-0 bg-white/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl backdrop-blur-sm z-10">
+                                    <span class="bg-ieltsNavy text-white text-sm font-bold py-2 px-4 rounded-full flex items-center gap-2 shadow-2xl">
+                                        <i class="ph-fill ph-lock-key"></i> Premium Access
+                                    </span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                });
+                html += `</div></section>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function startSession(encodedItem, part) {
+            const item = JSON.parse(decodeURIComponent(encodedItem));
+            
+            if (item.premium && !state.isPremium) {
+                showUpgradeModal();
+                return;
+            }
+
+            state.activeSession = { ...item, part };
+            state.currentStep = 0;
+            state.isRecording = false;
+            state.timer = 0;
+            state.prepMode = true;
+            state.p2Timer = 60;
+            
+            setupSessionUI();
+            switchTab('session');
+            startTimerLogic();
+        }
+
+        function endSession() {
+            clearInterval(state.intervalId);
+            state.activeSession = null;
+            switchTab('library');
+        }
+
+        function setupSessionUI() {
+            const sess = state.activeSession;
+            document.getElementById('session-title').innerText = sess.title;
+            document.getElementById('session-category-badge').innerText = sess.category;
+            document.getElementById('session-part-badge').innerText = sess.part.replace('p', 'P').replace('t', 't ');
+            document.getElementById('session-icon').className = `${sess.icon} text-[200px] absolute top-0 right-0 p-4 opacity-10 transform translate-x-1/4 -translate-y-1/4`;
+
+            if (sess.part !== 'part2') {
+                // Part 1 / 3
+                document.getElementById('session-standard-ui').classList.remove('hidden');
+                document.getElementById('session-part2-ui').classList.add('hidden');
+                document.getElementById('session-footer').classList.remove('hidden');
+                document.getElementById('session-progress').classList.remove('hidden');
+                
+                document.getElementById('footer-category').innerText = `${sess.category} Module`;
+                updateStandardQuestionUI();
+            } else {
+                // Part 2
+                document.getElementById('session-standard-ui').classList.add('hidden');
+                document.getElementById('session-part2-ui').classList.remove('hidden');
+                document.getElementById('session-footer').classList.add('hidden');
+                document.getElementById('session-progress').classList.add('hidden');
+                
+                document.getElementById('p2-prompt').innerText = sess.prompt;
+                document.getElementById('p2-bullets').innerHTML = sess.bullets.map(b => `
+                    <li class="flex items-start gap-3">
+                        <span class="w-2 h-2 mt-2 rounded-full bg-ieltsRed shrink-0"></span>
+                        <span class="text-slate-700 text-lg">${b}</span>
+                    </li>
+                `).join('');
+                document.getElementById('p2-conclusion').innerText = sess.conclusion;
+                
+                updateP2UI();
+            }
+        }
+
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${m}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function startTimerLogic() {
+            clearInterval(state.intervalId);
+            state.intervalId = setInterval(() => {
+                if(state.activeSession.part === 'part2') {
+                    if (state.prepMode && state.p2Timer > 0) {
+                        state.p2Timer--;
+                    } else if (!state.prepMode && state.isRecording && state.p2Timer > 0) {
+                        state.p2Timer--;
+                    }
+                    document.getElementById('p2-timer-display').innerText = formatTime(state.p2Timer);
+                    
+                    if(state.p2Timer <= 10) {
+                        document.getElementById('p2-timer-display').classList.add('text-ieltsRed', 'border-red-100', 'animate-pulse');
+                    }
+                } else {
+                    if(state.isRecording) {
+                        state.timer++;
+                        document.getElementById('standard-timer').innerText = formatTime(state.timer);
+                    }
+                }
+            }, 1000);
+        }
+
+        // Part 1 & 3 interactions
+        function toggleRecording() {
+            state.isRecording = !state.isRecording;
+            if(!state.isRecording && state.timer === 0) state.timer = 0;
+            
+            const btn = document.getElementById('standard-record-btn');
+            const icon = document.getElementById('standard-record-icon');
+            const status = document.getElementById('standard-record-status');
+            const timerDisplay = document.getElementById('standard-timer');
+
+            if(state.isRecording) {
+                btn.className = 'w-24 h-24 rounded-full flex items-center justify-center shadow-2xl transition-all transform hover:scale-105 active:scale-95 border-4 bg-red-50 text-ieltsRed border-red-200 animate-pulse';
+                icon.className = 'ph-fill ph-square text-4xl';
+                status.innerText = 'Recording in progress...';
+                timerDisplay.className = 'text-6xl font-mono tabular-nums font-light text-ieltsRed';
+            } else {
+                btn.className = 'w-24 h-24 rounded-full flex items-center justify-center shadow-2xl transition-all transform hover:scale-105 active:scale-95 border-4 bg-ieltsRed text-white border-ieltsRed';
+                icon.className = 'ph ph-microphone text-4xl';
+                status.innerText = 'Tap to start recording';
+                timerDisplay.className = 'text-6xl font-mono tabular-nums font-light text-slate-300';
+            }
+        }
+
+        function updateStandardQuestionUI() {
+            const sess = state.activeSession;
+            document.getElementById('session-question-text').innerText = `"${sess.questions[state.currentStep]}"`;
+            document.getElementById('session-progress').innerText = `Question ${state.currentStep + 1} of ${sess.questions.length}`;
+            
+            document.getElementById('standard-timer').innerText = formatTime(state.timer);
+            const nextBtn = document.getElementById('next-q-btn');
+            
+            if (state.currentStep < sess.questions.length - 1) {
+                nextBtn.innerHTML = 'Next Question <i class="ph ph-caret-right text-xl"></i>';
+            } else {
+                nextBtn.innerHTML = 'Complete Session <i class="ph ph-check text-xl"></i>';
+            }
+        }
+
+        function nextQuestion() {
+            if (state.currentStep < state.activeSession.questions.length - 1) {
+                state.currentStep++;
+                state.isRecording = false;
+                state.timer = 0;
+                
+                // reset UI visually
+                const btn = document.getElementById('standard-record-btn');
+                btn.className = 'w-24 h-24 rounded-full flex items-center justify-center shadow-2xl transition-all transform hover:scale-105 active:scale-95 border-4 bg-ieltsRed text-white border-ieltsRed';
+                document.getElementById('standard-record-icon').className = 'ph ph-microphone text-4xl';
+                document.getElementById('standard-record-status').innerText = 'Tap to start recording';
+                document.getElementById('standard-timer').className = 'text-6xl font-mono tabular-nums font-light text-slate-300';
+
+                updateStandardQuestionUI();
+            } else {
+                endSession();
+            }
+        }
+
+        // Part 2 Interactions
+        function updateP2UI() {
+            document.getElementById('p2-timer-display').innerText = formatTime(state.p2Timer);
+            const label = document.getElementById('p2-timer-label');
+            const display = document.getElementById('p2-timer-display');
+            const btn = document.getElementById('p2-action-btn');
+            const btnIcon = document.getElementById('p2-action-icon');
+            const btnText = document.getElementById('p2-action-text');
+            const warning = document.getElementById('p2-prep-warning');
+
+            display.classList.remove('text-ieltsRed', 'border-red-100', 'animate-pulse');
+
+            if (state.prepMode) {
+                label.innerText = 'Preparation Time';
+                display.className = 'text-6xl font-mono tabular-nums font-light w-full py-4 rounded-2xl bg-slate-50 border text-ieltsNavy border-blue-50';
+                btn.className = 'w-full bg-ieltsRed text-white py-4 rounded-xl font-bold hover:bg-red-700 transition flex items-center justify-center gap-2 shadow-lg shadow-red-200';
+                btnIcon.className = 'ph ph-microphone text-xl';
+                btnText.innerText = 'Start Speaking';
+                warning.classList.remove('hidden');
+            } else {
+                label.innerText = 'Speaking Time';
+                display.className = 'text-6xl font-mono tabular-nums font-light w-full py-4 rounded-2xl bg-slate-50 border text-emerald-500 border-emerald-50';
+                btn.className = 'w-full bg-ieltsNavy text-white py-4 rounded-xl font-bold hover:bg-blue-900 transition flex items-center justify-center gap-2 shadow-lg shadow-blue-200';
+                btnIcon.className = 'ph-fill ph-square text-xl';
+                btnText.innerText = 'End Part 2';
+                warning.classList.add('hidden');
+            }
+        }
+
+        function handleP2Action() {
+            if (state.prepMode) {
+                // start speaking
+                state.prepMode = false;
+                state.p2Timer = 120; // 2 mins
+                state.isRecording = true;
+                updateP2UI();
+            } else {
+                // end speaking
+                state.isRecording = false;
+                endSession();
+            }
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            renderTrendingTopics();
+            // Dashboard is shown by default
+        };
+    </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
