@@ -99,12 +99,10 @@
         </header>
 
         <div id="content-container" class="flex-1 overflow-auto p-8 relative">
-            <!-- Content injected by JS -->
-        </div>
+            </div>
     </main>
 
     <script>
-        // Existing Data from Prompt
         const rawData = {
             "B1": [
                 {w:"Tangle", p:"Noun", f:"Singular (Plural: Tangles)", m:"An untidy mass of things that are not in a state of order.", e:"Her hair was in a tangle after the windy boat ride.", c:["tangle of hair", "hopeless tangle", "untangle a knot"]},
@@ -285,7 +283,6 @@
             ]
         };
 
-        // Fully Formatted Word Additions precisely categorized into CEFR tiers 
         const docWords = {
             "B1": [
                 {w:"Adhere", p:"Verb", f:"Adheres", m:"Stick fast to a surface or substance.", e:"The paint will adhere well to the wood.", c:["adhere to", "strictly adhere", "adhere firmly"]},
@@ -513,7 +510,6 @@
             ]
         };
 
-        // Combine the existing rawData, newWords from prompt, and docWords safely
         for (const level in newWords) {
             if(rawData[level]) rawData[level].push(...newWords[level]);
         }
@@ -521,7 +517,6 @@
             if(rawData[level]) rawData[level].push(...docWords[level]);
         }
 
-        // Rehydrate data into expected structure
         const vocabData = {};
         for (const level in rawData) {
             vocabData[level] = rawData[level].map((item, index) => ({
@@ -576,7 +571,6 @@
             const container = document.getElementById('content-container');
             const title = document.getElementById('view-title');
             
-            // Update sidebar active states
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('bg-white/10', 'bg-white/20', 'text-white');
                 btn.classList.add('text-white/70');
@@ -643,7 +637,6 @@
 
             container.innerHTML = `
                 <div class="fade-in h-full flex flex-col md:flex-row gap-8 max-w-7xl mx-auto">
-                    <!-- Left Sidebar: Word List -->
                     <div class="w-full md:w-80 flex flex-col h-[40vh] md:h-full shrink-0">
                         <div class="bg-white rounded-t-2xl border border-slate-200 p-4 border-b-0 shadow-sm z-10 flex justify-between items-center">
                             <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">${words.length} Words Found</span>
@@ -658,10 +651,8 @@
                         </div>
                     </div>
 
-                    <!-- Right Area: Word Detail Card -->
                     <div class="flex-1 h-full overflow-y-auto pb-10 custom-scroll pr-2" id="word-detail-container">
-                        <!-- Detail injected here -->
-                    </div>
+                        </div>
                 </div>
             `;
             
@@ -760,7 +751,6 @@
             `;
         }
 
-        // Global Search Setup
         document.getElementById('global-search').addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             if (!term) return;
@@ -774,19 +764,34 @@
             }
         });
 
+        // -------------------------------------------------------------
+        // ROBUST INITIALIZATION ENGINE FOR COURSE PLATFORMS/SPAs
+        // -------------------------------------------------------------
         function initApp() {
+            // Guarantee Tailwind fallback loading if CDN hasn't executed
             if (typeof tailwind === 'undefined') {
                 let script = document.createElement('script');
                 script.src = 'https://cdn.tailwindcss.com';
                 document.head.appendChild(script);
             }
+            
+            // Safety check: wait until our specific container is actually painted in the DOM
+            if (!document.getElementById('content-container')) {
+                setTimeout(initApp, 50);
+                return;
+            }
+            
             navigate('dashboard');
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initApp);
-        } else {
+        // 1. If DOM is already fully loaded (e.g., Soft-Routing), fire immediately
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
             initApp();
+        } 
+        // 2. If it's a hard page refresh, bind to standard browser events
+        else {
+            document.addEventListener('DOMContentLoaded', initApp);
+            window.addEventListener('load', initApp);
         }
     </script>
 </body>
