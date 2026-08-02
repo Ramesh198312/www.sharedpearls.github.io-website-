@@ -43,7 +43,7 @@
     .nav-logo-container {
       display: flex;
       align-items: center;
-      gap: 0px;
+      gap: 10px;
     }
     .nav-logo-img {
       height: 80px; /* Reduced from 120px for better proportions */
@@ -55,7 +55,6 @@
       color: var(--gold-light);
       padding: 1.1rem 0;
       letter-spacing: 0.02em;
-      text-align: center;
     }
     .nav-logo span { color: #fff; font-style: italic; }
     
@@ -83,7 +82,6 @@
       border-radius: 2px;
       font-weight: 500 !important;
       margin-left: 10px;
-      text-align: center;
     }
     .nav-cta:hover { background: var(--gold-light) !important; color: var(--ink) !important; }
 
@@ -721,6 +719,144 @@
       .newsletter-btn { width: 100%; }
     }
   </style>
+  <style>
+  /* Dark backdrop overlay that fixes over the entire viewport */
+  .cefr-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(15, 12, 12, 0.72);
+    backdrop-filter: blur(4px);
+    z-index: 999999; /* Ensures it sits above all navbar/content layers */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+    padding: 1.5rem;
+  }
+
+  /* Active state class to reveal modal smoothly */
+  .cefr-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Square-proportioned, high-converting modal box */
+  .cefr-modal-box {
+    width: 100%;
+    max-width: 420px;
+    background: #FFFFFF;
+    border-top: 6px solid #A51C30; /* Harvard Crimson */
+    border-bottom: 4px solid #C5A059; /* Harvard Gold Accent */
+    border-radius: 8px;
+    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.35);
+    padding: 2.2rem 1.8rem;
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.92);
+    transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .cefr-modal-overlay.active .cefr-modal-box {
+    transform: scale(1);
+  }
+
+  /* Top-Right 'X' Close Button */
+  .cefr-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    background: transparent;
+    border: none;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: #666666;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .cefr-modal-close:hover {
+    background: #F3F4F6;
+    color: #A51C30;
+  }
+
+  /* Badge & Content Styling */
+  .cefr-modal-badge {
+    font-family: 'DM Mono', monospace, sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: #FDF2F0;
+    color: #A51C30;
+    border: 1px solid #F5C6CB;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  .cefr-modal-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.65rem;
+    color: #701020;
+    line-height: 1.25;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+  }
+
+  .cefr-modal-desc {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 0.95rem;
+    color: #4A4A4A;
+    line-height: 1.6;
+    margin-bottom: 1.8rem;
+    max-width: 360px;
+  }
+
+  /* Primary Call to Action Button */
+  .cefr-modal-cta {
+    display: block;
+    width: 100%;
+    padding: 0.95rem 1.2rem;
+    background: #A51C30;
+    color: #FFFFFF !important;
+    text-decoration: none;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border-radius: 4px;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(165, 28, 48, 0.3);
+  }
+
+  .cefr-modal-cta:hover {
+    background: #701020;
+    transform: translateY(-2px);
+  }
+
+  .cefr-modal-subnote {
+    font-family: 'DM Mono', monospace, sans-serif;
+    font-size: 0.7rem;
+    color: #888888;
+    margin-top: 0.8rem;
+  }
+</style>
+
 </head>
 <body>
 
@@ -754,7 +890,7 @@
     <p class="hero-desc">Curated lessons, real-world language, and timeless insights — all in one place. From grammar foundations to business English, grow at your own pace.</p>
     <div class="hero-btns">
       <a href="masterclass.html" class="btn btn-gold">Explore Lessons</a>
-      <a href="inside-file-placement-engine-find-your-level.html" class="btn btn-outline">Take Level Test</a>
+      <a href="free-english-level-test-message.html" class="btn btn-outline">Take Level Test</a>
     </div>
   </div>
   <div class="hero-right">
@@ -804,7 +940,7 @@
 <section class="section">
   <div class="section-header">
     <h2 class="section-title">What Would You Like to Improve?</h2>
-    <a href="#" class="section-link">Browse all topics →</a>
+    <a href="free-english-level-test-message.html" class="section-link">Take Free Level Test →</a>
   </div>
   <div class="skills-grid">
     <div class="skill-tile">
@@ -866,7 +1002,7 @@
 <section class="section section-alt">
   <div class="section-header">
     <h2 class="section-title">Latest Lessons</h2>
-    <a href="#" class="section-link">View all lessons →</a>
+    <a href="free-english-level-test-message.html" class="section-link">Take Free Level Test →</a>
   </div>
   <div class="lessons-grid">
     <div class="lesson-card">
@@ -1026,7 +1162,7 @@
 <a class="level-btn" href="find-your-level-b2.html" style="text-decoration: none;">B2 Upper-Int</a>
 <a class="level-btn" href="find-your-level-c1.html" style="text-decoration: none;">C1 Advanced</a>
   </div>
-  <a class="level-test-btn" href="inside-file-placement-engine-find-your-level.html" style="text-decoration: none;">Take the Free Level Test</a>
+  <a class="level-test-btn" href="free-english-level-test-message.html" style="text-decoration: none;">Take the Free Level Test</a>
 </section>
 
 <div class="newsletter-banner" style="background-color: #C19A2B; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
@@ -1084,6 +1220,21 @@
       <p>Get inspired to learn &bull; Inspire others</p>
     </div>
   </footer>
+  <div class="cefr-modal-overlay" id="cefrTestModal" role="dialog" aria-modal="true" aria-labelledby="cefrModalTitle">
+  <div class="cefr-modal-box">
+    <!-- Close Button (X) -->
+    <button type="button" class="cefr-modal-close" id="closeCefrModalBtn" aria-label="Close popup">&times;</button>
+    
+    <div class="cefr-modal-badge">🎓 OFFICIAL CEFR ASSESSMENT</div>
+    <h3 class="cefr-modal-title" id="cefrModalTitle">What is Your English Level?</h3>
+    <p class="cefr-modal-desc">
+      Take our official <strong>50-Question General English Proficiency Test</strong> to discover your CEFR level (A1–C2) and download your verified certificate.
+    </p>
+    <!-- Change 'english_placement_test.html' below to your test page URL -->
+    <a href="online-general-certificate-test.html" class="cefr-modal-cta">Take 50-Question Test &amp; Get Certificate →</a>
+    <div class="cefr-modal-subnote">100% Free · Instantly Downloadable Certificate</div>
+  </div>
+</div>
 
 <script>
   // ── HAMBURGER MENU LOGIC ──
@@ -1120,6 +1271,32 @@
         button.disabled = false;
     });
   });
+   window.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('cefrTestModal');
+      const closeBtn = document.getElementById('closeCefrModalBtn');
+
+      // 1. Show popup 0.10 seconds after visitor opens the site
+      setTimeout(function() {
+        if (modal) {
+          modal.classList.add('active');
+        }
+      }, 1000);
+
+      // 2. Dismiss modal on 'X' click without altering webpage content
+      if (closeBtn && modal) {
+        closeBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          modal.classList.remove('active');
+        });
+
+        // 3. Dismiss modal if visitor clicks the dark overlay outside the box
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            modal.classList.remove('active');
+          }
+        });
+      }
+    });
 </script>
 </body>
 </html>
