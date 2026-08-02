@@ -1271,36 +1271,33 @@
         button.disabled = false;
     });
   });
-   document.addEventListener("DOMContentLoaded", function() {
-  const modal = document.getElementById('cefrPopupModal');
-  const closeBtn = document.getElementById('cefrCloseBtn');
+   window.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('cefrTestModal');
+      const closeBtn = document.getElementById('closeCefrModalBtn');
 
-  // Check if session storage already marked it as shown
-  if (modal && !sessionStorage.getItem('cefrPopupShown')) {
-    // Show popup 1.0 second after first visit
-    setTimeout(function() {
-      modal.classList.add('active');
-      sessionStorage.setItem('cefrPopupShown', 'true');
-    }, 1000);
-  }
+      // 1. Show popup 0.20 seconds after visitor opens the site
+      setTimeout(function() {
+        if (modal) {
+          modal.classList.add('active');
+        }
+      }, 2000);
 
-  // Dismiss modal on 'X' click
-  if (closeBtn && modal) {
-    closeBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      modal.classList.remove('active');
-    });
-  }
+      // 2. Dismiss modal on 'X' click without altering webpage content
+      if (closeBtn && modal) {
+        closeBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          modal.classList.remove('active');
+        });
 
-  // Dismiss modal if visitor clicks the dark overlay outside the box
-  if (modal) {
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        modal.classList.remove('active');
+        // 3. Dismiss modal if visitor clicks the dark overlay outside the box
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            modal.classList.remove('active');
+          }
+          localStorage.setItem('cefrPopupShown', 'true');
+        });
       }
     });
-  }
-});
 </script>
 </body>
 </html>
