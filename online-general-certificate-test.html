@@ -3,88 +3,52 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Test Your English - 50 Question General English Test | Harvard Style</title>
-  <meta name="description" content="Take our free 50-question online English test to discover your CEFR proficiency level (A1 to C2) and download your official Harvard-style certificate." />
+  <title>Test Your English - 50 Question General English Test | Shared Pearls</title>
+  <meta name="description" content="Take our free 50-question online English test to discover your CEFR proficiency level (A1 to C2) and download your official 2-page certificate." />
   
-  <!-- Harvard Primary Typography (EB Garamond, Open Sans, Source Sans Pro) -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  
+  <!-- jsPDF Library for 2-Page Certificate Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
-    /* ==========================================================================
-       HARVARD UNIVERSITY OFFICIAL DESIGN SYSTEM
-       ========================================================================== */
     :root {
-      /* Harvard Crimson Palette */
       --harvard-crimson: #A51C30;
       --harvard-crimson-dark: #701020;
       --harvard-crimson-deep: #4A0C16;
       --harvard-ink: #1E1E1E;
-      --harvard-black: #111111;
       --harvard-gold: #C5A059;
       --harvard-gold-light: #EADCB9;
-      
       --bg-parchment: #F9F8F6;
       --bg-warm-white: #FAF9F6;
-      --bg-card: #FFFFFF;
       --border-gray: #E2DDD5;
-      
       --text-main: #1E1E1E;
       --text-muted: #595959;
-      --text-light: #FFFFFF;
-      
-      --ok-green: #1B5E20;
-      --ok-green-bg: #E8F5E9;
       --alert-red: #A51C30;
       --alert-red-bg: #FDF2F0;
-      
-      --shadow-subtle: 0 4px 12px rgba(30, 30, 30, 0.06);
-      --shadow-card: 0 6px 24px rgba(0, 0, 0, 0.08);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     
     body {
-      font-family: 'Source Sans Pro', 'Open Sans', Arial, sans-serif;
+      font-family: 'Open Sans', Arial, sans-serif;
       background: var(--bg-parchment);
       color: var(--text-main);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── TOPBAR TRAY ── */
-    .topbar-header {
-      background: var(--harvard-crimson-deep);
-      color: var(--text-light);
-      font-size: 0.8rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    }
-    .topbar-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0.4rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .topbar-links a {
-      color: var(--harvard-gold-light);
-      text-decoration: none;
-      margin-left: 1.2rem;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-    .topbar-links a:hover { color: #FFFFFF; }
-
-    /* ── HEADER ── */
+    /* ── HEADER & TOP-LEFT TIMER ── */
     .header {
       background: var(--harvard-crimson-dark);
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       border-bottom: 4px solid var(--harvard-gold);
     }
     .header-wrap {
@@ -95,53 +59,48 @@
       align-items: center;
       justify-content: space-between;
     }
-    .logo-container {
+    
+    /* Professional Timer Box */
+    .timer-box {
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      text-decoration: none;
+      gap: 0.5rem;
+      background: rgba(0, 0, 0, 0.25);
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      color: #FFFFFF;
+      font-family: monospace;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.15);
     }
+
     .logo-text {
       font-family: 'EB Garamond', serif;
       font-size: 1.5rem;
       font-weight: 700;
       color: #FFFFFF;
-      letter-spacing: -0.01em;
+      text-decoration: none;
     }
     .logo-text span { color: var(--harvard-gold-light); font-style: italic; font-weight: 400; }
 
-    /* ── BREADCRUMB BANNER ── */
+    /* ── BREADCRUMBS ── */
     .sub-header-banner {
       background: var(--bg-warm-white);
       padding: 1.8rem 1.5rem;
       border-bottom: 1px solid var(--border-gray);
     }
-    .sub-header-container {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    .breadcrumbs {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-bottom: 0.4rem;
-      font-family: 'Open Sans', sans-serif;
-    }
-    .breadcrumbs a {
-      color: var(--harvard-crimson);
-      text-decoration: none;
-      font-weight: 600;
-    }
+    .sub-header-container { max-width: 1000px; margin: 0 auto; }
     .sub-header-container h1 {
       font-family: 'EB Garamond', serif;
       font-size: 2.3rem;
       font-weight: 700;
       color: var(--harvard-crimson-dark);
+      margin-top: 0.4rem;
     }
 
-    /* ── QUIZ MAIN CONTAINER ── */
-    .quiz-main-section {
-      padding: 3rem 1.5rem;
-    }
+    /* ── QUIZ CONTAINER ── */
+    .quiz-main-section { padding: 3rem 1.5rem; }
     .quiz-card {
       max-width: 880px;
       margin: 0 auto;
@@ -149,13 +108,10 @@
       border: 1px solid var(--border-gray);
       border-radius: 8px;
       padding: 2.5rem;
-      box-shadow: var(--shadow-card);
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
     }
 
     /* Progress Indicator */
-    .progress-wrap {
-      margin-bottom: 2rem;
-    }
     .progress-bar-bg {
       height: 10px;
       background: #EAE6DF;
@@ -173,52 +129,31 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-family: 'Open Sans', sans-serif;
       font-size: 0.85rem;
       font-weight: 700;
       color: var(--harvard-crimson-dark);
-    }
-    .page-status-badge {
-      background: #FDF2F0;
-      color: var(--harvard-crimson);
-      padding: 0.2rem 0.6rem;
-      border-radius: 4px;
-      border: 1px solid #F5C6CB;
+      margin-bottom: 2rem;
     }
 
-    .quiz-intro-note {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border-gray);
-    }
-
-    /* Question Formatting */
+    /* Questions */
     .q-block {
       margin-bottom: 2rem;
       padding: 1.2rem;
       background: #FFFFFF;
       border: 1px solid #EAE6DF;
       border-radius: 8px;
-      transition: border-color 0.2s;
     }
     .q-block.unanswered-alert {
       border-color: var(--alert-red);
       background: var(--alert-red-bg);
     }
     .q-title {
-      font-family: 'Open Sans', sans-serif;
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--harvard-crimson-dark);
       margin-bottom: 0.8rem;
     }
-    .options-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+    .options-group { display: flex; flex-direction: column; gap: 0.5rem; }
     .option-card {
       display: flex;
       align-items: center;
@@ -227,14 +162,10 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 0.98rem;
-      transition: all 0.2s ease;
       background: var(--bg-parchment);
-      user-select: none;
+      transition: all 0.2s;
     }
-    .option-card:hover {
-      background: #FDF2F0;
-      border-color: var(--harvard-crimson);
-    }
+    .option-card:hover { background: #FDF2F0; border-color: var(--harvard-crimson); }
     .option-card.selected {
       background: #FDF2F0;
       border-color: var(--harvard-crimson);
@@ -242,15 +173,9 @@
       font-weight: 600;
       color: var(--harvard-crimson-dark);
     }
-    .option-card input[type="radio"] {
-      margin-right: 0.8rem;
-      accent-color: var(--harvard-crimson);
-      width: 18px;
-      height: 18px;
-      pointer-events: none;
-    }
+    .option-card input[type="radio"] { margin-right: 0.8rem; accent-color: var(--harvard-crimson); pointer-events: none; }
 
-    /* Actions Bar */
+    /* Actions */
     .actions-bar {
       margin-top: 2rem;
       padding-top: 1.5rem;
@@ -258,52 +183,24 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
     }
     .btn-quiz {
       padding: 0.85rem 2rem;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 0.92rem;
+      font-size: 0.95rem;
       font-weight: 700;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
-    .btn-prev {
-      background: #EAE6DF;
-      color: var(--text-muted);
-    }
+    .btn-prev { background: #EAE6DF; color: var(--text-muted); }
     .btn-prev:hover:not(:disabled) { background: #D8D2C7; color: var(--text-main); }
-    .btn-next {
-      background: var(--harvard-crimson);
-      color: #FFFFFF;
-      box-shadow: 0 4px 12px rgba(165, 28, 48, 0.25);
-    }
-    .btn-next:hover:not(:disabled) { 
-      background: var(--harvard-crimson-dark); 
-      transform: translateY(-1px);
-    }
-    .btn-quiz:disabled {
-      background: #CBD5E1 !important;
-      color: #94A3B8 !important;
-      cursor: not-allowed !important;
-      box-shadow: none !important;
-      transform: none !important;
-    }
-    .info-alert {
-      font-size: 0.88rem;
-      color: var(--alert-red);
-      font-weight: 700;
-      display: none;
-    }
+    .btn-next { background: var(--harvard-crimson); color: #FFFFFF; }
+    .btn-next:hover:not(:disabled) { background: var(--harvard-crimson-dark); }
+    .btn-quiz:disabled { background: #CBD5E1 !important; color: #94A3B8 !important; cursor: not-allowed; }
 
-    /* ── RESULT & CERTIFICATE VIEW ── */
-    .result-box {
-      display: none;
-      text-align: center;
-    }
+    /* ── RESULT VIEW ── */
+    #resultView { display: none; text-align: center; }
     .result-badge {
       display: inline-block;
       padding: 0.6rem 2.2rem;
@@ -316,50 +213,23 @@
       margin-bottom: 1rem;
       border-bottom: 4px solid var(--harvard-gold);
     }
-    .result-score-text {
-      font-family: 'EB Garamond', serif;
-      font-size: 1.6rem;
+    .result-stats {
+      font-size: 1.2rem;
       color: var(--harvard-crimson-dark);
-      font-weight: 700;
-      margin-bottom: 1rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
     }
-    .result-desc-card {
-      background: var(--bg-parchment);
-      border: 1px solid var(--border-gray);
-      border-radius: 8px;
-      padding: 1.8rem;
-      text-align: left;
-      margin: 1.5rem 0;
-      line-height: 1.75;
-    }
-    .result-desc-card h3 {
-      font-family: 'EB Garamond', serif;
-      color: var(--harvard-crimson-dark);
-      margin-bottom: 0.5rem;
-      font-size: 1.35rem;
-    }
-
-    /* Certificate Name Form */
     .cert-form-box {
       background: #FFFFFF;
       border: 2px dashed var(--harvard-gold);
       border-radius: 8px;
-      padding: 2rem;
+      padding: 2.5rem;
       margin: 2rem 0;
-      text-align: center;
-    }
-    .cert-form-box h4 {
-      font-family: 'EB Garamond', serif;
-      font-size: 1.4rem;
-      color: var(--harvard-crimson-dark);
-      margin-bottom: 0.5rem;
-      font-weight: 700;
     }
     .cert-input {
       width: 100%;
       max-width: 420px;
       padding: 0.8rem 1rem;
-      font-family: 'Open Sans', sans-serif;
       font-size: 1.1rem;
       border: 2px solid var(--border-gray);
       border-radius: 4px;
@@ -368,525 +238,551 @@
       outline: none;
     }
     .cert-input:focus { border-color: var(--harvard-crimson); }
-
-    /* Canvas for Download */
-    #certificateCanvas {
-      display: none;
-      max-width: 100%;
-      height: auto;
-      border: 1px solid var(--border-gray);
-      margin-top: 1rem;
-      border-radius: 6px;
-    }
-
-    /* FOOTER */
+    
     footer {
       background: var(--harvard-crimson-dark);
-      color: #FFFFFF;
-      padding: 3rem 1.5rem 1.5rem;
+      color: #E2DDD5;
+      padding: 2rem 1.5rem;
       margin-top: 4rem;
       border-top: 5px solid var(--harvard-gold);
+      text-align: center;
+      font-size: 0.9rem;
     }
-    .footer-inner {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      font-size: 0.85rem;
-      color: #E2DDD5;
-    }
-    .footer-inner a { color: var(--harvard-gold-light); text-decoration: none; }
 
     @media (max-width: 600px) {
-      .quiz-card { padding: 1.5rem; }
-      .sub-header-container h1 { font-size: 1.7rem; }
-      .actions-bar { flex-direction: column; align-items: stretch; }
+      .header-wrap { flex-direction: column; gap: 1rem; }
+      .actions-bar { flex-direction: column; gap: 1rem; align-items: stretch; }
       .btn-quiz { width: 100%; }
     }
   </style>
 </head>
-<body id="anchor-top">
+<body>
 
-  <!-- TOPBAR HEADER -->
-  <div class="topbar-header">
-    <div class="topbar-container">
-      <div>Official Harvard-Tier Assessment Portal</div>
-      <div class="topbar-links">
-        <a href="index.html">Home</a>
-        <a href="masterclass.html">Masterclass</a>
-        <a href="inner-subscribe-payment.html">Membership</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- MAIN NAVIGATION HEADER -->
   <header class="header">
     <div class="header-wrap">
-      <a href="index.html" class="logo-container">
-        <div class="logo-text">Shared <span>Pearls Assessment</span></div>
-      </a>
+      <!-- 1. TIMER in Top-Left -->
+      <div class="timer-box" id="timerDisplay">
+        ⏱ 00:00
+      </div>
+      <a href="index.html" class="logo-text">Shared Pearls of Wisdom <span>Assessment</span></a>
     </div>
   </header>
 
-  <!-- SUBHEADER / BREADCRUMBS -->
   <div class="sub-header-banner">
     <div class="sub-header-container">
-      <div class="breadcrumbs">
-        <a href="index.html">Home</a> &gt; <a href="#">Test Your English</a> &gt; Official 50-Question Assessment
-      </div>
-      <h1>Test Your English — General Proficiency (50 Questions)</h1>
+      <h1>English Placement Test For CEFR-Tiered Certification</h1>
     </div>
   </div>
 
   <main class="quiz-main-section" id="anchor-main">
     <div class="quiz-card">
       
-      <!-- QUIZ ACTIVE VIEW -->
       <div id="quizActiveView">
         <div class="progress-wrap">
-          <div class="progress-bar-bg">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
+          <div class="progress-bar-bg"><div class="progress-fill" id="progressFill"></div></div>
           <div class="progress-text-row">
             <span id="pageIndicator">Page 1 of 10</span>
-            <span class="page-status-badge" id="answeredStatusBadge">0 / 5 Answered on this page</span>
             <span id="questionCountIndicator">Questions 1–5 of 50</span>
           </div>
         </div>
 
-        <p class="quiz-intro-note">Select the best option to complete each sentence or conversation. You must answer all 5 questions on the current page to enable the <strong>Next</strong> button.</p>
+        <p style="color: #595959; margin-bottom: 1.5rem;">Select the best option to complete each sentence. You must answer all 5 questions on the current page to proceed.</p>
 
-        <!-- Dynamic Form Target -->
         <div id="quizFormContainer"></div>
 
         <div class="actions-bar">
           <button type="button" class="btn-quiz btn-prev" id="prevBtn" onclick="navigatePage(-1)">Previous</button>
-          <span class="info-alert" id="validationAlert">⚠ Please answer all 5 questions on this page to continue.</span>
+          <span style="color: #A51C30; font-weight: bold; display: none;" id="validationAlert">⚠ Please answer all questions.</span>
           <button type="button" class="btn-quiz btn-next" id="nextBtn" onclick="navigatePage(1)" disabled>Next Page →</button>
         </div>
       </div>
 
-      <!-- RESULT & CERTIFICATE VIEW -->
-      <div class="result-box" id="resultView">
-        <div class="result-badge" id="cefrBadge">B2 Upper-Intermediate</div>
-        <div class="result-score-text" id="scoreText">You scored 38 out of 50</div>
+      <div id="resultView">
+        <div class="result-badge" id="cefrBadge">Calculating...</div>
+        <div class="result-stats">
+          <p id="scoreText">Score: Calculating...</p>
+          <p id="timeText" style="color: #595959; font-size: 1rem; margin-top: 0.5rem;">Time Taken: 00:00</p>
+        </div>
         
-        <div class="result-desc-card">
-          <h3 id="resultTitle">CEFR Level Evaluation</h3>
-          <p id="resultDesc">Based on your performance across all 50 assessment items, you demonstrate a strong command of English syntax, vocabulary, and functional communications.</p>
-        </div>
-
-        <!-- Certificate Generation Form -->
         <div class="cert-form-box">
-          <h4>🎓 Claim Your Official Proficiency Certificate</h4>
-          <p style="font-size:0.95rem; color: var(--text-muted);">Enter your full name as you want it to appear on your verified certificate:</p>
-          <input type="text" id="userNameInput" class="cert-input" placeholder="e.g. Dr. Alexander Wright" maxlength="40" />
+          <h3 style="font-family:'EB Garamond', serif; font-size:1.6rem; color:#701020;">Claim Your Official 2-Page Certificate</h3>
+          <p style="color:#595959; margin-top:0.5rem;">Enter your full name to generate your verified PDF Certificate.</p>
+          <input type="text" id="userNameInput" class="cert-input" placeholder="e.g., Sarah Jenkins" maxlength="40" />
           <br/>
-          <button type="button" class="btn-quiz btn-next" onclick="generateCertificate()">Generate &amp; Download Certificate (PNG)</button>
+          <button type="button" class="btn-quiz btn-next" id="downloadBtn" onclick="generatePDFCertificate()">📄 Download Official 2-Page PDF</button>
         </div>
 
-        <!-- Canvas for Certificate Rendering -->
-        <canvas id="certificateCanvas" width="1200" height="850"></canvas>
-
-        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-          <button onclick="window.print()" class="btn-quiz btn-prev">🖨 Print / Save as PDF</button>
-          <button onclick="window.location.reload()" class="btn-quiz btn-prev">Retake 50-Question Test</button>
-        </div>
+        <button onclick="window.location.reload()" class="btn-quiz btn-prev">Retake Test</button>
       </div>
 
     </div>
   </main>
 
-  <footer>
-    <div class="footer-inner">
-      <div>&copy; 2026 Shared Pearls of Wisdom · English Proficiency Assessment Division</div>
-      <div><a href="index.html">← Back to Main Portal</a></div>
-    </div>
-  </footer>
+  <footer>&copy; 2026 Shared Pearls of Wisdom · English Proficiency Assessment Division</footer>
 
   <script>
-    (function(){
-      // 50 FULLY VALIDATED CEFR QUESTIONS
-      const QUESTIONS = [
-        // Page 1 (Conversational & Functional Basics - A1/A2)
-        { text: "Could I borrow your pen for a moment?", options: ["Of course, here you go.", "I don't mind it.", "It's a long time."], correct: 0 },
-        { text: "Where shall we meet for lunch today?", options: ["I think it was yesterday.", "How about the bistro near the office?", "Yes, I've had enough."], correct: 1 },
-        { text: "I'm having trouble connecting to the Wi-Fi.", options: ["Let me show you the password.", "I believe you can.", "No, it doesn't matter."], correct: 0 },
-        { text: "Would you like a cup of coffee while you wait?", options: ["I'd love one, thanks.", "How much did it cost?", "It's getting late."], correct: 0 },
-        { text: "Why don't we catch the seven o'clock train?", options: ["That sounds like a good idea.", "Because I went yesterday.", "It isn't very far."], correct: 0 },
+    // --- TIMER LOGIC ---
+    let startTime = sessionStorage.getItem("exam_start_time");
+    if (!startTime) {
+      startTime = Date.now();
+      sessionStorage.setItem("exam_start_time", startTime);
+    } else {
+      startTime = parseInt(startTime, 10);
+    }
+    
+    let timerInterval;
+    let finalTimeFormatted = "00:00";
 
-        // Page 2 (Elementary Grammar & Prepositions - A2/B1)
-        { text: "The traffic was ...... heavy that we missed the beginning of the play.", options: ["such", "too", "so", "very"], correct: 2 },
-        { text: "We need to clear up this misunderstanding once and for ...... .", options: ["all", "ever", "last", "always"], correct: 0 },
-        { text: "Be careful not to lean over the ...... of the balcony.", options: ["margin", "edge", "boundary", "limit"], correct: 1 },
-        { text: "I do apologise – I didn't ...... to break your favourite mug.", options: ["hope", "think", "mean", "suppose"], correct: 2 },
-        { text: "The speaker concluded his presentation ...... an inspiring quote.", options: ["by", "with", "in", "from"], correct: 1 },
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        let diff = Math.floor((Date.now() - startTime) / 1000);
+        let m = String(Math.floor(diff / 60)).padStart(2, '0');
+        let s = String(diff % 60).padStart(2, '0');
+        document.getElementById('timerDisplay').innerText = `⏱ ${m}:${s}`;
+      }, 1000);
+    }
+    
+    function stopTimer() {
+      clearInterval(timerInterval);
+      let diff = Math.floor((Date.now() - startTime) / 1000);
+      let m = String(Math.floor(diff / 60)).padStart(2, '0');
+      let s = String(diff % 60).padStart(2, '0');
+      finalTimeFormatted = `${m}:${s}`;
+      document.getElementById('timeText').innerText = `Time Taken: ${m} minutes, ${s} seconds`;
+    }
 
-        // Page 3 (Prepositional Verbs & Expressions - B1)
-        { text: "Could you please ...... these trousers a quick press before tonight's event?", options: ["make", "do", "get", "give"], correct: 3 },
-        { text: "She mentioned she was looking forward to ...... her old university friends.", options: ["revisit", "have revisited", "revisiting", "revisited"], correct: 2 },
-        { text: "...... hard he tries, he can never seem to beat his personal best time.", options: ["Whatever", "No matter how", "However much", "Although"], correct: 1 },
-        { text: "It was only last Tuesday ...... the project proposal was finally approved.", options: ["then", "since", "after", "that"], correct: 3 },
-        { text: "The store was out of stock, so the manager has ...... a fresh batch from the supplier.", options: ["booked", "ordered", "commanded", "asked"], correct: 1 },
+    startTimer(); // Begin immediately
 
-        // Page 4 (Collocations & Phrasal Structures - B1/B2)
-        { text: "Are you free for a quick call now, or are you just ...... to go into a meeting?", options: ["thinking", "round", "planned", "about"], correct: 3 },
-        { text: "They moved into their new family house ...... three weeks ago.", options: ["quite", "beyond", "already", "almost"], correct: 3 },
-        { text: "Please ensure you ...... your seat belt before the taxi starts moving.", options: ["undress", "fasten", "unlock", "untie"], correct: 1 },
-        { text: "He decided to resign because there was no ...... for professional growth.", options: ["place", "position", "opportunity", "possibility"], correct: 2 },
-        { text: "Fortunately, the storm passed quickly and ...... damage was caused to the roof.", options: ["little", "small", "light", "mere"], correct: 0 },
+    // --- 50 QUESTIONS ---
+    const QUESTIONS = [
+        // User's exact 1-5
+        { text:"Can I park here?", options:["Sorry, I did that.","It's the same place.","Only for half an hour."], correct:2 },
+        { text:"What colour will you paint the children's bedroom?", options:["I hope it was right.","We can't decide.","It wasn't very difficult."], correct:1 },
+        { text:"I can't understand this email.", options:["Would you like some help?","Don't you know?","I suppose you can."], correct:0 },
+        { text:"I'd like two tickets for tomorrow night.", options:["How much did you pay?","Afternoon and evening.","I'll just check for you."], correct:2 },
+        { text:"Shall we go to the gym now?", options:["I'm too tired.","It's very good.","Not at all."], correct:0 },
 
-        // Page 5 (Unreal Past & Fixed Phrases - B2)
-        { text: "I'd rather you ...... the team leader before making any final commitments.", options: ["would consult", "consulted", "to consult", "will consult"], correct: 1 },
-        { text: "Before voting, the committee thoroughly evaluated all ...... of the debate.", options: ["sides", "features", "perspectives", "shades"], correct: 0 },
-        { text: "Dr. Evans comes ...... recommended by all her former university colleagues.", options: ["greatly", "highly", "strongly", "readily"], correct: 1 },
-        { text: "After losing his way in the fog, the hiker was forced to ...... his steps back to the cabin.", options: ["retrace", "regress", "resume", "return"], correct: 0 },
-        { text: "The new hotel is situated somewhere in the immediate ...... of the international airport.", options: ["region", "quarter", "vicinity", "district"], correct: 2 },
+        // User's exact 6-10
+        { text:"His eyes were ...... bad that he couldn't read the number plate of the car in front.", options:["such","too","so","very"], correct:2 },
+        { text:"The company needs to decide ...... and for all what its position is on this point.", options:["here","once","first","finally"], correct:1 },
+        { text:"Don't put your cup on the ...... of the table – someone will knock it off.", options:["outside","edge","boundary","border"], correct:1 },
+        { text:"I'm sorry - I didn't ...... to disturb you.", options:["hope","think","mean","suppose"], correct:2 },
+        { text:"The singer ended the concert ...... her most popular song.", options:["by","with","in","as"], correct:1 },
 
-        // Page 6 (B2 Upper-Intermediate)
+        // User's exact 11-15
+        { text:"Would you mind ...... these plates a wipe before putting them in the cupboard?", options:["making","doing","getting","giving"], correct:3 },
+        { text:"I was looking forward ...... at the new restaurant, but it was closed.", options:["to eat","to have eaten","to eating","eating"], correct:2 },
+        { text:"...... tired Melissa is when she gets home from work, she always makes time to say goodnight to the children.", options:["Whatever","No matter how","However much","Although"], correct:1 },
+        { text:"It was only ten days ago ...... she started her new job.", options:["then","since","after","that"], correct:3 },
+        { text:"The shop didn't have the shoes I wanted, but they've ...... a pair specially for me.", options:["booked","ordered","commanded","asked"], correct:1 },
+
+        // User's exact 16-20
+        { text:"Have you got time to discuss your work now or are you ...... to leave?", options:["thinking","round","planned","about"], correct:3 },
+        { text:"She came to live here ...... a month ago.", options:["quite","beyond","already","almost"], correct:3 },
+        { text:"Once the plane is in the air, you can ...... your seat belts if you wish.", options:["undress","unfasten","unlock","untie"], correct:1 },
+        { text:"I left my last job because I had no ...... to travel.", options:["place","position","opportunity","possibility"], correct:2 },
+        { text:"It wasn't a bad crash and ...... damage was done to my car.", options:["little","small","light","mere"], correct:0 },
+
+        // User's exact 21-25
+        { text:"I'd rather you ...... to her why we can't go.", options:["would explain","explained","to explain","will explain"], correct:1 },
+        { text:"Before making a decision, the leader considered all ...... of the argument.", options:["sides","features","perspectives","shades"], correct:0 },
+        { text:"This new printer is recommended as being ...... reliable.", options:["greatly","highly","strongly","readily"], correct:1 },
+        { text:"When I realised I had dropped my gloves, I decided to ...... my steps.", options:["retrace","regress","resume","return"], correct:0 },
+        { text:"Anne's house is somewhere in the ...... of the railway station.", options:["region","quarter","vicinity","district"], correct:2 },
+
+        // Advanced Items (26-50)
         { text: "By this time next year, I ...... my master's degree.", options: ["will complete", "will have completed", "completed", "am completing"], correct: 1 },
         { text: "Hardly ...... entered the building when the fire alarm sounded.", options: ["had he", "he had", "did he", "he did"], correct: 0 },
         { text: "The firm suffered heavy financial losses due to ...... management.", options: ["slight", "faulty", "poor", "shallow"], correct: 2 },
         { text: "She insisted on ...... for the entire dinner bill herself.", options: ["paying", "to pay", "pay", "that she pays"], correct: 0 },
         { text: "If you ...... my advice earlier, you wouldn't be in difficulty now.", options: ["took", "had taken", "would take", "take"], correct: 1 },
-
-        // Page 7 (B2/C1)
+        
         { text: "The decision was postponed ...... further market investigation.", options: ["during", "considering", "pending", "regarding"], correct: 2 },
         { text: "Never ...... such an extraordinary performance on stage.", options: ["have I seen", "I have seen", "did I saw", "I saw"], correct: 0 },
         { text: "He was formally accused ...... stealing confidential documents.", options: ["for", "of", "with", "about"], correct: 1 },
         { text: "It's high time you ...... taking your career goals seriously.", options: ["start", "would start", "started", "have started"], correct: 2 },
         { text: "So engrossed ...... in her research that she lost track of time.", options: ["was she", "she was", "had she been", "she had"], correct: 0 },
 
-        // Page 8 (C1)
         { text: "It is essential that every job applicant ...... the required forms.", options: ["submits", "submit", "submitted", "is submitting"], correct: 1 },
         { text: "The complex project was carried ...... with flawless execution.", options: ["out", "off", "through", "up"], correct: 0 },
         { text: "Had it not been ...... your timely assistance, we would have failed.", options: ["with", "about", "for", "by"], correct: 2 },
         { text: "She handled the hostile press conference with complete ...... .", options: ["complacency", "composure", "compromise", "compulsion"], correct: 1 },
         { text: "The commercial agreement is subject ...... final approval by the board.", options: ["to", "for", "with", "by"], correct: 0 },
 
-        // Page 9 (C1/C2)
         { text: "Little ...... that the meeting had already been rescheduled.", options: ["he knew", "did he know", "he had known", "knew he"], correct: 1 },
         { text: "His explanation was so ambiguous that it served only to ...... the issue.", options: ["clarify", "obfuscate", "illuminate", "rectify"], correct: 1 },
         { text: "The speech was met with ...... applause from all the delegates.", options: ["rapturous", "ravenous", "rampant", "rancid"], correct: 0 },
         { text: "Such was the severity of the storm that the town was completely ...... off.", options: ["shut", "blocked", "cut", "taken"], correct: 2 },
         { text: "The company's CEO dropped a discreet ...... that mergers were being discussed.", options: ["hint", "trace", "glimpse", "whisper"], correct: 0 },
 
-        // Page 10 (C2)
         { text: "The two audit reports were completely at ...... with each other.", options: ["contrast", "variance", "discord", "opposition"], correct: 1 },
         { text: "Only by sheer force of determination ...... to overcome the crisis.", options: ["did she manage", "she managed", "she did manage", "managed she"], correct: 0 },
         { text: "The contract was declared null and ...... following the forensic audit.", options: ["blank", "empty", "void", "clear"], correct: 2 },
         { text: "His arguments, far from being compelling, were thoroughly ...... .", options: ["genuine", "specious", "authentic", "lucid"], correct: 1 },
         { text: "Be that as it ......, we must proceed with the original corporate agenda.", options: ["may", "can", "will", "should"], correct: 0 }
-      ];
+    ];
 
-      const PER_PAGE = 5;
-      const TOTAL_PAGES = Math.ceil(QUESTIONS.length / PER_PAGE);
-      let currentPage = 1;
-      let userAnswers = {};
+    // --- CEFR DESCRIPTORS (From Provided Word Document) ---
+    const CEFR_DATA = {
+        "A1": {
+            title: "A1 Beginner",
+            description: "Understands and uses familiar, everyday expressions and very basic phrases when others speak slowly and clearly, and can read very short, simple texts a phrase at a time. Can introduce themselves, ask and answer simple personal questions, and interact in a basic way provided the other person is willing to repeat or rephrase. Can write simple isolated phrases and sentences giving personal information such as name, family and likes.",
+            highlights: [
+              "Understands very slow, clearly articulated speech on familiar topics",
+              "Reads very short, simple texts and picks out familiar words",
+              "Interacts on immediate needs with help from the other speaker",
+              "Writes simple isolated phrases about themselves and their surroundings"
+            ]
+        },
+        "A2": {
+            title: "A2 Elementary",
+            description: "Understands frequently-used phrases and sentences related to areas of immediate relevance — basic personal and family information, shopping, local geography and employment — when people speak clearly and slowly. Can communicate in simple, routine tasks requiring a direct exchange of information on familiar matters, and can describe people, places and daily routines in simple terms. Reads and writes short, simple texts using high-frequency, everyday vocabulary.",
+            highlights: [
+              "Follows clear, slow speech on familiar everyday topics",
+              "Reads short texts built from the highest-frequency vocabulary",
+              "Handles simple, routine exchanges on familiar matters",
+              "Writes short, linked sentences using simple connectors"
+            ]
+        },
+        "B1": {
+            title: "B1 Intermediate",
+            description: "Understands the main points of clear, standard speech on familiar matters regularly encountered at work, school and leisure, and reads straightforward factual texts with satisfactory comprehension. Can deal with most situations likely to arise while travelling, enter unprepared into conversation on familiar topics, and give reasonably fluent, straightforward descriptions of experiences and events. Writes connected text on familiar subjects by linking ideas into a simple, coherent sequence.",
+            highlights: [
+              "Follows the main points of everyday speech on familiar subjects",
+              "Reads factual texts in their field with satisfactory understanding",
+              "Converses confidently on familiar and everyday topics",
+              "Writes straightforward, connected text on familiar subjects"
+            ]
+        },
+        "B2": {
+            title: "B2 Upper-Intermediate",
+            description: "Understands the main ideas of complex speech and text on both concrete and abstract topics, including technical discussion in their own field. Interacts with a degree of fluency and spontaneity that allows regular interaction with proficient speakers without strain on either side, and can explain a viewpoint, weighing the advantages and disadvantages of different options. Produces clear, detailed text on a wide range of subjects, synthesising and evaluating information from several sources.",
+            highlights: [
+              "Follows complex discourse on concrete and abstract topics",
+              "Reads independently, adapting style and speed to the text",
+              "Interacts fluently and spontaneously without strain on either side",
+              "Writes clear, detailed text that synthesises multiple sources"
+            ]
+        },
+        "C1": {
+            title: "C1 Advanced",
+            description: "Understands a wide range of demanding, longer texts and extended discourse, including on abstract and complex topics, and recognises implicit meaning and register shifts. Expresses ideas fluently and spontaneously with little obvious searching for words, and uses language flexibly and effectively for social, academic and professional purposes. Produces clear, well-structured, detailed text on complex subjects, controlling organisational patterns, connectors and cohesive devices.",
+            highlights: [
+              "Follows extended, complex discourse even when implicitly structured",
+              "Reads a wide variety of lengthy and specialised texts",
+              "Expresses ideas fluently and almost effortlessly",
+              "Produces well-structured, detailed text with a clear conclusion"
+            ]
+        },
+        "C2": {
+            title: "C2 Proficient",
+            description: "Understands, with ease, virtually everything heard or read, including fast natural speech and abstract, structurally complex or highly colloquial writing. Can summarise information from different spoken and written sources, reconstructing arguments in a coherent presentation. Expresses themselves spontaneously, very fluently and precisely, differentiating finer shades of meaning even in complex situations, with an effective, logical structure that helps the listener or reader notice and remember significant points.",
+            highlights: [
+              "Understands virtually any spoken or written language with ease",
+              "Summarises and reconstructs arguments from multiple sources",
+              "Expresses finer shades of meaning precisely and spontaneously",
+              "Produces smoothly flowing, well-structured, memorable discourse"
+            ]
+        }
+    };
 
+    // --- STATE MANAGEMENT ---
+    const PER_PAGE = 5;
+    const TOTAL_PAGES = Math.ceil(QUESTIONS.length / PER_PAGE);
+    let currentPage = 1;
+    let userAnswers = {};
+    let finalLevelCode = ""; // Guaranteed empty until calculated
+
+    function renderPage() {
       const formContainer = document.getElementById("quizFormContainer");
-      const pageIndicator = document.getElementById("pageIndicator");
-      const questionCountIndicator = document.getElementById("questionCountIndicator");
-      const answeredStatusBadge = document.getElementById("answeredStatusBadge");
-      const progressFill = document.getElementById("progressFill");
-      const prevBtn = document.getElementById("prevBtn");
-      const nextBtn = document.getElementById("nextBtn");
-      const validationAlert = document.getElementById("validationAlert");
+      formContainer.innerHTML = "";
+      const startIdx = (currentPage - 1) * PER_PAGE;
+      const pageQuestions = QUESTIONS.slice(startIdx, startIdx + PER_PAGE);
 
-      function renderPage() {
-        formContainer.innerHTML = "";
-        const startIdx = (currentPage - 1) * PER_PAGE;
-        const pageQuestions = QUESTIONS.slice(startIdx, startIdx + PER_PAGE);
+      pageQuestions.forEach((q, offset) => {
+        const qIdx = startIdx + offset;
+        const qBlock = document.createElement("div");
+        qBlock.className = "q-block";
+        qBlock.id = "block_q_" + qIdx;
 
-        pageQuestions.forEach((q, offset) => {
-          const qIdx = startIdx + offset;
-          
-          const qBlock = document.createElement("div");
-          qBlock.className = "q-block";
-          qBlock.id = "block_q_" + qIdx;
+        const title = document.createElement("div");
+        title.className = "q-title";
+        title.textContent = (qIdx + 1) + ". " + q.text;
 
-          const title = document.createElement("div");
-          title.className = "q-title";
-          title.textContent = (qIdx + 1) + ". " + q.text;
+        const optionsGroup = document.createElement("div");
+        optionsGroup.className = "options-group";
 
-          const optionsGroup = document.createElement("div");
-          optionsGroup.className = "options-group";
+        q.options.forEach((optText, optIdx) => {
+          const card = document.createElement("div");
+          card.className = "option-card";
+          if (userAnswers[qIdx] === optIdx) card.classList.add("selected");
 
-          q.options.forEach((optText, optIdx) => {
-            const card = document.createElement("div");
-            card.className = "option-card";
+          const radio = document.createElement("input");
+          radio.type = "radio"; radio.name = "q_" + qIdx; radio.value = optIdx;
+          if (userAnswers[qIdx] === optIdx) radio.checked = true;
 
-            if (userAnswers[qIdx] === optIdx) {
-              card.classList.add("selected");
-            }
+          card.appendChild(radio);
+          card.appendChild(document.createTextNode(optText));
 
-            const radio = document.createElement("input");
-            radio.type = "radio";
-            radio.name = "q_" + qIdx;
-            radio.value = optIdx;
-            if (userAnswers[qIdx] === optIdx) radio.checked = true;
-
-            const labelText = document.createTextNode(optText);
-
-            card.appendChild(radio);
-            card.appendChild(labelText);
-
-            // Card Click Handler
-            card.addEventListener("click", function() {
-              userAnswers[qIdx] = optIdx;
-              
-              // Highlight card UI
-              const siblings = optionsGroup.querySelectorAll(".option-card");
-              siblings.forEach(s => s.classList.remove("selected"));
-              card.classList.add("selected");
-              radio.checked = true;
-
-              validatePage();
-            });
-
-            optionsGroup.appendChild(card);
+          card.addEventListener("click", () => {
+            userAnswers[qIdx] = optIdx;
+            optionsGroup.querySelectorAll(".option-card").forEach(s => s.classList.remove("selected"));
+            card.classList.add("selected");
+            radio.checked = true;
+            validatePage();
           });
-
-          qBlock.appendChild(title);
-          qBlock.appendChild(optionsGroup);
-          formContainer.appendChild(qBlock);
+          optionsGroup.appendChild(card);
         });
 
-        updateUI();
+        qBlock.appendChild(title);
+        qBlock.appendChild(optionsGroup);
+        formContainer.appendChild(qBlock);
+      });
+      updateUI();
+    }
+
+    function validatePage() {
+      const startIdx = (currentPage - 1) * PER_PAGE;
+      let answeredCount = 0;
+      for (let i = startIdx; i < startIdx + PER_PAGE; i++) {
+        if (userAnswers[i] !== undefined) {
+          answeredCount++;
+          document.getElementById("block_q_" + i)?.classList.remove("unanswered-alert");
+        }
       }
+      const isComplete = (answeredCount === PER_PAGE);
+      document.getElementById("nextBtn").disabled = !isComplete;
+      if (isComplete) document.getElementById("validationAlert").style.display = "none";
+      return isComplete;
+    }
 
-      function validatePage() {
-        const startIdx = (currentPage - 1) * PER_PAGE;
-        let answeredCount = 0;
+    function updateUI() {
+      document.getElementById("prevBtn").disabled = (currentPage === 1);
+      document.getElementById("pageIndicator").textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
+      
+      const pct = (currentPage / TOTAL_PAGES) * 100;
+      document.getElementById("progressFill").style.width = pct + "%";
+      
+      document.getElementById("nextBtn").textContent = (currentPage === TOTAL_PAGES) ? "Calculate Results →" : "Next Page →";
+      validatePage();
+    }
 
-        for (let i = startIdx; i < startIdx + PER_PAGE; i++) {
-          if (userAnswers[i] !== undefined) {
-            answeredCount++;
-            const block = document.getElementById("block_q_" + i);
-            if (block) block.classList.remove("unanswered-alert");
+    window.navigatePage = function(direction) {
+      if (direction === 1) {
+        if (!validatePage()) {
+          document.getElementById("validationAlert").style.display = "inline-block";
+          const startIdx = (currentPage - 1) * PER_PAGE;
+          for (let i = startIdx; i < startIdx + PER_PAGE; i++) {
+            if (userAnswers[i] === undefined) document.getElementById("block_q_" + i).classList.add("unanswered-alert");
           }
+          return;
         }
-
-        answeredStatusBadge.textContent = answeredCount + " / " + PER_PAGE + " Answered on this page";
-
-        const isPageComplete = (answeredCount === PER_PAGE);
-        nextBtn.disabled = !isPageComplete;
-
-        if (isPageComplete) {
-          validationAlert.style.display = "none";
-        }
-
-        return isPageComplete;
-      }
-
-      function updateUI() {
-        prevBtn.disabled = (currentPage === 1);
-        
-        pageIndicator.textContent = "Page " + currentPage + " of " + TOTAL_PAGES;
-        const startQ = (currentPage - 1) * PER_PAGE + 1;
-        const endQ = Math.min(currentPage * PER_PAGE, QUESTIONS.length);
-        questionCountIndicator.textContent = "Questions " + startQ + "–" + endQ + " of " + QUESTIONS.length;
-
-        const pct = (currentPage / TOTAL_PAGES) * 100;
-        progressFill.style.width = pct + "%";
-
-        if (currentPage === TOTAL_PAGES) {
-          nextBtn.textContent = "Calculate & View Results →";
+        if (currentPage < TOTAL_PAGES) {
+          currentPage++; renderPage(); window.scrollTo(0, document.getElementById('anchor-main').offsetTop - 50);
         } else {
-          nextBtn.textContent = "Next Page →";
+          showResults();
         }
+      } else {
+        if (currentPage > 1) {
+          currentPage--; renderPage(); window.scrollTo(0, document.getElementById('anchor-main').offsetTop - 50);
+        }
+      }
+    };
 
-        validatePage();
+    // --- SCORING ENGINE ---
+    function showResults() {
+      stopTimer(); // Stop the top-left clock
+      
+      let score = 0;
+      QUESTIONS.forEach((q, idx) => { if (userAnswers[idx] === q.correct) score++; });
+
+      document.getElementById("quizActiveView").style.display = "none";
+      document.getElementById("resultView").style.display = "block";
+      document.getElementById("scoreText").textContent = `Score: ${score} / 50 (${Math.round((score/50)*100)}%)`;
+
+      // Flawless boundaries: e.g. score of 42 triggers C1 because 42 <= 46.
+      if (score <= 12) finalLevelCode = "A1";
+      else if (score <= 22) finalLevelCode = "A2";
+      else if (score <= 32) finalLevelCode = "B1";
+      else if (score <= 40) finalLevelCode = "B2";
+      else if (score <= 46) finalLevelCode = "C1";
+      else finalLevelCode = "C2"; 
+
+      document.getElementById("cefrBadge").textContent = CEFR_DATA[finalLevelCode].title;
+      window.scrollTo(0, document.getElementById('anchor-main').offsetTop - 50);
+    }
+
+    // --- jsPDF 2-PAGE CERTIFICATE GENERATOR ---
+    window.generatePDFCertificate = function() {
+      const btn = document.getElementById("downloadBtn");
+      btn.innerText = "⏳ Generating 2-Page PDF...";
+      btn.disabled = true;
+
+      const rawName = document.getElementById("userNameInput").value.trim();
+      const userName = rawName || "Valued Learner";
+      const scoreText = document.getElementById("scoreText").innerText;
+      const refID = "SP-" + Math.floor(Math.random() * 900000 + 100000);
+      const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'landscape', format: 'a4' });
+
+      // Attempt to load Logo (must be hosted in same directory or support CORS)
+      const img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.src = 'Images/logo.png';
+
+      img.onload = function() { buildPDF(doc, img, userName, scoreText, refID, today, btn); };
+      img.onerror = function() { buildPDF(doc, null, userName, scoreText, refID, today, btn); };
+    };
+
+    function buildPDF(doc, img, userName, scoreText, refID, today, btn) {
+      const pageWidth = doc.internal.pageSize.getWidth();
+      
+      // ==========================================
+      // PAGE 1: THE CERTIFICATE
+      // ==========================================
+      doc.setFillColor(249, 248, 246); // Parchment
+      doc.rect(0, 0, pageWidth, 210, 'F');
+      
+      // Outer Dark Crimson Border
+      doc.setDrawColor(112, 16, 32); 
+      doc.setLineWidth(5);
+      doc.rect(10, 10, pageWidth - 20, 190);
+      
+      // Inner Gold Border
+      doc.setDrawColor(197, 160, 89); 
+      doc.setLineWidth(1);
+      doc.rect(15, 15, pageWidth - 30, 180);
+
+      // Top-Left Logo
+      if(img) {
+          try { doc.addImage(img, 'PNG', 25, 25, 30, 30); } catch(e) { console.log("Logo load issue inside jsPDF"); }
       }
 
-      window.navigatePage = function(direction) {
-        if (direction === 1) {
-          if (!validatePage()) {
-            validationAlert.style.display = "inline-block";
-            // Highlight unanswered
-            const startIdx = (currentPage - 1) * PER_PAGE;
-            for (let i = startIdx; i < startIdx + PER_PAGE; i++) {
-              if (userAnswers[i] === undefined) {
-                const block = document.getElementById("block_q_" + i);
-                if (block) block.classList.add("unanswered-alert");
-              }
-            }
-            return;
-          }
+      // Headers
+      doc.setTextColor(112, 16, 32);
+      doc.setFont("helvetica", "bold"); // Clean, modern sans-serif (Google Sans style)
+      doc.setFontSize(26);
+      doc.text("SHARED PEARLS OF WISDOM", pageWidth / 2, 45, { align: "center" });
+      
+      doc.setTextColor(197, 160, 89);
+      doc.setFont("times", "italic");
+      doc.setFontSize(16);
+      doc.text("Official English Proficiency Assessment Division", pageWidth / 2, 55, { align: "center" });
 
-          if (currentPage < TOTAL_PAGES) {
-            currentPage++;
-            renderPage();
-            window.scrollTo({ top: document.getElementById('anchor-main').offsetTop - 80, behavior: 'smooth' });
-          } else {
-            calculateAndShowResult();
-          }
-        } else if (direction === -1) {
-          if (currentPage > 1) {
-            currentPage--;
-            renderPage();
-            window.scrollTo({ top: document.getElementById('anchor-main').offsetTop - 80, behavior: 'smooth' });
-          }
-        }
-      };
+      doc.setDrawColor(197, 160, 89);
+      doc.setLineWidth(0.5);
+      doc.line(pageWidth / 2 - 80, 60, pageWidth / 2 + 80, 60);
 
-      function calculateAndShowResult() {
-        let score = 0;
-        QUESTIONS.forEach((q, idx) => {
-          if (userAnswers[idx] === q.correct) {
-            score++;
-          }
-        });
+      // Certificate Body
+      doc.setTextColor(30, 30, 30);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(14);
+      doc.text("THIS IS TO CERTIFY THAT", pageWidth / 2, 80, { align: "center" });
 
-        document.getElementById("quizActiveView").style.display = "none";
-        const resultView = document.getElementById("resultView");
-        resultView.style.display = "block";
+      // Student Name
+      doc.setTextColor(165, 28, 48);
+      doc.setFont("times", "bolditalic"); // Elegant, attractive serif
+      doc.setFontSize(42); // Increased size for visual impact
+      doc.text(userName, pageWidth / 2, 102, { align: "center" });
 
-        document.getElementById("scoreText").textContent = "You scored " + score + " out of " + QUESTIONS.length + " (" + Math.round((score/50)*100) + "%)";
+      doc.setTextColor(30, 30, 30);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(12);
+      doc.text("has successfully completed the 50-Question Comprehensive English Test", pageWidth / 2, 118, { align: "center" });
+      doc.text("and demonstrated proficiency at the official European Framework level of:", pageWidth / 2, 125, { align: "center" });
 
-        let badge = "";
-        let title = "";
-        let desc = "";
+      // Dynamic Level Badge
+      doc.setFillColor(112, 16, 32); 
+      doc.rect(pageWidth / 2 - 60, 134, 120, 18, 'F');
+      doc.setTextColor(234, 220, 185);
+      doc.setFont("times", "bold");
+      doc.setFontSize(24);
+      doc.text(CEFR_DATA[finalLevelCode].title.toUpperCase(), pageWidth / 2, 147, { align: "center" });
 
-        if (score <= 12) {
-          badge = "CEFR A1 Elementary";
-          title = "Basic English Speaker";
-          desc = "You can understand basic everyday expressions and simple phrases. Focus on strengthening fundamental grammar tenses and expanding core vocabulary.";
-        } else if (score <= 22) {
-          badge = "CEFR A2 Pre-Intermediate";
-          title = "Elementary Speaker";
-          desc = "You can communicate in routine tasks and understand simple sentences. Practicing functional dialogues and common collocations will help you transition to B1.";
-        } else if (score <= 32) {
-          badge = "CEFR B1 Intermediate";
-          title = "Independent English Speaker";
-          desc = "You have a solid grip on everyday English, main points of clear texts, and workplace communications. Focus on complex conditionals and nuanced vocabulary.";
-        } else if (score <= 40) {
-          badge = "CEFR B2 Upper-Intermediate";
-          title = "Confident Professional Speaker";
-          desc = "You command complex grammar, professional terminology, and abstract concepts with confidence. Practicing executive register and stylistic inversion will take you to C1.";
-        } else if (score <= 46) {
-          badge = "CEFR C1 Advanced";
-          title = "Effective Operational Proficiency";
-          desc = "Excellence demonstrated! You express ideas fluently and spontaneously, catching idiomatic nuances, legal terms, and advanced syntactic inversions.";
-        } else {
-          badge = "CEFR C2 Mastery";
-          title = "Near-Native English Mastery";
-          desc = "Outstanding achievement! You possess near-native precision, effortlessly handling complex academic monologues, stylistic subtleties, and sophisticated syntax.";
-        }
+      // Footer Details (Including Timer Data)
+      doc.setTextColor(80, 80, 80);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(10);
+      doc.text(`${scoreText}   |   Time: ${finalTimeFormatted}   |   Date: ${today}   |   Ref ID: ${refID}`, pageWidth / 2, 163, { align: "center" });
 
-        document.getElementById("cefrBadge").textContent = badge;
-        document.getElementById("resultTitle").textContent = "Evaluation: " + title;
-        document.getElementById("resultDesc").textContent = desc;
+      // CUSTOM COMPANY SEAL (Bottom Center)
+      doc.setDrawColor(197, 160, 89); // Gold
+      doc.setLineWidth(1.5);
+      doc.circle(pageWidth / 2, 180, 12); // Outer Circle
+      doc.setLineWidth(0.3);
+      doc.circle(pageWidth / 2, 180, 10.5); // Inner Circle
+      
+      doc.setTextColor(197, 160, 89);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(5.5);
+      doc.text("SHARED", pageWidth / 2, 177.5, { align: "center" });
+      doc.text("PEARLS", pageWidth / 2, 180.5, { align: "center" });
+      doc.setFontSize(4);
+      doc.text("VERIFIED", pageWidth / 2, 184, { align: "center" });
 
-        window.scrollTo({ top: document.getElementById('anchor-main').offsetTop - 80, behavior: 'smooth' });
-      }
+      // ==========================================
+      // PAGE 2: CEFR DESCRIPTORS (From Word Doc)
+      // ==========================================
+      doc.addPage();
+      doc.setFillColor(255, 255, 255);
+      doc.rect(0, 0, pageWidth, 210, 'F');
+      
+      // Clean Border
+      doc.setDrawColor(197, 160, 89);
+      doc.setLineWidth(1);
+      doc.rect(15, 15, pageWidth - 30, 180);
 
-      /* Certificate Canvas Engine */
-      window.generateCertificate = function() {
-        const canvas = document.getElementById('certificateCanvas');
-        const ctx = canvas.getContext('2d');
-        const rawName = document.getElementById('userNameInput').value.trim();
-        const name = rawName ? rawName : 'Valued Learner';
-        const level = document.getElementById('cefrBadge').textContent;
-        const score = document.getElementById('scoreText').textContent;
+      // Title
+      doc.setTextColor(112, 16, 32);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(22);
+      doc.text("COMMON EUROPEAN FRAMEWORK OF REFERENCE (CEFR)", 25, 35);
+      
+      doc.setTextColor(30, 30, 30);
+      doc.setFontSize(16);
+      doc.setFont("times", "bolditalic");
+      doc.text(`Official Descriptor: ${CEFR_DATA[finalLevelCode].title}`, 25, 48);
 
-        canvas.style.display = 'block';
+      // Paragraph Wrapper for Description
+      doc.setFont("times", "italic"); // Beautiful traditional serif
+      doc.setFontSize(14);
+      doc.setTextColor(50, 50, 50);
+      
+      const splitDesc = doc.splitTextToSize(CEFR_DATA[finalLevelCode].description, pageWidth - 50);
+      doc.text(splitDesc, 25, 60);
 
-        // Background
-        ctx.fillStyle = '#FAF9F6';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Certificate Can-Do Highlights
+      doc.setTextColor(112, 16, 32);
+      doc.setFont("times", "bold");
+      doc.setFontSize(15);
+      let highlightY = 65 + (splitDesc.length * 6) + 12;
+      doc.text("Certificate Can-Do Highlights:", 25, highlightY);
 
-        // Outer Dark Crimson Border
-        ctx.strokeStyle = '#701020';
-        ctx.lineWidth = 18;
-        ctx.strokeRect(24, 24, canvas.width - 48, canvas.height - 48);
+      doc.setFont("times", "normal"); // Clean academic serif for bullets
+      doc.setFontSize(13);
+      doc.setTextColor(40, 40, 40);
+      
+      CEFR_DATA[finalLevelCode].highlights.forEach((hl, i) => {
+         doc.text(`• ${hl}`, 30, highlightY + 10 + (i * 8));
+      });
 
-        // Inner Gold Accent Border
-        ctx.strokeStyle = '#C5A059';
-        ctx.lineWidth = 4;
-        ctx.strokeRect(42, 42, canvas.width - 84, canvas.height - 84);
+      // Bottom Note
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.setTextColor(150, 150, 150);
+      doc.text("This document details the assessed capabilities corresponding to the issued certificate.", 25, 185);
 
-        // Corner Corner Accents
-        ctx.fillStyle = '#A51C30';
-        ctx.fillRect(46, 46, 36, 36);
-        ctx.fillRect(canvas.width - 82, 46, 36, 36);
-        ctx.fillRect(46, canvas.height - 82, 36, 36);
-        ctx.fillRect(canvas.width - 82, canvas.height - 82, 36, 36);
+      // Save the 2-Page PDF
+      doc.save((userName.replace(/\s+/g, '_')) + "_English_Certificate.pdf");
+      
+      // Restore Button State
+      btn.innerText = "📄 Download Official 2-Page PDF";
+      btn.disabled = false;
+    }
 
-        // Header Title
-        ctx.fillStyle = '#701020';
-        ctx.font = 'bold 42px "EB Garamond", Georgia, serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('SHARED PEARLS OF WISDOM', canvas.width / 2, 130);
-
-        ctx.fillStyle = '#C5A059';
-        ctx.font = 'italic 24px "EB Garamond", Georgia, serif';
-        ctx.fillText('Official Certificate of General English Proficiency', canvas.width / 2, 172);
-
-        // Decorative Line
-        ctx.beginPath();
-        ctx.moveTo(canvas.width / 2 - 240, 195);
-        ctx.lineTo(canvas.width / 2 + 240, 195);
-        ctx.strokeStyle = '#C5A059';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Certification Body Text
-        ctx.fillStyle = '#1E1E1E';
-        ctx.font = '22px "Open Sans", Arial, sans-serif';
-        ctx.fillText('This is to certify that', canvas.width / 2, 260);
-
-        ctx.fillStyle = '#A51C30';
-        ctx.font = 'bold italic 50px "EB Garamond", Georgia, serif';
-        ctx.fillText(name, canvas.width / 2, 335);
-
-        ctx.fillStyle = '#1E1E1E';
-        ctx.font = '20px "Open Sans", Arial, sans-serif';
-        ctx.fillText('has successfully completed the 50-Question General Proficiency Assessment', canvas.width / 2, 400);
-        ctx.fillText('and demonstrated verified English competence at the level of', canvas.width / 2, 435);
-
-        // Badge Pill
-        ctx.fillStyle = '#701020';
-        if (ctx.roundRect) {
-          ctx.beginPath();
-          ctx.roundRect(canvas.width / 2 - 230, 480, 460, 75, 10);
-          ctx.fill();
-        } else {
-          ctx.fillRect(canvas.width / 2 - 230, 480, 460, 75);
-        }
-
-        ctx.fillStyle = '#EADCB9';
-        ctx.font = 'bold 32px "EB Garamond", Georgia, serif';
-        ctx.fillText(level, canvas.width / 2, 528);
-
-        // Score
-        ctx.fillStyle = '#595959';
-        ctx.font = '18px "Open Sans", Arial, sans-serif';
-        ctx.fillText(score, canvas.width / 2, 600);
-
-        // Date & Stamp
-        const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-        ctx.fillText('Issued on: ' + today, canvas.width / 2, 650);
-
-        ctx.fillStyle = '#701020';
-        ctx.font = 'bold 16px "Open Sans", Arial, sans-serif';
-        ctx.fillText('Verified Academic Assessment Division · Shared Pearls of Wisdom', canvas.width / 2, 750);
-
-        // Auto Download Image
-        setTimeout(function() {
-          const link = document.createElement('a');
-          link.download = (name.replace(/\s+/g, '_')) + '_English_Proficiency_Certificate.png';
-          link.href = canvas.toDataURL('image/png');
-          link.click();
-        }, 200);
-      };
-
-      // Initial Render
-      renderPage();
-    })();
+    renderPage(); // Initialize the first page
   </script>
 </body>
 </html>
