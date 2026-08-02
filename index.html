@@ -1275,18 +1275,19 @@
       const modal = document.getElementById('cefrTestModal');
       const closeBtn = document.getElementById('closeCefrModalBtn');
 
-      // 1. Show popup 0.10 seconds after visitor opens the site
+      // 1. Show popup 0.20 seconds after visitor opens the site
       setTimeout(function() {
         if (modal) {
           modal.classList.add('active');
         }
-      }, 1000);
+      }, 2000);
 
       // 2. Dismiss modal on 'X' click without altering webpage content
       if (closeBtn && modal) {
         closeBtn.addEventListener('click', function(e) {
           e.preventDefault();
           modal.classList.remove('active');
+              localStorage.setItem('cefrPopupShown', 'true');
         });
 
         // 3. Dismiss modal if visitor clicks the dark overlay outside the box
@@ -1294,8 +1295,7 @@
           if (e.target === modal) {
             modal.classList.remove('active');
           }
-          localStorage.setItem('cefrPopupShown', 'true');
-        });
+          });
       }
     });
 </script>
