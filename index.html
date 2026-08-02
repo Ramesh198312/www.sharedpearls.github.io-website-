@@ -1271,33 +1271,41 @@
         button.disabled = false;
     });
   });
-   window.addEventListener('DOMContentLoaded', function() {
-      const modal = document.getElementById('cefrTestModal');
-      const closeBtn = document.getElementById('closeCefrModalBtn');
+   document.addEventListener("DOMContentLoaded", function() {
+  const modal = document.getElementById('cefrPopupModal'); // Make sure this matches your modal ID
+  const closeBtn = document.getElementById('cefrCloseBtn');  // Make sure this matches your close button ID
 
-      // 1. Show popup 0.20 seconds after visitor opens the site
-      setTimeout(function() {
-        if (modal) {
-          modal.classList.add('active');
-        }
-      }, 2000);
+  // Check if the user has ALREADY seen the popup during this browser session
+  const hasSeenPopup = sessionStorage.getItem('cefrPopupShown');
 
-      // 2. Dismiss modal on 'X' click without altering webpage content
-      if (closeBtn && modal) {
-        closeBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          modal.classList.remove('active');
-        });
+  if (!hasSeenPopup) {
+    // 1. Show popup 1.0 second after visitor opens the site for the first time
+    setTimeout(function() {
+      if (modal) {
+        modal.classList.add('active');
+        // Save flag immediately so navigating away and back won't re-trigger it
+        sessionStorage.setItem('cefrPopupShown', 'true');
+      }
+    }, 1000);
+  }
 
-        // 3. Dismiss modal if visitor clicks the dark overlay outside the box
-        modal.addEventListener('click', function(e) {
-          if (e.target === modal) {
-            modal.classList.remove('active');
-          }
-          sessionStorage.setItem('cefrPopupShown', 'true');
-        });
+  // 2. Dismiss modal on 'X' click
+  if (closeBtn && modal) {
+    closeBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      modal.classList.remove('active');
+    });
+  }
+
+  // 3. Dismiss modal if visitor clicks the dark overlay outside the box
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.classList.remove('active');
       }
     });
+  }
+});
 </script>
 </body>
 </html>
