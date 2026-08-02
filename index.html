@@ -1272,23 +1272,19 @@
     });
   });
    document.addEventListener("DOMContentLoaded", function() {
-  const modal = document.getElementById('cefrPopupModal'); // Make sure this matches your modal ID
-  const closeBtn = document.getElementById('cefrCloseBtn');  // Make sure this matches your close button ID
+  const modal = document.getElementById('cefrPopupModal');
+  const closeBtn = document.getElementById('cefrCloseBtn');
 
-  // Check if the user has ALREADY seen the popup during this browser session
-  const hasSeenPopup = sessionStorage.getItem('cefrPopupShown');
-
-  if (!hasSeenPopup) {
-    // 1. Show popup 4.0 second after visitor opens the site for the first time
+  // Check if session storage already marked it as shown
+  if (modal && !sessionStorage.getItem('cefrPopupShown')) {
+    // Show popup 1.0 second after first visit
     setTimeout(function() {
-      if (modal) {
-        modal.classList.add('active');
-        // Save flag immediately so navigating away and back won't re-trigger it
-        sessionStorage.setItem('cefrPopupShown', 'true');
-      }
+      modal.classList.add('active');
+      sessionStorage.setItem('cefrPopupShown', 'true');
     }, 1000);
   }
-  // 2. Dismiss modal on 'X' click
+
+  // Dismiss modal on 'X' click
   if (closeBtn && modal) {
     closeBtn.addEventListener('click', function(e) {
       e.preventDefault();
@@ -1296,7 +1292,7 @@
     });
   }
 
-  // 3. Dismiss modal if visitor clicks the dark overlay outside the box
+  // Dismiss modal if visitor clicks the dark overlay outside the box
   if (modal) {
     modal.addEventListener('click', function(e) {
       if (e.target === modal) {
