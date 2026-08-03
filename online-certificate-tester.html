@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
@@ -336,11 +337,10 @@
     function startTimer() {
       timerInterval = setInterval(() => {
         let diff = Math.floor((Date.now() - startTime) / 1000);
-if (diff >= 2700) { // 2700 seconds = 45 minutes
-    clearInterval(timerInterval);
-    alert("Time is up! Submitting your test.");
-    showResults(); // Automatically trigger submission
-}
+        let m = String(Math.floor(diff / 60)).padStart(2, '0');
+        let s = String(diff % 60).padStart(2, '0');
+        document.getElementById('timerDisplay').innerText = `⏱ ${m}:${s}`;
+      }, 1000);
     }
     
     function stopTimer() {
@@ -561,7 +561,7 @@ if (diff >= 2700) { // 2700 seconds = 45 minutes
       document.getElementById("prevBtn").disabled = (currentPage === 1);
       document.getElementById("pageIndicator").textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
       
-        // DYNAMIC CALCULATION:
+       // DYNAMIC CALCULATION:
   // Calculate the start question number (e.g., on page 2, start is 6)
   const startQ = ((currentPage - 1) * PER_PAGE) + 1;
   // Calculate the end question number (e.g., on page 2, end is 10)
