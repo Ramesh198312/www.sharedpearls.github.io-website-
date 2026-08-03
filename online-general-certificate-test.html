@@ -560,12 +560,25 @@
       document.getElementById("prevBtn").disabled = (currentPage === 1);
       document.getElementById("pageIndicator").textContent = `Page ${currentPage} of ${TOTAL_PAGES}`;
       
-      const pct = (currentPage / TOTAL_PAGES) * 100;
-      document.getElementById("progressFill").style.width = pct + "%";
-      
-      document.getElementById("nextBtn").textContent = (currentPage === TOTAL_PAGES) ? "Calculate Results →" : "Next Page →";
-      validatePage();
-    }
+       // DYNAMIC CALCULATION:
+  // Calculate the start question number (e.g., on page 2, start is 6)
+  const startQ = ((currentPage - 1) * PER_PAGE) + 1;
+  // Calculate the end question number (e.g., on page 2, end is 10)
+  const endQ = Math.min(currentPage * PER_PAGE, QUESTIONS.length);
+
+  // Update the DOM element with the calculated range
+  questionCountIndicator.textContent = "Questions " + startQ + "–" + endQ + " of " + QUESTIONS.length;
+
+  const pct = (currentPage / TOTAL_PAGES) * 100;
+  progressFill.style.width = pct + "%";
+
+  if (currentPage === TOTAL_PAGES) {
+    nextBtn.textContent = "Calculate & View Results →";
+  } else {
+    nextBtn.textContent = "Next Page →";
+  }
+  validatePage();
+}
 
     window.navigatePage = function(direction) {
       if (direction === 1) {
