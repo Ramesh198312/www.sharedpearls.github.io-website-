@@ -1276,14 +1276,14 @@
   const closeBtn = document.getElementById('closeCefrModalBtn');
 
   // Check if user has already seen it
-  const hasSeenPopup = localStorage.getItem('cefrPopupShown');
+  const hasSeenPopup = sessionStorage.getItem('cefrPopupShown');
 
   if (!hasSeenPopup && modal) {
-    // 1. Show popup 2 seconds after page load
+    // 1. Show popup 4 seconds after page load
     setTimeout(function() {
       modal.classList.add('active');
       // Set the flag IMMEDIATELY when the modal appears
-      localStorage.setItem('cefrPopupShown', 'true');
+      sessionStorage.setItem('cefrPopupShown', 'true');
     }, 2000);
   }
 
@@ -1301,8 +1301,7 @@
       if (e.target === modal) {
         modal.classList.remove('active');
       }
-      SessionStorage.setItem('cefrPopupShown', 'true');
-    });
+       });
   }
 });
 </script>
