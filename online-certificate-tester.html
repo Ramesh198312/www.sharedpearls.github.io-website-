@@ -336,10 +336,11 @@
     function startTimer() {
       timerInterval = setInterval(() => {
         let diff = Math.floor((Date.now() - startTime) / 1000);
-        let m = String(Math.floor(diff / 60)).padStart(2, '0');
-        let s = String(diff % 60).padStart(2, '0');
-        document.getElementById('timerDisplay').innerText = `⏱ ${m}:${s}`;
-      }, 1000);
+if (diff >= 1800) { // 1800 seconds = 30 minutes
+    clearInterval(timerInterval);
+    alert("Time is up! Submitting your test.");
+    showResults(); // Automatically trigger submission
+}
     }
     
     function stopTimer() {
