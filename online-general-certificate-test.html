@@ -324,7 +324,14 @@
           <p style="color:#595959; margin-top:0.5rem;">Enter your full name to generate your verified PDF Certificate.</p>
           <input type="text" id="userNameInput" class="cert-input" placeholder="e.g., Sarah Jenkins" maxlength="40" />
           <br/>
-          <button type="button" class="btn-quiz btn-next" id="downloadBtn" onclick="generatePDFCertificate()">📄 Download Official 2-Page PDF</button>
+          <button type="button" class="btn-quiz btn-next" id="downloadBtn" onclick="generatePDFCertificate()">📄 Download Official 2-Page PDF Certificate</button>
+        </div>
+
+       <!-- NEW FUNNEL ROUTING BOX -->
+        <div class="course-upsell-box">
+          <h3 style="font-family:'EB Garamond', serif; font-size:1.8rem; margin-bottom: 0.5rem; color: var(--harvard-gold-light);">Your Personalised Curriculum is Ready</h3>
+          <p style="color:#F9F8F6; margin-bottom:1.5rem; font-size: 1.05rem;">Based on your diagnostic results, we have unlocked the exact roadmap you need to reach the next tier of fluency.</p>
+          <button type="button" class="btn-course" id="courseRedirectBtn" onclick="redirectToCourse()">Unlock Your Pathway ➔</button>
         </div>
 
         <button onclick="window.location.reload()" class="btn-quiz btn-prev">Retake Test</button>
@@ -639,7 +646,26 @@
       document.getElementById("cefrBadge").textContent = CEFR_DATA[finalLevelCode].title;
       window.scrollTo(0, document.getElementById('anchor-main').offsetTop - 50);
     }
+// --- FUNNEL REDIRECT LOGIC ---
+    window.redirectToCourse = function() {
+      // Map the assessed level to the correct HTML file you just built
+      const courseRoutingMap = {
+        "A1": "cefr-a1-level-premium", // A1 users need the A1 Foundation course to level up
+        "A2": "cefr-a2-level-premium",
+        "B1": "cefr-b1-level-premium",
+        "B2": "cefr-b2-level-premium",
+        "C1": "cefr-c1-level-premium",
+        "C2": "cefr-c2-level-premium"
+      };
 
+      const targetPage = courseRoutingMap[finalLevelCode];
+      if(targetPage) {
+        // Automatically redirects the browser to their specific premium course sales/dashboard page
+        window.location.href = targetPage;
+      } else {
+        alert("Course roadmap not found. Please contact support.");
+      }
+    };
     // --- jsPDF 2-PAGE CERTIFICATE GENERATOR ---
     window.generatePDFCertificate = function() {
       const btn = document.getElementById("downloadBtn");
