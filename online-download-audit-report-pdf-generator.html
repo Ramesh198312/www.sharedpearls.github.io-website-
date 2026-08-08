@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shared Pearls | Personalized Audit Report</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans (Google Sans) & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- html2pdf.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #1A1A1A;
+      background-color: #F4F4F0;
+      padding: 20px;
+      -webkit-print-color-adjust: exact;
+    }
+
+    /* Status Screen Card */
+    .status-card {
+      max-width: 580px;
+      margin: 30px auto;
+      background: #FFFFFF;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      text-align: center;
+      border-top: 5px solid #701020;
+    }
+
+    .btn-download {
+      background-color: #1B5E20;
+      color: #FFFFFF;
+      padding: 12px 26px;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 15px;
+      cursor: pointer;
+      border: none;
+      font-size: 14px;
+    }
+
+    /* Printable PDF Container (Exact A4 Aspect Ratio) */
+    #report-content {
+      width: 750px;
+      margin: 0 auto;
+      background: #FFFFFF;
+    }
+
+    /* Page Containers - Flexible height prevents empty page insertions */
+    .pdf-page {
+      width: 750px;
+      padding: 40px 45px;
+      background: #FFFFFF;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 1020px;
+    }
+
+    /* Page Break Engine Rule */
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+    }
+
+    /* Headers & Branding */
+    .header-banner {
+      border-bottom: 3px solid #C5A059;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .brand-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #701020;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .report-tag {
+      font-size: 10px;
+      font-weight: 700;
+      color: #C5A059;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    /* Candidate Metadata */
+    .meta-box {
+      background-color: #FBF9F5;
+      border: 1px solid #E5DCCB;
+      border-left: 4px solid #701020;
+      padding: 12px 18px;
+      margin-bottom: 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 15px;
+    }
+
+    .meta-item label {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #701020;
+      letter-spacing: 1px;
+    }
+
+    .meta-item span {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1A1A1A;
+    }
+
+    /* Section Headers */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #701020;
+      border-bottom: 1px solid #E5DCCB;
+      padding-bottom: 4px;
+      margin-top: 15px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    /* Pillar Box & Content Cards */
+    .pillar-box {
+      background: #FFFDF9;
+      border: 1px solid #E5DCCB;
+      padding: 14px 16px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+    }
+
+    .pillar-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #701020;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pillar-desc {
+      font-size: 11px;
+      color: #444444;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    th {
+      background-color: #701020;
+      color: #FFFFFF;
+      text-align: left;
+      padding: 7px 10px;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      padding: 7px 10px;
+      border-bottom: 1px solid #E5E5E5;
+      color: #222;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #FBF9F5;
+    }
+
+    /* Action Steps */
+    .action-step {
+      margin-bottom: 12px;
+      padding-left: 14px;
+      border-left: 3px solid #C5A059;
+    }
+
+    .action-step-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1A1A1A;
+    }
+
+    .action-step-desc {
+      font-size: 11px;
+      color: #555555;
+      line-height: 1.4;
+      margin-top: 2px;
+    }
+
+    /* Footer */
+    .footer {
+      padding-top: 12px;
+      border-top: 1px solid #E5DCCB;
+      text-align: center;
+      font-size: 9px;
+      color: #777777;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen Status Widget -->
+  <div class="status-card" id="status-box">
+    <h2 style="color: #701020; font-family: 'Playfair Display', serif; font-size: 26px; margin-top:0;">Generating Your Audit Report</h2>
+    <p style="font-size: 14px; color: #555;">Assembling your personalized 2-page empirical audit PDF...</p>
+    <button class="btn-download" id="manual-btn" onclick="downloadPDF()">Download Report PDF</button>
+  </div>
+
+  <!-- PRINTABLE PDF CONTAINER -->
+  <div id="report-content">
+
+    <!-- ================= PAGE 1 ================= -->
+    <div class="pdf-page">
+      <div>
+        <div class="header-banner">
+          <div>
+            <h1 class="brand-title">Shared Pearls of Wisdom</h1>
+            <span class="report-tag">Empirical Language Diagnostic</span>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-size: 11px; font-weight: 700; color: #701020;">$29 EXECUTIVE AUDIT</span>
+          </div>
+        </div>
+
+        <div class="meta-box">
+          <div class="meta-item">
+            <label>Candidate Name</label>
+            <span id="ui-name">Valued Scholar</span>
+          </div>
+          <div class="meta-item">
+            <label>Assigned CEFR Tier</label>
+            <span id="ui-level">B2 (Upper Intermediate)</span>
+          </div>
+          <div class="meta-item">
+            <label>Diagnostic Score</label>
+            <span id="ui-score">78% (39/50)</span>
+          </div>
+        </div>
+
+        <div class="section-title">1. Executive Summary & Diagnostic Breakdown</div>
+        <p style="font-size: 11px; color: #333; line-height: 1.5; margin-bottom: 16px;">
+          This empirical diagnostic report evaluates your 50-question placement performance across three essential pillars: <strong>Grammar & Accuracy</strong>, <strong>Lexical Knowledge</strong>, and <strong>Critical Thinking Skills</strong>. Your current baseline represents a solid operational capability, but key transition barriers restrict immediate elevation to your next CEFR tier.
+        </p>
+
+        <!-- PILLAR 1: GRAMMAR & ACCURACY -->
+        <div class="pillar-box">
+          <div class="pillar-title">📌 Pillar 1: Grammar & Structural Accuracy</div>
+          <div class="pillar-desc" id="p1-desc">
+            Your foundational tense structure is stable. However, transitions between hypothetical scenarios and formal clauses show structural instability under complex argumentation.
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Grammatical Focus</th>
+                <th>Observed Pattern</th>
+                <th>Target Correction</th>
+              </tr>
+            </thead>
+            <tbody id="p1-table">
+              <!-- Dynamic insertion -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- PILLAR 2: LEXICAL KNOWLEDGE -->
+        <div class="pillar-box">
+          <div class="pillar-title">📌 Pillar 2: Lexical Knowledge & Collocations</div>
+          <div class="pillar-desc" id="p2-desc">
+            You demonstrate a functional vocabulary baseline, but consistently default to generic adverbs and weak adjective modifiers rather than domain-specific executive collocations.
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Lexical Category</th>
+                <th>Generic Phraseology</th>
+                <th>Executive Replacement</th>
+              </tr>
+            </thead>
+            <tbody id="p2-table">
+              <!-- Dynamic insertion -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="footer">
+        Page 1 of 2 • Shared Pearls of Wisdom (sharedpearls.com) • Official Educational Diagnostic
+      </div>
+    </div>
+
+    <!-- ================= PAGE 2 ================= -->
+    <div class="pdf-page page-break">
+      <div>
+        <div class="header-banner">
+          <div>
+            <h1 class="brand-title">Shared Pearls of Wisdom</h1>
+            <span class="report-tag">Critical Reasoning & Action Plan</span>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-size: 11px; font-weight: 700; color: #701020;">30-DAY EXECUTION BLUEPRINT</span>
+          </div>
+        </div>
+
+        <!-- PILLAR 3: CRITICAL THINKING SKILLS -->
+        <div class="pillar-box">
+          <div class="pillar-title">📌 Pillar 3: Critical Thinking & Register Control</div>
+          <div class="pillar-desc" id="p3-desc">
+            Critical reasoning in professional English requires evaluating implicit logic, synthesizing opposing viewpoints, and selecting appropriate registers for persuasive delivery.
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Rhetorical Domain</th>
+                <th>Observed Gap</th>
+                <th>Strategic Adjustment</th>
+              </tr>
+            </thead>
+            <tbody id="p3-table">
+              <!-- Dynamic insertion -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section-title">2. The 30-Day Empirical Execution Roadmap</div>
+        <p style="font-size: 11px; color: #333; margin-bottom: 14px; line-height: 1.4;">
+          To resolve your diagnostic gaps and lock in your target CEFR level, execute this weekly structured routine:
+        </p>
+
+        <div class="action-step">
+          <div class="action-step-title">Week 1: Structural Repair & Clause Subordination</div>
+          <div class="action-step-desc">Eliminate high-frequency structural errors. Rewrite 5 workplace or academic emails daily applying inverted conditional structures and advanced clause linkers.</div>
+        </div>
+
+        <div class="action-step">
+          <div class="action-step-title">Week 2: Lexical Precision & Collocation Replacement</div>
+          <div class="action-step-desc">Eliminate low-impact modifiers (*very, good, bad, big, important*). Replace them exclusively with discipline-specific academic and professional collocations.</div>
+        </div>
+
+        <div class="action-step">
+          <div class="action-step-title">Week 3: Critical Argumentation & Register Modulation</div>
+          <div class="action-step-desc">Practice identifying implicit author bias and re-drafting arguments across three distinct registers: Peer Casual, Boardroom Executive, and Academic Publication.</div>
+        </div>
+
+        <div class="action-step">
+          <div class="action-step-title">Week 4: High-Pressure Verification</div>
+          <div class="action-step-desc">Log into your Shared Pearls portal to complete your level-specific Capstone assessment and verify zero-error execution under time constraints.</div>
+        </div>
+
+        <!-- CURRICULUM ALIGNMENT BOX -->
+        <div class="pillar-box" style="border-left: 4px solid #C5A059; background: #FBF9F5; margin-top: 15px;">
+          <div class="pillar-title" style="color: #701020;">Recommended Portal Curriculum</div>
+          <div class="pillar-desc" style="margin-bottom: 0;" id="curriculum-desc">
+            Your diagnostic parameters directly align with <strong>Module 01</strong> and <strong>Module 05</strong> in your active dashboard. Log into your member account to begin your 30-day transformation.
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        Page 2 of 2 • Shared Pearls of Wisdom (sharedpearls.com) • Official Educational Diagnostic
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DYNAMIC DATA & PDF GENERATION SCRIPT -->
+  <script>
+    // Level-Specific Diagnostic Content Dictionary
+    const levelDiagnostics = {
+      "A2": {
+        p1Desc: "Foundational tenses are establishing, but errors occur in irregular past forms and simple connector agreement.",
+        p1Table: "<tr><td>Past Tenses</td><td>I go yesterday</td><td>I went yesterday</td></tr><tr><td>Prepositions</td><td>Interested for music</td><td>Interested in music</td></tr>",
+        p2Desc: "Vocabulary is largely basic. Transitioning to B1 requires mastering everyday professional and travel collocations.",
+        p2Table: "<tr><td>Travel</td><td>Make a plan</td><td>Arrange an itinerary</td></tr><tr><td>Work</td><td>Do job</td><td>Perform duties</td></tr>",
+        p3Desc: "Basic comprehension is clear, but formulating simple logical opinions requires structured discourse markers.",
+        p3Table: "<tr><td>Opinion</td><td>I think bad</td><td>In my view, it is disadvantageous</td></tr>",
+        currDesc: "Your diagnostic parameters align directly with <strong>Module 01 (Transition from A2)</strong> and <strong>Module 02 (Work & Careers)</strong> in your Elementary Dashboard."
+      },
+      "B1": {
+        p1Desc: "Good general accuracy in routine contexts, but errors occur with present perfect tense agreement and complex prepositions.",
+        p1Table: "<tr><td>Aspect</td><td>I am living here since 2020</td><td>I have lived here since 2020</td></tr><tr><td>Modals</td><td>You must to do it</td><td>You must do it</td></tr>",
+        p2Desc: "Over-reliance on elementary descriptors. Transitioning to B2 requires high-frequency professional collocations.",
+        p2Table: "<tr><td>Business</td><td>Big increase</td><td>Substantial growth</td></tr><tr><td>Opinion</td><td>Good idea</td><td>Viable proposal</td></tr>",
+        p3Desc: "Able to state facts, but struggles to evaluate subtle counter-arguments or summarize multi-step problems logically.",
+        p3Table: "<tr><td>Argumentation</td><td>But I disagree</td><td>Conversely, one must consider...</td></tr>",
+        currDesc: "Your diagnostic parameters align directly with <strong>Module 02 (Work & Careers)</strong> and <strong>Module 09 (Business English Essentials)</strong> in your B1 Dashboard."
+      },
+      "B2": {
+        p1Desc: "Solid general grammar, but structural growth stalls at third conditionals, subjunctive moods, and inverted syntax.",
+        p1Table: "<tr><td>Conditionals</td><td>If I knew before...</td><td>Had I known prior...</td></tr><tr><td>Inversion</td><td>We rarely see this.</td><td>Rarely do we observe this.</td></tr>",
+        p2Desc: "Vocabulary is functional but lacks executive precision. Replace generic modifiers with precise academic language.",
+        p2Table: "<tr><td>Executive</td><td>Very important change</td><td>Pivotal strategic shift</td></tr><tr><td>Academic</td><td>Look at results</td><td>Evaluate outcome metrics</td></tr>",
+        p3Desc: "Grasps main points well, but needs deeper practice detecting implicit tone, author bias, and register nuances.",
+        p3Table: "<tr><td>Discourse</td><td>The text says bad things</td><td>The author implies significant reservation</td></tr>",
+        currDesc: "Your diagnostic parameters align directly with <strong>Module 01 (Advanced Grammar)</strong> and <strong>Module 05 (Business Communication)</strong> in your Upper Intermediate Dashboard."
+      },
+      "C1": {
+        p1Desc: "High structural accuracy. Gaps are restricted to stylistic inversion, complex subordination, and subtle register modulation.",
+        p1Table: "<tr><td>Inversion</td><td>Not only we lost time...</td><td>Not only did we lose time...</td></tr><tr><td>Subjunctive</td><td>I recommend that he goes</td><td>I recommend that he go</td></tr>",
+        p2Desc: "Near-native lexicon, but benefits from refining subtle collocations and discipline-specific vocabulary.",
+        p2Table: "<tr><td>Rhetoric</td><td>Strong effect</td><td>Profound impact</td></tr><tr><td>Negotiation</td><td>Give an answer</td><td>Formulate a response</td></tr>",
+        p3Desc: "Excellent analytical capacity. Needs polish in evaluating complex academic literature and persuasive speech.",
+        p3Table: "<tr><td>Persuasion</td><td>Make them believe</td><td>Cultivate stakeholder alignment</td></tr>",
+        currDesc: "Your diagnostic parameters align directly with <strong>Module 03 (Academic Writing)</strong> and <strong>Module 05 (Leadership Communication)</strong> in your Advanced Dashboard."
+      },
+      "C2": {
+        p1Desc: "Exceptional grammatical mastery. Diagnostics focus on flawless stylistic elegance and rhetorical control.",
+        p1Table: "<tr><td>Elegance</td><td>He spoke very well.</td><td>His discourse was exceptionally articulate.</td></tr>",
+        p2Desc: "Extensive vocabulary baseline. Focus is on mastering rare idioms, archaic nuances, and corpus-informed phrasing.",
+        p2Table: "<tr><td>Mastery</td><td>Complete agreement</td><td>Unanimous consensus</td></tr>",
+        p3Desc: "Master level. Refining rapid critical analysis of philosophical works, legal texts, and fast-paced debates.",
+        p3Table: "<tr><td>Synthesis</td><td>Summarize idea</td><td>Synthesize theoretical frameworks</td></tr>",
+        currDesc: "Your diagnostic parameters align directly with <strong>Module 02 (Advanced Stylistics)</strong> and <strong>Module 08 (Executive Communication)</strong> in your Mastery VIP Dashboard."
+      }
+    };
+
+    // Parse URL Parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const userName = urlParams.get('name') || "Valued Scholar";
+    let userLevel = urlParams.get('level') || "B2";
+    const userScore = urlParams.get('score') || "78";
+
+    // Clean Level Format
+    userLevel = userLevel.replace(/[^A-Z0-9]/gi, '').toUpperCase();
+    if (!levelDiagnostics[userLevel]) userLevel = "B2";
+
+    // Populate Fields
+    document.getElementById('ui-name').textContent = userName;
+    document.getElementById('ui-level').textContent = "CEFR " + userLevel;
+    document.getElementById('ui-score').textContent = userScore + "%";
+
+    const diag = levelDiagnostics[userLevel];
+    document.getElementById('p1-desc').innerHTML = diag.p1Desc;
+    document.getElementById('p1-table').innerHTML = diag.p1Table;
+    
+    document.getElementById('p2-desc').innerHTML = diag.p2Desc;
+    document.getElementById('p2-table').innerHTML = diag.p2Table;
+
+    document.getElementById('p3-desc').innerHTML = diag.p3Desc;
+    document.getElementById('p3-table').innerHTML = diag.p3Table;
+    document.getElementById('curriculum-desc').innerHTML = diag.currDesc;
+
+    // PDF Download Engine (Strict A4 Settings)
+    function downloadPDF() {
+      const element = document.getElementById('report-content');
+      const opt = {
+        margin: [0, 0, 0, 0],
+        filename: `Shared_Pearls_Audit_Report_${userLevel}_${userName.replace(/\s+/g, '_')}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, logging: false, useCORS: true },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'] }
+      };
+
+      html2pdf().set(opt).from(element).save().then(() => {
+        document.getElementById('status-box').innerHTML = `
+          <h2 style="color: #1B5E20; font-family: 'Playfair Display', serif; font-size: 26px;">Download Complete!</h2>
+          <p style="font-size: 14px; color: #333;">Your personalized 2-page audit report has been saved to your device.</p>
+          <a href="dashboard.html" class="btn-download" style="background-color: #701020;">Go to My Member Dashboard →</a>
+        `;
+      });
+    }
+
+    // Auto-trigger PDF download shortly after load
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        downloadPDF();
+      }, 1200);
+    });
+  </script>
+</body>
+</html>
