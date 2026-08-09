@@ -1,490 +1,664 @@
+
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentic CD-IELTS Writing Simulator & AI Grader</title>
-    <style>
-        /* --- INSPERA ASSESSMENT EXAM THEME (FJORD) --- */
-        :root {
-            --inspera-blue: #0076a8;
-            --inspera-dark: #333333;
-            --inspera-bg: #f4f4f4;
-            --inspera-border: #cccccc;
-            --inspera-panel: #ffffff;
-            --inspera-text: #222222;
-            --inspera-focus: #41b6e6;
-            --inspera-success: #2ec4b6;
-            --inspera-error: #e71d36;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shared Pearls IELTS Prep | Writing Task 1 & Task 2 Dashboard</title>
+  
+  <!-- Google Fonts: Inter & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Chart.js for Rendering Interactive Line Charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: Arial, Helvetica, sans-serif; background-color: var(--inspera-bg); color: var(--inspera-text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            oxfordBlue: '#002147',
+            oxfordGold: '#C5A059',
+            cardBg: '#FFFFFF',
+            pageBg: '#F8FAFC',
+            accentRed: '#8A1538',
+            accentGreen: '#1B5E20'
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'serif'],
+            sans: ['"Inter"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
 
-        /* --- EXAM HEADER --- */
-        header {
-            background-color: var(--inspera-dark);
-            color: #ffffff;
-            height: 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-        .header-left { font-weight: bold; font-size: 16px; letter-spacing: 1px; }
-        .header-center { display: flex; align-items: center; gap: 10px; }
-        .timer { font-weight: bold; background: #000; padding: 4px 12px; border-radius: 15px; letter-spacing: 1px; }
-        .timer.warning { color: #ff4d4d; }
-        .header-right { display: flex; gap: 15px; }
-        .header-btn { background: transparent; border: 1px solid #fff; color: #fff; padding: 4px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; }
-        .header-btn:hover { background: rgba(255,255,255,0.1); }
-        .header-btn.submit-btn { background: var(--inspera-blue); border-color: var(--inspera-blue); font-weight: bold; }
-        .header-btn.submit-btn:hover { background: #005a82; }
-
-        /* --- SPLIT EXAM WORKSPACE --- */
-        .workspace {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-            padding: 15px;
-            gap: 15px;
-        }
-
-        /* --- LEFT PANE (STIMULUS) --- */
-        .stimulus-pane {
-            flex: 1;
-            background: var(--inspera-panel);
-            border: 1px solid var(--inspera-border);
-            border-radius: 3px;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .prompt-content { padding: 30px; font-size: 15px; line-height: 1.6; }
-        .prompt-content h2 { font-size: 18px; margin-bottom: 20px; color: var(--inspera-dark); }
-        .instruction-box { border: 1px solid var(--inspera-border); padding: 15px; margin-bottom: 25px; background: #fafafa; }
-        .instruction-box p { margin-bottom: 0.5rem; }
-        .bold-instruction { font-weight: bold; }
-        
-        .diagram-wrapper { width: 100%; display: flex; justify-content: center; margin-top: 20px; }
-        
-        .instructor-controls { background: #e6f2f7; padding: 10px 15px; border-bottom: 1px solid var(--inspera-border); display: flex; align-items: center; gap: 10px; font-size: 12px; }
-        .instructor-controls select { padding: 4px; border: 1px solid var(--inspera-border); border-radius: 3px; max-width: 400px; }
-
-        /* --- RIGHT PANE (RESPONSE) --- */
-        .response-pane {
-            flex: 1;
-            background: var(--inspera-panel);
-            border: 1px solid var(--inspera-border);
-            border-radius: 3px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .editor-container { flex: 1; padding: 20px; }
-        .exam-textarea {
-            width: 100%;
-            height: 100%;
-            border: 1px solid var(--inspera-border);
-            border-radius: 3px;
-            padding: 15px;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 15px;
-            line-height: 1.6;
-            resize: none;
-            outline: none;
-        }
-        .exam-textarea:focus { border-color: var(--inspera-focus); box-shadow: 0 0 0 1px var(--inspera-focus); }
-        .word-count-bar {
-            padding: 10px 20px;
-            background: #fafafa;
-            border-top: 1px solid var(--inspera-border);
-            font-size: 13px;
-            color: #555;
-            text-align: right;
-            font-weight: bold;
-        }
-
-        /* --- DIAGNOSTIC REPORT MODAL OVERLAY --- */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;
-        }
-        .modal-card {
-            background: #FFF; width: 85%; height: 85%; max-width: 1100px; border-radius: 4px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; overflow: hidden;
-        }
-        .modal-header {
-            background: var(--inspera-dark); color: #FFF; padding: 15px 25px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .modal-body { flex: 1; display: flex; overflow: hidden; background: var(--inspera-bg); }
-        
-        /* Modal Tabs */
-        .modal-sidebar { width: 240px; background: #FFF; border-right: 1px solid var(--inspera-border); display: flex; flex-direction: column; }
-        .report-tab-btn {
-            background: transparent; border: none; padding: 15px 20px; text-align: left;
-            font-size: 13px; font-weight: bold; color: #555; border-bottom: 1px solid var(--inspera-bg);
-            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-        }
-        .report-tab-btn:hover { background: var(--inspera-bg); }
-        .report-tab-btn.active { background: rgba(0, 118, 168, 0.08); color: var(--inspera-blue); border-left: 4px solid var(--inspera-blue); }
-        .sub-score { font-family: monospace; font-size: 14px; background: var(--inspera-dark); color: #FFF; padding: 2px 6px; border-radius: 3px; }
-        .report-tab-btn.active .sub-score { background: var(--inspera-blue); }
-
-        .report-content-pane { flex: 1; padding: 30px; overflow-y: auto; background: #FFF; margin: 15px; border: 1px solid var(--inspera-border); border-radius: 3px; }
-        .criterion-title { font-size: 18px; font-weight: bold; color: var(--inspera-dark); margin-bottom: 10px; border-bottom: 2px solid var(--inspera-bg); padding-bottom: 10px; }
-        .feedback-list { margin-top: 15px; margin-left: 20px; line-height: 1.8; font-size: 14px; }
-        .feedback-list li { margin-bottom: 12px; }
-        .badge-penalty { background: var(--inspera-error); color: #FFF; padding: 2px 6px; font-size: 11px; font-weight: bold; border-radius: 2px; text-transform: uppercase; }
-
-        /* --- EXAM FOOTER (NAVIGATION) --- */
-        footer {
-            background-color: var(--inspera-panel); border-top: 1px solid var(--inspera-border);
-            height: 60px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px; flex-shrink: 0;
-        }
-        .nav-arrows { display: flex; gap: 10px; }
-        .nav-arrow { background: #fff; border: 1px solid var(--inspera-border); padding: 8px 15px; cursor: pointer; border-radius: 3px; font-weight: bold; color: var(--inspera-dark); }
-        .nav-arrow:hover { background: #f0f0f0; }
-        
-        .part-nav { display: flex; gap: 5px; }
-        .part-btn {
-            background: #fff; border: 1px solid var(--inspera-border); width: 40px; height: 40px; 
-            border-radius: 3px; cursor: pointer; font-weight: bold; color: var(--inspera-dark);
-            display: flex; justify-content: center; align-items: center;
-        }
-        .part-btn:hover { background: #f0f0f0; }
-        .part-btn.active { background: var(--inspera-blue); color: #fff; border-color: var(--inspera-blue); }
-
-        /* --- SVG/TABLE CORE SCHEMATICS --- */
-        svg { background: #fff; font-family: Arial, sans-serif; }
-        .axis { stroke: #333; stroke-width: 1; }
-        .grid { stroke: #eee; stroke-dasharray: 4; }
-        .ielts-table { border-collapse: collapse; width: 100%; font-size: 14px; text-align: center; }
-        .ielts-table th, .ielts-table td { border: 1px solid #333; padding: 10px; }
-        .ielts-table th { background: #f4f4f4; }
-    </style>
+  <style>
+    body {
+      background-color: #F8FAFC;
+      color: #0F172A;
+      font-family: 'Inter', sans-serif;
+    }
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+    }
+  </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
 
-    <header>
-        <div class="header-left">IELTS Academic Simulation</div>
-        <div class="header-center">
-            <span>Time remaining:</span>
-            <span class="timer" id="exam-timer">60:00</span>
-        </div>
-        <div class="header-right">
-            <button class="header-btn help-btn">Help</button>
-            <button class="header-btn submit-btn" onclick="openDiagnosticReport()">Submit Component</button>
-        </div>
-    </header>
+  <!-- HEADER / NAVIGATION WITH TASK SWITCHER -->
+  <header class="bg-oxfordBlue text-white border-b-4 border-oxfordGold py-4 px-6 shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+      <div>
+        <span class="text-xs uppercase tracking-widest text-oxfordGold font-bold">Shared Pearls IELTS Prep</span>
+        <h1 class="text-xl md:text-2xl font-bold tracking-tight text-white">Unit 01: Urban & Rural Life (Writing Masterclass)</h1>
+      </div>
+      
+      <!-- TASK SWITCHER TOGGLE -->
+      <div class="flex items-center gap-2 bg-slate-900/90 p-1.5 rounded-xl border border-slate-700">
+        <button 
+          id="tab-task1" 
+          onclick="switchTask('task1')" 
+          class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all bg-oxfordGold text-oxfordBlue shadow">
+          Writing Task 1 (Line Graphs)
+        </button>
+        <button 
+          id="tab-task2" 
+          onclick="switchTask('task2')" 
+          class="px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all text-slate-300 hover:text-white">
+          Writing Task 2 (Discursive Essay)
+        </button>
+      </div>
+    </div>
+  </header>
 
-    <div class="workspace">
-        
-        <div class="stimulus-pane">
-            <div class="instructor-controls" id="instructor-bar">
-                <strong>Module Selection:</strong>
-                <select id="module-selector" onchange="loadSelectedModule()">
-                    </select>
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-grow max-w-7xl mx-auto w-full p-4 sm:p-6 md:p-10 space-y-12">
+
+    <!-- ================================================================= -->
+    <!-- WRITING TASK 1 VIEW                                               -->
+    <!-- ================================================================= -->
+    <div id="view-task1" class="space-y-12">
+
+      <!-- HERO / UNIT OVERVIEW -->
+      <section class="bg-white border border-slate-200 p-6 md:p-10 rounded-xl shadow-sm relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-oxfordGold/10 rounded-full blur-2xl pointer-events-none"></div>
+        <span class="bg-oxfordBlue text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Task 1 Objectives</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-oxfordBlue mt-3 mb-4">Mastering Line Graphs & Task Achievement</h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-slate-700 mt-4 font-medium">
+          <li class="flex items-center gap-2 bg-slate-50 p-3 rounded-lg border border-slate-100">
+            <span class="text-oxfordGold text-lg">✓</span> Identify key features of line graphs
+          </li>
+          <li class="flex items-center gap-2 bg-slate-50 p-3 rounded-lg border border-slate-100">
+            <span class="text-oxfordGold text-lg">✓</span> Achieve Band 7+ Task Achievement
+          </li>
+          <li class="flex items-center gap-2 bg-slate-50 p-3 rounded-lg border border-slate-100">
+            <span class="text-oxfordGold text-lg">✓</span> Describe trends using precise adjectives & adverbs
+          </li>
+        </ul>
+      </section>
+
+      <!-- SECTION 1: LEAD-IN & GRAMMAR DIAGNOSTICS -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h3 class="text-2xl font-bold text-oxfordBlue">01. Lead-In: Tenses & Time Phrases</h3>
+          <p class="text-slate-600 text-sm mt-1">Select the correct verb tense based on the given time phrase and graph indicators.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+          <p class="text-xs font-bold uppercase text-oxfordGold tracking-widest">Interactive Fill-in-the-Blanks</p>
+          <p class="text-sm text-slate-700">Complete the sentences using <code class="bg-slate-100 px-1.5 py-0.5 rounded font-mono text-oxfordBlue">grow</code> and <code class="bg-slate-100 px-1.5 py-0.5 rounded font-mono text-oxfordBlue">rapidly</code> in the correct tense:</p>
+
+          <div class="space-y-3 text-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+              <span class="w-6 font-bold text-slate-400">1.</span>
+              <span class="text-slate-800">Since five years ago, sales</span>
+              <input type="text" value="have grown rapidly" readonly class="bg-emerald-50 border border-emerald-300 text-emerald-800 px-3 py-1 rounded font-semibold text-sm">
+              <span class="text-slate-800">to 90,000. (Present Perfect)</span>
             </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+              <span class="w-6 font-bold text-slate-400">2.</span>
+              <span class="text-slate-800">Between 1980 and 1990, sales</span>
+              <input type="text" id="q2-input" placeholder="Type answer..." class="border border-slate-300 px-3 py-1 rounded text-sm focus:outline-none focus:border-oxfordBlue">
+              <span class="text-slate-800">to 90,000.</span>
+              <button onclick="checkSentence('q2-input', 'grew rapidly', 'q2-feedback')" class="text-xs bg-oxfordBlue text-white px-3 py-1 rounded hover:bg-slate-800">Check</button>
+              <span id="q2-feedback" class="text-xs font-bold"></span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+              <span class="w-6 font-bold text-slate-400">3.</span>
+              <span class="text-slate-800">From 2020 to 2030, sales</span>
+              <input type="text" id="q3-input" placeholder="Type answer..." class="border border-slate-300 px-3 py-1 rounded text-sm focus:outline-none focus:border-oxfordBlue">
+              <span class="text-slate-800">to 90,000.</span>
+              <button onclick="checkSentence('q3-input', 'are projected to grow rapidly', 'q3-feedback')" class="text-xs bg-oxfordBlue text-white px-3 py-1 rounded hover:bg-slate-800">Check</button>
+              <span id="q3-feedback" class="text-xs font-bold"></span>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+              <span class="w-6 font-bold text-slate-400">4.</span>
+              <span class="text-slate-800">By the year 2000, sales</span>
+              <input type="text" id="q4-input" placeholder="Type answer..." class="border border-slate-300 px-3 py-1 rounded text-sm focus:outline-none focus:border-oxfordBlue">
+              <span class="text-slate-800">to 90,000.</span>
+              <button onclick="checkSentence('q4-input', 'had grown rapidly', 'q4-feedback')" class="text-xs bg-oxfordBlue text-white px-3 py-1 rounded hover:bg-slate-800">Check</button>
+              <span id="q4-feedback" class="text-xs font-bold"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: TASK ACHIEVEMENT & GRAPH ANALYSIS -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h3 class="text-2xl font-bold text-oxfordBlue">02. Task Achievement & Common Pitfalls</h3>
+          <p class="text-slate-600 text-sm mt-1">Avoid common examiner penalties and analyze line graphs objectively.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="bg-rose-50 border border-rose-200 p-6 rounded-xl space-y-3">
+            <h4 class="text-lg font-bold text-accentRed flex items-center gap-2">
+              ⚠️ What Causes Low Marks in TA?
+            </h4>
+            <ul class="text-xs text-slate-700 space-y-2 list-disc pl-4">
+              <li>Not including an <strong>overview statement</strong></li>
+              <li>Misreporting data or numbers</li>
+              <li>Failing to highlight key features or trends</li>
+              <li><strong>Speculating</strong> or giving opinions on <em>why</em> changes occurred</li>
+              <li>Inappropriate tone (e.g., informal magazine style)</li>
+              <li>Writing under 150 words</li>
+            </ul>
+          </div>
+
+          <div class="lg:col-span-2 bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <span class="text-xs font-bold text-oxfordGold uppercase tracking-wider">Interactive Model Graph</span>
+              <h4 class="text-base font-bold text-slate-900 mt-1">Reasons for Moving Away from Capital City to Countryside (1990–2010)</h4>
+            </div>
+            <div class="my-4 h-64">
+              <canvas id="reasonsChart"></canvas>
+            </div>
+            <p class="text-xs text-slate-500 italic text-center">Data points: Rising Cost of Living (Blue), Traffic (Red), Lifestyle (Dark Grey)</p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+          <h4 class="text-lg font-bold text-oxfordBlue">Sample Essay Analysis: Match Teacher Comments</h4>
+          <p class="text-sm text-slate-600">Read paragraph excerpts and match them to the examiner feedback:</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg text-xs space-y-2">
+              <span class="font-bold text-oxfordBlue">Excerpt 1:</span>
+              <p class="italic text-slate-700">"This drop of 5,000 could have been because people generally had less money in 2010 than they did in 2000, so they couldn't afford to move."</p>
+              <div class="pt-2 border-t border-slate-200 flex justify-between items-center">
+                <span class="font-bold text-accentRed">Examiner Comment:</span>
+                <span class="bg-amber-100 text-amber-800 text-[11px] font-semibold px-2 py-0.5 rounded">A. Don't Speculate</span>
+              </div>
+            </div>
+
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-lg text-xs space-y-2">
+              <span class="font-bold text-oxfordBlue">Excerpt 2:</span>
+              <p class="italic text-slate-700">"So, what does it all mean? For me, the answer is crystal clear. Overall, the graph shows a huge number of people moved..."</p>
+              <div class="pt-2 border-t border-slate-200 flex justify-between items-center">
+                <span class="font-bold text-accentRed">Examiner Comment:</span>
+                <span class="bg-amber-100 text-amber-800 text-[11px] font-semibold px-2 py-0.5 rounded">C. Tone Too Informal</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: VOCABULARY & ADVERBS/ADJECTIVES -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h3 class="text-2xl font-bold text-oxfordBlue">03. Vocabulary: Adjectives & Adverbs for Trends</h3>
+          <p class="text-slate-600 text-sm mt-1">Master subjective vs. objective vocabulary and grammar shifts.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-3">
+            <h4 class="text-base font-bold text-oxfordBlue">Task 1 Adverb Filter</h4>
+            <p class="text-xs text-slate-600">Task 1 requires <strong>objective</strong> reporting. Identify appropriate vs. inappropriate adverbs:</p>
             
-            <div class="prompt-content" id="prompt-container"></div>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div class="p-2.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-900 font-medium">✅ Steadily</div>
+              <div class="p-2.5 rounded bg-rose-50 border border-rose-200 text-rose-900 font-medium">❌ Shockingly (Subjective)</div>
+              <div class="p-2.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-900 font-medium">✅ Gradually</div>
+              <div class="p-2.5 rounded bg-rose-50 border border-rose-200 text-rose-900 font-medium">❌ Amazingly (Subjective)</div>
+              <div class="p-2.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-900 font-medium">✅ Sharply</div>
+              <div class="p-2.5 rounded bg-rose-50 border border-rose-200 text-rose-900 font-medium">❌ Predictably (Subjective)</div>
+            </div>
+          </div>
+
+          <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-3">
+            <h4 class="text-base font-bold text-oxfordBlue">Structure Shift: (Verb + Adverb) ➔ (Adjective + Noun)</h4>
+            <p class="text-xs text-slate-600">Increase Grammatical Range & Accuracy (GRA) by varying sentence structures:</p>
+
+            <div class="space-y-3 text-xs">
+              <div class="p-3 bg-slate-50 rounded border border-slate-200">
+                <span class="text-slate-500 block text-[10px] uppercase font-bold">Verb + Adverb:</span>
+                <p class="font-semibold text-slate-800">"Traffic <span class="underline">rose steadily</span> between 1990 and 2000."</p>
+                <span class="text-oxfordGold block text-[10px] uppercase font-bold mt-2">Transformed (Adjective + Noun):</span>
+                <p class="font-semibold text-oxfordBlue">"Traffic saw a <span class="underline">steady rise</span> between 1990 and 2000."</p>
+              </div>
+
+              <div class="p-3 bg-slate-50 rounded border border-slate-200">
+                <span class="text-slate-500 block text-[10px] uppercase font-bold">Verb + Adverb:</span>
+                <p class="font-semibold text-slate-800">"Lifestyle reasons <span class="underline">grew consistently</span> across the period."</p>
+                <span class="text-oxfordGold block text-[10px] uppercase font-bold mt-2">Transformed (There was a...):</span>
+                <p class="font-semibold text-oxfordBlue">"There was a <span class="underline">consistent growth</span> in numbers moving for lifestyle reasons."</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: EXAM PRACTICE & SUBMISSION PORTAL -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h3 class="text-2xl font-bold text-oxfordBlue">04. Live Task 1 Exam Practice</h3>
+          <p class="text-slate-600 text-sm mt-1">Complete the writing task based on the survey data below and submit your response for evaluation.</p>
         </div>
 
-        <div class="response-pane">
-            <div class="editor-container">
-                <textarea class="exam-textarea" id="response-area" placeholder="Type your response here... Your content will sync automatically."></textarea>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div class="lg:col-span-5 bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div class="border-b border-slate-100 pb-3">
+              <span class="text-xs font-bold text-oxfordGold uppercase tracking-wider">Exam Prompt</span>
+              <h4 class="text-base font-bold text-slate-900 mt-1">Survey Results: Reasons for Moving to Capital City (2000–2015)</h4>
             </div>
-            <div class="word-count-bar">
-                Word count: <span id="word-count">0</span>
+
+            <p class="text-xs text-slate-600 leading-relaxed">
+              <em>Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.</em>
+            </p>
+
+            <div class="h-64 my-2">
+              <canvas id="examChart"></canvas>
             </div>
+
+            <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg text-xs text-amber-900 space-y-1">
+              <span class="font-bold">💡 Tip for Task 1 Conclusions:</span>
+              <p>Do not include specific data in your concluding summary statement. Summarise overarching trends only!</p>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h4 class="text-lg font-bold text-oxfordBlue">Task 1 Essay Submission</h4>
+                <span id="word-count" class="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded">0 words</span>
+              </div>
+
+              <textarea 
+                id="essay-input" 
+                oninput="updateWordCount('essay-input', 'word-count', 150)"
+                rows="12" 
+                placeholder="The line chart illustrates the primary motivations given by individuals for relocating to a specific capital city between 2000 and 2015..." 
+                class="w-full mt-4 p-4 border border-slate-300 rounded-lg text-sm font-sans focus:outline-none focus:border-oxfordBlue focus:ring-1 focus:ring-oxfordBlue leading-relaxed">
+              </textarea>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <span class="text-xs text-slate-500">Minimum length: 150 words</span>
+              <button 
+                onclick="submitEssay('essay-input', 150, 'submission-message')" 
+                class="w-full sm:w-auto bg-oxfordBlue text-white font-bold text-sm px-6 py-3 rounded-lg hover:bg-slate-800 transition shadow-md">
+                Submit Task 1 Essay →
+              </button>
+            </div>
+
+            <div id="submission-message" class="hidden p-4 rounded-lg text-sm font-medium"></div>
+          </div>
         </div>
+      </section>
+
     </div>
 
-    <footer>
-        <div class="nav-arrows">
-            <button class="nav-arrow" onclick="switchPart(1)" id="btn-prev" style="visibility:hidden;">&larr; Previous Section</button>
-        </div>
-        <div class="part-nav">
-            <button class="part-btn active" id="btn-part1" onclick="switchPart(1)">1</button>
-            <button class="part-btn" id="btn-part2" onclick="switchPart(2)">2</button>
-        </div>
-        <div class="nav-arrows">
-            <button class="nav-arrow" onclick="switchPart(2)" id="btn-next">Next Section &rarr;</button>
-        </div>
-    </footer>
+    <!-- ================================================================= -->
+    <!-- WRITING TASK 2 VIEW (DISCURSIVE ESSAYS)                           -->
+    <!-- ================================================================= -->
+    <div id="view-task2" class="space-y-12 hidden">
 
-    <div class="modal-overlay" id="report-modal">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h3 style="font-size:16px;">AI Band Descriptor Performance Matrix</h3>
-                <button onclick="closeModal()" style="background:transparent; border:none; color:#FFF; font-size:20px; cursor:pointer; font-weight:bold;">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-sidebar">
-                    <button class="report-tab-btn active" id="tab-btn-overall" onclick="switchReportTab('overall')">
-                        <span>Overall Score</span> <span class="sub-score" id="score-overall" style="background:var(--inspera-blue);">--</span>
-                    </button>
-                    <button class="report-tab-btn" id="tab-btn-ta" onclick="switchReportTab('ta')">
-                        <span id="label-ta">Task Achievement</span> <span class="sub-score" id="score-ta">--</span>
-                    </button>
-                    <button class="report-tab-btn" id="tab-btn-cc" onclick="switchReportTab('cc')">
-                        <span>Coherence & Cohesion</span> <span class="sub-score" id="score-cc">--</span>
-                    </button>
-                    <button class="report-tab-btn" id="tab-btn-lr" onclick="switchReportTab('lr')">
-                        <span>Lexical Resource</span> <span class="sub-score" id="score-lr">--</span>
-                    </button>
-                    <button class="report-tab-btn" id="tab-btn-gra" onclick="switchReportTab('gra')">
-                        <span>Grammar Range & Accuracy</span> <span class="sub-score" id="score-gra">--</span>
-                    </button>
-                </div>
-                <div class="report-content-pane" id="report-text-pane">
-                    </div>
-            </div>
+      <!-- HERO / UNIT OVERVIEW -->
+      <section class="bg-white border border-slate-200 p-6 md:p-10 rounded-xl shadow-sm relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-oxfordGold/10 rounded-full blur-2xl pointer-events-none"></div>
+        <span class="bg-accentRed text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Task 2 Objectives</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-oxfordBlue mt-3 mb-4">Task 2: Urbanization, Causes & Solution Essays</h2>
+        <ul class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-slate-700 mt-4 font-medium">
+          <li class="flex items-center gap-2 bg-slate-50 p-3 rounded-lg border border-slate-100">
+            <span class="text-oxfordGold text-lg">✓</span> Construct 4-paragraph essay structures
+          </li>
+          <li class="flex items-center gap-2 bg-slate-50 p-3 rounded-lg border border-slate-100">
+            <span class="text-oxfordGold text-lg">✓</span> Apply band 8+ urban collocations
+          </li>
+          <li class="flex items-center gap-2 bg-slate-50 p-3 rounded-lg border border-slate-100">
+            <span class="text-oxfordGold text-lg">✓</span> Develop cohesive cause-solution links
+          </li>
+        </ul>
+      </section>
+
+      <!-- SECTION 1: ESSAY STRUCTURING & DISCOURSE MARKERS -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h3 class="text-2xl font-bold text-oxfordBlue">01. Task 2 Architecture: 4-Paragraph Formula</h3>
+          <p class="text-slate-600 text-sm mt-1">Master paragraph cohesion and explicit thesis statements for Problem/Solution prompts.</p>
         </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <span class="font-bold text-oxfordGold uppercase tracking-wider block">Paragraph 1</span>
+            <h4 class="font-bold text-oxfordBlue text-sm">Introduction</h4>
+            <p class="text-slate-600">Paraphrase prompt + State thesis outlining primary causes and solutions.</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <span class="font-bold text-oxfordGold uppercase tracking-wider block">Paragraph 2</span>
+            <h4 class="font-bold text-oxfordBlue text-sm">Body 1: Causes</h4>
+            <p class="text-slate-600">Topic sentence + Explain primary cause (e.g., emissions) + Secondary cause + Example.</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <span class="font-bold text-oxfordGold uppercase tracking-wider block">Paragraph 3</span>
+            <h4 class="font-bold text-oxfordBlue text-sm">Body 2: Solutions</h4>
+            <p class="text-slate-600">Topic sentence + Governmental action + Infrastructure investment + Projected outcome.</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+            <span class="font-bold text-oxfordGold uppercase tracking-wider block">Paragraph 4</span>
+            <h4 class="font-bold text-oxfordBlue text-sm">Conclusion</h4>
+            <p class="text-slate-600">Summarize main causes and reinforce the viability of proposed solutions.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: LEXICAL RESOURCE & URBAN COLLOCATIONS -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h3 class="text-2xl font-bold text-oxfordBlue">02. Lexical Resource: High-Impact Urban Collocations</h3>
+          <p class="text-slate-600 text-sm mt-1">Upgrade generic phraseology to band 8+ academic collocations.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+            <div class="p-3 bg-slate-50 rounded-lg border">
+              <span class="text-slate-400 block text-[10px] font-bold uppercase">Generic Phrase:</span>
+              <span class="line-through text-rose-600 font-semibold">More people moving to cities</span>
+              <span class="text-oxfordGold block text-[10px] font-bold uppercase mt-2">Band 8+ Collocation:</span>
+              <span class="font-bold text-oxfordBlue">Unprecedented rural-to-urban migration</span>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-lg border">
+              <span class="text-slate-400 block text-[10px] font-bold uppercase">Generic Phrase:</span>
+              <span class="line-through text-rose-600 font-semibold">City environmental problems</span>
+              <span class="text-oxfordGold block text-[10px] font-bold uppercase mt-2">Band 8+ Collocation:</span>
+              <span class="font-bold text-oxfordBlue">Metropolitan environmental degradation</span>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-lg border">
+              <span class="text-slate-400 block text-[10px] font-bold uppercase">Generic Phrase:</span>
+              <span class="line-through text-rose-600 font-semibold">Government making laws</span>
+              <span class="text-oxfordGold block text-[10px] font-bold uppercase mt-2">Band 8+ Collocation:</span>
+              <span class="font-bold text-oxfordBlue">Enacting stringent regulatory frameworks</span>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-lg border">
+              <span class="text-slate-400 block text-[10px] font-bold uppercase">Generic Phrase:</span>
+              <span class="line-through text-rose-600 font-semibold">Too many cars on the road</span>
+              <span class="text-oxfordGold block text-[10px] font-bold uppercase mt-2">Band 8+ Collocation:</span>
+              <span class="font-bold text-oxfordBlue">Proliferation of vehicular traffic</span>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-lg border">
+              <span class="text-slate-400 block text-[10px] font-bold uppercase">Generic Phrase:</span>
+              <span class="line-through text-rose-600 font-semibold">Building better buses/trains</span>
+              <span class="text-oxfordGold block text-[10px] font-bold uppercase mt-2">Band 8+ Collocation:</span>
+              <span class="font-bold text-oxfordBlue">Expanding public transit infrastructure</span>
+            </div>
+
+            <div class="p-3 bg-slate-50 rounded-lg border">
+              <span class="text-slate-400 block text-[10px] font-bold uppercase">Generic Phrase:</span>
+              <span class="line-through text-rose-600 font-semibold">Fixing the bad air quality</span>
+              <span class="text-oxfordGold block text-[10px] font-bold uppercase mt-2">Band 8+ Collocation:</span>
+              <span class="font-bold text-oxfordBlue">Mitigating industrial atmospheric pollution</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: LIVE TASK 2 SUBMISSION PORTAL -->
+      <section class="space-y-6">
+        <div class="border-b border-slate-200 pb-3">
+          <h3 class="text-2xl font-bold text-oxfordBlue">03. Live Task 2 Practice & Submission</h3>
+          <p class="text-slate-600 text-sm mt-1">Write a complete discursive essay addressing the urbanization prompt below.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div class="lg:col-span-5 bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
+            <div class="border-b border-slate-100 pb-3">
+              <span class="text-xs font-bold text-oxfordGold uppercase tracking-wider">Essay Prompt</span>
+              <h4 class="text-base font-bold text-slate-900 mt-1">Topic: Urbanization & Environmental Impact</h4>
+            </div>
+
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-xs text-slate-800">
+              <strong class="block text-oxfordBlue font-bold">Write about the following topic:</strong>
+              <p class="italic">
+                "As an increasing number of people move to cities, environmental problems in urban areas are growing rapidly. What are the main causes of this problem, and what measures can be taken to solve it?"
+              </p>
+              <p class="text-slate-500 pt-2 border-t">Give reasons for your answer and include any relevant examples from your own knowledge or experience. Write at least 250 words.</p>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 p-3 rounded-lg text-xs text-amber-900 space-y-1">
+              <span class="font-bold">💡 Tip for Task 2 Response:</span>
+              <p>Ensure both causes and solutions are equally weighted across your body paragraphs to satisfy Task Response requirements.</p>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h4 class="text-lg font-bold text-oxfordBlue">Task 2 Essay Submission</h4>
+                <span id="t2-word-count" class="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded">0 words</span>
+              </div>
+
+              <textarea 
+                id="t2-essay-input" 
+                oninput="updateWordCount('t2-essay-input', 't2-word-count', 250)"
+                rows="14" 
+                placeholder="In recent decades, rapid rural-to-urban migration has resulted in severe environmental degradation across metropolitan centers worldwide. The primary causes of this issue stem from unchecked vehicular emissions and overconsumption of energy; however, enacting stringent regulatory frameworks and expanding public transit infrastructure can effectively mitigate these challenges..." 
+                class="w-full mt-4 p-4 border border-slate-300 rounded-lg text-sm font-sans focus:outline-none focus:border-oxfordBlue focus:ring-1 focus:ring-oxfordBlue leading-relaxed">
+              </textarea>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <span class="text-xs text-slate-500">Minimum length: 250 words</span>
+              <button 
+                onclick="submitEssay('t2-essay-input', 250, 't2-submission-message')" 
+                class="w-full sm:w-auto bg-oxfordBlue text-white font-bold text-sm px-6 py-3 rounded-lg hover:bg-slate-800 transition shadow-md">
+                Submit Task 2 Essay →
+              </button>
+            </div>
+
+            <div id="t2-submission-message" class="hidden p-4 rounded-lg text-sm font-medium"></div>
+          </div>
+        </div>
+      </section>
+
     </div>
 
-    <script>
-        /* --- DYNAMIC CAMBRIDGE TEST BENCHSETS --- */
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-white py-6 text-center text-xs text-slate-400 border-t border-slate-800 mt-16">
+    <p>&copy; 2026 Shared Pearls IELTS Prep. All rights reserved.</p>
+  </footer>
+
+  <!-- CHARTS & INTERACTIVE LOGIC SCRIPT -->
+  <script>
+    // 1. Task Switcher Logic
+    function switchTask(task) {
+      const v1 = document.getElementById('view-task1');
+      const v2 = document.getElementById('view-task2');
+      const t1 = document.getElementById('tab-task1');
+      const t2 = document.getElementById('tab-task2');
+
+      if (task === 'task1') {
+        v1.classList.remove('hidden');
+        v2.classList.add('hidden');
         
-        const task1Data = [
-            { id: "bar", title: "Bar Chart: Consumer Goods", instruction: "The chart below shows the expenditure of two countries on consumer goods in 2010.", diagram: `<svg width="450" height="230" viewBox="0 0 450 230"><text x="225" y="25" font-size="13" font-weight="bold" text-anchor="middle">Expenditure on Consumer Goods (Pounds Sterling)</text><line x1="50" y1="180" x2="420" y2="180" class="axis" /><line x1="50" y1="40" x2="50" y2="180" class="axis" /><text x="40" y="185" font-size="11" text-anchor="end">0</text><text x="40" y="115" font-size="11" text-anchor="end">200k</text><line x1="50" y1="110" x2="420" y2="110" class="grid" /><text x="40" y="45" font-size="11" text-anchor="end">400k</text><line x1="50" y1="40" x2="420" y2="40" class="grid" /><text x="120" y="200" font-size="12" text-anchor="middle">Cars</text><rect x="85" y="65" width="30" height="115" fill="#333" /><rect x="120" y="100" width="30" height="80" fill="#aaa" /><text x="230" y="200" font-size="12" text-anchor="middle">Computers</text><rect x="195" y="90" width="30" height="90" fill="#333" /><rect x="230" y="50" width="30" height="130" fill="#aaa" /><text x="340" y="200" font-size="12" text-anchor="middle">Books</text><rect x="305" y="130" width="30" height="50" fill="#333" /><rect x="340" y="160" width="30" height="20" fill="#aaa" /></svg>` },
-            { id: "line", title: "Line Graph: Cinema Trends", instruction: "The graph below gives information about cinema attendance in Australia between 1990 and 2010.", diagram: `<svg width="450" height="230" viewBox="0 0 450 230"><text x="225" y="25" font-size="13" font-weight="bold" text-anchor="middle">Cinema Attendance Metrics (%)</text><line x1="50" y1="180" x2="420" y2="180" class="axis" /><line x1="50" y1="40" x2="50" y2="180" class="axis" /><text x="40" y="185" font-size="11" text-anchor="end">0%</text><text x="40" y="115" font-size="11" text-anchor="end">50%</text><line x1="50" y1="110" x2="420" y2="110" class="grid" /><text x="40" y="45" font-size="11" text-anchor="end">100%</text><line x1="50" y1="40" x2="420" y2="40" class="grid" /><text x="80" y="200" font-size="11" text-anchor="middle">1990</text><text x="180" y="200" font-size="11" text-anchor="middle">1995</text><text x="280" y="200" font-size="11" text-anchor="middle">2000</text><text x="380" y="200" font-size="11" text-anchor="middle">2010</text><polyline points="80,110 180,90 280,100 380,60" fill="none" stroke="#333" stroke-width="2" /><polyline points="80,150 180,130 280,110 380,120" fill="none" stroke="#aaa" stroke-width="2" stroke-dasharray="4,4" /></svg>` },
-            { id: "pie", title: "Pie Chart: Migration Reasons", instruction: "The pie charts below show the main reasons for migration to and from the UK in 2007.", diagram: `<div style="display:flex; justify-content:space-around; width:100%; margin-top:20px;"><div style="text-align:center; font-size:12px; font-weight:bold;">Immigration (578k)<br><br><div style="width:110px; height:110px; border-radius:50%; background:conic-gradient(#333 0% 40%, #888 40% 70%, #ccc 70% 100%); border:1px solid #333; margin:auto;"></div></div><div style="text-align:center; font-size:12px; font-weight:bold;">Emigration (327k)<br><br><div style="width:110px; height:110px; border-radius:50%; background:conic-gradient(#333 0% 30%, #888 30% 65%, #ccc 65% 100%); border:1px solid #333; margin:auto;"></div></div></div>` },
-            { id: "table", title: "Table: Urban Transit", instruction: "The table below gives information about the underground railway systems in six cities.", diagram: `<table class="ielts-table"><tr><th>City</th><th>Date opened</th><th>Kilometres of route</th><th>Passengers (Millions/yr)</th></tr><tr><td>London</td><td>1863</td><td>394</td><td>775</td></tr><tr><td>Paris</td><td>1900</td><td>199</td><td>1191</td></tr><tr><td>Tokyo</td><td>1927</td><td>155</td><td>1927</td></tr></table>` },
-            { id: "map", title: "Map: Spatial Development", instruction: "The maps below show the centre of a small town called Islip as it is now, and plans for its development.", diagram: `<div style="display:flex; gap:20px; font-size:12px; text-align:center;"><div style="border:1px dashed #333; padding:15px; background:#fff;"><strong>Present Layout</strong><div style="width:150px; height:100px; background:#eee; margin-top:10px; position:relative; border:1px solid #999;"><span style="position:absolute; top:40px; left:20px;">Main Road System</span></div></div><div style="border:1px dashed #333; padding:15px; background:#fff;"><strong>Future Proposal</strong><div style="width:150px; height:100px; background:#eee; margin-top:10px; position:relative; border:1px solid #999;"><span style="position:absolute; top:40px; left:20px; color:var(--inspera-blue); font-weight:bold;">Ring Road Track</span></div></div></div>` },
-            { id: "multi", title: "Hybrid: Pie + Table", instruction: "The pie chart illustrates land degradation variables, and the table outlines regional modifications during the 1990s.", diagram: `<div style="display:flex; flex-direction:column; gap:15px; align-items:center; width:100%;"><div style="width:90px; height:90px; border-radius:50%; background:conic-gradient(#333 0% 50%, #aaa 50% 100%); border:1px solid #333;"></div><table class="ielts-table" style="font-size:12px;"><tr><th>Region</th><th>Deforestation</th><th>Over-cultivation</th></tr><tr><td>Europe</td><td>9.8 %</td><td>7.7 %</td></tr><tr><td>Oceania</td><td>1.7 %</td><td>0 %</td></tr></table></div>` }
-        ];
+        t1.className = "px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all bg-oxfordGold text-oxfordBlue shadow";
+        t2.className = "px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all text-slate-300 hover:text-white";
+      } else {
+        v2.classList.remove('hidden');
+        v1.classList.add('hidden');
 
-        const task2Data = [
-            { id: "q1", title: "Agree / Disagree: Community Service", instruction: "Some people believe that unpaid community service should be a compulsory part of high school programmes (for example working for a charity, improving the neighbourhood or teaching sports to younger children).", prompt: "To what extent do you agree or disagree?" },
-            { id: "q2", title: "Discuss Both Views: University Funding", instruction: "Some people believe that university education should be free for everyone. Others think that students should pay for their higher education.", prompt: "Discuss both these views and give your own opinion." },
-            { id: "q3", title: "Advantages / Disadvantages: Remote Work", instruction: "More and more people are choosing to work from home rather than commute to an office every day.", prompt: "Do the advantages of this development outweigh the disadvantages?" },
-            { id: "q4", title: "Problem & Solution: Urban Pollution", instruction: "In many cities around the world, pollution levels are rising rapidly.", prompt: "What are the main causes of this, and what solutions can you suggest?" },
-            { id: "q5", title: "Double Question: Ready-made Food", instruction: "Many people nowadays prefer to buy ready-made food rather than cook at home.", prompt: "Why is this? Is this a positive or negative development?" },
-            { id: "q6", title: "Agree / Disagree: Artificial Intelligence", instruction: "Artificial intelligence is increasingly being used in the workplace. Some people believe this will lead to massive unemployment, while others think it will create new opportunities.", prompt: "To what extent do you agree or disagree?" },
-            { id: "q7", title: "Discuss Both Views: Crime Prevention", instruction: "Some people think that the best way to reduce crime is to give longer prison sentences. Others, however, believe there are better alternative ways of reducing crime.", prompt: "Discuss both these views and give your own opinion." }
-        ];
+        t2.className = "px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all bg-oxfordGold text-oxfordBlue shadow";
+        t1.className = "px-4 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all text-slate-300 hover:text-white";
+      }
+    }
 
-        // --- INTERNAL EXAM STATE STORAGE ---
-        let currentPart = 1;
-        let responses = { 1: "", 2: "" };
-        let metricsCache = { ta: 0, cc: 0, lr: 0, gra: 0, overall: 0 };
+    // 2. Sentence Check Logic
+    function checkSentence(inputId, expected, feedbackId) {
+      const userVal = document.getElementById(inputId).value.trim().toLowerCase();
+      const feedback = document.getElementById(feedbackId);
+      if (userVal === expected.toLowerCase()) {
+        feedback.textContent = "Correct!";
+        feedback.className = "text-xs font-bold text-emerald-600 ml-2";
+      } else {
+        feedback.textContent = `Expected: "${expected}"`;
+        feedback.className = "text-xs font-bold text-rose-600 ml-2";
+      }
+    }
 
-        function initExam() {
-            updateSelectorOptions();
-            document.getElementById('response-area').addEventListener('input', function() {
-                responses[currentPart] = this.value;
-                updateWordCount(this.value);
-            });
-            startTimerCountdown();
-        }
+    // 3. Word Count Tracker Engine
+    function updateWordCount(inputId, displayId, minWords) {
+      const text = document.getElementById(inputId).value.trim();
+      const words = text ? text.split(/\s+/).length : 0;
+      const countDisplay = document.getElementById(displayId);
+      countDisplay.textContent = `${words} words`;
+      
+      if (words >= minWords) {
+        countDisplay.className = "text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded";
+      } else {
+        countDisplay.className = "text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded";
+      }
+    }
 
-        function updateSelectorOptions() {
-            const selector = document.getElementById('module-selector');
-            selector.innerHTML = '';
-            
-            const dataSource = currentPart === 1 ? task1Data : task2Data;
-            
-            dataSource.forEach((item, index) => {
-                const option = document.createElement('option');
-                option.value = index;
-                option.textContent = item.title;
-                selector.appendChild(option);
-            });
-            
-            loadSelectedModule();
-        }
+    // 4. Essay Submission Handler
+    function submitEssay(inputId, minWords, msgId) {
+      const text = document.getElementById(inputId).value.trim();
+      const words = text ? text.split(/\s+/).length : 0;
+      const msg = document.getElementById(msgId);
 
-        function loadSelectedModule() {
-            const index = document.getElementById('module-selector').value;
-            if (currentPart === 1) {
-                renderTask1Workspace(task1Data[index]);
-                document.getElementById('label-ta').innerText = "Task Achievement";
-            } else {
-                renderTask2Workspace(task2Data[index]);
-                document.getElementById('label-ta').innerText = "Task Response";
+      msg.classList.remove("hidden", "bg-rose-100", "text-rose-800", "bg-emerald-100", "text-emerald-800");
+
+      if (words < minWords) {
+        msg.textContent = `Your submission contains ${words} words. Minimum length required is ${minWords} words.`;
+        msg.classList.add("bg-rose-100", "text-rose-800");
+      } else {
+        msg.textContent = "Essay successfully submitted! Our Band Score Diagnostic Engine is evaluating your response across all 4 criteria. Check your dashboard shortly.";
+        msg.classList.add("bg-emerald-100", "text-emerald-800");
+      }
+    }
+
+    // 5. Render Chart.js Graphs for Task 1
+    window.addEventListener('DOMContentLoaded', () => {
+      // Model Chart 1 (Reasons for Moving to Countryside)
+      const ctx1 = document.getElementById('reasonsChart').getContext('2d');
+      new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: ['1990', '2000', '2010'],
+          datasets: [
+            {
+              label: 'Rising Cost of Living',
+              data: [65000, 85000, 80000],
+              borderColor: '#0EA5E9',
+              backgroundColor: '#0EA5E9',
+              tension: 0.1
+            },
+            {
+              label: 'Traffic',
+              data: [20000, 35000, 60000],
+              borderColor: '#EF4444',
+              backgroundColor: '#EF4444',
+              tension: 0.1
+            },
+            {
+              label: 'Lifestyle',
+              data: [20000, 30000, 40000],
+              borderColor: '#475569',
+              backgroundColor: '#475569',
+              tension: 0.1
             }
-        }
-
-        function renderTask1Workspace(moduleObj) {
-            document.getElementById('prompt-container').innerHTML = `
-                <div class="instruction-box">
-                    <p class="bold-instruction">You should spend about 20 minutes on this task.</p>
-                    <p>${moduleObj.instruction}</p>
-                    <p><strong>Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</strong></p>
-                    <p>Write at least 150 words.</p>
-                </div>
-                <div class="diagram-wrapper">${moduleObj.diagram}</div>
-            `;
-        }
-
-        function renderTask2Workspace(moduleObj) {
-            document.getElementById('prompt-container').innerHTML = `
-                <div class="instruction-box">
-                    <p class="bold-instruction">You should spend about 40 minutes on this task.</p>
-                    <p>Write about the following topic:</p>
-                    <br>
-                    <p style="font-size:16px; font-style:italic; border-left:3px solid var(--inspera-blue); padding-left:15px;">${moduleObj.instruction}</p>
-                    <br>
-                    <p class="bold-instruction">${moduleObj.prompt}</p>
-                    <br>
-                    <p>Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>
-                    <p>Write at least 250 words.</p>
-                </div>
-            `;
-        }
-
-        function switchPart(partNum) {
-            currentPart = partNum;
-            document.getElementById('btn-part1').classList.toggle('active', partNum === 1);
-            document.getElementById('btn-part2').classList.toggle('active', partNum === 2);
-            document.getElementById('btn-prev').style.visibility = partNum === 1 ? 'hidden' : 'visible';
-            document.getElementById('btn-next').style.visibility = partNum === 2 ? 'hidden' : 'visible';
-
-            updateSelectorOptions();
-
-            document.getElementById('response-area').value = responses[partNum];
-            updateWordCount(responses[partNum]);
-        }
-
-        function updateWordCount(text) {
-            const tokens = text.trim().split(/\s+/).filter(t => t.length > 0);
-            document.getElementById('word-count').innerText = tokens.length;
-        }
-
-        /* --- DIAGNOSTIC COMPILATION CRITERION METRICS ENGINE (REPAIRED) --- */
-        function calculateBandGrades(wordCount) {
-            // Standard baseline execution algorithms (assuming high proficiency for placeholder)
-            let ta = 6.5, cc = 7.0, lr = 6.0, gra = 6.5;
-            const threshold = currentPart === 1 ? 150 : 250;
-
-            // EXAMINER FIX: Severe penalties for inadequate responses
-            if (wordCount === 0) {
-                ta = 0; cc = 0; lr = 0; gra = 0;
-            } else if (wordCount <= 20) {
-                // Fragment or memorized chunk. Barely scorable.
-                ta = 1.0; cc = 1.0; lr = 1.0; gra = 1.0;
-            } else if (wordCount <= 50) {
-                // Extremely short response. Fails to address the prompt fully.
-                ta = 2.0; cc = 2.0; lr = 2.0; gra = 2.0;
-            } else if (wordCount <= 100) {
-                // Short response. Cannot demonstrate range.
-                ta = 3.0; cc = 3.0; lr = 3.5; gra = 3.5;
-            } else if (wordCount < threshold) {
-                // Standard under-length penalty (caps Task Achievement/Response)
-                ta = 5.0; 
-                cc = Math.min(cc, 5.5); // Hard to demonstrate progression in short texts
-                lr = Math.min(lr, 6.0);
-                gra = Math.min(gra, 6.0);
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: false,
+              min: 0,
+              max: 90000
             }
-
-            const mean = (ta + cc + lr + gra) / 4;
-            // IELTS specific fractional rounding constraints (.25 -> .5, .75 -> 8.0)
-            let rounded = Math.round(mean * 2) / 2;
-            if (mean - Math.floor(mean) === 0.25) rounded = Math.floor(mean) + 0.5;
-            if (mean - Math.floor(mean) === 0.75) rounded = Math.floor(mean) + 1.0;
-
-            metricsCache = { ta: ta, cc: cc, lr: lr, gra: gra, overall: rounded };
+          }
         }
+      });
 
-        function openDiagnosticReport() {
-            const textStr = document.getElementById('response-area').value;
-            const wordsNum = textStr.trim().split(/\s+/).filter(t => t.length > 0).length;
-
-            calculateBandGrades(wordsNum);
-
-            // Update Metric Badges
-            document.getElementById('score-overall').innerText = metricsCache.overall.toFixed(1);
-            document.getElementById('score-ta').innerText = metricsCache.ta.toFixed(1);
-            document.getElementById('score-cc').innerText = metricsCache.cc.toFixed(1);
-            document.getElementById('score-lr').innerText = metricsCache.lr.toFixed(1);
-            document.getElementById('score-gra').innerText = metricsCache.gra.toFixed(1);
-
-            document.getElementById('report-modal').style.display = 'flex';
-            switchReportTab('overall');
-        }
-
-        function switchReportTab(tabId) {
-            document.querySelectorAll('.report-tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`tab-btn-${tabId}`).classList.add('active');
-
-            const contentPane = document.getElementById('report-text-pane');
-            const textStr = document.getElementById('response-area').value;
-            const wordsNum = textStr.trim().split(/\s+/).filter(t => t.length > 0).length;
-            const threshold = currentPart === 1 ? 150 : 250;
-            const taLabel = currentPart === 1 ? "Task Achievement" : "Task Response";
-
-            if(tabId === 'overall') {
-                contentPane.innerHTML = `
-                    <h4 class="criterion-title">Performance Summary Profile (Part ${currentPart})</h4>
-                    <p>Your draft contains <strong>${wordsNum} words</strong>. The aggregate processing model calculates an estimated performance band of <strong>${metricsCache.overall.toFixed(1)}</strong> for this module execution sequence.</p>
-                    <ul class="feedback-list">
-                        <li><strong>Examiner Strategy Tip:</strong> Always plan your paragraphs before writing. A clear structure is essential for high bands in Coherence and Cohesion.</li>
-                        <li><strong>Time Tracking Profile:</strong> Maintain structural balance. Leave 3-5 minutes at the end of the section for proofreading syntax and spelling errors.</li>
-                    </ul>
-                `;
-            } else if (tabId === 'ta') {
-                let penaltyText = "";
-                if (wordsNum === 0) {
-                    penaltyText = `<span class="badge-penalty">No Response</span><br><br>No text was submitted for evaluation.`;
-                } else if (wordsNum <= 50) {
-                    penaltyText = `<span class="badge-penalty">Severe Length Penalty Triggered</span><br><br>The submitted response is radically under the minimum threshold. It is assessed as a fragment or memorised chunk, resulting in a severe penalty across all bands.`;
-                } else if (wordsNum < threshold) {
-                    penaltyText = `<span class="badge-penalty">Length Penalty Triggered</span><br><br>The submitted response fails to achieve the structural minimum length barrier of ${threshold} words. This directly caps your ${taLabel} capability at a maximum of Band 5.0.`;
-                } else {
-                    penaltyText = `The report satisfies the fundamental scale parameters of the Cambridge exam lengths rules.`;
-                }
-
-                contentPane.innerHTML = `
-                    <h4 class="criterion-title">${taLabel} Assessment</h4>
-                    <p>${penaltyText}</p>
-                    <ul class="feedback-list">
-                        <li><strong>Address the Prompt:</strong> Ensure every part of the question is covered. Missing a section will limit your score.</li>
-                        <li><strong>Clear Position:</strong> For Task 2, your opinion must be clear throughout the essay, ideally stated in the introduction and conclusion.</li>
-                    </ul>
-                `;
-            } else if (tabId === 'cc') {
-                contentPane.innerHTML = `
-                    <h4 class="criterion-title">Coherence & Cohesion Analysis</h4>
-                    <p>Paragraph progression requires clear central topics. To reach Band 8+, transition networks must remain seamless rather than robotic.</p>
-                    <ul class="feedback-list">
-                        <li><strong>Discursive Anchors:</strong> Increase complex transitional phrases to link ideas logically between and within paragraphs.</li>
-                        <li><strong>Referencing:</strong> Avoid repetitive nouns. Substitute using accurate pronoun tracing parameters (<em>"this dynamic", "these factors"</em>).</li>
-                    </ul>
-                `;
-            } else if (tabId === 'lr') {
-                contentPane.innerHTML = `
-                    <h4 class="criterion-title">Lexical Resource Diagnostics</h4>
-                    <p>Vocabulary range must demonstrate precision and flexibility to access elite scales.</p>
-                    <ul class="feedback-list">
-                        <li><strong>Synonym Optimization:</strong> Avoid repeating vocabulary from the prompt. Paraphrase using high-level, context-appropriate academic language.</li>
-                        <li><strong>Collocation Precision:</strong> Utilize natural structural combinations rather than translating directly from your native language.</li>
-                    </ul>
-                `;
-            } else if (tabId === 'gra') {
-                contentPane.innerHTML = `
-                    <h4 class="criterion-title">Grammatical Range & Accuracy</h4>
-                    <p>Syntax structures must be error-free to maximize grades. Prioritize a mix of simple and complex sentence forms.</p>
-                    <ul class="feedback-list">
-                        <li><strong>Complex Clause Engineering:</strong> Use a variety of subordinate clauses, conditionals, and relative structures accurately.</li>
-                        <li><strong>Punctuation and Control:</strong> Ensure commas and full stops are used correctly to avoid run-on sentences or fragments.</li>
-                    </ul>
-                `;
+      // Exam Chart 2 (Reasons for Moving to Capital City)
+      const ctx2 = document.getElementById('examChart').getContext('2d');
+      new Chart(ctx2, {
+        type: 'line',
+        data: {
+          labels: ['2000', '2005', '2010', '2015'],
+          datasets: [
+            {
+              label: 'Employment',
+              data: [61000, 86000, 93000, 88000],
+              borderColor: '#22C55E',
+              backgroundColor: '#22C55E',
+              tension: 0.1
+            },
+            {
+              label: 'Study',
+              data: [25000, 48000, 56000, 88000],
+              borderColor: '#EF4444',
+              backgroundColor: '#EF4444',
+              tension: 0.1
+            },
+            {
+              label: 'Family/Friends',
+              data: [12000, 17000, 23000, 24000],
+              borderColor: '#334155',
+              backgroundColor: '#334155',
+              tension: 0.1
+            },
+            {
+              label: 'Adventure',
+              data: [11000, 11000, 11000, 11000],
+              borderColor: '#EAB308',
+              backgroundColor: '#EAB308',
+              tension: 0.1
             }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100000
+            }
+          }
         }
-
-        function closeModal() { document.getElementById('report-modal').style.display = 'none'; }
-        
-        function startTimerCountdown() {
-            let s = 3600; const el = document.getElementById('exam-timer');
-            setInterval(() => { s--; if(s<0) return; let m=Math.floor(s/60), sec=s%60; el.innerText=(m<10?"0"+m:m)+":"+(sec<10?"0"+sec:sec); if(s<=300) el.classList.add('warning'); }, 1000);
-        }
-
-        window.onload = initExam;
-    </script>
+      });
+    });
+  </script>
 </body>
 </html>
