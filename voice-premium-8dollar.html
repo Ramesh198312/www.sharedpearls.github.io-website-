@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1553,39 +1554,48 @@
         `;
       });
 
+      // ... (your existing loop ends here)
       pdfHtml += `
           </div>
         </div>
       `;
     });
 
-    pdfContainer.innerHTML = pdfHtml;
-    document.body.appendChild(pdfContainer);
+    // 1. Wrap your generated HTML in the container styles directly (No DOM injection needed)
+    const finalPdfContent = `
+      <div style="padding: 20px 24px; font-family: 'Plus Jakarta Sans', sans-serif; color: #1A1A1A; background: #FFFFFF; box-sizing: border-box;">
+        ${pdfHtml}
+      </div>
+    `;
 
-    // Run html2pdf
+    // 2. Run html2pdf with updated html2canvas parameters
     const opt = {
-      margin: [6, 6, 6, 6],
+      margin: [10, 10, 10, 10], // Slightly wider margins for better print formatting
       filename: 'Shared_Pearls_The_12_Tenses_Revision_Dossier.pdf',
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, logging: false, useCORS: true },
+      html2canvas: { 
+        scale: 2, 
+        logging: false, 
+        useCORS: true,
+        scrollY: 0, // Fixes shifting issues if the user has scrolled down the page
+        windowHeight: 15000 // Forces the canvas to allow a massive rendering area
+      },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak: { mode: ['css', 'legacy'] }
     };
 
-    html2pdf().set(opt).from(pdfContainer).save().then(() => {
-      document.body.removeChild(pdfContainer);
+    // 3. Pass the raw string directly to .from()
+    html2pdf().set(opt).from(finalPdfContent).save().then(() => {
       statusEl.style.color = "var(--correct)";
       statusEl.textContent = "✓ PDF Revision Dossier downloaded successfully!";
       btnEl.style.opacity = "1";
       btnEl.disabled = false;
     }).catch(err => {
-      if (document.getElementById('pdf-dossier-root')) {
-        document.body.removeChild(pdfContainer);
-      }
       statusEl.style.color = "var(--wrong)";
       statusEl.textContent = "Error compiling PDF. Please try again.";
       btnEl.style.opacity = "1";
       btnEl.disabled = false;
+      console.error(err);
     });
   }
 </script>
