@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Premium Checkout | Shared Pearls of Wisdom</title>
+  
+  <script src="https://static.memberstack.com/scripts/v1/memberstack.js" data-memberstack-app="app_cmsvtoay1008m0ssad92g9nck"></script>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,22 +29,25 @@
       font-size: 16px;
       background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 100%); 
       color: var(--slate-900); 
-      /* Added flex-direction: column to stack the nav above the content */
       display: flex; flex-direction: column; justify-content: center; align-items: center; 
       min-height: 100vh; margin: 0; padding: 2rem; 
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Styled the Member Nav to sit cleanly at the top */
+    /* ─── IMPROVED MEMBER NAV ─── */
     .member-nav {
-      width: 100%; max-width: 1050px; display: flex; justify-content: flex-end; gap: 1.5rem; margin-bottom: 2rem;
+      width: 100%; max-width: 1050px; display: flex; justify-content: flex-end; align-items: center; gap: 0.75rem; margin-bottom: 2.5rem;
     }
-    
-    .member-nav a {
-      color: var(--slate-700); font-weight: 600; text-decoration: none; font-size: 0.95rem; cursor: pointer; transition: color 0.2s ease;
+    .member-question {
+      color: var(--slate-500); font-size: 0.95rem; font-weight: 500;
     }
-    
-    .member-nav a:hover { color: var(--amber-600); }
+    .login-btn {
+      color: var(--amber-600); font-weight: 700; text-decoration: none; font-size: 0.95rem; cursor: pointer; transition: all 0.2s ease;
+      padding: 0.5rem 1.2rem; border: 2px solid var(--amber-600); border-radius: 50px; background: transparent;
+    }
+    .login-btn:hover {
+      background: var(--amber-600); color: var(--paper); box-shadow: 0 4px 10px rgba(217, 119, 6, 0.2);
+    }
 
     .page-wrapper {
       display: grid; grid-template-columns: 1fr; gap: 3rem; max-width: 1050px; width: 100%; align-items: center;
@@ -67,48 +73,48 @@
     .price { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 4.5rem; font-weight: 700; color: var(--slate-900); line-height: 1; margin-bottom: 2.5rem; letter-spacing: -0.03em; }
     .price span { font-size: 1.1rem; color: var(--slate-500); font-weight: 500; letter-spacing: normal; }
 
+    /* ─── IMPROVED SUBSCRIBE BUTTON ─── */
     .btn-stripe { 
       display: block; 
       width: 100%; 
-      background: var(--amber-600); 
+      background: linear-gradient(135deg, var(--amber-600) 0%, #F59E0B 100%); 
       color: #FFFFFF; 
-      padding: 1.2rem; 
+      padding: 1.4rem 1rem; 
       font-family: 'Plus Jakarta Sans', sans-serif; 
-      font-size: 1.15rem; 
+      font-size: 1.25rem; 
       font-weight: 700; 
-      border-radius: 8px; 
+      border-radius: 12px; 
       transition: all 0.3s ease; 
       box-sizing: border-box; 
       text-decoration: none;
-      box-shadow: 0 10px 15px -3px rgba(217, 119, 6, 0.3); 
+      box-shadow: 0 10px 20px -5px rgba(217, 119, 6, 0.4); 
     }
     .btn-stripe:hover { 
-      background: var(--amber-500); 
-      transform: translateY(-2px); 
-      box-shadow: 0 15px 20px -3px rgba(217, 119, 6, 0.4); 
+      transform: translateY(-3px); 
+      box-shadow: 0 15px 25px -5px rgba(217, 119, 6, 0.5); 
     }
     .btn-stripe span { 
       display: block; 
-      font-size: 0.85rem; 
+      font-size: 0.9rem; 
       font-weight: 500; 
-      margin-top: 6px; 
-      opacity: 0.95; 
+      margin-top: 8px; 
+      color: rgba(255, 255, 255, 0.9); 
     }
 
     .secure-note { font-size: 0.9rem; color: var(--slate-500); margin-top: 2rem; display: flex; justify-content: center; align-items: center; gap: 8px; font-weight: 500; }
     .secure-note svg { width: 18px; height: 18px; fill: var(--slate-500); }
+    
     /* Hides the Memberstack Test Mode Inspector Badge */
-#ms-inspector-badge { 
-  display: none !important; 
-}
+    #ms-inspector-badge { display: none !important; }
   </style>
 </head>
 <body>
   
-  <!-- Returning Member Navigation Bar (Correctly placed inside the body) -->
+  <!-- Returning Member Navigation Bar -->
   <div class="member-nav">
-    <a data-ms-modal="login">Already a Member? Log In</a>
-    <a data-ms-modal="profile" style="display:none;" data-ms-content="members">Manage Subscription</a>
+    <span class="member-question">Already a member?</span>
+    <a data-ms-modal="login" class="login-btn">Log In</a>
+    <a data-ms-modal="profile" style="display:none;" data-ms-content="members" class="login-btn">Manage Subscription</a>
   </div>
 
   <div class="page-wrapper">
@@ -163,5 +169,6 @@
       </div>
     </div>
   </div>
+
 </body>
 </html>
