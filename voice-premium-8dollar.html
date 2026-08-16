@@ -10,9 +10,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 
+  <!-- Client-Side PDF Generation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
   <style>
     :root {
-      /* Harvard & Oxford Palette */
+      /* Harvard & Oxford Academic Palette */
       --oxford-navy: #002147;
       --harvard-crimson: #A51C30;
       --oxford-gold: #C5A059;
@@ -249,7 +252,7 @@
       margin-bottom: 1.2rem; 
       font-weight: 700;
     }
-    .q-item { margin-bottom: 1.4rem; font-size: 0.98rem; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+    .q-item { margin-bottom: 1.4rem; font-size: 0.98rem; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .q-num { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--oxford-gold); font-weight: 700; width: 25px; }
 
     .input-fill { 
@@ -282,26 +285,41 @@
     .mcq-label { font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 5px; }
     .mcq-label input { accent-color: var(--harvard-crimson); transform: scale(1.05); }
 
-    /* Drag and drop */
+    /* ── DRAG AND DROP STYLING ── */
     .dd-container { margin-left: 33px; width: 100%; margin-top: 0.4rem; }
     .drop-zone { 
-      display: inline-block; 
-      min-width: 140px; 
-      height: 32px; 
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 170px;
+      height: 38px;
       border: 2px dashed var(--slate); 
       vertical-align: middle; 
       transition: 0.2s; 
-      padding: 0 0.5rem; 
+      padding: 2px 8px; 
       background: var(--parchment); 
-      text-align: center; 
-      line-height: 32px; 
       color: var(--harvard-crimson); 
       font-weight: 600; 
       font-size: 0.88rem;
+      border-radius: 4px;
     }
     .drop-zone.over { background: var(--gold-light); border-color: var(--oxford-gold); }
     .drag-bank { display: flex; gap: 0.8rem; padding: 0.8rem; background: var(--parchment); border: 1px solid var(--border); margin-top: 0.8rem; border-radius: 4px; flex-wrap: wrap; }
-    .draggable { padding: 0.25rem 0.7rem; background: var(--oxford-navy); color: var(--paper); font-size: 0.85rem; cursor: grab; border-radius: 2px; font-weight: 600; }
+    .draggable { padding: 0.35rem 0.85rem; background: var(--oxford-navy); color: var(--paper); font-size: 0.85rem; cursor: grab; border-radius: 3px; font-weight: 600; user-select: none; }
+    .draggable:active { cursor: grabbing; }
+
+    /* Dropped Item inside Target Rectangle */
+    .drop-zone .draggable-clone {
+      background: var(--oxford-navy);
+      color: #FFFFFF;
+      padding: 4px 10px;
+      border-radius: 3px;
+      font-size: 0.85rem;
+      line-height: 1.2;
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+    }
 
     /* Verification UI */
     .correct-ui { border-color: var(--correct) !important; background: var(--correct-bg) !important; color: var(--correct) !important; }
@@ -325,6 +343,50 @@
     }
     .btn-evaluate:hover { background: var(--oxford-gold); color: var(--oxford-navy); }
     .feedback-box { margin-top: 1rem; padding: 0.8rem; display: none; font-weight: 600; text-align: center; border-radius: 2px; font-size: 0.9rem; }
+
+    /* ── PDF DOWNLOAD SECTION ── */
+    .download-section {
+      background: #FFFFFF;
+      border: 2px solid var(--oxford-gold);
+      border-radius: 6px;
+      padding: 2.5rem;
+      margin-top: 3rem;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,33,71,0.06);
+    }
+    .download-section h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--oxford-navy);
+      margin-bottom: 0.5rem;
+    }
+    .download-section p {
+      color: var(--slate);
+      font-size: 0.95rem;
+      max-width: 650px;
+      margin: 0 auto 1.5rem;
+    }
+    .btn-download-pdf {
+      background-color: var(--harvard-crimson);
+      color: #FFFFFF;
+      padding: 1rem 2.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    .btn-download-pdf:hover {
+      background-color: #821424;
+      transform: translateY(-2px);
+    }
 
     @media (max-width: 900px) { 
       .container { grid-template-columns: 1fr; } 
@@ -415,7 +477,7 @@
   </aside>
 
   <!-- MAIN SUITE WITH 10 QUESTIONS PER TENSE -->
-  <main>
+  <main id="main-content-flow">
 
     <!-- 1. PRESENT SIMPLE -->
     <section id="t-pres-simp" class="tense-section">
@@ -1149,11 +1211,29 @@
       </div>
     </section>
 
+    <!-- PDF REVISION DOSSIER DOWNLOAD SECTION -->
+    <section class="download-section" id="download-panel">
+      <h3>Official Academic Revision Dossier (PDF)</h3>
+      <p>Download your streamlined 120-question revision manual starting directly from Present Simple. If you attempt the questions online, your exact responses and verification states are automatically preserved in the PDF.</p>
+      
+      <button class="btn-download-pdf" id="btn-pdf" onclick="generateStreamlinedDossierPDF()">
+        <svg style="width: 18px; height: 18px; fill: currentColor;" viewBox="0 0 24 24">
+          <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+        </svg>
+        Download Revision Dossier (PDF)
+      </button>
+
+      <div id="pdf-status" style="margin-top: 15px; font-size: 0.9rem; font-weight: 700; color: var(--oxford-navy); display: none;"></div>
+    </section>
+
   </main>
 </div>
 
+<!-- ========================================== -->
+<!-- JAVASCRIPT LOGIC ENGINE                     -->
+<!-- ========================================== -->
 <script>
-  // Dynamic Scroll Highlighting for Sidebar
+  // 1. Dynamic Scroll Highlighting for Left Panel
   document.addEventListener("DOMContentLoaded", () => {
     const links = document.querySelectorAll(".tense-nav a");
     const sections = document.querySelectorAll(".tense-section");
@@ -1177,28 +1257,46 @@
     });
   });
 
-  // Drag and Drop Engine
-  function allowDrop(ev) { ev.preventDefault(); ev.target.classList.add('over'); }
-  function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
-  document.addEventListener('dragenter', function(e) { if(e.target.className.includes('drop-zone')) e.target.classList.add('over'); });
-  document.addEventListener('dragleave', function(e) { if(e.target.className.includes('drop-zone')) e.target.classList.remove('over'); });
+  // 2. Drag & Drop Event Engine
+  function allowDrop(ev) {
+    ev.preventDefault();
+    ev.currentTarget.classList.add('over');
+  }
+
+  function drag(ev) {
+    ev.dataTransfer.setData("text/plain", ev.target.id);
+  }
+
+  document.addEventListener('dragenter', function(e) {
+    if (e.target.classList && e.target.classList.contains('drop-zone')) {
+      e.target.classList.add('over');
+    }
+  });
+
+  document.addEventListener('dragleave', function(e) {
+    if (e.target.classList && e.target.classList.contains('drop-zone')) {
+      e.target.classList.remove('over');
+    }
+  });
 
   function drop(ev) {
     ev.preventDefault();
-    ev.target.classList.remove('over');
-    var data = ev.dataTransfer.getData("text");
-    if(ev.target.classList.contains('drop-zone')) {
-      ev.target.innerHTML = '';
-      const draggedElement = document.getElementById(data);
-      const clone = draggedElement.cloneNode(true);
-      clone.removeAttribute('id'); 
-      clone.style.margin = "0";
-      ev.target.appendChild(clone);
-      ev.target.setAttribute('data-dropped-id', data); 
+    const zone = ev.currentTarget;
+    zone.classList.remove('over');
+    const data = ev.dataTransfer.getData("text/plain");
+    const draggedElement = document.getElementById(data);
+
+    if (zone && zone.classList.contains('drop-zone') && draggedElement) {
+      zone.innerHTML = '';
+      const clone = document.createElement('span');
+      clone.className = 'draggable-clone';
+      clone.textContent = draggedElement.textContent;
+      zone.appendChild(clone);
+      zone.setAttribute('data-dropped-id', data);
     }
   }
 
-  // Master Evaluation Engine
+  // 3. Master Evaluation Engine
   function evaluateSection(sectionId) {
     const section = document.getElementById(sectionId);
     const questions = section.querySelectorAll('.q-item');
@@ -1268,8 +1366,227 @@
       feedbackBox.innerHTML = `Distinction Achieved: ${score} / ${total} Correct.`;
     } else {
       feedbackBox.className = 'feedback-box wrong-ui';
-      feedbackBox.innerHTML = `Score: ${score} / ${total}. Please review highlighted items.`;
+      feedbackBox.innerHTML = `Score: ${score} / ${total}. Review red items.`;
     }
+  }
+
+  // 4. Streamlined Academic Revision Dossier PDF Generator
+  function generateStreamlinedDossierPDF() {
+    const statusEl = document.getElementById("pdf-status");
+    const btnEl = document.getElementById("btn-pdf");
+
+    statusEl.style.display = "block";
+    statusEl.style.color = "var(--oxford-navy)";
+    statusEl.textContent = "Compiling streamlined Academic Revision Dossier (PDF)... Please wait.";
+    btnEl.style.opacity = "0.6";
+    btnEl.disabled = true;
+
+    // Create an off-screen container inside DOM
+    const pdfContainer = document.createElement('div');
+    pdfContainer.id = 'pdf-dossier-root';
+    pdfContainer.style.position = 'absolute';
+    pdfContainer.style.left = '-9999px';
+    pdfContainer.style.top = '0';
+    pdfContainer.style.width = '750px';
+    pdfContainer.style.background = '#FFFFFF';
+    pdfContainer.style.padding = '20px 24px';
+    pdfContainer.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
+    pdfContainer.style.color = '#1A1A1A';
+    pdfContainer.style.boxSizing = 'border-box';
+
+    // PDF Header
+    let pdfHtml = `
+      <div style="border-bottom: 2px solid #002147; padding-bottom: 6px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+          <div style="font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #002147; text-transform: uppercase;">The 12 Tenses Academic Revision Dossier</div>
+          <div style="font-size: 8px; font-weight: 700; color: #A51C30; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 1px;">Complete 120-Question Active & Passive Diagnostic Reference</div>
+        </div>
+        <div style="font-size: 8px; font-family: 'JetBrains Mono', monospace; color: #C5A059; font-weight: 700;">SHARED PEARLS PREVIEW</div>
+      </div>
+    `;
+
+    // Extract all 12 tenses starting directly at Present Simple
+    const tenseSections = document.querySelectorAll('.tense-section');
+    tenseSections.forEach((sec, idx) => {
+      const tenseTitle = sec.querySelector('.tense-header h2') ? sec.querySelector('.tense-header h2').textContent : `Tense ${idx+1}`;
+      const activeFormula = sec.querySelector('.active-card .formula') ? sec.querySelector('.active-card .formula').textContent : '';
+      const passiveFormula = sec.querySelector('.passive-card .formula') ? sec.querySelector('.passive-card .formula').textContent : '';
+
+      pdfHtml += `
+        <div style="margin-bottom: 14px; page-break-inside: avoid; border: 1px solid #E2D9C8; border-radius: 4px; padding: 8px 12px; background: #FFFFFF;">
+          <div style="border-bottom: 1px solid #C5A059; padding-bottom: 3px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; color: #002147;">${tenseTitle}</span>
+            <span style="font-size: 7.5px; font-family: 'JetBrains Mono', monospace; color: #A51C30; font-weight: 700;">10 QUESTIONS</span>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 8px; font-family: 'JetBrains Mono', monospace; background: #FAF8F5; padding: 4px 6px; border-radius: 3px; margin-bottom: 6px;">
+            <div><strong style="color: #002147;">ACTIVE:</strong> ${activeFormula}</div>
+            <div><strong style="color: #A51C30;">PASSIVE:</strong> ${passiveFormula}</div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; font-size: 8px; line-height: 1.35;">
+      `;
+
+      const qItems = sec.querySelectorAll('.q-item');
+      qItems.forEach((q, qIdx) => {
+        const type = q.getAttribute('data-type');
+        let questionSentence = "";
+
+        if (type === 'fill') {
+          const input = q.querySelector('input');
+          const val = input ? input.value.trim() : "";
+          const placeholder = input ? input.getAttribute('placeholder') || '(verb)' : '(verb)';
+
+          // Extract text around input
+          const nodes = Array.from(q.childNodes).filter(n => n.nodeType === Node.TEXT_NODE || (n.classList && !n.classList.contains('q-num')));
+          let textBefore = "";
+          let textAfter = "";
+          let passedInput = false;
+
+          nodes.forEach(n => {
+            if (n.tagName === 'INPUT') {
+              passedInput = true;
+            } else {
+              if (!passedInput) textBefore += n.textContent;
+              else textAfter += n.textContent;
+            }
+          });
+
+          let slot = "";
+          if (val) {
+            const isCorrect = input.classList.contains('correct-ui');
+            const isWrong = input.classList.contains('wrong-ui');
+            const color = isCorrect ? '#1B5E20' : (isWrong ? '#B71C1C' : '#002147');
+            const mark = isCorrect ? ' ✓' : (isWrong ? ' ✗' : '');
+            slot = `<span style="color: ${color}; font-weight: 700; text-decoration: underline;">[ ${val}${mark} ]</span>`;
+          } else {
+            slot = `<span style="color: #555; font-style: italic;">[ ___ ${placeholder} ___ ]</span>`;
+          }
+          questionSentence = `${textBefore.trim()} ${slot} ${textAfter.trim()}`;
+        }
+        else if (type === 'select') {
+          const select = q.querySelector('select');
+          const val = select ? select.value : "empty";
+
+          const nodes = Array.from(q.childNodes).filter(n => n.nodeType === Node.TEXT_NODE || (n.classList && !n.classList.contains('q-num')));
+          let textBefore = "";
+          let textAfter = "";
+          let passedSelect = false;
+
+          nodes.forEach(n => {
+            if (n.tagName === 'SELECT') {
+              passedSelect = true;
+            } else {
+              if (!passedSelect) textBefore += n.textContent;
+              else textAfter += n.textContent;
+            }
+          });
+
+          let slot = "";
+          if (val && val !== 'empty') {
+            const isCorrect = select.classList.contains('correct-ui');
+            const isWrong = select.classList.contains('wrong-ui');
+            const color = isCorrect ? '#1B5E20' : (isWrong ? '#B71C1C' : '#002147');
+            const mark = isCorrect ? ' ✓' : (isWrong ? ' ✗' : '');
+            slot = `<span style="color: ${color}; font-weight: 700; text-decoration: underline;">[ ${val}${mark} ]</span>`;
+          } else {
+            slot = `<span style="color: #555; font-style: italic;">[ --- select --- ]</span>`;
+          }
+          questionSentence = `${textBefore.trim()} ${slot} ${textAfter.trim()}`;
+        }
+        else if (type === 'radio') {
+          const mainText = Array.from(q.childNodes)
+            .filter(n => n.nodeType === Node.TEXT_NODE)
+            .map(n => n.textContent.trim())
+            .join(' ');
+          
+          const checked = q.querySelector('input[type="radio"]:checked');
+          let selectedInfo = "";
+          if (checked) {
+            const lbl = checked.parentElement.textContent.trim();
+            const isCorrect = checked.parentElement.classList.contains('correct-ui');
+            const isWrong = checked.parentElement.classList.contains('wrong-ui');
+            const color = isCorrect ? '#1B5E20' : (isWrong ? '#B71C1C' : '#002147');
+            const mark = isCorrect ? ' ✓' : (isWrong ? ' ✗' : '');
+            selectedInfo = `<div style="color: ${color}; font-weight: 700; margin-top: 1px;">→ Selected: ${lbl}${mark}</div>`;
+          } else {
+            selectedInfo = `<div style="color: #777; font-style: italic; margin-top: 1px;">[ Options unselected ]</div>`;
+          }
+          questionSentence = `<span>${mainText}</span>${selectedInfo}`;
+        }
+        else if (type === 'drag') {
+          const zone = q.querySelector('.drop-zone');
+          const droppedText = zone ? zone.textContent.trim() : "";
+
+          const nodes = Array.from(q.childNodes).filter(n => n.nodeType === Node.TEXT_NODE || (n.classList && !n.classList.contains('q-num') && !n.classList.contains('dd-container')));
+          let textBefore = "";
+          let textAfter = "";
+          let passedZone = false;
+
+          nodes.forEach(n => {
+            if (n.classList && n.classList.contains('drop-zone')) {
+              passedZone = true;
+            } else {
+              if (!passedZone) textBefore += n.textContent;
+              else textAfter += n.textContent;
+            }
+          });
+
+          let slot = "";
+          if (droppedText) {
+            const isCorrect = zone.classList.contains('correct-ui');
+            const isWrong = zone.classList.contains('wrong-ui');
+            const color = isCorrect ? '#1B5E20' : (isWrong ? '#B71C1C' : '#002147');
+            const mark = isCorrect ? ' ✓' : (isWrong ? ' ✗' : '');
+            slot = `<span style="color: ${color}; font-weight: 700; text-decoration: underline;">[ ${droppedText}${mark} ]</span>`;
+          } else {
+            slot = `<span style="color: #555; font-style: italic;">[ __ drop word __ ]</span>`;
+          }
+          questionSentence = `${textBefore.trim()} ${slot} ${textAfter.trim()}`;
+        }
+
+        pdfHtml += `
+          <div style="margin-bottom: 2px;">
+            <span style="font-weight: 700; color: #C5A059; font-family: 'JetBrains Mono', monospace;">${qIdx+1}.</span>
+            ${questionSentence}
+          </div>
+        `;
+      });
+
+      pdfHtml += `
+          </div>
+        </div>
+      `;
+    });
+
+    pdfContainer.innerHTML = pdfHtml;
+    document.body.appendChild(pdfContainer);
+
+    // Run html2pdf
+    const opt = {
+      margin: [6, 6, 6, 6],
+      filename: 'Shared_Pearls_The_12_Tenses_Revision_Dossier.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, logging: false, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: ['css', 'legacy'] }
+    };
+
+    html2pdf().set(opt).from(pdfContainer).save().then(() => {
+      document.body.removeChild(pdfContainer);
+      statusEl.style.color = "var(--correct)";
+      statusEl.textContent = "✓ PDF Revision Dossier downloaded successfully!";
+      btnEl.style.opacity = "1";
+      btnEl.disabled = false;
+    }).catch(err => {
+      if (document.getElementById('pdf-dossier-root')) {
+        document.body.removeChild(pdfContainer);
+      }
+      statusEl.style.color = "var(--wrong)";
+      statusEl.textContent = "Error compiling PDF. Please try again.";
+      btnEl.style.opacity = "1";
+      btnEl.disabled = false;
+    });
   }
 </script>
 </body>
