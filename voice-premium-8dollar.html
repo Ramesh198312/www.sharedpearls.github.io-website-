@@ -1371,7 +1371,7 @@
     }
   }
 
-  // 4. Streamlined Academic Revision Dossier PDF Generator
+  /// 4. Streamlined Academic Revision Dossier PDF Generator
   function generateStreamlinedDossierPDF() {
     const statusEl = document.getElementById("pdf-status");
     const btnEl = document.getElementById("btn-pdf");
@@ -1388,21 +1388,21 @@
     pdfContainer.style.position = 'absolute';
     pdfContainer.style.left = '-9999px';
     pdfContainer.style.top = '0';
-    pdfContainer.style.width = '750px';
+    pdfContainer.style.width = '800px'; 
     pdfContainer.style.background = '#FFFFFF';
     pdfContainer.style.padding = '20px 24px';
     pdfContainer.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
     pdfContainer.style.color = '#1A1A1A';
     pdfContainer.style.boxSizing = 'border-box';
 
-    // PDF Header
+    // PDF Header 
     let pdfHtml = `
-      <div style="border-bottom: 2px solid #002147; padding-bottom: 6px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: flex-end;">
+      <div style="border-bottom: 2px solid #002147; padding-bottom: 8px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: flex-end;">
         <div>
-          <div style="font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #002147; text-transform: uppercase;">The 12 Tenses Academic Revision Dossier</div>
-          <div style="font-size: 8px; font-weight: 700; color: #A51C30; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 1px;">Complete 120-Question Active & Passive Diagnostic Reference</div>
+          <div style="font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: #002147; text-transform: uppercase;">The 12 Tenses Academic Revision Dossier</div>
+          <div style="font-size: 11px; font-weight: 700; color: #A51C30; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 1px;">Complete 120-Question Active & Passive Diagnostic Reference</div>
         </div>
-        <div style="font-size: 8px; font-family: 'JetBrains Mono', monospace; color: #C5A059; font-weight: 700;">SHARED PEARLS PREVIEW</div>
+        <div style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: #C5A059; font-weight: 700;">SHARED PEARLS PREVIEW</div>
       </div>
     `;
 
@@ -1413,19 +1413,20 @@
       const activeFormula = sec.querySelector('.active-card .formula') ? sec.querySelector('.active-card .formula').textContent : '';
       const passiveFormula = sec.querySelector('.passive-card .formula') ? sec.querySelector('.passive-card .formula').textContent : '';
 
+      // Tense Card Headers and Grid 
       pdfHtml += `
-        <div style="margin-bottom: 14px; page-break-inside: avoid; border: 1px solid #E2D9C8; border-radius: 4px; padding: 8px 12px; background: #FFFFFF;">
-          <div style="border-bottom: 1px solid #C5A059; padding-bottom: 3px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; color: #002147;">${tenseTitle}</span>
-            <span style="font-size: 7.5px; font-family: 'JetBrains Mono', monospace; color: #A51C30; font-weight: 700;">10 QUESTIONS</span>
+        <div style="margin-bottom: 18px; page-break-inside: avoid; border: 1px solid #E2D9C8; border-radius: 4px; padding: 12px 16px; background: #FFFFFF;">
+          <div style="border-bottom: 1px solid #C5A059; padding-bottom: 6px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: #002147;">${tenseTitle}</span>
+            <span style="font-size: 11px; font-family: 'JetBrains Mono', monospace; color: #A51C30; font-weight: 700;">10 QUESTIONS</span>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 8px; font-family: 'JetBrains Mono', monospace; background: #FAF8F5; padding: 4px 6px; border-radius: 3px; margin-bottom: 6px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px; font-family: 'JetBrains Mono', monospace; background: #FAF8F5; padding: 8px 10px; border-radius: 3px; margin-bottom: 12px;">
             <div><strong style="color: #002147;">ACTIVE:</strong> ${activeFormula}</div>
             <div><strong style="color: #A51C30;">PASSIVE:</strong> ${passiveFormula}</div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px 12px; font-size: 8px; line-height: 1.35;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 16px; font-size: 12px; line-height: 1.5;">
       `;
 
       const qItems = sec.querySelectorAll('.q-item');
@@ -1438,7 +1439,6 @@
           const val = input ? input.value.trim() : "";
           const placeholder = input ? input.getAttribute('placeholder') || '(verb)' : '(verb)';
 
-          // Extract text around input
           const nodes = Array.from(q.childNodes).filter(n => n.nodeType === Node.TEXT_NODE || (n.classList && !n.classList.contains('q-num')));
           let textBefore = "";
           let textAfter = "";
@@ -1509,9 +1509,9 @@
             const isWrong = checked.parentElement.classList.contains('wrong-ui');
             const color = isCorrect ? '#1B5E20' : (isWrong ? '#B71C1C' : '#002147');
             const mark = isCorrect ? ' ✓' : (isWrong ? ' ✗' : '');
-            selectedInfo = `<div style="color: ${color}; font-weight: 700; margin-top: 1px;">→ Selected: ${lbl}${mark}</div>`;
+            selectedInfo = `<div style="color: ${color}; font-weight: 700; margin-top: 2px;">→ Selected: ${lbl}${mark}</div>`;
           } else {
-            selectedInfo = `<div style="color: #777; font-style: italic; margin-top: 1px;">[ Options unselected ]</div>`;
+            selectedInfo = `<div style="color: #777; font-style: italic; margin-top: 2px;">[ Options unselected ]</div>`;
           }
           questionSentence = `<span>${mainText}</span>${selectedInfo}`;
         }
@@ -1546,45 +1546,50 @@
           questionSentence = `${textBefore.trim()} ${slot} ${textAfter.trim()}`;
         }
 
+        // Question Number 
         pdfHtml += `
-          <div style="margin-bottom: 2px;">
-            <span style="font-weight: 700; color: #C5A059; font-family: 'JetBrains Mono', monospace;">${qIdx+1}.</span>
+          <div style="margin-bottom: 6px;">
+            <span style="font-weight: 700; color: #C5A059; font-family: 'JetBrains Mono', monospace; font-size: 13px;">${qIdx+1}.</span>
             ${questionSentence}
           </div>
         `;
       });
 
-      // ... (your existing loop ends here)
       pdfHtml += `
           </div>
         </div>
       `;
-    });
 
-    // 1. Wrap your generated HTML in the container styles directly (No DOM injection needed)
+      // 👉 THE PAGE BREAK FIX (20 Questions / 2 Tenses per page)
+      // Divides the 12 tenses exactly into 6 pages.
+      if ((idx + 1) % 2 === 0 && idx < tenseSections.length - 1) {
+        pdfHtml += `<div class="html2pdf__page-break"></div>`;
+      }
+
+    }); // <-- End of loop
+
     const finalPdfContent = `
-      <div style="padding: 20px 24px; font-family: 'Plus Jakarta Sans', sans-serif; color: #1A1A1A; background: #FFFFFF; box-sizing: border-box;">
+      <div style="padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; color: #1A1A1A; background: #FFFFFF; box-sizing: border-box;">
         ${pdfHtml}
       </div>
     `;
 
-    // 2. Run html2pdf with updated html2canvas parameters
+    // Keeps the standard 15mm margins
     const opt = {
-      margin: [10, 10, 10, 10], // Slightly wider margins for better print formatting
+      margin: [15, 15, 15, 15], 
       filename: 'Shared_Pearls_The_12_Tenses_Revision_Dossier.pdf',
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { 
         scale: 2, 
         logging: false, 
         useCORS: true,
-        scrollY: 0, // Fixes shifting issues if the user has scrolled down the page
-        windowHeight: 15000 // Forces the canvas to allow a massive rendering area
+        scrollY: 0,
+        windowHeight: 15000 
       },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
       pagebreak: { mode: ['css', 'legacy'] }
     };
 
-    // 3. Pass the raw string directly to .from()
     html2pdf().set(opt).from(finalPdfContent).save().then(() => {
       statusEl.style.color = "var(--correct)";
       statusEl.textContent = "✓ PDF Revision Dossier downloaded successfully!";
