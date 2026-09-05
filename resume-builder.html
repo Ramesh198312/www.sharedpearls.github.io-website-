@@ -3,69 +3,226 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Premium Resume | Shared Pearls of Wisdom</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Roboto+Mono:wght@400;500&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Premium Resume Builder | Shared Pearls of Wisdom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Roboto+Mono:wght@400;500;700&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ui-bg: #F0F4F8;
+      --ink: #0F172A;
+      --ink-soft: #1E293B;
+      --parchment: #FDFCF8;
+      --cream: #F8F5EF;
+      --gold: #B78A2D;
+      --gold-light: #D4A96A;
+      --gold-pale: #FEF3C7;
+      --green-premium: #14532D;
+      --green-original: #357A1D;
+      --green-light: #15803D;
+      --green-pale: #DCFCE7;
+      --blue-premium: #1E40AF;
+      --blue-light: #3B82F6;
+      --rust: #9C2A1A;
+      --teal: #0F4C5C;
+      --ui-bg: #FDFCF8;
       --ui-panel: #FFFFFF;
-      --ui-text: #0B1D3A;
-      --ui-accent: #C4923E;
-      --ui-border: #E0DCD3;
-      --midnight: #0B1D3A;
-      --gold: #D4AF37;
+      --ui-border: #E8DDD0;
+      --shadow: rgba(15,23,42,0.08);
+      --shadow-strong: rgba(15,23,42,0.14);
     }
-    
-    nav { background: var(--midnight); padding: 0 3rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 3px solid var(--gold); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
-    .nav-logo { display: flex; align-items: center; gap: 15px; text-decoration: none; padding: 0.8rem 0; }
-    .logo-img { height: 45px; width: auto; object-fit: contain; border-radius: 4px; }
-    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: whitesmoke; letter-spacing: 0.02em; line-height: 1; }
-    .logo-text span { color: wheat; font-style: italic; }
-    
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: var(--ui-bg); color: var(--ui-text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background: linear-gradient(180deg, #FDFCF8 0%, #F8F5EF 100%); 
+      color: var(--ink); 
+      min-height: 100vh; 
+      display: flex; 
+      flex-direction: column; 
+    }
 
-    /* ── UI HEADER ── */
-    header.builder-header { background: #0B1D3A; color: #FFF; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--ui-accent); flex-shrink: 0;}
-    .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 10px;}
-    .btn-export { background: var(--ui-accent); color: #0B1D3A; border: none; padding: 0.6rem 1.5rem; font-family: 'Roboto Mono', monospace; font-weight: bold; cursor: pointer; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
-    .btn-export:hover { background: #dcb36b; transform: translateY(-1px); }
+    header.builder-header { 
+      background: linear-gradient(135deg, var(--ink) 0%, var(--green-premium) 100%); 
+      color: #FFF; 
+      padding: 0.9rem 2.5rem; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      border-bottom: 3px solid var(--gold); 
+      flex-shrink: 0;
+      box-shadow: 0 4px 20px rgba(15,23,42,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .logo-img { height: 42px; width: auto; object-fit: contain; border-radius: 6px; border: 1px solid rgba(212,169,106,0.3); }
+    .logo-text { font-family: 'Playfair Display', serif; font-size: 1.55rem; color: #FFFBEB; letter-spacing: 0.02em; line-height: 1; font-weight: 700; }
+    .logo-text span { color: var(--gold-light); font-style: italic; }
 
-    /* ── LAYOUT ── */
-    .builder-container { display: flex; flex: 1; overflow: hidden; }
-    
-    /* ── EDITOR PANEL (LEFT) ── */
-    .editor-panel { width: 38%; background: var(--ui-panel); border-right: 1px solid var(--ui-border); overflow-y: auto; padding: 2rem; }
-    .section-title { font-family: 'Roboto Mono', monospace; font-size: 0.9rem; text-transform: uppercase; color: #666; border-bottom: 2px solid var(--ui-border); padding-bottom: 0.5rem; margin-bottom: 1.5rem; margin-top: 2.5rem; font-weight: bold;}
+    .header-actions { display: flex; align-items: center; gap: 1rem; }
+    .btn-ghost { 
+      background: rgba(255,255,255,0.1); 
+      color: #FEF3C7; 
+      border: 1px solid rgba(212,169,106,0.3); 
+      padding: 0.55rem 1.2rem; 
+      font-family: 'Inter', sans-serif; 
+      font-size: 0.78rem;
+      font-weight: 600; 
+      cursor: pointer; 
+      border-radius: 20px; 
+      letter-spacing: 0.05em;
+      transition: 0.3s;
+      text-decoration: none;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.15); border-color: var(--gold-light); }
+    .btn-export { 
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); 
+      color: var(--ink); 
+      border: none; 
+      padding: 0.7rem 1.6rem; 
+      font-family: 'Inter', sans-serif; 
+      font-weight: 700; 
+      font-size: 0.8rem;
+      cursor: pointer; 
+      border-radius: 8px; 
+      text-transform: uppercase; 
+      letter-spacing: 0.08em; 
+      transition: 0.3s;
+      box-shadow: 0 4px 12px rgba(183,138,45,0.3);
+    }
+    .btn-export:hover { background: linear-gradient(135deg, var(--gold-light) 0%, #E8C88A 100%); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(183,138,45,0.4); }
+
+    .builder-container { display: flex; flex: 1; overflow: hidden; min-height: calc(100vh - 72px); }
+
+    .editor-panel { 
+      width: 40%; 
+      background: var(--ui-panel); 
+      border-right: 1px solid var(--ui-border); 
+      overflow-y: auto; 
+      padding: 2.2rem; 
+      box-shadow: inset -1px 0 0 rgba(0,0,0,0.04);
+    }
+    .section-title { 
+      font-family: 'Inter', sans-serif; 
+      font-size: 0.72rem; 
+      font-weight: 800;
+      text-transform: uppercase; 
+      color: var(--green-premium); 
+      border-bottom: 2px solid transparent;
+      border-image: linear-gradient(90deg, var(--green-premium), var(--gold)) 1;
+      padding-bottom: 0.6rem; 
+      margin-bottom: 1.6rem; 
+      margin-top: 2.8rem; 
+      letter-spacing: 0.12em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-title::before { content: ''; width: 18px; height: 2px; background: linear-gradient(90deg, var(--green-premium), var(--gold)); border-radius: 1px; }
     .section-title:first-child { margin-top: 0; }
-    
-    .form-group { margin-bottom: 1.2rem; }
-    label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: hsl(0, 100%, 1%); }
-    input[type="text"], input[type="email"], input[type="tel"], textarea { width: 100%; padding: 0.7rem; border: 1px solid #cdd6df; border-radius: 4px; font-family: 'Inter', sans-serif; font-size: 0.95rem; outline: none; transition: 0.3s; background: #fafbfc;}
-    input:focus, textarea:focus { border-color: #0B1D3A; background: #fff;}
-    textarea { resize: vertical; min-height: 120px; }
-    .hint { font-size: 0.75rem; color: #777; margin-top: 4px; display: block; }
 
-    .photo-upload-label { display: inline-block; padding: 0.8rem 1.2rem; background: var(--ui-bg); border: 2px dashed #999; cursor: pointer; font-size: 0.9rem; font-weight: 600; border-radius: 4px; text-align: center; width: 100%; transition: 0.3s;}
-    .photo-upload-label:hover { border-color: var(--ui-accent); color: var(--ui-accent); }
+    .form-group { margin-bottom: 1.3rem; }
+    label { display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--ink); letter-spacing: -0.01em; }
+    input[type="text"], input[type="email"], input[type="tel"], textarea { 
+      width: 100%; 
+      padding: 0.8rem 1rem; 
+      border: 1.5px solid #E2E8F0; 
+      border-radius: 10px; 
+      font-family: 'Inter', sans-serif; 
+      font-size: 0.92rem; 
+      outline: none; 
+      transition: 0.3s; 
+      background: #F8FAFC;
+      color: var(--ink);
+    }
+    input:focus, textarea:focus { border-color: var(--green-premium); background: #fff; box-shadow: 0 0 0 3px rgba(20,83,45,0.1); }
+    textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+    .hint { font-size: 0.72rem; color: #64748B; margin-top: 6px; display: block; font-weight: 500; }
+
+    .photo-upload-label { 
+      display: flex; 
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 1rem 1.2rem; 
+      background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%); 
+      border: 2px dashed #CBD5E1; 
+      cursor: pointer; 
+      font-size: 0.85rem; 
+      font-weight: 600; 
+      border-radius: 10px; 
+      text-align: center; 
+      width: 100%; 
+      transition: 0.3s;
+      color: var(--ink-soft);
+    }
+    .photo-upload-label:hover { border-color: var(--green-premium); color: var(--green-premium); background: #F0FDF4; }
     input[type="file"] { display: none; }
 
-    /* ── PREVIEW PANEL (RIGHT) ── */
-    .preview-panel { width: 62%; background: #cfd8dc; padding: 2rem; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
-    
-    /* Template Switcher Grid */
-    .template-switcher { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 2rem; width: 100%; max-width: 210mm; background: var(--ui-panel); padding: 1rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);}
-    .btn-template { background: #f0f4f8; border: 1px solid #cdd6df; padding: 0.6rem; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600; border-radius: 4px; transition: 0.2s; text-align: center; color: #444;}
-    .btn-template:hover { background: #e2e8f0; border-color: #94a3b8; }
-    .btn-template.active { background: var(--ui-text); color: #FFF; border-color: var(--ui-text); box-shadow: 0 2px 8px rgba(11,29,58,0.2);}
+    .preview-panel { 
+      width: 60%; 
+      background: linear-gradient(180deg, #E2E8F0 0%, #CBD5E1 100%); 
+      padding: 2rem; 
+      overflow-y: auto; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+    }
 
-    /* ── MASTER RESUME ARCHITECTURE (CSS GRID) ── */
+    .template-switcher { 
+      display: grid; 
+      grid-template-columns: repeat(5, 1fr); 
+      gap: 8px; 
+      margin-bottom: 1.8rem; 
+      width: 100%; 
+      max-width: 210mm; 
+      background: #fff; 
+      padding: 1rem; 
+      border-radius: 12px; 
+      box-shadow: 0 8px 32px rgba(15,23,42,0.08), 0 0 0 1px rgba(0,0,0,0.04);
+      border: 1px solid rgba(232,221,208,0.6);
+    }
+    .switcher-label {
+      grid-column: 1 / -1;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 0.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .switcher-label::before { content: '✦'; color: var(--gold); font-size: 0.7rem; }
+    .btn-template { 
+      background: #F8FAFC; 
+      border: 1.5px solid #E2E8F0; 
+      padding: 0.65rem 0.4rem; 
+      cursor: pointer; 
+      font-family: 'Inter', sans-serif; 
+      font-size: 0.72rem; 
+      font-weight: 700; 
+      border-radius: 8px; 
+      transition: 0.25s; 
+      text-align: center; 
+      color: #475569;
+      letter-spacing: -0.01em;
+    }
+    .btn-template:hover { background: #F1F5F9; border-color: var(--green-premium); color: var(--green-premium); transform: translateY(-1px); }
+    .btn-template.active { 
+      background: linear-gradient(135deg, var(--ink) 0%, var(--green-premium) 100%); 
+      color: #FEF3C7; 
+      border-color: var(--ink); 
+      box-shadow: 0 4px 12px rgba(15,23,42,0.2);
+    }
+
     .resume-sheet { 
       width: 210mm; 
-      min-height: 297mm;
-      height: auto; 
+      height: auto;
+      min-height: auto;
       background: transparent !important; 
-      box-shadow: 0 15px 35px rgba(0,0,0,0.15); 
+      box-shadow: 0 24px 64px rgba(15,23,42,0.18), 0 8px 24px rgba(0,0,0,0.08); 
       position: relative; 
       overflow: visible; 
       transition: all 0.4s ease;
@@ -73,275 +230,311 @@
       grid-template-columns: var(--grid-cols, 1fr);
       grid-template-rows: var(--grid-rows, auto auto auto);
       grid-template-areas: var(--grid-areas, "header" "main" "sidebar");
-      color: var(--text-main, #333);
+      color: var(--text-main, #1E293B);
       font-family: var(--font-body, 'Inter', sans-serif);
       line-height: 1.6;
       z-index: 1;
+      border-radius: 4px;
     }
-
-    /* ── DYNAMIC SIDEBAR BACKGROUND PAINTER ── */
     .resume-sheet::before {
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
       background: var(--sheet-bg, #FFFFFF);
       z-index: -1;
+      border-radius: 4px;
     }
-
-    /* Resume Regions */
     .res-header { grid-area: header; background: var(--bg-header, transparent); color: var(--text-header, inherit); padding: var(--pad-header, 40px); display: flex; flex-direction: var(--dir-header, row); align-items: var(--align-header, center); gap: 20px; border-bottom: var(--border-header, none); }
     .res-sidebar { grid-area: sidebar; background: transparent; color: var(--text-sidebar, inherit); padding: var(--pad-sidebar, 40px 30px); border-right: var(--border-sidebar, none); }
     .res-main { grid-area: main; padding: var(--pad-main, 40px); background: transparent; }
-
-    /* Resume Elements */
     .res-photo-wrapper { display: var(--show-photo, block); flex-shrink: 0; }
-    .res-photo { width: var(--photo-size, 120px); height: var(--photo-size, 120px); border-radius: var(--photo-radius, 50%); object-fit: cover; border: var(--photo-border, none); display: none; }
-    
+    .res-photo { width: var(--photo-size, 120px); height: var(--photo-size, 120px); border-radius: var(--photo-radius, 50%); object-fit: cover; border: var(--photo-border, none); display: none; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
     .res-name { text-align: var(--text-align-header, left); font-family: var(--font-heading, 'Playfair Display', serif); font-size: var(--size-name, 2.8rem); font-weight: var(--weight-name, 700); color: var(--color-name, inherit); margin-bottom: 5px; line-height: 1.1; text-transform: var(--transform-name, none); letter-spacing: var(--letter-name, normal);}
-    .res-title { text-align: var(--text-align-header, left); font-family: var(--font-body, 'Inter', sans-serif); font-size: var(--size-title, 1.1rem); font-weight: 600; color: var(--color-title, #666); text-transform: var(--transform-title, uppercase); letter-spacing: 1px; margin-bottom: 15px;}
-    
-    .res-contact-bar { display: flex; flex-wrap: wrap; gap: 15px; font-size: 0.85rem; font-family: 'Inter', sans-serif; opacity: 0.9; flex-direction: var(--dir-contact, row); }
-    
-    .res-heading { text-align: left; font-family: var(--font-heading, 'Playfair Display', serif); font-size: var(--size-heading, 1.3rem); color: var(--color-heading, #111); font-weight: 700; text-transform: var(--transform-heading, uppercase); border-bottom: var(--border-heading, 2px solid #111); padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; letter-spacing: 1px;}
+    .res-title { text-align: var(--text-align-header, left); font-family: var(--font-body, 'Inter', sans-serif); font-size: var(--size-title, 1.05rem); font-weight: 600; color: var(--color-title, #64748B); text-transform: var(--transform-title, uppercase); letter-spacing: 0.8px; margin-bottom: 14px;}
+    .res-contact-bar { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.84rem; font-family: 'Inter', sans-serif; opacity: 0.9; flex-direction: var(--dir-contact, row); }
+    .res-heading { text-align: left; font-family: var(--font-heading, 'Playfair Display', serif); font-size: var(--size-heading, 1.25rem); color: var(--color-heading, #0F172A); font-weight: 700; text-transform: var(--transform-heading, uppercase); border-bottom: var(--border-heading, 2px solid #0F172A); padding-bottom: 6px; margin-top: 26px; margin-bottom: 14px; letter-spacing: 0.8px;}
     .res-heading:first-child { margin-top: 0; }
     .res-sidebar .res-heading { color: var(--color-heading-side, inherit); border-color: var(--border-heading-side, currentColor); }
-    
     .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.5rem;}
-    .tag { background: var(--bg-tag, #eee); color: var(--text-tag, #333); padding: 5px 12px; border-radius: var(--rad-tag, 4px); font-size: 0.85rem; font-weight: 600; border: var(--border-tag, none);}
-
-    /* ── TEXT FORMATTING (PREMIUM JUSTIFY FOR PARAGRAPHS ONLY) ── */
-    .res-text-block { 
-      font-size: 0.85rem; 
-      margin-bottom: 1.5rem; 
-      color: #0b0b0b); 
-      text-align: justify; 
-      text-justify: inter-word;
-      hyphens: auto;
-      -webkit-hyphens: auto;
-    }
+    .tag { background: var(--bg-tag, #F1F5F9); color: var(--text-tag, #334155); padding: 6px 13px; border-radius: var(--rad-tag, 6px); font-size: 0.82rem; font-weight: 600; border: var(--border-tag, none); box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .res-text-block { font-size: 0.86rem; margin-bottom: 1.5rem; color: #1E293B; text-align: justify; text-justify: inter-word; hyphens: auto; -webkit-hyphens: auto; line-height: 1.7; }
     .res-sidebar .res-text-block { color: var(--text-sidebar-body, inherit); }
-    
     .res-p { margin-bottom: 6px; }
-    
-    /* Disables Justify for Job Titles and Degrees to prevent awkward stretching */
-    .res-title-line {
-      text-align: left !important;
-      hyphens: none !important;
-      -webkit-hyphens: none !important;
-    }
-    .res-title-line strong { color: var(--color-heading, #111); font-size: 1.05rem;}
+    .res-title-line { text-align: left !important; hyphens: none !important; -webkit-hyphens: none !important; }
+    .res-title-line strong { color: var(--color-heading, #0F172A); font-size: 1.02rem;}
     .res-sidebar .res-title-line strong { color: var(--color-heading-side, inherit); }
-    
     .res-list { padding-left: 20px; margin-bottom: 12px; margin-top: 4px; text-align: justify; }
-    .res-list li { margin-bottom: 4px; list-style-type: disc; }
+    .res-list li { margin-bottom: 5px; list-style-type: disc; }
+    .res-list li::marker { color: var(--gold); }
     .res-spacer { height: 12px; }
 
-    /* =========================================================
-       THE 10 PREMIUM TEMPLATES (CSS VARIABLE INJECTIONS)
-       ========================================================= */
-    /* 1. The Executive */
+    /* 10 PREMIUM TEMPLATES */
     .tpl-executive {
-      --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
+      --grid-cols: 1fr; 
+      --grid-rows: auto auto auto; 
+      --grid-areas: "header" "main" "sidebar";
       --sheet-bg: #FFFFFF;
       --font-heading: 'Playfair Display', serif; --font-body: 'Inter', sans-serif;
-      --dir-header: column; --align-header: center; --text-header: #111; 
-      --pad-header: 0.25in 50px 20px 50px; /* 0.25in precise top spacing */
-      --text-align-header: center;
-      --border-header: 1px solid #ccc; --dir-contact: row;
-      --show-photo: none; --transform-name: uppercase; --letter-name: 2px;
-      --color-title: #C4923E; --transform-heading: uppercase; --border-heading: 1px solid #C4923E;
-      --pad-main: 30px 60px 10px 60px; --pad-sidebar: 10px 60px 50px 60px;
-      --bg-tag: transparent; --border-tag: 1px solid #333;
+      --dir-header: column; --align-header: center; --text-header: #0F172A; 
+      --pad-header: 32px 50px 20px 50px; --text-align-header: center;
+      --border-header: 1px solid #E2E8F0; --dir-contact: row;
+      --show-photo: block; --transform-name: uppercase; --letter-name: 2px;
+      --color-title: #14532D; --transform-heading: uppercase; --border-heading: 1px solid #B78A2D;
+      --pad-main: 30px 60px 10px 60px; --pad-sidebar: 10px 60px 40px 60px;
+      --bg-tag: transparent; --border-tag: 1.5px solid #0F172A;
     }
-
-    /* 2. The Creative (Rich Navy & Gold) */
     .tpl-creative {
       --grid-cols: 32% 68%; --grid-rows: auto 1fr; --grid-areas: "sidebar header" "sidebar main";
-      --sheet-bg: linear-gradient(to right, #1A2A3A 0%, #1A2A3A 32%, #FFFFFF 32%, #FFFFFF 100%);
+      --sheet-bg: linear-gradient(to right, #0F3D2E 0%, #14532D 16%, #0F4C5C 32%, #FFFFFF 32%, #FFFFFF 100%);
       --font-heading: 'Montserrat', sans-serif; --font-body: 'Inter', sans-serif;
-      --text-sidebar: #FFF; --text-sidebar-body: #E2E8F0;
+      --text-sidebar: #FEF3C7; --text-sidebar-body: #E2E8F0;
       --pad-main: 10px 50px 50px 50px; --pad-sidebar: 50px 30px; 
-      --pad-header: 0.25in 50px 20px 50px; /* 0.25in precise top spacing */
-      --show-photo: block; --photo-radius: 50%; --photo-border: 4px solid #D4AF37;
-      --color-name: #1A2A3A; --color-title: #D4AF37; --size-name: 2.5rem; --weight-name: 800;
-      --color-heading: #1A2A3A; --border-heading: 3px solid #D4AF37;
-      --color-heading-side: #FFF; --border-heading-side: 2px solid #D4AF37;
-      --dir-contact: column; --bg-tag: #D4AF37; --text-tag: #1A2A3A; --rad-tag: 20px;
+      --pad-header: 32px 50px 20px 50px;
+      --show-photo: block; --photo-radius: 12px; --photo-size: 130px; --photo-border: 3px solid #D4A96A;
+      --color-name: #0F172A; --color-title: #14532D; --size-name: 2.5rem; --weight-name: 800;
+      --color-heading: #0F172A; --border-heading: 3px solid #B78A2D;
+      --color-heading-side: #FEF3C7; --border-heading-side: 2px solid #B78A2D;
+      --dir-contact: column; --bg-tag: #B78A2D; --text-tag: #0F172A; --rad-tag: 20px;
     }
-
-    /* 3. The Minimalist */
     .tpl-minimalist {
       --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
       --sheet-bg: #FFFFFF;
       --font-heading: 'Inter', sans-serif; --font-body: 'Inter', sans-serif;
-      --pad-header: 0.25in 50px 10px 50px; /* 0.25in precise top spacing */
+      --pad-header: 32px 50px 10px 50px;
       --dir-header: row; --align-header: flex-end;
-      --show-photo: none; --color-name: #222; --weight-name: 300; --letter-name: -1px; --size-name: 3.5rem;
-      --color-title: #888; --border-heading: none; --color-heading: #222;
+      --show-photo: block; --color-name: #0F172A; --weight-name: 300; --letter-name: -1px; --size-name: 3.5rem;
+      --color-title: #64748B; --border-heading: none; --color-heading: #0F172A;
       --pad-main: 10px 50px 20px 50px; --pad-sidebar: 10px 50px 50px 50px;
-      --bg-tag: #f1f5f9; --text-tag: #475569;
+      --bg-tag: #F1F5F9; --text-tag: #475569;
     }
     .tpl-minimalist .res-heading { font-weight: 600; text-transform: none; font-size: 1.5rem; }
-
-    /* 4. The Startup (Midnight Gradient & Gold) */
     .tpl-startup {
       --grid-cols: 65% 35%; --grid-rows: auto 1fr; --grid-areas: "header header" "main sidebar";
-      --sheet-bg: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 65%, #F8FAFC 65%, #F8FAFC 100%);
+      --sheet-bg: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 65%, #F0FDF4 65%, #F0FDF4 100%);
       --font-heading: 'Montserrat', sans-serif; --font-body: 'Inter', sans-serif;
-      --bg-header: linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%); --text-header: #FFF;
-      --color-name: #FFF; --color-title: #E2E8F0; --dir-contact: row;
-      --show-photo: block; --photo-radius: 8px; --photo-border: 3px solid #D4AF37; --photo-size: 100px;
-      --pad-header: 40px 50px; /* Internal box padding maintained */
-      --pad-main: 40px 30px 40px 50px; --pad-sidebar: 40px 50px 40px 20px;
-      --border-sidebar: none;
-      --color-heading: #0F2027; --border-heading: 2px solid #D4AF37; --color-heading-side: #0F2027;
-      --bg-tag: #E2E8F0; --text-tag: #0F2027;
+      --bg-header: linear-gradient(135deg, #0F172A 0%, #14532D 100%); --text-header: #FFF;
+      --color-name: #FFF; --color-title: #DCFCE7; --dir-contact: row;
+      --show-photo: block; --photo-radius: 8px; --photo-border: 3px solid #B78A2D; --photo-size: 100px;
+      --pad-header: 40px 50px; --pad-main: 40px 30px 40px 50px; --pad-sidebar: 40px 50px 40px 20px;
+      --border-sidebar: none; --color-heading: #0F172A; --border-heading: 2px solid #B78A2D; --color-heading-side: #14532D;
+      --bg-tag: #DCFCE7; --text-tag: #14532D;
     }
-
-    /* 5. The Academic */
     .tpl-academic {
       --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
-      --sheet-bg: #FFFFFF;
-      --font-heading: 'Playfair Display', serif; --font-body: 'Playfair Display', serif;
+      --sheet-bg: #FFFFFF; --font-heading: 'Playfair Display', serif; --font-body: 'Playfair Display', serif;
       --dir-header: column; --align-header: center; --text-align-header: center;
-      --pad-header: 0.25in 60px 10px 60px; /* 0.25in precise top spacing */
-      --show-photo: none; --color-name: #000; --size-name: 2.5rem; --color-title: #333;
+      --pad-header: 32px 60px 10px 60px; --show-photo: block; --color-name: #000; --size-name: 2.5rem; --color-title: #334155;
       --border-heading: 1px solid #000; --color-heading: #000; --transform-heading: uppercase;
       --pad-main: 10px 60px 10px 60px; --pad-sidebar: 10px 60px 50px 60px;
       --bg-tag: transparent; --text-tag: #000;
     }
     .tpl-academic .tag:not(:last-child):after { content: ", "; }
-
-    /* 6. The Tech Dark */
     .tpl-tech {
       --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
-      --sheet-bg: #FFFFFF;
-      --font-heading: 'Roboto Mono', monospace; --font-body: 'Inter', sans-serif;
-      --bg-header: #1E293B; --text-header: #E2E8F0; --dir-header: row; --align-header: center;
-      --color-name: #F8FAFC; --color-title: #94A3B8; --show-photo: none;
-      --pad-header: 40px 50px; /* Internal box padding maintained */
-      --pad-main: 30px 50px 10px 50px; --pad-sidebar: 10px 50px 40px 50px;
-      --color-heading: #0F172A; --border-heading: 2px dashed #D4AF37;
+      --sheet-bg: #FFFFFF; --font-heading: 'Roboto Mono', monospace; --font-body: 'Inter', sans-serif;
+      --bg-header: #0F172A; --text-header: #E2E8F0; --dir-header: row; --align-header: center;
+      --color-name: #F8FAFC; --color-title: #94A3B8; --show-photo: block;
+      --pad-header: 40px 50px; --pad-main: 30px 50px 10px 50px; --pad-sidebar: 10px 50px 40px 50px;
+      --color-heading: #0F172A; --border-heading: 2px dashed #B78A2D;
       --bg-tag: #F1F5F9; --text-tag: #0F172A; --rad-tag: 2px;
     }
-
-    /* 7. The Elegant (Refined Navy & Parchment) */
     .tpl-elegant {
       --grid-cols: 35% 65%; --grid-rows: auto 1fr; --grid-areas: "header header" "sidebar main";
-      --sheet-bg: linear-gradient(to right, #FAFAF8 0%, #FAFAF8 35%, #FFFFFF 35%, #FFFFFF 100%);
-      --bg-header: #0B1D3A; --text-header: #FFF; --color-title: #D4AF37;
-      --font-heading: 'Playfair Display', serif; 
-      --pad-header: 50px; /* Internal box padding maintained */
-      --dir-header: row; --align-header: center; --show-photo: block; --photo-radius: 50%; --photo-border: 2px solid #D4AF37;
+      --sheet-bg: linear-gradient(to right, #FFFBEB 0%, #FFFBEB 35%, #FFFFFF 35%, #FFFFFF 100%);
+      --bg-header: #0F172A; --text-header: #FFF; --color-title: #D4A96A;
+      --font-heading: 'Playfair Display', serif; --pad-header: 50px;
+      --dir-header: row; --align-header: center; --show-photo: block; --photo-radius: 50%; --photo-border: 2px solid #B78A2D;
       --pad-sidebar: 40px; --pad-main: 40px;
-      --color-heading: #0B1D3A; --border-heading: 1px solid #D4AF37;
-      --color-heading-side: #0B1D3A; --border-heading-side: 1px solid #D4AF37;
-      --bg-tag: #0B1D3A; --text-tag: #FFF; --rad-tag: 0px;
+      --color-heading: #0F172A; --border-heading: 1px solid #B78A2D;
+      --color-heading-side: #0F172A; --border-heading-side: 1px solid #B78A2D;
+      --bg-tag: #0F172A; --text-tag: #FEF3C7; --rad-tag: 0px;
     }
-
-    /* 8. The Modern Profile */
     .tpl-modern {
       --grid-cols: 70% 30%; --grid-rows: auto 1fr; --grid-areas: "header sidebar" "main sidebar";
-      --sheet-bg: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 70%, #111827 70%, #111827 100%);
+      --sheet-bg: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 70%, hsl(105, 2%, 38%) 70%, #0F172A 100%);
       --font-heading: 'Montserrat', sans-serif; --font-body: 'Inter', sans-serif;
-      --text-sidebar: #F3F4F6; --text-sidebar-body: #9CA3AF;
-      --pad-header: 0.25in 40px 10px 50px; /* 0.25in precise top spacing */
-      --pad-main: 10px 40px 50px 50px; --pad-sidebar: 50px 30px;
+      --text-sidebar: #FEF3C7; --text-sidebar-body: hsl(0, 0%, 100%);
+      --pad-header: 32px 40px 10px 50px; --pad-main: 10px 40px 50px 50px; --pad-sidebar: 50px 30px;
       --show-photo: block; --photo-radius: 10px; --photo-size: 150px; --photo-border: none;
-      --color-name: #111827; --color-title: #10B981; --size-name: 3rem; --weight-name: 800; --letter-name: -1px;
-      --color-heading: #111827; --border-heading: 4px solid #10B981;
-      --color-heading-side: #FFF; --border-heading-side: 2px solid #10B981;
-      --dir-contact: column; --bg-tag: #374151; --text-tag: #10B981;
+      --color-name: #0F172A; --color-title: #14532D; --size-name: 3rem; --weight-name: 800; --letter-name: -1px;
+      --color-heading: #0F172A; --border-heading: 4px solid #14532D;
+      --color-heading-side: #FEF3C7; --border-heading-side: 2px solid #B78A2D;
+      --dir-contact: column; --bg-tag: #1E293B; --text-tag: #D4A96A;
     }
-
-    /* 9. The Split Screen */
     .tpl-split {
       --grid-cols: 50% 50%; --grid-rows: auto 1fr; --grid-areas: "header header" "sidebar main";
-      --sheet-bg: linear-gradient(to right, #F5F5F5 0%, #F5F5F5 50%, #FFFFFF 50%, #FFFFFF 100%);
-      --bg-header: #000; --text-header: #FFF; --color-title: #A8A8A8;
-      --pad-header: 40px 50px; /* Internal box padding maintained */
-      --pad-sidebar: 40px 50px; --pad-main: 40px 50px;
-      --border-heading: 2px solid #000; --color-heading: #000;
-      --show-photo: none; --dir-contact: row; --bg-tag: #000; --text-tag: #FFF;
+      --sheet-bg: linear-gradient(to right, #F8F5EF 0%, #F8F5EF 50%, #FFFFFF 50%, #FFFFFF 100%);
+      --bg-header: #0F172A; --text-header: #FFF; --color-title: #D4A96A;
+      --pad-header: 40px 50px; --pad-sidebar: 40px 50px; --pad-main: 40px 50px;
+      --border-heading: 2px solid #0F172A; --color-heading: #0F172A;
+      --show-photo: block; --dir-contact: row; --bg-tag: #0F172A; --text-tag: #FEF3C7;
     }
-
-    /* 10. The Corporate Trust (Deep Executive Slate) */
     .tpl-corporate {
       --grid-cols: 1fr; --grid-rows: auto auto auto; --grid-areas: "header" "main" "sidebar";
-      --sheet-bg: #FFFFFF;
-      --font-heading: 'Montserrat', sans-serif;
-      --bg-header: #1E3A8A; --text-header: #FFF; --color-title: #E0E7FF;
-      --pad-header: 40px 60px; /* Internal box padding maintained */
-      --dir-header: column; --align-header: flex-start;
-      --show-photo: none; --pad-main: 30px 60px 10px 60px; --pad-sidebar: 10px 60px 40px 60px;
-      --color-heading: #1E3A8A; --border-heading: 2px solid #1E3A8A;
-      --bg-tag: #E0E7FF; --text-tag: #1E3A8A; --rad-tag: 15px;
+      --sheet-bg: #FFFFFF; --font-heading: 'Montserrat', sans-serif;
+      --bg-header: #1E40AF; --text-header: #FFF; --color-title: #DBEAFE;
+      --pad-header: 40px 60px; --dir-header: column; --align-header: flex-start;
+      --show-photo: block; --pad-main: 30px 60px 10px 60px; --pad-sidebar: 10px 60px 40px 60px;
+      --color-heading: #1E40AF; --border-heading: 2px solid #1E40AF;
+      --bg-tag: #DBEAFE; --text-tag: #1E40AF; --rad-tag: 15px;
     }
-    
-    /* ── MULTI-PAGE PRINT LOGIC & BROWSER OVERRIDE ── */
+
+    /* Photo wrapper - always visible */
+    .res-photo-wrapper { 
+      display: block !important; 
+      flex-shrink: 0;
+      position: relative;
+      width: var(--photo-size, 120px);
+      height: var(--photo-size, 120px);
+      border-radius: var(--photo-radius, 50%);
+      background: linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 100%);
+      border: 2px dashed #CBD5E1;
+      overflow: hidden;
+    }
+    .res-photo-wrapper.has-photo {
+      background: transparent;
+      border: none;
+    }
+    .res-photo-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #94A3B8;
+    }
+
+    /* FIXED ARTISTIC FOOTER - CORRECT PAGE X OF Y */
+    .artistic-page-footer {
+      display: none; /* hidden on screen, shown in print as fixed repeating footer */
+    }
+    .artistic-page-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #0F172A;
+      background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+      padding: 0.38rem 1.2rem;
+      border-radius: 20px;
+      border: 1px solid rgba(183,138,45,0.3);
+      box-shadow: 0 2px 8px rgba(15,23,42,0.06);
+    }
+    .artistic-page-count::before,
+    .artistic-page-count::after {
+      content: '✦';
+      color: #B78A2D;
+      font-size: 0.6rem;
+    }
+    /* The numbers inside circles will be filled by CSS counters in print */
+    .page-current, .page-total {
+      font-family: 'Inter', sans-serif;
+      font-weight: 800;
+      color: #14532D;
+      background: #fff;
+      min-width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: 1.5px solid #D4A96A;
+      font-size: 0.7rem;
+      line-height: 1;
+    }
+
     @media print {
-      /* PERFECT 0.5-INCH (12.7mm) PRINT MARGINS EVERYWHERE... */
-      @page { 
-        margin: 12.7mm 0; 
-        size: A4; 
-      }
-      
-      /* ...EXCEPT THE FIRST PAGE (Allows boxes and sidebars to touch the paper edge) */
-      @page :first {
-        margin-top: 0;
-      }
-      
+      @page { margin: 12mm 0 16mm 0; size: A4; }
+      @page :first { margin-top: 0; }
+
       html, body { 
-        background: #fff; 
-        height: auto !important;
-        overflow: visible !important;
+        background: #fff !important; 
+        height: auto !important; 
+        overflow: visible !important; 
         -webkit-print-color-adjust: exact; 
         print-color-adjust: exact; 
       }
-      
-      /* Hide all interface elements from the final PDF */
-      .builder-header, .editor-panel, .template-switcher { 
-        display: none !important; 
-      }
-      
-      /* Allow the container to naturally expand down the page */
+      .builder-header, .editor-panel, .template-switcher { display: none !important; }
       .builder-container, .preview-panel { 
         display: block !important; 
         width: 100% !important; 
-        height: auto !important;
+        height: auto !important; 
         padding: 0 !important; 
         margin: 0 !important; 
         overflow: visible !important; 
-        background: none !important;
+        background: none !important; 
       }
-      
-      /* Allow multi-page flowing */
       .resume-sheet { 
         position: relative !important; 
-        left: 0; 
-        top: 0; 
-        margin: 0; 
-        box-shadow: none; 
-        width: 210mm; 
+        left: 0; top: 0; 
+        margin: 0 !important; 
+        box-shadow: none !important; 
+        width: 210mm !important; 
+        height: auto !important; 
+        min-height: auto !important;
+        overflow: visible !important; 
+        border-radius: 0 !important; 
+      }
+      .resume-sheet::before { 
+        position: absolute !important; /* NOT fixed - fixed caused blank page */
+        top: 0; left: 0; right: 0; bottom: 0;
+        width: auto !important;
         height: auto !important;
-        min-height: 297mm;
-        overflow: visible !important;
+        border-radius: 0 !important; 
       }
 
-      /* Fixed pseudo-element ensures sidebars reach the absolute bottom of EVERY page */
-      .resume-sheet::before {
-        position: fixed;
-        top: 0; 
+      /* The magic: fixed footer repeats on every printed page */
+      .artistic-page-footer {
+        display: flex !important;
+        position: 0 !important;
+        bottom: 0;
         left: 0;
+        right: 0;
         width: 210mm;
-        height: 100vh;
+        height: 14mm;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        border-top: 1px solid rgba(232,221,208,0.6);
+        z-index: 100;
       }
+      /* Real page numbers */
+      .page-current::after {
+        content: counter(page);
+      }
+      .page-total::after {
+        content: counter(pages);
+      }
+      /* Hide empty blocks that create blank space */
+      .res-text-block:empty, .tag-list:empty, .res-heading:empty {
+        display: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .res-p, .res-heading, .res-list, .tag-list, .res-text-block { 
+        page-break-inside: avoid; 
+        break-inside: avoid; 
+      }
+      .res-header, .res-sidebar, .res-main {
+        break-inside: auto;
+      }
+    }
 
-      /* Prevent paragraphs and lists from getting awkwardly chopped across two pages */
-      .res-p, .res-heading, .res-list {
-        page-break-inside: avoid;
-        break-inside: avoid;
-      }
+    @media (max-width: 1100px) {
+      .builder-container { flex-direction: column; overflow: auto; height: auto; }
+      .editor-panel, .preview-panel { width: 100%; }
+      .template-switcher { grid-template-columns: repeat(3, 1fr); }
+      body { overflow: auto; height: auto; }
+    }
+    @media (max-width: 640px) {
+      header.builder-header { padding: 0.8rem 1.2rem; }
+      .logo-text { font-size: 1.2rem; }
+      .template-switcher { grid-template-columns: repeat(2, 1fr); }
+      .editor-panel { padding: 1.5rem; }
+      .preview-panel { padding: 1rem; }
     }
   </style>
 </head>
@@ -352,7 +545,10 @@
     <img src="logo.png" alt="Shared Pearls Logo" class="logo-img">
     <div class="logo-text">Shared <span>Pearls</span> of Wisdom</div> 
   </a>
-  <button class="btn-export" onclick="window.print()">Export to PDF</button>
+  <div class="header-actions">
+    <a href="index.html" class="btn-ghost">← Back to Home</a>
+    <button class="btn-export" onclick="window.print()">Export PDF ◆</button>
+  </div>
 </header>
 
 <div class="builder-container">
@@ -389,11 +585,10 @@
       <textarea id="input-langs">- English: Native
 - Afrikaans: Conversational</textarea>
     </div>
-
     <div class="section-title">4. Experience & Education</div>
     <div class="form-group">
       <label>Work Experience (Newest to Oldest)</label>
-      <span class="hint">Use the format: <strong>Title | Date</strong> on one line, and use bullets (-) underneath.</span>
+      <span class="hint">Use format: <strong>Title | Date</strong> on one line, and bullets (-) underneath.</span>
       <textarea id="input-exp">CEO & Chief Engineer | 2002 – Present
 - Founded SpaceX to revolutionize space technology and manufacture advanced rockets and spacecraft.
 - Achieved historic milestones including the first privately funded liquid-propellant rocket to reach orbit and the development of the Starship.
@@ -425,15 +620,15 @@ Dropped out of Ph.D. in Applied Physics and Materials Science | 1995
     <div class="section-title">6. Social Profiles</div>
     <div class="form-group">
       <label>Professional Networks</label>
-      <span class="hint">Use the format: <strong>Platform | @handle or URL</strong> on one line.</span>
+      <span class="hint">Format: <strong>Platform | @handle or URL</strong></span>
       <textarea id="input-socials">X (Twitter) | @elonmusk
 Wikipedia | en.wikipedia.org/wiki/Elon_Musk</textarea>
     </div>
-
   </div>
 
   <div class="preview-panel">
     <div class="template-switcher">
+      <div class="switcher-label">Choose Premium Template — 10 Designs</div>
       <button class="btn-template active" onclick="switchTemplate('tpl-executive', this)">1. Executive</button>
       <button class="btn-template" onclick="switchTemplate('tpl-creative', this)">2. Creative Pro</button>
       <button class="btn-template" onclick="switchTemplate('tpl-minimalist', this)">3. Minimalist</button>
@@ -443,12 +638,13 @@ Wikipedia | en.wikipedia.org/wiki/Elon_Musk</textarea>
       <button class="btn-template" onclick="switchTemplate('tpl-elegant', this)">7. Elegant Gold</button>
       <button class="btn-template" onclick="switchTemplate('tpl-modern', this)">8. Modern Bold</button>
       <button class="btn-template" onclick="switchTemplate('tpl-split', this)">9. Split Screen</button>
-      <button class="btn-template" onclick="switchTemplate('tpl-corporate', this)">10. Corporate</button>
+      <button class="btn-template" onclick="switchTemplate('tpl-corporate', this)">10. Corporate Blue</button>
     </div>
 
     <div id="resume-document" class="resume-sheet tpl-executive">
       <header class="res-header">
-        <div class="res-photo-wrapper">
+        <div class="res-photo-wrapper" id="photo-wrapper">
+          <div class="res-photo-placeholder" id="photo-placeholder">📷</div>
           <img id="out-photo" class="res-photo" src="" alt="Profile Photo">
         </div>
         <div class="res-header-text">
@@ -462,51 +658,39 @@ Wikipedia | en.wikipedia.org/wiki/Elon_Musk</textarea>
           </div>
         </div>
       </header>
-
       <aside class="res-sidebar">
         <div class="res-heading">Skills</div>
         <div class="tag-list" id="out-skills"></div>
-        
         <div class="res-heading">Languages</div>
         <div class="res-text-block" id="out-langs"></div>
-        
         <div class="res-heading">Certifications</div>
         <div class="res-text-block" id="out-certs"></div>
-        
         <div class="res-heading">Training</div>
         <div class="res-text-block" id="out-training"></div>
-        
-        <!-- DYNAMIC SOCIAL PROFILES OUTPUT -->
         <div class="res-heading" id="heading-socials">Social Profiles</div>
         <div class="res-text-block" id="out-socials"></div>
       </aside>
-
       <main class="res-main">
         <div class="res-heading">Profile Summary</div>
         <div class="res-text-block" id="out-summary"></div>
-        
         <div class="res-heading">Work Experience</div>
         <div class="res-text-block" id="out-exp"></div>
-        
         <div class="res-heading">Education</div>
         <div class="res-text-block" id="out-edu"></div>
-        
         <div class="res-heading">Key Achievements</div>
         <div class="res-text-block" id="out-achieve"></div>
       </main>
-
+       </div>
     </div>
   </div>
 </div>
 
 <script>
-  // ── TEXT FORMATTING PARSER (Fixes Indentation & Title Layout) ──
   function formatText(text) {
     if (!text) return "";
     const lines = text.split('\n');
     let html = '';
     let inList = false;
-    
     lines.forEach(line => {
       let t = line.trim();
       if (t.startsWith('•') || t.startsWith('-') || t.startsWith('*')) {
@@ -516,7 +700,6 @@ Wikipedia | en.wikipedia.org/wiki/Elon_Musk</textarea>
         if (inList) { html += '</ul>'; inList = false; }
         if (t !== '') {
           if (t.includes('|')) { 
-             // Wraps titles in a special class to PREVENT unwanted justification
              const parts = t.split('|'); 
              html += `<div class="res-p res-title-line"><strong>${parts[0].trim()}</strong> | ${parts[1].trim()}</div>`;
           } else { 
@@ -530,13 +713,9 @@ Wikipedia | en.wikipedia.org/wiki/Elon_Musk</textarea>
     if (inList) html += '</ul>';
     return html;
   }
-
-  // ── DATA BINDING ENGINE ──
   const standardFields = ['name', 'title', 'email', 'phone', 'location', 'web'];
   const textAreaFields = ['summary', 'exp', 'edu', 'training', 'achieve', 'certs', 'langs', 'socials'];
-  
   function updatePreview() {
-    // 1. Handle Standard One-Line Fields
     standardFields.forEach(id => {
       const el = document.getElementById(`input-${id}`);
       const out = document.getElementById(`out-${id}`);
@@ -547,67 +726,50 @@ Wikipedia | en.wikipedia.org/wiki/Elon_Musk</textarea>
           else if(id==='location') out.innerText = `📍 ${el.value}`;
           else if(id==='web') out.innerText = `🌐 ${el.value}`;
           else out.innerText = el.value;
-        } else {
-          out.innerText = "";
-        }
+        } else { out.innerText = ""; }
       }
     });
-
-    // 2. Handle TextAreas using the new Indentation Parser
     textAreaFields.forEach(id => {
       const el = document.getElementById(`input-${id}`);
       const out = document.getElementById(`out-${id}`);
       if(el && out) {
         out.innerHTML = formatText(el.value);
-        
-        // Hide empty sections dynamically (specifically for Socials)
         if(id === 'socials') {
             const heading = document.getElementById('heading-socials');
-            if(el.value.trim() === "") {
-                heading.style.display = 'none';
-                out.style.display = 'none';
-            } else {
-                heading.style.display = 'block';
-                out.style.display = 'block';
-            }
+            if(el.value.trim() === "") { heading.style.display = 'none'; out.style.display = 'none'; }
+            else { heading.style.display = 'block'; out.style.display = 'block'; }
         }
       }
     });
-
-    // 3. Handle Special Skills Tag Generation
     const skills = document.getElementById('input-skills').value;
     const skillsOut = document.getElementById('out-skills');
     skillsOut.innerHTML = skills.split(',').filter(s => s.trim() !== "").map(s => `<span class="tag">${s.trim()}</span>`).join('');
   }
-
-  // Attach event listeners to all inputs
   standardFields.forEach(id => document.getElementById(`input-${id}`).addEventListener('input', updatePreview));
   textAreaFields.forEach(id => document.getElementById(`input-${id}`).addEventListener('input', updatePreview));
   document.getElementById('input-skills').addEventListener('input', updatePreview);
-
-  // ── PHOTO UPLOAD ENGINE ──
   document.getElementById('input-photo').addEventListener('change', function(e) {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function(ev) {
         const img = document.getElementById('out-photo');
-        img.src = e.target.result;
-        img.style.display = 'block'; 
+        const wrapper = document.getElementById('photo-wrapper');
+        const ph = document.getElementById('photo-placeholder');
+        img.src = ev.target.result;
+        img.style.display = 'block';
+        wrapper.classList.add('has-photo');
+        if(ph) ph.style.display = 'none';
       }
       reader.readAsDataURL(e.target.files[0]);
     }
   });
 
-  // ── TEMPLATE SWITCHER ENGINE ──
   function switchTemplate(templateClass, btnElement) {
     document.querySelectorAll('.btn-template').forEach(b => b.classList.remove('active'));
     btnElement.classList.add('active');
-    
     const doc = document.getElementById('resume-document');
     doc.className = `resume-sheet ${templateClass}`;
   }
-
-  // Initialize
   updatePreview();
 </script>
 </body>
