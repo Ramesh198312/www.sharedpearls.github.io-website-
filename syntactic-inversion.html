@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Clinical Assessment: Inversion · Shared Pearls of Wisdom</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════
+   PREMIUM ACADEMIC VARIABLES
+═══════════════════════════════════════════ */
+:root {
+  --crimson: #A51C30;
+  --crimson-dark: #7A1523;
+  --charcoal: #222222;
+  --charcoal-light: #4B525A;
+  --ivory: #FAF9F6;
+  --white: #ffffff;
+  --gold: #C4923E;
+  --border: #E0E0E0;
+  --muted: #888888;
+  
+  /* Semantic Evaluation Colors */
+  --success: #2e7d32;
+  --success-bg: rgba(46,125,50,0.08);
+  --error: #c0392b;
+  --error-bg: rgba(192,57,43,0.08);
+  
+  --shadow-sm: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Source Serif 4', Georgia, serif; background: var(--ivory); color: var(--charcoal); line-height: 1.65;
+}
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+.nav {
+  background: var(--white); padding: 1.2rem 3rem; display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100;
+}
+.back-link { font-family: 'DM Mono', monospace; font-size: .8rem; font-weight: 700; color: var(--charcoal-light); text-transform: uppercase; letter-spacing: .1em; text-decoration: none; }
+.back-link:hover { color: var(--crimson); }
+.nav-brand { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; }
+.nav-brand em { color: var(--crimson); font-style: italic; }
+
+/* ═══════════════════════════════════════════
+   CLINIC HEADER & THEORY
+═══════════════════════════════════════════ */
+.clinic-header { max-width: 900px; margin: 4rem auto 2rem; padding: 0 2rem; text-align: center; }
+.ch-kicker { font-family: 'DM Mono', monospace; font-size: .85rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: .15em; margin-bottom: 1rem; }
+.ch-title { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 700; color: var(--charcoal); line-height: 1.2; margin-bottom: 1rem; }
+.ch-desc { font-size: 1.15rem; color: var(--charcoal-light); }
+
+.theory-block { max-width: 900px; margin: 0 auto 3rem; padding: 0 2rem; }
+.tb-heading { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--charcoal); margin-bottom: 1rem; text-align: center; }
+.tb-text { font-size: 1.15rem; color: var(--charcoal-light); margin-bottom: 1.5rem; text-align: center; }
+
+.example-box { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin: 2rem 0; box-shadow: var(--shadow-sm); }
+.ex-label { font-family: 'DM Mono', monospace; font-size: .75rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .8rem; display: block; }
+.ex-sentence { font-size: 1.1rem; color: var(--charcoal); margin-bottom: 1rem; }
+.ex-sentence.highlight { font-weight: 600; color: var(--crimson); }
+
+/* ═══════════════════════════════════════════
+   ASSESSMENT CONTAINER
+═══════════════════════════════════════════ */
+.assessment-container { max-width: 900px; margin: 0 auto 6rem; padding: 0 2rem; }
+.category-block { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 3rem; margin-bottom: 3rem; box-shadow: var(--shadow-sm); }
+.cat-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--charcoal); margin-bottom: .5rem; }
+.cat-desc { font-family: 'DM Mono', monospace; font-size: .85rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--ivory); }
+
+/* Question Layout */
+.question-item { display: flex; align-items: flex-start; gap: 1.2rem; margin-bottom: 3rem; }
+.question-item:last-child { margin-bottom: 0; }
+.q-num { 
+  font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--gold); 
+  min-width: 2.2rem; text-align: right; flex-shrink: 0; padding-top: 0.1rem; 
+}
+.q-content { flex-grow: 1; display: flex; flex-direction: column; }
+.q-text { font-size: 1.15rem; color: var(--charcoal); margin-bottom: 1rem; font-weight: 600; line-height: 1.5; }
+
+/* Feedback Display */
+.feedback-box { margin-top: 1rem; padding: 1rem 1.5rem; border-radius: 4px; font-size: .95rem; display: none; line-height: 1.5; }
+.feedback-box.correct { display: block; background: var(--success-bg); border: 1px solid var(--success); color: var(--success); }
+.feedback-box.incorrect { display: block; background: var(--error-bg); border: 1px solid var(--error); color: var(--error); }
+.feedback-box span { display: block; font-weight: 700; margin-bottom: .4rem; font-family: 'DM Mono', monospace; font-size: .8rem; text-transform: uppercase; letter-spacing: .1em; }
+
+/* ── UI TYPES (Neutral Default States) ── */
+
+/* 1. MCQ Radio Options */
+.mcq-options { display: flex; flex-direction: column; gap: .8rem; }
+.mcq-label { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; border: 1px solid var(--border); border-radius: 4px; cursor: pointer; transition: all .2s; font-size: 1.05rem; }
+.mcq-label:hover { background: var(--ivory); border-color: var(--gold); }
+.mcq-label input[type="radio"] { accent-color: var(--gold); transform: scale(1.2); }
+.mcq-label.selected { background: rgba(196, 146, 62, 0.05); border-color: var(--gold); }
+
+/* 2. Text Input */
+.text-input-wrapper { display: inline-block; width: 100%; max-width: 320px; vertical-align: middle; }
+.text-input-wrapper input { width: 100%; padding: .8rem 1.2rem; font-family: 'Source Serif 4', serif; font-size: 1.05rem; border: 1px solid var(--border); border-radius: 4px; outline: none; background: var(--ivory); transition: all .2s; }
+.text-input-wrapper input:focus { border-color: var(--gold); background: var(--white); box-shadow: 0 0 0 3px rgba(196, 146, 62, 0.1); }
+
+/* 3. Inline Dropdown */
+.inline-select { font-family: 'Source Serif 4', serif; font-size: 1.05rem; padding: .2rem .5rem; border: 1px dashed var(--charcoal-light); border-radius: 4px; background: var(--ivory); color: var(--charcoal); font-weight: 600; outline: none; cursor: pointer; appearance: auto; vertical-align: baseline; transition: all 0.2s;}
+.inline-select:focus { border-color: var(--gold); }
+
+/* 4. Sentence Builder */
+.builder-area { background: var(--ivory); border: 1px solid var(--border); border-radius: 4px; padding: 1.5rem; min-height: 80px; margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; transition: all 0.2s;}
+.builder-area:empty::before { content: "Click chunks below to construct the sentence here..."; color: var(--muted); font-style: italic; }
+.word-bank { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chunk { background: var(--white); border: 1px solid var(--border); padding: .5rem 1rem; border-radius: 4px; font-size: 1rem; cursor: pointer; transition: all .2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02); user-select: none; }
+.chunk:hover { border-color: var(--gold); color: var(--charcoal); transform: translateY(-2px); }
+.chunk.used { opacity: 0; pointer-events: none; }
+
+/* ── POST-EVALUATION UI COLOURING ── */
+.input-success { border-color: var(--success) !important; background-color: var(--success-bg) !important; color: var(--success) !important; }
+.input-error { border-color: var(--error) !important; background-color: var(--error-bg) !important; }
+
+/* Specific containers for semantic borders */
+.mcq-label.success-highlight { border-color: var(--success); background: var(--success-bg); }
+.mcq-label.error-highlight { border-color: var(--error); background: var(--error-bg); }
+.builder-area.success-highlight { border-color: var(--success); background: var(--success-bg); }
+.builder-area.error-highlight { border-color: var(--error); background: var(--error-bg); }
+
+
+/* Submit Area */
+.evaluation-area { text-align: center; margin-top: 4rem; padding-top: 3rem; border-top: 2px solid var(--border); }
+.btn-submit { background: var(--crimson); color: var(--white); border: none; padding: 1.2rem 3rem; font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; border-radius: 4px; cursor: pointer; transition: all .2s; box-shadow: var(--shadow-sm); }
+.btn-submit:hover { background: var(--crimson-dark); transform: translateY(-2px); }
+#final-score { margin-top: 2rem; font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--charcoal); display: none; }
+
+@media (max-width: 768px) {
+  .category-block { padding: 2rem 1.5rem; }
+  .question-item { flex-direction: column; gap: 0.5rem; }
+  .q-num { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#" class="back-link">← Module 1.1: Theory</a>
+  <div class="nav-brand">Shared <em>Pearls</em> of Wisdom</div>
+  <div style="width:100px;"></div>
+</nav>
+
+<section class="theory-block">
+  <br><br>
+  <h2 class="tb-heading">The Architecture of Emphasis</h2>
+  <p class="tb-text">In high-tier academic writing and C2-level spoken discourse, we manipulate the standard Subject-Verb-Object (SVO) order to add dramatic emphasis, limit a scope, or assert a profound negative. We achieve this by placing a restrictive or negative adverbial at the front of the clause.</p>
+  <p class="tb-text">When this occurs, the grammatical law dictates that the subject and the auxiliary verb must <strong>invert</strong>, mirroring the structure of an interrogative (question) sentence.</p>
+
+  <div class="example-box">
+    <span class="ex-label">Standard Academic Register</span>
+    <div class="ex-sentence">We <strong>rarely</strong> observe such pronounced effects in international learner cohorts.</div>
+    <br>
+    <span class="ex-label">Syntactically Inverted Form</span>
+    <div class="ex-sentence highlight">Rarely do we observe such pronounced effects in international learner cohorts.</div>
+    <p style="font-size: .9rem; color: var(--muted); margin-top: .5rem;">*Notice the introduction of the auxiliary 'do' before the subject 'we'.</p>
+  </div>
+  
+  <p class="tb-text">Common trigger phrases include: <em>Under no circumstances, Seldom, Not only, No sooner, On no account, </em> and <em>Only when.</em></p>
+</section>
+
+<header class="clinic-header">
+  <div class="ch-kicker">Clinical Practice · Phase 03</div>
+  <h1 class="ch-title">Syntactic Inversion</h1>
+  <p class="ch-desc">A 25-point comprehensive evaluation of negative and restrictive adverbial structures. Complete all sections before submitting for algorithmic grading.</p>
+</header>
+
+<main class="assessment-container" id="assessment-container">
+  </main>
+
+<div class="assessment-container evaluation-area">
+  <button class="btn-submit" onclick="evaluateAssessment()">Submit for Algorithmic Evaluation</button>
+  <div id="final-score"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   THE DATA ENGINE (25 Questions)
+═══════════════════════════════════════════ */
+const assessmentData = [
+  // CATEGORY 1: MCQ
+  {
+    type: "mcq", category: "Category 01: Multiple Choice Options",
+    q: "Not only ______ the data, but it also cross-referenced the historical archives.",
+    options: ["did the model analyze", "the model analyzed", "analyzed the model"],
+    correct: 0,
+    feedback: "Because the sentence begins with 'Not only', inversion is mandatory. As there is no auxiliary in the past simple ('analyzed'), we introduce 'did' and revert the main verb to base form ('analyze')."
+  },
+  { type: "mcq", q: "Rarely ______ such a profound impact on continuous professional development.", options: ["have researchers observed", "researchers have observed", "did researchers observed"], correct: 0, feedback: "'Rarely' triggers inversion. We swap the existing auxiliary 'have' with the subject 'researchers'." },
+  { type: "mcq", q: "Under no circumstances ______ the control group be exposed to the placebo.", options: ["must have", "should", "the"], correct: 1, feedback: "The modal 'should' acts as the auxiliary and inverts with 'the control group'." },
+  { type: "mcq", q: "No sooner ______ the hypothesis than the primary data contradicted it.", options: ["she had formulated", "had she formulated", "did she formulated"], correct: 1, feedback: "In Past Perfect constructions with 'No sooner', 'had' precedes the subject." },
+  { type: "mcq", q: "Scarcely ______ the lecture begun when the fire alarm sounded.", options: ["had", "did", "has"], correct: 0, feedback: "The past participle 'begun' requires the past perfect auxiliary 'had'." },
+  { type: "mcq", q: "Only when the variables are completely isolated ______ valid.", options: ["do the results become", "the results become", "become the results"], correct: 0, feedback: "When 'Only when' begins a sentence, the inversion happens in the MAIN clause ('do the results become'), not the 'only' clause." },
+
+  // CATEGORY 2: FILL IN THE BLANK
+  {
+    type: "fib", category: "Category 02: Exact Structural Reproduction",
+    pre: "Seldom", post: "such a stark dichotomy in pedagogical approaches.",
+    correct: ["do we see"],
+    feedback: "Present simple tense requires the dummy auxiliary 'do' to invert."
+  },
+  { type: "fib", pre: "On no account", post: "be altered mid-trial. (Use 'must this methodology')", correct: ["must this methodology"], feedback: "The modal 'must' acts as the auxiliary." },
+  { type: "fib", pre: "Never before", post: "faced such an epistemological crisis. (Use 'has the scientific community')", correct: ["has the scientific community"], feedback: "Present perfect inversion: 'has' + subject + past participle." },
+  { type: "fib", pre: "Only after peer review", post: "be published in the journal. (Use 'will the findings')", correct: ["will the findings"], feedback: "Inversion occurs in the main clause after the 'Only after...' phrase." },
+  { type: "fib", pre: "Little", post: "the implications of their qualitative research. (Use 'did the authors realize')", correct: ["did the authors realize"], feedback: "'Little' acts as a negative adverbial here. Past simple requires 'did'." },
+  { type: "fib", pre: "Not a single word", post: "regarding the budget deficit. (Use 'did the speaker utter')", correct: ["did the speaker utter"], feedback: "A highly emphatic negative structure." },
+  { type: "fib", pre: "At no time", post: "of the systemic risks. (Use 'was the public informed')", correct: ["was the public informed"], feedback: "Passive voice inversion: 'was' + subject + past participle." },
+
+  // CATEGORY 3: INLINE DROPDOWN
+  {
+    type: "dropdown", category: "Category 03: Auxiliary Selection",
+    pre: "Not only", options: ["does", "do", "did"], post: "the literature support this, but empirical evidence confirms it.",
+    correct: "does", feedback: "'Literature' is singular, and the tense is present simple."
+  },
+  { type: "dropdown", pre: "Barely", options: ["had", "has", "did"], post: "the intervention concluded before the post-test was administered.", correct: "had", feedback: "Past perfect is required for the earlier of two past actions." },
+  { type: "dropdown", pre: "Only in extreme cases", options: ["are", "do", "have"], post: "we recommend abandoning the framework.", correct: "do", feedback: "Present simple active voice requires 'do' with the subject 'we'." },
+  { type: "dropdown", pre: "In no way", options: ["does", "is", "has"], post: "this invalidate the prior longitudinal studies.", correct: "does", feedback: "Present simple requires 'does' for the singular subject 'this'." },
+  { type: "dropdown", pre: "Hardly", options: ["had", "did", "was"], post: "the ink dried on the treaty when it was violated.", correct: "had", feedback: "Past perfect required ('dried' acts as past participle here)." },
+  { type: "dropdown", pre: "Only later", options: ["did", "had", "was"], post: "the true scale of the macroeconomic shift emerge.", correct: "did", feedback: "Past simple requires 'did' because the main verb is the base form 'emerge'." },
+
+  // CATEGORY 4: SENTENCE BUILDER
+  {
+    type: "builder", category: "Category 04: Syntactic Construction",
+    chunks: ["Under no circumstances", "should", "educators", "ignore", "learning gaps."],
+    correct: "Under no circumstances should educators ignore learning gaps.",
+    feedback: "Adverbial -> Auxiliary (should) -> Subject (educators) -> Main Verb."
+  },
+  { type: "builder", chunks: ["Rarely", "do", "longitudinal studies", "yield", "such definitive proof."], correct: "Rarely do longitudinal studies yield such definitive proof.", feedback: "Adverbial -> Dummy Auxiliary (do) -> Subject -> Base Verb." },
+  { type: "builder", chunks: ["No sooner", "had", "the policy", "been implemented", "than", "protests erupted."], correct: "No sooner had the policy been implemented than protests erupted.", feedback: "No sooner pairs with 'than'. Auxiliary 'had' precedes the subject." },
+  { type: "builder", chunks: ["Not only", "did", "the AI", "scaffold", "the text,", "but it also", "assessed it."], correct: "Not only did the AI scaffold the text, but it also assessed it.", feedback: "Inversion is only required in the first clause after 'Not only'." },
+  { type: "builder", chunks: ["Scarcely", "had", "the trial", "begun", "when", "funding", "was cut."], correct: "Scarcely had the trial begun when funding was cut.", feedback: "Scarcely pairs with 'when'. Past perfect auxiliary 'had' comes first." },
+  { type: "builder", chunks: ["Only by", "synthesizing", "the literature", "can", "we", "find", "the gap."], correct: "Only by synthesizing the literature can we find the gap.", feedback: "The 'Only by...' phrase must complete before the main clause inverts ('can we')." }
+];
+
+/* ═══════════════════════════════════════════
+   THE RENDERING ENGINE
+═══════════════════════════════════════════ */
+const container = document.getElementById('assessment-container');
+let currentCategory = "";
+let qNum = 1;
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
+
+assessmentData.forEach((item, index) => {
+  if (item.category && item.category !== currentCategory) {
+    currentCategory = item.category;
+    const catHtml = `
+      <div class="category-block" id="cat-${index}">
+        <h2 class="cat-title">${currentCategory.split(':')[0]}</h2>
+        <div class="cat-desc">${currentCategory.split(':')[1]}</div>
+        <div class="questions-wrapper"></div>
+      </div>
+    `;
+    container.insertAdjacentHTML('beforeend', catHtml);
+  }
+
+  const wrapper = container.lastElementChild.querySelector('.questions-wrapper');
+  
+  let qHtml = `
+    <div class="question-item" id="q-${index}">
+      <div class="q-num">${qNum}.</div>
+      <div class="q-content">
+  `;
+
+  if (item.type === "mcq") {
+    qHtml += `<div class="q-text">${item.q}</div><div class="mcq-options" id="options-container-${index}">`;
+    item.options.forEach((opt, optIndex) => {
+      qHtml += `
+        <label class="mcq-label" onclick="selectRadio(this)">
+          <input type="radio" name="q${index}" value="${optIndex}">
+          ${opt}
+        </label>`;
+    });
+    qHtml += `</div>`;
+  } 
+  else if (item.type === "fib") {
+    qHtml += `<div class="q-text">${item.pre} <div class="text-input-wrapper"><input type="text" id="input-${index}" placeholder="Type missing phrase..."></div> ${item.post}</div>`;
+  }
+  else if (item.type === "dropdown") {
+    qHtml += `<div class="q-text">${item.pre} 
+      <select class="inline-select" id="select-${index}">
+        <option value="" disabled selected>Select...</option>`;
+    item.options.forEach(opt => {
+      qHtml += `<option value="${opt}">${opt}</option>`;
+    });
+    qHtml += `</select> ${item.post}</div>`;
+  }
+  else if (item.type === "builder") {
+    const shuffledChunks = shuffle([...item.chunks]);
+    qHtml += `<div class="q-text">Construct the inverted sentence:</div>
+      <div class="builder-area" id="builder-${index}"></div>
+      <div class="word-bank" id="bank-${index}">`;
+    shuffledChunks.forEach((chunk) => {
+      qHtml += `<div class="chunk" onclick="moveChunk(this, ${index})" data-word="${chunk}">${chunk}</div>`;
+    });
+    qHtml += `</div>`;
+  }
+
+  qHtml += `<div class="feedback-box" id="feedback-${index}"></div>
+      </div> 
+    </div>`;
+    
+  wrapper.insertAdjacentHTML('beforeend', qHtml);
+  qNum++;
+});
+
+/* ═══════════════════════════════════════════
+   INTERACTION LOGIC
+═══════════════════════════════════════════ */
+function selectRadio(label) {
+  const siblings = label.parentElement.querySelectorAll('.mcq-label');
+  siblings.forEach(s => s.classList.remove('selected'));
+  label.classList.add('selected');
+}
+
+function moveChunk(element, index) {
+  const builder = document.getElementById(`builder-${index}`);
+  const bank = document.getElementById(`bank-${index}`);
+  
+  if (element.parentElement === bank) {
+    const clone = element.cloneNode(true);
+    clone.onclick = function() { returnChunk(this, element); };
+    builder.appendChild(clone);
+    element.classList.add('used');
+  }
+}
+function returnChunk(clone, original) {
+  clone.remove();
+  original.classList.remove('used');
+}
+
+/* ═══════════════════════════════════════════
+   EVALUATION ENGINE (WITH SEMANTIC HIGHLIGHTING)
+═══════════════════════════════════════════ */
+function evaluateAssessment() {
+  let score = 0;
+
+  assessmentData.forEach((item, index) => {
+    let isCorrect = false;
+    let inputEl = null;
+    let mcqContainerEl = null;
+    
+    // Clear previous highlights if evaluating multiple times
+    const currentQ = document.getElementById(`q-${index}`);
+    const existingInputs = currentQ.querySelectorAll('.input-success, .input-error, .success-highlight, .error-highlight');
+    existingInputs.forEach(el => el.classList.remove('input-success', 'input-error', 'success-highlight', 'error-highlight'));
+
+    if (item.type === "mcq") {
+      const selected = document.querySelector(`input[name="q${index}"]:checked`);
+      if (selected) {
+        mcqContainerEl = selected.parentElement;
+        if (parseInt(selected.value) === item.correct) isCorrect = true;
+      }
+    }
+    else if (item.type === "fib") {
+      inputEl = document.getElementById(`input-${index}`);
+      // Remove accidental trailing punctuation before checking
+      const inputVal = inputEl.value.trim().replace(/[.,!?]$/g, '').toLowerCase();
+      if (item.correct.includes(inputVal)) isCorrect = true;
+    }
+    else if (item.type === "dropdown") {
+      inputEl = document.getElementById(`select-${index}`);
+      const selectVal = inputEl.value;
+      if (selectVal === item.correct) isCorrect = true;
+    }
+    else if (item.type === "builder") {
+      inputEl = document.getElementById(`builder-${index}`);
+      const chunks = Array.from(inputEl.children).map(c => c.getAttribute('data-word'));
+      const builtSentence = chunks.join(" ");
+      if (builtSentence === item.correct) isCorrect = true;
+    }
+
+    // Apply specific semantic colors to the inputs themselves based on result
+    if (isCorrect) {
+      score++;
+      if (inputEl && item.type !== 'builder') inputEl.classList.add('input-success');
+      if (mcqContainerEl) mcqContainerEl.classList.add('success-highlight');
+      if (item.type === 'builder') inputEl.classList.add('success-highlight');
+    } else {
+      if (inputEl && item.type !== 'builder') inputEl.classList.add('input-error');
+      if (mcqContainerEl) mcqContainerEl.classList.add('error-highlight');
+      if (item.type === 'builder') inputEl.classList.add('error-highlight');
+    }
+
+    const feedbackEl = document.getElementById(`feedback-${index}`);
+    if (isCorrect) {
+      feedbackEl.className = "feedback-box correct";
+      feedbackEl.innerHTML = `<span>✓ Syntactic Precision Achieved</span>${item.feedback}`;
+    } else {
+      feedbackEl.className = "feedback-box incorrect";
+      feedbackEl.innerHTML = `<span>✗ Structural Error Detected</span>${item.feedback}`;
+    }
+  });
+
+  const scoreDisplay = document.getElementById('final-score');
+  const percentage = Math.round((score / 25) * 100);
+  scoreDisplay.style.display = "block";
+  
+  if (percentage >= 80) {
+    scoreDisplay.innerHTML = `<span style="color:var(--success)">Score: ${score}/25 (${percentage}%)</span> <br><span style="font-size: 1.2rem; color:var(--charcoal-light);">C1/C2 Mastery Achieved. Proceed to the next module.</span>`;
+  } else {
+    scoreDisplay.innerHTML = `<span style="color:var(--error)">Score: ${score}/25 (${percentage}%)</span> <br><span style="font-size: 1.2rem; color:var(--charcoal-light);">Further clinical review required. Please review the theory and retake the assessment.</span>`;
+  }
+  
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
