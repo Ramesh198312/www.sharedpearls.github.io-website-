@@ -1,658 +1,1294 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Premium Command Centre · Shared Pearls of Wisdom</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500;700&display=swap" rel="stylesheet"/>
-<style>
-/* ═══════════════════════════════════════════
-   PREMIUM ACADEMIC VARIABLES
-═══════════════════════════════════════════ */
-:root {
-  --crimson: #A51C30;
-  --crimson-dark: #7A1523;
-  --charcoal: #222222;
-  --charcoal-light: #4B525A;
-  --charcoal-pale: #E5E5E5;
-  --ivory: #FAF9F6;
-  --white: #ffffff;
-  --gold: #C4923E;
-  --border: #E0E0E0;
-  --muted: #666666;
-  --faint: #888888;
-  --success: #2e7d32;  
-  --shadow-sm: 0 2px 10px rgba(0,0,0,0.03);
-  --shadow-md: 0 8px 30px rgba(0,0,0,0.06);
-  --shadow-lg: 0 20px 50px rgba(165,28,48,0.08);
-}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Premium Command Centre · Shared Pearls of Wisdom</title>
 
-* { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body {
-  font-family: 'Source Serif 4', Georgia, serif;
-  background: var(--ivory);
-  color: var(--charcoal);
-  overflow-x: hidden;
-  line-height: 1.65;
-}
-a { text-decoration:none; color:inherit; }
-img { display:block; max-width:100%; }
+  <!-- 
+    FONTS - Original palette
+    Playfair Display (headings), Source Serif 4 (body), DM Mono (UI)
+  -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--ivory); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  <style>
+    /* ============================================
+       ORIGINAL COLOR PALETTE - DO NOT CHANGE
+       Harvard Crimson + Gold + Charcoal + Ivory
+       ============================================ */
+    :root {
+      --crimson: #A51C30;
+      --crimson-dark: #7A1523;
+      --charcoal: #222222;
+      --charcoal-light: #4B525A;
+      --charcoal-pale: #E5E5E5;
+      --ivory: #FAF9F6;
+      --white: #ffffff;
+      --gold: #C4923E;
+      --border: #E0E0E0;
+      --muted: #666666;
+      --faint: #888888;
+      --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.03);
+      --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 20px 50px rgba(165, 28, 48, 0.08);
+    }
 
-/* ═══════════════════════════════════════════
-   NAVIGATION
-═══════════════════════════════════════════ */
-.nav {
-  background: var(--white);
-  border-bottom: 3px solid var(--crimson);
-  padding: 0 3rem;
-  display: flex; align-items: center; justify-content: space-between;
-  position: sticky; top: 0; z-index: 999;
-  height: 75px; box-shadow: var(--shadow-sm);
-}
-.nav-logo {
-  font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;
-  color: var(--charcoal); display: flex; align-items: center; gap: .4rem;
-}
-.nav-logo em { color: var(--gold); font-style: italic; font-weight: 600; }
-.nav-logo .dot { width: 5px; height: 5px; background: var(--crimson); border-radius: 50%; margin: 0 .2rem; }
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* Desktop Menu Wrapper */
-.nav-menu-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-.nav-links { display: flex; align-items: center; gap: 1rem; }
-.nav-link {
-  font-family: 'DM Mono', monospace; font-size: .75rem; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--charcoal-light);
-  padding: .5rem 1rem; transition: all .2s;
-}
-.nav-link:hover { color: var(--crimson); }
-.nav-link.active { color: var(--crimson); border-bottom: 2px solid var(--crimson); }
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: var(--ivory);
+      color: var(--charcoal);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
 
-.nav-actions { display: flex; align-items: center; gap: 1.5rem; }
-.nav-badge {
-  font-family: 'DM Mono', monospace; font-size: .65rem; letter-spacing: .1em;
-  text-transform: uppercase; padding: .3rem .6rem; background: rgba(165,28,48,0.05);
-  border: 1px solid var(--crimson); color: var(--crimson); font-weight: 700;
-}
-.nav-cta {
-  font-family: 'DM Mono', monospace; font-size: .75rem; letter-spacing: .1em;
-  text-transform: uppercase; padding: .7rem 1.5rem; background: var(--charcoal);
-  color: var(--white); font-weight: 700; transition: all .2s; border: none; border-radius: 3px; cursor: pointer;
-}
-.nav-cta:hover { background: var(--crimson); }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-/* Hamburger Menu Icon (Hidden on Desktop) */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  gap: 5px;
-  z-index: 1001;
-}
-.hamburger span {
-  width: 25px;
-  height: 3px;
-  background-color: var(--charcoal);
-  border-radius: 2px;
-  transition: all 0.3s ease;
-}
-.hamburger.toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-.hamburger.toggle span:nth-child(2) { opacity: 0; }
-.hamburger.toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    img {
+      display: block;
+      max-width: 100%;
+    }
 
+    /* ============================================
+       NAVIGATION BAR
+       Left: logo.png + Shared Pearls of Wisdom
+       Right: 4 links
+       ============================================ */
+    .nav {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 3px solid var(--crimson);
+      height: 78px;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.03);
+      transition: all 0.3s ease;
+    }
 
-/* ═══════════════════════════════════════════
-   HERO COMMAND CENTRE
-═══════════════════════════════════════════ */
-.hero {
-  background: var(--white); padding: 5rem 3rem 4rem;
-  border-bottom: 1px dashed var(--border); position: relative;
-}
-.hero-inner {
-  max-width: 1400px; margin: 0 auto; display: grid;
-  grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center;
-}
-.hero-kicker { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.5rem; }
-.kicker-line { width: 40px; height: 2px; background: var(--crimson); }
-.kicker-txt {
-  font-family: 'DM Mono', monospace; font-size: .8rem; font-weight: 700;
-  letter-spacing: .15em; text-transform: uppercase; color: var(--crimson);
-}
-.hero-title {
-  font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4.5rem);
-  font-weight: 700; line-height: 1.1; color: var(--charcoal); margin-bottom: 1.5rem;
-}
-.hero-title em { color: var(--crimson); font-style: italic; }
-.hero-subtitle {
-  font-size: 1.1rem; line-height: 1.8; color: var(--charcoal-light);
-  max-width: 650px; margin-bottom: 2.5rem;
-}
-.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-.btn-primary {
-  font-family: 'DM Mono', monospace; font-size: .85rem; letter-spacing: .1em;
-  text-transform: uppercase; padding: 1rem 2.5rem; background: var(--crimson);
-  color: var(--white); font-weight: 700; border: none; cursor: pointer;
-  transition: all .22s; border-radius: 3px; text-align: center;
-}
-.btn-primary:hover { background: var(--crimson-dark); transform: translateY(-2px); box-shadow: var(--shadow-md); }
-.btn-secondary {
-  font-family: 'DM Mono', monospace; font-size: .85rem; letter-spacing: .1em;
-  text-transform: uppercase; padding: 1rem 2.5rem; background: transparent;
-  color: var(--crimson); font-weight: 700; border: 2px solid var(--crimson);
-  cursor: pointer; transition: all .22s; border-radius: 3px; text-align: center;
-}
-.btn-secondary:hover { background: rgba(165,28,48,0.05); }
+    .nav.scrolled {
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07);
+      height: 72px;
+      background: rgba(255, 255, 255, 0.96);
+    }
 
-.hero-stats {
-  background: var(--ivory); border: 1px solid var(--border); padding: 2.5rem;
-  box-shadow: var(--shadow-sm); border-radius: 6px; position: relative;
-}
-.hero-stats::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-  background: var(--crimson); border-radius: 6px 6px 0 0;
-}
-.stats-title {
-  font-family: 'DM Mono', monospace; font-size: .8rem; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 1.5rem;
-}
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.stat-item { padding: 1.5rem; background: var(--white); border: 1px solid var(--border); border-radius: 4px; text-align: center;}
-.stat-num {
-  font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--crimson);
-  font-weight: 700; line-height: 1; margin-bottom: .5rem;
-}
-.stat-lbl {
-  font-family: 'DM Mono', monospace; font-size: .7rem; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--charcoal-light);
-}
+    .nav-inner {
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 2.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-/* ═══════════════════════════════════════════
-   SECTION SKELETON
-═══════════════════════════════════════════ */
-.section { padding: 5rem 3rem; }
-.section.light { background: var(--white); }
-.section.ivory { background: var(--ivory); }
-.section-inner { max-width: 1400px; margin: 0 auto; }
+    /* Logo section */
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
 
-.section-head {
-  display: flex; align-items: flex-end; justify-content: space-between;
-  margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border);
-  flex-wrap: wrap; gap: 1.5rem;
-}
-.sh-eyebrow {
-  font-family: 'DM Mono', monospace; font-size: .85rem; font-weight: 700;
-  letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: .5rem;
-}
-.sh-title {
-  font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 700;
-  color: var(--charcoal); line-height: 1.15;
-}
-.sh-title em { font-style: italic; color: var(--crimson); }
-.sh-sub { font-size: 1.1rem; color: var(--charcoal-light); margin-top: .8rem; max-width: 700px; }
-.see-all {
-  font-family: 'DM Mono', monospace; font-size: .85rem; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--charcoal);
-  padding-bottom: .2rem; transition: all .2s; cursor: pointer;
-  background: none; border: none; border-bottom: 2px solid var(--charcoal);
-}
-.see-all:hover { color: var(--crimson); border-bottom-color: var(--crimson); }
+    .nav-logo img {
+      height: 36px;
+      width: auto;
+    }
 
-/* ═══════════════════════════════════════════
-   GENERIC GRIDS
-═══════════════════════════════════════════ */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.22rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--charcoal);
+    }
 
-/* ═══════════════════════════════════════════
-   PRIORITY FOCUS (Featured)
-═══════════════════════════════════════════ */
-.featured-card {
-  background: var(--white); border: 1px solid var(--border); border-radius: 6px;
-  display: grid; grid-template-columns: 1.5fr 1fr; overflow: hidden;
-  box-shadow: var(--shadow-sm); transition: all .3s; cursor: pointer;
-}
-.featured-card:hover { border-color: var(--crimson); box-shadow: var(--shadow-md); }
-.fc-content { padding: 4rem; }
-.fc-badge {
-  font-family: 'DM Mono', monospace; font-size: .8rem; letter-spacing: .15em;
-  text-transform: uppercase; padding: .4rem 1rem; background: var(--gold);
-  color: var(--white); display: inline-block; font-weight: 700; margin-bottom: 1.5rem; border-radius: 3px;
-}
-.fc-title {
-  font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 700;
-  line-height: 1.15; color: var(--charcoal); margin-bottom: 1.2rem;
-}
-.fc-title em { color: var(--crimson); font-style: italic; }
-.fc-desc { font-size: 1.2rem; color: var(--charcoal-light); line-height: 1.8; margin-bottom: 2rem; }
-.fc-meta { display: flex; gap: 2rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
-.fc-meta span {
-  font-family: 'DM Mono', monospace; font-size: .85rem; font-weight: 700;
-  color: var(--charcoal-light); text-transform: uppercase; letter-spacing: 0.1em;
-}
-.fc-thumb { background: var(--ivory); border-left: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 8rem; }
+    .logo-text em {
+      color: var(--gold);
+      font-style: italic;
+      font-weight: 600;
+    }
 
-/* ═══════════════════════════════════════════
-   STANDARD CARD UI
-═══════════════════════════════════════════ */
-.card {
-  background: var(--white); border: 1px solid var(--border); border-radius: 6px;
-  display: flex; flex-direction: column; overflow: hidden; transition: all .3s; cursor: pointer;
-}
-.card:hover { border-color: var(--crimson); transform: translateY(-5px); box-shadow: var(--shadow-md); }
-.card-thumb {
-  height: 160px; background: var(--ivory); border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center; font-size: 4rem;
-}
-.card-body { padding: 2rem; flex: 1; display: flex; flex-direction: column; }
-.card-tags { display: flex; gap: .5rem; margin-bottom: 1rem; flex-wrap: wrap;}
-.c-tag {
-  font-family: 'DM Mono', monospace; font-size: .7rem; font-weight: 700;
-  letter-spacing: .1em; text-transform: uppercase; padding: .2rem .6rem;
-  border-radius: 3px; border: 1px solid var(--border); color: var(--charcoal-light);
-}
-.c-tag.primary { background: rgba(165,28,48,0.05); border-color: var(--crimson); color: var(--crimson); }
-.c-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--charcoal); margin-bottom: .8rem; line-height: 1.3; }
-.c-desc { font-size: 1rem; color: var(--charcoal-light); line-height: 1.6; flex: 1; }
-.c-footer {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px dashed var(--border);
-}
-.c-meta { font-family: 'DM Mono', monospace; font-size: .75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em;}
-.c-arrow {
-  width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; color: var(--charcoal); transition: all .2s;
-}
-.card:hover .c-arrow { background: var(--crimson); color: var(--white); border-color: var(--crimson); }
+    .gold-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
+      margin: 0 4px;
+      box-shadow: 0 0 0 4px rgba(196, 146, 62, 0.18);
+    }
 
+    /* Nav links */
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
 
-/* ═══════════════════════════════════════════
-   VOCABULARY MATRIX
-═══════════════════════════════════════════ */
-.vocab-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
-.vocab-wall {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
-  background: var(--border); border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
-}
-.vocab-word { background: var(--white); padding: 1.5rem; transition: all .2s; cursor: pointer; position: relative; }
-.vocab-word:hover { background: var(--ivory); }
-.vw-head { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--charcoal); margin-bottom: .2rem; }
-.vw-type { font-family: 'DM Mono', monospace; font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--crimson); margin-bottom: .5rem; }
-.vw-def { font-size: .9rem; color: var(--charcoal-light); line-height: 1.5; }
-.vw-level { position: absolute; top: 1rem; right: 1rem; font-family: 'DM Mono', monospace; font-size: .6rem; border: 1px solid var(--border); padding: .2rem .5rem; color: var(--muted); }
+    .nav-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--charcoal-light);
+      padding: 10px 1.15rem;
+      position: relative;
+      transition: color 0.25s ease;
+    }
 
-.vocab-side { display: flex; flex-direction: column; gap: 2rem; }
-.wotd-card { background: var(--white); border: 1px solid var(--border); padding: 2.5rem; border-radius: 6px; border-top: 4px solid var(--gold); }
-.wotd-badge { font-family: 'DM Mono', monospace; font-size: .75rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; font-weight: 700; }
-.wotd-word { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--charcoal); line-height: 1; margin-bottom: .5rem; }
-.wotd-ipa { font-family: 'DM Mono', monospace; font-size: .85rem; color: var(--crimson); margin-bottom: 1rem; }
-.wotd-def { font-size: 1rem; color: var(--charcoal-light); line-height: 1.7; margin-bottom: 1.5rem; }
-.wotd-ex { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-style: italic; color: var(--charcoal); border-left: 3px solid var(--gold); padding-left: 1rem; }
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 2px;
+      width: 0;
+      height: 2px;
+      background: var(--crimson);
+      transition: width 0.35s ease;
+      transform: translateX(-50%);
+    }
 
-/* ═══════════════════════════════════════════
-   READING & LISTENING LISTS
-═══════════════════════════════════════════ */
-.list-card {
-  background: var(--white); border: 1px solid var(--border); border-radius: 6px;
-  display: grid; grid-template-columns: 120px 1fr; overflow: hidden; transition: all .3s; cursor: pointer;
-}
-.list-card:hover { border-color: var(--crimson); box-shadow: var(--shadow-md); transform: translateX(5px); }
-.lc-icon { background: var(--ivory); display: flex; align-items: center; justify-content: center; font-size: 3rem; border-right: 1px solid var(--border); }
-.lc-body { padding: 1.5rem; }
-.lc-type { font-family: 'DM Mono', monospace; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-bottom: .5rem; font-weight: 700; }
-.lc-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--charcoal); margin-bottom: .5rem; }
-.lc-desc { font-size: .95rem; color: var(--charcoal-light); line-height: 1.5; }
+    .nav-link:hover {
+      color: var(--crimson);
+    }
 
-/* ═══════════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════════ */
-footer { background: var(--charcoal); color: var(--white); padding: 5rem 3rem 2rem; }
-.footer-inner { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; margin-bottom: 4rem; }
-.f-logo { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; }
-.f-logo em { color: var(--gold); font-style: italic; }
-.f-desc { font-size: 1.1rem; color: #A0A0A0; line-height: 1.6; max-width: 300px; }
-.f-title { font-family: 'DM Mono', monospace; font-size: .85rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
-.f-links { list-style: none; display: flex; flex-direction: column; gap: .8rem; }
-.f-links a { font-size: 1rem; color: #A0A0A0; transition: color .2s; }
-.f-links a:hover { color: var(--white); }
-.f-bottom { max-width: 1400px; margin: 0 auto; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; font-family: 'DM Mono', monospace; font-size: .8rem; color: #A0A0A0; text-transform: uppercase; letter-spacing: .1em; flex-wrap: wrap; gap: 1rem;}
+    .nav-link:hover::after {
+      width: 60%;
+    }
 
-/* ═══════════════════════════════════════════
-   MOBILE RESPONSIVENESS FIXES
-═══════════════════════════════════════════ */
-@media (max-width: 1024px) {
-  .nav { padding: 0 1.5rem; }
-  .hamburger { display: flex; } /* Show Hamburger */
-  
-  /* Hide the wrapper by default and absolute position it */
-  .nav-menu-wrapper {
-    display: none;
-    flex-direction: column;
-    position: absolute;
-    top: 75px;
-    left: 0;
-    width: 100%;
-    background: var(--white);
-    padding: 2rem;
-    box-shadow: var(--shadow-md);
-    border-bottom: 3px solid var(--crimson);
-  }
+    .nav-divider {
+      width: 1px;
+      height: 18px;
+      background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+      opacity: 0.55;
+      margin: 0 0.15rem;
+    }
 
-  /* JavaScript will add this class when toggled */
-  .nav-menu-wrapper.active {
-    display: flex;
-  }
+    /* Gold button for IELTS Premium */
+    .nav-cta-gold {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      background: var(--gold);
+      color: var(--charcoal);
+      padding: 0.6rem 1.2rem;
+      border-radius: 3px;
+      margin-left: 0.5rem;
+      transition: all 0.2s ease;
+    }
 
-  .nav-links {
-    flex-direction: column;
-    width: 100%;
-    align-items: center;
-  }
-  
-  .nav-actions {
-    flex-direction: column;
-    width: 100%;
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
-  }
+    .nav-cta-gold:hover {
+      background: var(--charcoal);
+      color: var(--white);
+    }
 
-  /* Grid Adjustments for Tablet/Mobile */
-  .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
-  .hero-actions { flex-direction: column; width: 100%; }
-  .btn-primary, .btn-secondary { width: 100%; }
-  
-  .grid-3 { grid-template-columns: 1fr; }
-  .grid-2 { grid-template-columns: 1fr; }
-  .vocab-layout { grid-template-columns: 1fr; }
-  .vocab-wall { grid-template-columns: 1fr; }
-  
-  .featured-card { grid-template-columns: 1fr; }
-  .fc-content { padding: 2rem; }
-  .fc-thumb { display: none; } /* Hide the large emoji column on mobile */
-  
-  .section { padding: 3rem 1.5rem; }
-  .hero { padding: 3rem 1.5rem; }
-  
-  .footer-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-}
+    /* Hamburger for mobile */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 3px;
+    }
 
-@media (max-width: 600px) {
-  .sh-title { font-size: 2.2rem; }
-  .hero-title { font-size: 2.2rem; }
-  .stats-grid { grid-template-columns: 1fr; } /* Stack stats on very small screens */
-  .list-card { grid-template-columns: 1fr; text-align: center; } /* Stack list icons */
-  .lc-icon { border-right: none; border-bottom: 1px solid var(--border); padding: 1.5rem 0; height: auto;}
-}
-</style>
+    .hamburger span {
+      width: 20px;
+      height: 2px;
+      background: var(--charcoal);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: absolute;
+      top: 78px;
+      left: 0;
+      width: 100%;
+      background: var(--white);
+      padding: 2rem;
+      box-shadow: var(--shadow-md);
+      border-bottom: 3px solid var(--crimson);
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .mobile-menu.active {
+      display: flex;
+    }
+
+    /* ============================================
+       HERO SECTION
+       ============================================ */
+    .hero {
+      background: var(--white);
+      padding: 4rem 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .hero-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 2.25rem;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .hero-kicker {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .kicker-line {
+      width: 40px;
+      height: 2px;
+      background: var(--crimson);
+    }
+
+    .kicker-txt {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--crimson);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--charcoal);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title em {
+      color: var(--crimson);
+      font-style: italic;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--charcoal-light);
+      margin-bottom: 2rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      background: var(--crimson);
+      color: var(--white);
+      font-weight: 700;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.22s;
+    }
+
+    .btn-primary:hover {
+      background: var(--crimson-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-secondary {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      background: transparent;
+      color: var(--crimson);
+      font-weight: 700;
+      border: 2px solid var(--crimson);
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.22s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(165, 28, 48, 0.05);
+    }
+
+    /* 
+      ============================================
+      IMAGE AREA - EDIT HERE
+      This is where you insert your image link
+      ============================================
+    */
+    .hero-visual-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    /* 
+      HOW TO INSERT YOUR IMAGE:
+      1. Replace src="Images/premium-academic-visual-small.webp" 
+         with your own image path
+      2. Example: src="https://example.com/my-image.jpg"
+      3. Or: src="Images/my-custom-image.png"
+    */
+    .hero-visual-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      object-position: center 35%;
+      display: block;
+      transition: transform 0.6s ease;
+    }
+
+    .hero-visual-card:hover img {
+      transform: scale(1.02);
+    }
+
+    /* Gold-crimson accent bar at bottom of image */
+    .hero-visual-card::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--crimson), var(--gold));
+    }
+
+    .visual-caption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      background: var(--ivory);
+      border-top: 1px solid var(--border);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    .v-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
+    }
+
+    /* Stats */
+    .hero-stats {
+      margin-top: 1rem;
+      background: var(--ivory);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: 6px;
+      position: relative;
+    }
+
+    .hero-stats::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--crimson);
+      border-radius: 6px 6px 0 0;
+    }
+
+    .stats-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--charcoal);
+      margin-bottom: 1rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .stat-item {
+      padding: 1rem;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: var(--crimson);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--charcoal-light);
+    }
+
+    /* ============================================
+       SECTIONS - Common styles
+       ============================================ */
+    .section {
+      padding: 4rem 0;
+    }
+
+    .section.ivory {
+      background: var(--ivory);
+    }
+
+    .section.white {
+      background: var(--white);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .container-max {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 2.25rem;
+    }
+
+    .section-head {
+      margin-bottom: 2.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-head h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--charcoal);
+      line-height: 1.15;
+    }
+
+    .section-head h2 em {
+      font-style: italic;
+      color: var(--crimson);
+    }
+
+    .section-head p {
+      font-size: 1rem;
+      color: var(--charcoal-light);
+      margin-top: 0.8rem;
+      max-width: 650px;
+    }
+
+    /* Featured cards */
+    .featured-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 1.5rem;
+    }
+
+    .featured-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .featured-card:hover {
+      border-color: var(--crimson);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .fc-thumb {
+      height: 180px;
+      background: linear-gradient(135deg, var(--ivory) 0%, #FDF2F2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .fc-content {
+      padding: 2rem;
+    }
+
+    .fc-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.7rem;
+      background: var(--crimson);
+      color: var(--white);
+      display: inline-block;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      border-radius: 3px;
+    }
+
+    .fc-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--charcoal);
+      margin-bottom: 0.8rem;
+    }
+
+    .fc-title em {
+      color: var(--crimson);
+      font-style: italic;
+    }
+
+    .fc-desc {
+      font-size: 0.95rem;
+      color: var(--charcoal-light);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .fc-meta {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* Grammar cards */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    .g-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 1.6rem 1.5rem;
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .g-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 0;
+      background: var(--crimson);
+      transition: height 0.3s ease;
+    }
+
+    .g-card:hover::before {
+      height: 3px;
+    }
+
+    .g-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: rgba(165, 28, 48, 0.15);
+    }
+
+    .g-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--ivory);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 1.1rem;
+      transition: all 0.35s ease;
+    }
+
+    .g-card:hover .g-icon {
+      background: var(--crimson);
+      border-color: var(--crimson);
+      color: white;
+      transform: scale(1.08);
+    }
+
+    .g-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.12rem;
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 0.55rem;
+    }
+
+    .g-card p {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .g-foot {
+      margin-top: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    .g-card:hover .g-foot {
+      color: var(--crimson);
+    }
+
+    /* List cards */
+    .list-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .l-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      display: flex;
+      gap: 1.2rem;
+      padding: 1.35rem;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .l-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      background: var(--crimson);
+      transition: width 0.3s ease;
+    }
+
+    .l-card:hover::before {
+      width: 4px;
+    }
+
+    .l-card:hover {
+      transform: translateX(2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .l-icon {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      border-radius: 50%;
+      background: var(--ivory);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      transition: all 0.3s ease;
+    }
+
+    .l-card:hover .l-icon {
+      background: var(--crimson);
+      border-color: var(--crimson);
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .l-body h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 0.35rem;
+    }
+
+    .l-body p {
+      font-size: 0.9rem;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .l-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 0.3rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem 0;
+      border-top: 3px solid var(--crimson);
+      background: var(--white);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .nav-inner,
+      .container-max,
+      .hero-inner {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      .nav-menu {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .featured-grid,
+      .grid-3,
+      .list-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual-card img {
+        height: 220px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<nav class="nav">
-    <img src="logo.png" alt="Logo" style="height: 65px;width:auto; margin-left: 0.1rem; margin-top: 0.25%;">
-  <a href="#" class="nav-logo" style=text-align: center;">Shared <em>Pearls</em><span> of Wisdom</span></a>
-  
-  <div class="hamburger" id="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
+  <!-- ============================================
+       NAVIGATION BAR
+       Left: Logo + Text
+       Right: 4 Links
+       ============================================ -->
+  <nav class="nav" id="navbar">
+    <div class="nav-inner">
+      
+      <!-- Left side - Logo and Brand Name -->
+      <a href="logo.png" class="nav-logo">
+        <!-- 
+          LOGO IMAGE - Change this path to your logo
+          Example: Images/logo.png
+        -->
+        <img 
+          src="logo.png" 
+          alt="Shared Pearls of Wisdom Logo"
+          onerror="this.style.display='none'"
+        />
+        <div class="logo-text">
+          Shared <em>Pearls</em> <span></span> of Wisdom
+        </div>
+      </a>
 
-  <div class="nav-menu-wrapper" id="nav-menu">
-    <div class="nav-links">
-     <a href="premium-grammar.html" class="nav-link">Liguistic Architecture</a>
+      <!-- Right side - Navigation Links -->
+      <div class="nav-menu" id="nav-menu">
+        <a href="premium-grammar.html" class="nav-link">
+          Linguistic Architecture
+        </a>
+        <span class="nav-divider"></span>
+
+        <a href="lexical-vault.html" class="nav-link">
+          Lexical Vault
+        </a>
+        <span class="nav-divider"></span>
+
+        <a href="premium-lrsw-dashboard.html" class="nav-link">
+          LRSW Clinic
+        </a>
+        <span class="nav-divider"></span>
+
+        <a href="premium-ielts-dashboard.html" class="nav-cta-gold">
+          IELTS Premium
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger -->
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
+    <!-- Mobile Menu (hidden on desktop) -->
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="premium-grammar.html" class="nav-link">Linguistic Architecture</a>
       <a href="lexical-vault.html" class="nav-link">Lexical Vault</a>
       <a href="premium-lrsw-dashboard.html" class="nav-link">LRSW Clinic</a>
-   </div>
-    <div class="nav-actions">
-     <button style="padding: 1rem; background: var(--gold); border-color: var(--gold); color: var(--charcoal);"><a href="premium-ielts-dashboard.html" class="nav-link">IELTS Premium</a></button>
+      <a href="premium-ielts-dashboard.html" class="nav-cta-gold">IELTS Premium</a>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-left">
-      <div class="hero-kicker"><span class="kicker-line"></span><span class="kicker-txt">PhD-Tier Linguistic Pathway</span></div>
-      <h1 class="hero-title">Pedagogical Mastery <br/><em>Through Technology.</em></h1>
-      <p class="hero-subtitle">You are actively bridging pedagogical gaps using AI-integrated CPD frameworks. Your current trajectory indicates readiness for Scopus Q1 academic writing and C2 IELTS evaluation.</p>
-      <div class="hero-actions">
-        <button class="btn-primary">Continue Research Synthesis</button>
-        <button class="btn-secondary">View Assessment Metrics</button>
-      </div>
-    </div>
-    <div class="hero-stats">
-      <div class="stats-title">Real-Time Linguistic Analytics</div>
-      <div class="stats-grid">
-        <div class="stat-item"><div class="stat-num">24</div><div class="stat-lbl">CPD Modules</div></div>
-        <div class="stat-item"><div class="stat-num">810</div><div class="stat-lbl">Academic Lexicon</div></div>
-        <div class="stat-item"><div class="stat-num">15</div><div class="stat-lbl">Days Consistent</div></div>
-        <div class="stat-item"><div class="stat-num">Q1</div><div class="stat-lbl">Writing Tier</div></div>
-      </div>
-    </div>
-  </div>
-</section>
+  <!-- ============================================
+       HERO SECTION
+       ============================================ -->
+  <section class="hero">
+    <div class="hero-inner">
+      
+      <!-- Left - Text Content -->
+      <div class="hero-left">
+        <div class="hero-kicker">
+          <span class="kicker-line"></span>
+          <span class="kicker-txt">C1 Mastery · Oxbridge Standard</span>
+        </div>
 
-<section class="section ivory">
-  <div class="section-inner">
-    <div class="section-head">
-      <div><div class="sh-eyebrow">Algorithmic Recommendation</div><h2 class="sh-title">Priority <em>Pedagogical Focus</em></h2></div>
-      <button class="see-all">Access Full Vault →</button>
-    </div>
+        <h1 class="hero-title">
+          Linguistic Precision <br />
+          <em>Through Structure.</em>
+        </h1>
 
-    <div class="featured-card">
-      <div class="fc-content">
-        <span class="fc-badge">Research Task · In Progress</span>
-        <h2 class="fc-title">AI-Integrated CPD: <em>The Moderating Variable</em></h2>
-        <p class="fc-desc">Synthesize peer-reviewed literature to evaluate how Artificial Intelligence serves as a moderator between Continuous Professional Development (CPD) and ultimate teacher performance in secondary education.</p>
-        <div class="fc-meta">
-          <span>⏱ ~45 minutes</span>
-          <span>📄 Scopus Q1 Standard</span>
-          <span>🎯 Pedagogical Gap Analysis</span>
-        </div>
-        <button class="btn-primary">Resume Literature Synthesis</button>
-      </div>
-      <div class="fc-thumb">🔬</div>
-    </div>
-  </div>
-</section>
+        <p class="hero-subtitle">
+          An elite environment for advanced syntax, academic lexis, 
+          and rhetorical control. Designed for IELTS 8.5+, CPE, and 
+          publication-level prose. No simplifications. No C1 shortcuts.
+        </p>
 
-<section class="section light">
-  <div class="section-inner">
-    <div class="section-head">
-      <div><div class="sh-eyebrow">Structural Linguistics</div><h2 class="sh-title">Grammar <em>Architecture</em></h2><p class="sh-sub">Advanced syntactic structures required for elite academic publishing and IELTS band 8.0+.</p></div>
-    </div>
-    <div class="grid-3">
-      <div class="card">
-        <div class="card-thumb">🏛️</div>
-        <div class="card-body">
-          <div class="card-tags"><span class="c-tag primary">Syntax</span><span class="c-tag">C1/C2</span></div>
-          <div class="c-title"><a href="inverstion.html" style="text-decoration: none;">Syntactic Inversion for Emphasis</a></div>
-          <div class="c-desc">Deploy negative adverbials (Seldom, Rarely, Under no circumstances) to elevate formal written discourse.</div>
-          <div class="c-footer"><span class="c-meta">12 Exercises</span><div class="c-arrow">→</div></div>
+        <div class="hero-actions">
+          <a href="lexical-vault.html" class="btn-primary">
+            Enter Lexical Vault
+          </a>
+          <a href="premium-grammar.html" class="btn-secondary">
+            Explore Grammar Architecture
+          </a>
         </div>
       </div>
-      <div class="card">
-        <div class="card-thumb">⚖️</div>
-        <div class="card-body">
-          <div class="card-tags"><span class="c-tag primary">Modality</span><span class="c-tag">C1</span></div>
-          <div class="c-title"><a href="epistemic-modality.html" style="text-decoration: none;">Epistemic & Deontic Modality</a></div>
-          <div class="c-desc">Express precise degrees of theoretical certainty and obligation in academic hypotheses.</div>
-          <div class="c-footer"><span class="c-meta">8 Exercises</span><div class="c-arrow">→</div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-thumb">🔗</div>
-        <div class="card-body">
-          <div class="card-tags"><span class="c-tag primary">Cohesion</span><span class="c-tag">C2</span></div>
-          <div class="c-title">Advanced Discourse Markers</div>
-          <div class="c-desc">Move beyond basic transitions. Master structural framing devices for complex argument synthesis.</div>
-          <div class="c-footer"><span class="c-meta">15 Exercises</span><div class="c-arrow">→</div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-thumb">✂️</div>
-        <div class="card-body">
-          <div class="card-tags"><span class="c-tag primary">Focus</span><span class="c-tag">C1</span></div>
-          <div class="c-title">Cleft Sentences & Nuance</div>
-          <div class="c-desc">Reorganize standard clauses using It/What clefts to manipulate the reader's focal point.</div>
-          <div class="c-footer"><span class="c-meta">10 Exercises</span><div class="c-arrow">→</div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-thumb">🎭</div>
-        <div class="card-body">
-          <div class="card-tags"><span class="c-tag primary">Conditionals</span><span class="c-tag">C1/C2</span></div>
-          <div class="c-title">Mixed & Omitted Conditionals</div>
-          <div class="c-desc">Construct complex hypothetical frameworks (e.g., "Had the methodology been followed...").</div>
-          <div class="c-footer"><span class="c-meta">14 Exercises</span><div class="c-arrow">→</div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-thumb">📦</div>
-        <div class="card-body">
-          <div class="card-tags"><span class="c-tag primary">Lexis</span><span class="c-tag">C2</span></div>
-          <div class="c-title">Nominalisation in Academia</div>
-          <div class="c-desc">Transform active verbs into dense noun phrases to achieve the objective tone of scientific journals.</div>
-          <div class="c-footer"><span class="c-meta">20 Exercises</span><div class="c-arrow">→</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<section class="section ivory">
-  <div class="section-inner">
-    <div class="section-head">
-      <div><div class="sh-eyebrow">Receptive Competence</div><h2 class="sh-title">Reading <em>& Analysis</em></h2><p class="sh-sub">High-density texts focusing on your core research interests.</p></div>
-    </div>
-    <div class="grid-2">
-      <div class="list-card">
-        <div class="lc-icon">🤖</div>
-        <div class="lc-body">
-          <div class="lc-type">Pedagogical Intervention · C1</div>
-          <div class="lc-title">LLMs as Linguistic Scaffolding</div>
-          <div class="lc-desc">Analyze an abstract detailing how AI models provide real-time pragmatic feedback to international learners.</div>
-        </div>
-      </div>
-      <div class="list-card">
-        <div class="lc-icon">🏛️</div>
-        <div class="lc-body">
-          <div class="lc-type">Stoic Philosophy · C2</div>
-          <div class="lc-title">Amor Fati: The Professional Identity</div>
-          <div class="lc-desc">Read Epictetus-inspired analyses on negotiating teacher identity through digital disruption.</div>
-        </div>
-      </div>
-      <div class="list-card">
-        <div class="lc-icon">📊</div>
-        <div class="lc-body">
-          <div class="lc-type">IELTS Academic · B2/C1</div>
-          <div class="lc-title">Interpreting Stratified Data</div>
-          <div class="lc-desc">A complex reading passage requiring the distinction of 7 strata variables in educational sampling.</div>
-        </div>
-      </div>
-      <div class="list-card">
-        <div class="lc-icon">🌐</div>
-        <div class="lc-body">
-          <div class="lc-type">Global Education · C1</div>
-          <div class="lc-title">Communicative English in Malaysia</div>
-          <div class="lc-desc">Evaluate the baseline and intervention phases of teaching A2-B2 learners in diverse ASEAN environments.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+      <!-- Right - Image and Stats -->
+      <div class="hero-right">
 
-<section class="section light">
-  <div class="section-inner">
-    <div class="section-head">
-      <div><div class="sh-eyebrow">Lexical Resource</div><h2 class="sh-title">Vocabulary <em>Matrix</em></h2></div>
-    </div>
-    <div class="vocab-layout">
-      <div class="vocab-wall">
-        <div class="vocab-word"><div class="vw-level">C1</div><div class="vw-head">Scaffolding</div><div class="vw-type">Noun</div><div class="vw-def">Instructional techniques used to move students toward stronger understanding.</div></div>
-        <div class="vocab-word"><div class="vw-level">C2</div><div class="vw-head">Ameliorate</div><div class="vw-type">Verb</div><div class="vw-def">To make a bad or unsatisfactory situation better.</div></div>
-        <div class="vocab-word"><div class="vw-level">C1</div><div class="vw-head">Pedagogy</div><div class="vw-type">Noun</div><div class="vw-def">The method and practice of teaching, especially as an academic subject.</div></div>
-        <div class="vocab-word"><div class="vw-level">C2</div><div class="vw-head">Epistemology</div><div class="vw-type">Noun</div><div class="vw-def">The theory of knowledge, especially regarding its methods and validity.</div></div>
-        <div class="vocab-word"><div class="vw-level">C1</div><div class="vw-head">Synthesize</div><div class="vw-type">Verb</div><div class="vw-def">To combine a number of things into a coherent whole.</div></div>
-        <div class="vocab-word"><div class="vw-level">C2</div><div class="vw-head">Paradigm</div><div class="vw-type">Noun</div><div class="vw-def">A typical example or pattern of something; a model.</div></div>
-      </div>
-      <div class="vocab-side">
-        <div class="wotd-card">
-          <div class="wotd-badge">Term of the Day</div>
-          <div class="wotd-word">Dichotomy</div>
-          <div class="wotd-ipa">/daɪˈkɒt.ə.mi/ · Noun · C1</div>
-          <div class="wotd-def">A division or contrast between two things that are or are represented as being opposed or entirely different.</div>
-          <div class="wotd-ex">"There is a false dichotomy between traditional teacher intuition and AI-integrated CPD frameworks."</div>
+        <!-- 
+          ============================================
+          IMAGE LINK AREA - EDIT YOUR IMAGE HERE
+          ============================================
+          HOW TO INSERT YOUR IMAGE:
+          
+          Option 1 - Local file:
+          src="Images/your-image.jpg"
+          
+          Option 2 - External URL:
+          src="https://example.com/your-image.jpg"
+          
+          Option 3 - Use the AI generated image (already included):
+          src="Images/premium-academic-visual-small.webp"
+        -->
+        <div class="hero-visual-card">
+          <img 
+            src="Images/premium-academic-visual.webp"
+            alt="Syntax Tree Embossing Visual"
+          />
+          <div class="visual-caption">
+            <span>Fig. 01 — Syntax Tree Embossing</span>
+            <span class="v-dot"></span>
+            <span>C1 Linguistics</span>
+          </div>
         </div>
+
+        <!-- Stats -->
+        <div class="hero-stats">
+          <div class="stats-title">Corpus Analytics</div>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-num">124</div>
+              <div class="stat-lbl">Advanced Structures</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">1,200</div>
+              <div class="stat-lbl">Academic Lexemes</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">18</div>
+              <div class="stat-lbl">Rhetorical Devices</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">C2+</div>
+              <div class="stat-lbl">CEFR Tier</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <div class="footer-inner">
-    <div>
-      <div class="f-logo">Shared <em>Pearls</em> of Wisdom</div>
-      <div class="f-desc">A premium academic linguistic environment designed for elite educators, IELTS candidates, and researchers.</div>
-    </div>
-    <div>
-      <div class="f-title">Research & Pedagogy</div>
-      <ul class="f-links">
-        <li><a href="#">AI-Integrated CPD</a></li>
-        <li><a href="#">Linguistic Scaffolding</a></li>
-        <li><a href="#">Stoicism in Education</a></li>
-        <li><a href="#">Journal Syntheses</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="f-title">IELTS et al. Hub</div>
-      <ul class="f-links">
-        <li><a href="#">Advanced IELTS Vocabulary</a></li>
-        <li><a href="#">Academic Writing Task 1 & 2</a></li>
-        <li><a href="#">Speaking Part 3 Mastery</a></li>
-        <li><a href="#">Mock Diagnostics</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="f-title">Account</div>
-      <ul class="f-links">
-        <li><a href="#">Command Centre</a></li>
-        <li><a href="#">PhD Timeline</a></li>
-        <li><a href="#">Mentorship Tools (Primary/Secondary)</a></li>
-        <li><a href="#">Secure Logout</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="f-bottom">
-    <span>© 2026 Shared Pearls of Wisdom · Harvard-Tier Assessment Syndicate</span>
-    <div style="display:flex;gap:2rem;">
-      <a href="#">Research Ethics</a>
-      <a href="#">Privacy Policy</a>
-    </div>
-  </div>
-</footer>
+  <!-- ============================================
+       FEATURED SECTION - Structure as Argument
+       ============================================ -->
+  <section class="section ivory">
+    <div class="container-max">
+      
+      <div class="section-head">
+        <div class="eyebrow">Editor's Selection</div>
+        <h2>Structure as <em>Argument</em></h2>
+        <p>
+          Two pillars of academic authority: how you foreground ideas, 
+          and how you compress them.
+        </p>
+      </div>
 
-<script>
-  // ── HAMBURGER MENU LOGIC ──
-  const hamburger = document.getElementById('hamburger');
-  const navMenu = document.getElementById('nav-menu');
+      <div class="featured-grid">
+        
+        <!-- Card 1 -->
+        <div class="featured-card">
+          <div class="fc-thumb">⇅</div>
+          <div class="fc-content">
+            <span class="fc-badge">Featured Module · Syntax</span>
+            <h2 class="fc-title">
+              Inversion: <em>The Rhetorical Edge</em>
+            </h2>
+            <p class="fc-desc">
+              Move beyond SVO. Master negative inversion, locative inversion, 
+              and cleft-fronting to achieve the emphasis and formality demanded 
+              by Oxford and Cambridge examiners.
+            </p>
+            <div class="fc-meta">
+              <span>⏱ ~35 min</span>
+              <span>📄 Band 9 Range</span>
+              <span>🎯 Cohesion</span>
+            </div>
+            <a href="inversion.html" class="btn-primary">
+              Begin Inversion Lab
+            </a>
+          </div>
+        </div>
 
-  hamburger.addEventListener('click', () => {
-    // Toggle active class to show/hide the menu
-    navMenu.classList.toggle('active');
-    // Animate the hamburger icon into an 'X'
-    hamburger.classList.toggle('toggle');
-  });
-</script>
+        <!-- Card 2 -->
+        <div class="featured-card">
+          <div class="fc-thumb">◐</div>
+          <div class="fc-content">
+            <span class="fc-badge" style="background: var(--charcoal);">
+              Rhetorical Lab · Cohesion
+            </span>
+            <h2 class="fc-title" style="font-size: 1.5rem;">
+              Nominalisation: <em>Density as Power</em>
+            </h2>
+            <p class="fc-desc">
+              Transform clauses into dense noun phrases. Learn how Oxford 
+              academic prose achieves objectivity and lexical density through 
+              strategic nominalisation.
+            </p>
+            <div class="fc-meta">
+              <span>⏱ ~30 min</span>
+              <span>📄 Band 9 Task</span>
+              <span>🎯 Register</span>
+            </div>
+            <a href="premium-grammar.html" class="btn-secondary">
+              Enter Lab
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       GRAMMAR ARCHITECTURE
+       ============================================ -->
+  <section class="section">
+    <div class="container-max">
+      
+      <div class="section-head">
+        <div class="eyebrow">Structural Linguistics</div>
+        <h2>Grammar <em>Architecture</em></h2>
+        <p>
+          Advanced syntactic structures required for elite academic 
+          publishing and IELTS band 8.0+.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        
+        <a href="inversion.html" class="g-card">
+          <div class="g-icon">🏛</div>
+          <h3>Syntactic Inversion for Emphasis</h3>
+          <p>
+            Deploy negative adverbials (Seldom, Rarely, Under no circumstances) 
+            to elevate formal written discourse.
+          </p>
+          <div class="g-foot">Explore →</div>
+        </a>
+
+        <a href="epistemic-modality.html" class="g-card">
+          <div class="g-icon">⚖</div>
+          <h3>Epistemic & Deontic Modality</h3>
+          <p>
+            Express precise degrees of theoretical certainty and obligation 
+            in academic hypotheses.
+          </p>
+          <div class="g-foot">Explore →</div>
+        </a>
+
+        <a href="premium-grammar.html" class="g-card">
+          <div class="g-icon">🔗</div>
+          <h3>Advanced Discourse Markers</h3>
+          <p>
+            Move beyond basic transitions. Master structural framing devices 
+            for complex argument synthesis.
+          </p>
+          <div class="g-foot">Explore →</div>
+        </a>
+
+        <a href="premium-grammar.html" class="g-card">
+          <div class="g-icon">✂</div>
+          <h3>Cleft Sentences & Nuance</h3>
+          <p>
+            Reorganise standard clauses using It/What clefts to manipulate 
+            the reader's focal point.
+          </p>
+          <div class="g-foot">Explore →</div>
+        </a>
+
+        <a href="premium-grammar.html" class="g-card">
+          <div class="g-icon">🎭</div>
+          <h3>Mixed & Omitted Conditionals</h3>
+          <p>
+            Construct complex hypothetical frameworks (e.g., 
+            "Had the methodology been followed...").
+          </p>
+          <div class="g-foot">Explore →</div>
+        </a>
+
+        <a href="premium-grammar.html" class="g-card">
+          <div class="g-icon">📦</div>
+          <h3>Nominalisation in Academia</h3>
+          <p>
+            Transform active verbs into dense noun phrases to achieve the 
+            objective tone of scientific journals.
+          </p>
+          <div class="g-foot">Explore →</div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       READING & ANALYSIS - 6 Cards
+       ============================================ -->
+  <section class="section white">
+    <div class="container-max">
+      
+      <div class="section-head">
+        <div class="eyebrow">Receptive Competence</div>
+        <h2>Close Reading at <em>C2</em></h2>
+        <p>
+          Six lenses to dissect high-level prose: syntax, lexis, cohesion, 
+          and authorial stance.
+        </p>
+      </div>
+
+      <div class="list-grid">
+
+        <a href="premium-grammar.html" class="l-card">
+          <div class="l-icon">📜</div>
+          <div class="l-body">
+            <div class="l-meta">Syntax · C2</div>
+            <h4>Subordination & Hypotaxis</h4>
+            <p>How embedded clauses create hierarchy of ideas and intellectual depth.</p>
+          </div>
+        </a>
+
+        <a href="lexical-vault.html" class="l-card">
+          <div class="l-icon">🔍</div>
+          <div class="l-body">
+            <div class="l-meta">Lexis · C2</div>
+            <h4>Connotation vs Denotation</h4>
+            <p>Choosing ameliorate over improve is register, collocation, and stance.</p>
+          </div>
+        </a>
+
+        <a href="premium-grammar.html" class="l-card">
+          <div class="l-icon">⚡</div>
+          <div class="l-body">
+            <div class="l-meta">Cohesion · C2</div>
+            <h4>Beyond Moreover</h4>
+            <p>A curated atlas of 120 discourse markers graded by formality.</p>
+          </div>
+        </a>
+
+        <a href="epistemic-modality.html" class="l-card">
+          <div class="l-icon">🎯</div>
+          <div class="l-body">
+            <div class="l-meta">Stance · C2</div>
+            <h4>Hedging and Boosting</h4>
+            <p>Tentative may suggest versus emphatic demonstrates.</p>
+          </div>
+        </a>
+
+        <a href="lexical-vault.html" class="l-card">
+          <div class="l-icon">🧬</div>
+          <div class="l-body">
+            <div class="l-meta">Corpus Linguistics · C2</div>
+            <h4>Collocational Precision</h4>
+            <p>Conduct research, pose a challenge, yield insights — avoid L1 interference.</p>
+          </div>
+        </a>
+
+        <a href="epistemic-modality.html" class="l-card">
+          <div class="l-icon">💎</div>
+          <div class="l-body">
+            <div class="l-meta">Stylistics · C2</div>
+            <h4>The Rhetoric of Hedging</h4>
+            <p>From it is evident that to arguably — the cline of certainty.</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container-max" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; align-items: center;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-family: 'Playfair Display', serif; font-weight: 700;">
+          Shared Pearls of Wisdom
+        </span>
+        <span style="font-family: 'DM Mono', monospace; font-size: 0.6rem; color: var(--faint); letter-spacing: 0.12em; text-transform: uppercase;">
+          C2 Mastery · MMXXV
+        </span>
+      </div>
+      <div style="display: flex; gap: 1.5rem;">
+        <a href="premium-grammar.html" class="nav-link" style="font-size: 0.65rem;">Grammar</a>
+        <a href="lexical-vault.html" class="nav-link" style="font-size: 0.65rem;">Vault</a>
+        <a href="premium-lrsw-dashboard.html" class="nav-link" style="font-size: 0.65rem;">LRSW Studio</a>
+        <a href="premium-ielts-dashboard.html" class="nav-link" style="font-size: 0.65rem;">IELTS Premium</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT - Easy to understand
+       ============================================ -->
+  <script>
+    // Mobile hamburger menu toggle
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navbar = document.getElementById('navbar');
+
+    hamburger.addEventListener('click', function() {
+      // Toggle mobile menu visibility
+      mobileMenu.classList.toggle('active');
+      
+      // Animate hamburger to X
+      hamburger.classList.toggle('toggle');
+    });
+
+    // Navbar scroll effect - adds shadow when scrolled
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 12) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Close mobile menu when clicking a link
+    const mobileLinks = mobileMenu.querySelectorAll('a');
+    mobileLinks.forEach(function(link) {
+      link.addEventListener('click', function() {
+        mobileMenu.classList.remove('active');
+        hamburger.classList.remove('toggle');
+      });
+    });
+  </script>
+
 </body>
 </html>
