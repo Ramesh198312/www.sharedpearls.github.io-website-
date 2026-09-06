@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Nominalisation: Density as Power · Premium Lab</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <!-- Fonts from File 1 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&family=Fira+Code:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Cormorant Garamond', 'serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['Fira Code', 'monospace']
+                    },
+                    colors: {
+                        brand: {
+                            ivory: '#FAF9F6',      // Main background
+                            dark: '#222222',       // Deepest text
+                            crimson: '#A51C30',    // Error/Accent
+                            emerald: '#0F766E',    // Primary Teal/Green
+                            blue: '#1E40AF',       // Secondary Accent
+                            gold: '#C4923E',       // Premium Accent
+                            mint: {
+                                light: '#E8F5E9',  // Lightest green bg
+                                DEFAULT: '#DFF3E3', // Mid light green
+                                dark: '#C8E6C9'    // Border/darker light green
+                            },
+                            forest: '#1B5E20'      // Deep green text/accents
+                        }
+                    },
+                    boxShadow: {
+                        'premium': '0 20px 40px -10px rgba(27, 94, 32, 0.08)',
+                        'premium-hover': '0 30px 60px -15px rgba(27, 94, 32, 0.12)',
+                        'inner-light': 'inset 0 2px 4px 0 rgba(255, 255, 255, 0.6)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: theme('colors.brand.ivory');
+            color: theme('colors.brand.dark');
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: theme('colors.brand.mint.light');
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: theme('colors.brand.mint.dark');
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.brand.forest');
+        }
+
+        ::selection {
+            background-color: theme('colors.brand.forest');
+            color: theme('colors.brand.ivory');
+        }
+
+        /* Certificate specific print styles - Offscreen instead of display:none to fix html2pdf text rendering */
+        .pdf-offscreen-container {
+            position: absolute;
+            left: -9999px;
+            top: -9999px;
+            width: 800px;
+            height: 600px;
+            z-index: -100;
+        }
+
+        /* Custom Input Range */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: theme('colors.brand.forest');
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 2px 6px rgba(27, 94, 32, 0.4);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: theme('colors.brand.mint.dark');
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+<div id="app" class="relative">
+    
+    <nav class="sticky top-0 z-50 h-[78px] border-b-[3px] border-brand-forest bg-brand-mint-light/95 backdrop-blur-xl flex items-center transition-all duration-300">
+        <div class="w-full max-w-[1400px] mx-auto px-6 lg:px-10 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-brand-forest text-white grid place-items-center font-playfair font-black text-xs shadow-md">SP</div>
+                <div class="font-playfair font-bold text-2xl tracking-tight text-brand-forest">
+                    Shared Pearls <span class="inline-block w-1.5 h-1.5 rounded-full bg-brand-gold mx-1 shadow-[0_0_0_3px_rgba(196,146,62,0.18)]"></span> <span class="italic text-brand-gold font-normal">of Wisdom</span>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center gap-6">
+                <div class="flex items-center gap-2 font-mono text-[11px] tracking-widest uppercase font-semibold">
+                    <span class="text-brand-forest">Premium Module</span>
+                    <div class="w-px h-4 bg-gradient-to-b from-transparent via-brand-gold to-transparent"></div>
+                    <span class="bg-brand-gold text-brand-dark px-3 py-1 rounded-sm">Band 8+ Series</span>
+                </div>
+                <a href="monthly-premium-dashboard-main.html" class="px-5 py-2.5 rounded-full bg-brand-forest text-white font-mono text-[11px] font-bold tracking-widest hover:bg-brand-emerald transition-all duration-300 shadow-md hover:shadow-lg flex items-center gap-2">
+                    GO TO MAIN
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="grid grid-cols-1 xl:grid-cols-[280px_1fr] max-w-[1400px] mx-auto relative">
+        
+        <aside class="hidden xl:block sticky top-[78px] h-[calc(100vh-78px)] overflow-y-auto px-8 py-10 border-r border-brand-mint-dark custom-scrollbar bg-brand-ivory z-10">
+            <div class="font-mono text-[10px] tracking-[0.2em] uppercase text-brand-forest/60 mb-6 font-bold">Curriculum Progress</div>
+            <ul id="chapterNav" class="space-y-2">
+                <!-- Navigation injected via JS -->
+            </ul>
+            
+            <div class="mt-8">
+                <div class="flex justify-between items-center mb-2 font-mono text-[10px] font-bold text-brand-dark">
+                    <span>Overall Score</span>
+                    <span id="sideScore">0 / 50</span>
+                </div>
+                <div class="h-1.5 bg-brand-mint-dark/50 rounded-full overflow-hidden">
+                    <div id="sideScoreFill" class="h-full bg-gradient-to-r from-brand-crimson to-brand-gold w-0 transition-all duration-500 ease-out"></div>
+                </div>
+                <p class="font-mono text-[9px] text-brand-forest/70 mt-2 text-right">40 pts required for Certificate</p>
+            </div>
+
+            <div class="mt-10 rounded-xl border border-brand-mint-dark bg-white p-5 shadow-sm">
+                <div class="font-mono text-[9px] tracking-widest text-brand-forest/60 font-bold mb-4">DENSITY METRICS</div>
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-2.5 h-2.5 rounded-full bg-brand-emerald shadow-[0_0_0_4px_rgba(15,118,110,0.1)]"></div>
+                    <span class="font-mono text-[11px] text-brand-dark">Oxford Academic 60%+</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-2.5 h-2.5 rounded-full bg-brand-crimson shadow-[0_0_0_4px_rgba(165,28,48,0.1)]"></div>
+                    <span class="font-mono text-[11px] text-brand-dark">Spoken Register ~20%</span>
+                </div>
+            </div>
+        </aside>
+
+        <main id="main" class="pb-24 xl:pb-0">
+            
+            <section class="px-6 md:px-12 lg:px-20 py-16 md:py-24 border-b border-brand-mint-dark bg-white">
+                <div class="max-w-[950px]">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-forest text-white font-mono text-[10px] tracking-widest font-bold shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span>
+                        RHETORICAL LAB · COHESION
+                    </div>
+                    
+                    <h1 class="font-display font-black text-6xl md:text-[5.5rem] leading-[0.95] tracking-tighter mt-8 text-brand-forest relative group">
+                        <span class="relative z-10">Nominalisation</span><span class="text-brand-gold">.</span><br/>
+                        <span class="italic font-medium text-brand-emerald text-5xl md:text-7xl relative z-10">Density as Power</span>
+                        <div class="absolute -left-6 -top-8 text-[12rem] text-brand-mint-dark/30 font-serif leading-none select-none z-0 transition-transform duration-700 group-hover:scale-105 group-hover:-rotate-3">N</div>
+                    </h1>
+                    
+                    <div class="mt-12 mb-10 flex flex-col lg:flex-row gap-6">
+                        <div class="flex-1 bg-brand-mint-light border-l-4 border-brand-emerald p-6 rounded-r-2xl shadow-sm text-brand-forest relative overflow-hidden">
+                            <div class="absolute -right-4 -bottom-4 opacity-10"><svg class="w-24 h-24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2z"/></svg></div>
+                            <h3 class="font-display font-bold text-2xl mb-3 flex items-center gap-2 relative z-10">
+                                <svg class="w-5 h-5 text-brand-emerald" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> 
+                                What is Nominalisation?
+                            </h3>
+                            <p class="font-sans text-[15.5px] leading-relaxed opacity-90 relative z-10">
+                                It is the grammatical alchemy of transforming <b>verbs (actions)</b> or <b>adjectives (descriptions)</b> into <b>nouns (static concepts)</b>. Instead of the basic "The government <i>decided</i> to <i>regulate</i>", academic writers elevate their prose to "The government's <i>decision</i> regarding <i>regulation</i>", creating denser, highly professional phrasing.
+                            </p>
+                        </div>
+                        <div class="flex-1 bg-white border border-brand-mint-dark p-6 rounded-2xl shadow-sm text-brand-forest relative overflow-hidden">
+                            <h3 class="font-display font-bold text-2xl mb-3 text-brand-gold flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Where to deploy it?
+                            </h3>
+                            <ul class="font-sans text-[14px] leading-relaxed opacity-90 space-y-3">
+                                <li class="flex gap-3 items-start">
+                                    <span class="w-6 h-6 rounded-full bg-brand-gold/20 text-brand-gold flex items-center justify-center shrink-0 font-bold font-mono text-[10px]">1</span> 
+                                    <span><b>IELTS Task 1:</b> Critical for describing trends. "Prices <i>fluctuated</i>" (Band 6) becomes "There was a <i>fluctuation</i> in prices" (Band 8+).</span>
+                                </li>
+                                <li class="flex gap-3 items-start">
+                                    <span class="w-6 h-6 rounded-full bg-brand-emerald/20 text-brand-emerald flex items-center justify-center shrink-0 font-bold font-mono text-[10px]">2</span> 
+                                    <span><b>IELTS Task 2 & Uni:</b> Creates an objective, formal tone by eradicating personal pronouns. ("I think it's difficult" → "The difficulty of...").</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4 font-mono text-[11px] tracking-widest font-semibold">
+                        <span class="px-4 py-2 rounded-full bg-brand-ivory border border-brand-mint-dark text-brand-dark/80 flex items-center gap-2">⏱ 45 MIN MASTERCLASS</span>
+                        <span class="px-4 py-2 rounded-full bg-brand-ivory border border-brand-mint-dark text-brand-dark/80 flex items-center gap-2">📄 ACADEMIC TASK 1 & 2</span>
+                        <span class="px-4 py-2 rounded-full bg-brand-forest text-white shadow-md flex items-center gap-2">🏆 CERTIFICATE AT 80%</span>
+                    </div>
+
+                    <div class="mt-16 rounded-[2rem] bg-brand-ivory border border-brand-mint-dark p-8 md:p-10 shadow-premium relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-64 h-64 bg-brand-gold/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex flex-wrap justify-between items-center mb-6">
+                                <div class="font-mono text-[11px] tracking-[0.2em] text-brand-forest/60 font-bold">LIVE TRANSFORMER ENGINE</div>
+                                <button data-action="speak" data-target="inputBox" class="text-brand-forest hover:text-brand-emerald transition-colors p-2 rounded-full hover:bg-brand-mint">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path></svg>
+                                </button>
+                            </div>
+                            
+                            <div id="pillRow" class="flex flex-wrap gap-2 mb-6">
+                                <!-- Pills injected via JS -->
+                            </div>
+                            
+                            <div class="group relative">
+                                <input id="inputBox" class="w-full h-16 rounded-2xl border border-brand-mint-dark px-6 font-display text-[22px] focus:outline-none focus:border-brand-emerald focus:ring-4 focus:ring-brand-emerald/10 transition-all bg-white text-brand-dark shadow-inner-light" value="The scientists analysed the data quickly"/>
+                            </div>
+                            
+                            <div class="mt-5 relative">
+                                <div id="outputBox" class="min-h-[5rem] rounded-2xl bg-white border border-brand-mint-dark border-l-4 border-l-brand-emerald p-6 font-display font-bold text-[24px] text-brand-dark shadow-md leading-tight flex items-center transition-all duration-300"></div>
+                            </div>
+                            
+                            <div id="parseBadges" class="mt-6 flex gap-3 flex-wrap">
+                                <span class="px-3 py-1.5 rounded-full bg-white border border-brand-crimson/30 text-brand-crimson font-mono text-[10px] font-bold shadow-sm">Verb → Noun</span>
+                                <span class="px-3 py-1.5 rounded-full bg-brand-gold/15 text-brand-gold font-mono text-[10px] font-bold shadow-sm">+ Density</span>
+                                <span class="px-3 py-1.5 rounded-full bg-white border border-brand-mint-dark text-brand-forest font-mono text-[10px] font-bold shadow-sm">+ Objectivity</span>
+                            </div>
+                            
+                            <div class="mt-8 flex items-center gap-4">
+                                <span class="font-mono text-[11px] font-bold text-brand-forest/70">ACADEMIC DENSITY</span>
+                                <div class="flex-1 h-2 bg-brand-mint-dark rounded-full overflow-hidden">
+                                    <div id="densityFill" class="h-full bg-gradient-to-r from-brand-emerald to-brand-blue transition-all duration-700 ease-out" style="width:0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ch1" class="scroll-mt-24 px-6 md:px-12 lg:px-20 py-16 md:py-24 border-b border-brand-mint-dark bg-brand-ivory">
+                <div class="max-w-[1000px]">
+                    <div class="flex flex-col md:flex-row gap-8 items-start">
+                        <span class="shrink-0 font-mono text-sm tracking-widest w-12 h-12 rounded-full bg-brand-forest text-white flex items-center justify-center font-bold shadow-md">01</span>
+                        <div class="flex-1">
+                            <div class="font-mono text-[11px] tracking-[0.2em] text-brand-forest/50 font-bold uppercase">Theoretical Foundation</div>
+                            <h2 class="font-display font-bold text-4xl md:text-5xl mt-2 text-brand-dark">The Architecture of Band 9</h2>
+                            
+                            <div class="mt-10 grid lg:grid-cols-2 gap-12">
+                                <div class="space-y-6 font-sans text-[17px] leading-relaxed text-brand-dark/80">
+                                    <p>Examiners scan for three interconnected signals: <b>lexical resource</b>, <b>cohesion</b>, and a rigid <b>academic register</b>.</p>
+                                    <p>Nominalisation delivers all three simultaneously. By converting a dynamic clause into a static concept, you create elements that can be counted, qualified, and chained logically.</p>
+                                    <ul class="space-y-4 mt-6">
+                                        <li class="flex gap-4"><span class="text-brand-crimson font-bold mt-1">→</span> <div><b class="text-brand-dark font-semibold">Lexical density:</b> Spoken English is ≈20% nouns; Oxford journals are ≈62%. Nouns carry more information.</div></li>
+                                        <li class="flex gap-4"><span class="text-brand-crimson font-bold mt-1">→</span> <div><b class="text-brand-dark font-semibold">Objectivity:</b> Removes subjective framing ("people think"). The actor disappears, leaving pure data.</div></li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="bg-white rounded-2xl p-6 md:p-8 shadow-premium border border-brand-mint-dark">
+                                    <div class="font-mono text-[10px] tracking-widest text-brand-forest/50 font-bold mb-6 border-b border-brand-mint-dark pb-4">TRANSFORMATION METRICS</div>
+                                    <div class="space-y-6">
+                                        <div class="group">
+                                            <div class="line-through text-brand-dark/40 font-mono text-xs">The government decided to regulate</div>
+                                            <div class="font-display text-xl font-bold mt-1 text-brand-emerald group-hover:text-brand-gold transition-colors">The government's decision to regulate</div>
+                                            <div class="mt-2 w-full h-1.5 bg-brand-mint-dark rounded-full overflow-hidden"><div class="h-full bg-brand-crimson w-[71%]"></div></div>
+                                        </div>
+                                        <div class="group">
+                                            <div class="line-through text-brand-dark/40 font-mono text-xs">Data was inaccurate so results flawed</div>
+                                            <div class="font-display text-xl font-bold mt-1 text-brand-emerald group-hover:text-brand-gold transition-colors">The inaccuracy of data led to flaws</div>
+                                            <div class="mt-2 w-full h-1.5 bg-brand-mint-dark rounded-full overflow-hidden"><div class="h-full bg-brand-crimson w-[68%]"></div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ch2" class="scroll-mt-24 px-6 md:px-12 lg:px-20 py-16 md:py-24 border-b border-brand-mint-dark bg-white relative overflow-hidden">
+                <div class="absolute inset-0 bg-[radial-gradient(#C8E6C9_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.3]"></div>
+                <div class="max-w-[1000px] relative z-10">
+                    <div class="flex flex-col md:flex-row gap-8 items-start">
+                        <span class="shrink-0 font-mono text-sm tracking-widest w-12 h-12 rounded-full bg-brand-emerald text-white flex items-center justify-center font-bold shadow-md">02</span>
+                        <div class="flex-1">
+                            <div class="font-mono text-[11px] tracking-[0.2em] text-brand-forest/50 font-bold uppercase">Morphology</div>
+                            <h2 class="font-display font-bold text-4xl md:text-5xl mt-2 text-brand-dark">The 3 Core Transformations</h2>
+                            
+                            <div class="mt-12 grid md:grid-cols-3 gap-6">
+                                <!-- Card 1 -->
+                                <div class="rounded-[1.5rem] bg-white border border-brand-mint-dark p-8 shadow-sm hover:shadow-premium transition-all duration-300">
+                                    <div class="text-brand-crimson font-mono text-sm font-bold mb-4 bg-brand-crimson/10 w-fit px-3 py-1 rounded-full">TYPE 1</div>
+                                    <h3 class="font-display font-bold text-2xl text-brand-dark">Verb → Noun</h3>
+                                    <div class="font-mono text-[10px] text-brand-forest/60 font-bold mt-2">-tion / -ment / -ance / -al</div>
+                                    <ul class="mt-6 space-y-3 font-sans text-sm text-brand-dark/80">
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-crimson"></span>decide → <b class="text-brand-dark">decision</b></li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-crimson"></span>evaluate → <b class="text-brand-dark">evaluation</b></li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-crimson"></span>develop → <b class="text-brand-dark">development</b></li>
+                                    </ul>
+                                </div>
+                                <!-- Card 2 -->
+                                <div class="rounded-[1.5rem] bg-white border border-brand-mint-dark p-8 shadow-sm hover:shadow-premium transition-all duration-300">
+                                    <div class="text-brand-blue font-mono text-sm font-bold mb-4 bg-brand-blue/10 w-fit px-3 py-1 rounded-full">TYPE 2</div>
+                                    <h3 class="font-display font-bold text-2xl text-brand-dark">Adj → Noun</h3>
+                                    <div class="font-mono text-[10px] text-brand-forest/60 font-bold mt-2">-ness / -ity / -ance</div>
+                                    <ul class="mt-6 space-y-3 font-sans text-sm text-brand-dark/80">
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-blue"></span>difficult → <b class="text-brand-dark">difficulty</b></li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-blue"></span>stable → <b class="text-brand-dark">stability</b></li>
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-brand-blue"></span>accurate → <b class="text-brand-dark">accuracy</b></li>
+                                    </ul>
+                                </div>
+                                <!-- Card 3 -->
+                                <div class="rounded-[1.5rem] bg-brand-forest text-brand-ivory p-8 shadow-premium hover:-translate-y-1 transition-transform duration-300">
+                                    <div class="text-brand-ivory font-mono text-sm font-bold mb-4 bg-white/20 w-fit px-3 py-1 rounded-full">TYPE 3</div>
+                                    <h3 class="font-display font-bold text-2xl">Clause → Phrase</h3>
+                                    <div class="font-mono text-[10px] text-brand-mint/70 font-bold mt-2">The + [Noun] + of</div>
+                                    <ul class="mt-6 space-y-4 font-sans text-sm text-white/90 leading-relaxed">
+                                        <li>Because data was inaccurate<br/><span class="text-brand-gold font-bold">→ The inaccuracy of the data</span></li>
+                                        <li>Although policy failed<br/><span class="text-brand-gold font-bold">→ Despite the failure of...</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ch3" class="scroll-mt-24 px-6 md:px-12 lg:px-20 py-16 md:py-24 bg-brand-mint-light">
+                <div class="max-w-[1100px] mx-auto">
+                    <div class="flex flex-col md:flex-row gap-8 items-start mb-12">
+                        <span class="shrink-0 font-mono text-sm tracking-widest w-12 h-12 rounded-full bg-brand-dark text-white flex items-center justify-center font-bold shadow-md">03</span>
+                        <div class="flex-1 w-full">
+                            <div class="font-mono text-[11px] tracking-[0.2em] text-brand-forest/60 font-bold uppercase">Assessment Engine</div>
+                            <h2 class="font-display font-bold text-4xl md:text-5xl mt-2 text-brand-forest">The 50-Point Masterclass</h2>
+                            <p class="mt-4 font-sans text-lg opacity-80 text-brand-forest">Transform the sentences below. Score 40/50 to unlock your certified printable PDF. Type your answer and click CHECK, or click REVEAL to view the answer (0 points).</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Premium Tabbed Interface -->
+                    <div class="rounded-[2rem] bg-white border border-brand-mint-dark shadow-premium overflow-hidden">
+                        
+                        <div class="flex border-b border-brand-mint-dark bg-brand-ivory">
+                            <button data-action="switchTab" data-target="task1Tab" class="tab-btn flex-1 py-5 font-mono text-xs font-bold tracking-widest text-brand-forest border-b-2 border-brand-forest bg-white transition-colors">
+                                MODULE 1: IELTS TASK 1 (25 PTS)
+                            </button>
+                            <button data-action="switchTab" data-target="task2Tab" class="tab-btn flex-1 py-5 font-mono text-xs font-bold tracking-widest text-brand-forest/50 border-b-2 border-transparent hover:bg-white/50 transition-colors">
+                                MODULE 2: ACADEMIC REGISTER (25 PTS)
+                            </button>
+                        </div>
+
+                        <div class="p-6 md:p-10">
+                            <!-- Task 1 Container -->
+                            <div id="task1Tab" class="tab-content space-y-6">
+                                <div class="bg-brand-mint-light rounded-xl p-5 mb-8 border border-brand-mint-dark text-brand-forest">
+                                    <h4 class="font-display font-bold text-xl mb-2">Describing Trends</h4>
+                                    <p class="font-sans text-sm opacity-90">For Band 8+, you must avoid repeating Subject + Verb (e.g., "Prices increased"). Repackage trends into noun phrases: <b class="text-brand-emerald">"A [adjective] [noun] in [subject]"</b> or <b class="text-brand-emerald">"The [adjective] [noun] of [subject]"</b>.</p>
+                                </div>
+                                <div id="task1Questions" class="space-y-4 max-h-[800px] overflow-y-auto pr-4 custom-scrollbar pb-10">
+                                    <!-- Injected via JS -->
+                                </div>
+                            </div>
+
+                            <!-- Task 2 Container -->
+                            <div id="task2Tab" class="tab-content hidden space-y-6">
+                                <div class="bg-brand-mint-light rounded-xl p-5 mb-8 border border-brand-mint-dark text-brand-forest">
+                                    <h4 class="font-display font-bold text-xl mb-2">Lexical Density</h4>
+                                    <p class="font-sans text-sm opacity-90">Convert actions (verbs) and evaluations (adjectives) into concepts (nouns) to create a highly objective, formal academic register suitable for University essays and Task 2.</p>
+                                </div>
+                                <div id="task2Questions" class="space-y-4 max-h-[800px] overflow-y-auto pr-4 custom-scrollbar pb-10">
+                                    <!-- Injected via JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="certificateSection" class="px-6 md:px-12 lg:px-20 py-20 bg-brand-dark text-white relative transition-all duration-700 opacity-50 grayscale pointer-events-none">
+                <div class="max-w-[1000px] mx-auto text-center">
+                    <div class="inline-block px-4 py-1.5 rounded-full bg-brand-gold/20 text-brand-gold font-mono text-[10px] tracking-widest font-bold mb-6 border border-brand-gold/30">
+                        LOCKED
+                    </div>
+                    <h2 class="font-display font-bold text-4xl mb-4">Mastery Achieved</h2>
+                    <p class="font-sans text-lg text-white/70 mb-10">Achieve 40/50 points to unlock and claim your premium certificate.</p>
+                    
+                    <div class="flex flex-col items-center justify-center gap-6 max-w-md mx-auto">
+                        <input type="text" id="studentName" placeholder="Enter your full name for the certificate" class="w-full h-14 rounded-xl border border-white/20 bg-white/5 px-6 font-sans text-center focus:outline-none focus:border-brand-gold text-white placeholder-white/30 transition-all disabled:opacity-50" disabled />
+                        <button id="downloadBtn" data-action="generatePDF" class="w-full h-14 rounded-xl bg-brand-gold text-brand-dark font-mono text-[12px] tracking-widest font-bold hover:bg-white transition-colors shadow-[0_0_20px_rgba(196,146,62,0.3)] flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            DOWNLOAD CERTIFICATE
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Floating Score Toast -->
+    <div id="scoreToast" class="fixed bottom-10 right-10 bg-brand-dark text-brand-ivory px-6 py-4 rounded-xl font-mono text-xs font-bold shadow-2xl z-50 transform translate-y-24 opacity-0 transition-all duration-300 flex items-center gap-3 border border-brand-gold/50">
+        <span class="w-2.5 h-2.5 rounded-full bg-brand-gold animate-pulse"></span>
+        <span id="scoreToastText">Score Updated</span>
+    </div>
+</div>
+
+<!-- NOTE: Explicitly using web-safe fonts and absolute positioning to guarantee html2pdf text rendering -->
+<div class="pdf-offscreen-container">
+    <div id="certificateLayout" style="width: 800px; height: 600px; background-color: #FAF9F6; padding: 40px; box-sizing: border-box; border: 16px solid #1B5E20; position: relative;">
+        <div style="position: absolute; inset: 12px; border: 2px solid #C4923E;"></div>
+        
+        <div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; z-index: 10;">
+            
+            <div style="color: #1B5E20; letter-spacing: 0.3em; font-size: 12px; text-transform: uppercase; margin-bottom: 24px; font-family: 'Courier New', Courier, monospace; font-weight: bold;">
+                Shared Pearls of Wisdom · Premium Lab
+            </div>
+            
+            <h1 style="font-size: 56px; color: #222222; margin: 0 0 30px 0; font-family: 'Times New Roman', Times, serif; font-weight: normal; font-style: italic;">
+                Certificate of Excellence
+            </h1>
+            
+            <p style="font-size: 18px; color: #222222; margin: 0 0 16px 0; font-family: Arial, Helvetica, sans-serif;">
+                This certifies that
+            </p>
+            
+            <div id="certNameDisplay" style="font-size: 40px; color: #1B5E20; font-weight: bold; border-bottom: 2px solid #C4923E; padding-bottom: 8px; margin-bottom: 30px; min-width: 400px; font-family: 'Times New Roman', Times, serif;">
+                Student Name
+            </div>
+            
+            <p style="font-size: 16px; color: #222222; max-width: 600px; margin: 0 auto 40px auto; line-height: 1.6; font-family: Arial, Helvetica, sans-serif;">
+                has successfully completed the <b>Rhetorical Lab Masterclass: Nominalisation & Academic Density</b>, demonstrating mastery of elite academic register, objective syntax, and lexical density suitable for Band 9.
+            </p>
+            
+            <div style="display: flex; justify-content: space-between; width: 100%; padding: 0 60px; margin-top: auto; font-size: 14px; color: #222222; font-family: Arial, Helvetica, sans-serif; font-weight: bold; box-sizing: border-box;">
+                <div>
+                    <div style="border-bottom: 1px solid #222222; width: 140px; margin-bottom: 8px;"></div>
+                    Score: <span id="certScoreDisplay">100</span>% (Pass)
+                </div>
+                <div>
+                    <div style="border-bottom: 1px solid #222222; width: 140px; margin-bottom: 8px;"></div>
+                    Date: <span id="certDateDisplay"></span>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+const App = {
+    state: {
+        score: 0,
+        maxScore: 50,
+        passScore: 40,
+        certificateUnlocked: false,
+        answeredQs: new Set()
+    },
+
+    data: {
+        presets: [
+            "The scientists analysed the data quickly",
+            "Prices fluctuated significantly over the period",
+            "Because the data was inaccurate, the results were flawed",
+            "Car production increased rapidly",
+            "The team failed to complete the project on time"
+        ],
+        
+        task1Bank: [
+            { q: "The price fluctuated significantly.", a: "There was a significant fluctuation in the price.", k: ["fluctuation", "significant"] },
+            { q: "Car production increased rapidly.", a: "There was a rapid increase in car production.", k: ["rapid", "increase", "production"] },
+            { q: "Oil consumption decreased slightly.", a: "There was a slight decrease in oil consumption.", k: ["slight", "decrease", "consumption"] },
+            { q: "The population grew steadily.", a: "The steady growth of the population.", k: ["steady", "growth"] },
+            { q: "Sales peaked in 2020.", a: "Sales reached a peak in 2020.", k: ["peak"] },
+            { q: "The numbers stabilized after May.", a: "The stabilization of the numbers after May.", k: ["stabilization"] },
+            { q: "Temperatures dropped suddenly.", a: "A sudden drop in temperatures.", k: ["sudden", "drop"] },
+            { q: "The percentage rose sharply.", a: "A sharp rise in the percentage.", k: ["sharp", "rise"] },
+            { q: "Revenue fell dramatically.", a: "A dramatic fall in revenue.", k: ["dramatic", "fall"] },
+            { q: "Birth rates declined gradually.", a: "A gradual decline in birth rates.", k: ["gradual", "decline"] },
+            { q: "Energy use expanded considerably.", a: "A considerable expansion in energy use.", k: ["considerable", "expansion"] },
+            { q: "The market recovered swiftly.", a: "The swift recovery of the market.", k: ["swift", "recovery"] },
+            { q: "Profits plunged unexpectedly.", a: "An unexpected plunge in profits.", k: ["unexpected", "plunge"] },
+            { q: "Output contracted moderately.", a: "A moderate contraction in output.", k: ["moderate", "contraction"] },
+            { q: "The trend reversed completely.", a: "A complete reversal of the trend.", k: ["complete", "reversal"] },
+            { q: "Visitors surged exponentially.", a: "An exponential surge in visitors.", k: ["exponential", "surge"] },
+            { q: "Inflation soared dangerously.", a: "A dangerous soar in inflation.", k: ["dangerous", "soar"] },
+            { q: "Employment stagnated persistently.", a: "The persistent stagnation of employment.", k: ["persistent", "stagnation"] },
+            { q: "Prices varied marginally.", a: "A marginal variation in prices.", k: ["marginal", "variation"] },
+            { q: "The economy deteriorated rapidly.", a: "The rapid deterioration of the economy.", k: ["rapid", "deterioration"] },
+            { q: "Emissions diminished slowly.", a: "A slow diminution in emissions.", k: ["slow", "diminution", "decrease"] },
+            { q: "Production collapsed utterly.", a: "The utter collapse of production.", k: ["utter", "collapse"] },
+            { q: "Imports expanded vastly.", a: "A vast expansion in imports.", k: ["vast", "expansion"] },
+            { q: "Wealth accumulated steadily.", a: "The steady accumulation of wealth.", k: ["steady", "accumulation"] },
+            { q: "The rate fluctuated wildly.", a: "A wild fluctuation in the rate.", k: ["wild", "fluctuation"] }
+        ],
+
+        generalBank: [
+            { q: "The government decided to act.", a: "The government's decision to act.", k: ["decision"] },
+            { q: "The scientists evaluated the results.", a: "The scientists' evaluation of the results.", k: ["evaluation"] },
+            { q: "We must develop the infrastructure.", a: "The development of the infrastructure.", k: ["development"] },
+            { q: "They failed to implement the policy.", a: "Their failure to implement the policy.", k: ["failure", "implementation"] },
+            { q: "Because the data was inaccurate...", a: "Due to the inaccuracy of the data...", k: ["inaccuracy"] },
+            { q: "It is difficult to assess the risk.", a: "The difficulty of assessing the risk.", k: ["difficulty"] },
+            { q: "Society is highly complex.", a: "The high complexity of society.", k: ["complexity"] },
+            { q: "The system is extremely stable.", a: "The extreme stability of the system.", k: ["stability"] },
+            { q: "Researchers analyzed the samples.", a: "The researchers' analysis of the samples.", k: ["analysis"] },
+            { q: "The committee argued that...", a: "The committee's argument that...", k: ["argument"] },
+            { q: "They expanded the program.", a: "The expansion of the program.", k: ["expansion"] },
+            { q: "It is possible to succeed.", a: "The possibility of success.", k: ["possibility", "success"] },
+            { q: "The chemicals reacted violently.", a: "The violent reaction of the chemicals.", k: ["violent", "reaction"] },
+            { q: "Management improved conditions.", a: "Management's improvement of conditions.", k: ["improvement"] },
+            { q: "The author explained the theory.", a: "The author's explanation of the theory.", k: ["explanation"] },
+            { q: "The disease spreads rapidly.", a: "The rapid spread of the disease.", k: ["rapid", "spread"] },
+            { q: "People rely on technology.", a: "People's reliance on technology.", k: ["reliance"] },
+            { q: "The rules restrict freedom.", a: "The restriction of freedom by the rules.", k: ["restriction"] },
+            { q: "The team discovered a cure.", a: "The team's discovery of a cure.", k: ["discovery"] },
+            { q: "The students participated eagerly.", a: "The eager participation of the students.", k: ["eager", "participation"] },
+            { q: "They allocated the funds poorly.", a: "The poor allocation of the funds.", k: ["poor", "allocation"] },
+            { q: "The court judged the case.", a: "The court's judgment of the case.", k: ["judgment"] },
+            { q: "The workers maintained the equipment.", a: "The workers' maintenance of the equipment.", k: ["maintenance"] },
+            { q: "The factory produced goods.", a: "The production of goods by the factory.", k: ["production"] },
+            { q: "The leader transformed the nation.", a: "The leader's transformation of the nation.", k: ["transformation"] }
+        ]
+    },
+
+    logic: {
+        calculateDensity: (text) => {
+            if (!text) return 0;
+            const tokens = text.toLowerCase().split(/\W+/).filter(Boolean);
+            if (!tokens.length) return 0;
+            const suffix = /(tion|sion|ment|ness|ity|ance|ence|al|ure|th)$/;
+            let c = 0;
+            tokens.forEach(w => {
+                if (suffix.test(w)) c++;
+            });
+            // Approximate heuristic mapping
+            return Math.min(96, Math.round((c / tokens.length) * 250)); 
+        },
+        speak: (text) => {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(text);
+                u.rate = 0.95; u.pitch = 1.0; u.lang = 'en-GB';
+                window.speechSynthesis.speak(u);
+            }
+        },
+        checkKeywords: (input, keys) => {
+            const lowerInput = input.toLowerCase();
+            // User gets it right if they hit all core noun keywords
+            return keys.every(k => lowerInput.includes(k.toLowerCase()));
+        }
+    },
+
+    ui: {
+        init: () => {
+            App.ui.renderNav();
+            App.ui.renderPills();
+            App.ui.renderQuestions(App.data.task1Bank, 'task1Questions', 't1');
+            App.ui.renderQuestions(App.data.generalBank, 'task2Questions', 't2');
+            App.events.bindAll();
+            
+            // Trigger hero initial state
+            App.events.triggerHeroTransform(document.getElementById('inputBox').value);
+        },
+        renderNav: () => {
+            const nav = document.getElementById('chapterNav');
+            const chapters = ['Theoretical Foundation', 'Morphology', 'Assessment Engine', 'Certification'];
+            chapters.forEach((c, i) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="#ch${i+1}" class="block py-2 text-brand-dark/70 hover:text-brand-emerald font-sans text-sm transition-colors cursor-pointer"><span class="font-mono text-xs opacity-50 mr-2">0${i+1}</span>${c}</a>`;
+                nav.appendChild(li);
+            });
+        },
+        renderPills: () => {
+            const row = document.getElementById('pillRow');
+            App.data.presets.forEach(p => {
+                const b = document.createElement('button');
+                b.className = 'px-3 py-1.5 rounded-full bg-white border border-brand-mint-dark font-sans text-xs text-brand-dark/70 hover:border-brand-emerald hover:text-brand-emerald transition-colors shadow-sm';
+                b.textContent = p.length > 30 ? p.slice(0, 30) + '...' : p;
+                b.dataset.action = 'preset';
+                b.dataset.val = p;
+                row.appendChild(b);
+            });
+        },
+        renderQuestions: (bank, containerId, prefix) => {
+            const container = document.getElementById(containerId);
+            bank.forEach((item, index) => {
+                const id = `${prefix}-${index}`;
+                const div = document.createElement('div');
+                div.className = 'p-5 rounded-xl border border-brand-mint-dark bg-white flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow';
+                div.innerHTML = `
+                    <div class="font-sans text-brand-dark font-medium text-[15px]"><span class="font-mono text-brand-emerald mr-2">${index + 1}.</span>${item.q}</div>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input id="input-${id}" type="text" class="flex-1 bg-brand-ivory border border-brand-mint-dark rounded-lg px-4 py-2.5 text-sm font-sans focus:outline-none focus:border-brand-emerald focus:ring-2 focus:ring-brand-emerald/10 transition-all text-brand-dark placeholder-brand-dark/30" placeholder="Type nominalised form...">
+                        <div class="flex gap-2">
+                            <button data-action="checkQ" data-id="${id}" class="bg-brand-forest text-white px-5 py-2.5 rounded-lg text-xs font-mono font-bold hover:bg-brand-emerald transition-colors tracking-widest flex-1 sm:flex-none">CHECK</button>
+                            <button data-action="revealQ" data-id="${id}" class="bg-brand-mint-light border border-brand-mint-dark text-brand-forest px-4 py-2.5 rounded-lg text-xs font-mono font-bold hover:bg-brand-mint transition-colors tracking-widest flex-1 sm:flex-none">REVEAL</button>
+                        </div>
+                    </div>
+                    <div id="fb-${id}" class="hidden text-sm font-bold font-mono py-2 px-4 rounded-lg"></div>
+                `;
+                container.appendChild(div);
+            });
+        },
+        updateDashboard: () => {
+            document.getElementById('sideScore').textContent = `${App.state.score} / ${App.state.maxScore}`;
+            const pct = (App.state.score / App.state.maxScore) * 100;
+            document.getElementById('sideScoreFill').style.width = `${pct}%`;
+
+            if (App.state.score >= App.state.passScore && !App.state.certificateUnlocked) {
+                App.state.certificateUnlocked = true;
+                const certSec = document.getElementById('certificateSection');
+                certSec.classList.remove('opacity-50', 'grayscale', 'pointer-events-none');
+                certSec.classList.add('bg-brand-forest');
+                document.getElementById('studentName').disabled = false;
+                document.getElementById('downloadBtn').disabled = false;
+                
+                const label = certSec.querySelector('.bg-brand-gold\\/20');
+                if(label) {
+                    label.textContent = "UNLOCKED";
+                    label.classList.replace('text-brand-gold', 'text-white');
+                    label.classList.replace('bg-brand-gold/20', 'bg-brand-emerald');
+                }
+                
+                App.ui.showToast('🏆 Certificate Unlocked!');
+                setTimeout(() => certSec.scrollIntoView({behavior:'smooth'}), 1500);
+            }
+        },
+        showToast: (msg) => {
+            const t = document.getElementById('scoreToast');
+            document.getElementById('scoreToastText').textContent = msg;
+            t.classList.remove('translate-y-24', 'opacity-0');
+            
+            if(window.toastTimer) clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => {
+                t.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+    },
+
+    events: {
+        bindAll: () => {
+            // Hero Input Fake Transformation (Visual Only for Demo, real logic is hard)
+            const heroInp = document.getElementById('inputBox');
+            heroInp.addEventListener('input', (e) => App.events.triggerHeroTransform(e.target.value));
+
+            document.addEventListener('click', (e) => {
+                const btn = e.target.closest('button');
+                if (!btn) return;
+                
+                const action = btn.dataset.action;
+                
+                if (action === 'speak') {
+                    const targetId = btn.dataset.target;
+                    const el = document.getElementById(targetId);
+                    if(el) App.logic.speak(el.value || el.innerText);
+                }
+                
+                if (action === 'preset') {
+                    const v = btn.dataset.val;
+                    document.getElementById('inputBox').value = v;
+                    App.events.triggerHeroTransform(v);
+                }
+
+                if (action === 'switchTab') {
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+                    document.querySelectorAll('.tab-btn').forEach(b => {
+                        b.classList.remove('text-brand-forest', 'border-brand-forest');
+                        b.classList.add('text-brand-forest/50', 'border-transparent');
+                    });
+                    
+                    document.getElementById(btn.dataset.target).classList.remove('hidden');
+                    btn.classList.remove('text-brand-forest/50', 'border-transparent');
+                    btn.classList.add('text-brand-forest', 'border-brand-forest');
+                }
+
+                if (action === 'checkQ' || action === 'revealQ') {
+                    const id = btn.dataset.id;
+                    const isTask1 = id.startsWith('t1');
+                    const idx = parseInt(id.split('-')[1]);
+                    const item = isTask1 ? App.data.task1Bank[idx] : App.data.generalBank[idx];
+                    const inputEl = document.getElementById(`input-${id}`);
+                    const fbEl = document.getElementById(`fb-${id}`);
+                    
+                    if (action === 'revealQ') {
+                        inputEl.value = item.a;
+                        inputEl.disabled = true;
+                        fbEl.textContent = 'Revealed (0 points)';
+                        fbEl.className = 'block text-sm font-bold font-mono py-2 px-4 rounded-lg bg-brand-mint-dark/50 text-brand-dark/50 mt-2';
+                        btn.parentElement.classList.add('hidden');
+                        // Mark answered but 0 points
+                        App.state.answeredQs.add(id);
+                    } else {
+                        const val = inputEl.value;
+                        if (!val) return;
+                        
+                        const isCorrect = App.logic.checkKeywords(val, item.k);
+                        
+                        if (isCorrect) {
+                            inputEl.disabled = true;
+                            inputEl.classList.add('bg-brand-mint-light', 'border-brand-emerald', 'text-brand-emerald');
+                            fbEl.innerHTML = `✅ Perfect: <span class="text-brand-dark font-sans font-normal ml-2">${item.a}</span>`;
+                            fbEl.className = 'block text-sm font-bold font-mono py-2 px-4 rounded-lg bg-brand-mint-light border border-brand-emerald text-brand-emerald mt-2';
+                            btn.parentElement.classList.add('hidden');
+                            
+                            if (!App.state.answeredQs.has(id)) {
+                                App.state.answeredQs.add(id);
+                                App.state.score += 1;
+                                App.ui.updateDashboard();
+                                App.ui.showToast('+1 Point Awarded');
+                            }
+                        } else {
+                            inputEl.classList.add('border-brand-crimson');
+                            fbEl.textContent = `❌ Missing key nouns. Hint: incorporate [${item.k.join(', ')}]`;
+                            fbEl.className = 'block text-sm font-bold font-mono py-2 px-4 rounded-lg bg-red-50 border border-brand-crimson text-brand-crimson mt-2';
+                            setTimeout(() => inputEl.classList.remove('border-brand-crimson'), 1500);
+                        }
+                    }
+                }
+
+                if (action === 'generatePDF') {
+                    const name = document.getElementById('studentName').value.trim() || 'Distinguished Scholar';
+                    const d = new Date();
+                    
+                    document.getElementById('certNameDisplay').textContent = name;
+                    document.getElementById('certScoreDisplay').textContent = Math.round((App.state.score / App.state.maxScore) * 100);
+                    document.getElementById('certDateDisplay').textContent = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+                    
+                    const element = document.getElementById('certificateLayout');
+                    
+                    const opt = {
+                        margin:       0,
+                        filename:     `Band9_Certificate_${name.replace(/\s+/g, '_')}.pdf`,
+                        image:        { type: 'jpeg', quality: 1 },
+                        html2canvas:  { scale: 2, useCORS: true, logging: false },
+                        jsPDF:        { unit: 'pt', format: [800, 600], orientation: 'landscape' }
+                    };
+
+                    // Wait for fonts to be ready before generating
+                    document.fonts.ready.then(() => {
+                        html2pdf().set(opt).from(element).save().then(() => {
+                            App.ui.showToast('Certificate Downloaded Successfully.');
+                        });
+                    });
+                }
+            });
+        },
+        triggerHeroTransform: (val) => {
+            // Very rudimentary mock transformation for the hero header for visual effect
+            let out = val;
+            if (val.toLowerCase().includes('analysed')) out = "The scientists' analysis of the data";
+            else if (val.toLowerCase().includes('fluctuated')) out = "There was a significant fluctuation in prices";
+            else if (val.toLowerCase().includes('inaccurate')) out = "The inaccuracy of the data led to flawed results";
+            else if (val.toLowerCase().includes('rapidly')) out = "The rapid increase in car production";
+            else if (val.toLowerCase().includes('failed')) out = "The team's failure to complete the project";
+            else out = val + " (Nominalised)"; // Fallback
+
+            document.getElementById('outputBox').textContent = out || '—';
+            const den = App.logic.calculateDensity(out);
+            document.getElementById('densityFill').style.width = `${Math.max(10, den)}%`;
+        }
+    }
+};
+
+// Boot App
+document.addEventListener('DOMContentLoaded', App.ui.init);
+</script>
+</body>
+</html>
