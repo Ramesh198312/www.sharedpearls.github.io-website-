@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Collocations Lab — Premium English</title>
+  <meta name="description" content="An intensive premium collocations lesson on plans, the environment, and the economy." />
+  <style>
+    :root {
+      --ink: #142522;
+      --muted: #687672;
+      --paper: #f4f0e8;
+      --paper-2: #fbf9f4;
+      --line: #d9ddd5;
+      --green: #175f4d;
+      --green-2: #2f8068;
+      --mint: #dcebe2;
+      --yellow: #f1bf55;
+      --coral: #da6d58;
+      --purple: #68577e;
+      --shadow: 0 18px 42px rgba(22, 45, 38, .09);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 90% 0%, rgba(218,109,88,.13), transparent 28rem),
+        radial-gradient(circle at 0% 30%, rgba(47,128,104,.12), transparent 25rem),
+        var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    h1, h2, h3, h4, p { margin-top: 0; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 0 18px; border-bottom: 1px solid rgba(20,37,34,.12);
+    }
+    .wordmark { display:flex; gap: 11px; align-items:center; font-weight:800; letter-spacing:-.03em; }
+    .mark { width: 34px; height:34px; background: var(--green); color:#fff; border-radius: 11px 11px 11px 3px; display:grid; place-items:center; font-family: Georgia, serif; font-size: 20px; }
+    .wordmark small { display:block; font-size:10px; letter-spacing:.15em; color:var(--muted); font-weight:700; text-transform:uppercase; margin-top:-3px; }
+    .premium-pill { display:flex; align-items:center; gap:7px; padding:7px 11px; border:1px solid #dbc98d; color:#785b15; background:#fff6d9; border-radius:999px; font-size:12px; font-weight:750; }
+    .premium-pill span { width:7px; height:7px; background:var(--yellow); border-radius:50%; box-shadow:0 0 0 4px rgba(241,191,85,.22); }
+    .hero { display:grid; grid-template-columns: 1.1fr .9fr; gap: 42px; align-items:end; padding: 72px 0 56px; }
+    .eyebrow { display:flex; align-items:center; gap:10px; color:var(--green); font-weight:800; text-transform:uppercase; font-size:11px; letter-spacing:.17em; }
+    .eyebrow i { display:block; width:26px; height:2px; background:var(--coral); }
+    h1 { font-family: Georgia, "Times New Roman", serif; font-size:clamp(48px, 7vw, 84px); line-height:.97; letter-spacing:-.065em; max-width:750px; margin:17px 0 22px; font-weight:600; }
+    .hero-copy { max-width:620px; font-size:18px; color:#52635e; }
+    .hero-note { border:1px solid var(--line); background:rgba(251,249,244,.75); border-radius:24px; padding:25px; transform: rotate(1.3deg); box-shadow: var(--shadow); }
+    .hero-note .note-top { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:.1em; }
+    .hero-note blockquote { font-family: Georgia, serif; font-size:27px; line-height:1.12; margin:28px 0 26px; }
+    .hero-note blockquote em { color:var(--coral); font-style:normal; }
+    .mini-rule { height:1px; background:var(--line); margin:20px 0; }
+    .note-footer { display:flex; justify-content:space-between; color:var(--muted); font-size:12px; }
+    .layout { display:grid; grid-template-columns: 250px 1fr; gap: 38px; align-items:start; padding-bottom:80px; }
+    .sidebar { position:sticky; top:18px; }
+    .side-title { font-size:11px; text-transform:uppercase; letter-spacing:.13em; font-weight:800; color:var(--muted); margin:0 0 13px; }
+    .lesson-nav { display:grid; gap:8px; }
+    .lesson-btn {
+      border:1px solid transparent; background:transparent; border-radius:14px; text-align:left; padding:13px 14px;
+      color:var(--muted); display:flex; gap:12px; align-items:center; transition:.2s;
+    }
+    .lesson-btn:hover { background:rgba(255,255,255,.55); color:var(--ink); }
+    .lesson-btn.active { background:#fff; border-color:var(--line); color:var(--ink); box-shadow:0 6px 16px rgba(20,37,34,.05); }
+    .lesson-num { width:30px; height:30px; border-radius:10px; display:grid; place-items:center; font-size:11px; font-weight:800; background:var(--mint); color:var(--green); flex:0 0 auto; }
+    .lesson-btn.active .lesson-num { background:var(--green); color:#fff; }
+    .lesson-btn strong { display:block; font-size:13px; }
+    .lesson-btn small { display:block; margin-top:2px; font-size:11px; color:var(--muted); }
+    .progress-card { margin-top:30px; padding:17px; background:var(--green); color:#fff; border-radius:17px; }
+    .progress-card p { font-size:12px; color:#cce0d6; margin-bottom:11px; }
+    .progress-line { height:6px; background:rgba(255,255,255,.2); border-radius:10px; overflow:hidden; }
+    .progress-line span { display:block; height:100%; width:33%; background:var(--yellow); border-radius:inherit; transition:.3s; }
+    .progress-meta { display:flex; justify-content:space-between; margin-top:9px; font-size:11px; color:#dcebe2; }
+    .main { min-width:0; }
+    .topic-header { display:flex; justify-content:space-between; align-items:end; border-bottom:1px solid var(--line); padding-bottom:20px; margin-bottom:28px; }
+    .topic-header h2 { font-family:Georgia, serif; font-size:38px; letter-spacing:-.04em; margin:4px 0 5px; }
+    .topic-header p { color:var(--muted); margin-bottom:0; }
+    .topic-tag { color:var(--green); font-weight:800; font-size:11px; letter-spacing:.13em; text-transform:uppercase; }
+    .search-wrap { position:relative; }
+    .search-wrap input { width:245px; border:1px solid var(--line); background:rgba(255,255,255,.65); padding:10px 14px 10px 36px; border-radius:999px; outline:none; color:var(--ink); }
+    .search-wrap input:focus { border-color:var(--green-2); box-shadow:0 0 0 3px rgba(47,128,104,.12); }
+    .search-wrap span { position:absolute; left:13px; top:8px; color:var(--muted); }
+    .intro-card { background:var(--mint); border-radius:var(--radius); padding:23px 25px; margin-bottom:22px; border:1px solid #c6ddd1; }
+    .intro-card strong { color:var(--green); }
+    .intro-card p:last-child { margin-bottom:0; }
+    .section-label { display:flex; align-items:center; gap:10px; color:var(--green); font-size:11px; font-weight:850; text-transform:uppercase; letter-spacing:.12em; margin:29px 0 14px; }
+    .section-label:after { content:""; height:1px; background:var(--line); flex:1; }
+    .collocation-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:12px; }
+    .collocation {
+      background:var(--paper-2); border:1px solid var(--line); border-radius:15px; padding:16px; transition:.2s; min-height:132px;
+    }
+    .collocation:hover, .collocation.open { border-color:var(--green-2); transform:translateY(-2px); box-shadow:0 8px 20px rgba(22,45,38,.07); }
+    .phrase { font-family:Georgia, serif; font-size:20px; line-height:1.1; color:var(--green); margin-bottom:8px; }
+    .meaning { font-size:12px; color:var(--muted); min-height:37px; }
+    .example { font-size:12px; margin-top:11px; padding-top:10px; border-top:1px dashed var(--line); }
+    .example b { color:var(--coral); }
+    .mistake { display:flex; gap:14px; align-items:flex-start; border-left:4px solid var(--yellow); background:#fff7dc; padding:17px 18px; border-radius:0 14px 14px 0; margin:18px 0; }
+    .mistake .icon { font-size:20px; }
+    .mistake strong { display:block; margin-bottom:3px; color:#775715; }
+    .mistake p { margin:0; font-size:13px; color:#6d5b2d; }
+    .reading { background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:25px 28px; box-shadow:var(--shadow); }
+    .reading .reading-label { display:flex; justify-content:space-between; color:var(--muted); font-weight:800; font-size:11px; letter-spacing:.12em; text-transform:uppercase; }
+    .reading h3 { font-family:Georgia, serif; font-size:28px; margin:13px 0; }
+    .reading p { color:#465853; }
+    .reading mark { background:#ffe7a1; padding:2px 4px; border-radius:4px; color:var(--ink); }
+    .exercise { background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:23px; margin-top:19px; }
+    .exercise-head { display:flex; justify-content:space-between; gap:14px; align-items:flex-start; margin-bottom:16px; }
+    .exercise h3 { margin:0 0 3px; font-size:16px; }
+    .exercise small { color:var(--muted); }
+    .level { border:1px solid #c8ddd2; color:var(--green); background:#edf6f0; padding:4px 8px; border-radius:999px; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; }
+    .question { display:grid; grid-template-columns:28px 1fr; gap:10px; border-top:1px solid #edf0eb; padding:13px 0; }
+    .question:first-of-type { border-top:0; }
+    .q-number { width:25px; height:25px; border-radius:8px; background:var(--paper); display:grid; place-items:center; font-size:11px; font-weight:800; color:var(--muted); }
+    .q-text { font-size:14px; margin-bottom:9px; }
+    .options { display:flex; flex-wrap:wrap; gap:8px; }
+    .option { border:1px solid var(--line); color:#53645f; background:#fff; border-radius:9px; padding:7px 10px; font-size:12px; transition:.15s; }
+    .option:hover { border-color:var(--green-2); color:var(--green); }
+    .option.selected { background:#e7f3ec; border-color:var(--green-2); color:var(--green); font-weight:700; }
+    .option.correct { background:#d9f0df; border-color:#4b9b66; color:#24613a; }
+    .option.wrong { background:#fbe3dd; border-color:#da6d58; color:#95402f; }
+    .feedback { display:none; font-size:12px; margin-top:8px; color:var(--muted); }
+    .feedback.show { display:block; }
+    .feedback.good { color:#28714a; }
+    .feedback.bad { color:#a24d3a; }
+    .check-row { display:flex; align-items:center; justify-content:space-between; gap:15px; border-top:1px solid var(--line); margin-top:12px; padding-top:16px; }
+    .primary { border:0; background:var(--green); color:#fff; border-radius:10px; padding:10px 15px; font-weight:750; font-size:12px; }
+    .primary:hover { background:#104b3d; }
+    .score { color:var(--muted); font-size:12px; font-weight:700; }
+    .phrase-bank { display:flex; flex-wrap:wrap; gap:8px; }
+    .phrase-chip { border:1px solid #bed6ca; color:var(--green); background:#eef7f1; padding:8px 11px; border-radius:9px; font-size:12px; font-weight:700; }
+    .empty { padding:30px; text-align:center; color:var(--muted); grid-column:1/-1; }
+    .bottom-cta { margin-top:32px; display:flex; align-items:center; justify-content:space-between; background:var(--green); border-radius:20px; padding:22px 25px; color:#fff; }
+    .bottom-cta h3 { font-family:Georgia, serif; margin:0 0 3px; font-size:22px; }
+    .bottom-cta p { color:#c8dfd5; margin:0; font-size:13px; }
+    .outline { background:transparent; color:#fff; border:1px solid rgba(255,255,255,.45); border-radius:10px; padding:10px 13px; font-size:12px; font-weight:750; }
+    .outline:hover { background:rgba(255,255,255,.1); }
+    .footer { padding:24px 0 42px; border-top:1px solid var(--line); color:var(--muted); font-size:12px; display:flex; justify-content:space-between; }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns:1fr; gap:20px; padding-top:48px; }
+      .hero-note { max-width:520px; }
+      .layout { grid-template-columns:1fr; gap:25px; }
+      .sidebar { position:static; }
+      .lesson-nav { grid-template-columns:repeat(3,1fr); }
+      .progress-card { display:none; }
+      .collocation-grid { grid-template-columns:repeat(2,1fr); }
+    }
+    @media (max-width: 600px) {
+      .shell { width:min(100% - 28px, 1180px); }
+      .topbar { padding-top:17px; }
+      .premium-pill { font-size:0; padding:11px; }
+      h1 { font-size:52px; }
+      .topic-header { align-items:flex-start; flex-direction:column; gap:15px; }
+      .search-wrap, .search-wrap input { width:100%; }
+      .lesson-nav { grid-template-columns:1fr; }
+      .collocation-grid { grid-template-columns:1fr; }
+      .bottom-cta { flex-direction:column; align-items:flex-start; gap:15px; }
+      .footer { flex-direction:column; gap:8px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="wordmark"><div class="mark">S</div><div>Shared Pearls of Wisdom<small>Curated English Practice</small></div></div>
+      <div class="premium-pill"><span></span> Premium lesson</div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow"><i></i> Collocations · intensive workshop</div>
+        <h1>Say it like it belongs together.</h1>
+        <p class="hero-copy">Strong English is not only about knowing the right words. It is about knowing which words naturally travel together — and choosing them with confidence.</p>
+      </div>
+      <aside class="hero-note">
+        <div class="note-top"><span>Professor's note</span><span>01 / 03</span></div>
+        <blockquote>“A collocation is a <em>partnership</em> between words — not a rule you translate, but a pattern you notice.”</blockquote>
+        <div class="mini-rule"></div>
+        <div class="note-footer"><span>Read · notice · retrieve</span><span>CEFR B2–C1</span></div>
+      </aside>
+    </section>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <p class="side-title">Your learning route</p>
+        <nav class="lesson-nav" aria-label="Lesson sections">
+          <button class="lesson-btn active" data-topic="plans"><span class="lesson-num">01</span><span><strong>Plans & decisions</strong><small>Make intentions precise</small></span></button>
+          <button class="lesson-btn" data-topic="environment"><span class="lesson-num">02</span><span><strong>The environment</strong><small>Discuss change clearly</small></span></button>
+          <button class="lesson-btn" data-topic="economy"><span class="lesson-num">03</span><span><strong>The economy</strong><small>Sound informed</small></span></button>
+        </nav>
+        <div class="progress-card">
+          <p>LESSON PROGRESS</p>
+          <div class="progress-line"><span id="progress-bar"></span></div>
+          <div class="progress-meta"><span id="progress-label">1 of 3 units</span><span>45 min</span></div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="topic-header">
+          <div><div class="topic-tag" id="topic-tag">Unit 28</div><h2 id="topic-title">Plans & decisions</h2><p id="topic-subtitle">Choose the exact strength and direction of an intention.</p></div>
+          <label class="search-wrap"><span>⌕</span><input id="search" type="search" placeholder="Search collocations…" aria-label="Search collocations"></label>
+        </div>
+        <div id="lesson-content"></div>
+      </main>
+    </div>
+
+    <footer class="footer"><span>© Language Studio · Premium Collocations</span><span>Built for deliberate practice</span></footer>
+  </div>
+
+  <script>
+    const lessons = {
+      plans: {
+        tag: "Unit 28", title: "Plans & decisions", subtitle: "Choose the exact strength and direction of an intention.",
+        intro: "When plans move from a thought to an action, English gives us different collocations for each stage: <strong>considering</strong>, <strong>proposing</strong>, <strong>organising</strong>, and finally <strong>committing</strong>.",
+        readingTitle: "A company prepares to go online",
+        reading: `Hans has been <mark>toying with the idea</mark> of transferring his business online. He has <mark>unveiled a plan</mark> to move the company within six months and wants to <mark>drum up support</mark> for the change. After <mark>careful consideration</mark>, the team will <mark>draw up a schedule</mark> and <mark>stick to that schedule</mark>. Before they make a final commitment, they will make a <mark>tentative suggestion</mark> and check whether it can <mark>cover every eventuality</mark>.`,
+        groups: [
+          { name:"From thought to proposal", cards:[
+            ["toy with the idea","consider something without a firm plan","She is toying with the idea of taking a sabbatical."],
+            ["come up with an idea","think of or produce an idea","The team came up with an elegant solution."],
+            ["unveil a plan","make a plan known publicly for the first time","The minister unveiled a plan to reform housing."],
+            ["drum up support","increase support for something","They are drumming up support for the proposal."]
+          ]},
+          { name:"From proposal to action", cards:[
+            ["act on a suggestion","do something as a result of a suggestion","We acted on her suggestion and simplified the form."],
+            ["implement a plan","put a plan into operation","The school implemented its new timetable in April."],
+            ["draw up a schedule","prepare a detailed timetable","Let’s draw up a schedule before we begin."],
+            ["stick to a schedule","keep to a timetable","If we stick to the schedule, we will finish on Friday."]
+          ]},
+          { name:"Judgement & choice", cards:[
+            ["careful consideration","thought that is thorough and deliberate","The offer deserves careful consideration."],
+            ["a tentative suggestion","an idea you are not sure will be accepted","May I make a tentative suggestion?"],
+            ["the deciding factor","the thing that finally determines a choice","Cost was the deciding factor."],
+            ["leave it to someone’s discretion","allow someone to decide","The final wording is left to the editor’s discretion."]
+          ]}
+        ],
+        mistake: ["A frequent trap", "Say “come to a conclusion” or “arrive at a conclusion” — not “make a conclusion”. The verb make belongs with “a decision”, but not with “a conclusion” in this pattern."],
+        questions: [
+          ["We need to organise the work into a timetable.", ["draw up a schedule","drum up support","unveil a plan"], "draw up a schedule", "A schedule is a planned timetable."],
+          ["The team considered the idea, but did not decide yet.", ["toyed with the idea","implemented the plan","rejected it out of hand"], "toyed with the idea", "To toy with an idea is to consider it without a firm commitment."],
+          ["The final choice depended on the price.", ["The price was the deciding factor.","The price was a tentative suggestion.","The price was left to our discretion."], "The price was the deciding factor.", "The deciding factor is what finally determines a choice."]
+        ]
+      },
+      environment: {
+        tag: "Unit 31", title: "The environment", subtitle: "Make climate and sustainability language exact, not vague.",
+        intro: "Environmental writing relies on compact, high-precision combinations. Notice how these phrases express <strong>scale</strong> (<strong>widespread flooding</strong>), <strong>urgency</strong> (<strong>absolutely vital</strong>), and <strong>response</strong> (<strong>find a solution</strong>).",
+        readingTitle: "Climate change and its consequences",
+        reading: `Changing <mark>weather patterns</mark> are bringing <mark>searing heat</mark> to places that used to be cooler. In some regions, temperatures <mark>soar above the average</mark> and there is <mark>widespread flooding</mark>. It is <mark>absolutely vital</mark> that we change our ways before these trends lead to <mark>irreversible climate change</mark>. We can <mark>reduce our carbon footprint</mark>, use <mark>alternative energy sources</mark>, and <mark>find a solution</mark> that can last.`,
+        groups: [
+          { name:"Damage & consequence", cards:[
+            ["harmful to the environment","causing damage to nature","Some chemicals are harmful to the environment."],
+            ["toxic waste","poisonous waste","The factory was fined for dumping toxic waste."],
+            ["public health","the health of the population","Clean water is essential for public health."],
+            ["an environmental catastrophe","a disastrous environmental event","The spill could become an environmental catastrophe."]
+          ]},
+          { name:"Climate patterns", cards:[
+            ["searing heat","extreme heat","The region is facing searing heat this summer."],
+            ["temperatures soar","temperatures rise dramatically","Temperatures soar above 40°C in July."],
+            ["widespread flooding","flooding over a large area","Widespread flooding followed the storm."],
+            ["dire consequences","extremely serious results","Delay could have dire consequences."]
+          ]},
+          { name:"Solutions & energy", cards:[
+            ["reduce our carbon footprint","reduce the carbon dioxide we produce","Cycling helps us reduce our carbon footprint."],
+            ["offset carbon emissions","pay for an equivalent amount of carbon dioxide to be saved","The airline lets travellers offset carbon emissions."],
+            ["alternative energy sources","energy from sources other than fossil fuels","Solar and wind are alternative energy sources."],
+            ["offshore wind farms","wind farms at sea","The coast is ideal for offshore wind farms."]
+          ]}
+        ],
+        mistake: ["Precision matters", "Say “absolutely vital”, not “very vital”. Also say “find a solution”, not “give a solution”: the natural verb with solution is find."],
+        questions: [
+          ["A region is under water across a huge area.", ["widespread flooding","toxic waste","searing heat"], "widespread flooding", "Widespread means covering a large area."],
+          ["Which phrase means the amount of carbon dioxide we cause to be produced?", ["carbon footprint","food miles","green taxes"], "carbon footprint", "Your carbon footprint is the amount of carbon dioxide caused by a person or organisation."],
+          ["The situation is extremely serious and could affect millions.", ["has dire consequences","has changing weather patterns","has offshore wind farms"], "has dire consequences", "Dire consequences are extremely serious results."]
+        ]
+      },
+      economy: {
+        tag: "Unit 34", title: "The economy", subtitle: "Discuss growth, public policy, and pressure with authority.",
+        intro: "Economic collocations often pair a policy verb with a measurable noun: governments <strong>curb inflation</strong>, <strong>allocate resources</strong>, <strong>levy taxes</strong>, and try to <strong>stimulate growth</strong>.",
+        readingTitle: "A budget speech",
+        reading: `The government’s measures to <mark>curb inflation</mark> have proved successful. The <mark>rampant inflation</mark> of the previous administration is now under control, and the <mark>current economic climate</mark> is improving. We want to <mark>steer the economy</mark> through a period of <mark>steady growth</mark>, protect people from <mark>rising unemployment</mark>, and <mark>allocate resources</mark> where they will <mark>extend opportunity</mark>.`,
+        groups: [
+          { name:"Growth & performance", cards:[
+            ["uninterrupted economic growth","continuous growth without a break","The country enjoyed uninterrupted economic growth."],
+            ["stimulate growth","encourage growth","Lower rates may stimulate growth."],
+            ["industry is thriving","an industry is doing very well","The technology industry is thriving."],
+            ["increase output","produce more","The new machinery helped increase output."]
+          ]},
+          { name:"Government & policy", cards:[
+            ["curb inflation","control continuous price increases","The central bank raised rates to curb inflation."],
+            ["steer the economy","guide the direction of the economy","The minister must steer the economy carefully."],
+            ["allocate resources","distribute resources for a purpose","Funds were allocated to public transport."],
+            ["levy heavy taxes","impose substantial taxes","The proposal would levy heavy taxes on luxury goods."]
+          ]},
+          { name:"Pressure & society", cards:[
+            ["plummeting profits","profits falling rapidly","Plummeting profits forced the company to restructure."],
+            ["real value for money","a worthwhile return for what is paid","The service offers real value for money."],
+            ["tackle social exclusion","deal with the problems of underprivileged people","The programme aims to tackle social exclusion."],
+            ["rising unemployment","unemployment increasing","Rising unemployment is a serious warning sign."]
+          ]}
+        ],
+        mistake: ["A useful contrast", "“Steady growth” is controlled and reliable; “rampant inflation” is dramatic and uncontrolled. Choose the collocation to show whether a change is healthy or alarming."],
+        questions: [
+          ["The government wants to control inflation.", ["curb inflation","stimulate growth","allocate resources"], "curb inflation", "To curb something is to control or limit it."],
+          ["A business is doing very well this year.", ["industry is thriving","profits are plummeting","unemployment is rising"], "industry is thriving", "A thriving industry is doing very well."],
+          ["The policy should help disadvantaged people participate more fully.", ["tackle social exclusion","levy heavy taxes","leave inflation unchecked"], "tackle social exclusion", "This phrase means dealing with the problems of underprivileged people."]
+        ]
+      }
+    };
+
+    let current = "plans";
+    const progress = JSON.parse(localStorage.getItem("collocation-progress") || "{}");
+    const content = document.getElementById("lesson-content");
+    const search = document.getElementById("search");
+
+    function render(topic) {
+      current = topic;
+      const lesson = lessons[topic];
+      document.getElementById("topic-tag").textContent = lesson.tag;
+      document.getElementById("topic-title").textContent = lesson.title;
+      document.getElementById("topic-subtitle").textContent = lesson.subtitle;
+      document.querySelectorAll(".lesson-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.topic === topic));
+      content.innerHTML = `
+        <div class="intro-card"><p>${lesson.intro}</p></div>
+        <div class="section-label">In context</div>
+        <article class="reading"><div class="reading-label"><span>${lesson.tag} · close reading</span><span>Notice the partnerships</span></div><h3>${lesson.readingTitle}</h3><p>${lesson.reading}</p></article>
+        ${lesson.groups.map(group => `<div class="section-label">${group.name}</div><div class="collocation-grid">${group.cards.map(card => `<article class="collocation" data-search="${card.join(" ").toLowerCase()}"><div class="phrase">${card[0]}</div><div class="meaning">${card[1]}</div><div class="example"><b>Example:</b> ${card[2]}</div></article>`).join("")}</div>`).join("")}
+        <div class="mistake"><div class="icon">✦</div><div><strong>${lesson.mistake[0]}</strong><p>${lesson.mistake[1]}</p></div></div>
+        <div class="section-label">Retrieval practice</div>
+        <section class="exercise"><div class="exercise-head"><div><h3>Choose the collocation that completes the meaning.</h3><small>Do not translate word by word. Listen for the natural partnership.</small></div><span class="level">B2–C1</span></div>
+        ${lesson.questions.map((q, i) => `<div class="question" data-answer="${q[2]}"><div class="q-number">${i+1}</div><div><div class="q-text">${q[0]}</div><div class="options">${q[1].map(option => `<button class="option" data-value="${option.replaceAll('"','&quot;')}">${option}</button>`).join("")}</div><div class="feedback" data-feedback="${i}"></div></div></div>`).join("")}
+        <div class="check-row"><span class="score" id="score">Select an answer for each question.</span><button class="primary" id="check">Check answers</button></div></section>
+        <div class="section-label">Phrase bank</div><div class="phrase-bank">${lesson.groups.flatMap(g => g.cards.map(c => `<span class="phrase-chip">${c[0]}</span>`)).join("")}</div>
+        <div class="bottom-cta"><div><h3>Make it yours.</h3><p>Write one sentence about your world using a new collocation.</p></div><button class="outline" id="complete">Mark unit complete →</button></div>
+      `;
+      bindInteractions();
+      filterCards();
+      updateProgress();
+    }
+
+    function bindInteractions() {
+      document.querySelectorAll(".option").forEach(button => button.addEventListener("click", () => {
+        const row = button.closest(".question");
+        row.querySelectorAll(".option").forEach(o => o.classList.remove("selected"));
+        button.classList.add("selected");
+      }));
+      document.getElementById("check").addEventListener("click", checkAnswers);
+      document.getElementById("complete").addEventListener("click", () => {
+        progress[current] = true; localStorage.setItem("collocation-progress", JSON.stringify(progress)); updateProgress();
+        document.getElementById("complete").textContent = "Unit complete ✓";
+      });
+    }
+    function checkAnswers() {
+      let correct = 0, total = 0;
+      document.querySelectorAll(".question").forEach(row => {
+        total++;
+        const chosen = row.querySelector(".option.selected");
+        const answer = row.dataset.answer;
+        const feedback = row.querySelector(".feedback");
+        row.querySelectorAll(".option").forEach(o => { o.classList.remove("correct","wrong"); if (o.dataset.value === answer) o.classList.add("correct"); });
+        if (chosen && chosen.dataset.value === answer) { correct++; feedback.textContent = "Correct — " + lessons[current].questions[Number(row.querySelector(".q-number").textContent)-1][3]; feedback.className = "feedback show good"; }
+        else { if (chosen) chosen.classList.add("wrong"); feedback.textContent = "Not quite. " + lessons[current].questions[Number(row.querySelector(".q-number").textContent)-1][3]; feedback.className = "feedback show bad"; }
+      });
+      document.getElementById("score").textContent = `${correct} / ${total} correct`;
+    }
+    function filterCards() {
+      const term = search.value.trim().toLowerCase();
+      document.querySelectorAll(".collocation").forEach(card => card.style.display = !term || card.dataset.search.includes(term) ? "" : "none");
+    }
+    function updateProgress() {
+      const done = Object.values(progress).filter(Boolean).length;
+      document.getElementById("progress-bar").style.width = `${Math.max(33, done / 3 * 100)}%`;
+      document.getElementById("progress-label").textContent = `${Math.max(1, done)} of 3 units`;
+    }
+    document.querySelectorAll(".lesson-btn").forEach(btn => btn.addEventListener("click", () => { search.value = ""; render(btn.dataset.topic); window.scrollTo({top: document.querySelector(".layout").offsetTop - 20, behavior:"smooth"}); }));
+    search.addEventListener("input", filterCards);
+    render("plans");
+  </script>
+</body>
+</html>
