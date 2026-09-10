@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="An intensive, university-level masterclass deconstructing English grammatical taxonomy — nouns, pronouns, verbs, adjectives, adverbs, conjunctions, prepositions and interjections — with self-marking assessments and a downloadable practicum."/>
+<title>The Architecture of Syntax · Cambridge Philology Masterclass · PREMIUM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<!-- Client-side HTML→PDF engine. Replaces the old fake "rename an .html file to .pdf" trick with a real,
+     openable PDF generated in the browser (no server round-trip required). -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.11.2/html2pdf.bundle.min.js" defer></script>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    cambridge: '#A3C1AD',
+                    oxford: '#002147',
+                    crimson: '#8A1538',
+                    parchment: '#FAF9F6',
+                    gold: '#C4923E'
+                },
+                fontFamily: {
+                    display: ['Playfair Display', 'Instrument Serif', 'serif'],
+                    serif: ['Source Serif 4', 'serif'],
+                    mono: ['DM Mono', 'monospace']
+                }
+            }
+        }
+    }
+</script>
+<style>
+    html { scroll-behavior: smooth; }
+    body { background-color: theme('colors.parchment'); color: #222; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); }
+    .premium-card { transition: all 0.4s cubic-bezier(0.16,1,0.3,1); }
+    .premium-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,33,71,0.08); }
+    
+    /* Academic Typography Formatting */
+    h1, h2, h3, h4 { font-family: theme('fontFamily.display'); color: theme('colors.oxford'); }
+    p, li { font-family: theme('fontFamily.serif'); line-height: 1.8; color: #333; font-size: 1.05rem; }
+    .socratic-box { border-left: 4px solid theme('colors.gold'); background: linear-gradient(to right, rgba(196,146,62,0.08), rgba(196,146,62,0.02)); }
+    code { font-family: theme('fontFamily.mono'); font-size: 0.85em; background: rgba(0,33,71,0.06); padding: 0.15rem 0.3rem; border-radius: 4px; color: #002147; }
+    
+    /* Dynamic Mesh Background */
+    .mesh-bg { position: fixed; inset: 0; background: radial-gradient(circle at 15% 10%, rgba(138,21,56,0.03), transparent 50%), radial-gradient(circle at 85% 15%, rgba(0,33,71,0.04), transparent 50%); pointer-events: none; z-index: -1; }
+    
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.4s cubic-bezier(0.16,1,0.3,1); }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Visible keyboard focus on every interactive element (buttons, links) */
+    button:focus-visible,
+    a:focus-visible {
+        outline: 2px solid theme('colors.oxford');
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+
+    /* Respect users who have asked for reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        .premium-card, .tab-content.active, .toast { transition: none !important; animation: none !important; }
+        .premium-card:hover { transform: none; }
+    }
+
+    /* Lightweight toast notifications — replaces blocking alert() dialogs */
+    #toast-region { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100; display: flex; flex-direction: column; gap: 0.6rem; max-width: min(90vw, 360px); }
+    .toast {
+        font-family: theme('fontFamily.serif');
+        font-size: 0.92rem;
+        line-height: 1.5;
+        padding: 0.85rem 1.1rem;
+        border-radius: 8px;
+        box-shadow: 0 12px 28px rgba(0,33,71,0.18);
+        color: #fff;
+        animation: toastIn 0.25s ease-out;
+    }
+    .toast-success { background: theme('colors.oxford'); border-left: 4px solid theme('colors.gold'); }
+    .toast-error { background: theme('colors.crimson'); border-left: 4px solid #fff3; }
+    .toast-info { background: #1f2937; border-left: 4px solid theme('colors.gold'); }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .btn-spinner {
+        display: inline-block; width: 12px; height: 12px; border-radius: 50%;
+        border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
+        animation: spin 0.7s linear infinite; margin-right: 6px; vertical-align: -1px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body class="antialiased">
+
+<div class="mesh-bg"></div>
+
+<!-- Toast notifications live here; announced to screen readers via aria-live -->
+<div id="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+<nav class="sticky top-0 z-50 h-[80px] glass-panel flex items-center shadow-sm" aria-label="Primary">
+    <div class="w-full max-w-[1500px] mx-auto px-6 lg:px-10 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-oxford text-white grid place-items-center font-display font-black text-[14px] shadow-inner">SP</div>
+            <div class="font-display font-bold text-[22px] tracking-tight text-oxford">Shared Pearls <span class="italic font-normal text-crimson">of Wisdom</span></div>
+            <span class="hidden md:inline-block ml-4 px-3 py-1 rounded-sm bg-oxford text-white font-mono text-[10px] tracking-widest border border-white/20">Course Mastery- <b>Parts of Speech</b></span>
+        </div>
+        <div class="flex items-center gap-3">
+            <button id="download-pdf-btn" type="button" onclick="downloadWorksheetPDF()" class="font-mono text-[10px] tracking-[0.1em] uppercase font-bold bg-oxford text-white px-4 py-2.5 rounded-[2px] shadow-sm hover:bg-crimson transition-colors flex items-center gap-2 disabled:opacity-60 disabled:cursor-wait">
+                <span>📄 Download PDF Worksheet</span>
+            </button>
+            <button type="button" onclick="window.print()" class="font-mono text-[10px] tracking-[0.1em] uppercase font-bold bg-gold text-white px-4 py-2.5 rounded-[2px] shadow-sm hover:bg-yellow-600 transition-colors">Export Syllabus</button>
+        </div>
+    </div>
+</nav>
+
+<div class="grid grid-cols-1 lg:grid-cols-[300px_1fr] max-w-[1500px] mx-auto relative min-h-[calc(100vh-80px)]">
+    
+    <!-- Left-hand Switchable Sidebar Navigation -->
+    <aside class="sticky top-[80px] h-[calc(100vh-80px)] overflow-y-auto px-6 py-8 border-r border-black/5 bg-white/60">
+        
+        <ul id="toc" class="space-y-1.5 font-mono text-[11.5px] tracking-wide text-gray-700" role="tablist" aria-label="Curriculum modules">
+            <li role="presentation">
+                <button type="button" id="tabbtn-intro" role="tab" aria-selected="true" aria-controls="tab-intro" onclick="switchTab('intro')" class="nav-btn w-full text-left px-3.5 py-2.5 rounded-md hover:bg-oxford/5 transition-all flex items-center gap-3 font-bold text-oxford bg-oxford/10 border-l-4 border-oxford" data-target="intro">
+                    <span class="w-5 h-5 rounded-full bg-oxford text-white grid place-items-center text-[10px]">0</span> What is Grammar?
+                </button>
+            </li>
+            <li role="presentation">
+                <button type="button" id="tabbtn-nouns" role="tab" aria-selected="false" aria-controls="tab-nouns" onclick="switchTab('nouns')" class="nav-btn w-full text-left px-3.5 py-2.5 rounded-md hover:bg-oxford/5 transition-all flex items-center gap-3 text-gray-600" data-target="nouns">
+                    <span class="w-5 h-5 rounded-full bg-black/5 grid place-items-center text-[10px]">1</span> Nouns & Determiners
+                </button>
+            </li>
+            <li role="presentation">
+                <button type="button" id="tabbtn-pronouns" role="tab" aria-selected="false" aria-controls="tab-pronouns" onclick="switchTab('pronouns')" class="nav-btn w-full text-left px-3.5 py-2.5 rounded-md hover:bg-oxford/5 transition-all flex items-center gap-3 text-gray-600" data-target="pronouns">
+                    <span class="w-5 h-5 rounded-full bg-black/5 grid place-items-center text-[10px]">2</span> Pronouns & Antecedents
+                </button>
+            </li>
+            <li role="presentation">
+                <button type="button" id="tabbtn-verbs" role="tab" aria-selected="false" aria-controls="tab-verbs" onclick="switchTab('verbs')" class="nav-btn w-full text-left px-3.5 py-2.5 rounded-md hover:bg-oxford/5 transition-all flex items-center gap-3 text-gray-600" data-target="verbs">
+                    <span class="w-5 h-5 rounded-full bg-black/5 grid place-items-center text-[10px]">3</span> Verbs, Aspect & Tense
+                </button>
+            </li>
+            <li role="presentation">
+                <button type="button" id="tabbtn-adjectives" role="tab" aria-selected="false" aria-controls="tab-adjectives" onclick="switchTab('adjectives')" class="nav-btn w-full text-left px-3.5 py-2.5 rounded-md hover:bg-oxford/5 transition-all flex items-center gap-3 text-gray-600" data-target="adjectives">
+                    <span class="w-5 h-5 rounded-full bg-black/5 grid place-items-center text-[10px]">4</span> Adjectives & Phrases
+                </button>
+            </li>
+            <li role="presentation">
+                <button type="button" id="tabbtn-adverbs" role="tab" aria-selected="false" aria-controls="tab-adverbs" onclick="switchTab('adverbs')" class="nav-btn w-full text-left px-3.5 py-2.5 rounded-md hover:bg-oxford/5 transition-all flex items-center gap-3 text-gray-600" data-target="adverbs">
+                    <span class="w-5 h-5 rounded-full bg-black/5 grid place-items-center text-[10px]">5</span> Adverbs & Modification
+                </button>
+            </li>
+            <li role="presentation">
+                <button type="button" id="tabbtn-conjunctions" role="tab" aria-selected="false" aria-controls="tab-conjunctions" onclick="switchTab('conjunctions')" class="nav-btn w-full text-left px-3.5 py-2.5 rounded-md hover:bg-oxford/5 transition-all flex items-center gap-3 text-gray-600" data-target="conjunctions">
+                    <span class="w-5 h-5 rounded-full bg-black/5 grid place-items-center text-[10px]">6</span> Conjunctions
+                </button>
+            </li>
+            <li role="presentation">
+                <button type="button" id="tabbtn-prepositions" role="tab" aria-selected="false" aria-controls="tab-prepositions" onclick="switchTab('prepositions')" class="nav-btn w-full text-left px-3.5 py-2.5 rounded-md hover:bg-oxford/5 transition-all flex items-center gap-3 text-gray-600" data-target="prepositions">
+                    <span class="w-5 h-5 rounded-full bg-black/5 grid place-items-center text-[10px]">7</span> Prepositions
+                </button>
+            </li>
+            <li role="presentation">
+                <button type="button" id="tabbtn-interjections" role="tab" aria-selected="false" aria-controls="tab-interjections" onclick="switchTab('interjections')" class="nav-btn w-full text-left px-3.5 py-2.5 rounded-md hover:bg-oxford/5 transition-all flex items-center gap-3 text-gray-600" data-target="interjections">
+                    <span class="w-5 h-5 rounded-full bg-black/5 grid place-items-center text-[10px]">8</span> Interjections
+                </button>
+            </li>
+        </ul>
+        
+        
+    </aside>
+
+    <main class="px-6 md:px-12 lg:px-16 py-12 md:py-16 max-w-[1100px]">
+        
+        <!-- ================= INTRO / WHAT IS GRAMMAR ================= -->
+        <div id="tab-intro" class="tab-content active" role="tabpanel" aria-labelledby="tabbtn-intro" tabindex="0">
+            <header class="mb-12">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-crimson text-white font-mono text-[10px] tracking-widest shadow-sm uppercase mb-6">Theoretical Linguistics · Module 0</div>
+                <h1 class="font-display font-black text-[38px] md:text-[58px] leading-[1.05] tracking-tight">The Architecture of Syntax: <br/><span class="italic font-normal text-gray-500">Deconstructing Parts of Speech</span></h1>
+                <p class="mt-6 text-[1.2rem] opacity-90 max-w-[70ch] leading-relaxed">
+                    Welcome, Scholars. True mastery of the English language transcends mere memorisation; it requires a scientific understanding of how morphological frames and syntactic structures intertwine. This dedicated page provides an intensive, university-level analysis of grammatical anatomy.
+                </p>
+            </header>
+
+            <section class="mb-16">
+                <h2 class="text-[32px] font-bold border-b-2 border-black/5 pb-4 mb-6">0. What is Grammar?</h2>
+                <p class="mb-4">Grammar is the structural system of a language that governs how words combine into meaningful sentences. It encompasses syntax—word order—and morphology—word forms like tenses and plurals. Think of it as the architectural blueprint ensuring clear communication, so thoughts transmit accurately from a writer to a reader:</p>
+                <ul class="list-disc pl-8 mb-6 space-y-2">
+                    <li><strong>Morphology:</strong> Morphology is the study of word formation and structure. It analyses morphemes—the smallest units of meaning. For example:</li>
+                    <li>the word "unhappiness" contains three morphemes: "un-", "happy", and "-ness".</li>
+                    <li><strong>Syntax:</strong> Syntax is the arrangement of words to form well-structured sentences. It establishes grammatical relationships and meaning. For example:</li>
+                    <li>The cat chased the mouse. (Correct) <strike>The cat the mouse chased. (incorrect)</strike></li>
+                </ul>
+                <p class="mb-6">Grammar involves the rigorous study of the different elements of speech (nouns, verbs, adjectives, etc.) and the relations between them. Acquiring a knowledge of grammar provides the crucial <em>vocabulary</em> required to discuss how language actually works.</p>
+                
+                <div class="bg-white border border-gray-200 p-6 rounded-lg shadow-sm mb-8">
+                    <h4 class="font-mono text-[12px] uppercase tracking-widest text-oxford mb-3 font-bold">Parts of Speech</h4>
+                    <p class="text-[0.95rem] mb-3">Parts of speech are <strong>the fundamental categories into which words are classified based on their syntactic roles and functions within a sentence</strong> including nouns, verbs, adjectives, adverbs, pronouns, prepositions, conjunctions, and interjections. 
+                    <p class="text-[0.95rem]">Understanding these categories provides the foundational architecture required for precise syntax, advanced stylistic variation, and clear meaning construction.</p>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= 1. NOUNS & DETERMINERS ================= -->
+        <div id="tab-nouns" class="tab-content" role="tabpanel" aria-labelledby="tabbtn-nouns" tabindex="0">
+            <header class="mb-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-oxford text-white font-mono text-[10px] tracking-widest shadow-sm uppercase mb-6">Taxonomy · Module 1</div>
+                <h1 class="font-display font-black text-[38px] md:text-[54px] leading-[1.05] tracking-tight">Nouns & Determiners: <br/><span class="italic font-normal text-gray-500">The Anchors of Reality</span></h1>
+            </header>
+
+            <section class="mb-16">
+                <p class="mb-4">A noun is traditionally defined as a person, place, thing, state, or quality. However, syntactically, a noun is a part of speech that fits into specific morphological and syntactic frames. It takes inflection suffixes for plural <code>-s</code>, singular possessive <code>-'s</code>, and plural possessive <code>-s'</code> cases. Nouns reliably appear after determiners and adjectives.</p>
+                
+                <div class="grid md:grid-cols-2 gap-6 my-8">
+                    <div class="premium-card bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                        <h3 class="text-[18px] font-bold mb-3 text-oxford">Grammatical Classifications</h3>
+                        <ul class="text-[0.95rem] space-y-2">
+                            <li><strong>Count Nouns:</strong> Discrete, countable entities (e.g., <em>book, house, car</em>). Can take plural forms and articles.</li>
+                            <li><strong>Non-Count (Mass) Nouns:</strong> Indiscreet objects or concepts (e.g., <em>rice, oil, weather</em>).</li>
+                            <li><strong>Common vs. Proper:</strong> General entities (<em>a city, the policeman</em>) vs. specific, capitalized names (<em>Nicolas, Idaho, Daily News</em>).</li>
+                            <li><strong>Collective Nouns:</strong> Naming groups. Singular in form but referencing a plurality (e.g., <em>team, herd, jury</em>).</li>
+                            <li><strong>Concrete vs. Abstract:</strong> Perceptible to the five senses (<em>desk, bottle, door</em>) versus imperceptible concepts (<em>conscience</em>).</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="premium-card bg-oxford text-white p-6 rounded-xl shadow-md flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-[18px] font-bold mb-3 text-gold">Determiners & Articles</h3>
+                            <p class="text-[0.95rem] mb-3 text-white">Determiners form a closed class of about 50 words occurring before a noun, modifying the noun phrase.</p>
+                            <ul class="text-[0.95rem] space-y-2 text-white/20 list-disc pl-5">
+                                <li><strong>Articles:</strong> Definite (<em>the</em>), Indefinite (<em>a, an</em>), Partitive (some/any), Zero Article.</li>
+                                <li><strong>Demonstratives:</strong> <em>this, that, these, those.</em></li>
+                                <li><strong>Quantifiers:</strong> <em>all, few, many, several, some, every.</em></li>
+                                <li><strong>Possessives & Numerals:</strong> <em>my, our, John's, first, fifty.</em></li>
+                            </ul>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-white/30 text-[0.85rem] text-white font-mono">
+                            Examples: <i>the teacher, a college, that person, your choice</i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="socratic-box p-6 rounded-r-lg mb-8">
+                    <h4 class="font-mono text-[11px] uppercase tracking-widest text-gold mb-2 font-bold">Socratic Inquiry I: The Philosophy of the Zero Article</h4>
+                    <p class="italic text-[1.1rem] text-gray-800">Consider the "Zero Article." Linguists base this absence on the X-bar theory, positing that a structural determiner slot exists in human cognition even when phonetically empty. How does removing an article fundamentally alter the philosophical scope of a noun from a specific instance to a universal metaphysical concept?</p>
+                </div>
+
+                <h3 class="text-[22px] font-bold mb-3">Morphology: Plurality and Possession</h3>
+                <p class="mb-4">While most nouns take the <code>-s</code> inflection for plurality, irregulars (<em>ox/oxen, child/children, syllabus/syllabi, deer/deer</em>) require memorization. To express ownership or control, nouns undergo morphological changes using apostrophes.</p>
+                <ul class="list-disc pl-8 space-y-2 mb-6">
+                    <li>Singular not ending in 's': add <code>'s</code> (<em>The delivery boy's truck</em>).</li>
+                    <li>Singular common noun ending in 's': add <code>'s</code>, UNLESS the next word begins with an 's' sound. (<em>The boss's temper</em> vs. <em>The boss' sister</em>).</li>
+                    <li>Singular proper noun ending in 's': add only an apostrophe <code>'</code> (<em>Chris' exam scores</em>).</li>
+                </ul>
+
+                <!-- 10 Assessment Questions for Nouns -->
+                <div class="mt-12 pt-8 border-t-2 border-black/10">
+                    <h3 class="text-[28px] font-bold mb-6 text-oxford">Scholars' Assessment: Nouns & Determiners</h3>
+                    <div class="quiz-container space-y-6" data-section="nouns">
+                        <!-- Q1 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">1. According to the foundational text, how is the "Zero Article" theoretically justified by linguists?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) By arguing that plural nouns inherently possess determiners.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Through the historical evolution of Old English morphology.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) By hypothesizing the absence as a zero article based on the X-bar theory.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) It is an anomaly that cannot be syntactically mapped.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q2 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">2. Which of the following is classified as a non-count (mass) noun in the text?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Book</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Weather</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) House</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Car</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q3 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">3. What morphological suffix category do nouns reliably accept?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Plural <code>-s</code>, singular possessive <code>-'s</code>, and plural possessive <code>-s'</code>.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Progressive <code>-ing</code> and past participle <code>-en</code>.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Comparative <code>-er</code> and superlative <code>-est</code>.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Past tense <code>-ed</code>.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q4 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">4. Which of the following is an example of an irregular plural noun pair listed in the text?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Boy/boys</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) House/houses</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Syllabus/syllabi</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Delivery/deliveries</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q5 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">5. According to possessive rules, how should a singular common noun ending in 's' be handled when the next word begins with an 's' sound?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Always add <code>'s</code> regardless of the following sound.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Remove the final 's' entirely before adding an apostrophe.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Add <code>-es'</code>.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Add an apostrophe only (e.g., <em>The boss' sister</em>).</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q6 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">6. Approximately how many words comprise the closed class of determiners in English (exclusive of ordinals)?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) About 50 words</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Over 500 words</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Exactly 12 words</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) An infinite open class</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q7 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">7. Which of the following is categorized as a collective noun?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Nicolas</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Jury</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Rice</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Conscience</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q8 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">8. How should proper nouns like Chris or Alyssa ending in 's' form their possessive?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Add <code>'s</code> always</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Add nothing</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Add only an apostrophe <code>'</code> (e.g., <em>Chris' exam scores</em>)</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Spell out "of Chris"</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q9 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">9. What differentiates concrete nouns from abstract nouns?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Concrete nouns are capitalized; abstract nouns are not.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Concrete nouns are uncountable; abstract nouns are countable.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Concrete nouns represent proper names.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Concrete nouns represent objects one can see, hear, touch, smell, or taste; abstract nouns do not.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q10 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">10. Choosing whether to use <code>a</code> or <code>an</code> is determined by what linguistic feature?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) The first <em>sound</em> of the word that follows it (consonant vs. vowel sound).</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) The first written letter regardless of pronunciation.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Whether the noun is count or non-count.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Whether the noun is proper or common.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submission Button for Nouns Assessment -->
+                    <div class="mt-8 p-6 bg-oxford/5 rounded-xl border border-oxford/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h4 class="font-display font-bold text-oxford text-[18px]">Ready to submit Module 1 Assessment?</h4>
+                            <p class="text-[0.9rem] text-gray-600">Verify your responses above before recording your score.</p>
+                        </div>
+                        <button type="button" onclick="submitModuleAssessment('nouns', 10)" class="w-full sm:w-auto font-mono text-[11px] tracking-[0.1em] uppercase font-bold bg-oxford text-white px-6 py-3 rounded-[3px] shadow hover:bg-crimson transition-colors">Submit Nouns Assessment</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= 2. PRONOUNS & ANTECEDENTS ================= -->
+        <div id="tab-pronouns" class="tab-content" role="tabpanel" aria-labelledby="tabbtn-pronouns" tabindex="0">
+            <header class="mb-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-oxford text-white font-mono text-[10px] tracking-widest shadow-sm uppercase mb-6">Taxonomy · Module 2</div>
+                <h1 class="font-display font-black text-[38px] md:text-[54px] leading-[1.05] tracking-tight">Pronouns & Antecedents: <br/><span class="italic font-normal text-gray-500">The Art of Reference</span></h1>
+            </header>
+
+            <section class="mb-16">
+                <p class="mb-6">A pronoun replaces a noun phrase (the <strong>antecedent</strong>). Navigating pronouns requires strict adherence to agreement rules to avoid logical fragmentation.</p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 text-center shadow-sm"><span class="block font-bold text-oxford">Personal</span><span class="text-[0.9rem]">I, he, she, we, they</span></div>
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 text-center shadow-sm"><span class="block font-bold text-oxford">Possessive</span><span class="text-[0.9rem]">My, mine, your, theirs</span></div>
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 text-center shadow-sm"><span class="block font-bold text-oxford">Intensive</span><span class="text-[0.9rem]">President <i>himself</i></span></div>
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 text-center shadow-sm"><span class="block font-bold text-oxford">Reflexive</span><span class="text-[0.9rem]">Shop <i>ourselves</i></span></div>
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 text-center shadow-sm"><span class="block font-bold text-oxford">Relative</span><span class="text-[0.9rem]">The man <i>who</i> yelled</span></div>
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 text-center shadow-sm"><span class="block font-bold text-oxford">Interrogative</span><span class="text-[0.9rem]"><i>Who</i> was that?</span></div>
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 text-center shadow-sm"><span class="block font-bold text-oxford">Demonstrative</span><span class="text-[0.9rem]"><i>This</i> is my dog.</span></div>
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 text-center shadow-sm"><span class="block font-bold text-oxford">Indefinite</span><span class="text-[0.9rem]">All, any, everyone, some</span></div>
+                </div>
+
+                <h3 class="text-[22px] font-bold mb-3">Common Pronoun Predicaments</h3>
+                <ul class="list-disc pl-8 space-y-3 mb-6">
+                    <li><strong>Agreement:</strong> "The dogs fought for <i>their</i> food." Collective nouns (<em>jury</em>) take singular pronouns unless obviously plural in action. Compound antecedents joined by <em>and</em> take plural pronouns.</li>
+                    <li><strong>The Singular 'They':</strong> Note that indefinite, morphologically singular antecedents (<em>anyone, everyone, nobody</em>) can grammatically take 'they'. This is historically validated by literary giants: <em>"And everyone to rest themselves betake"</em> (Shakespeare, 1549) and <em>"I would have everybody marry if they can do it properly"</em> (Jane Austen, 1814).</li>
+                    <li><strong>Ambiguous Reference:</strong> "When she set the picture on the glass table, it broke." (Which item broke?). Pronoun references must be incontrovertibly clear.</li>
+                    <li><strong>We vs. Us:</strong> Omit the antecedent to test. "We/Us workers would like..." -> "We would like..." (Correct).</li>
+                </ul>
+
+                <!-- 10 Assessment Questions for Pronouns -->
+                <div class="mt-12 pt-8 border-t-2 border-black/10">
+                    <h3 class="text-[28px] font-bold mb-6 text-oxford">Scholars' Assessment: Pronouns & Antecedents</h3>
+                    <div class="quiz-container space-y-6" data-section="pronouns">
+                        <!-- Q1 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">1. What is the technical term for the word or group of words that a pronoun replaces or refers to?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Copula</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Direct Object</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Antecedent</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Determiner</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q2 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">2. In the sentence "The President <i>himself</i> called to congratulate me," what type of pronoun is <i>himself</i>?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Intensive pronoun</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Reflexive pronoun</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Demonstrative pronoun</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Relative pronoun</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q3 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">3. How should collective nouns (e.g., <i>jury</i>) be treated for pronoun agreement under standard rules?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Always plural</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Omitted entirely</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Treated as relative pronouns</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Singular unless they are obviously acting in a plural capacity.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q4 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">4. How can a writer test whether to use <i>we</i> or <i>us</i> in a phrase like "We/Us workers"?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Check alphabetical order.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Omit the antecedent noun ("We/Us would like...").</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Always use <i>us</i> before plural nouns.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Use whichever sounds more casual.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q5 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">5. Which historical literary giant is cited in the text as validating the singular 'they' with indefinite pronouns?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Geoffrey Chaucer</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Charles Dickens</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) William Shakespeare and Jane Austen</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Ernest Hemingway</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q6 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">6. What error is present in: "When she set the picture on the glass table, it broke."?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Ambiguous pronoun reference (unclear antecedent).</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Subject-verb agreement failure.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Incorrect use of an interrogative pronoun.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) No error.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q7 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">7. Which pronouns introduce subordinate clauses and function as adjectives?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Personal pronouns</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Relative pronouns</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Reflexive pronouns</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Interrogative pronouns</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q8 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">8. Compound antecedents connected by <i>and</i> should be treated as:</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Singular</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Neutral</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Plural</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Optional</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q9 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">9. What is the functional difference between an intensive pronoun and a reflexive pronoun?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Intensive pronouns end in -self; reflexive pronouns do not.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Reflexive pronouns emphasize nouns; intensive pronouns name receivers.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) There is no difference; they are identical.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Intensive pronouns emphasize a noun/pronoun; reflexive pronouns name the receiver of an action.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q10 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">10. In the sentence "<i>This</i> material was new to me," what role does <i>this</i> play?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Pronoun functioning as a determiner/adjective.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Pure relative pronoun.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Interrogative subject.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Conjunction.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submission Button for Pronouns Assessment -->
+                    <div class="mt-8 p-6 bg-oxford/5 rounded-xl border border-oxford/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h4 class="font-display font-bold text-oxford text-[18px]">Ready to submit Module 2 Assessment?</h4>
+                            <p class="text-[0.9rem] text-gray-600">Verify your responses above before recording your score.</p>
+                        </div>
+                        <button type="button" onclick="submitModuleAssessment('pronouns', 10)" class="w-full sm:w-auto font-mono text-[11px] tracking-[0.1em] uppercase font-bold bg-oxford text-white px-6 py-3 rounded-[3px] shadow hover:bg-crimson transition-colors">Submit Pronouns Assessment</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= 3. VERBS, ASPECT & TENSE ================= -->
+        <div id="tab-verbs" class="tab-content" role="tabpanel" aria-labelledby="tabbtn-verbs" tabindex="0">
+            <header class="mb-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-oxford text-white font-mono text-[10px] tracking-widest shadow-sm uppercase mb-6">Taxonomy · Module 3</div>
+                <h1 class="font-display font-black text-[38px] md:text-[54px] leading-[1.05] tracking-tight">Verbs, Aspect & Tense: <br/><span class="italic font-normal text-gray-500">The Structural Engine</span></h1>
+            </header>
+
+            <section class="mb-16">
+                <p class="mb-4">The verb is the structural engine of the predicate, expressing action (<em>threw</em>), occurrence (<em>descended</em>), or state of being (<em>is, was</em>). Verbs are remarkably mutable, adapting to person, gender, number, tense, aspect, mood, and voice.</p>
+
+                <h3 class="text-[20px] font-bold mb-3">Principal Parts & Agreement</h3>
+                <p class="mb-4">The four principal parts are: base form (<em>to escape</em>), past tense (<em>escaped</em>), present participle (<em>am escaping</em>), and past participle (<em>escaped</em>). Verbs must strictly agree with their subjects in number and person.</p>
+                
+                <div class="bg-red-50 border-l-4 border-crimson p-5 mb-6 text-[0.95rem]">
+                    <strong class="text-crimson">Beware the Prepositional Trap:</strong><br/>
+                    <em>Incorrect:</em> "The direction of the three plays are the topic of my talk."<br/>
+                    <em>Correct:</em> "The direction of the three plays <strong>is</strong> the topic of my talk." (The subject is <i>direction</i>, not <i>plays</i>).
+                </div>
+                <div class="bg-blue-50 border-l-4 border-oxford p-5 mb-8 text-[0.95rem]">
+                    <strong class="text-oxford">Inverted Syntax:</strong><br/>
+                    <em>Incorrect:</em> "Beside the house stands sheds filled with tools."<br/>
+                    <em>Correct:</em> "Beside the house <strong>stand</strong> sheds filled with tools." (The subject is <i>sheds</i>).
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div>
+                        <h3 class="text-[20px] font-bold mb-3 text-oxford border-b border-gray-200 pb-2">Tense vs. Aspect</h3>
+                        <p class="text-[0.95rem] mb-2"><strong>Tense</strong> locates an action in time (Present, Past, Future).</p>
+                        <p class="text-[0.95rem] mb-4"><strong>Aspect</strong> refers to the nature of the action's progression or completion (Indefinite/Simple, Progressive, Perfect). Aspects utilize <code>-en</code> and <code>-ing</code> non-finite participles.</p>
+                        <ul class="text-[0.9rem] list-disc pl-5 space-y-1">
+                            <li><em>Simple:</em> "I went" (Action occurs, completion unspecified).</li>
+                            <li><em>Progressive:</em> "He is reading" (Continuing action).</li>
+                            <li><em>Perfect:</em> "Mary has taken" (Completed before another time).</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-[20px] font-bold mb-3 text-oxford border-b border-gray-200 pb-2">Verb Valency (Transitivity)</h3>
+                        <ul class="text-[0.95rem] list-disc pl-5 space-y-2">
+                            <li><strong>Transitive:</strong> Requires a direct object to receive the action (e.g., <em>"She cuts her hair"</em>).</li>
+                            <li><strong>Intransitive:</strong> Action is complete without an object (e.g., <em>"Katie ran."</em>).</li>
+                            <li><strong>Linking Verbs (Copula):</strong> Connects subject to complement. True linking verbs are forms of 'to be' (<em>am, is, are, was</em>). Cannot be made passive as they lack a direct object. Multiple personality verbs: <em>appear, feel, smell</em>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 10 Assessment Questions for Verbs -->
+                <div class="mt-12 pt-8 border-t-2 border-black/10">
+                    <h3 class="text-[28px] font-bold mb-6 text-oxford">Scholars' Assessment: Verbs, Aspect & Tense</h3>
+                    <div class="quiz-container space-y-6" data-section="verbs">
+                        <!-- Q1 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">1. In the sentence "The direction of the three plays <i>is</i> the topic of my talk," why is the verb singular?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Because 'plays' is the true subject.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Because the subject is 'direction', and verbs never agree with nouns inside prepositional phrases.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Because linking verbs are always singular.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) It is a typographical error.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q2 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">2. Why can true linking verbs (copulas) like <i>was</i> in "The work was very tiring" not be transformed into passive sentences?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Because they are in future tense.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Because they represent progressive aspect.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Because they do not have a direct object (non-transitive).</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Because they lack principal parts.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q3 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">3. What is the correct grammatical correction for: "Beside the house stands sheds filled with tools."?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) "Beside the house stand sheds filled with tools." (Subject is plural 'sheds').</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) "Beside the houses stands shed filled with tools."</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) "Beside the house is standing shed."</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) The original sentence is correct.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q4 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">4. What do aspect affixes <code>-en</code> and <code>-ing</code> form in English verb morphology?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Plural noun markers</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Comparative adjectives</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Adverbial suffixes</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Non-finite participle forms</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q5 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">5. Which of the following describes a transitive verb?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) An action that requires no object (e.g., "Katie ran.")</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) An action that carries out the action on a subject and must be followed by a direct object.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) A verb that links subject to complement (copula).</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) An interjection expressing emotion.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q6 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">6. What are the four principal parts of the verb <i>escape</i>?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Escape, escaped, escapes, escaping</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Escaping, escaped, escape, escapable</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Base form (to escape), past tense (escaped), present participle (am escaping), past participle (escaped).</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Escapist, escaped, escape, escapes</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q7 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">7. Which verbs are noted in the text as having "multiple personalities" (functioning as linking or action verbs)?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Appear, feel, remain, smell</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Be, am, is, are</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Run, walk, jump</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Have, do, make</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q8 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">8. What does perfect aspect denote?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Continuing actions in the present.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Actions completed before another action or time in the present, past, or future.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Future occurrences only.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Unchanging scientific truths.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q9 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">9. In the sentence "Katie ran," what type of verb is <i>ran</i>?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Transitive verb</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Copula</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Auxiliary verb</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Intransitive verb (stands alone without an object)</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q10 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">10. How is future tense formed when expressing an action that will occur in the future?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) By adding <code>-ed</code></button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) By adding <code>-ing</code></button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) By using <i>will/shall</i> with the simple form of the verb (or <i>am/is/are going to</i>).</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) By using past participles.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submission Button for Verbs Assessment -->
+                    <div class="mt-8 p-6 bg-oxford/5 rounded-xl border border-oxford/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h4 class="font-display font-bold text-oxford text-[18px]">Ready to submit Module 3 Assessment?</h4>
+                            <p class="text-[0.9rem] text-gray-600">Verify your responses above before recording your score.</p>
+                        </div>
+                        <button type="button" onclick="submitModuleAssessment('verbs', 10)" class="w-full sm:w-auto font-mono text-[11px] tracking-[0.1em] uppercase font-bold bg-oxford text-white px-6 py-3 rounded-[3px] shadow hover:bg-crimson transition-colors">Submit Verbs Assessment</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= 4. ADJECTIVES & PHRASES ================= -->
+        <div id="tab-adjectives" class="tab-content" role="tabpanel" aria-labelledby="tabbtn-adjectives" tabindex="0">
+            <header class="mb-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-oxford text-white font-mono text-[10px] tracking-widest shadow-sm uppercase mb-6">Taxonomy · Module 4</div>
+                <h1 class="font-display font-black text-[38px] md:text-[54px] leading-[1.05] tracking-tight">Adjectives & Adjectival Phrases: <br/><span class="italic font-normal text-gray-500">Describing Reality</span></h1>
+            </header>
+
+            <section class="mb-16">
+                <p class="mb-4">Adjectives modify or limit the meaning of nouns or pronouns, usually by describing, quantifying, or identifying those words. An adjective answers the question <em>what kind, which one, how many,</em> or <em>how much</em>.</p>
+                
+                <div class="grid md:grid-cols-3 gap-5 my-6">
+                    <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <h4 class="font-bold text-oxford mb-2">Descriptive</h4>
+                        <p class="text-[0.9rem]">"Josh threw the <strong>yellow</strong> ball."</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <h4 class="font-bold text-oxford mb-2">Quantifying</h4>
+                        <p class="text-[0.9rem]">"We caught <strong>several</strong> sunfish."</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <h4 class="font-bold text-oxford mb-2">Identifying</h4>
+                        <p class="text-[0.9rem]">"Carol tried hard to win <strong>that</strong> race."</p>
+                    </div>
+                </div>
+
+                <h3 class="text-[20px] font-bold mb-3 mt-6">Adjectival Phrases</h3>
+                <p class="mb-4">An adjectival phrase is a phrase with an adjective as its head (e.g., <em>full of toys</em>). In English, an adjectival phrase may occur as a post-modifier to a noun (<em>a bin full of toys</em>), or as a predicate to a verb (<em>the bin is full of toys and clothes</em>).</p>
+
+                <h3 class="text-[20px] font-bold mb-3 mt-6">Comparisons & Possessive Adjectives</h3>
+                <p class="mb-4">Adjectives can be used to compare items (e.g., comparative: <em>smaller</em>, superlative: <em>smallest</em>). Furthermore, possessive pronouns function as adjectives when they show ownership before nouns (e.g., <em>Shelia bought <strong>her</strong> first car</em>).</p>
+
+                <!-- 10 Assessment Questions for Adjectives -->
+                <div class="mt-12 pt-8 border-t-2 border-black/10">
+                    <h3 class="text-[28px] font-bold mb-6 text-oxford">Scholars' Assessment: Adjectives & Adjectival Phrases</h3>
+                    <div class="quiz-container space-y-6" data-section="adjectives">
+                        <!-- Q1 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">1. What fundamental questions do adjectives answer?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Where? When? How? To what extent?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) What kind? Which one? How many? How much?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Who? What action? Why?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) By whom? Under what conditions?</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q2 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">2. In the sentence "Josh threw the <i>yellow</i> ball," what type of adjective is <i>yellow</i>?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Quantifying adjective</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Identifying adjective</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Describing adjective</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Possessive adjective</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q3 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">3. What is an adjectival phrase?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) A phrase with an adjective as its head (e.g., <em>full of toys</em>).</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) A phrase that always begins with a preposition.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) A clause containing a subject and finite verb.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) A compound interjection.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q4 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">4. In the phrase "a bin full of toys," what is the role of the adjectival phrase <i>full of toys</i>?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Subject of the sentence</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Direct object</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Predicate complement</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Post-modifier to a noun</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q5 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">5. In the sentence "Shelia bought <i>her</i> first car yesterday," what role does <i>her</i> play?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Personal pronoun standing alone</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Pronoun used as an adjective showing ownership</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Relative clause connector</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Interrogative determiner</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q6 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">6. Which of the following is an example of a comparative adjective usage from the text?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) The bin is full.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Josh threw the yellow ball.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) This year's graduating class was smaller than last year's class.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Carol tried hard to win that race.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q7 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">7. How can descriptive adjectives themselves be modified?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) With adverbs (e.g., <em>very big</em>).</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) With articles.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) With prepositions.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Adjectives cannot be modified.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q8 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">8. In the sentence "We caught <i>several</i> sunfish last weekend," what function does <i>several</i> serve?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Adverbial modifier</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Transitive verb</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Conjunction</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Quantifying adjective</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q9 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">9. When an adjectival phrase functions as a predicate to a verb, what does it look like?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) "a bin full of toys"</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) "the bin is full of toys and clothes"</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) "Josh threw the yellow ball"</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) "Shelia bought her car"</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q10 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">10. What type of adjective is illustrated in: "Carol tried hard to win <i>that</i> race."?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Describing adjective</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Quantifying adjective</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Identifying adjective</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Proper adjective</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submission Button for Adjectives Assessment -->
+                    <div class="mt-8 p-6 bg-oxford/5 rounded-xl border border-oxford/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h4 class="font-display font-bold text-oxford text-[18px]">Ready to submit Module 4 Assessment?</h4>
+                            <p class="text-[0.9rem] text-gray-600">Verify your responses above before recording your score.</p>
+                        </div>
+                        <button type="button" onclick="submitModuleAssessment('adjectives', 10)" class="w-full sm:w-auto font-mono text-[11px] tracking-[0.1em] uppercase font-bold bg-oxford text-white px-6 py-3 rounded-[3px] shadow hover:bg-crimson transition-colors">Submit Adjectives Assessment</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= 5. ADVERBS & MODIFICATION ================= -->
+        <div id="tab-adverbs" class="tab-content" role="tabpanel" aria-labelledby="tabbtn-adverbs" tabindex="0">
+            <header class="mb-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-oxford text-white font-mono text-[10px] tracking-widest shadow-sm uppercase mb-6">Taxonomy · Module 5</div>
+                <h1 class="font-display font-black text-[38px] md:text-[54px] leading-[1.05] tracking-tight">Adverbs & Modification: <br/><span class="italic font-normal text-gray-500">Injecting Precision</span></h1>
+            </header>
+
+            <section class="mb-16">
+                <p class="mb-4">Adverbs are modifiers or descriptive words, phrases, or clauses that bring detail to your sentences. An adverb answers the question <em>where, when, how,</em> or <em>to what extent</em>. They modify verbs, adjectives, other adverbs, or entire clauses.</p>
+                
+                <table class="w-full text-left border-collapse mb-8 bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
+                    <thead>
+                        <tr class="bg-oxford text-white font-mono text-[11px]">
+                            <th class="p-4">Adjectives (Modify Nouns/Pronouns)</th>
+                            <th class="p-4">Adverbs (Modify Verbs/Adjs/Advs)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-[0.95rem]">
+                        <tr class="border-b border-gray-200">
+                            <td class="p-4 bg-white">Answer: <strong>Which one? What kind? How many? How much?</strong></td>
+                            <td class="p-4 bg-gray-50">Answer: <strong>Where? When? How? To what extent?</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 bg-white">Example: <em>The <strong>latest</strong> magazine arrived.</em></td>
+                            <td class="p-4 bg-gray-50">Example: <em>Tomorrow, the storm will quit.</em></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="text-[20px] font-bold mb-3">Forming Adverbs & The <code>-ly</code> Trap</h3>
+                <p class="mb-4">Often adverbs are formed by adding <code>-ly</code> to adjectives (e.g., <i>beautifully, strangely, cleverly, respectfully</i>). However, base adverbs exist without <code>-ly</code> (e.g., <i>again, almost, always, never, here, there, now, often, seldom, well, not</i>). Crucially, <strong><code>-ly</code> does not guarantee an adverb</strong>; adjectives can also end in <code>-ly</code> (e.g., <i>friendly, lovely</i>).</p>
+
+                <div class="socratic-box p-6 rounded-r-lg mb-8">
+                    <h4 class="font-mono text-[11px] uppercase tracking-widest text-gold mb-2 font-bold">Pedagogical Reflection: Adverbial Displacement</h4>
+                    <p class="italic text-[1.1rem] text-gray-800">"Formerly, Star Wars was just three movies." versus "Star Wars was formerly just three movies." Notice how the mere displacement of an adverb drastically shifts the rhythm and semantic emphasis of the clause. Syntax is a matter of profound aesthetic and logical choice.</p>
+                </div>
+
+                <!-- 10 Assessment Questions for Adverbs -->
+                <div class="mt-12 pt-8 border-t-2 border-black/10">
+                    <h3 class="text-[28px] font-bold mb-6 text-oxford">Scholars' Assessment: Adverbs & Modification</h3>
+                    <div class="quiz-container space-y-6" data-section="adverbs">
+                        <!-- Q1 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">1. What fundamental questions do adverbs answer?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Which one? What kind? How many?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Who? What action? Whose?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Where? When? How? To what extent?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) What state of being?</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q2 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">2. What is noted as the most commonly used adverb in the English language?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Not</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Very</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Always</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Well</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q3 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">3. Why is <i>friendly</i> a potential grammatical trap for writers?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) It is a verb functioning as a noun.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) It is an interjection.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) It is a prepositional head.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Although it ends in <code>-ly</code>, it is actually an <em>adjective</em>, not an adverb.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q4 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">4. Which of the following words is a base adverb not derived via the <code>-ly</code> suffix?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Beautifully</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Almost</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Strangely</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Respectfully</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q5 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">5. In the sentence "The class is held <i>here</i> today," what question does the adverb <i>here</i> answer?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) When?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) How often?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Where?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) To what extent?</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q6 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">6. How does the relocation of an adverb (e.g., "Formerly, Star Wars..." vs "Star Wars was formerly...") affect a sentence?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) It drastically shifts the rhythm and semantic emphasis.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) It creates a grammatical error.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) It converts the adverb into a preposition.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) It makes the verb intransitive.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q7 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">7. Which of the following parts of speech can adverbs modify?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Nouns only</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Pronouns only</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Prepositions only</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Verbs, adjectives, other adverbs, or entire clauses.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q8 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">8. In the sentence "Students change majors <i>frequently</i>," what question does <i>frequently</i> answer?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Where?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) How often?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Which one?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) How many?</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q9 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">9. What is the first step when choosing between an adjective and an adverb?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Check whether the word ends in <code>-ly</code>.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Count the syllables.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Determine the word being modified and figure out its part of speech.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Use a dictionary.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q10 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">10. Which of the following words is an adjective ending in <code>-ly</code> rather than an adverb?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Lovely</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Beautifully</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Cleverly</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Respectfully</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submission Button for Adverbs Assessment -->
+                    <div class="mt-8 p-6 bg-oxford/5 rounded-xl border border-oxford/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h4 class="font-display font-bold text-oxford text-[18px]">Ready to submit Module 5 Assessment?</h4>
+                            <p class="text-[0.9rem] text-gray-600">Verify your responses above before recording your score.</p>
+                        </div>
+                        <button type="button" onclick="submitModuleAssessment('adverbs', 10)" class="w-full sm:w-auto font-mono text-[11px] tracking-[0.1em] uppercase font-bold bg-oxford text-white px-6 py-3 rounded-[3px] shadow hover:bg-crimson transition-colors">Submit Adverbs Assessment</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= 6. CONJUNCTIONS ================= -->
+        <div id="tab-conjunctions" class="tab-content" role="tabpanel" aria-labelledby="tabbtn-conjunctions" tabindex="0">
+            <header class="mb-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-oxford text-white font-mono text-[10px] tracking-widest shadow-sm uppercase mb-6">Taxonomy · Module 6</div>
+                <h1 class="font-display font-black text-[38px] md:text-[54px] leading-[1.05] tracking-tight">Conjunctions: <br/><span class="italic font-normal text-gray-500">The Connective Tissue</span></h1>
+            </header>
+
+            <section class="mb-16">
+                <p class="mb-6">Conjunctions (from Latin <em>con-</em> "together" and <em>jungere</em> "to join") illustrate the specific relationship between the elements they bind.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <div class="premium-card bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <strong class="text-oxford text-[18px] block mb-2">Coordinating (FANBOYS)</strong>
+                        <p class="text-[0.9rem] mb-2">For, and, nor, but, or, yet, so. Joins grammatically equal elements.</p>
+                        <code class="text-[0.85rem] text-crimson">I like apples and oranges.</code>
+                    </div>
+                    <div class="premium-card bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <strong class="text-oxford text-[18px] block mb-2">Correlative</strong>
+                        <p class="text-[0.9rem] mb-2">Pairs (either...or, neither...nor, not only...but also). Connects equal elements.</p>
+                        <code class="text-[0.85rem] text-crimson">I will have either pasta or pizza.</code>
+                    </div>
+                    <div class="premium-card bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <strong class="text-oxford text-[18px] block mb-2">Subordinating</strong>
+                        <p class="text-[0.9rem] mb-2">Although, because, since. Introduces a subordinate clause to a main clause.</p>
+                        <code class="text-[0.85rem] text-crimson">Although I would rather party, I will go to the library.</code>
+                    </div>
+                    <div class="premium-card bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                        <strong class="text-oxford text-[18px] block mb-2">Conjunctive Adverbs</strong>
+                        <p class="text-[0.9rem] mb-2">Accordingly, furthermore, therefore. Shows relationship between two independent clauses.</p>
+                        <code class="text-[0.85rem] text-crimson">I brush my teeth; therefore, I have no cavities.</code>
+                    </div>
+                </div>
+
+                <!-- 10 Assessment Questions for Conjunctions -->
+                <div class="mt-12 pt-8 border-t-2 border-black/10">
+                    <h3 class="text-[28px] font-bold mb-6 text-oxford">Scholars' Assessment: Conjunctions</h3>
+                    <div class="quiz-container space-y-6" data-section="conjunctions">
+                        <!-- Q1 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">1. What does the acronym FANBOYS stand for?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Four Adjectives, Nine Basic Ornate Words Yielding Syntax</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) For, and, nor, but, or, yet, so (Coordinating Conjunctions)</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Functional Adverbs & Nouns Bonding Objective Yearning Structures</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Formulating All Nouns Before Opening Your Syllogism</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q2 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">2. Which conjunction type comes in pairs such as <i>either...or</i> or <i>neither...nor</i>?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Coordinating conjunctions</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Subordinating conjunctions</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Correlative conjunctions</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Conjunctive adverbs</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q3 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">3. What role do conjunctive adverbs perform in a sentence?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Show a relationship between two independent clauses (e.g., <em>accordingly, furthermore, therefore</em>).</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Link single nouns together.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Express sudden emotional outbursts.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Modify direct objects directly.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q4 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">4. In the sentence "Although I would rather party tonight, I will go to the library instead," what type of conjunction is <i>although</i>?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Coordinating conjunction</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Correlative conjunction</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Conjunctive adverb</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Subordinating conjunction</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q5 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">5. What does the Latin etymology of conjunction (<i>con-</i> and <i>jungere</i>) mean?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Thrown in between</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Together + to join</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Across + to divide</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Before + noun</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q6 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">6. Which of the following is an example of a coordinating conjunction joining equal elements?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Because</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Although</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) And ("I like apples and oranges.")</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Therefore</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q7 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">7. What punctuation is standard when joining independent clauses with a conjunctive adverb like <i>therefore</i>?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Semicolon before, comma after (e.g., <em>...teeth; therefore, I have...</em>)</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) A colon only</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Exclamation mark</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) No punctuation needed</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q8 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">8. Which of the following is a subordinating conjunction introducing a subordinate clause?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Or</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Because</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Furthermore</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Nor</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q9 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">9. What type of elements do coordinating conjunctions join?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Unequal clauses only</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Prepositions and objects</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Interjections and exclamations</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Grammatically equal elements (e.g., two nouns or two clauses).</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q10 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">10. Which pair illustrates correlative conjunctions?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) And / Or</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Although / Because</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Not only... but also</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Therefore / However</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submission Button for Conjunctions Assessment -->
+                    <div class="mt-8 p-6 bg-oxford/5 rounded-xl border border-oxford/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h4 class="font-display font-bold text-oxford text-[18px]">Ready to submit Module 6 Assessment?</h4>
+                            <p class="text-[0.9rem] text-gray-600">Verify your responses above before recording your score.</p>
+                        </div>
+                        <button type="button" onclick="submitModuleAssessment('conjunctions', 10)" class="w-full sm:w-auto font-mono text-[11px] tracking-[0.1em] uppercase font-bold bg-oxford text-white px-6 py-3 rounded-[3px] shadow hover:bg-crimson transition-colors">Submit Conjunctions Assessment</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= 7. PREPOSITIONS ================= -->
+        <div id="tab-prepositions" class="tab-content" role="tabpanel" aria-labelledby="tabbtn-prepositions" tabindex="0">
+            <header class="mb-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-oxford text-white font-mono text-[10px] tracking-widest shadow-sm uppercase mb-6">Taxonomy · Module 7</div>
+                <h1 class="font-display font-black text-[38px] md:text-[54px] leading-[1.05] tracking-tight">Prepositions: <br/><span class="italic font-normal text-gray-500">Relational Geometry</span></h1>
+            </header>
+
+            <section class="mb-16">
+                <p class="mb-4">Prepositions (<em>about, above, after, among, before, behind, by, during, for, in, into, of, opposite, over, regarding, with</em>) formulate phrases that modify other parts of the sentence, indicating spatial or temporal position. The phrase concludes with a noun (the object of the preposition).</p>
+                
+                <h3 class="text-[20px] font-bold mb-3 mt-6">Prepositional Phrase Classifications</h3>
+                <ul class="list-disc pl-8 space-y-3 mb-6">
+                    <li><strong>Adjectival Prepositional Phrase:</strong> Modifies a noun directly before it. Answers "Which one?" or "What kind?". (<em>"The thoughts <u>of the professor</u> were closed-minded."</em>)</li>
+                    <li><strong>Adverbial Prepositional Phrase:</strong> Modifies a verb. Answers "When? Where? How? Why? Under what conditions?". (<em>"You cannot judge a book <u>by its cover</u>."</em>)</li>
+                </ul>
+
+                <h3 class="text-[20px] font-bold mb-3">Compound Prepositions</h3>
+                <p class="mb-4">English also utilizes compound prepositions such as <i>according to, except for, in front of, next to, as well as, instead of, due to, in spite of, because of,</i> and <i>with regard to</i>.</p>
+
+                <!-- 10 Assessment Questions for Prepositions -->
+                <div class="mt-12 pt-8 border-t-2 border-black/10">
+                    <h3 class="text-[28px] font-bold mb-6 text-oxford">Scholars' Assessment: Prepositions</h3>
+                    <div class="quiz-container space-y-6" data-section="prepositions">
+                        <!-- Q1 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">1. What does a prepositional phrase typically conclude with?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) A finite verb</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) A noun known as the object of the preposition</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) An interjection</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) A coordinating conjunction</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q2 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">2. In the sentence "The thoughts <i>of the professor</i> were closed-minded," what role does <i>of the professor</i> play?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Adverbial prepositional phrase modifying the verb</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Independent clause</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Adjectival prepositional phrase modifying the noun <i>thoughts</i></button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Direct object</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q3 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">3. In the sentence "You cannot judge a book <i>by its cover</i>," what role does <i>by its cover</i> play?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Adverbial prepositional phrase modifying the verb <i>judge</i></button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Adjectival prepositional phrase modifying <i>book</i></button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Subject of the sentence</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Interjection</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q4 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">4. Which of the following is classified as a compound preposition in the text?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) And</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Because</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Wow</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) In front of</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q5 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">5. What do prepositions generally indicate regarding spatial or temporal dimensions?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Tense progression</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Position or place</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Emotional outbursts</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Plural possession</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q6 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">6. Which of the following is listed as a simple preposition?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) According to</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) In spite of</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Among</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) As well as</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q7 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">7. What questions do adjectival prepositional phrases most often answer?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Which one? or What kind?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) How? When? Where?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Who did what?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) How much?</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q8 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">8. In the sentence "He brought his furniture <i>into the apartment</i>," what is the prepositional phrase?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) He brought</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) his furniture</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) brought his furniture</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) into the apartment</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q9 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">9. What questions do adverbial prepositional phrases answer?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Which one? What kind?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) When? Where? How? Why? Under what conditions? To what degree?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Who is the subject?</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) What is the possessive case?</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q10 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">10. Where do prepositions grammatically appear in relation to their objects?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Always at the very end of sentences.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) After the noun or pronoun.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Before a noun or pronoun that forms a modifying phrase.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Directly attached to verbs as prefixes.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submission Button for Prepositions Assessment -->
+                    <div class="mt-8 p-6 bg-oxford/5 rounded-xl border border-oxford/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h4 class="font-display font-bold text-oxford text-[18px]">Ready to submit Module 7 Assessment?</h4>
+                            <p class="text-[0.9rem] text-gray-600">Verify your responses above before recording your score.</p>
+                        </div>
+                        <button type="button" onclick="submitModuleAssessment('prepositions', 10)" class="w-full sm:w-auto font-mono text-[11px] tracking-[0.1em] uppercase font-bold bg-oxford text-white px-6 py-3 rounded-[3px] shadow hover:bg-crimson transition-colors">Submit Prepositions Assessment</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= 8. INTERJECTIONS ================= -->
+        <div id="tab-interjections" class="tab-content" role="tabpanel" aria-labelledby="tabbtn-interjections" tabindex="0">
+            <header class="mb-10">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-oxford text-white font-mono text-[10px] tracking-widest shadow-sm uppercase mb-6">Taxonomy · Module 8</div>
+                <h1 class="font-display font-black text-[38px] md:text-[54px] leading-[1.05] tracking-tight">Interjections: <br/><span class="italic font-normal text-gray-500">The Emotional Outburst</span></h1>
+            </header>
+
+            <section class="mb-16">
+                <p class="mb-4">From Latin <em>inter</em> (between) and <em>iacere</em> (throw). These are sudden outbursts capable of standing alone with an exclamation mark. Syntactically, they sit entirely outside the grammatical structure of the sentence (e.g., <em>Wow! Oh! Ugh! Hey! Ow!</em>).</p>
+                
+                <h3 class="text-[20px] font-bold mb-3 mt-6">Primary Usages</h3>
+                <ul class="list-disc pl-8 space-y-2 mb-6">
+                    <li>Sudden emotional outbursts (e.g., <em>Ugh!, Wow!</em>)</li>
+                    <li>Salutations</li>
+                    <li>Emphasis in the imperative mood</li>
+                </ul>
+
+                <!-- 10 Assessment Questions for Interjections -->
+                <div class="mt-12 pt-8 border-t-2 border-black/10">
+                    <h3 class="text-[28px] font-bold mb-6 text-oxford">Scholars' Assessment: Interjections</h3>
+                    <div class="quiz-container space-y-6" data-section="interjections">
+                        <!-- Q1 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">1. What is the Latin etymology of the word <i>interjection</i>?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) <i>inter</i> ("between") + <i>iacere</i> ("throw") — "thrown in between"</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) <i>con-</i> ("together") + <i>jungere</i> ("join")</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) <i>nom</i> ("name") + <i>positum</i> ("place")</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) <i>verbum</i> ("word") + <i>actus</i> ("action")</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q2 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">2. How do interjections relate syntactically to the rest of the sentence?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) They must agree with the subject in number and person.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) They sit entirely outside the grammatical structure of the sentence.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) They serve as direct objects of transitive verbs.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) They modify predicate adjectives.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q3 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">3. What punctuation mark is standard for interjections?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Semicolon</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Colon</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Exclamation mark (exclamation point !)</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Apostrophe</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q4 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">4. Which of the following is listed in the text as an interjection?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Because</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Syllabus</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Weather</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Ugh! or Wow!</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q5 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">5. Can interjections stand alone as independent utterances?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Yes, they are capable of standing alone.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) No, they require a direct object.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Only when combined with subordinating conjunctions.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Only in passive voice.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q6 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">6. Which of the following is noted as a primary usage of interjections?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Indicating plural possession</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Sudden emotional outbursts and salutations</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Connecting independent clauses</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Modifying count nouns</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q7 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="2">
+                            <p class="font-bold text-[1.05rem] mb-4">7. Which of the following is an example of an interjection used as a salutation or emphasis?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Therefore</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Notwithstanding</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Hey! or Ow!</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Yellow</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q8 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="3">
+                            <p class="font-bold text-[1.05rem] mb-4">8. True or False: Interjections directly govern the agreement of verbs in a sentence.</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) True, they control person and number.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) True, but only in the past tense.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) True for copular verbs.</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) False, they do not directly relate to the grammar of the sentence.</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q9 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="0">
+                            <p class="font-bold text-[1.05rem] mb-4">9. What does the Latin root <i>inter</i> mean?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) Between</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) Across</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) Behind</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) Under</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                        <!-- Q10 -->
+                        <div class="quiz-card bg-white p-6 rounded-lg border border-gray-200 shadow-sm" data-answer="1">
+                            <p class="font-bold text-[1.05rem] mb-4">10. What does the Latin root <i>iacere</i> mean?</p>
+                            <div class="space-y-2 text-[0.95rem]">
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 0)">A) To join</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 1)">B) To throw</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 2)">C) To speak</button>
+                                <button type="button" class="w-full text-left p-3 rounded border border-gray-300 hover:bg-gray-50 transition" onclick="checkAnswer(this, 3)">D) To modify</button>
+                            </div>
+                            <div class="feedback hidden mt-4 p-3 rounded bg-gray-100 text-[0.9rem]" role="status"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Submission Button for Interjections Assessment -->
+                    <div class="mt-8 p-6 bg-oxford/5 rounded-xl border border-oxford/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div>
+                            <h4 class="font-display font-bold text-oxford text-[18px]">Ready to submit Module 8 Assessment?</h4>
+                            <p class="text-[0.9rem] text-gray-600">Verify your responses above before recording your score.</p>
+                        </div>
+                        <button type="button" onclick="submitModuleAssessment('interjections', 10)" class="w-full sm:w-auto font-mono text-[11px] tracking-[0.1em] uppercase font-bold bg-oxford text-white px-6 py-3 rounded-[3px] shadow hover:bg-crimson transition-colors">Submit Interjections Assessment</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="border-t border-black/10 pt-8 mt-20 pb-12">
+            <p class="text-center font-serif text-[0.9rem] opacity-60">© Shared Pearls of Wisdom. All rights reserved.</p>
+        </footer>
+
+    </main>
+</div>
+
+<!-- ============================================================================
+     Hidden printable worksheet source. This is captured by html2pdf.js and
+     turned into a genuine, openable PDF file — it is never downloaded as-is.
+     Note: it deliberately does NOT contain a nested <html>/<head>/<body> (that
+     was invalid markup in the original version); the <style> block below still
+     applies globally the moment the browser parses it, hidden ancestor or not.
+     ============================================================================ -->
+<div id="pdf-worksheet-template" style="display:none;" aria-hidden="true">
+<style>
+    #pdf-worksheet-content { font-family: "Times New Roman", Times, serif; color: #111; line-height: 1.6; font-size: 11pt; background: #fff; width: 720px; padding: 8px; }
+    #pdf-worksheet-content .header-box { border-bottom: 3px solid #002147; padding-bottom: 15px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: flex-end; }
+    #pdf-worksheet-content .title-area h1 { font-size: 22pt; color: #002147; margin: 0; text-transform: uppercase; font-family: serif; }
+    #pdf-worksheet-content .title-area h2 { font-size: 13pt; color: #8A1538; margin: 5px 0 0 0; text-transform: uppercase; }
+    #pdf-worksheet-content .meta-box { font-size: 10pt; text-align: right; }
+    #pdf-worksheet-content .instructions { background: #f9f9f9; border-left: 4px solid #C4923E; padding: 10px 15px; margin-bottom: 25px; font-style: italic; font-size: 10.5pt; }
+    #pdf-worksheet-content .section-header { font-size: 14pt; color: #002147; border-bottom: 1px solid #002147; margin-top: 30px; margin-bottom: 15px; padding-bottom: 4px; font-weight: bold; text-transform: uppercase; }
+    #pdf-worksheet-content .question { margin-bottom: 18px; }
+    #pdf-worksheet-content .question-title { font-weight: bold; margin-bottom: 6px; }
+    #pdf-worksheet-content .answer-box { border: 1px dashed #777; padding: 8px; min-height: 40px; margin-top: 8px; background: #fff; }
+    #pdf-worksheet-content .page-break { page-break-before: always; break-before: page; height: 0; }
+    #pdf-worksheet-content .answer-key-title { font-size: 20pt; color: #8A1538; text-align: center; margin-bottom: 25px; text-transform: uppercase; font-family: serif; }
+    #pdf-worksheet-content .ak-section { margin-bottom: 15px; border-left: 3px solid #8A1538; padding-left: 10px; }
+    #pdf-worksheet-content .ak-q { font-weight: bold; font-size: 10pt; color: #002147; }
+    #pdf-worksheet-content .ak-ans { font-size: 10.5pt; color: #111; margin-top: 2px; }
+</style>
+<div id="pdf-worksheet-content">
+
+    <!-- PAGE 1: PRACTICUM EXERCISES -->
+    <div class="header-box">
+        <div class="title-area">
+            <h1>Parts of Speech Worksheet</h1>
+            <h2>45-Minute Comprehensive Practicum</h2>
+        </div>
+        <div class="meta-box">
+            <strong>Time Allowed:</strong> 45 Minutes<br/>
+           
+        </div>
+    </div>
+
+    <div class="instructions">
+        <strong>Examiner's Directive:</strong> This 45-minute practicum tests your mastery across morphological frames, noun classifications, pronoun reference, verb valency, modification, and conjunction architecture. Answer all sections thoroughly.
+    </div>
+
+    <div class="section-header">Section I: Nouns & Determiners (10 Mins)</div>
+    <div class="question">
+        <div class="question-title">1. Explain how linguists theoretically justify the "Zero Article" using X-bar theory.</div>
+        <div class="answer-box"></div>
+    </div>
+    <div class="question">
+        <div class="question-title">2. Correct the possessive syntax: "The boss sister attended Chris exam scores."</div>
+        <div class="answer-box"></div>
+    </div>
+
+    <div class="section-header">Section II: Pronouns & Agreement (10 Mins)</div>
+    <div class="question">
+        <div class="question-title">3. Resolve the ambiguous reference: "When she set the picture on the glass table, it broke."</div>
+        <div class="answer-box"></div>
+    </div>
+    <div class="question">
+        <div class="question-title">4. Test whether "We" or "Us" is correct in: "_____ workers demand institutional transparency." Show your omission test.</div>
+        <div class="answer-box"></div>
+    </div>
+
+    <div class="section-header">Section III: Verbs, Aspect & Valency (10 Mins)</div>
+    <div class="question">
+        <div class="question-title">5. Fix the inverted subject-verb agreement error: "Beside the historic house stands sheds filled with antiquities."</div>
+        <div class="answer-box"></div>
+    </div>
+    <div class="question">
+        <div class="question-title">6. State why true copular linking verbs (e.g., 'was') cannot be transformed into passive voice.</div>
+        <div class="answer-box"></div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- PAGE 2: CONTINUED EXERCISES -->
+    <div class="section-header">Section IV: Modifiers, Conjunctions & Framing (15 Mins)</div>
+    <div class="question">
+        <div class="question-title">7. Differentiate functionally between an adjectival prepositional phrase and an adverbial prepositional phrase with examples.</div>
+        <div class="answer-box" style="min-height: 70px;"></div>
+    </div>
+    <div class="question">
+        <div class="question-title">8. Punctuate and correct the conjunctive adverb connection: "I always brush my teeth therefore I have no cavities."</div>
+        <div class="answer-box"></div>
+    </div>
+    <div class="question">
+        <div class="question-title">9. Construct a 3-part Band 9 synthesis sentence incorporating a concessive subordinate clause and a cleft framing device.</div>
+        <div class="answer-box" style="min-height: 80px;"></div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- PAGE 3: OFFICIAL ANSWER KEY -->
+    <div class="answer-key-title">Official Answer Key · Strict Examiner Copy</div>
+    
+    <div class="ak-section">
+        <div class="ak-q">Q1: Zero Article Justification</div>
+        <div class="ak-ans">Linguists hypothesize the absence as a zero article based on X-bar theory, positing that a structural determiner slot exists in human cognition even when phonetically empty, shifting generic nouns to universal concepts.</div>
+    </div>
+
+    <div class="ak-section">
+        <div class="ak-q">Q2: Possessive Correction</div>
+        <div class="ak-ans">"The boss's sister attended Chris' exam scores." (Singular common noun ending in 's' adds 's unless followed by 's' sound; proper noun ending in 's' adds apostrophe only).</div>
+    </div>
+
+    <div class="ak-section">
+        <div class="ak-q">Q3: Ambiguous Reference</div>
+        <div class="ak-ans">Revision: "The glass table broke when she placed the picture upon it." (or clarifying whether the picture or the table broke).</div>
+    </div>
+
+    <div class="ak-section">
+        <div class="ak-q">Q4: We vs. Us Test</div>
+        <div class="ak-ans">Pronoun: "We". Omission test: "We demand transparency" is grammatically correct whereas "Us demand" fails.</div>
+    </div>
+
+    <div class="ak-section">
+        <div class="ak-q">Q5: Inverted Syntax Agreement</div>
+        <div class="ak-ans">"Beside the historic house stand sheds filled with antiquities." (True subject is plural 'sheds').</div>
+    </div>
+
+    <div class="ak-section">
+        <div class="ak-q">Q6: Copular Valency Constraint</div>
+        <div class="ak-ans">Because linking verbs do not take a direct object (non-transitive). Passivization strictly requires a direct object to become the new subject.</div>
+    </div>
+
+    <div class="ak-section">
+        <div class="ak-q">Q7: Prepositional Phrase Differentiation</div>
+        <div class="ak-ans">Adjectival phrases modify nouns answering "Which one?" or "What kind?". Adverbial phrases modify verbs answering "When, Where, How, Why".</div>
+    </div>
+
+    <div class="ak-section">
+        <div class="ak-q">Q8: Conjunctive Adverb Punctuation</div>
+        <div class="ak-ans">"I always brush my teeth; therefore, I have no cavities." (Requires a semicolon before and a comma after the conjunctive adverb).</div>
+    </div>
+
+    <div class="ak-section">
+        <div class="ak-q">Q9: Band 9 Synthesis Model</div>
+        <div class="ak-ans">"While it is true that modern technology offers substantial utility, that is not to suggest its systemic risks are negligible; what is most crucial is robust regulatory oversight."</div>
+    </div>
+
+</div>
+</div>
+
+<script>
+    // ------------------------------------------------------------------
+    // Toast notifications (replaces blocking alert() calls)
+    // ------------------------------------------------------------------
+    function showToast(message, type) {
+        var region = document.getElementById('toast-region');
+        if (!region) return;
+        var el = document.createElement('div');
+        el.className = 'toast toast-' + (type || 'info');
+        el.textContent = message;
+        region.appendChild(el);
+        window.setTimeout(function () {
+            el.style.transition = 'opacity 0.3s ease';
+            el.style.opacity = '0';
+            window.setTimeout(function () { el.remove(); }, 320);
+        }, 4200);
+    }
+
+    // ------------------------------------------------------------------
+    // Tab Switching Logic for Single-Page-Per-Part-Of-Speech Views
+    // ------------------------------------------------------------------
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(function (el) { el.classList.remove('active'); });
+        document.querySelectorAll('.nav-btn').forEach(function (btn) {
+            btn.classList.remove('bg-oxford/10', 'border-l-4', 'border-oxford', 'font-bold', 'text-oxford');
+            btn.classList.add('text-gray-600');
+            btn.setAttribute('aria-selected', 'false');
+            var span = btn.querySelector('span');
+            if (span) {
+                span.classList.remove('bg-oxford', 'text-white');
+                span.classList.add('bg-black/5');
+            }
+        });
+        
+        var targetTab = document.getElementById('tab-' + tabId);
+        if (targetTab) targetTab.classList.add('active');
+        
+        var targetBtn = document.querySelector('[data-target="' + tabId + '"]');
+        if (targetBtn) {
+            targetBtn.classList.add('bg-oxford/10', 'border-l-4', 'border-oxford', 'font-bold', 'text-oxford');
+            targetBtn.classList.remove('text-gray-600');
+            targetBtn.setAttribute('aria-selected', 'true');
+            var span2 = targetBtn.querySelector('span');
+            if (span2) {
+                span2.classList.add('bg-oxford', 'text-white');
+                span2.classList.remove('bg-black/5');
+            }
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ------------------------------------------------------------------
+    // Quiz Verification Handler
+    // ------------------------------------------------------------------
+    function checkAnswer(btn, selectedIndex) {
+        var card = btn.closest('.quiz-card');
+        var correctIndex = parseInt(card.getAttribute('data-answer'), 10);
+        var feedback = card.querySelector('.feedback');
+        var allBtns = card.querySelectorAll('button');
+        
+        allBtns.forEach(function (b) {
+            b.disabled = true;
+            b.classList.remove('hover:bg-gray-50');
+            b.classList.add('opacity-50', 'cursor-not-allowed');
+        });
+        
+        btn.classList.remove('opacity-50');
+        feedback.classList.remove('hidden');
+        
+        if (selectedIndex === correctIndex) {
+            btn.classList.add('bg-green-50', 'border-green-500', 'text-green-800');
+            btn.classList.remove('border-gray-300');
+            feedback.innerHTML = '<strong class="text-green-700">✓ Precisely Correct.</strong> Your morphological and syntactic deduction aligns flawlessly with the canonical text.';
+            feedback.classList.add('bg-green-50', 'border', 'border-green-200');
+        } else {
+            btn.classList.add('bg-red-50', 'border-red-500', 'text-red-800');
+            btn.classList.remove('border-gray-300');
+            
+            allBtns[correctIndex].classList.remove('opacity-50');
+            allBtns[correctIndex].classList.add('bg-green-50', 'border-green-500', 'text-green-800');
+            allBtns[correctIndex].classList.remove('border-gray-300');
+            
+            feedback.innerHTML = '<strong class="text-red-700">✗ Incorrect.</strong> Review the text carefully. Syntax demands exacting precision.';
+            feedback.classList.add('bg-red-50', 'border', 'border-red-200');
+        }
+    }
+
+    // ------------------------------------------------------------------
+    // Module Assessment Submission Handler
+    // ------------------------------------------------------------------
+    function submitModuleAssessment(moduleName, totalQuestions) {
+        var container = document.querySelector('[data-section="' + moduleName + '"]');
+        if (!container) return;
+        var cards = container.querySelectorAll('.quiz-card');
+        var answered = 0;
+        var correct = 0;
+        
+        cards.forEach(function (card) {
+            var feedback = card.querySelector('.feedback');
+            if (!feedback.classList.contains('hidden')) {
+                answered++;
+                if (feedback.innerHTML.indexOf('Precisely Correct') !== -1) {
+                    correct++;
+                }
+            }
+        });
+        
+        if (answered < totalQuestions) {
+            showToast('Answer and check all ' + totalQuestions + ' questions before submitting (' + answered + ' of ' + totalQuestions + ' checked).', 'error');
+            return;
+        }
+        
+        var percentage = Math.round((correct / totalQuestions) * 100);
+        var status = percentage >= 80 ? 'Distinction Certified' : 'Review Recommended';
+        showToast('Module submitted — score ' + correct + '/' + totalQuestions + ' (' + percentage + '%). ' + status + '.', percentage >= 80 ? 'success' : 'info');
+    }
+
+    // ------------------------------------------------------------------
+    function downloadWorksheetPDF() {
+        var btn = document.getElementById('download-pdf-btn');
+        var originalLabel = btn.innerHTML;
+        var element = document.getElementById('pdf-worksheet-content');
+
+        if (typeof html2pdf === 'undefined') {
+            showToast('The PDF engine could not load — check your connection and try again.', 'error');
+            return;
+        }
+        if (!element) {
+            showToast('Worksheet content is missing from the page.', 'error');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<span><span class="btn-spinner"></span>Generating PDF…</span>';
+
+        var restoreButton = function () {
+            btn.disabled = false;
+            btn.innerHTML = originalLabel;
+        };
+
+        var opt = {
+            margin: [11, 11, 11, 10],
+            filename: 'Parts of Speech Worksheet.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+            pagebreak: { mode: ['css', 'legacy'], before: '.page-break' }
+        };
+
+        html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf) {
+            pdf.setProperties({
+                title: 'Parts of Speech Worksheet and Key',
+                subject: 'Parts of Speech Assessment',
+                author: 'Shared Pearls of Wisdom'
+            });
+        }).save().then(function () {
+            showToast('Worksheet downloaded — check your downloads folder.', 'success');
+            restoreButton();
+        }).catch(function (err) {
+            console.error('PDF generation failed:', err);
+            showToast('Something went wrong generating the PDF. Please try again.', 'error');
+            restoreButton();
+        });
+    }
+</script>
+</body>
+</html>
