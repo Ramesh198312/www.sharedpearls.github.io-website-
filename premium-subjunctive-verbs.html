@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A premium grammar masterclass on Suggest, Recommend, and Request — verb patterns, examples, self-check quizzes, and a downloadable 45-minute classroom assessment.">
+    <title>Mastering Special Verbs: Suggest, Recommend, Request & Advise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-dark': '#1a202c',
+                        'brand-gold': '#d4af37',
+                        'brand-light': '#f7f7f7',
+                        'brand-accent': '#2c5282',
+                        'brand-success': '#38a169',
+                        'brand-error': '#e53e3e',
+                    },
+                    fontFamily: {
+                        'serif': ['"Playfair Display"', 'serif'],
+                        'sans': ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Client-side HTML -> PDF engine, used for the downloadable Worksheet -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.11.2/html2pdf.bundle.min.js" defer></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: #fcfcfc;
+            color: #333;
+        }
+
+        .hero-pattern {
+            background-color: #1a202c;
+            background-image: radial-gradient(#d4af37 0.5px, transparent 0.5px), radial-gradient(#d4af37 0.5px, #1a202c 0.5px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .verb-section {
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+        }
+
+        .pattern-box {
+            border-left: 4px solid #d4af37;
+            background: #f8fafc;
+        }
+
+        /* ---------------- Sidebar tab navigation ---------------- */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; animation: fadeIn 0.35s ease; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .side-nav-btn {
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        }
+        .side-nav-btn[aria-selected="true"] {
+            background-color: #1a202c;
+            color: #fff;
+            border-left-color: #d4af37;
+        }
+        .side-nav-btn[aria-selected="true"] .side-nav-badge {
+            background-color: #d4af37;
+            color: #1a202c;
+        }
+        .side-nav-btn[aria-selected="false"]:hover {
+            background-color: #f7fafc;
+        }
+        button:focus-visible, a:focus-visible {
+            outline: 2px solid #2c5282;
+            outline-offset: 2px;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 2rem;
+            margin-top: 2rem;
+        }
+
+        .question-block {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: #ffffff;
+            border: 1px solid #edf2f7;
+            transition: all 0.2s ease;
+        }
+
+        .question-block:hover {
+            border-color: #cbd5e0;
+        }
+
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-label:hover {
+            background-color: #f7fafc;
+        }
+
+        .option-input:checked ~ .option-text {
+            font-weight: bold;
+            color: #2c5282;
+        }
+
+        /* JS-driven selection state (belt-and-suspenders alongside peer-checked:
+           guarantees visible feedback the instant an option is clicked, rather
+           than relying solely on Tailwind's peer-variant CSS having loaded). */
+        .option-label.is-selected {
+            border-color: #2c5282;
+            background-color: #ebf8ff;
+        }
+        .option-label.is-selected .option-dot {
+            border-color: #2c5282;
+            background-color: #2c5282;
+        }
+        .option-label.is-selected .option-text {
+            font-weight: bold;
+            color: #2c5282;
+        }
+
+        .feedback {
+            display: none;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .feedback.correct {
+            display: block;
+            background-color: #f0fff4;
+            color: #2f855a;
+            border: 1px solid #c6f6d5;
+        }
+
+        .feedback.incorrect {
+            display: block;
+            background-color: #fff5f5;
+            color: #c53030;
+            border: 1px solid #fed7d7;
+        }
+
+        .submit-btn {
+            background-color: #1a202c;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #d4af37;
+            color: #1a202c;
+            transform: scale(1.02);
+        }
+
+        .results-summary {
+            display: none;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+        }
+
+        /* Modal for submission / notices */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 2.5rem;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: modalFadeIn 0.4s;
+        }
+
+        @keyframes modalFadeIn {
+            from {opacity: 0; transform: translateY(-20px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        .close-btn {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn-spinner {
+            display: inline-block; width: 12px; height: 12px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.4); border-top-color: #fff;
+            animation: spin 0.7s linear infinite; margin-right: 6px; vertical-align: -1px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="font-sans antialiased text-gray-800 leading-relaxed selection:bg-brand-gold selection:text-white">
+
+    <!-- Sticky top bar -->
+    <header class="hero-pattern text-white sticky top-0 z-40 shadow-lg">
+        <div class="container mx-auto px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="text-center sm:text-left">
+                <p class="text-brand-gold font-sans uppercase tracking-widest text-xs mb-1 font-semibold">The Grammar Masterclass</p>
+                <h1 class="text-2xl md:text-3xl font-bold leading-tight">Mastering Special Verbs</h1>
+            </div>
+            <button type="button" id="download-pdf-btn-header" class="pdf-download-btn font-serif font-bold bg-brand-gold text-brand-dark px-5 py-3 rounded-full shadow-md hover:bg-white transition-colors flex items-center gap-2 disabled:opacity-60 disabled:cursor-wait" onclick="downloadWorksheetPDF()">
+                <span>📄 Download Worksheet (45m)</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] max-w-7xl mx-auto relative">
+
+        <!-- Sidebar tab navigation -->
+        <aside class="lg:sticky lg:top-[92px] lg:h-[calc(100vh-92px)] overflow-y-auto px-5 py-8 border-r border-gray-200 bg-white">
+            <div class="font-sans text-[11px] tracking-[0.2em] uppercase mb-5 font-bold text-brand-accent px-2">Course Navigation</div>
+            <ul id="side-nav" class="space-y-2 font-sans text-[14px]" role="tablist" aria-label="Course sections">
+                <li role="presentation">
+                    <button type="button" id="navbtn-overview" role="tab" aria-selected="true" aria-controls="tab-overview" data-target="overview" onclick="switchTab('overview')" class="side-nav-btn w-full text-left px-4 py-3 rounded-md border-l-4 border-transparent flex items-center gap-3 text-gray-700">
+                        <span class="side-nav-badge w-7 h-7 rounded-full bg-gray-100 grid place-items-center text-sm flex-shrink-0 font-serif font-bold">i</span>
+                        <span>Overview</span>
+                    </button>
+                </li>
+                <li role="presentation">
+                    <button type="button" id="navbtn-worksheet" role="tab" aria-selected="false" aria-controls="tab-worksheet" data-target="worksheet" onclick="switchTab('worksheet')" class="side-nav-btn w-full text-left px-4 py-3 rounded-md border-l-4 border-transparent flex items-center gap-3 text-gray-700">
+                        <span class="side-nav-badge w-7 h-7 rounded-full bg-gray-100 grid place-items-center text-sm flex-shrink-0">📝</span>
+                        <span class="font-semibold">Worksheet</span>
+                    </button>
+                </li>
+                <li role="presentation">
+                    <button type="button" id="navbtn-suggest" role="tab" aria-selected="false" aria-controls="tab-suggest" data-target="suggest" onclick="switchTab('suggest')" class="side-nav-btn w-full text-left px-4 py-3 rounded-md border-l-4 border-transparent flex items-center gap-3 text-gray-700">
+                        <span class="side-nav-badge w-7 h-7 rounded-full bg-gray-100 grid place-items-center text-sm flex-shrink-0 font-serif font-bold">1</span>
+                        <span>Suggest</span>
+                    </button>
+                </li>
+                <li role="presentation">
+                    <button type="button" id="navbtn-recommend" role="tab" aria-selected="false" aria-controls="tab-recommend" data-target="recommend" onclick="switchTab('recommend')" class="side-nav-btn w-full text-left px-4 py-3 rounded-md border-l-4 border-transparent flex items-center gap-3 text-gray-700">
+                        <span class="side-nav-badge w-7 h-7 rounded-full bg-gray-100 grid place-items-center text-sm flex-shrink-0 font-serif font-bold">2</span>
+                        <span>Recommend</span>
+                    </button>
+                </li>
+                <li role="presentation">
+                    <button type="button" id="navbtn-request" role="tab" aria-selected="false" aria-controls="tab-request" data-target="request" onclick="switchTab('request')" class="side-nav-btn w-full text-left px-4 py-3 rounded-md border-l-4 border-transparent flex items-center gap-3 text-gray-700">
+                        <span class="side-nav-badge w-7 h-7 rounded-full bg-gray-100 grid place-items-center text-sm flex-shrink-0 font-serif font-bold">3</span>
+                        <span>Request</span>
+                    </button>
+                </li>
+            </ul>
+
+            <div class="mt-8 rounded-lg bg-brand-dark text-white p-5 shadow-lg">
+                <div class="font-sans text-[9px] tracking-widest text-brand-gold uppercase">For Teachers</div>
+                <div class="mt-2 font-serif font-bold text-[14px] leading-snug">45-minute classroom assessment, ready to print.</div>
+                <button type="button" class="pdf-download-btn mt-3 w-full font-sans text-[11px] tracking-widest uppercase font-bold bg-brand-gold text-brand-dark px-3 py-2.5 rounded-md hover:bg-white transition-colors disabled:opacity-60 disabled:cursor-wait" onclick="downloadWorksheetPDF()">
+                    <span>Download PDF</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="px-4 md:px-10 py-10 max-w-5xl">
+
+            <!-- ================= WORKSHEET TAB ================= -->
+            <div id="tab-worksheet" class="tab-panel" role="tabpanel" aria-labelledby="navbtn-worksheet" tabindex="0">
+                <div class="bg-white p-8 md:p-12 rounded-2xl shadow-lg">
+                    <p class="text-brand-gold font-sans uppercase tracking-widest text-xs mb-2 font-semibold">For the Classroom</p>
+                    <h2 class="text-3xl md:text-4xl font-bold text-brand-dark mb-6">45-Minute Assessment Worksheet</h2>
+                    <p class="text-lg mb-6 max-w-3xl">
+                        A print-ready, single-sitting assessment covering <strong>Suggest</strong>, <strong>Recommend</strong>, and <strong>Request</strong> — designed for a standard 45-minute class period. It combines multiple choice, error correction, sentence transformation, and guided writing, so it tests recognition and production, not just recall.
+                    </p>
+
+                    <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <div class="pattern-box p-4 rounded-r-lg">
+                            <div class="font-bold text-brand-dark">Section A</div>
+                            <div class="text-sm text-gray-600">Multiple choice · 10 items · ~10 min</div>
+                        </div>
+                        <div class="pattern-box p-4 rounded-r-lg">
+                            <div class="font-bold text-brand-dark">Section B</div>
+                            <div class="text-sm text-gray-600">Error correction · 5 items · ~10 min</div>
+                        </div>
+                        <div class="pattern-box p-4 rounded-r-lg">
+                            <div class="font-bold text-brand-dark">Section C</div>
+                            <div class="text-sm text-gray-600">Transformation · 8 items · ~15 min</div>
+                        </div>
+                        <div class="pattern-box p-4 rounded-r-lg">
+                            <div class="font-bold text-brand-dark">Section D</div>
+                            <div class="text-sm text-gray-600">Guided writing · 2 items · ~10 min</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-5 mb-8 text-sm text-gray-700">
+                        The PDF includes a student question sheet (2 pages) followed by a separate, clearly marked answer key page for the teacher — so the same download works for both distribution and grading.
+                    </div>
+
+                    <button type="button" id="download-pdf-btn-tab" class="pdf-download-btn font-serif font-bold bg-brand-dark text-white px-8 py-4 rounded-full shadow-lg hover:bg-brand-gold hover:text-brand-dark transition-colors flex items-center gap-2 disabled:opacity-60 disabled:cursor-wait" onclick="downloadWorksheetPDF()">
+                        <span>📄 Download Worksheet PDF</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ================= OVERVIEW TAB ================= -->
+            <div id="tab-overview" class="tab-panel active" role="tabpanel" aria-labelledby="navbtn-overview" tabindex="0">
+                <section class="bg-white p-8 md:p-12 rounded-2xl shadow-lg text-lg">
+                    <h2 class="text-3xl font-bold text-brand-dark mb-6 border-b pb-4">Introduction to Subjunctive and Reporting Verbs</h2>
+                    <p class="mb-4">
+                        In advanced English grammar, certain verbs dictate specific structural patterns in the clauses that follow them. Verbs expressing necessity, advice, suggestion, or request often trigger the <strong>subjunctive mood</strong> (using the base form of the verb) or require specific gerund (<span class="italic">-ing</span>) or infinitive constructions.
+                    </p>
+                    <p class="mb-4">
+                        Understanding the difference between <span class="font-semibold text-brand-accent">advise</span>, <span class="font-semibold text-brand-accent">recommend</span>, and <span class="font-semibold text-brand-accent">suggest</span> is critical for precise communication, especially in formal or academic contexts.
+                    </p>
+                    <p class="mb-10">
+                        This guide provides an exhaustive breakdown of these verbs, their acceptable patterns, and comprehensive examples. Test your mastery with the self-check quizzes at the end of each section, or use the sidebar's <strong>Worksheet</strong> tab for a printable classroom assessment.
+                    </p>
+
+                    <h3 class="text-2xl font-bold text-brand-dark mb-4 border-b pb-3">The Subjunctive Mood: Definition &amp; Forms</h3>
+                    <p class="mb-4">
+                        The <strong>subjunctive mood</strong> expresses ideas that are not stated as objective fact — necessities, suggestions, demands, wishes, and hypothetical situations — as opposed to the <strong>indicative mood</strong>, which reports things as they actually are. Modern English keeps two distinct subjunctive forms:
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div class="pattern-box p-6 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">1. The Mandative (Present) Subjunctive</h4>
+                            <p class="text-sm text-gray-600 mb-3">Uses the <strong>base form</strong> of the verb — no <span class="italic">-s</span>, no tense marking, and <span class="italic">be</span> instead of <span class="italic">is/am/are</span> — inside a <span class="italic">that</span>-clause following a verb or adjective of necessity, recommendation, or demand. This is the form used throughout the Suggest, Recommend, and Request sections of this course.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>The committee insists that he <strong>arrive</strong> on time. <span class="not-italic text-gray-500">(not "arrives")</span></li>
+                                <li>It is essential that she <strong>be</strong> present. <span class="not-italic text-gray-500">(not "is")</span></li>
+                                <li>The judge ordered that the evidence <strong>be</strong> released.</li>
+                            </ul>
+                        </div>
+                        <div class="pattern-box p-6 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">2. The Were-Subjunctive (Past/Hypothetical)</h4>
+                            <p class="text-sm text-gray-600 mb-3">Uses <strong>were</strong> instead of <span class="italic">was</span> for all persons, in unreal, hypothetical, or counterfactual conditions and wishes. This is a different construction from the mandative subjunctive above and is not covered by the verb patterns in this course.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>If I <strong>were</strong> you, I would accept the offer.</li>
+                                <li>I wish it <strong>were</strong> Friday already.</li>
+                                <li>She spoke as if she <strong>were</strong> in charge.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3 class="text-2xl font-bold text-brand-dark mb-4 border-b pb-3">Common Mandative-Subjunctive Trigger Verbs</h3>
+                    <p class="mb-6">Beyond <em>suggest</em>, <em>recommend</em>, and <em>request</em>, a wide family of formal verbs and expressions trigger the same base-verb subjunctive pattern. Recognizing the whole family makes the rule much easier to internalize.</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 mb-10">
+                        <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                            <h4 class="font-bold text-brand-accent mb-2">insist</h4>
+                            <p class="text-sm italic text-gray-700">She insisted that he <strong>pay</strong> for the damages immediately.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                            <h4 class="font-bold text-brand-accent mb-2">demand</h4>
+                            <p class="text-sm italic text-gray-700">The union demanded that management <strong>reconsider</strong> the offer.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                            <h4 class="font-bold text-brand-accent mb-2">require</h4>
+                            <p class="text-sm italic text-gray-700">The policy requires that every visitor <strong>sign</strong> in at reception.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                            <h4 class="font-bold text-brand-accent mb-2">propose</h4>
+                            <p class="text-sm italic text-gray-700">I propose that the vote <strong>be</strong> postponed until Monday.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                            <h4 class="font-bold text-brand-accent mb-2">urge</h4>
+                            <p class="text-sm italic text-gray-700">Officials urged that residents <strong>evacuate</strong> before the storm.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                            <h4 class="font-bold text-brand-accent mb-2">stipulate</h4>
+                            <p class="text-sm italic text-gray-700">The contract stipulates that payment <strong>be</strong> made within 30 days.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                            <h4 class="font-bold text-brand-accent mb-2">prefer</h4>
+                            <p class="text-sm italic text-gray-700">I would prefer that you <strong>call</strong> before visiting.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                            <h4 class="font-bold text-brand-accent mb-2">it is essential / vital / crucial</h4>
+                            <p class="text-sm italic text-gray-700">It is vital that the medication <strong>be</strong> refrigerated.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm">
+                            <h4 class="font-bold text-brand-accent mb-2">it is important / necessary</h4>
+                            <p class="text-sm italic text-gray-700">It is important that she <strong>know</strong> the full story.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-8">
+                        <p class="text-red-700 font-bold text-sm uppercase tracking-wide mb-1">Negating the Subjunctive</p>
+                        <p class="text-red-900"><span class="italic">Not</span> goes directly before the base verb — never with <span class="italic">don't/doesn't</span>, which shifts the sentence back into the indicative and changes the register. <br><span class="line-through text-gray-500">The board insists that she doesn't attend.</span> ➔ <strong>The board insists that she not attend.</strong></p>
+                    </div>
+
+                    <div class="bg-blue-50 border border-blue-100 rounded-lg p-5 text-sm text-gray-700">
+                        <strong class="text-brand-accent">British vs. American usage:</strong> American English typically uses the bare mandative subjunctive (<span class="italic">recommended that he go</span>), while British English often inserts <span class="italic">should</span> as an alternative (<span class="italic">recommended that he should go</span>) — both are fully correct. See the <strong>Suggest</strong> tab for a closer look at this pattern.
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= 1. SUGGEST ================= -->
+            <div id="tab-suggest" class="tab-panel" role="tabpanel" aria-labelledby="navbtn-suggest" tabindex="0">
+                <section class="verb-section bg-white rounded-2xl p-8 md:p-12">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 bg-brand-dark text-brand-gold rounded-full flex items-center justify-center font-serif text-2xl font-bold">1</div>
+                        <h2 class="text-4xl font-bold text-brand-dark">Suggest</h2>
+                    </div>
+
+                    <div class="mb-8">
+                        <p class="text-lg mb-4">The verb <strong>suggest</strong> is used to introduce an idea, plan, or action for consideration. It is a classic trigger for the subjunctive mood in formal English.</p>
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+                            <p class="text-red-700 font-bold text-sm uppercase tracking-wide mb-1">Common Error Alert</p>
+                            <p class="text-red-900">Never use an infinitive after suggest. <br><span class="line-through text-gray-500">I suggest him to go.</span> ➔ <strong>I suggest (that) he go.</strong></p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-2xl font-semibold mb-4 text-brand-accent">Verb Patterns</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                        <div class="pattern-box p-6 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">1. suggest + (that) + subject + base verb</h4>
+                            <p class="text-sm text-gray-600 mb-3">This is the subjunctive mood, typical in formal contexts. The 'that' is optional.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>I suggest (that) she <strong>leave</strong> immediately.</li>
+                                <li>The doctor suggested that he <strong>stop</strong> smoking.</li>
+                                <li>It was suggested that a new committee <strong>be</strong> formed.</li>
+                            </ul>
+                        </div>
+
+                        <div class="pattern-box p-6 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">2. suggest + (that) + subject + should + base verb</h4>
+                            <p class="text-sm text-gray-600 mb-3">Common in British English as an alternative to the pure subjunctive.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>I suggest that she <strong>should leave</strong> immediately.</li>
+                                <li>He suggested that we <strong>should meet</strong> earlier.</li>
+                            </ul>
+                        </div>
+
+                        <div class="pattern-box p-6 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">3. suggest + verb-ing (Gerund)</h4>
+                            <p class="text-sm text-gray-600 mb-3">Used when the subject of 'suggest' is also involved in the action, or when the actor is general/unspecified.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>I suggest <strong>taking</strong> the train to avoid traffic.</li>
+                                <li>She suggested <strong>going</strong> to a movie.</li>
+                            </ul>
+                        </div>
+
+                        <div class="pattern-box p-6 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">4. suggest + noun phrase (+ to someone)</h4>
+                            <p class="text-sm text-gray-600 mb-3">Used to propose a thing or a person.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>Can you suggest <strong>a good restaurant</strong>?</li>
+                                <li>I suggested <strong>this book</strong> to my students.</li>
+                                <li>He suggested <strong>a new strategy</strong> to the board.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="quiz-container" id="quiz-suggest">
+                        <h3 class="text-2xl font-bold mb-6 font-serif">Self-Check: 'Suggest'</h3>
+                        <p class="mb-6 text-gray-600">Select the grammatically correct option(s) to complete the sentences.</p>
+
+                        <form id="form-suggest" onsubmit="evaluateQuiz(event, 'suggest')">
+                            <div id="suggest-questions-container"></div>
+
+                            <button type="submit" class="submit-btn w-full md:w-auto mt-8 px-10 py-4 rounded-full text-lg shadow-lg font-bold">Submit 'Suggest' Quiz</button>
+                            <div id="suggest-results" class="results-summary bg-gray-50 border border-gray-200"></div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= 2. RECOMMEND ================= -->
+            <div id="tab-recommend" class="tab-panel" role="tabpanel" aria-labelledby="navbtn-recommend" tabindex="0">
+                <section class="verb-section bg-white rounded-2xl p-8 md:p-12">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 bg-brand-dark text-brand-gold rounded-full flex items-center justify-center font-serif text-2xl font-bold">2</div>
+                        <h2 class="text-4xl font-bold text-brand-dark">Recommend</h2>
+                    </div>
+
+                    <div class="mb-8">
+                        <p class="text-lg mb-4"><strong>Recommend</strong> is used to tell someone that something is good or useful, or to advise them to do something. It functions very similarly to 'suggest' but carries a slightly stronger sense of endorsement or professional advice.</p>
+                    </div>
+
+                    <h3 class="text-2xl font-semibold mb-4 text-brand-accent">Verb Patterns</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                        <div class="pattern-box p-6 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">1. recommend + (that) + clause (Subjunctive)</h4>
+                            <p class="text-sm text-gray-600 mb-3">Often uses the base form of the verb, especially in American English.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>The IT security team recommended (that) we <strong>change</strong> our passwords.</li>
+                                <li>I strongly recommend that he <strong>not go</strong> there alone.</li>
+                            </ul>
+                        </div>
+
+                        <div class="pattern-box p-6 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">2. recommend + verb-ing (Gerund)</h4>
+                            <p class="text-sm text-gray-600 mb-3">Used when speaking generally without specifying exactly who should perform the action.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>I don't recommend <strong>spending</strong> more than two hours on social media.</li>
+                                <li>Experts recommend <strong>drinking</strong> plenty of water.</li>
+                            </ul>
+                        </div>
+
+                        <div class="pattern-box p-6 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">3. recommend + noun + to + someone</h4>
+                            <p class="text-sm text-gray-600 mb-3">Endorsing a specific thing or person to another party.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>My sister recommended <strong>Instagram</strong> to me.</li>
+                                <li>Can you recommend <strong>a good mechanic</strong> to us?</li>
+                            </ul>
+                        </div>
+
+                        <div class="pattern-box p-6 rounded-r-lg border-l-brand-accent bg-blue-50">
+                            <h4 class="font-bold text-lg mb-2 text-brand-accent">Difference from 'Advise'</h4>
+                            <p class="text-sm text-gray-800 mb-3">Unlike 'suggest' and 'recommend', <strong>advise</strong> frequently takes the pattern: <em>advise + object + infinitive</em>.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>Correct: They <strong>advised us to leave</strong>.</li>
+                                <li>Incorrect: <span class="line-through text-red-500">They recommended us to leave.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="quiz-container" id="quiz-recommend">
+                        <h3 class="text-2xl font-bold mb-6 font-serif">Self-Check: 'Recommend'</h3>
+                        <p class="mb-6 text-gray-600">Select the best grammatically correct option(s).</p>
+
+                        <form id="form-recommend" onsubmit="evaluateQuiz(event, 'recommend')">
+                            <div id="recommend-questions-container"></div>
+
+                            <button type="submit" class="submit-btn w-full md:w-auto mt-8 px-10 py-4 rounded-full text-lg shadow-lg font-bold">Submit 'Recommend' Quiz</button>
+                            <div id="recommend-results" class="results-summary bg-gray-50 border border-gray-200"></div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= 3. REQUEST ================= -->
+            <div id="tab-request" class="tab-panel" role="tabpanel" aria-labelledby="navbtn-request" tabindex="0">
+                <section class="verb-section bg-white rounded-2xl p-8 md:p-12">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 bg-brand-dark text-brand-gold rounded-full flex items-center justify-center font-serif text-2xl font-bold">3</div>
+                        <h2 class="text-4xl font-bold text-brand-dark">Request</h2>
+                    </div>
+
+                    <div class="mb-8">
+                        <p class="text-lg mb-4"><strong>Request</strong> is a formal way to ask for something. It is highly structured and often employed in official, business, or formal written correspondence. Like suggest, it frequently triggers the subjunctive mood.</p>
+                    </div>
+
+                    <h3 class="text-2xl font-semibold mb-4 text-brand-accent">Verb Patterns</h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                        <div class="pattern-box p-6 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">1. request + (that) + clause (Subjunctive)</h4>
+                            <p class="text-sm text-gray-600 mb-3">The most formal usage, demanding the base verb form.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>The manager requested that everyone <strong>be</strong> on time.</li>
+                                <li>They requested that he <strong>not leave</strong> the premises.</li>
+                            </ul>
+                        </div>
+
+                        <div class="pattern-box p-6 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">2. request + noun / noun phrase</h4>
+                            <p class="text-sm text-gray-600 mb-3">Asking for a specific item or action directly.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>We requested <strong>a table by the window</strong>.</li>
+                                <li>The defendant requested <strong>an appeal</strong>.</li>
+                            </ul>
+                        </div>
+
+                        <div class="pattern-box p-6 rounded-r-lg">
+                            <h4 class="font-bold text-lg mb-2">3. request + someone + to + infinitive</h4>
+                            <p class="text-sm text-gray-600 mb-3">Often used in the passive voice in formal signs or announcements.</p>
+                            <ul class="list-disc pl-5 space-y-2 italic text-gray-800">
+                                <li>Passengers are requested <strong>to remain</strong> seated.</li>
+                                <li>I requested him <strong>to lower</strong> his voice. (Less common in active voice, 'asked' is preferred).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="quiz-container" id="quiz-request">
+                        <h3 class="text-2xl font-bold mb-6 font-serif">Self-Check: 'Request'</h3>
+                        <p class="mb-6 text-gray-600">Choose the correct formulation.</p>
+
+                        <form id="form-request" onsubmit="evaluateQuiz(event, 'request')">
+                            <div id="request-questions-container"></div>
+
+                            <button type="submit" class="submit-btn w-full md:w-auto mt-8 px-10 py-4 rounded-full text-lg shadow-lg font-bold">Submit 'Request' Quiz</button>
+                            <div id="request-results" class="results-summary bg-gray-50 border border-gray-200"></div>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            <footer class="mt-16 pb-10 text-center">
+                <h2 class="font-serif text-xl mb-2 text-brand-dark">The Grammar Masterclass</h2>
+                <p class="text-gray-500 text-sm">&copy; 2026 Premium Grammar Education. All rights reserved.</p>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- Custom Modal for Alerts -->
+    <div id="customModal" class="modal flex items-center justify-center" style="display: none;">
+        <div class="modal-content relative">
+            <span class="close-btn absolute top-4 right-4" onclick="closeModal()">&times;</span>
+            <div id="modalIcon" class="text-5xl mb-4"></div>
+            <h2 id="modalTitle" class="text-2xl font-bold font-serif mb-4 text-brand-dark"></h2>
+            <p id="modalMessage" class="text-lg text-gray-700"></p>
+            <button type="button" onclick="closeModal()" class="mt-6 bg-brand-accent hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">Close</button>
+        </div>
+    </div>
+
+    <!-- ============================================================================
+         Hidden printable worksheet source, captured by html2pdf.js into a genuine
+         PDF file. Kept deliberately compact (tight line-height, inline MCQ options,
+         hairline separators instead of boxed answer areas) so the PDF reads as one
+         tightly aligned assessment rather than a sparse, padded-out document.
+         ============================================================================ -->
+    <div id="pdf-worksheet-template" style="display:none;" aria-hidden="true">
+    <style>
+        #pdf-worksheet-content { font-family: Georgia, 'Times New Roman', serif; color: #111; font-size: 10.5pt; line-height: 1.45; width: 720px; }
+        #pdf-worksheet-content .ws-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #1a202c; padding-bottom: 10px; margin-bottom: 12px; }
+        #pdf-worksheet-content .ws-header h1 { font-size: 17pt; color: #1a202c; margin: 0; }
+        #pdf-worksheet-content .ws-header h2 { font-size: 10.5pt; color: #a3792f; margin: 3px 0 0 0; text-transform: uppercase; letter-spacing: 0.04em; }
+        #pdf-worksheet-content .ws-meta { font-size: 9pt; text-align: right; color: #333; line-height: 1.5; }
+        #pdf-worksheet-content .ws-nameline { font-size: 9.5pt; margin-bottom: 14px; border-bottom: 1px dotted #999; padding-bottom: 6px; }
+        #pdf-worksheet-content .ws-nameline span { display: inline-block; margin-right: 28px; }
+        #pdf-worksheet-content .ws-section-title { display: flex; justify-content: space-between; align-items: baseline; font-size: 11.5pt; font-weight: bold; color: #1a202c; background: #f3f4f6; padding: 5px 10px; margin-top: 8px; margin-bottom: 6px; border-left: 3px solid #d4af37; }
+        #pdf-worksheet-content .ws-section-meta { font-size: 8.5pt; color: #666; font-weight: normal; }
+        #pdf-worksheet-content .ws-instructions { font-size: 9.5pt; color: #444; font-style: italic; margin: 0 0 6px 2px; }
+        /* Hanging indent via absolute-positioned number + padding-left, instead of
+           CSS Grid — grid (especially nested grid) is measured unreliably by the
+           PDF renderer, which was the real cause of the phantom gap, the
+           misaligned blank lines, and Section D being dropped. Plain block flow
+           with a fixed left offset renders identically every time. */
+        #pdf-worksheet-content .ws-q { position: relative; padding: 4px 0 4px 24px; border-bottom: 1px dotted #ddd; break-inside: avoid; page-break-inside: avoid; }
+        #pdf-worksheet-content .ws-qnum { position: absolute; left: 0; top: 4px; width: 20px; font-weight: bold; }
+        /* Fixed-width inline-block columns (no grid) so a/b/c/d always line up
+           under the same left offset as the question text above them. */
+        #pdf-worksheet-content .ws-options { margin-top: 4px; font-size: 9.5pt; }
+        #pdf-worksheet-content .ws-options span { display: inline-block; width: 24%; box-sizing: border-box; padding-right: 4px; vertical-align: top; white-space: nowrap; }
+        #pdf-worksheet-content .ws-blank-line { border-bottom: 1px solid #333; height: 16px; margin-top: 5px; }
+        #pdf-worksheet-content .page-break { page-break-before: always; break-before: page; height: 0; }
+        #pdf-worksheet-content .ws-key-title { font-size: 15pt; color: #a3242f; text-align: center; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.0em; }
+        #pdf-worksheet-content .ws-key-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px 22px; font-size: 9.5pt; }
+        #pdf-worksheet-content .ws-key-section { font-weight: bold; color: #1a202c; margin-top: 10px; grid-column: 1 / -1; border-bottom: 1px solid #1a202c; padding-bottom: 2px; }
+        #pdf-worksheet-content .ws-key-item b { color: #2c5282; }
+    </style>
+    <div id="pdf-worksheet-content">
+
+        <div class="ws-header">
+            <div>
+                <h1>Mastering Special Verbs</h1>
+                <h2>45-Minute Assessment · Suggest, Recommend & Request</h2>
+            </div>
+            <div class="ws-meta">
+                <strong>Time:</strong> 45 minutes<br/>
+                <strong>Total:</strong> 45 marks
+            </div>
+        </div>
+        <div class="ws-nameline">
+            <span>Name: ___________________________</span>
+            <span>Class: __________</span>
+            <span>Date: __________</span>
+        </div>
+
+        <div class="ws-section-title">Section A — Multiple Choice <span class="ws-section-meta">10 marks · ~10 min</span></div>
+        <div class="ws-instructions">Circle the option that correctly completes each sentence.</div>
+
+        <div class="ws-q"><span class="ws-qnum">1.</span>The manager suggested (that) the team ______ the deadline.
+            <div class="ws-options"><span>a) meets</span><span>b) meet</span><span>c) met</span><span>d) to meet</span></div>
+        </div>
+        <div class="ws-q"><span class="ws-qnum">2.</span>Our advisor recommended ______ an accountant before filing taxes.
+            <div class="ws-options"><span>a) consult</span><span>b) to consult</span><span>c) consulting</span><span>d) consulted</span></div>
+        </div>
+        <div class="ws-q"><span class="ws-qnum">3.</span>Passengers are requested ______ their seatbelts fastened.
+            <div class="ws-options"><span>a) keep</span><span>b) keeping</span><span>c) to keep</span><span>d) kept</span></div>
+        </div>
+        <div class="ws-q"><span class="ws-qnum">4.</span>I suggest we ______ a professional to review the contract.
+            <div class="ws-options"><span>a) hire</span><span>b) hiring</span><span>c) to hire</span><span>d) hired</span></div>
+        </div>
+        <div class="ws-q"><span class="ws-qnum">5.</span>The committee recommended that the proposal ______ reconsidered.
+            <div class="ws-options"><span>a) is</span><span>b) be</span><span>c) was</span><span>d) were</span></div>
+        </div>
+        <div class="ws-q"><span class="ws-qnum">6.</span>She requested ______ with the director before the meeting.
+            <div class="ws-options"><span>a) speak</span><span>b) to speak</span><span>c) speaking</span><span>d) spoken</span></div>
+        </div>
+        <div class="ws-q"><span class="ws-qnum">7.</span>Doctors recommend ______ at least eight hours of sleep.
+            <div class="ws-options"><span>a) get</span><span>b) getting</span><span>c) to get</span><span>d) gotten</span></div>
+        </div>
+        <div class="ws-q"><span class="ws-qnum">8.</span>He suggested ______ a different approach to the problem.
+            <div class="ws-options"><span>a) try</span><span>b) trying</span><span>c) to try</span><span>d) tried</span></div>
+        </div>
+        <div class="ws-q"><span class="ws-qnum">9.</span>The board requested that all members ______ present at the vote.
+            <div class="ws-options"><span>a) is</span><span>b) be</span><span>c) was</span><span>d) are</span></div>
+        </div>
+        <div class="ws-q"><span class="ws-qnum">10.</span>I wouldn't recommend him ______ that route at night.
+            <div class="ws-options"><span>a) take</span><span>b) taking</span><span>c) to take</span><span>d) took</span></div>
+        </div>
+
+        <div class="ws-section-title">Section B — Error Correction <span class="ws-section-meta">10 marks · ~10 min</span></div>
+        <div class="ws-instructions">Each sentence contains one error. Underline it and write the correction on the line.</div>
+
+        <div class="ws-q"><span class="ws-qnum">1.</span>I suggest him to call the client today.<div class="ws-blank-line"></div></div>
+        <div class="ws-q"><span class="ws-qnum">2.</span>The professor recommended that the paper is revised before submission.<div class="ws-blank-line"></div></div>
+        <div class="ws-q"><span class="ws-qnum">3.</span>Visitors are requested don't touch the artwork.<div class="ws-blank-line"></div></div>
+        <div class="ws-q"><span class="ws-qnum">4.</span>She suggested to postpone the meeting until Friday.<div class="ws-blank-line"></div></div>
+        <div class="ws-q"><span class="ws-qnum">5.</span>The landlord recommended us to repaint the walls.<div class="ws-blank-line"></div></div>
+
+        <div class="ws-section-title">Section C — Sentence Transformation <span class="ws-section-meta">20 marks · ~15 min</span></div>
+        <div class="ws-instructions">Rewrite each sentence using the word given, keeping the same meaning. Do not change the word given.</div>
+
+        <div class="ws-q"><span class="ws-qnum">1.</span>"You should submit the report by Friday," said the manager. <strong>(SUGGESTED)</strong><div class="ws-blank-line"></div></div>
+        <div class="ws-q"><span class="ws-qnum">2.</span>"Take the earlier flight," advised my travel agent. <strong>(RECOMMENDED)</strong><div class="ws-blank-line"></div></div>
+        <div class="ws-q"><span class="ws-qnum">3.</span>"Please remain seated during takeoff," said the flight attendant. <strong>(REQUESTED)</strong><div class="ws-blank-line"></div></div>
+        <div class="ws-q"><span class="ws-qnum">4.</span>It would be a good idea to back up your files. <strong>(SUGGEST)</strong><div class="ws-blank-line"></div></div>
+        <div class="ws-q"><span class="ws-qnum">5.</span>The dentist said it would be best if he had the tooth removed. <strong>(RECOMMENDED)</strong><div class="ws-blank-line"></div></div>
+        <div class="ws-q"><span class="ws-qnum">6.</span>"Could everyone arrive fifteen minutes early?" asked the coordinator. <strong>(REQUESTED)</strong><div class="ws-blank-line"></div></div>
+        <div class="ws-q"><span class="ws-qnum">7.</span>My accountant thinks it's a good idea for me to keep the receipts. <strong>(SUGGESTS)</strong><div class="ws-blank-line"></div></div>
+        <div class="ws-q"><span class="ws-qnum">8.</span>The instructor said it was necessary for students to practice daily. <strong>(RECOMMENDED)</strong><div class="ws-blank-line"></div></div>
+
+        <div class="ws-section-title">Section D — Guided Writing <span class="ws-section-meta">5 marks · ~10 min</span></div>
+        <div class="ws-instructions">Using the target verb and pattern shown, write one original sentence of your own.</div>
+
+        <div class="ws-q"><span class="ws-qnum">1.</span>suggest + verb-ing<div class="ws-blank-line"></div><div class="ws-blank-line"></div></div>
+        <div class="ws-q"><span class="ws-qnum">2.</span>request + (that) + subject + base verb<div class="ws-blank-line"></div><div class="ws-blank-line"></div></div>
+
+        <div class="page-break"></div>
+
+        <!-- PAGE 3: ANSWER KEY -->
+        <div class="ws-key-title">Answer Key · Teacher Copy</div>
+
+        <div class="ws-key-grid">
+            <div class="ws-key-section">Section A — Multiple Choice</div>
+            <div class="ws-key-item">1. <b>b)</b> meet</div>
+            <div class="ws-key-item">2. <b>c)</b> consulting</div>
+            <div class="ws-key-item">3. <b>c)</b> to keep</div>
+            <div class="ws-key-item">4. <b>a)</b> hire</div>
+            <div class="ws-key-item">5. <b>b)</b> be</div>
+            <div class="ws-key-item">6. <b>b)</b> to speak</div>
+            <div class="ws-key-item">7. <b>b)</b> getting</div>
+            <div class="ws-key-item">8. <b>b)</b> trying</div>
+            <div class="ws-key-item">9. <b>b)</b> be</div>
+            <div class="ws-key-item">10. <b>b)</b> taking</div>
+
+            <div class="ws-key-section">Section B — Error Correction (model answers)</div>
+            <div class="ws-key-item">1. I suggest <b>(that) he call</b> the client today.</div>
+            <div class="ws-key-item">2. ...recommended that the paper <b>be revised</b> before submission.</div>
+            <div class="ws-key-item">3. Visitors are requested <b>not to touch</b> the artwork.</div>
+            <div class="ws-key-item">4. She suggested <b>postponing</b> the meeting until Friday.</div>
+            <div class="ws-key-item">5. The landlord recommended <b>that we repaint</b> the walls.</div>
+
+            <div class="ws-key-section">Section C — Transformation (model answers)</div>
+            <div class="ws-key-item">1. The manager suggested (that) we <b>submit</b> the report by Friday.</div>
+            <div class="ws-key-item">2. My travel agent recommended <b>taking</b> the earlier flight.</div>
+            <div class="ws-key-item">3. The flight attendant requested that passengers <b>remain seated</b> during takeoff.</div>
+            <div class="ws-key-item">4. I suggest (that) you <b>back up</b> your files.</div>
+            <div class="ws-key-item">5. The dentist recommended that he <b>have</b> the tooth removed.</div>
+            <div class="ws-key-item">6. The coordinator requested that everyone <b>arrive</b> fifteen minutes early.</div>
+            <div class="ws-key-item">7. My accountant suggests (that) I <b>keep</b> the receipts.</div>
+            <div class="ws-key-item">8. The instructor recommended that students <b>practice</b> daily.</div>
+
+            <div class="ws-key-section">Section D — Guided Writing</div>
+            <div class="ws-key-item" style="grid-column: 1 / -1;">Accept any grammatically correct original sentence that matches the required pattern (subjunctive base verb for Request; gerund for Suggest). Award 2.5 marks per item for correct structure; deduct for tense, agreement, or pattern errors.</div>
+        </div>
+
+    </div>
+    </div>
+
+    <script>
+        // Data for Quizzes (15 questions each) — self-check quizzes, separate from the printable Worksheet
+        const quizData = {
+            suggest: [
+                { q: "I suggest that she ___ a doctor immediately.", options: ["sees", "see", "saw", "to see"], correct: 1 },
+                { q: "He suggested ___ for a walk along the river.", options: ["to go", "go", "going", "we to go"], correct: 2 },
+                { q: "Can you suggest a good hotel ___?", options: ["for us to stay at", "to us to stay", "us to stay", "staying at"], correct: 0 },
+                { q: "The teacher suggested that the students ___ more time reading.", options: ["spend", "spends", "spent", "to spend"], correct: 0 },
+                { q: "I wouldn't suggest ___ that car; it has bad reviews.", options: ["buy", "to buy", "buying", "bought"], correct: 2 },
+                { q: "She suggested ___ we should leave early.", options: ["that", "which", "who", "whom"], correct: 0 },
+                { q: "They suggested a new plan ___ the committee.", options: ["for", "to", "at", "by"], correct: 1 },
+                { q: "It was suggested that the meeting ___ postponed.", options: ["is", "was", "be", "were"], correct: 2 },
+                { q: "I suggest you ___ your password regularly.", options: ["change", "changing", "to change", "changes"], correct: 0 },
+                { q: "He suggested ___ a break.", options: ["take", "taking", "to take", "we taking"], correct: 1 },
+                { q: "Are you suggesting that I ___ lying?", options: ["am", "be", "was", "were"], correct: 0 },
+                { q: "My colleague suggested ___ the report by Friday.", options: ["to finish", "finishing", "finish", "finished"], correct: 1 },
+                { q: "I suggest that he ___ not invest all his money in one stock.", options: ["do", "does", "did", "doing"], correct: 0 },
+                { q: "Who suggested ___ this software?", options: ["use", "using", "to use", "used"], correct: 1 },
+                { q: "The lawyer suggested that the client ___ silent.", options: ["remains", "remain", "remaining", "to remain"], correct: 1 }
+            ],
+            recommend: [
+                { q: "I highly recommend ___ this museum when you visit Paris.", options: ["to visit", "visit", "visiting", "visited"], correct: 2 },
+                { q: "The doctor recommended that he ___ smoking.", options: ["quit", "quits", "to quit", "quitting"], correct: 0 },
+                { q: "Can you recommend a good book ___ me?", options: ["for", "to", "at", "with"], correct: 1 },
+                { q: "She recommended ___ we take the scenic route.", options: ["that", "if", "whether", "how"], correct: 0 },
+                { q: "I recommend that the contract ___ reviewed by legal.", options: ["is", "be", "was", "are"], correct: 1 },
+                { q: "We don't recommend ___ in that neighborhood after dark.", options: ["walk", "walking", "to walk", "walked"], correct: 1 },
+                { q: "He recommended a specialized app ___ his brother.", options: ["to", "for", "at", "on"], correct: 0 },
+                { q: "The advisory board recommended that the CEO ___ down.", options: ["step", "steps", "stepped", "to step"], correct: 0 },
+                { q: "I recommend ___ early to get a good seat.", options: ["arrive", "arriving", "to arrive", "arrived"], correct: 1 },
+                { q: "It is strongly recommended that all passengers ___ their seatbelts.", options: ["wear", "wears", "wearing", "to wear"], correct: 0 },
+                { q: "Who recommended ___ this strategy?", options: ["adopt", "adopting", "to adopt", "adopted"], correct: 1 },
+                { q: "They recommend that she ___ for the scholarship.", options: ["apply", "applies", "applying", "to apply"], correct: 0 },
+                { q: "I wouldn't recommend him ___ the job.", options: ["to take", "taking", "take", "for taking"], correct: 1 },
+                { q: "The manual recommends ___ the filter every six months.", options: ["replace", "replacing", "to replace", "replaced"], correct: 1 },
+                { q: "The chef recommended ___ the fish.", options: ["us to try", "that we try", "our trying", "both B and C"], correct: 3 }
+            ],
+            request: [
+                { q: "The client requested that the deadline ___ extended.", options: ["is", "be", "was", "are"], correct: 1 },
+                { q: "Visitors are requested ___ not touch the exhibits.", options: ["to", "that", "for", "with"], correct: 0 },
+                { q: "She requested a meeting ___ the principal.", options: ["to", "with", "for", "at"], correct: 1 },
+                { q: "I request that you ___ here until I return.", options: ["stay", "stays", "staying", "to stay"], correct: 0 },
+                { q: "The police requested ___ the suspect.", options: ["to interview", "interviewing", "interview", "interviewed"], correct: 0 },
+                { q: "He requested that the music ___ turned down.", options: ["is", "be", "was", "were"], correct: 1 },
+                { q: "They requested ___ an extra pillow from housekeeping.", options: ["for", "-", "with", "to"], correct: 1 },
+                { q: "All members are requested ___ attend the general meeting.", options: ["to", "that", "in", "for"], correct: 0 },
+                { q: "The union requested that management ___ their terms.", options: ["accept", "accepts", "accepted", "accepting"], correct: 0 },
+                { q: "May I request ___ attention, please?", options: ["your", "you", "yours", "yourself"], correct: 0 },
+                { q: "We respectfully request that guests ___ formal attire.", options: ["wear", "wears", "wearing", "to wear"], correct: 0 },
+                { q: "He requested permission ___ the premises early.", options: ["leave", "leaving", "to leave", "left"], correct: 2 },
+                { q: "The committee requested that she ___ present at the hearing.", options: ["is", "be", "was", "are"], correct: 1 },
+                { q: "I have requested a transfer ___ the London office.", options: ["to", "at", "in", "for"], correct: 0 },
+                { q: "The software requests that the user ___ the computer after installation.", options: ["reboot", "reboots", "rebooting", "to reboot"], correct: 0 }
+            ]
+        };
+
+        // ------------------------------------------------------------------
+        // Sidebar tab switching
+        // ------------------------------------------------------------------
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-panel').forEach(function (el) { el.classList.remove('active'); });
+            document.querySelectorAll('.side-nav-btn').forEach(function (btn) {
+                btn.setAttribute('aria-selected', 'false');
+            });
+
+            var targetPanel = document.getElementById('tab-' + tabId);
+            if (targetPanel) targetPanel.classList.add('active');
+
+            var targetBtn = document.querySelector('[data-target="' + tabId + '"]');
+            if (targetBtn) targetBtn.setAttribute('aria-selected', 'true');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ------------------------------------------------------------------
+        // Reliable visual feedback when an option is selected — runs on every
+        // 'change' event, independent of CSS peer-variant support/timing.
+        // ------------------------------------------------------------------
+        function highlightSelectedOption(input) {
+            document.querySelectorAll('input[name="' + input.name + '"]').forEach(function (inp) {
+                var lbl = document.querySelector('label[for="' + inp.id + '"]');
+                if (lbl) lbl.classList.toggle('is-selected', inp.checked);
+            });
+        }
+
+        // ------------------------------------------------------------------
+        // Function to render quizzes
+        // ------------------------------------------------------------------
+        function renderQuiz(verb) {
+            const container = document.getElementById(`${verb}-questions-container`);
+            const questions = quizData[verb];
+
+            let html = '';
+            questions.forEach((item, index) => {
+                html += `
+                <div class="question-block" id="${verb}-qblock-${index}">
+                    <p class="font-bold mb-3 text-lg"><span class="text-brand-accent">${index + 1}.</span> ${item.q}</p>
+                    <div class="options-group">
+                `;
+
+                item.options.forEach((opt, optIndex) => {
+                    const id = `${verb}-q${index}-o${optIndex}`;
+                    html += `
+                        <label for="${id}" class="option-label relative">
+                            <input type="radio" name="${verb}-q${index}" id="${id}" value="${optIndex}" class="option-input peer absolute opacity-0" onchange="highlightSelectedOption(this)">
+                            <span class="option-dot w-5 h-5 inline-block mr-3 border-2 border-gray-400 rounded-full flex-shrink-0 peer-checked:border-brand-accent peer-checked:bg-brand-accent transition-colors"></span>
+                            <span class="option-text">${opt}</span>
+                        </label>
+                    `;
+                });
+
+                html += `
+                    </div>
+                    <div class="feedback" id="${verb}-fb-${index}"></div>
+                </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Initialize quizzes on load
+        window.onload = () => {
+            renderQuiz('suggest');
+            renderQuiz('recommend');
+            renderQuiz('request');
+        };
+
+        // Custom Modal Logic replacing alert()
+        function showModal(title, message, type = 'info') {
+            const modal = document.getElementById('customModal');
+            const titleEl = document.getElementById('modalTitle');
+            const msgEl = document.getElementById('modalMessage');
+            const iconEl = document.getElementById('modalIcon');
+
+            titleEl.innerText = title;
+            msgEl.innerText = message;
+
+            if (type === 'success') {
+                iconEl.innerHTML = '🏆';
+                titleEl.className = 'text-2xl font-bold font-serif mb-4 text-green-600';
+            } else if (type === 'warning') {
+                iconEl.innerHTML = '⚠️';
+                titleEl.className = 'text-2xl font-bold font-serif mb-4 text-yellow-600';
+            } else if (type === 'error') {
+                iconEl.innerHTML = '❌';
+                titleEl.className = 'text-2xl font-bold font-serif mb-4 text-brand-error';
+            } else {
+                iconEl.innerHTML = 'ℹ️';
+                titleEl.className = 'text-2xl font-bold font-serif mb-4 text-brand-dark';
+            }
+
+            modal.style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById('customModal').style.display = "none";
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('customModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Evaluate Quiz Logic
+        function evaluateQuiz(event, verb) {
+            event.preventDefault();
+
+            const questions = quizData[verb];
+            let score = 0;
+            let answeredCount = 0;
+
+            for (let i = 0; i < questions.length; i++) {
+                const selected = document.querySelector(`input[name="${verb}-q${i}"]:checked`);
+                if (selected) {
+                    answeredCount++;
+                }
+            }
+
+            if (answeredCount < questions.length) {
+                showModal("Incomplete Submission", `Please answer all 15 questions before submitting. You have answered ${answeredCount}.`, "warning");
+                return;
+            }
+
+            for (let i = 0; i < questions.length; i++) {
+                const selected = document.querySelector(`input[name="${verb}-q${i}"]:checked`);
+                const feedbackEl = document.getElementById(`${verb}-fb-${i}`);
+                const blockEl = document.getElementById(`${verb}-qblock-${i}`);
+
+                const selectedVal = parseInt(selected.value);
+                const correctVal = questions[i].correct;
+                const correctText = questions[i].options[correctVal];
+
+                if (selectedVal === correctVal) {
+                    score++;
+                    feedbackEl.innerHTML = '✓ Correct';
+                    feedbackEl.className = 'feedback correct';
+                    blockEl.style.borderColor = '#c6f6d5';
+                } else {
+                    feedbackEl.innerHTML = `✗ Incorrect. The correct answer is: <strong>${correctText}</strong>`;
+                    feedbackEl.className = 'feedback incorrect';
+                    blockEl.style.borderColor = '#fed7d7';
+                }
+            }
+
+            const resultsEl = document.getElementById(`${verb}-results`);
+            const percentage = Math.round((score / questions.length) * 100);
+
+            let message = '';
+            if (percentage === 100) message = "Perfect Score! Masterful.";
+            else if (percentage >= 80) message = "Excellent work!";
+            else if (percentage >= 60) message = "Good effort, review the patterns.";
+            else message = "Needs more practice. Please review the rules above.";
+
+            resultsEl.innerHTML = `
+                <div class="mb-2">Your Score: <span class="font-bold text-brand-accent">${score} / ${questions.length}</span> (${percentage}%)</div>
+                <div class="text-xl">${message}</div>
+            `;
+            resultsEl.style.display = 'block';
+
+            if (percentage >= 80) {
+                 showModal("Quiz Completed!", `Great job on the '${verb.charAt(0).toUpperCase() + verb.slice(1)}' quiz! You scored ${score}/${questions.length}.`, "success");
+            }
+        }
+
+        // ------------------------------------------------------------------
+        // PDF Worksheet Downloader — genuine PDF via html2pdf.js (html2canvas + jsPDF).
+        // Real page breaks via .page-break markers; compact CSS keeps the output
+        // tightly aligned rather than sparse.
+        // ------------------------------------------------------------------
+        function downloadWorksheetPDF() {
+            var buttons = document.querySelectorAll('.pdf-download-btn');
+            var originalLabels = [];
+            var element = document.getElementById('pdf-worksheet-content');
+
+            if (typeof html2pdf === 'undefined') {
+                showModal('PDF Engine Unavailable', 'The PDF engine could not load — check your connection and try again.', 'error');
+                return;
+            }
+            if (!element) {
+                showModal('Worksheet Missing', 'Worksheet content is missing from the page.', 'error');
+                return;
+            }
+
+            buttons.forEach(function (btn, i) {
+                originalLabels[i] = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = '<span><span class="btn-spinner"></span>Generating…</span>';
+            });
+
+            var restoreButtons = function () {
+                buttons.forEach(function (btn, i) {
+                    btn.disabled = false;
+                    btn.innerHTML = originalLabels[i];
+                });
+            };
+
+            var opt = {
+                margin: [12, 12, 12, 10],
+                filename: 'Special_Verbs_45Min_Worksheet_and_Key.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 3, useCORS: true, backgroundColor: '#ffffff' },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['css', 'legacy'], before: '.page-break' }
+            };
+
+            html2pdf().set(opt).from(element).toPdf().get('pdf').then(function (pdf) {
+                pdf.setProperties({
+                    title: 'Mastering Special Verbs — 45-Minute Worksheet & Answer Key',
+                    subject: 'Suggest, Recommend, Request — Classroom Assessment',
+                    author: 'The Grammar Masterclass'
+                });
+            }).save().then(function () {
+                restoreButtons();
+            }).catch(function (err) {
+                console.error('PDF generation failed:', err);
+                showModal('Download Failed', 'Something went wrong generating the PDF. Please try again.', 'error');
+                restoreButtons();
+            });
+        }
+    </script>
+</body>
+</html>
