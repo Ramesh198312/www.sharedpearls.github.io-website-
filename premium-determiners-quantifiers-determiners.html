@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oxford Premium | Grammar Mastery</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            body: ['Lora', 'serif'],
+          },
+          colors: {
+            oxford: {
+              900: '#0f172a',
+              950: '#020617',
+            },
+            champagne: {
+              50: '#fcfaf8',
+              100: '#f2efe9',
+              500: '#d4af37',
+              600: '#b48c5c',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { background-color: #f9f7f4; color: #0f172a; }
+    .input-focus-ring:focus-within {
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.4);
+      border-color: #d4af37;
+    }
+    .custom-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23b48c5c' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+    }
+    .fade-in { animation: fadeIn 0.4s ease-in-out forwards; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased min-h-screen">
+
+  <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-10 flex flex-col lg:flex-row gap-10">
+    
+    <!-- Main Content Area (Left) -->
+    <main class="lg:w-3/4 flex-grow bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden flex flex-col">
+      <div id="module-content" class="p-8 md:p-12 fade-in">
+        <!-- Dynamic module content injected via JS -->
+      </div>
+    </main>
+    
+    <!-- Sidebar Navigation & PDF (Right) -->
+    <aside class="lg:w-1/4 flex-shrink-0">
+      <div class="sticky top-10 flex flex-col gap-6">
+        
+        <!-- Navigation Menu -->
+        <div class="bg-oxford-900 rounded-3xl p-6 shadow-2xl text-white border border-oxford-950">
+           <div class="text-[0.7rem] uppercase tracking-widest text-champagne-500 font-bold mb-2 flex items-center gap-2">
+             <i class="fas fa-crown"></i> Premium Course·
+           </div>
+           <h1 class="font-serif text-2xl font-bold mb-6 text-white leading-tight">Grammar Mastery</h1>
+           
+           <nav id="sidebar-nav" class="flex flex-col gap-3">
+             <!-- Nav buttons injected via JS -->
+           </nav>
+        </div>
+        
+        <!-- Comprehensive PDF Generator Card -->
+        <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-lg text-center flex flex-col items-center">
+           <div class="w-16 h-16 bg-champagne-50 rounded-full flex items-center justify-center text-champagne-600 text-2xl mb-4 border border-champagne-100">
+             <i class="fas fa-file-pdf"></i>
+           </div>
+           <h3 class="font-serif font-bold text-xl text-oxford-950 mb-2">Masterclass Worksheet</h3>
+           <p class="text-sm text-slate-500 font-body mb-6 leading-relaxed">Download the official Premium Masterclass PDF worksheet.</p>
+           <button id="downloadPdfBtn" class="w-full bg-champagne-500 hover:bg-champagne-600 text-oxford-950 font-bold py-3 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+             <i class="fas fa-download"></i> Generate PDF
+           </button>
+        </div>
+
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    const modules = [
+      {
+        id: 'determiners',
+        title: 'Determiners',
+        subtitle: 'Module 1 of 3',
+        definition: 'In English grammar, a determiner is a word, phrase, or affix that occurs together with a noun or noun phrase and serves to express the reference of that noun or noun phrase in context. Common categories include definite and indefinite articles (the, a, an), demonstratives (this, that, these, those), possessives (my, your, his, her, its, our, their), and quantifiers. Unlike adjectives, which describe qualities or properties of nouns, determiners clarify precisely which noun is being referenced and establish its scope.',
+        insight: 'A singular countable noun in English generally requires a determiner to be grammatically complete and correct. For example, we say "I bought a car," never "I bought car."'
+      },
+      {
+        id: 'quantifiers',
+        title: 'Quantifiers',
+        subtitle: 'Module 2 of 3',
+        definition: 'Quantifiers are a specialized subclass of determiners that indicate quantity or amount, preceding nouns to answer the fundamental questions "how many?" (for countable nouns) and "how much?" (for uncountable nouns). They provide precise or approximate measures and include terms like some, any, much, many, a lot of, few, little, several, and all. Their correct application depends strictly on noun countability and sentence polarity.',
+        insight: 'Selecting the correct quantifier depends on noun countability: use "few", "many", and "several" for plural countable nouns, and "little", "much", and "a great deal of" for uncountable nouns.'
+      },
+      {
+        id: 'modifiers',
+        title: 'Modifiers',
+        subtitle: 'Module 3 of 3',
+        definition: 'A modifier is a word, phrase, or clause that functions adjectivally or adverbially to describe, limit, qualify, or expand upon the meaning of another element in a sentence. Modifiers add vivid detail, precision, and stylistic nuance. They can range from single-word adjectives and adverbs to complex prepositional phrases, participial phrases, and relative clauses.',
+        insight: 'Positioning is critical in syntax; misplaced or dangling modifiers can lead to ambiguity or completely alter the intended meaning of a sentence.'
+      }
+    ];
+
+    const questions = {
+      determiners: [
+        { type: 'fill', text: 'I have ___ excellent idea for the project.', answer: 'an', placeholder: 'a / an / the' },
+        { type: 'select', text: 'Please pass me ___ book on the table.', options: ['a', 'an', 'the'], correct: 'the' },
+        { type: 'mcq', text: '___ of the two candidates is fully qualified.', options: ['Neither', 'Either', 'Both'], correct: 'Neither' },
+        { type: 'mcq', text: 'Which sentence uses a demonstrative determiner?', options: ['The cars are fast.', 'Those cars are incredibly fast.', 'Cars are fast.'], correct: 'Those cars are incredibly fast.' },
+        { type: 'fill', text: 'She is ___ renowned architect.', answer: 'a', placeholder: 'a / an' },
+        { type: 'select', text: '___ brother lives in London.', options: ['He', 'My', 'Him'], correct: 'My' },
+        { type: 'select', text: 'I need ___ more time to review this.', options: ['some', 'any', 'a'], correct: 'some' },
+        { type: 'select', text: '___ student must attend the final lecture.', options: ['Every', 'All'], correct: 'Every' },
+        { type: 'mcq', text: 'Identify the determiner in: "Which color do you prefer?"', options: ['color', 'Which', 'prefer'], correct: 'Which' },
+        { type: 'select', text: '___ opportunity arose unexpectedly.', options: ['Another', 'Other', 'The others'], correct: 'Another' },
+        { type: 'select', text: '___ dogs barking outside kept me awake.', options: ['This', 'That', 'Those'], correct: 'Those' },
+        { type: 'fill', text: 'We saw ___ animals at the safari.', answer: 'many', placeholder: 'many / much' },
+        { type: 'mcq', text: 'Choose the correct definite article usage:', options: ['The sun is hot.', 'A sun is hot.', 'An sun is hot.'], correct: 'The sun is hot.' },
+        { type: 'select', text: '___ answers provided are entirely correct.', options: ['Both', 'Each', 'Every'], correct: 'Both' },
+        { type: 'fill', text: 'I don\'t have ___ money left in my wallet.', answer: 'any', placeholder: 'any / some' }
+      ],
+      quantifiers: [
+        { type: 'fill', text: 'There isn\'t ___ milk left in the fridge.', answer: 'much', placeholder: 'much / many' },
+        { type: 'select', text: 'We have very ___ time to finish the project before the deadline.', options: ['little', 'few', 'many'], correct: 'little' },
+        { type: 'select', text: '___ of the cake was eaten by the children.', options: ['Much', 'Many', 'Few'], correct: 'Much' },
+        { type: 'mcq', text: 'Which of the following is a quantifier?', options: ['quickly', 'several', 'this'], correct: 'several' },
+        { type: 'select', text: '___ of the students have completed the assignment.', options: ['All', 'Every'], correct: 'All' },
+        { type: 'mcq', text: 'Which phrase is correct for countable nouns?', options: ['a little apples', 'a few apples', 'much apples'], correct: 'a few apples' },
+        { type: 'select', text: 'She has ___ friends in this new town.', options: ['much', 'many', 'a little'], correct: 'many' },
+        { type: 'select', text: 'I need ___ dollars to buy this book.', options: ['a little', 'a few', 'much'], correct: 'a few' },
+        { type: 'fill', text: 'We have ___ of options to choose from on the menu.', answer: 'plenty', placeholder: 'plenty / many' },
+        { type: 'mcq', text: 'Which quantifier indicates a large uncountable amount?', options: ['several', 'a few', 'a great deal of'], correct: 'a great deal of' },
+        { type: 'select', text: '___ people attended the evening concert despite the rain.', options: ['Several', 'Much', 'Little'], correct: 'Several' },
+        { type: 'select', text: 'There is ___ water in the jug on the table.', options: ['some', 'any', 'few'], correct: 'some' },
+        { type: 'fill', text: 'He showed ___ interest in the boring topic.', answer: 'little', placeholder: 'little / few' },
+        { type: 'mcq', text: 'Choose the grammatically correct sentence:', options: ['I have much friends.', 'I have a few apples.', 'I have a little cars.'], correct: 'I have a few apples.' },
+        { type: 'select', text: 'Do you have ___ questions about the lesson?', options: ['some', 'any', 'much'], correct: 'any' }
+      ],
+      modifiers: [
+        { type: 'select', text: 'The ___ sunset painted the sky in vivid orange.', options: ['beautiful', 'beautifully', 'beauty'], correct: 'beautiful' },
+        { type: 'fill', text: 'She reacted ___ to the sudden surprise.', answer: 'calmly', placeholder: 'calm / calmly' },
+        { type: 'mcq', text: 'Identify the modifier in: "The extremely tall man waved."', options: ['extremely', 'tall man', 'waved'], correct: 'extremely' },
+        { type: 'select', text: 'She is ___ intelligent than her older brother.', options: ['more', 'most', 'much'], correct: 'more' },
+        { type: 'select', text: 'He speaks English ___ with the locals.', options: ['fluent', 'fluently', 'fluency'], correct: 'fluently' },
+        { type: 'mcq', text: 'Which sentence contains a misplaced modifier?', options: ['He almost washed all the cars.', 'He washed almost all the cars.', 'She quickly ran home.'], correct: 'He almost washed all the cars.' },
+        { type: 'select', text: 'The luxury car drives incredibly ___.', options: ['smooth', 'smoothly', 'smoothness'], correct: 'smoothly' },
+        { type: 'fill', text: 'The ___ dog barked loudly at the mailman.', answer: 'angry', placeholder: 'angry / angrily' },
+        { type: 'select', text: 'They solved the complex puzzle ___.', options: ['easy', 'easily', 'ease'], correct: 'easily' },
+        { type: 'mcq', text: 'Identify the prepositional phrase acting as a modifier:', options: ['The book on the table', 'She ran fast', 'Extremely hot day'], correct: 'The book on the table' },
+        { type: 'select', text: 'He is a ___ skilled professional worker.', options: ['high', 'highly', 'height'], correct: 'highly' },
+        { type: 'select', text: 'The newborn baby slept ___ through the night.', options: ['peaceful', 'peacefully', 'peace'], correct: 'peacefully' },
+        { type: 'fill', text: 'She wore a ___ dress to the gala event.', answer: 'stunning', placeholder: 'stunning / stunningly' },
+        { type: 'mcq', text: 'Which sentence uses an adjective clause?', options: ['The man who called is here.', 'He ran because he was late.', 'I will go if you go.'], correct: 'The man who called is here.' },
+        { type: 'select', text: 'The final examination was ___ difficult.', options: ['surprise', 'surprisingly', 'surprised'], correct: 'surprisingly' }
+      ]
+    };
+
+    let activeModuleId = 'determiners';
+
+    function renderSidebar() {
+      const nav = document.getElementById('sidebar-nav');
+      nav.innerHTML = '';
+      
+      modules.forEach(mod => {
+        const isActive = mod.id === activeModuleId;
+        const btn = document.createElement('button');
+        btn.className = `w-full text-left px-5 py-4 rounded-xl transition-all duration-300 flex items-center justify-between font-sans ${isActive ? 'bg-champagne-500 text-oxford-950 font-bold shadow-md transform scale-[1.02]' : 'text-slate-300 hover:bg-white/10 hover:text-white font-medium'}`;
+        
+        btn.onclick = () => {
+          activeModuleId = mod.id;
+          renderSidebar();
+          renderModuleContent();
+        };
+
+        btn.innerHTML = `
+          <span>${mod.title}</span>
+          <i class="fas fa-chevron-right text-sm transition-all ${isActive ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}"></i>
+        `;
+        nav.appendChild(btn);
+      });
+    }
+
+    function createQuestionUI(q, index) {
+      const wrapper = document.createElement('div');
+      wrapper.id = `q-wrapper-${index}`;
+      wrapper.className = 'bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col h-full relative overflow-hidden';
+      
+      let typeLabel = '';
+      if (q.type === 'mcq') typeLabel = 'Multiple Choice';
+      if (q.type === 'fill') typeLabel = 'Fill in the Blank';
+      if (q.type === 'select') typeLabel = 'Select Option';
+
+      const formattedText = q.text.replace('___', '<span class="inline-block w-12 border-b-2 border-champagne-500 mx-1 align-middle"></span>');
+
+      wrapper.innerHTML = `
+        <div class="flex items-center gap-3 mb-5">
+          <span class="w-7 h-7 rounded-full bg-champagne-50 text-champagne-600 flex items-center justify-center text-sm font-bold border border-champagne-100">${index + 1}</span>
+          <span class="text-xs uppercase tracking-widest font-semibold text-slate-400">${typeLabel}</span>
+        </div>
+        <p class="font-body font-medium text-slate-800 text-[1.1rem] leading-relaxed mb-6 flex-grow">${formattedText}</p>
+      `;
+
+      const interactionArea = document.createElement('div');
+      interactionArea.className = 'mt-auto pt-5 border-t border-slate-100';
+
+      if (q.type === 'fill') {
+        const inputContainer = document.createElement('div');
+        inputContainer.className = 'input-focus-ring relative rounded-xl bg-slate-50 border border-slate-200 overflow-hidden transition-all';
+        const input = document.createElement('input');
+        input.id = `q-input-${index}`;
+        input.type = 'text';
+        input.placeholder = q.placeholder;
+        input.className = 'w-full bg-transparent px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none font-sans font-medium';
+        inputContainer.appendChild(input);
+        interactionArea.appendChild(inputContainer);
+      } 
+      else if (q.type === 'select') {
+        const selectContainer = document.createElement('div');
+        selectContainer.className = 'relative input-focus-ring rounded-xl overflow-hidden border border-slate-200 bg-slate-50 transition-all';
+        const select = document.createElement('select');
+        select.id = `q-select-${index}`;
+        select.className = 'custom-select w-full bg-transparent px-4 py-3 text-sm text-slate-900 outline-none cursor-pointer font-medium font-sans';
+        
+        select.innerHTML = '<option value="" disabled selected>Choose option...</option>';
+        q.options.forEach(opt => {
+          const option = document.createElement('option');
+          option.value = opt;
+          option.textContent = opt;
+          select.appendChild(option);
+        });
+
+        selectContainer.appendChild(select);
+        interactionArea.appendChild(selectContainer);
+      }
+      else if (q.type === 'mcq') {
+        const optsContainer = document.createElement('div');
+        optsContainer.className = 'flex flex-col gap-2';
+        
+        q.options.forEach(opt => {
+          const label = document.createElement('label');
+          label.className = 'flex items-center p-3 rounded-xl border border-slate-200 bg-white cursor-pointer hover:bg-slate-50 transition-colors group';
+          
+          const radio = document.createElement('input');
+          radio.type = 'radio';
+          radio.name = `q-${activeModuleId}-${index}`;
+          radio.value = opt;
+          radio.className = 'w-4 h-4 text-champagne-600 border-slate-300 focus:ring-champagne-500 accent-champagne-600 cursor-pointer';
+          
+          radio.addEventListener('change', () => {
+            Array.from(optsContainer.children).forEach(lbl => {
+              lbl.className = 'flex items-center p-3 rounded-xl border border-slate-200 bg-white cursor-pointer hover:bg-slate-50 transition-colors group';
+            });
+            label.className = 'flex items-center p-3 rounded-xl border border-champagne-500 bg-champagne-50 text-slate-900 font-medium cursor-pointer transition-colors shadow-sm';
+          });
+
+          const span = document.createElement('span');
+          span.className = 'ml-3 text-sm text-slate-800 font-sans font-medium';
+          span.textContent = opt;
+
+          label.appendChild(radio);
+          label.appendChild(span);
+          optsContainer.appendChild(label);
+        });
+        interactionArea.appendChild(optsContainer);
+      }
+
+      wrapper.appendChild(interactionArea);
+      return wrapper;
+    }
+
+    function renderModuleContent() {
+      const mod = modules.find(m => m.id === activeModuleId);
+      const container = document.getElementById('module-content');
+      const currentQs = questions[activeModuleId];
+      
+      container.classList.remove('fade-in');
+      void container.offsetWidth;
+      container.classList.add('fade-in');
+
+      const headerHTML = `
+        <div class="mb-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-champagne-50 border border-champagne-100 text-champagne-600 rounded-full mb-6 shadow-sm">
+            <i class="fas fa-book-open text-xs"></i>
+            <span class="text-[0.65rem] font-bold uppercase tracking-widest">${mod.subtitle}</span>
+          </div>
+          <h2 class="font-serif text-4xl md:text-5xl font-bold text-oxford-950 mb-6">${mod.title}</h2>
+          <p class="text-lg text-slate-700 leading-relaxed max-w-4xl font-body">${mod.definition}</p>
+        </div>
+        
+        <div class="bg-oxford-900 rounded-2xl p-6 mb-12 flex items-start gap-4 shadow-lg text-white">
+          <div class="w-10 h-10 rounded-full bg-champagne-500/20 flex items-center justify-center text-champagne-500 shrink-0 mt-1">
+            <i class="fas fa-lightbulb"></i>
+          </div>
+          <div>
+            <h4 class="text-sm font-bold text-champagne-500 uppercase tracking-wider mb-2 font-sans">Academic Insight</h4>
+            <p class="text-slate-300 italic leading-relaxed text-[1.05rem] font-body">${mod.insight}</p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between mb-8 border-b border-slate-200 pb-4">
+          <div>
+            <h3 class="font-serif text-2xl font-bold text-oxford-950">Interactive Practice</h3>
+            <p class="text-sm text-slate-500 mt-1 font-sans">Complete all ${currentQs.length} exercises below before evaluating.</p>
+          </div>
+        </div>
+      `;
+
+      container.innerHTML = headerHTML;
+
+      const grid = document.createElement('div');
+      grid.className = 'grid grid-cols-1 md:grid-cols-2 gap-6 mb-12';
+      
+      currentQs.forEach((q, index) => {
+        grid.appendChild(createQuestionUI(q, index));
+      });
+      container.appendChild(grid);
+
+      const evaluationArea = document.createElement('div');
+      evaluationArea.className = 'bg-slate-50 border border-slate-200 rounded-3xl p-10 text-center flex flex-col items-center gap-4 relative overflow-hidden';
+      evaluationArea.innerHTML = `
+        <h3 class="font-serif text-2xl font-bold text-oxford-950 relative z-10">Module Assessment</h3>
+        <p class="text-slate-500 font-body mb-4 text-lg relative z-10 max-w-lg">Submit your answers to review your performance and reveal module grading.</p>
+        
+        <button id="submitAnswersBtn" class="relative z-10 bg-oxford-900 text-white font-bold py-4 px-10 rounded-xl shadow-lg hover:bg-oxford-950 hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-3">
+          <i class="fas fa-spell-check text-lg text-champagne-500"></i> Evaluate My Answers
+        </button>
+        
+        <div id="scoreDisplay" class="hidden mt-6 pt-6 border-t border-slate-200 w-full relative z-10">
+           <div class="text-slate-400 font-sans uppercase tracking-widest text-xs font-bold mb-2">Final Score</div>
+           <div class="text-5xl font-serif text-oxford-950 font-bold"><span id="finalScoreText" class="text-champagne-600"></span><span class="text-3xl text-slate-300"> / ${currentQs.length}</span></div>
+        </div>
+      `;
+      container.appendChild(evaluationArea);
+
+      document.getElementById('submitAnswersBtn').addEventListener('click', function() {
+         let score = 0;
+         
+         currentQs.forEach((q, i) => {
+            let isCorrect = false;
+            
+            if (q.type === 'fill') {
+               const input = document.getElementById(`q-input-${i}`);
+               if (input && input.value.toLowerCase().trim() === q.answer.toLowerCase()) isCorrect = true;
+            } else if (q.type === 'select') {
+               const sel = document.getElementById(`q-select-${i}`);
+               if (sel && sel.value === q.correct) isCorrect = true;
+            } else if (q.type === 'mcq') {
+               const radio = document.querySelector(`input[name="q-${activeModuleId}-${i}"]:checked`);
+               if (radio && radio.value === q.correct) isCorrect = true;
+            }
+
+            const wrapper = document.getElementById(`q-wrapper-${i}`);
+            if (isCorrect) {
+               score++;
+               wrapper.className = 'bg-green-50/50 border border-green-300 rounded-2xl p-6 shadow-sm flex flex-col h-full transition-all duration-500 relative';
+            } else {
+               wrapper.className = 'bg-red-50/50 border border-red-200 rounded-2xl p-6 shadow-sm flex flex-col h-full transition-all duration-500 relative';
+            }
+         });
+         
+         document.getElementById('finalScoreText').textContent = score;
+         document.getElementById('scoreDisplay').classList.remove('hidden');
+         
+         this.disabled = true;
+         this.classList.add('opacity-50', 'cursor-not-allowed');
+         this.classList.remove('hover:-translate-y-0.5', 'hover:bg-oxford-950');
+         this.innerHTML = '<i class="fas fa-check-circle text-champagne-500"></i> Assessment Complete';
+      });
+    }
+
+    document.getElementById('downloadPdfBtn').addEventListener('click', function() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 20;
+
+      const masterclassSections = [
+        {
+          part: 'Part: Determiners',
+          items: [
+            '1. I have ___ excellent idea for the project. (a / an / the)',
+            '2. Please pass me ___ book on the table. [Options: a, an, the]',
+            '3. ___ of the two candidates is fully qualified. [Options: Neither, Either, Both]',
+            '4. Which sentence uses a demonstrative determiner? [Options: The cars are fast., Those cars are incredibly fast., Cars are fast.]',
+            '5. She is ___ renowned architect. (a / an)',
+            '6. ___ brother lives in London. [Options: He, My, Him]',
+            '7. I need ___ more time to review this. [Options: some, any, a]',
+            '8. ___ student must attend the final lecture. (Every / All)',
+            '9. Identify the determiner: "Which color do you prefer?" [Options: color, Which, prefer]',
+            '10. ___ opportunity arose unexpectedly. [Options: Another, Other, The others]',
+            '11. ___ dogs barking outside kept me awake. [Options: This, That, Those]',
+            '12. We saw ___ animals at the safari. (many / much)',
+            '13. Choose the correct definite article usage: [Options: The sun is hot., A sun is hot., An sun is hot.]',
+            '14. ___ answers provided are entirely correct. [Options: Both, Each, Every]',
+            '15. I don\'t have ___ money left in my wallet. (any / some)'
+          ]
+        },
+        {
+          part: 'Part: Quantifiers',
+          items: [
+            '1. There isn\'t ___ milk left in the fridge. (much / many)',
+            '2. We have very ___ time to finish the project before the deadline. [Options: little, few, many]',
+            '3. ___ of the cake was eaten by the children. [Options: Much, Many, Few]',
+            '4. Which of the following is a quantifier? [Options: quickly, several, this]',
+            '5. ___ of the students have completed the assignment. (All / Every)',
+            '6. Which phrase is correct for countable nouns? [Options: a little apples, a few apples, much apples]',
+            '7. She has ___ friends in this new town. [Options: much, many, a little]',
+            '8. I need ___ dollars to buy this book. [Options: a little, a few, much]',
+            '9. We have ___ of options to choose from on the menu. (plenty / many)',
+            '10. Which quantifier indicates a large uncountable amount? [Options: several, a few, a great deal of]',
+            '11. ___ people attended the evening concert despite the rain. [Options: Several, Much, Little]',
+            '12. There is ___ water in the jug on the table. [Options: some, any, few]',
+            '13. He showed ___ interest in the boring topic. (little / few)',
+            '14. Choose the grammatically correct sentence: [Options: I have much friends., I have a few apples., I have a little cars.]',
+            '15. Do you have ___ questions about the lesson? [Options: some, any, much]'
+          ]
+        },
+        {
+          part: 'Part: Modifiers',
+          items: [
+            '1. The ___ sunset painted the sky in vivid orange. [Options: beautiful, beautifully, beauty]',
+            '2. She reacted ___ to the sudden surprise. (calm / calmly)',
+            '3. Identify the modifier in: "The extremely tall man waved." [Options: extremely, tall man, waved]',
+            '4. She is ___ intelligent than her older brother. [Options: more, most, much]',
+            '5. He speaks English ___ with the locals. [Options: fluent, fluently, fluency]',
+            '6. Which sentence contains a misplaced modifier? [Options: He almost washed all the cars., He washed almost all the cars., She quickly ran home.]',
+            '7. The luxury car drives incredibly ___. [Options: smooth, smoothly, smoothness]',
+            '8. The ___ dog barked loudly at the mailman. (angry / angrily)',
+            '9. They solved the complex puzzle ___. [Options: easy, easily, ease]',
+            '10. Identify the prepositional phrase acting as a modifier: [Options: The book on the table, She ran fast, Extremely hot day]',
+            '11. He is a ___ skilled professional worker. [Options: high, highly, height]',
+            '12. The newborn baby slept ___ through the night. [Options: peaceful, peacefully, peace]',
+            '13. She wore a ___ dress to the gala event. (stunning / stunningly)',
+            '14. Which sentence uses an adjective clause? [Options: The man who called is here., He ran because he was late., I will go if you go.]',
+            '15. The final examination was ___ difficult. [Options: surprise, surprisingly, surprised]'
+          ]
+        }
+      ];
+
+      let pageNum = 1;
+      const totalPages = masterclassSections.length + 1; // +1 for Answer Key page
+
+      masterclassSections.forEach((section) => {
+        if (pageNum > 1) {
+          doc.addPage();
+        }
+
+        let yPos = 20;
+
+        // Running Header
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(16);
+        doc.setTextColor(15, 23, 42);
+        doc.text('Mastery Worksheet', margin, yPos);
+        yPos += 7;
+
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(180, 140, 92);
+        doc.text('OXFORD PREMIUM MASTERCLASS', margin, yPos);
+        yPos += 6;
+
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(100, 100, 100);
+        doc.text('Determiners, Quantifiers & Modifiers', margin, yPos);
+        yPos += 8;
+
+        doc.text('Name: ________________________', margin, yPos);
+        doc.text('Date: ______________', pageWidth - margin - 50, yPos);
+        yPos += 8;
+
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(12);
+        doc.setTextColor(15, 23, 42);
+        doc.text(section.part, margin, yPos);
+        yPos += 6;
+
+        doc.setDrawColor(212, 175, 55);
+        doc.setLineWidth(0.5);
+        doc.line(margin, yPos, pageWidth - margin, yPos);
+        yPos += 8;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(30, 30, 42);
+
+        section.items.forEach((itemText) => {
+          const splitLines = doc.splitTextToSize(itemText, pageWidth - (2 * margin));
+          doc.text(splitLines, margin, yPos);
+          yPos += (splitLines.length * 6) + 4;
+        });
+
+        // Running Footer
+        doc.setFontSize(8);
+        doc.setTextColor(140, 140, 140);
+        doc.text('Oxford Premium 2026 Not for redistribution', margin, pageHeight - 12);
+        doc.text(`Page ${pageNum} of ${totalPages}`, pageWidth - margin - 25, pageHeight - 12);
+
+        pageNum++;
+      });
+
+      // Add Answer Key Page
+      doc.addPage();
+      let yPos = 20;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.setTextColor(15, 23, 42);
+      doc.text('Mastery Worksheet — Answer Key', margin, yPos);
+      yPos += 7;
+
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(180, 140, 92);
+      doc.text('OXFORD PREMIUM MASTERCLASS', margin, yPos);
+      yPos += 8;
+
+      doc.setDrawColor(212, 175, 55);
+      doc.setLineWidth(0.5);
+      doc.line(margin, yPos, pageWidth - margin, yPos);
+      yPos += 8;
+
+      const answerKeyData = [
+        {
+          part: 'Part 1: Determiners',
+          answers: [
+            '1. an', '2. the', '3. Neither', '4. Those cars are incredibly fast.', '5. a',
+            '6. My', '7. some', '8. Every', '9. Which', '10. Another',
+            '11. Those', '12. many', '13. The sun is hot.', '14. Both', '15. any'
+          ]
+        },
+        {
+          part: 'Part 2: Quantifiers',
+          answers: [
+            '1. much', '2. little', '3. Much', '4. several', '5. All',
+            '6. a few apples', '7. many', '8. a few', '9. plenty', '10. a great deal of',
+            '11. Several', '12. some', '13. little', '14. I have a few apples.', '15. any'
+          ]
+        },
+        {
+          part: 'Part 3: Modifiers',
+          answers: [
+            '1. beautiful', '2. calmly', '3. extremely', '4. more', '5. fluently',
+            '6. He almost washed all the cars.', '7. smoothly', '8. angry', '9. easily', '10. The book on the table',
+            '11. highly', '12. peacefully', '13. stunning', '14. The man who called is here.', '15. surprisingly'
+          ]
+        }
+      ];
+
+      doc.setFontSize(9);
+      answerKeyData.forEach(section => {
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(15, 23, 42);
+        doc.text(section.part, margin, yPos);
+        yPos += 5;
+
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 50, 60);
+
+        // Render answers in a compact two-column or clean list format
+        section.answers.forEach(ans => {
+          if (yPos > pageHeight - 20) {
+            doc.addPage();
+            yPos = 20;
+          }
+          doc.text(ans, margin + 5, yPos);
+          yPos += 5;
+        });
+        yPos += 4;
+      });
+
+      // Footer for Answer Key Page
+      doc.setFontSize(8);
+      doc.setTextColor(140, 140, 140);
+      doc.text('Oxford Premium 2026 Not for redistribution', margin, pageHeight - 12);
+      doc.text(`Page ${pageNum} of ${totalPages}`, pageWidth - margin - 25, pageHeight - 12);
+
+      doc.save('Oxford_Premium_Masterclass_Worksheet.pdf');
+    });
+
+    // Initialize application
+    renderSidebar();
+    renderModuleContent();
+  </script>
+</body>
+</html>
