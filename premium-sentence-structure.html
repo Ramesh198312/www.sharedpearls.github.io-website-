@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentence Structure — Advanced English · Syntax | Shared Pearls of Wisdom</title>
+<meta name="description" content="An advanced, research-informed exploration of English sentence structure: constituents, phrases, clauses, syntax, semantics and pragmatics.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Skip link -->
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- ============ NAVIGATION ============ -->
+<header class="site-nav" id="siteNav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#top" aria-label="Sentence Structure — back to top">
+      <span class="brand-mark" aria-hidden="true">§</span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="Section navigation">
+      <a href="#tree">Syntax Tree</a>
+      <a href="#explorer">Constituents</a>
+      <a href="#testlab">Test Lab</a>
+      <a href="#semantics">Meaning &amp; Use</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#types">Sentence Types</a>
+      <a href="#ambiguity">Ambiguity</a>
+      <a href="#construction">Constructions</a>
+      <a href="#assessment">Assessment</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle navigation menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="progress-rail" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+</header>
+
+<div class="download-bar">
+  <div class="download-bar-inner">
+    <p class="download-bar-text">Prefer to work offline? Print the full assessment as a worksheet.</p>
+    <button type="button" class="btn btn-secondary btn-small" id="downloadWorksheetTopBtn">Download Printable Worksheet (PDF)</button>
+  </div>
+</div>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-grid"></div>
+    <canvas id="heroCanvas"></canvas>
+  </div>
+  <div class="hero-inner">
+    <p class="eyebrow">Advanced English <span class="eyebrow-dot">·</span> Syntax</p>
+    <h1 class="hero-title">Sentence&nbsp;Structure</h1>
+    <p class="hero-subtitle">A sophisticated account of how words become constituents, constituents become clauses, and clauses become meaning.</p>
+    <p class="hero-position">
+      Sentence structure is the study of how linguistic constituents are organised, combined and related to one another — hierarchically, functionally and semantically. It concerns not only what a sentence contains, but how its parts govern, modify and depend on one another to produce grammatical form, propositional meaning and discourse effect.
+    </p>
+    <div class="hero-actions">
+      <a href="#tree" class="btn btn-primary">Explore the Syntax Tree</a>
+      <a href="#assessment" class="btn btn-ghost">Begin the Assessment</a>
+    </div>
+  </div>
+  <div class="hero-scroll-cue" aria-hidden="true"><span></span></div>
+</section>
+
+<!-- ============ 3D SYNTAX TREE ============ -->
+<section class="section section-dark" id="tree">
+  <div class="section-inner">
+    <header class="section-head">
+      <p class="section-kicker">01 — Constituent Structure</p>
+      <h2 class="section-title">An Interactive Syntax Tree</h2>
+      <p class="section-lede">Rotate, inspect and interrogate the hierarchical anatomy of a single sentence. Every node discloses its category, function and relationships.</p>
+    </header>
+
+    <div class="tree-sentence" id="treeSentenceDisplay" aria-live="polite">
+      <span class="tree-sentence-label">Analysed sentence</span>
+      <p id="treeSentenceText">The exceptionally talented researcher presented the findings to the committee.</p>
+    </div>
+
+    <div class="tree-stage">
+      <div class="tree-canvas-wrap">
+        <canvas id="treeCanvas" role="img" aria-label="Interactive 3D syntax tree diagram. Use the list below for a keyboard- and screen-reader-accessible equivalent."></canvas>
+        <div class="tree-controls" role="group" aria-label="Syntax tree view controls">
+          <button type="button" id="treeResetView" class="icon-btn" aria-label="Reset tree view">Reset view</button>
+          <button type="button" id="treeAutoRotate" class="icon-btn is-active" aria-pressed="true" aria-label="Toggle gentle auto-rotation">Auto-rotate: On</button>
+        </div>
+        <p class="tree-hint">Drag to rotate · scroll or pinch to zoom · click a node to inspect it</p>
+      </div>
+
+      <aside class="tree-panel" id="treePanel" aria-live="polite">
+        <div class="tree-panel-empty" id="treePanelEmpty">
+          <p>Select a node — in the diagram or the list below — to see its full grammatical analysis.</p>
+        </div>
+        <div class="tree-panel-content" id="treePanelContent" hidden>
+          <p class="tree-panel-cat" id="pCategory"></p>
+          <h3 class="tree-panel-name" id="pName"></h3>
+          <p class="tree-panel-function" id="pFunction"></p>
+          <p class="tree-panel-def" id="pDefinition"></p>
+          <div class="tree-panel-example">
+            <span class="tree-panel-label">Constituent</span>
+            <p id="pExample" class="tree-panel-quote"></p>
+          </div>
+          <div class="tree-panel-example" id="pExample2Wrap">
+            <span class="tree-panel-label">Further example</span>
+            <p id="pExample2" class="tree-panel-quote"></p>
+          </div>
+          <div class="tree-panel-relation">
+            <span class="tree-panel-label">Relation to neighbouring constituents</span>
+            <p id="pRelation"></p>
+          </div>
+          <div class="tree-panel-grid">
+            <div id="pSemanticWrap"><span class="tree-panel-label">Semantic contribution</span><p id="pSemantic"></p></div>
+            <div id="pPragmaticWrap"><span class="tree-panel-label">Discourse / pragmatic contribution</span><p id="pPragmatic"></p></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Accessible equivalent list -->
+    <div class="tree-list-fallback">
+      <h3 class="tree-list-title">Constituent index <span class="visually-hidden">(keyboard- and screen-reader-accessible alternative to the diagram)</span></h3>
+      <ul class="tree-list" id="treeNodeList"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONSTITUENT EXPLORER ============ -->
+<section class="section" id="explorer">
+  <div class="section-inner">
+    <header class="section-head">
+      <p class="section-kicker">02 — Phrase Categories</p>
+      <h2 class="section-title">Constituent Explorer</h2>
+      <p class="section-lede">Every phrase type is organised around a head, which projects its own category and licenses its dependents. Select a card to examine its structure in full.</p>
+    </header>
+
+    <div class="explorer-layout">
+      <div class="explorer-cards" id="explorerCards" role="tablist" aria-label="Constituent categories"></div>
+      <div class="explorer-detail" id="explorerDetail" aria-live="polite"></div>
+    </div>
+
+    <div class="clickable-example" id="clickableExample">
+      <h3 class="clickable-example-title">Try it: click a constituent to reveal its boundary</h3>
+      <p class="clickable-example-lede">Each highlighted segment below is a constituent. Click one to see its category and function; click again to close it.</p>
+      <div class="clickable-sentence" id="clickableSentence"></div>
+      <div class="clickable-readout" id="clickableReadout" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SYNTACTIC TEST LAB ============ -->
+<section class="section section-alt" id="testlab">
+  <div class="section-inner">
+    <header class="section-head">
+      <p class="section-kicker">03 — Diagnostics</p>
+      <h2 class="section-title">Syntactic Test Lab</h2>
+      <p class="section-lede">Constituent tests provide converging evidence for structure; no single test is decisive on its own, and results should be weighed together.</p>
+    </header>
+
+    <div class="testlab-controls">
+      <div class="field">
+        <label for="testSentenceSelect">Sentence</label>
+        <select id="testSentenceSelect"></select>
+      </div>
+      <div class="field">
+        <label for="testTypeSelect">Diagnostic</label>
+        <select id="testTypeSelect">
+          <option value="substitution">Substitution (pro-form replacement)</option>
+          <option value="movement">Movement (fronting)</option>
+          <option value="coordination">Coordination</option>
+          <option value="deletion">Deletion / ellipsis</option>
+          <option value="clefting">Clefting</option>
+          <option value="question">Question formation</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="testlab-stage">
+      <p class="testlab-instruction" id="testInstruction"></p>
+      <div class="testlab-sentence" id="testSentenceView"></div>
+      <button type="button" class="btn btn-secondary" id="testApplyBtn">Apply diagnostic</button>
+      <div class="testlab-result" id="testResult" aria-live="polite" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SEMANTICS & PRAGMATICS ============ -->
+<section class="section" id="semantics">
+  <div class="section-inner">
+    <header class="section-head">
+      <p class="section-kicker">04 — Meaning and Use</p>
+      <h2 class="section-title">Syntax, Semantics and Pragmatics</h2>
+      <p class="section-lede">Structure does not merely encode grammatical relations; it also governs compositional meaning and shapes how information is packaged for a listener or reader.</p>
+    </header>
+
+    <div class="tabs" id="semanticsTabs" role="tablist" aria-label="Meaning and use topics">
+      <button role="tab" aria-selected="true" data-tab="semantics-argument">Argument Structure &amp; Thematic Roles</button>
+      <button role="tab" aria-selected="false" data-tab="semantics-scope">Scope, Attachment &amp; Ambiguity</button>
+      <button role="tab" aria-selected="false" data-tab="semantics-information">Information Structure</button>
+      <button role="tab" aria-selected="false" data-tab="semantics-marked">Marked Word Order</button>
+    </div>
+
+    <div class="tab-panels" id="semanticsPanels"></div>
+
+    <div class="compare-block">
+      <h3 class="compare-title">Comparative case study</h3>
+      <div class="compare-grid">
+        <div class="compare-card">
+          <span class="compare-label">Active, canonical order</span>
+          <p class="compare-sentence">The committee rejected the proposal.</p>
+        </div>
+        <div class="compare-card">
+          <span class="compare-label">Passive, agent demoted</span>
+          <p class="compare-sentence">The proposal was rejected by the committee.</p>
+        </div>
+      </div>
+      <p class="compare-note">The propositional content — that a rejecting event occurred, with the committee as agent and the proposal as patient — remains broadly constant across both sentences. What changes is information structure: the passive promotes <em>the proposal</em> to subject and clause-initial topic position, backgrounds the agent (which could be omitted entirely), and redirects discourse prominence toward the outcome rather than the actor. Word order here is not a stylistic accident; it is a syntactic mechanism for managing what a sentence is "about."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SENTENCE ARCHITECTURE ============ -->
+<section class="section section-dark" id="architecture">
+  <div class="section-inner">
+    <header class="section-head">
+      <p class="section-kicker">05 — Hierarchical Composition</p>
+      <h2 class="section-title">Sentence Architecture</h2>
+      <p class="section-lede">Linguistic units combine recursively: words project into phrases, phrases combine into clauses, clauses combine into sentences, and sentences cohere into discourse.</p>
+    </header>
+
+    <div class="architecture-rail" id="architectureRail" role="tablist" aria-label="Levels of linguistic structure"></div>
+    <div class="architecture-display" id="architectureDisplay" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ SENTENCE TYPES ============ -->
+<section class="section" id="types">
+  <div class="section-inner">
+    <header class="section-head">
+      <p class="section-kicker">06 — Classification Systems</p>
+      <h2 class="section-title">Sentence Types</h2>
+      <p class="section-lede">Sentences may be classified along three independent axes — structural, relational and communicative. These systems overlap in practice but are not interchangeable.</p>
+    </header>
+
+    <div class="types-grid">
+      <div class="types-column">
+        <h3 class="types-heading">By structure</h3>
+        <div class="types-cards" id="typesStructure"></div>
+      </div>
+      <div class="types-column">
+        <h3 class="types-heading">By clause relationship</h3>
+        <div class="types-cards" id="typesRelation"></div>
+      </div>
+      <div class="types-column">
+        <h3 class="types-heading">By communicative function</h3>
+        <div class="types-cards" id="typesFunction"></div>
+      </div>
+    </div>
+    <p class="types-note">A single sentence is classified once on <em>each</em> axis simultaneously — for instance, a sentence may be structurally complex, relationally subordinating, and functionally interrogative all at once. The axes describe different properties, not competing labels for the same property.</p>
+  </div>
+</section>
+
+<!-- ============ AMBIGUITY LAB ============ -->
+<section class="section section-alt" id="ambiguity">
+  <div class="section-inner">
+    <header class="section-head">
+      <p class="section-kicker">07 — Structural Ambiguity</p>
+      <h2 class="section-title">Ambiguity Lab</h2>
+      <p class="section-lede">Some sentences admit more than one constituent structure. Where structure diverges, interpretation diverges with it.</p>
+    </header>
+
+    <div class="ambiguity-picker" id="ambiguityPicker" role="tablist" aria-label="Ambiguous sentences"></div>
+    <div class="ambiguity-stage" id="ambiguityStage" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ============ CONSTRUCTION LAB ============ -->
+<section class="section" id="construction">
+  <div class="section-inner">
+    <header class="section-head">
+      <p class="section-kicker">08 — Advanced Constructions</p>
+      <h2 class="section-title">Construction Lab</h2>
+      <p class="section-lede">Advanced constructions reorganise canonical structure to achieve specific communicative effects, from emphasis to economy of expression.</p>
+    </header>
+
+    <div class="construction-grid" id="constructionGrid"></div>
+  </div>
+</section>
+
+<!-- ============ ASSESSMENT / QUESTIONS ============ -->
+<section class="section section-dark" id="assessment">
+  <div class="section-inner">
+    <header class="section-head">
+      <p class="section-kicker">09 — Applied Analysis</p>
+      <h2 class="section-title">Assessment</h2>
+      <p class="section-lede">Twenty-five questions across seven formats, designed to test structural reasoning rather than recall.</p>
+    </header>
+
+    <div class="assessment-toolbar">
+      <div class="assessment-progress">
+        <span id="qProgressText">Question 1 of 25</span>
+        <div class="assessment-progress-rail"><div class="assessment-progress-fill" id="qProgressFill"></div></div>
+      </div>
+      <button type="button" class="btn btn-secondary btn-small" id="worksheetBtn">Generate Printable Worksheet</button>
+    </div>
+
+    <div id="questionEngine" class="question-engine" aria-live="polite"></div>
+
+    <div class="question-nav">
+      <button type="button" class="btn btn-ghost" id="qPrevBtn" disabled>Previous</button>
+      <button type="button" class="btn btn-primary" id="qNextBtn">Next</button>
+      <button type="button" class="btn btn-primary" id="qSubmitBtn" hidden>See Results</button>
+    </div>
+
+    <div id="resultsPanel" class="results-panel" hidden aria-live="polite"></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p>Sentence Structure — an Advanced English &amp; Syntax module, Shared Pearls of Wisdom.</p>
+    <button type="button" id="backToTop" class="back-to-top" aria-label="Back to top">↑</button>
+  </div>
+</footer>
+
+<!-- CDN libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script src="data.js"></script>
+<script src="script1.js"></script>
+</body>
+</html>
