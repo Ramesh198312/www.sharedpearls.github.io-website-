@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Shared Pearls of Wisdom: an interactive premium lesson on Parts of Speech, syntax, context, and meaning.">
+  <title>Parts of Speech | Shared Pearls of Wisdom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f0ebdd; --paper-light: #f8f4eb; --ink: #182d3c; --muted: #687681;
+      --line: #d5cdbb; --gold: #c99b3b; --coral: #d8755d; --red: #8f2638;
+      --good: #267255; --bad: #a33d42; --radius: 16px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font: 16px/1.6 "DM Sans", sans-serif; }
+    button, input, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+    .shell { min-height: 100vh; overflow: hidden; }
+    .wrap { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .mono, .eyebrow { font-family: "DM Mono", monospace; text-transform: uppercase; letter-spacing: .13em; font-size: 11px; }
+    .eyebrow { color: var(--coral); }
+    .display { font-family: "Libre Baskerville", Georgia, serif; }
+    .site-header { position: sticky; top: 0; z-index: 10; background: rgba(240,235,221,.92); border-bottom: 1px solid var(--line); backdrop-filter: blur(14px); }
+    .nav-row { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .brand img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+    .brand-name { font: 12px "DM Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
+    .brand-sub { color: var(--muted); font-size: 12px; }
+    nav { display: flex; gap: 24px; }
+    nav a { color: var(--muted); text-decoration: none; font: 11px "DM Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
+    nav a:hover { color: var(--coral); }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid transparent; border-radius: 999px; padding: 12px 18px; font-weight: 700; text-decoration: none; transition: transform .2s, background .2s, border-color .2s; }
+    .button:hover { transform: translateY(-2px); }
+    .button-dark { color: var(--paper-light); background: var(--ink); }
+    .button-dark:hover { background: #284354; }
+    .button-ghost { color: var(--ink); background: transparent; border-color: var(--line); }
+    .button-ghost:hover { background: #e7dfcd; border-color: var(--gold); }
+    .mobile-menu { display: none; border: 1px solid var(--line); border-radius: 50%; background: transparent; width: 42px; height: 42px; color: var(--ink); }
+    .hero { border-bottom: 1px solid var(--line); background-image: linear-gradient(rgba(213,205,187,.4) 1px, transparent 1px), linear-gradient(90deg, rgba(213,205,187,.4) 1px, transparent 1px); background-size: 68px 68px; }
+    .hero-grid { min-height: 680px; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 64px; padding: 100px 0; position: relative; }
+    .hero-grid:after { content: ""; position: absolute; width: 360px; height: 360px; right: -150px; top: 45px; border: 1px solid rgba(216,117,93,.35); border-radius: 50%; box-shadow: inset 0 0 0 34px transparent, 0 0 0 34px rgba(216,117,93,.11); pointer-events: none; }
+    h1 { font-size: clamp(3.4rem, 6vw, 6rem); line-height: 1.08; letter-spacing: -.055em; margin: 24px 0; max-width: 720px; }
+    h1 span, .accent { color: var(--coral); }
+    h2 { font-size: clamp(2.3rem, 4vw, 4rem); line-height: 1.18; letter-spacing: -.04em; margin: 16px 0; }
+    h3 { margin: 0; }
+    .lead { max-width: 630px; color: var(--muted); font-size: 18px; line-height: 1.85; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .stat-row { max-width: 540px; display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; border-top: 1px solid var(--line); margin-top: 52px; padding-top: 18px; }
+    .stat strong { display: block; font: 30px "Libre Baskerville", serif; }
+    .stat span { color: var(--muted); font: 10px "DM Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
+    .proposition, .card { border: 1px solid var(--line); border-radius: 28px; background: rgba(248,244,235,.82); box-shadow: 0 18px 42px rgba(24,45,60,.07); }
+    .proposition { position: relative; z-index: 1; padding: 40px; }
+    .proposition .quote { font: 28px/1.45 "Libre Baskerville", serif; margin: 38px 0; }
+    .rule { height: 1px; background: linear-gradient(90deg, var(--coral), transparent); margin-top: 24px; }
+    .steps { color: var(--muted); display: grid; gap: 12px; }
+    .steps div { display: flex; gap: 16px; }
+    .steps b { color: var(--coral); font: 12px "DM Mono", monospace; }
+    .recommend { border-top: 1px solid var(--line); margin-top: 46px; padding-top: 18px; color: var(--muted); font-size: 13px; }
+    section { padding: 100px 0; }
+    .section-grid { display: grid; grid-template-columns: .72fr 1.28fr; gap: 60px; }
+    .section-copy p, .body-copy { color: var(--muted); line-height: 1.85; }
+    .category-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; }
+    .category-button { min-height: 74px; text-align: left; border: 1px solid var(--line); border-radius: 12px; background: rgba(248,244,235,.5); color: var(--ink); padding: 10px; transition: .2s; }
+    .category-button:hover, .category-button.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .category-button span { display: block; color: inherit; opacity: .6; font: 11px "DM Mono", monospace; }
+    .category-button strong { display: block; margin-top: 8px; font-size: 13px; }
+    .category-detail { padding: 30px; margin-top: 14px; }
+    .detail-top { display: flex; justify-content: space-between; gap: 14px; align-items: start; flex-wrap: wrap; }
+    .pill { display: inline-block; padding: 6px 11px; border: 1px solid rgba(216,117,93,.6); border-radius: 999px; color: var(--coral); font-size: 12px; }
+    .context { color: var(--paper); background: var(--ink); border-radius: 12px; padding: 20px; margin: 24px 0; }
+    .context .quote { font: 22px/1.5 "Libre Baskerville", serif; margin: 8px 0 0; }
+    .detail-columns { display: grid; grid-template-columns: .8fr 1.2fr; gap: 24px; color: var(--muted); font-size: 14px; }
+    .dark-section { background: var(--ink); color: var(--paper); }
+    .dark-section .card, .dark-section .question { background: rgba(248,244,235,.05); border-color: rgba(248,244,235,.17); box-shadow: none; }
+    .dark-section .body-copy { color: rgba(248,244,235,.72); }
+    .two-cards { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+    .two-cards .card { padding: 28px; border-radius: 18px; }
+    .structure { background: rgba(248,244,235,.58); border-block: 1px solid var(--line); }
+    .structure-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 48px; }
+    .structure-card { padding: 26px; min-height: 190px; }
+    .structure-card strong { display: block; font: 25px "Libre Baskerville", serif; margin: 30px 0 6px; }
+    .assessment-head { display: grid; grid-template-columns: .78fr 1.22fr; gap: 60px; align-items: start; }
+    .protocol { border: 1px solid rgba(248,244,235,.18); padding: 26px; border-radius: 18px; }
+    .protocol div { display: flex; gap: 14px; margin-top: 14px; color: rgba(248,244,235,.76); }
+    .protocol b { color: var(--coral); font: 12px "DM Mono", monospace; }
+    #assessment-list { display: grid; gap: 14px; margin-top: 60px; }
+    .question { border: 1px solid rgba(248,244,235,.16); border-radius: 18px; padding: 26px; }
+    .question.correct { border-color: #55a980; background: rgba(38,114,85,.15); }
+    .question.incorrect { border-color: #d8755d; background: rgba(163,61,66,.14); }
+    .question-head { display: flex; gap: 14px; align-items: start; }
+    .question-number { color: var(--coral); font: 12px "DM Mono", monospace; margin-top: 4px; }
+    .question h3 { font-size: 18px; line-height: 1.6; font-weight: 500; flex: 1; }
+    .type-label { color: rgba(248,244,235,.62); border: 1px solid rgba(248,244,235,.2); border-radius: 999px; padding: 4px 8px; font: 10px "DM Mono", monospace; text-transform: uppercase; white-space: nowrap; }
+    .options { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-top: 18px; }
+    .option, .matrix-row select, .dropdown { border: 1px solid rgba(248,244,235,.2); border-radius: 10px; color: var(--paper); background: transparent; padding: 11px 13px; text-align: left; }
+    .option.selected { border-color: var(--coral); background: rgba(216,117,93,.16); }
+    .option:hover { border-color: var(--coral); }
+    .checkmark { display: inline-block; width: 18px; height: 18px; border: 1px solid rgba(248,244,235,.45); border-radius: 4px; margin-right: 8px; vertical-align: -4px; }
+    .option.selected .checkmark { background: var(--coral); border-color: var(--coral); }
+    .dropdown { width: min(100%, 430px); }
+    .toggle { width: min(100%, 430px); display: flex; justify-content: space-between; align-items: center; margin-top: 18px; }
+    .switch { width: 45px; height: 24px; display: flex; align-items: center; padding: 3px; border-radius: 99px; background: rgba(248,244,235,.18); }
+    .switch i { width: 18px; height: 18px; border-radius: 50%; background: var(--paper); transition: transform .2s; }
+    .toggle.on .switch { background: var(--coral); justify-content: flex-end; }
+    .matrix { display: grid; gap: 10px; margin-top: 18px; }
+    .matrix-row { display: grid; grid-template-columns: 1fr 190px; align-items: center; gap: 12px; color: rgba(248,244,235,.8); }
+    .drag-bank, .drop-zone { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .drag-chip, .slot { border: 1px dashed rgba(248,244,235,.35); border-radius: 999px; padding: 9px 13px; background: rgba(248,244,235,.05); color: var(--paper); }
+    .drag-chip.used { opacity: .35; }
+    .slot { min-width: 120px; text-align: center; border-radius: 10px; }
+    .check-button { margin-top: 20px; }
+    .feedback { border-top: 1px solid rgba(248,244,235,.15); margin-top: 20px; padding-top: 18px; color: rgba(248,244,235,.78); font-size: 14px; }
+    .feedback strong { color: var(--coral); }
+    .results { color: var(--ink); background: var(--paper-light); border: 1px solid var(--gold); border-radius: 18px; padding: 34px; margin-top: 30px; display: none; }
+    .results.show { display: block; }
+    .score { font: 72px "Libre Baskerville", serif; color: var(--coral); line-height: 1; }
+    .result-grid { display: grid; grid-template-columns: .7fr 1.3fr; gap: 28px; }
+    .result-meta { border-right: 1px solid var(--line); padding-right: 28px; }
+    .result-box { background: rgba(216,117,93,.1); padding: 16px; border-radius: 12px; margin-top: 18px; }
+    .certificate-modal { display: none; position: fixed; inset: 0; z-index: 20; overflow-y: auto; padding: 20px; background: rgba(24,45,60,.78); backdrop-filter: blur(10px); }
+    .certificate-modal.open { display: grid; place-items: center; }
+    .modal-card { width: min(920px,100%); padding: 30px; border-radius: 18px; background: var(--paper); }
+    .modal-close { float: right; border: 0; background: transparent; font-size: 28px; color: var(--ink); }
+    .name-input { width: 100%; border: 1px solid var(--line); border-radius: 10px; background: var(--paper-light); padding: 12px; color: var(--ink); margin-top: 8px; }
+    .certificate-paper { position: relative; aspect-ratio: 1.414 / 1; border: 10px double var(--gold); background: #f7f1e4; color: #173348; text-align: center; padding: 7%; margin-top: 24px; }
+    .certificate-paper:before { content: ""; position: absolute; inset: 10px; border: 1px solid var(--gold); pointer-events: none; }
+    .certificate-paper img { width: 74px; height: 74px; object-fit: cover; border-radius: 50%; }
+    .certificate-paper h3 { font-size: clamp(18px,3vw,32px); letter-spacing: .08em; margin: 14px 0; }
+    .certificate-name { color: var(--red); font: bold clamp(20px,3vw,34px) "Libre Baskerville", serif; margin: 16px 0; }
+    .certificate-score { display: inline-block; color: #f7f1e4; background: #173348; font-weight: 700; padding: 10px 20px; }
+    .certificate-details { display: grid; gap: 5px; font-size: 11px; margin-top: 14px; }
+    .signatures { display: flex; justify-content: space-between; gap: 24px; text-align: left; font-size: 11px; margin-top: 22px; }
+    .signatures div { width: 150px; border-top: 1px solid #173348; padding-top: 5px; }
+    footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: 13px; }
+    .hide { display: none !important; }
+    @media (max-width: 850px) {
+      .hero-grid, .section-grid, .assessment-head { grid-template-columns: 1fr; gap: 38px; }
+      .hero-grid { padding: 78px 0; }
+      .hero-grid:after { right: -220px; }
+      .structure-grid { grid-template-columns: repeat(2,1fr); }
+      .nav-row > .button-dark { display: none; }
+      nav { display: none; position: absolute; left: 0; right: 0; top: 72px; padding: 20px; flex-direction: column; background: var(--paper); border-bottom: 1px solid var(--line); }
+      nav.open { display: flex; }
+      .mobile-menu { display: block; }
+    }
+    @media (max-width: 560px) {
+      .wrap { width: min(100% - 28px, 1180px); }
+      section { padding: 72px 0; }
+      .proposition { padding: 28px; }
+      .category-grid { grid-template-columns: repeat(3,1fr); }
+      .detail-columns, .two-cards, .result-grid { grid-template-columns: 1fr; }
+      .options { grid-template-columns: 1fr; }
+      .matrix-row { grid-template-columns: 1fr; }
+      .result-meta { border-right: 0; border-bottom: 1px solid var(--line); padding: 0 0 24px; }
+      .certificate-paper { border-width: 6px; padding: 6%; }
+      .certificate-paper img { width: 56px; height: 56px; }
+      .signatures { font-size: 9px; }
+      .signatures div { width: 110px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *:before, *:after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="site-header">
+      <div class="wrap nav-row">
+        <a class="brand" href="#top"><img src="Images/logo.png" alt="Shared Pearls of Wisdom seal"><span><span class="brand-name" style="font-size: 1.25rem;"><strong>Shared Pearls of Wisdom</strong></span>
+        <nav id="site-nav" aria-label="Primary navigation"><a href="#explorer">Explore</a><a href="#lab">Word-class lab</a><a href="#assessment">Assessment</a></nav>
+        <a class="button button-dark" href="#assessment">Begin assessment →</a>
+        <button class="mobile-menu" id="menu-button" aria-label="Toggle navigation">☰</button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <div class="eyebrow">Parts of speech / syntax & meaning / 01</div>
+            <h1 class="display">Parts of Speech<br><span>The architecture of meaning.</span></h1>
+            <p class="lead">A serious, responsive study of how English builds thought — from a single word to the sentences that carry an argument across a room.</p>
+            <div class="actions"><a class="button button-dark" href="#explorer">Enter the laboratory →</a><a class="button button-ghost" href="#assessment">See the 25-question assessment →</a></div>
+            <div class="stat-row"><div class="stat"><strong>09</strong><span>word classes</span></div><div class="stat"><strong>04</strong><span>structural steps</span></div><div class="stat"><strong>25</strong><span>assessment prompts</span></div></div>
+          </div>
+          <article class="proposition"><div class="eyebrow">A working proposition <span style="float:right;color:var(--muted)">SPW / 001</span></div><div class="rule"></div><p class="quote">“Grammar is not a cage for thought. It is the hinge that lets thought move.”</p><div class="steps"><div><b>01</b><span>Notice the form.</span></div><div><b>02</b><span>Name the function.</span></div><div><b>03</b><span>Read the implication.</span></div></div><div class="recommend"><span class="mono">Recommended for</span><br>B2–C2 · IELTS · EAP · professional English</div></article>
+        </div>
+      </section>
+
+      <section id="explorer">
+        <div class="wrap section-grid">
+          <div class="section-copy"><div class="eyebrow">01 / The inventory</div><h2 class="display">Nine lenses.<br><span class="accent">One sentence.</span></h2><p>Word classes are not a list to memorise. They are lenses for noticing what a word is doing right now.</p><p class="mono" style="color:var(--coral)">Select a class to open its field note.</p></div>
+          <div><div class="category-grid" id="category-grid"></div><div class="card category-detail" id="category-detail"></div></div>
+        </div>
+      </section>
+
+      <section class="dark-section"><div class="wrap section-grid"><div><div class="eyebrow">02 / A necessary distinction</div><h2 class="display">Category is the shelf.<br><span class="accent">Function is the gesture.</span></h2></div><div class="two-cards"><div class="card"><div class="mono accent">Category</div><p class="body-copy">A word’s familiar family: noun, verb, adjective. Useful for orientation, never enough for interpretation.</p></div><div class="card" style="border-color:var(--coral)"><div class="mono accent">Function</div><p class="body-copy">The live job in a phrase or clause: subject, modifier, complement, connector, stance marker.</p></div></div></div></section>
+
+      <section id="lab"><div class="wrap section-grid"><div class="section-copy"><div class="eyebrow">03 / Word-class lab</div><h2 class="display">Put a word<br>under the lens.</h2><p>Type a word, make a hypothesis, then let the surrounding sentence decide. This is the habit that separates recognition from control.</p></div><div class="card" style="padding:30px"><div class="mono">Live specimen</div><label for="lab-word" style="display:block;margin-top:22px;font-weight:700">Enter a word</label><div style="display:flex;gap:8px;margin-top:8px"><input class="name-input" style="margin:0" id="lab-word" value="deliberately"><button class="button button-ghost" id="lab-example">Example</button></div><div class="context" style="margin-top:22px"><div class="mono">Specimen in context</div><p class="quote" id="lab-sentence">“The argument is <span class="accent">deliberately</span> defensible.”</p></div><div class="options" id="lab-options"></div><button class="button button-dark check-button" id="lab-check" disabled>Check hypothesis</button><div class="feedback hide" id="lab-feedback"></div></div></div></section>
+
+      <section class="structure"><div class="wrap"><div class="eyebrow">04 / Scaling meaning</div><h2 class="display">From a grain of language<br>to a complete claim.</h2><p class="body-copy" style="max-width:500px">Structure is not a ladder you leave behind. Each layer remains visible inside the next.</p><div class="structure-grid"><div class="card structure-card"><span class="mono accent">01</span><strong>Word</strong><span class="body-copy">meaning</span></div><div class="card structure-card"><span class="mono accent">02</span><strong>Phrase</strong><span class="body-copy">a compact unit</span></div><div class="card structure-card"><span class="mono accent">03</span><strong>Clause</strong><span class="body-copy">a proposition</span></div><div class="card structure-card" style="border-color:var(--coral)"><span class="mono accent">04</span><strong>Sentence</strong><span class="body-copy">a finished move</span></div></div><div class="context" style="margin-top:28px"><div class="mono">The complete thought</div><p class="quote">“A carefully framed claim can move an uncertain reader toward a shared conclusion.”</p></div></div></section>
+
+      <section><div class="wrap section-grid"><div><div class="eyebrow">05 / Beyond labels</div><h2 class="display">Semantics says what.<br>Pragmatics asks why.</h2></div><div class="body-copy" style="font-size:18px"><p><strong style="color:var(--ink)">Semantics</strong> is the stable contribution a form makes to meaning. <strong style="color:var(--ink)">Pragmatics</strong> is the live negotiation: what a writer assumes, softens, foregrounds or leaves for the reader to infer.</p><p>Compare: “The evidence is limited” and “The evidence is <em>only</em> limited.” A small focus word changes the social action.</p><div class="rule"></div><p><span class="mono accent">Reader’s question</span><br>What does this choice make easier to believe, and what does it ask the reader to supply?</p></div></div></section>
+
+      <section id="assessment" class="dark-section"><div class="wrap"><div class="assessment-head"><div><div class="eyebrow">06 / The assessment</div><h2 class="display">Make your thinking<br><span class="accent">visible.</span></h2><p class="body-copy">Twenty-five prompts across seven response modes. Submit one at a time for an annotated reading, or submit the whole field when you are ready.</p></div><div class="protocol"><div class="mono">Assessment protocol</div><div><b>01</b><span>Choose, arrange or toggle your answer.</span></div><div><b>02</b><span>Read the linguistic and contextual feedback.</span></div><div><b>03</b><span>Reach 80% to unlock the certificate studio.</span></div></div></div><div id="assessment-list"></div><div style="display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;margin-top:30px;padding:22px;border:1px solid rgba(216,117,93,.7);border-radius:18px"><span>Submit all 25 prompts to see your profile and threshold status.</span><button class="button button-dark" style="background:var(--coral);color:var(--ink)" id="submit-all">Submit all 25 →</button></div><div class="results" id="results"></div></div></section>
+    </main>
+
+    <div class="certificate-modal" id="certificate-modal" role="dialog" aria-modal="true" aria-labelledby="certificate-title"><div class="modal-card"><button class="modal-close" id="close-certificate" aria-label="Close certificate studio">×</button><div class="eyebrow">Certificate studio</div><h2 class="display" id="certificate-title" style="font-size:30px">Give the work a name.</h2><label for="full-name"><strong>Full name for your certificate</strong></label><input class="name-input" id="full-name" placeholder="Your full name"><div class="certificate-paper"><img src="shared-pearls-seal.png" alt="Shared Pearls of Wisdom seal"><h3>CERTIFICATE OF ACHIEVEMENT</h3><div>This is to recognise</div><div class="certificate-name" id="certificate-name">Your full name</div><div>for completing Parts of Speech: The Architecture of Meaning</div><div class="certificate-score" id="certificate-score">20 / 25 · Highly Advanced</div><div class="certificate-details"><span id="certificate-date"></span><span id="certificate-id"></span></div><div class="signatures"><div>Shared Pearls of Wisdom</div><div>Authorised signature</div></div></div><div class="actions" style="justify-content:flex-end"><button class="button button-ghost" id="cancel-certificate">Close</button><button class="button button-dark" id="download-certificate" disabled>Download Certificate PDF</button></div><p class="body-copy" style="font-size:12px;text-align:right">This learning record is issued by Shared Pearls of Wisdom and does not imply external accreditation.</p></div></div>
+    <footer><div class="wrap">Shared Pearls of Wisdom · Parts of Speech Learning Lab · An independent learning record</div></footer>
+  </div>
+
+  <script>
+    const logoSrc = "shared-pearls-seal.png";
+    const categories = [
+      ["Noun","Names entities, ideas and phenomena","What can be referred to?","The permeability of the boundary matters.","“Permeability” turns a quality into a discussable concept: the clause can now measure, qualify and debate it."],
+      ["Pronoun","Tracks a participant without repeating it","Who or what is already in view?","It matters because the boundary is porous.","“It” carries discourse continuity. Its meaning depends on the previous noun phrase."],
+      ["Verb","Stages action, state or change","What unfolds in time?","The membrane mediates exchange.","“Mediates” selects a process and assigns the membrane an active semantic role."],
+      ["Adjective","Shapes the qualities of a noun","What kind of entity?","A porous boundary invites exchange.","“Porous” narrows the noun’s possible interpretation and prepares the consequence."],
+      ["Adverb","Modifies a process, quality or stance","How, when or with what force?","The boundary selectively mediates exchange.","“Selectively” changes a general claim into a more defensible one."],
+      ["Determiner","Frames reference and quantity","Which one, how many, whose?","This boundary changes the argument.","“This” brings a specific, shared object into focus."],
+      ["Preposition","Maps relationships in space, time or logic","What connects to what?","Exchange occurs across the boundary.","“Across” creates a relation between two conceptual regions."],
+      ["Conjunction","Coordinates or subordinates ideas","How do propositions relate?","The boundary is porous, yet exchange is selective.","“Yet” places the propositions in productive tension."],
+      ["Interjection","Signals an immediate stance or reaction","What escapes before analysis?","Indeed, the pattern is more complex.","“Indeed” marks alignment with an established claim and changes the interpersonal temperature."]
+    ];
+    const questions = [
+      {id:1,type:"mcq",prompt:"In “The committee cautiously endorsed the proposal,” which word class is “cautiously”?",options:["Adjective","Adverb","Determiner","Preposition"],answer:"Adverb",explanation:"It modifies the verb “endorsed”, describing the manner of the action.",linguistic:"Adverbs can operate at clause, verb-phrase or adjective level.",contextual:"“Cautiously” signals institutional restraint rather than enthusiasm.",note:"Stance adverbs often carry the writer’s degree of commitment."},
+      {id:2,type:"mcq",prompt:"What is the primary function of “although” in “Although the data are limited, the pattern is clear”?",options:["Naming","Subordinating","Quantifying","Referencing"],answer:"Subordinating",explanation:"It introduces a dependent concessive clause.",linguistic:"Subordinators encode a logical relation between clauses.",contextual:"The sentence concedes a limitation before protecting the central claim.",note:"Concession sounds precise without sounding absolute."},
+      {id:3,type:"mcq",prompt:"Which phrase contains a determiner?",options:["extremely rigorous","under review","those findings","to articulate"],answer:"those findings",explanation:"“Those” limits and identifies the noun “findings”.",linguistic:"Determiners sit at the left edge of a noun phrase.",contextual:"“Those” points to a particular set of findings.",note:"Reference is a cohesion choice, not merely a grammar label."},
+      {id:4,type:"mcq",prompt:"In “The study remains influential,” what is “influential”?",options:["Subject complement adjective","Object pronoun","Finite verb","Conjunction"],answer:"Subject complement adjective",explanation:"It describes the subject after the linking verb “remains”.",linguistic:"Linking verbs license subject complements rather than direct objects.",contextual:"The writer evaluates the study’s continuing impact.",note:"The same adjective can be attributive or predicative."},
+      {id:5,type:"checkbox",prompt:"Select all the nouns: “Careful revision improves clarity and credibility.”",options:["Careful","revision","clarity","credibility"],answer:["revision","clarity","credibility"],explanation:"Three abstract nouns name the process and its outcomes.",linguistic:"Abstract nouns package processes and qualities as discourse objects.",contextual:"Nominalised outcomes make the sentence sound like an academic principle.",note:"Nominalisation increases density but can hide agency."},
+      {id:6,type:"checkbox",prompt:"Which words function as verbs? “Readers may infer that the evidence supports the claim.”",options:["may","infer","evidence","supports"],answer:["may","infer","supports"],explanation:"“May infer” forms the modal verb phrase; “supports” is the embedded finite verb.",linguistic:"Auxiliaries and lexical verbs can combine into one verb phrase.",contextual:"The modal softens the strength of the conclusion.",note:"Modality is grammar doing epistemic work."},
+      {id:7,type:"checkbox",prompt:"Select the prepositions: “The distinction between accuracy and fluency matters in assessment.”",options:["between","and","in","assessment"],answer:["between","in"],explanation:"“Between” maps a relation; “in” locates the claim within assessment.",linguistic:"Prepositions head prepositional phrases and license complements.",contextual:"The phrases specify both the relation and the domain.",note:"Short relational words carry argument architecture."},
+      {id:8,type:"checkbox",prompt:"Which items signal stance or degree? “The result is arguably more significant than expected.”",options:["arguably","more","significant","than"],answer:["arguably","more"],explanation:"“Arguably” marks stance; “more” marks comparative degree.",linguistic:"Degree and stance are distinct semantic functions.",contextual:"The writer invites debate while claiming a relative difference.",note:"Hedges increase credibility when evidence is contestable."},
+      {id:9,type:"dropdown",prompt:"Choose the precise word class for “which” in “The method, which was revised, produced clearer results.”",options:["Relative pronoun","Interjection","Determiner","Adverb"],answer:"Relative pronoun",explanation:"“Which” introduces a relative clause and refers back to “method”.",linguistic:"Relative pronouns both refer and mark a clause boundary.",contextual:"The non-defining clause supplies extra information.",note:"Punctuation helps distinguish defining from non-defining clauses."},
+      {id:10,type:"dropdown",prompt:"In “The remarkably concise abstract won praise,” “remarkably” is a(n)…",options:["Adverb","Adjective","Noun","Conjunction"],answer:"Adverb",explanation:"It modifies the adjective “concise”.",linguistic:"Adverbs may modify adjectives, not only verbs.",contextual:"The writer intensifies the evaluation of the abstract.",note:"“Remarkably” implies comparison with an expected norm."},
+      {id:11,type:"dropdown",prompt:"Choose the best label for “despite” in “Despite the constraint, the team continued.”",options:["Preposition","Finite verb","Pronoun","Determiner"],answer:"Preposition",explanation:"It heads the prepositional phrase “despite the constraint”.",linguistic:"Unlike “although”, “despite” takes a noun phrase or -ing complement.",contextual:"The constraint is backgrounded while persistence is foregrounded.",note:"The complement type changes the shape of the following clause."},
+      {id:12,type:"toggle",prompt:"Toggle on if “would” expresses hypothetical modality: “A larger sample would strengthen the conclusion.”",options:["No","Yes"],answer:true,explanation:"Yes. “Would” presents a projected consequence under an implied condition.",linguistic:"Modal auxiliaries locate propositions in possibility space.",contextual:"The writer recommends caution without making an explicit demand.",note:"Hypothetical framing is useful for tactful recommendations."},
+      {id:13,type:"toggle",prompt:"Toggle on if “only” scopes over the noun phrase: “Only two variables were controlled.”",options:["No","Yes"],answer:true,explanation:"Yes. “Only” restricts the quantity to two variables.",linguistic:"Focus adverbs create scalar or exclusive meaning.",contextual:"The sentence narrows the experimental design.",note:"Misplaced “only” can create ambiguity."},
+      {id:14,type:"toggle",prompt:"Toggle on if the passive voice is used: “The samples were stored at −20°C.”",options:["No","Yes"],answer:true,explanation:"Yes. “Were stored” is a passive verb phrase.",linguistic:"The passive promotes the affected participant to subject position.",contextual:"The storage action matters more than who performed it.",note:"Passive voice is a discourse choice, not weak writing."},
+      {id:15,type:"boolean",prompt:"True or false: a conjunction can link words, phrases or clauses.",options:["False","True"],answer:true,explanation:"True. Coordinating and subordinating conjunctions operate at different levels.",linguistic:"Conjunctions encode coordination or dependency.",contextual:"The scope of the link determines how readers build the sentence.",note:"Inspect what a connector actually joins."},
+      {id:16,type:"boolean",prompt:"True or false: every word has one permanent word class.",options:["False","True"],answer:false,explanation:"False. Many forms shift category according to their syntactic environment.",linguistic:"“Research” can be a noun or a verb; function is context-sensitive.",contextual:"Flexible category membership allows economical prose.",note:"Category is a tendency; function is the live grammatical job."},
+      {id:17,type:"boolean",prompt:"True or false: a clause must contain at least a predicator, usually realised by a verb.",options:["False","True"],answer:true,explanation:"True. The predicator organises the process or state in the clause.",linguistic:"Clauses are built around predication, though fragments can be rhetorical.",contextual:"Complete academic claims generally require an explicit predicator.",note:"Fragments are meaningful when omission is recoverable."},
+      {id:18,type:"matrix",prompt:"Match each item to its primary function.",options:["“however”","“the”","“quickly”"],choices:["contrast marker","reference","manner"],answer:{"“however”":"contrast marker","“the”":"reference","“quickly”":"manner"},explanation:"The items signal discourse contrast, noun-phrase reference and manner.",linguistic:"Function emerges from position, scope and relation to surrounding material.",contextual:"The choices operate at discourse, phrase and verb-phrase levels.",note:"A word-class label alone cannot describe this range of work."},
+      {id:19,type:"matrix",prompt:"Match the phrase to its head word class.",options:["“a robust framework”","“under pressure”","“to evaluate”"],choices:["noun","preposition","verb"],answer:{"“a robust framework”":"noun","“under pressure”":"preposition","“to evaluate”":"verb"},explanation:"The head is the organising word in each phrase.",linguistic:"Phrase type follows the head, not every word inside the phrase.",contextual:"Knowing the head helps you expand or compress the phrase.",note:"A noun phrase can contain adjectives and determiners but remains noun-headed."},
+      {id:20,type:"matrix",prompt:"Match the clause relationship to the connector.",options:["“because”","“whereas”","“and”"],choices:["cause","contrast","addition"],answer:{"“because”":"cause","“whereas”":"contrast","“and”":"addition"},explanation:"These connectors signal cause, contrast and addition.",linguistic:"Subordination creates dependency; coordination creates parity.",contextual:"Logical relations tell the reader how to weigh the next proposition.",note:"A precise connector is often stronger than an extra sentence."},
+      {id:21,type:"matrix",prompt:"Match each rewrite to its pragmatic effect.",options:["“The results prove…”","“The results suggest…”","“The results may suggest…”"],choices:["high certainty","moderate certainty","hedged possibility"],answer:{"“The results prove…”":"high certainty","“The results suggest…”":"moderate certainty","“The results may suggest…”":"hedged possibility"},explanation:"The modal and lexical choices progressively reduce commitment.",linguistic:"Lexical verbs and modals combine to calibrate epistemic force.",contextual:"Academic writers match certainty to evidence quality.",note:"Calibration is a mark of advanced academic voice."},
+      {id:22,type:"drag",prompt:"Arrange the units from smallest to largest: word → phrase → clause → sentence.",options:["phrase","sentence","word","clause"],answer:["word","phrase","clause","sentence"],explanation:"Each larger unit can contain the structural unit before it.",linguistic:"The progression moves from lexical item to complete structures.",contextual:"The hierarchy helps diagnose where a writing problem lives.",note:"A phrase has no finite predication; a clause does."},
+      {id:23,type:"drag",prompt:"Arrange the sentence elements: subject → verb → object → adjunct.",options:["object","adjunct","subject","verb"],answer:["subject","verb","object","adjunct"],explanation:"This is a common transitive clause pattern, though English allows variation.",linguistic:"The verb projects participants; the adjunct adds circumstance.",contextual:"The order foregrounds the actor before the affected entity.",note:"Marked word order should be an information choice."},
+      {id:24,type:"drag",prompt:"Arrange the discourse moves: claim → evidence → interpretation → implication.",options:["implication","claim","interpretation","evidence"],answer:["claim","evidence","interpretation","implication"],explanation:"A persuasive paragraph often follows this reader-friendly arc.",linguistic:"Cohesion is also a sequence of rhetorical functions.",contextual:"The pattern moves from proposition to consequence.",note:"Strong paragraphs make the inferential bridge visible."},
+      {id:25,type:"drag",prompt:"Arrange the editing priorities: meaning → structure → precision → surface.",options:["surface","precision","meaning","structure"],answer:["meaning","structure","precision","surface"],explanation:"Edit the argument and architecture before polishing the surface.",linguistic:"Form serves communicative function; surface correction comes last.",contextual:"This order protects writers from perfecting sentences that say the wrong thing.",note:"Advanced editing is a sequence of decisions, not a hunt for errors."}
+    ];
+    const answers = {}, checked = {}, dragging = {};
+    const issueDate = new Date().toLocaleDateString("en-SG", {day:"numeric",month:"long",year:"numeric"});
+    const certificateId = "SPW-POS-" + new Date().getFullYear() + "-" + Math.random().toString(36).slice(2,8).toUpperCase();
+    const levelFor = score => score >= 23 ? "Exceptional" : score >= 20 ? "Highly Advanced" : score >= 17 ? "Advanced" : score >= 13 ? "Competent" : "Developing";
+    const esc = value => String(value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+    function renderExplorer() {
+      document.querySelector("#category-grid").innerHTML = categories.map((item,i) => `<button class="category-button ${i===0?"active":""}" data-category="${i}"><span>${String(i+1).padStart(2,"0")}</span><strong>${item[0]}</strong></button>`).join("");
+      showCategory(0);
+    }
+    function showCategory(index) {
+      const item = categories[index];
+      document.querySelectorAll(".category-button").forEach((button,i) => button.classList.toggle("active", i===index));
+      document.querySelector("#category-detail").innerHTML = `<div class="detail-top"><div><div class="eyebrow">${String(index+1).padStart(2,"0")} / field note</div><h3 class="display" style="font-size:32px;margin-top:10px">${item[0]}</h3></div><span class="pill">${item[2]}</span></div><p style="font-size:18px;margin:24px 0 0">${item[1]}.</p><div class="context"><span class="mono">In context</span><p class="quote">“${item[3]}”</p></div><div class="detail-columns"><div><span class="mono accent">Ask of it</span><p>${item[2]} Who does it bring into focus?</p></div><div><span class="mono accent">Linguistic reading</span><p>${item[4]}</p></div></div>`;
+    }
+    function renderLabOptions() {
+      document.querySelector("#lab-options").innerHTML = ["Adjective","Adverb","Conjunction","Determiner"].map(item => `<button class="option" data-lab-choice="${item}">${item}</button>`).join("");
+    }
+    function updateLab() {
+      const word = document.querySelector("#lab-word").value || "___";
+      document.querySelector("#lab-sentence").innerHTML = `“The argument is <span class="accent">${esc(word)}</span> defensible.”`;
+      document.querySelector("#lab-check").disabled = !document.querySelector("[data-lab-choice].selected");
+    }
+    function equal(a,b) { return JSON.stringify(a) === JSON.stringify(b); }
+    function isCorrect(q) {
+      const value = answers[q.id];
+      if (q.type === "checkbox") return equal([...(value || [])].sort(), [...q.answer].sort());
+      if (q.type === "matrix") return equal(value || {}, q.answer);
+      if (q.type === "drag") return equal(value || [], q.answer);
+      return value === q.answer;
+    }
+    function feedback(q) { return `<div class="feedback"><p><strong>${isCorrect(q) ? "Correct" : "Not yet"}</strong></p><p><strong>Reading:</strong> ${q.explanation}</p><p><strong>Linguistic analysis:</strong> ${q.linguistic}</p><p><strong>Contextual analysis:</strong> ${q.contextual}</p><p><strong>Advanced note:</strong> ${q.note}</p></div>`; }
+    function renderQuestion(q) {
+      const value = answers[q.id];
+      let controls = "";
+      if (q.type === "mcq") controls = `<div class="options">${q.options.map(o => `<button class="option ${value===o?"selected":""}" data-q="${q.id}" data-value="${esc(o)}">${esc(o)}</button>`).join("")}</div>`;
+      if (q.type === "checkbox") controls = `<div class="options">${q.options.map(o => `<button class="option ${Array.isArray(value)&&value.includes(o)?"selected":""}" data-q="${q.id}" data-check="${esc(o)}"><span class="checkmark"></span>${esc(o)}</button>`).join("")}</div>`;
+      if (q.type === "dropdown") controls = `<select class="dropdown" data-q-select="${q.id}"><option value="">Select a reading…</option>${q.options.map(o => `<option ${value===o?"selected":""}>${esc(o)}</option>`).join("")}</select>`;
+      if (q.type === "toggle") controls = `<button class="option toggle ${value===true?"on":""}" data-toggle="${q.id}"><span>${value===true?"Yes — the statement holds":"No — keep investigating"}</span><span class="switch"><i></i></span></button>`;
+      if (q.type === "boolean") controls = `<div class="options">${q.options.map(o => { const bool=o==="True"; return `<button class="option ${value===bool?"selected":""}" data-q="${q.id}" data-bool="${bool}">${o}</button>`; }).join("")}</div>`;
+      if (q.type === "matrix") controls = `<div class="matrix">${q.options.map(o => `<label class="matrix-row"><span>${esc(o)}</span><select data-matrix="${q.id}" data-matrix-item="${esc(o)}"><option value="">Choose…</option>${q.choices.map(c => `<option ${value&&value[o]===c?"selected":""}>${esc(c)}</option>`).join("")}</select></label>`).join("")}</div>`;
+      if (q.type === "drag") {
+        const ordered = value || [];
+        controls = `<div class="drag-bank">${q.options.map(o => `<button class="drag-chip ${ordered.includes(o)?"used":""}" draggable="true" data-drag="${q.id}" data-drag-item="${esc(o)}">${esc(o)}</button>`).join("")}</div><div class="drop-zone">${[0,1,2,3].map(i => `<button class="slot" data-slot="${q.id}" data-slot-index="${i}">${ordered[i] ? esc(ordered[i]) : "drop " + (i+1)}</button>`).join("")}</div><p class="body-copy" style="font-size:12px">Drag a chip into position, or tap chips to place them. Tap a placed item to remove it.</p>`;
+      }
+      return `<article class="question ${checked[q.id] ? (isCorrect(q)?"correct":"incorrect") : ""}" id="question-${q.id}"><div class="question-head"><span class="question-number">${String(q.id).padStart(2,"0")}</span><h3>${q.prompt}</h3><span class="type-label">${q.type==="boolean"?"true / false":q.type}</span></div>${controls}<button class="button button-ghost check-button" data-submit="${q.id}">${checked[q.id]?"Recheck response":"Check response"} ✓</button>${checked[q.id] ? feedback(q) : ""}</article>`;
+    }
+    function renderAssessment() { document.querySelector("#assessment-list").innerHTML = questions.map(renderQuestion).join(""); }
+    function score() { return questions.filter(q => checked[q.id] && isCorrect(q)).length; }
+    function showResults() {
+      const currentScore = score(), percent = Math.round(currentScore / 25 * 100), level = levelFor(currentScore);
+      const results = document.querySelector("#results");
+      results.classList.add("show");
+      results.innerHTML = `<div class="result-grid"><div class="result-meta"><div class="eyebrow">Your field report</div><div class="score">${currentScore}<small style="font:24px DM Sans;color:var(--muted)"> / 25</small></div><strong>${percent}% · ${level}</strong><p class="body-copy">80% threshold · ${currentScore >= 20 ? "threshold met" : (20-currentScore) + " more correct responses needed"}</p></div><div><h2 class="display" style="font-size:30px">${currentScore >= 20 ? "Your reasoning is ready to travel." : "A useful first reading."}</h2><div class="result-box"><span class="mono accent">Strengths</span><p>${currentScore >= 20 ? "You are calibrating category, function and context as one system." : "You have begun to notice how form carries a reader through an argument."}</p></div><div class="result-box"><span class="mono accent">Areas for improvement</span><p>${currentScore >= 20 ? "Keep testing pragmatic force and reader interpretation." : "Revisit the annotated readings, then retry with attention to context."}</p></div><div class="actions"><button class="button button-ghost" id="retry">Retry Assessment</button>${currentScore >= 20 ? '<button class="button button-dark" id="open-certificate">Generate My Certificate</button>' : ""}</div></div></div>`;
+      results.scrollIntoView({behavior:"smooth",block:"start"});
+    }
+    function openCertificate() {
+      const modal = document.querySelector("#certificate-modal"); modal.classList.add("open");
+      document.querySelector("#certificate-date").textContent = issueDate;
+      document.querySelector("#certificate-id").textContent = certificateId;
+      updateCertificate();
+    }
+    function updateCertificate() {
+      const name = document.querySelector("#full-name").value.trim();
+      document.querySelector("#certificate-name").textContent = name || "Your full name";
+      const currentScore = score();
+      document.querySelector("#certificate-score").textContent = `${currentScore} / 25 · ${levelFor(currentScore)}`;
+      document.querySelector("#download-certificate").disabled = !name;
+    }
+    function pdfEscape(value) { return String(value).replace(/[\\()]/g, "\\$&").replace(/[^\x20-\x7E]/g, ""); }
+    function downloadCertificate() {
+      const name = document.querySelector("#full-name").value.trim();
+      const image = new Image(); image.src = logoSrc;
+      image.onload = () => {
+        const canvas = document.createElement("canvas"); canvas.width = 220; canvas.height = 220;
+        const ctx = canvas.getContext("2d"); ctx.drawImage(image,0,0,220,220);
+        const binaryImage = atob(canvas.toDataURL("image/jpeg",.82).split(",")[1]);
+        const currentScore = score(), level = levelFor(currentScore);
+        const content = ["q","0.78 0.61 0.20 RG 5 w 22 22 798 551 re S","0.78 0.61 0.20 RG 1 w 32 32 778 531 re S","Q",
+          "BT /F1 22 Tf 1 0 0 1 245 500 Tm (SHARED PEARLS OF WISDOM) Tj ET",
+          "BT /F1 28 Tf 1 0 0 1 250 420 Tm (CERTIFICATE OF ACHIEVEMENT) Tj ET",
+          "BT /F1 12 Tf 1 0 0 1 320 370 Tm (This is to recognise) Tj ET",
+          `BT /F1 24 Tf 1 0 0 1 300 330 Tm (${pdfEscape(name)}) Tj ET`,
+          "BT /F1 12 Tf 1 0 0 1 284 292 Tm (Parts of Speech: The Architecture of Meaning) Tj ET",
+          `BT /F1 15 Tf 1 0 0 1 340 250 Tm (${currentScore} / 25 - ${pdfEscape(level)}) Tj ET`,
+          `BT /F1 10 Tf 1 0 0 1 260 168 Tm (Date issued: ${pdfEscape(issueDate)}) Tj ET`,
+          `BT /F1 10 Tf 1 0 0 1 270 145 Tm (Certificate ID: ${certificateId}) Tj ET`,
+          "BT /F1 10 Tf 1 0 0 1 332 68 Tm (Shared Pearls of Wisdom) Tj ET","BT /F1 9 Tf 1 0 0 1 616 68 Tm (Authorised signature) Tj ET","0.10 0.20 0.28 RG 1 w 600 76 m 730 76 l S"].join("\n");
+        const objects = ["<< /Type /Catalog /Pages 2 0 R >>","<< /Type /Pages /Kids [3 0 R] /Count 1 >>","<< /Type /Page /Parent 2 0 R /MediaBox [0 0 842 595] /Resources << /Font << /F1 4 0 R >> /XObject << /Im1 5 0 R >> >> /Contents 6 0 R >>","<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>",`<< /Type /XObject /Subtype /Image /Width 220 /Height 220 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${binaryImage.length} >>\nstream\n${binaryImage}\nendstream`,`<< /Length ${content.length} >>\nstream\n${content}\nq 145 0 0 145 348 77 cm /Im1 Do Q\nendstream`];
+        let pdf="%PDF-1.4\n", offsets=[0]; objects.forEach((obj,i)=>{offsets[i+1]=pdf.length;pdf+=`${i+1} 0 obj\n${obj}\nendobj\n`;}); const xref=pdf.length; pdf+=`xref\n0 ${objects.length+1}\n0000000000 65535 f \n`; offsets.slice(1).forEach(o=>pdf+=`${String(o).padStart(10,"0")} 00000 n \n`); pdf+=`trailer\n<< /Size ${objects.length+1} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+        const bytes = new Uint8Array(pdf.length); for(let i=0;i<pdf.length;i++) bytes[i]=pdf.charCodeAt(i)&255;
+        const url=URL.createObjectURL(new Blob([bytes],{type:"application/pdf"})), link=document.createElement("a"); link.href=url; link.download=`${name.replace(/\s+/g,"-").toLowerCase()}-shared-pearls-certificate.pdf`; link.click(); setTimeout(()=>URL.revokeObjectURL(url),1000);
+      };
+    }
+    document.addEventListener("click", event => {
+      const target = event.target.closest("button,a"); if (!target) return;
+      if (target.id === "menu-button") document.querySelector("#site-nav").classList.toggle("open");
+      if (target.dataset.category) showCategory(Number(target.dataset.category));
+      if (target.dataset.labChoice) { document.querySelectorAll("[data-lab-choice]").forEach(b=>b.classList.remove("selected")); target.classList.add("selected"); updateLab(); }
+      if (target.id === "lab-example") { document.querySelector("#lab-word").value="deliberately"; updateLab(); }
+      if (target.id === "lab-check") { const feedback=document.querySelector("#lab-feedback"); const good=document.querySelector("#lab-word").value.toLowerCase()==="deliberately" && document.querySelector("[data-lab-choice].selected")?.dataset.labChoice==="Adverb"; feedback.className=`feedback ${good?"":"hide"}`; if(!good) { feedback.className="feedback"; feedback.innerHTML="<strong>Revisit the context.</strong><p>In this specimen, “deliberately” is an adverb modifying the adjective “defensible”.</p>"; } else feedback.innerHTML="<strong>Sound hypothesis.</strong><p>“Deliberately” is an adverb modifying “defensible”; it intensifies the writer’s stance.</p>"; }
+      if (target.dataset.q) { const id=Number(target.dataset.q), q=questions.find(x=>x.id===id); if(q.type==="checkbox"){answers[id]=answers[id]||[]; answers[id]=answers[id].includes(target.dataset.check)?answers[id].filter(x=>x!==target.dataset.check):[...answers[id],target.dataset.check];} else if(q.type==="boolean") answers[id]=target.dataset.bool==="true"; else answers[id]=target.dataset.value; renderAssessment(); }
+      if (target.dataset.toggle) { const id=Number(target.dataset.toggle); answers[id]=answers[id]!==true; renderAssessment(); }
+      if (target.dataset.submit) { checked[Number(target.dataset.submit)]=true; renderAssessment(); }
+      if (target.dataset.dragItem) { const id=Number(target.dataset.drag), item=target.dataset.dragItem, current=answers[id]||[]; if(!current.includes(item)){answers[id]=[...current,item];renderAssessment();} }
+      if (target.dataset.slot) { const id=Number(target.dataset.slot), index=Number(target.dataset.slotIndex), current=answers[id]||[]; if(current[index]) answers[id]=current.filter((_,i)=>i!==index); renderAssessment(); }
+      if (target.id === "submit-all") { questions.forEach(q=>checked[q.id]=true); renderAssessment(); showResults(); }
+      if (target.id === "retry") { Object.keys(answers).forEach(k=>delete answers[k]);Object.keys(checked).forEach(k=>delete checked[k]);document.querySelector("#results").classList.remove("show");renderAssessment();document.querySelector("#assessment").scrollIntoView({behavior:"smooth"}); }
+      if (target.id === "open-certificate") openCertificate();
+      if (target.id === "close-certificate" || target.id === "cancel-certificate") document.querySelector("#certificate-modal").classList.remove("open");
+      if (target.id === "download-certificate") downloadCertificate();
+    });
+    document.addEventListener("change", event => { const t=event.target; if(t.dataset.qSelect){answers[Number(t.dataset.qSelect)]=t.value;renderAssessment();} if(t.dataset.matrix){ const id=Number(t.dataset.matrix);answers[id]={...(answers[id]||{}),[t.dataset.matrixItem]:t.value};renderAssessment();} });
+    document.addEventListener("dragstart", event => { const target=event.target.closest("[data-drag-item]"); if(target) dragging[Number(target.dataset.drag)]=target.dataset.dragItem; });
+    document.addEventListener("dragover", event => { if(event.target.closest("[data-slot]")) event.preventDefault(); });
+    document.addEventListener("drop", event => { const target=event.target.closest("[data-slot]"); if(!target) return; event.preventDefault(); const id=Number(target.dataset.slot), index=Number(target.dataset.slotIndex), item=dragging[id], current=(answers[id]||[]).filter(x=>x!==item); if(item) { answers[id]=[...current.slice(0,index),item,...current.slice(index)]; delete dragging[id]; renderAssessment(); } });
+    document.querySelector("#lab-word").addEventListener("input",updateLab);
+    document.querySelector("#full-name").addEventListener("input",updateCertificate);
+    renderExplorer();renderLabOptions();renderAssessment();updateLab();
+  </script>
+</body>
+</html>
