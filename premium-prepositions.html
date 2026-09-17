@@ -990,7 +990,7 @@
         </ul>
 
         <div class="lp-actions">
-          <button class="cta-button" style="background:var(--maroon);" onclick="downloadDoc('LESSON_PLACE_B64','Lesson-1-Prepositions-of-Place.docx')">Download Lesson Plan (DOCX)</button>
+          <button class="cta-button js-download-doc" style="background:var(--maroon);" data-doc="LESSON_PLACE_B64" data-filename="Lesson-1-Prepositions-of-Place.docx">Download Lesson Plan (DOCX)</button>
         </div>
       </div>
     </div>
@@ -1129,7 +1129,7 @@
         </ul>
 
         <div class="lp-actions">
-          <button class="cta-button" style="background:var(--blue);" onclick="downloadDoc('LESSON_MOVEMENT_B64','Lesson-2-Prepositions-of-Movement.docx')">Download Lesson Plan (DOCX)</button>
+          <button class="cta-button js-download-doc" style="background:var(--blue);" data-doc="LESSON_MOVEMENT_B64" data-filename="Lesson-2-Prepositions-of-Movement.docx">Download Lesson Plan (DOCX)</button>
         </div>
       </div>
     </div>
@@ -1267,7 +1267,7 @@
         </ul>
 
         <div class="lp-actions">
-          <button class="cta-button" style="background:var(--red);" onclick="downloadDoc('LESSON_TIME_B64','Lesson-3-Prepositions-of-Time.docx')">Download Lesson Plan (DOCX)</button>
+          <button class="cta-button js-download-doc" style="background:var(--red);" data-doc="LESSON_TIME_B64" data-filename="Lesson-3-Prepositions-of-Time.docx">Download Lesson Plan (DOCX)</button>
         </div>
       </div>
     </div>
@@ -1369,8 +1369,8 @@
         </div>
 
         <div class="lp-actions">
-          <button class="cta-button" style="background:var(--maroon);" onclick="downloadDoc('WORKSHEET_PLACE_B64','Worksheet-1-Prepositions-of-Place.docx')">Download Worksheet (DOCX)</button>
-          <button class="cta-button ghost" onclick="printCard('worksheet-place')">Print Worksheet</button>
+          <button class="cta-button js-download-doc" style="background:var(--maroon);" data-doc="WORKSHEET_PLACE_B64" data-filename="Worksheet-1-Prepositions-of-Place.docx">Download Worksheet (DOCX)</button>
+          <button class="cta-button ghost js-print-card" data-card="worksheet-place">Print Worksheet</button>
         </div>
       </div>
     </div>
@@ -1450,8 +1450,8 @@
         </div>
 
         <div class="lp-actions">
-          <button class="cta-button" style="background:var(--blue);" onclick="downloadDoc('WORKSHEET_MOVEMENT_B64','Worksheet-2-Prepositions-of-Movement.docx')">Download Worksheet (DOCX)</button>
-          <button class="cta-button ghost" onclick="printCard('worksheet-movement')">Print Worksheet</button>
+          <button class="cta-button js-download-doc" style="background:var(--blue);" data-doc="WORKSHEET_MOVEMENT_B64" data-filename="Worksheet-2-Prepositions-of-Movement.docx">Download Worksheet (DOCX)</button>
+          <button class="cta-button ghost js-print-card" data-card="worksheet-movement">Print Worksheet</button>
         </div>
       </div>
     </div>
@@ -1530,8 +1530,8 @@
         </div>
 
         <div class="lp-actions">
-          <button class="cta-button" style="background:var(--red);" onclick="downloadDoc('WORKSHEET_TIME_B64','Worksheet-3-Prepositions-of-Time.docx')">Download Worksheet (DOCX)</button>
-          <button class="cta-button ghost" onclick="printCard('worksheet-time')">Print Worksheet</button>
+          <button class="cta-button js-download-doc" style="background:var(--red);" data-doc="WORKSHEET_TIME_B64" data-filename="Worksheet-3-Prepositions-of-Time.docx">Download Worksheet (DOCX)</button>
+          <button class="cta-button ghost js-print-card" data-card="worksheet-time">Print Worksheet</button>
         </div>
       </div>
     </div>
@@ -2272,6 +2272,21 @@
     win.focus();
     setTimeout(function(){ win.print(); }, 300);
   }
+
+  /* Wire up every download/print button via addEventListener, inside this
+     closure, where downloadDoc/printCard actually live. Inline onclick=""
+     attributes run in the global scope and cannot see them, which was the
+     original bug -- this is the robust fix. */
+  document.querySelectorAll('.js-download-doc').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      downloadDoc(btn.getAttribute('data-doc'), btn.getAttribute('data-filename'));
+    });
+  });
+  document.querySelectorAll('.js-print-card').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      printCard(btn.getAttribute('data-card'));
+    });
+  });
 
 })();
 </script>
