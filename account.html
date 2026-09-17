@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create your account | Shared Pearls of Wisdom</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --slate-900:#0F172A; --slate-700:#334155; --slate-500:#64748B;
+    --slate-100:#F1F5F9; --amber-600:#D97706; --amber-500:#F59E0B;
+    --paper:#FFFFFF; --border:#E2E8F0; --danger:#B91C1C; --ok:#15803D;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family:'Plus Jakarta Sans',sans-serif; margin:0; padding:2rem 1.25rem;
+    background:linear-gradient(135deg,#F8FAFC 0%,#E2E8F0 100%);
+    color:var(--slate-900); min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    -webkit-font-smoothing:antialiased;
+  }
+  .card{
+    background:var(--paper); width:100%; max-width:460px; border-radius:16px;
+    padding:2.75rem 2.25rem; box-shadow:0 25px 50px -12px rgba(15,23,42,.15);
+  }
+  h1{font-family:'Playfair Display',serif; font-size:2.1rem; font-weight:600; margin:0 0 .4rem}
+  .lede{color:var(--slate-700); font-size:.98rem; line-height:1.55; margin:0 0 1.75rem}
+  .price-note{
+    background:#FEF3C7; color:#92400E; border-radius:10px; padding:.75rem 1rem;
+    font-size:.9rem; font-weight:600; margin-bottom:1.5rem;
+  }
+  .field{margin-bottom:1.1rem}
+  label{display:block; font-size:.88rem; font-weight:600; color:var(--slate-700); margin-bottom:.4rem}
+  input{
+    width:100%; padding:.9rem 1rem; font-family:inherit; font-size:1rem;
+    border:1px solid var(--border); border-radius:10px; background:#FCFDFE; color:var(--slate-900);
+  }
+  input:focus{outline:none; border-color:var(--amber-500); box-shadow:0 0 0 3px rgba(245,158,11,.18)}
+  .btn{
+    width:100%; padding:1.1rem 1rem; font-family:inherit; font-size:1.05rem; font-weight:700;
+    color:#fff; background:linear-gradient(135deg,var(--amber-600),var(--amber-500));
+    border:none; border-radius:12px; cursor:pointer; transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:0 10px 20px -5px rgba(217,119,6,.4);
+  }
+  .btn:hover:not(:disabled){transform:translateY(-2px); box-shadow:0 15px 25px -5px rgba(217,119,6,.5)}
+  .btn:disabled{opacity:.65; cursor:wait; transform:none}
+  .btn:focus-visible{outline:3px solid var(--slate-900); outline-offset:3px}
+  .provider{
+    width:100%; display:flex; align-items:center; justify-content:center; gap:10px;
+    padding:.85rem 1rem; font-family:inherit; font-size:.98rem; font-weight:600;
+    background:#fff; color:var(--slate-900); border:1px solid var(--border);
+    border-radius:10px; cursor:pointer; margin-bottom:1rem;
+  }
+  .provider:hover{border-color:var(--slate-500)}
+  .provider svg{width:20px;height:20px}
+  .divider{display:flex; align-items:center; gap:12px; margin:1.3rem 0; color:var(--slate-500); font-size:.85rem}
+  .divider::before,.divider::after{content:""; flex:1; height:1px; background:var(--border)}
+  .msg{font-size:.92rem; margin:0 0 1rem; display:none; line-height:1.45}
+  .msg.show{display:block}
+  .msg.error{color:var(--danger)}
+  .msg.ok{color:var(--ok)}
+  .switch{font-size:.9rem; color:var(--slate-500); text-align:center; margin:1.3rem 0 0}
+  .switch button{background:none; border:none; color:var(--amber-600); font-weight:700; font-family:inherit; font-size:.9rem; cursor:pointer; padding:0}
+  .hint{font-size:.8rem; color:var(--slate-500); margin:.35rem 0 0}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1 id="title">Create your account</h1>
+  <p class="lede" id="lede">Set up your account first. Payment comes next, and you land straight on the premium dashboard.</p>
+
+  <div class="price-note">Mastery Pass — $2/month. Cancel anytime.</div>
+
+  <p class="msg" id="msg" role="alert"></p>
+
+  <!-- Signed OUT -->
+  <div id="authBlock">
+    <button type="button" class="provider" id="googleBtn">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59A14.5 14.5 0 0 1 9.77 24c0-1.6.27-3.15.76-4.59l-7.98-6.19A23.94 23.94 0 0 0 0 24c0 3.88.93 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+      </svg>
+      Continue with Google
+    </button>
+
+    <div class="divider">or use your email</div>
+
+    <form id="authForm" novalidate>
+      <div class="field">
+        <label for="email">Email address</label>
+        <input type="email" id="email" autocomplete="email" required placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <input type="password" id="password" autocomplete="new-password" required minlength="8" placeholder="At least 8 characters">
+        <p class="hint" id="pwHint">Use 8 characters or more.</p>
+      </div>
+      <button type="submit" class="btn" id="submitBtn">Create account and continue</button>
+    </form>
+
+    <p class="switch" id="switchRow">
+      <span id="switchText">Already have an account? </span>
+      <button type="button" id="switchBtn">Log in instead</button>
+    </p>
+  </div>
+
+  <!-- Signed IN -->
+  <div id="payBlock" hidden>
+    <p class="lede" id="signedInAs"></p>
+    <button type="button" class="btn" id="payBtn">Subscribe now — $2/month</button>
+    <p class="switch"><button type="button" id="logoutBtn">Log out</button></p>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+/* ====== EDIT THESE TWO LINES ====== */
+const SUPABASE_URL      = 'https://lgvqmsrhvvjvcrtifcxi.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxndnFtc3JodnZqdmNydGlmY3hpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk0NzYzOTgsImV4cCI6MjEwNTA1MjM5OH0.UoCBmtc7Jv4Bm3C_PyKQswAEUyVBS6lc05pGBCfsT7g';
+const PREMIUM_PATH      = '/monthly-premium-dashboard-main.html';
+/* ================================== */
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const $ = (id) => document.getElementById(id);
+let mode = 'signup';
+
+function say(text, kind = 'error') {
+  $('msg').textContent = text;
+  $('msg').className = `msg show ${kind}`;
+}
+function clearMsg() { $('msg').className = 'msg'; $('msg').textContent = ''; }
+
+function setMode(next) {
+  mode = next;
+  clearMsg();
+  if (mode === 'signup') {
+    $('title').textContent = 'Create your account';
+    $('lede').textContent  = 'Set up your account first. Payment comes next, and you land straight on the premium dashboard.';
+    $('submitBtn').textContent = 'Create account and continue';
+    $('password').setAttribute('autocomplete', 'new-password');
+    $('pwHint').hidden = false;
+    $('switchText').textContent = 'Already have an account? ';
+    $('switchBtn').textContent  = 'Log in instead';
+  } else {
+    $('title').textContent = 'Welcome back';
+    $('lede').textContent  = 'Log in to continue to your premium dashboard.';
+    $('submitBtn').textContent = 'Log in';
+    $('password').setAttribute('autocomplete', 'current-password');
+    $('pwHint').hidden = true;
+    $('switchText').textContent = 'New here? ';
+    $('switchBtn').textContent  = 'Create an account';
+  }
+}
+
+async function showState() {
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    $('authBlock').hidden = false;
+    $('payBlock').hidden  = true;
+    if (new URLSearchParams(location.search).get('need') === 'subscription') {
+      say('Log in to reach the premium dashboard.');
+    }
+    return;
+  }
+
+  $('authBlock').hidden = true;
+  $('payBlock').hidden  = false;
+  $('signedInAs').textContent = `Signed in as ${session.user.email}.`;
+
+  const { data: profile } = await supabase
+    .from('profiles').select('is_premium').eq('id', session.user.id).single();
+
+  if (profile && profile.is_premium) {
+    $('payBtn').textContent = 'Go to your premium dashboard';
+    $('payBtn').dataset.go = '1';
+    say('Your subscription is active.', 'ok');
+  }
+
+  if (new URLSearchParams(location.search).get('checkout') === 'cancelled') {
+    say('Payment was cancelled. Nothing was charged.');
+  }
+}
+
+/* ---------- Email + password ---------- */
+$('authForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  clearMsg();
+
+  const email = $('email').value.trim();
+  const password = $('password').value;
+
+  if (!email.includes('@')) return say('Enter a valid email address.');
+  if (mode === 'signup' && password.length < 8) return say('Your password needs at least 8 characters.');
+
+  $('submitBtn').disabled = true;
+  const original = $('submitBtn').textContent;
+  $('submitBtn').textContent = 'Please wait…';
+
+  const { error } = mode === 'signup'
+    ? await supabase.auth.signUp({ email, password })
+    : await supabase.auth.signInWithPassword({ email, password });
+
+  $('submitBtn').disabled = false;
+  $('submitBtn').textContent = original;
+
+  if (error) {
+    if (/already registered/i.test(error.message)) return say('That email already has an account. Log in instead.');
+    return say(error.message);
+  }
+
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) return say('Check your inbox and confirm your email, then log in.', 'ok');
+
+  await showState();
+  startCheckout();
+});
+
+/* ---------- Google ---------- */
+$('googleBtn').addEventListener('click', async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: `${location.origin}/account.html` }
+  });
+  if (error) say(error.message);
+});
+
+/* ---------- Stripe ---------- */
+async function startCheckout() {
+  clearMsg();
+
+  if ($('payBtn').dataset.go === '1') { location.href = PREMIUM_PATH; return; }
+
+  $('payBtn').disabled = true;
+  $('payBtn').textContent = 'Opening secure payment…';
+
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) { await showState(); return say('Please log in first.'); }
+
+    const res = await fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${session.access_token}` }
+    });
+
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.error || 'Could not start checkout.');
+
+    location.href = body.url;
+  } catch (err) {
+    $('payBtn').disabled = false;
+    $('payBtn').textContent = 'Subscribe now — $2/month';
+    say(err.message);
+  }
+}
+
+$('payBtn').addEventListener('click', startCheckout);
+$('switchBtn').addEventListener('click', () => setMode(mode === 'signup' ? 'login' : 'signup'));
+$('logoutBtn').addEventListener('click', async () => {
+  await supabase.auth.signOut();
+  location.href = '/account.html';
+});
+
+setMode('signup');
+showState();
+</script>
+
+</body>
+</html>
