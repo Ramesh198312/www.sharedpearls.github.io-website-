@@ -2,15 +2,27 @@
   "name": "sharedpearls",
   "version": "1.0.0",
   "description": "An educational platform with courses, progress tracking, quizzes, forums, and certificates",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "wrangler dev",
-    "build": "wrangler publish"
+    "dev": "npm run build && wrangler dev",
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "deploy": "npm run build && wrangler deploy"
   },
-  "keywords": ["education", "courses", "learning"],
+  "keywords": [
+    "education",
+    "courses",
+    "learning"
+  ],
   "author": "Ramesh198312",
   "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "2.116.0",
+    "stripe": "22.6.2"
+  },
   "devDependencies": {
-    "wrangler": "^3.0.0"
+    "@electric-sql/pglite": "^0.3.0",
+    "esbuild-wasm": "^0.25.12",
+    "wrangler": "4.135.0"
   }
 }
