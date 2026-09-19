@@ -97,7 +97,7 @@ Optional: STRIPE_LEGACY_PRICE_IDS is a comma-separated list of old prices whose 
 ## 4. Protect the content beyond the custom domain
 Your GitHub repository is public. People can currently download the lesson source there. To treat that source as paid content, make the source repository private after ensuring Cloudflare retains access. Do not rely on hiding a link or JavaScript alone.
 
-The server protects 82 currently identified premium HTML/audio files, including premium-named files and the nonstandard premium modules listed in src/policy.js. Public lessons, CSS, general images and shared media remain public. Review the policy whenever you add a premium resource, especially files without “premium” in the name.
+The server protects 83 currently identified premium HTML/audio files, including premium-named files and the nonstandard premium modules listed in src/policy.js. Public lessons, CSS, general images and shared media remain public. Review the policy whenever you add a premium resource, especially files without “premium” in the name.
 
 Disable obsolete public hosting copies and purge cached premium HTML at cutover. Content downloaded before access controls were installed cannot be recalled.
 
