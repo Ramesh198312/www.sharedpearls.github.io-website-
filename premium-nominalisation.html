@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Roboto:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   
-  <!-- FontAwesome for refined academic & UI iconography -->
+  <!-- FontAwesome for iconography -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <!-- Tailwind CSS via CDN -->
@@ -55,7 +55,6 @@
   </script>
 
   <style>
-    /* Google One Material Design Aesthetics */
     body {
       font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
       color: #202124;
@@ -67,7 +66,6 @@
       color: #174EA6;
     }
     
-    /* Clean Google-style scrollbars */
     ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
@@ -89,11 +87,8 @@
     .g-card-shadow {
       box-shadow: 0 1px 3px 0 rgba(60,64,67,0.12), 0 4px 8px 3px rgba(60,64,67,0.06);
     }
-    .g-float-shadow {
-      box-shadow: 0 4px 12px 0 rgba(60,64,67,0.2);
-    }
 
-    /* Print Styles for Lesson Plans and Worksheets */
+    /* Print media rules for lesson plans & worksheets */
     @media print {
       body * {
         visibility: hidden;
@@ -107,11 +102,20 @@
         top: 0;
         width: 100%;
         margin: 0;
-        padding: 24px;
+        padding: 20px;
         box-shadow: none;
+        border: none !important;
       }
       .no-print {
         display: none !important;
+      }
+      .page-break-before {
+        page-break-before: always;
+        break-before: page;
+      }
+      body.print-student-only .teacher-key-section {
+        display: none !important;
+        visibility: hidden !important;
       }
     }
   </style>
@@ -120,7 +124,7 @@
 
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-g-border transition-all">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-3.5 flex items-center justify-between">
-      <!-- Brand Crest & Title -->
+      <!-- Brand Logo & Title -->
       <div class="flex items-center gap-3 cursor-pointer" onclick="navigate('landing')">
         <div class="w-10 h-10 rounded-full bg-g-blueLight text-g-blue flex items-center justify-center font-bold text-lg shadow-sm border border-g-blue/20">
           <i class="fa-solid fa-shapes"></i>
@@ -133,7 +137,7 @@
         </div>
       </div>
 
-      <!-- Desktop Primary Nav Links (Google One Pill Buttons) -->
+      <!-- Desktop Primary Nav Links -->
       <nav class="hidden lg:flex items-center space-x-1 text-sm font-medium">
         <button onclick="navigate('dashboard')" class="nav-btn px-3.5 py-2 rounded-full text-g-secondary hover:text-g-text hover:bg-g-surface transition-all" data-view="dashboard">
           <i class="fa-solid fa-chart-pie mr-1.5 text-xs opacity-70"></i> Dashboard
@@ -164,7 +168,7 @@
           <i class="fa-solid fa-clipboard-check"></i> Diagnostic Test
         </button>
         
-        <!-- Mobile Navigation Menu Toggle -->
+        <!-- Mobile Nav Toggle -->
         <button onclick="toggleMobileNav()" class="lg:hidden p-2 rounded-full text-g-secondary hover:bg-g-surface2 focus:outline-none" aria-label="Toggle Navigation">
           <i class="fa-solid fa-bars text-lg"></i>
         </button>
@@ -187,11 +191,8 @@
 
   <main id="app-viewport" class="flex-grow flex flex-col">
     
-    <!-- ========================================== -->
-    <!-- VIEW 1: LANDING & EDITORIAL SHOWCASE       -->
-    <!-- ========================================== -->
+    <!-- VIEW 1: LANDING & EDITORIAL SHOWCASE -->
     <section id="view-landing" class="app-view flex-grow">
-      <!-- Hero Section (Google One Clean Style) -->
       <div class="relative bg-white py-16 lg:py-24 overflow-hidden border-b border-g-border">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-g-surface2 text-g-secondary text-xs font-medium mb-6">
@@ -216,7 +217,6 @@
             </button>
           </div>
           
-          <!-- Key Metric Highlights (Google Card Pill Pattern) -->
           <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-left">
             <div class="p-5 bg-g-surface rounded-2xl border border-g-border">
               <span class="block text-2xl font-bold text-g-blue">18 Modules</span>
@@ -232,7 +232,7 @@
             </div>
             <div class="p-5 bg-g-surface rounded-2xl border border-g-border">
               <span class="block text-2xl font-bold text-g-red">Practice Lab</span>
-              <span class="text-xs text-g-secondary mt-1 block">Interactive Exercises & Writing Studio</span>
+              <span class="text-xs text-g-secondary mt-1 block">Interactive Exercises & Studio</span>
             </div>
           </div>
         </div>
@@ -293,7 +293,7 @@
         </div>
       </section>
 
-      <!-- 4 Course Levels Pathway Preview (Google Cards) -->
+      <!-- 4 Course Levels Pathway Preview -->
       <section class="py-16 bg-white border-b border-g-border">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex flex-col md:flex-row justify-between items-end mb-10">
@@ -307,7 +307,6 @@
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Level 1 -->
             <div class="bg-g-surface p-6 rounded-2xl border border-g-border flex flex-col justify-between hover:border-g-blue/50 transition-all">
               <div>
                 <span class="inline-block px-2.5 py-1 rounded-full bg-g-blueLight text-g-blue text-xs font-semibold uppercase tracking-wider mb-3">Level I · B1 Foundations</span>
@@ -320,7 +319,6 @@
               </div>
             </div>
 
-            <!-- Level 2 -->
             <div class="bg-g-surface p-6 rounded-2xl border border-g-border flex flex-col justify-between hover:border-g-blue/50 transition-all">
               <div>
                 <span class="inline-block px-2.5 py-1 rounded-full bg-g-greenLight text-g-green text-xs font-semibold uppercase tracking-wider mb-3">Level II · B2 Meaning</span>
@@ -333,7 +331,6 @@
               </div>
             </div>
 
-            <!-- Level 3 -->
             <div class="bg-g-surface p-6 rounded-2xl border border-g-border flex flex-col justify-between hover:border-g-blue/50 transition-all">
               <div>
                 <span class="inline-block px-2.5 py-1 rounded-full bg-g-yellowLight text-g-text text-xs font-semibold uppercase tracking-wider mb-3">Level III · B2–C1 Transformation</span>
@@ -346,7 +343,6 @@
               </div>
             </div>
 
-            <!-- Level 4 -->
             <div class="bg-g-surface p-6 rounded-2xl border border-g-border flex flex-col justify-between hover:border-g-blue/50 transition-all">
               <div>
                 <span class="inline-block px-2.5 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-semibold uppercase tracking-wider mb-3">Level IV · C1 Mastery</span>
@@ -361,41 +357,9 @@
           </div>
         </div>
       </section>
-
-      <!-- Authority References Section -->
-      <section class="py-14 bg-g-surface">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center gap-2 mb-4">
-            <i class="fa-solid fa-graduation-cap text-g-blue text-lg"></i>
-            <h3 class="font-bold text-lg text-g-text">Scholarly References & Further Reading</h3>
-          </div>
-          <p class="text-g-secondary text-sm mb-6 leading-relaxed">
-            Our instructional architecture incorporates empirical research in English for Academic Purposes (EAP) and Systemic Functional Linguistics:
-          </p>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs text-g-secondary">
-            <div class="p-4 rounded-xl bg-white border border-g-border">
-              <span class="font-bold text-g-text block mb-1">University Academic Skills Guidance</span>
-              <p class="italic mb-1">"Academic Skills: Nominalisation in Writing"</p>
-              <p class="text-g-subtle">Pedagogical recommendations on packaging ideas, avoiding empty noun chains, and preserving active rhetorical voice.</p>
-            </div>
-            <div class="p-4 rounded-xl bg-white border border-g-border">
-              <span class="font-bold text-g-text block mb-1">Applied Linguistics & OUP</span>
-              <p class="italic mb-1">"Advanced Academic Writing & Grammatical Metaphor"</p>
-              <p class="text-g-subtle">Detailed studies on the transition from spoken syntax to nominalized scientific and institutional discourse.</p>
-            </div>
-            <div class="p-4 rounded-xl bg-white border border-g-border">
-              <span class="font-bold text-g-text block mb-1">M.A.K. Halliday (1994)</span>
-              <p class="italic mb-1">"An Introduction to Functional Grammar"</p>
-              <p class="text-g-subtle">The canonical linguistic framework establishing nominalization as ideational grammatical metaphor in scientific English.</p>
-            </div>
-          </div>
-        </div>
-      </section>
     </section>
 
-    <!-- ========================================== -->
     <!-- VIEW 2: COMPREHENSIVE 18-MODULE CURRICULUM -->
-    <!-- ========================================== -->
     <section id="view-curriculum" class="app-view hidden flex-grow py-10 bg-g-surface">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center pb-6 border-b border-g-border">
@@ -405,12 +369,11 @@
             <p class="text-g-secondary text-sm mt-1">Every module is fully structured with learning objectives, grammatical breakdowns, worked examples, and scored quizzes.</p>
           </div>
           <div class="mt-4 md:mt-0 flex gap-2">
-            <button onclick="expandAllCurriculum(true)" class="text-xs px-3.5 py-1.5 bg-white border border-g-border rounded-full font-medium text-g-secondary hover:bg-g-surface2">Expand All</button>
-            <button onclick="expandAllCurriculum(false)" class="text-xs px-3.5 py-1.5 bg-white border border-g-border rounded-full font-medium text-g-secondary hover:bg-g-surface2">Collapse All</button>
+            <button onclick="filterCurriculum('all')" class="text-xs px-3.5 py-1.5 bg-white border border-g-border rounded-full font-medium text-g-secondary hover:bg-g-surface2">Reset Filter</button>
           </div>
         </div>
 
-        <!-- Filter Tabs by Level (Google One Pill Tabs) -->
+        <!-- Filter Tabs by Level -->
         <div class="flex gap-2 my-6 overflow-x-auto pb-2 text-xs font-semibold">
           <button onclick="filterCurriculum('all')" class="curr-filter-btn px-4 py-2 rounded-full bg-g-blue text-white" data-filter="all">All 18 Modules</button>
           <button onclick="filterCurriculum('level-1')" class="curr-filter-btn px-4 py-2 rounded-full bg-white border border-g-border text-g-secondary hover:bg-g-surface2" data-filter="level-1">Level I: Foundations (1-4)</button>
@@ -420,15 +383,11 @@
         </div>
 
         <!-- Modules Accordion List Container -->
-        <div id="curriculum-list" class="space-y-4">
-          <!-- Populated dynamically via JS curriculum registry -->
-        </div>
+        <div id="curriculum-list" class="space-y-4"></div>
       </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 3: INTERACTIVE LESSON PLAYER (1-18)   -->
-    <!-- ========================================== -->
+    <!-- VIEW 3: INTERACTIVE LESSON PLAYER (1-18) -->
     <section id="view-lesson" class="app-view hidden flex-grow py-8 bg-g-surface">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -456,66 +415,53 @@
           </div>
         </div>
 
-        <!-- Lesson Grid: Main Content + Sticky Outline Sidebar -->
+        <!-- Lesson Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          <!-- Main Lesson Body (8 cols) -->
           <div class="lg:col-span-8 bg-white rounded-2xl border border-g-border p-6 sm:p-10 shadow-sm">
-            
-            <!-- Module Title & Tags -->
             <div class="mb-6">
               <div class="flex items-center gap-2 mb-2">
                 <span id="player-level-badge" class="px-3 py-1 rounded-full text-xs font-semibold bg-g-blueLight text-g-blue uppercase">Foundations</span>
                 <span id="player-target-band" class="px-3 py-1 rounded-full text-xs font-medium bg-g-surface2 text-g-secondary">CEFR B1 &rarr; B2</span>
               </div>
-              <h1 id="player-title" class="text-2xl sm:text-3xl font-bold text-g-text leading-tight">Module Title Placeholder</h1>
-              <p id="player-subtitle" class="text-g-secondary text-sm mt-2 leading-relaxed">Module subtitle or linguistic focus goes here.</p>
+              <h1 id="player-title" class="text-2xl sm:text-3xl font-bold text-g-text leading-tight">Module Title</h1>
+              <p id="player-subtitle" class="text-g-secondary text-sm mt-2 leading-relaxed">Subtitle</p>
             </div>
 
-            <!-- 01. Learning Objectives Box -->
+            <!-- Objectives -->
             <div class="mb-8 p-5 bg-g-surface rounded-2xl border-l-4 border-g-blue">
               <h4 class="text-xs uppercase tracking-wider font-bold text-g-blue flex items-center gap-2 mb-2">
                 <i class="fa-solid fa-bullseye"></i> Learning Objectives
               </h4>
-              <ul id="player-objectives" class="space-y-1.5 text-xs text-g-secondary list-disc list-inside">
-                <!-- Injected via JS -->
-              </ul>
+              <ul id="player-objectives" class="space-y-1.5 text-xs text-g-secondary list-disc list-inside"></ul>
             </div>
 
-            <!-- 02. Concept Explanation & Linguistic Theory -->
+            <!-- Explanation -->
             <div class="mb-8">
               <h3 class="text-lg font-bold text-g-text mb-3 flex items-center gap-2">
                 <i class="fa-solid fa-book-open-reader text-g-blue"></i> Grammatical Foundations
               </h3>
-              <div id="player-explanation" class="text-sm text-g-secondary leading-relaxed space-y-4">
-                <!-- Injected via JS -->
-              </div>
+              <div id="player-explanation" class="text-sm text-g-secondary leading-relaxed space-y-4"></div>
             </div>
 
-            <!-- 03. Visual Grammar Breakdown / Structure Panel -->
+            <!-- Visual Breakdown -->
             <div class="mb-8 p-5 bg-g-surface text-g-text rounded-2xl border border-g-border">
               <h4 class="text-xs uppercase tracking-wider text-g-blue font-bold mb-3 flex items-center gap-2">
                 <i class="fa-solid fa-diagram-project"></i> Visual Grammar Architecture
               </h4>
-              <div id="player-visual-breakdown" class="text-xs space-y-3 font-mono text-g-text">
-                <!-- Injected via JS -->
-              </div>
+              <div id="player-visual-breakdown" class="text-xs space-y-3 font-mono text-g-text"></div>
             </div>
 
-            <!-- 04. 6 Carefully Checked Worked Examples -->
+            <!-- Worked Examples -->
             <div class="mb-8">
               <h3 class="text-lg font-bold text-g-text mb-4 flex items-center justify-between">
                 <span class="flex items-center gap-2"><i class="fa-solid fa-spell-check text-g-green"></i> Checked Worked Examples</span>
                 <span class="text-xs text-g-subtle font-normal">Authentic academic & IELTS context</span>
               </h3>
-              <div id="player-examples-grid" class="space-y-3 text-xs">
-                <!-- 6 Examples loaded via JS -->
-              </div>
+              <div id="player-examples-grid" class="space-y-3 text-xs"></div>
             </div>
 
-            <!-- Expandable Scholarly Insight Accordions -->
+            <!-- Accordions -->
             <div class="mb-8 space-y-3">
-              <!-- Expandable 1 -->
               <div class="border border-g-border rounded-xl overflow-hidden bg-g-surface">
                 <button onclick="toggleExpandable('drawer-why')" class="w-full text-left px-4 py-3 text-xs font-semibold text-g-text flex justify-between items-center hover:bg-g-surface2">
                   <span class="flex items-center gap-2"><i class="fa-solid fa-circle-question text-g-green"></i> Why is this syntactically correct?</span>
@@ -524,7 +470,6 @@
                 <div id="drawer-why" class="hidden px-4 pb-3 pt-1 text-xs text-g-secondary border-t border-g-border bg-white leading-relaxed"></div>
               </div>
 
-              <!-- Expandable 2 -->
               <div class="border border-g-border rounded-xl overflow-hidden bg-g-surface">
                 <button onclick="toggleExpandable('drawer-mistake')" class="w-full text-left px-4 py-3 text-xs font-semibold text-g-text flex justify-between items-center hover:bg-g-surface2">
                   <span class="flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation text-g-yellow"></i> Common Learner Pitfall & Suffix Trap</span>
@@ -533,7 +478,6 @@
                 <div id="drawer-mistake" class="hidden px-4 pb-3 pt-1 text-xs text-g-secondary border-t border-g-border bg-white leading-relaxed"></div>
               </div>
 
-              <!-- Expandable 3 -->
               <div class="border border-g-border rounded-xl overflow-hidden bg-g-surface">
                 <button onclick="toggleExpandable('drawer-advanced')" class="w-full text-left px-4 py-3 text-xs font-semibold text-g-text flex justify-between items-center hover:bg-g-surface2">
                   <span class="flex items-center gap-2"><i class="fa-solid fa-lightbulb text-purple-600"></i> Advanced Linguistic Insight (C1 / Discourse)</span>
@@ -543,7 +487,7 @@
               </div>
             </div>
 
-            <!-- 05. Guided Practice & Interactive Follow-up Checks -->
+            <!-- Guided Practice -->
             <div class="mb-10 p-6 bg-g-surface border border-g-border rounded-2xl">
               <div class="flex items-center justify-between mb-4">
                 <h4 class="text-sm font-bold text-g-text uppercase tracking-wider flex items-center gap-2">
@@ -554,7 +498,7 @@
               <div id="player-guided-practice" class="space-y-4"></div>
             </div>
 
-            <!-- 06. Real-World Application -->
+            <!-- Real-World & Key Takeaway -->
             <div class="mb-8 p-5 bg-g-blueLight/50 border border-g-blueLight rounded-2xl text-xs text-g-text">
               <h4 class="font-bold uppercase tracking-wider mb-2 flex items-center gap-2 text-g-blue">
                 <i class="fa-solid fa-earth-americas"></i> Real-World Application & Register Sensitivity
@@ -562,13 +506,12 @@
               <p id="player-real-world" class="leading-relaxed text-g-secondary"></p>
             </div>
 
-            <!-- 07. Concise Module Summary -->
             <div class="mb-8 p-4 bg-g-surface rounded-2xl border border-g-border text-xs text-g-secondary">
               <span class="font-bold text-g-text block mb-1 uppercase tracking-wider text-[11px]"><i class="fa-solid fa-bookmark text-g-blue mr-1"></i> Key Takeaway</span>
               <p id="player-summary" class="leading-relaxed"></p>
             </div>
 
-            <!-- 08. Module Knowledge Quiz Assessment -->
+            <!-- Module Quiz Assessment -->
             <div class="border-t border-g-border pt-8">
               <div class="flex items-center justify-between mb-4">
                 <div>
@@ -580,7 +523,6 @@
                 </div>
               </div>
 
-              <!-- Quiz Container -->
               <div id="player-quiz-container" class="space-y-6"></div>
 
               <div class="mt-8 flex justify-between items-center">
@@ -595,10 +537,8 @@
 
           </div>
 
-          <!-- Sticky Outline Sidebar (4 cols) -->
+          <!-- Sidebar Outline -->
           <div class="lg:col-span-4 space-y-6 sticky top-24">
-            
-            <!-- Course Progress Card -->
             <div class="bg-white p-5 rounded-2xl border border-g-border shadow-sm text-xs">
               <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] mb-3 flex items-center justify-between">
                 <span>Course Progress</span>
@@ -610,7 +550,6 @@
               <div class="space-y-1.5 max-h-60 overflow-y-auto pr-1" id="sidebar-modules-quicklist"></div>
             </div>
 
-            <!-- Saved Word Families for this Module -->
             <div class="bg-white p-5 rounded-2xl border border-g-border shadow-sm text-xs">
               <div class="flex items-center justify-between mb-3">
                 <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] flex items-center gap-1.5">
@@ -620,39 +559,21 @@
               </div>
               <div id="sidebar-word-family-tags" class="space-y-2"></div>
             </div>
-
-            <!-- Quick Practice Sandbox Tip -->
-            <div class="bg-g-surface p-5 rounded-2xl border border-g-border text-xs space-y-2">
-              <span class="text-g-blue uppercase tracking-wider text-[10px] font-bold block">
-                <i class="fa-solid fa-graduation-cap mr-1"></i> Scholar's Note
-              </span>
-              <p class="text-g-secondary leading-relaxed">
-                Nominalization transforms clauses into things. While this adds academic gravity, ensure sentences retain clear agency and avoid chains exceeding two consecutive prepositional phrases.
-              </p>
-              <button onclick="navigate('writing-studio')" class="mt-2 text-g-blue text-xs hover:underline flex items-center gap-1 font-medium">
-                Open Writing Studio <i class="fa-solid fa-arrow-right text-[10px]"></i>
-              </button>
-            </div>
-
           </div>
 
         </div>
       </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 4: INTERACTIVE GRAMMAR LAB            -->
-    <!-- ========================================== -->
+    <!-- VIEW 4: INTERACTIVE GRAMMAR LAB -->
     <section id="view-grammar-lab" class="app-view hidden flex-grow py-10 bg-g-surface">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         <div class="text-center max-w-2xl mx-auto mb-8">
           <span class="text-xs uppercase tracking-wider text-g-blue font-semibold">Self-Scoring Interactive Practice</span>
           <h1 class="text-3xl font-bold text-g-text mt-1">Functional Grammar Lab</h1>
           <p class="text-g-secondary text-sm mt-2">Test your diagnostic mastery across identifying nominal forms, noun-phrase completion, sentence transformations, and error correction.</p>
         </div>
 
-        <!-- Mode Selection Tabs (Pills) -->
         <div class="flex flex-wrap justify-center gap-2 mb-8 text-xs font-semibold">
           <button onclick="switchLabMode('identify')" class="lab-tab-btn px-4 py-2 rounded-full bg-g-blue text-white shadow-sm" data-mode="identify">
             <i class="fa-solid fa-highlighter mr-1"></i> Identify the Nominalization
@@ -668,36 +589,30 @@
           </button>
         </div>
 
-        <!-- Interactive Lab Workspace Card -->
         <div class="bg-white rounded-2xl border border-g-border p-6 sm:p-8 shadow-sm">
           <div id="lab-workspace-content"></div>
         </div>
-
       </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 5: SEARCHABLE WORD-FAMILY BANK (100+) -->
-    <!-- ========================================== -->
+    <!-- VIEW 5: SEARCHABLE WORD-FAMILY BANK -->
     <section id="view-word-bank" class="app-view hidden flex-grow py-10 bg-g-surface">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 pb-6 border-b border-g-border">
           <div>
             <span class="text-xs uppercase tracking-wider text-g-blue font-semibold">Academic Lexicon Database</span>
             <h1 class="text-3xl font-bold text-g-text mt-1">Word-Family Bank</h1>
-            <p class="text-g-secondary text-sm mt-1">Over 100 verified academic base words with derived nouns, adjectives, collocations, semantic classifications, and usage cautions.</p>
+            <p class="text-g-secondary text-sm mt-1">Curated academic base words with derived nouns, adjectives, collocations, semantic classifications, and usage cautions.</p>
           </div>
           <div class="mt-4 md:mt-0 text-xs text-g-secondary">
-            Showing <span id="word-bank-count" class="font-bold text-g-text">100+</span> entries
+            Showing <span id="word-bank-count" class="font-bold text-g-text">--</span> entries
           </div>
         </div>
 
-        <!-- Filter and Search Controls (Google Style Bar) -->
         <div class="bg-white p-4 rounded-2xl border border-g-border shadow-sm mb-6 grid grid-cols-1 md:grid-cols-12 gap-3 text-xs">
           <div class="md:col-span-5 relative">
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-g-subtle"></i>
-            <input type="text" id="word-bank-search" oninput="filterWordBank()" placeholder="Search root, noun, verb, or adjective (e.g. analyse, decision)..." class="w-full pl-9 pr-3 py-2 border border-g-border rounded-full focus:outline-none focus:border-g-blue text-g-text">
+            <input type="text" id="word-bank-search" oninput="filterWordBank()" placeholder="Search root, noun, verb, or adjective..." class="w-full pl-9 pr-3 py-2 border border-g-border rounded-full focus:outline-none focus:border-g-blue text-g-text">
           </div>
           <div class="md:col-span-3">
             <select id="word-bank-semantic-filter" onchange="filterWordBank()" class="w-full p-2 border border-g-border rounded-full bg-white focus:outline-none focus:border-g-blue text-g-secondary">
@@ -725,18 +640,13 @@
           </div>
         </div>
 
-        <!-- Word Bank Cards View -->
         <div id="word-bank-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-
       </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 6: WRITING STUDIO & REVISION DIFF     -->
-    <!-- ========================================== -->
+    <!-- VIEW 6: WRITING STUDIO -->
     <section id="view-writing-studio" class="app-view hidden flex-grow py-10 bg-g-surface">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 pb-4 border-b border-g-border">
           <div>
             <span class="text-xs uppercase tracking-wider text-g-blue font-semibold">Editorial Workshop</span>
@@ -749,25 +659,14 @@
           </div>
         </div>
 
-        <!-- Notice -->
-        <div class="mb-6 p-3.5 bg-g-blueLight border border-g-blue/20 rounded-2xl text-xs text-g-blueDark flex items-start gap-2.5">
-          <i class="fa-solid fa-circle-info text-g-blue mt-0.5"></i>
-          <div>
-            <span class="font-bold">Transparent Linguistic Feedback:</span> This studio uses deterministic grammatical heuristics, syntactic parser tags, and EAP collocation dictionaries to evaluate noun density and agency.
-          </div>
-        </div>
-
-        <!-- Dual Column Editor & Feedback -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          
-          <!-- Left: Input Area -->
           <div class="lg:col-span-7 space-y-4">
             <div class="bg-white p-5 rounded-2xl border border-g-border shadow-sm">
               <label for="writing-input" class="block text-xs font-bold uppercase tracking-wider text-g-text mb-2 flex items-center justify-between">
                 <span>Draft Text</span>
                 <span id="writing-word-count" class="text-g-subtle font-normal">0 words</span>
               </label>
-              <textarea id="writing-input" rows="8" oninput="updateWritingWordCount()" placeholder="Enter your academic draft here... E.g. 'Because the government expanded the railway system, the economic conditions of the region developed rapidly.'" class="w-full p-4 border border-g-border rounded-xl font-sans text-sm leading-relaxed text-g-text focus:outline-none focus:border-g-blue"></textarea>
+              <textarea id="writing-input" rows="8" oninput="updateWritingWordCount()" placeholder="Enter your academic draft here..." class="w-full p-4 border border-g-border rounded-xl font-sans text-sm leading-relaxed text-g-text focus:outline-none focus:border-g-blue"></textarea>
               
               <div class="mt-4 flex flex-wrap justify-between items-center gap-3">
                 <div class="flex gap-2">
@@ -782,7 +681,6 @@
               </div>
             </div>
 
-            <!-- Revision Diff View -->
             <div id="writing-comparison-panel" class="hidden bg-white p-5 rounded-2xl border border-g-border shadow-sm">
               <h4 class="font-bold text-sm text-g-text mb-3 flex items-center gap-2">
                 <i class="fa-solid fa-code-compare text-g-blue"></i> Comparative Discourse Revision
@@ -799,19 +697,15 @@
               </div>
             </div>
 
-            <!-- Saved Local Portfolio -->
             <div class="bg-white p-5 rounded-2xl border border-g-border shadow-sm">
               <h4 class="font-bold text-sm text-g-text mb-3 flex items-center justify-between">
                 <span><i class="fa-solid fa-folder-open text-g-blue mr-1.5"></i> Saved Writing Portfolio</span>
                 <span id="portfolio-count" class="text-xs font-normal text-g-subtle">0 items</span>
               </h4>
-              <div id="portfolio-list" class="space-y-2 text-xs">
-                <p class="text-g-subtle italic">No saved drafts yet. Click "Save to Portfolio" to keep your drafts across sessions.</p>
-              </div>
+              <div id="portfolio-list" class="space-y-2 text-xs"></div>
             </div>
           </div>
 
-          <!-- Right: Analytical Metrics -->
           <div class="lg:col-span-5 space-y-4">
             <div class="bg-white p-5 rounded-2xl border border-g-border shadow-sm">
               <h4 class="font-bold text-base text-g-text mb-3 pb-2 border-b border-g-border flex items-center justify-between">
@@ -819,7 +713,6 @@
                 <span id="audit-badge" class="text-xs px-3 py-1 rounded-full bg-g-surface2 text-g-secondary font-medium">Awaiting Input</span>
               </h4>
 
-              <!-- Metric Gauges -->
               <div class="grid grid-cols-2 gap-3 mb-4 text-xs">
                 <div class="p-3.5 rounded-xl bg-g-surface border border-g-border">
                   <span class="text-g-secondary block text-[11px]">Nominal Density</span>
@@ -827,68 +720,34 @@
                   <span class="text-[10px] text-g-subtle block mt-0.5">Target: 20–35% of words</span>
                 </div>
                 <div class="p-3.5 rounded-xl bg-g-surface border border-g-border">
-                  <span class="text-g-secondary block text-[11px]">Agency & Active Verbs</span>
+                  <span class="text-g-secondary block text-[11px]">Agency & Verbs</span>
                   <span id="metric-agency" class="font-bold text-lg text-g-text">--</span>
-                  <span class="text-[10px] text-g-subtle block mt-0.5">Balanced dynamic verbs</span>
+                  <span class="text-[10px] text-g-subtle block mt-0.5">Dynamic vs passive</span>
                 </div>
               </div>
 
-              <!-- Heuristic Feedback Items -->
-              <div id="audit-feedback-list" class="space-y-3 text-xs">
-                <div class="p-3.5 bg-g-surface rounded-xl border border-g-border text-g-subtle italic">
-                  Paste or type an academic sentence to generate insights on detected nominal nouns and prepositional chains.
-                </div>
-              </div>
-            </div>
-
-            <!-- EAP Scoring Criteria -->
-            <div class="bg-g-surface p-5 rounded-2xl border border-g-border text-xs space-y-3">
-              <h5 class="text-g-blue uppercase tracking-wider font-bold text-[11px] flex items-center gap-1.5">
-                <i class="fa-solid fa-scale-balanced"></i> Academic Marking Rubric Matrix
-              </h5>
-              <div class="space-y-2 text-g-secondary">
-                <div class="border-b border-g-border pb-2">
-                  <span class="font-bold text-g-text block">Grammatical Range & Metaphor</span>
-                  Accurate formation of deverbal/deadjectival heads with correct prepositions.
-                </div>
-                <div class="border-b border-g-border pb-2">
-                  <span class="font-bold text-g-text block">Cohesion & Theme-Rheme (This + Noun)</span>
-                  Summarising prior clauses to maintain reader orientation without repetition.
-                </div>
-                <div>
-                  <span class="font-bold text-g-text block">Clarity & Readability</span>
-                  Avoidance of bureaucratic nominal stacking (e.g., "the execution of the implementation of the decision").
-                </div>
-              </div>
+              <div id="audit-feedback-list" class="space-y-3 text-xs"></div>
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 7: SMART REVISION & SPACED REPETITION -->
-    <!-- ========================================== -->
+    <!-- VIEW 7: SMART REVISION -->
     <section id="view-revision" class="app-view hidden flex-grow py-10 bg-g-surface">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         <div class="text-center max-w-xl mx-auto mb-8">
           <span class="text-xs uppercase tracking-wider text-g-blue font-semibold">Spaced Retrieval System</span>
           <h1 class="text-3xl font-bold text-g-text mt-1">Smart Revision Cards</h1>
-          <p class="text-g-secondary text-sm mt-1">Active recall of academic word families, irregular transformations, and dependent prepositions. All cards in standard academic English.</p>
+          <p class="text-g-secondary text-sm mt-1">Active recall of academic word families, irregular transformations, and dependent prepositions.</p>
         </div>
 
-        <!-- Flashcard Container -->
         <div class="relative bg-white rounded-3xl border border-g-border p-8 sm:p-12 shadow-sm max-w-xl mx-auto min-h-[380px] flex flex-col justify-between items-center text-center">
-          
           <div class="w-full flex justify-between items-center text-xs text-g-secondary border-b border-g-border pb-3">
             <span class="uppercase tracking-wider font-semibold text-g-blue"><i class="fa-solid fa-clock-rotate-left mr-1"></i> Daily Revision Deck</span>
             <span>Card <span id="card-index-cur" class="font-bold text-g-text">1</span> of <span id="card-index-total">6</span></span>
           </div>
 
-          <!-- Card Body Content -->
           <div id="flashcard-body" class="py-6 w-full cursor-pointer" onclick="flipFlashcard()">
             <span id="flashcard-category" class="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-g-surface text-g-secondary mb-3">Verb to Deverbal Noun</span>
             <div id="flashcard-front" class="space-y-4">
@@ -907,7 +766,6 @@
             </div>
           </div>
 
-          <!-- Action Control Buttons (Google Pill Buttons) -->
           <div class="w-full pt-4 border-t border-g-border flex justify-between items-center gap-3">
             <button onclick="flashcardResponse(1)" class="flex-1 py-2.5 rounded-full border border-g-border text-g-secondary hover:bg-g-surface text-xs font-semibold transition-all">
               <i class="fa-regular fa-face-frown mr-1 text-g-red"></i> Hard
@@ -920,20 +778,12 @@
             </button>
           </div>
         </div>
-
-        <div class="mt-8 text-center text-xs text-g-subtle">
-          Tip: You can use your <kbd class="px-2 py-0.5 bg-white border border-g-border rounded font-mono">Space</kbd> bar to flip cards and keyboard arrows to navigate.
-        </div>
-
       </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 8: DIAGNOSTIC ASSESSMENT & MASTERY    -->
-    <!-- ========================================== -->
+    <!-- VIEW 8: DIAGNOSTIC ASSESSMENT -->
     <section id="view-diagnostic" class="app-view hidden flex-grow py-10 bg-g-surface">
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         <div class="bg-white rounded-3xl border border-g-border p-6 sm:p-10 shadow-sm">
           <div class="flex items-center justify-between pb-4 border-b border-g-border mb-6">
             <div>
@@ -947,10 +797,8 @@
             </div>
           </div>
 
-          <!-- Diagnostic Questions Container -->
           <div id="diagnostic-questions-container" class="space-y-6"></div>
 
-          <!-- Diagnostic Actions -->
           <div class="mt-10 pt-6 border-t border-g-border flex justify-between items-center">
             <button onclick="navigate('landing')" class="text-xs text-g-secondary hover:underline font-medium">Cancel & Return</button>
             <button onclick="scoreDiagnosticTest()" class="px-7 py-3 rounded-full bg-g-blue text-white text-xs font-medium hover:bg-g-blueHover shadow-sm transition-all flex items-center gap-2">
@@ -958,7 +806,6 @@
             </button>
           </div>
 
-          <!-- Diagnostic Results Modal -->
           <div id="diagnostic-results-view" class="hidden mt-8 p-6 bg-g-surface rounded-2xl border border-g-border">
             <h3 class="text-xl font-bold text-g-text mb-2 flex items-center gap-2">
               <i class="fa-solid fa-award text-g-blue"></i> Diagnostic Performance Summary
@@ -984,17 +831,12 @@
           </div>
 
         </div>
-
       </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 9: PERSONAL LEARNER DASHBOARD         -->
-    <!-- ========================================== -->
+    <!-- VIEW 9: PERSONAL LEARNER DASHBOARD -->
     <section id="view-dashboard" class="app-view hidden flex-grow py-10 bg-g-surface">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <!-- Welcome Hero Greeting (Google Surface Card) -->
         <div class="bg-white p-6 sm:p-8 rounded-3xl border border-g-border mb-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
             <div class="flex items-center gap-2 mb-1">
@@ -1010,7 +852,6 @@
           </div>
         </div>
 
-        <!-- 4-Stat Overview Grid (Google One Card Metrics) -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div class="bg-white p-5 rounded-2xl border border-g-border shadow-sm">
             <div class="flex items-center justify-between text-g-subtle mb-2">
@@ -1049,9 +890,7 @@
           </div>
         </div>
 
-        <!-- 2 Column Dashboard Section -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
           <div class="lg:col-span-8 space-y-6">
             <div class="bg-white p-6 rounded-2xl border border-g-border shadow-sm">
               <h3 class="font-bold text-lg text-g-text mb-4 flex items-center justify-between">
@@ -1060,62 +899,31 @@
               </h3>
               <div id="dash-module-progress-list" class="space-y-3"></div>
             </div>
-
-            <div class="bg-white p-6 rounded-2xl border border-g-border shadow-sm">
-              <h3 class="font-bold text-lg text-g-text mb-4 flex items-center justify-between">
-                <span>Recent Writing Studio Drafts</span>
-                <button onclick="navigate('writing-studio')" class="text-xs text-g-blue hover:underline">New Analysis &rarr;</button>
-              </h3>
-              <div id="dash-portfolio-preview" class="space-y-3 text-xs"></div>
-            </div>
           </div>
 
           <div class="lg:col-span-4 space-y-6">
-            <!-- Bookmarked Lessons Card -->
             <div class="bg-white p-5 rounded-2xl border border-g-border shadow-sm text-xs">
               <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] mb-3 flex items-center gap-1.5">
                 <i class="fa-solid fa-bookmark text-g-blue"></i> Bookmarked Modules
               </h4>
-              <div id="dash-bookmarks-list" class="space-y-2">
-                <p class="text-g-subtle italic">No bookmarks saved yet. Use the "Bookmark" button inside any lesson.</p>
-              </div>
-            </div>
-
-            <!-- Course Features Info Card -->
-            <div class="bg-g-surface p-5 rounded-2xl border border-g-border text-xs space-y-3">
-              <div class="flex items-center justify-between">
-                <span class="text-g-blue font-bold uppercase tracking-wider text-[10px]">Full Access</span>
-                <i class="fa-solid fa-circle-check text-g-green"></i>
-              </div>
-              <h4 class="font-bold text-base text-g-text">Complete 18-Module Syllabus</h4>
-              <p class="text-g-secondary leading-relaxed">
-                All 18 comprehensive instructional modules, interactive grammar lab exercises, downloadable lesson plans, and worksheets are fully unlocked.
-              </p>
-              <button onclick="navigate('resources')" class="w-full py-2.5 bg-g-blue text-white font-medium rounded-full hover:bg-g-blueHover transition-all text-center">
-                Access Teacher Lesson Plans
-              </button>
+              <div id="dash-bookmarks-list" class="space-y-2"></div>
             </div>
           </div>
-
         </div>
-
       </div>
     </section>
 
-    <!-- ========================================== -->
-    <!-- VIEW 10: 3 DETAILED 55-MIN LESSON PLANS &   -->
-    <!--          3 PREMIUM REUSABLE WORKSHEETS     -->
-    <!-- ========================================== -->
+    <!-- VIEW 10: LESSON PLANS & WORKSHEETS -->
     <section id="view-resources" class="app-view hidden flex-grow py-10 bg-g-surface">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center max-w-2xl mx-auto mb-10">
           <span class="text-xs uppercase tracking-wider text-g-blue font-semibold">Curriculum Resources</span>
           <h1 class="text-3xl font-bold text-g-text mt-1">Lesson Plans & Comprehensive Worksheets</h1>
-          <p class="text-g-secondary text-sm mt-2">Prepared by applied linguists for EAP tutors, IELTS instructors, and self-directed scholars. Formatted for on-screen study or instant clean printing.</p>
+          <p class="text-g-secondary text-sm mt-2">Prepared by applied linguists for EAP tutors, IELTS instructors, and self-directed scholars. Formatted for on-screen study or clean 1–2 page printing.</p>
         </div>
 
-        <!-- Section A: 3x 55-Minute Detailed Lesson Plans -->
+        <!-- Section A: 3x 55-Min Lesson Plans -->
         <div class="mb-14">
           <div class="flex items-center gap-2 mb-4 pb-2 border-b border-g-border">
             <i class="fa-solid fa-chalkboard-user text-g-blue text-lg"></i>
@@ -1123,21 +931,11 @@
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Plan 1 -->
             <div class="bg-white p-6 rounded-2xl border border-g-border shadow-sm flex flex-col justify-between">
               <div>
                 <span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 bg-g-blueLight text-g-blue rounded-full">Lesson Plan 1 · 55 Mins</span>
                 <h3 class="font-bold text-lg text-g-text mt-3">Deverbal Suffixes & Orthographic Shifts</h3>
-                <p class="text-xs text-g-secondary mt-2 leading-relaxed">
-                  Focus: -tion, -ment, -ance, and irregular stems (analyse &rarr; analysis). Covers phonological stress migration, vowel reduction, and spelling conventions.
-                </p>
-                <div class="mt-4 text-[11px] text-g-secondary space-y-1">
-                  <div><strong>Warm-up:</strong> 7 mins (Suffix Sorting)</div>
-                  <div><strong>Explicit Input:</strong> 15 mins (Rules & Phonology)</div>
-                  <div><strong>Guided Practice:</strong> 15 mins (Sentence Pairs)</div>
-                  <div><strong>Production:</strong> 13 mins (Contextual Expansion)</div>
-                  <div><strong>Plenary/Wrap-up:</strong> 5 mins</div>
-                </div>
+                <p class="text-xs text-g-secondary mt-2 leading-relaxed">Focus: -tion, -ment, -ance, and irregular stems (analyse &rarr; analysis). Covers stress migration and spelling shifts.</p>
               </div>
               <div class="mt-6 pt-4 border-t border-g-border">
                 <button onclick="openResourceViewer('plan1')" class="w-full py-2.5 bg-g-text text-white text-xs font-medium rounded-full hover:bg-black transition-all flex items-center justify-center gap-1.5">
@@ -1146,21 +944,11 @@
               </div>
             </div>
 
-            <!-- Plan 2 -->
             <div class="bg-white p-6 rounded-2xl border border-g-border shadow-sm flex flex-col justify-between">
               <div>
                 <span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 bg-g-greenLight text-g-green rounded-full">Lesson Plan 2 · 55 Mins</span>
-                <h3 class="font-bold text-lg text-g-text mt-3">Sentence-Level Transformation & Agency</h3>
-                <p class="text-xs text-g-secondary mt-2 leading-relaxed">
-                  Focus: Converting clausal verbs into nominal heads while managing subject assignment, of-phrase complements, and avoiding unintended changes in modality.
-                </p>
-                <div class="mt-4 text-[11px] text-g-secondary space-y-1">
-                  <div><strong>Warm-up:</strong> 5 mins (Clause Compression)</div>
-                  <div><strong>Explicit Input:</strong> 18 mins (Syntax Architecture)</div>
-                  <div><strong>Paired Task:</strong> 15 mins (Subject-to-Genitive)</div>
-                  <div><strong>Independent:</strong> 12 mins (Academic Revision)</div>
-                  <div><strong>Wrap-up:</strong> 5 mins</div>
-                </div>
+                <h3 class="font-bold text-lg text-g-text mt-3">Sentence Transformation & Agency</h3>
+                <p class="text-xs text-g-secondary mt-2 leading-relaxed">Focus: Converting clausal verbs into nominal heads, causative verb links, and preserving modality.</p>
               </div>
               <div class="mt-6 pt-4 border-t border-g-border">
                 <button onclick="openResourceViewer('plan2')" class="w-full py-2.5 bg-g-text text-white text-xs font-medium rounded-full hover:bg-black transition-all flex items-center justify-center gap-1.5">
@@ -1169,21 +957,11 @@
               </div>
             </div>
 
-            <!-- Plan 3 -->
             <div class="bg-white p-6 rounded-2xl border border-g-border shadow-sm flex flex-col justify-between">
               <div>
                 <span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 bg-purple-50 text-purple-700 rounded-full">Lesson Plan 3 · 55 Mins</span>
                 <h3 class="font-bold text-lg text-g-text mt-3">IELTS Task 2 & Academic Information Flow</h3>
-                <p class="text-xs text-g-secondary mt-2 leading-relaxed">
-                  Focus: Utilizing "This + abstract noun" for thematic progression, cohesive chains, and editing out bureaucratic over-nominalization ("noun stacking").
-                </p>
-                <div class="mt-4 text-[11px] text-g-secondary space-y-1">
-                  <div><strong>Warm-up:</strong> 8 mins (Theme-Rheme Tracking)</div>
-                  <div><strong>Explicit Input:</strong> 14 mins (Discourse Flow)</div>
-                  <div><strong>Collaborative:</strong> 15 mins (IELTS Body Paragraph)</div>
-                  <div><strong>Critique:</strong> 13 mins (Pruning Noun Chains)</div>
-                  <div><strong>Reflection:</strong> 5 mins</div>
-                </div>
+                <p class="text-xs text-g-secondary mt-2 leading-relaxed">Focus: 'This + abstract noun' cohesion, Theme–Rheme progressions, and de-zombifying noun chains.</p>
               </div>
               <div class="mt-6 pt-4 border-t border-g-border">
                 <button onclick="openResourceViewer('plan3')" class="w-full py-2.5 bg-g-text text-white text-xs font-medium rounded-full hover:bg-black transition-all flex items-center justify-center gap-1.5">
@@ -1202,14 +980,11 @@
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Worksheet 1 -->
             <div class="bg-white p-6 rounded-2xl border border-g-border shadow-sm flex flex-col justify-between">
               <div>
                 <span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 bg-g-yellowLight text-g-text rounded-full">Worksheet 1 · B1/B2</span>
                 <h3 class="font-bold text-lg text-g-text mt-3">The Derivational Matrix & Concord</h3>
-                <p class="text-xs text-g-secondary mt-2 leading-relaxed">
-                  25 intensive items: Suffix generation matrix, orthographic exceptions, countability classification (research vs study), and article selection before abstract nominal heads.
-                </p>
+                <p class="text-xs text-g-secondary mt-2 leading-relaxed">20 items: Suffix shifts, countability rules, preposition concord, and subject-verb agreement editing.</p>
               </div>
               <div class="mt-6 pt-4 border-t border-g-border">
                 <button onclick="openResourceViewer('ws1')" class="w-full py-2.5 bg-g-blue text-white text-xs font-medium rounded-full hover:bg-g-blueHover transition-all flex items-center justify-center gap-1.5">
@@ -1218,14 +993,11 @@
               </div>
             </div>
 
-            <!-- Worksheet 2 -->
             <div class="bg-white p-6 rounded-2xl border border-g-border shadow-sm flex flex-col justify-between">
               <div>
                 <span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 bg-g-greenLight text-g-green rounded-full">Worksheet 2 · B2/C1</span>
                 <h3 class="font-bold text-lg text-g-text mt-3">Clause-to-Nominal Syntactic Converter</h3>
-                <p class="text-xs text-g-secondary mt-2 leading-relaxed">
-                  20 advanced clausal rewrites: That-clause packaging, cause-and-effect conversions (because X happened &rarr; the occurrence of X resulted in), and agent preservation.
-                </p>
+                <p class="text-xs text-g-secondary mt-2 leading-relaxed">15 items: Clausal cause-and-effect conversions, that-clause packaging, and modality preservation.</p>
               </div>
               <div class="mt-6 pt-4 border-t border-g-border">
                 <button onclick="openResourceViewer('ws2')" class="w-full py-2.5 bg-g-blue text-white text-xs font-medium rounded-full hover:bg-g-blueHover transition-all flex items-center justify-center gap-1.5">
@@ -1234,14 +1006,11 @@
               </div>
             </div>
 
-            <!-- Worksheet 3 -->
             <div class="bg-white p-6 rounded-2xl border border-g-border shadow-sm flex flex-col justify-between">
               <div>
                 <span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 bg-purple-50 text-purple-700 rounded-full">Worksheet 3 · C1 EAP & IELTS</span>
                 <h3 class="font-bold text-lg text-g-text mt-3">Discourse & Over-Nominalization Clinic</h3>
-                <p class="text-xs text-g-secondary mt-2 leading-relaxed">
-                  Paragraph-length authentic editing: Disentangling bureaucratic "zombie nouns", enhancing theme–rheme flow with demonstratives, and IELTS Task 2 model rewrites.
-                </p>
+                <p class="text-xs text-g-secondary mt-2 leading-relaxed">De-zombification exercises, theme–rheme demonstrative shell-noun bridges, and IELTS Task 2 editing.</p>
               </div>
               <div class="mt-6 pt-4 border-t border-g-border">
                 <button onclick="openResourceViewer('ws3')" class="w-full py-2.5 bg-g-blue text-white text-xs font-medium rounded-full hover:bg-g-blueHover transition-all flex items-center justify-center gap-1.5">
@@ -1257,17 +1026,22 @@
 
   </main>
 
-  <!-- Resource Document Modal (Clean Google Modal) -->
   <div id="resource-modal" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4">
     <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col border border-g-border" id="printable-modal">
-      <div class="px-6 py-4 bg-white border-b border-g-border flex justify-between items-center no-print">
+      <div class="px-6 py-4 bg-white border-b border-g-border flex flex-wrap justify-between items-center gap-2 no-print">
         <div class="flex items-center gap-2">
           <i class="fa-solid fa-file-pdf text-g-blue"></i>
           <h3 id="resource-modal-title" class="font-bold text-base text-g-text">Document Viewer</h3>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="window.print()" class="px-4 py-1.5 bg-g-surface hover:bg-g-surface2 text-g-text border border-g-border rounded-full text-xs font-medium flex items-center gap-1.5">
-            <i class="fa-solid fa-print text-g-secondary"></i> Print / Save PDF
+        <div class="flex items-center flex-wrap gap-2">
+          <button id="btn-print-student" onclick="printResource(true)" class="px-3.5 py-1.5 bg-g-surface hover:bg-g-surface2 text-g-text border border-g-border rounded-full text-xs font-medium flex items-center gap-1.5">
+            <i class="fa-solid fa-print text-g-blue"></i> Print Student Sheet (No Key)
+          </button>
+          <button id="btn-print-teacher" onclick="printResource(false)" class="px-3.5 py-1.5 bg-g-surface hover:bg-g-surface2 text-g-text border border-g-border rounded-full text-xs font-medium flex items-center gap-1.5">
+            <i class="fa-solid fa-key text-g-green"></i> Print Teacher Copy (+Key)
+          </button>
+          <button onclick="toggleOnScreenKey()" id="btn-toggle-onscreen-key" class="px-3 py-1.5 bg-white border border-g-border hover:bg-g-surface rounded-full text-xs text-g-secondary">
+            Toggle Key On Screen
           </button>
           <button onclick="closeResourceViewer()" class="text-g-secondary hover:text-g-text text-lg px-2 rounded-full hover:bg-g-surface">
             <i class="fa-solid fa-xmark"></i>
@@ -1278,59 +1052,20 @@
     </div>
   </div>
 
-  <footer class="bg-g-surface text-g-secondary text-xs py-12 border-t border-g-border mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-        <div class="space-y-3">
-          <div class="flex items-center gap-2 text-g-text">
-            <div class="w-8 h-8 rounded-full bg-g-blueLight text-g-blue flex items-center justify-center font-bold text-sm">
-              <i class="fa-solid fa-shapes"></i>
-            </div>
-            <span class="font-bold text-sm">Shared Pearls of Wisdom</span>
-          </div>
-          <p class="text-[11px] leading-relaxed text-g-subtle">
-            Dedicated to linguistic precision, academic writing excellence, and systematic grammar mastery for scholars and professionals worldwide.
-          </p>
-        </div>
-        <div>
-          <span class="font-bold text-g-text block uppercase tracking-wider text-[11px] mb-3">Core Curricula</span>
-          <ul class="space-y-2 text-[11px]">
-            <li><button onclick="navigate('curriculum'); filterCurriculum('level-1')" class="hover:text-g-blue">Level I: Foundations (1–4)</button></li>
-            <li><button onclick="navigate('curriculum'); filterCurriculum('level-2')" class="hover:text-g-blue">Level II: Meaning & Phrase (5–8)</button></li>
-            <li><button onclick="navigate('curriculum'); filterCurriculum('level-3')" class="hover:text-g-blue">Level III: Sentence & Metaphor (9–12)</button></li>
-            <li><button onclick="navigate('curriculum'); filterCurriculum('level-4')" class="hover:text-g-blue">Level IV: IELTS & Advanced EAP (13–18)</button></li>
-          </ul>
-        </div>
-        <div>
-          <span class="font-bold text-g-text block uppercase tracking-wider text-[11px] mb-3">Interactive Studios</span>
-          <ul class="space-y-2 text-[11px]">
-            <li><button onclick="navigate('grammar-lab')" class="hover:text-g-blue">Grammar Transformation Lab</button></li>
-            <li><button onclick="navigate('word-bank')" class="hover:text-g-blue">100+ Academic Word Family Bank</button></li>
-            <li><button onclick="navigate('writing-studio')" class="hover:text-g-blue">Writing Studio & Rubrics</button></li>
-            <li><button onclick="navigate('revision')" class="hover:text-g-blue">Smart Revision Flashcards</button></li>
-          </ul>
-        </div>
-        <div>
-          <span class="font-bold text-g-text block uppercase tracking-wider text-[11px] mb-3">Educator Resources</span>
-          <ul class="space-y-2 text-[11px]">
-            <li><button onclick="openResourceViewer('plan1')" class="hover:text-g-blue">55-Min Lesson Plan: Suffixation</button></li>
-            <li><button onclick="openResourceViewer('plan2')" class="hover:text-g-blue">55-Min Lesson Plan: Clausal Metaphor</button></li>
-            <li><button onclick="openResourceViewer('plan3')" class="hover:text-g-blue">55-Min Lesson Plan: IELTS Discourse</button></li>
-            <li><button onclick="openResourceViewer('ws1')" class="hover:text-g-blue">Downloadable Matrix Worksheet</button></li>
-          </ul>
-        </div>
+  <!-- Footer -->
+  <footer class="bg-g-surface text-g-secondary text-xs py-10 border-t border-g-border mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <div class="flex items-center gap-2 text-g-text font-bold">
+        <i class="fa-solid fa-shapes text-g-blue"></i> Shared Pearls of Wisdom &middot; Nominalization EAP
       </div>
-      <div class="pt-8 border-t border-g-border flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px]">
-        <p>&copy; 2026 Shared Pearls of Wisdom. All instructional rights reserved. Built for B1–C1 Academic Competency.</p>
-        <div class="flex items-center gap-4">
-          <span class="text-g-subtle">WCAG 2.2 AA Compliant UI</span>
-          <button onclick="resetAppProgress()" class="text-g-subtle hover:text-g-red">Reset Progress Cache</button>
-        </div>
+      <div class="text-[11px] text-g-subtle">
+        &copy; 2026 Shared Pearls of Wisdom. All pedagogical rights reserved.
       </div>
     </div>
   </footer>
 
   <script>
+    // State Management
     const APP_STATE = {
       currentView: 'landing',
       currentLessonId: 1,
@@ -1343,16 +1078,48 @@
       activeLabMode: 'identify'
     };
 
+    // Navigation function
+    function navigate(viewId) {
+      APP_STATE.currentView = viewId;
+      document.querySelectorAll('.app-view').forEach(view => {
+        view.classList.add('hidden');
+      });
+      const target = document.getElementById(`view-${viewId}`);
+      if (target) {
+        target.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Update navbar pill active state
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        if (btn.getAttribute('data-view') === viewId) {
+          btn.classList.add('bg-g-surface', 'text-g-text', 'font-semibold');
+          btn.classList.remove('text-g-secondary');
+        } else {
+          btn.classList.remove('bg-g-surface', 'text-g-text', 'font-semibold');
+          btn.classList.add('text-g-secondary');
+        }
+      });
+
+      if (viewId === 'dashboard') renderDashboard();
+      if (viewId === 'grammar-lab') renderGrammarLabWorkspace();
+      if (viewId === 'revision') renderFlashcard();
+      if (viewId === 'diagnostic') renderDiagnosticQuiz();
+      if (viewId === 'curriculum') renderCurriculumList();
+    }
+
+    function toggleMobileNav() {
+      const mob = document.getElementById('mobile-nav');
+      if (mob) mob.classList.toggle('hidden');
+    }
+
     function loadPersistedState() {
       try {
         const saved = localStorage.getItem('SPW_NOMINALIZATION_STATE');
         if (saved) {
-          const parsed = JSON.parse(saved);
-          Object.assign(APP_STATE, parsed);
+          Object.assign(APP_STATE, JSON.parse(saved));
         }
-      } catch (e) {
-        console.warn('LocalStorage unavailable. Operating in memory.', e);
-      }
+      } catch (e) {}
       updateGlobalBadges();
     }
 
@@ -1361,13 +1128,6 @@
         localStorage.setItem('SPW_NOMINALIZATION_STATE', JSON.stringify(APP_STATE));
       } catch (e) {}
       updateGlobalBadges();
-    }
-
-    function resetAppProgress() {
-      if (window.confirm('Reset all saved quiz scores, lesson progress, and portfolio drafts?')) {
-        localStorage.removeItem('SPW_NOMINALIZATION_STATE');
-        location.reload();
-      }
     }
 
     function updateGlobalBadges() {
@@ -2424,67 +2184,83 @@
     const RESOURCE_DOCUMENTS = {
       plan1: {
         title: "55-Minute Lesson Plan 1: Deverbal Suffixes & Orthographic Shifts",
+        isWorksheet: false,
         content: `
           <div class="space-y-6">
             <div class="border-b border-g-border pb-4">
-              <span class="text-xs font-bold uppercase tracking-wider text-g-blue">Shared Pearls of Wisdom · Curriculum Directorate</span>
-              <h1 class="text-2xl font-bold text-g-text mt-1">Detailed 55-Minute Lesson Plan 1</h1>
-              <p class="text-xs text-g-secondary mt-1">Target Audience: B1–B2 EAP & University Preparation Students | Theme: Morphology & Spelling Shifts</p>
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-g-blue">Shared Pearls of Wisdom · EAP Curriculum</span>
+                  <h1 class="text-2xl font-bold text-g-text mt-0.5">Lesson Plan 1: Deverbal Suffixes & Orthographic Shifts</h1>
+                  <p class="text-xs text-g-secondary mt-1">Level: B1–B2 | Duration: 55 mins | Focus: Morphological derivations, stem mutations & stress migration</p>
+                </div>
+                <span class="px-3 py-1 bg-g-surface2 text-g-text text-xs rounded-full font-mono font-medium">1 of 2 Pages</span>
+              </div>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div class="p-3 bg-g-surface rounded-xl border border-g-border"><strong>Duration:</strong> 55 Mins</div>
-              <div class="p-3 bg-g-surface rounded-xl border border-g-border"><strong>Focus Suffixes:</strong> -tion, -sion, -ment, -ance</div>
-              <div class="p-3 bg-g-surface rounded-xl border border-g-border"><strong>CEFR Target:</strong> B1 &rarr; B2</div>
-              <div class="p-3 bg-g-surface rounded-xl border border-g-border"><strong>Materials:</strong> Whiteboard, Diagnostic Cards</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="p-4 bg-g-surface rounded-2xl border border-g-border space-y-1.5">
+                <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-g-blue flex items-center gap-1.5">
+                  <i class="fa-solid fa-bullseye"></i> Measurable Lesson Outcomes
+                </h4>
+                <ul class="list-disc list-inside space-y-1 text-g-secondary">
+                  <li>Form nouns with Latinate/Germanic suffixes (-tion, -sion, -ment, -ance/-ence, -al).</li>
+                  <li>Recognize vowel and consonant stem alternations (decide &rarr; decision; expand &rarr; expansion).</li>
+                  <li>Apply the penultimate stress rule in speech for suffixes ending in -ion.</li>
+                </ul>
+              </div>
+
+              <div class="p-4 bg-g-surface rounded-2xl border border-g-border space-y-1.5">
+                <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-g-blue flex items-center gap-1.5">
+                  <i class="fa-solid fa-toolbox"></i> Target Lexicon & Materials
+                </h4>
+                <p><strong>Core Stems:</strong> analyze, decide, develop, maintain, perform, react, refuse.</p>
+                <p><strong>Required Equipment:</strong> Whiteboard, Diagnostic Suffix Cards, Handout Worksheet 1.</p>
+                <p><strong>Divergent Register:</strong> British (-isation) vs. American (-ization) spelling consistency.</p>
+              </div>
             </div>
 
-            <div class="space-y-4 text-xs leading-relaxed text-g-secondary">
-              <h3 class="text-sm font-bold text-g-text uppercase tracking-wider text-g-blue">Timetable & Stage-by-Stage Breakdown</h3>
+            <div class="space-y-3 text-xs leading-relaxed">
+              <h3 class="text-xs font-bold text-g-text uppercase tracking-wider text-g-blue">Timed 5-Stage Instructional Schedule</h3>
               
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>1. Warm-Up & Lead-In: Suffix Sorting Challenge</span>
-                  <span class="text-g-blue font-mono">00:00 – 00:07 (7 mins)</span>
+                  <span>Stage 1: Diagnostic Lead-In & Category Sorting</span>
+                  <span class="text-g-blue font-mono">00:00 – 00:08 (8 Mins)</span>
                 </div>
-                <p><strong>Aim:</strong> Activate prior knowledge regarding noun derivation.</p>
-                <p><strong>Procedure:</strong> Teacher displays 8 verbs on the board (develop, decide, perform, expand, conclude, maintain, inform, achieve). Students work in pairs to sort them into 4 suffix columns: -tion/-sion, -ment, -ance/-ence, and irregular. Elicit student guesses and highlight spelling changes (e.g., decide &rarr; decision; maintain &rarr; maintenance).</p>
+                <p>Teacher writes 6 prompt verbs on board (develop, decide, maintain, refuse, expand, analyze). In pairs, students sort them under suffixes (-ment, -tion/-sion, -al, -ance, irregular). Teacher highlights phonetic changes and consonant mutations (decide &rarr; decision).</p>
               </div>
 
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>2. Explicit Linguistic Input & Phonological Stress Shift</span>
-                  <span class="text-g-blue font-mono">00:07 – 00:22 (15 mins)</span>
+                  <span>Stage 2: Explicit Linguistic Presentation & Trochaic Stress Rule</span>
+                  <span class="text-g-blue font-mono">00:08 – 00:22 (14 Mins)</span>
                 </div>
-                <p><strong>Aim:</strong> Teach morphological rules, Latinate stem alternations, and the trochaic syllable stress rule.</p>
-                <p><strong>Procedure:</strong> Teacher explains why formal English nominalizes (packaging actions into manageable concepts). Introduce the rule that '-tion' and '-sion' consistently pull syllable stress onto the penultimate syllable (e.g., com-MU-ni-cate &rarr; com-mu-ni-CA-tion). Drill choral pronunciation to contrast verb/noun stress.</p>
+                <p>Deconstruct morphological mechanics: verbs ending in -ate consistently take -ation (terminate &rarr; termination). Demonstrate penultimate syllable stress shift: com'municate (verb) &rarr; communi'cation (noun). Conduct choral pronunciation drills contrasting stress placement.</p>
               </div>
 
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>3. Controlled Guided Practice: Sentence Pairs & Adjective Conversion</span>
-                  <span class="text-g-blue font-mono">00:22 – 00:37 (15 mins)</span>
+                  <span>Stage 3: Controlled Practice & Adverb-to-Adjective Shift</span>
+                  <span class="text-g-blue font-mono">00:22 – 00:36 (14 Mins)</span>
                 </div>
-                <p><strong>Aim:</strong> Train learners to convert verbal modifiers (adverbs) into nominal modifiers (adjectives).</p>
-                <p><strong>Procedure:</strong> Hand out 5 sentence frames where students must rewrite clauses. Example: 'The team worked effectively (v+adv)' &rarr; 'The team's effective work (adj+n)'. Students complete exercises individually, then check in pairs. Teacher circulates and addresses common errors.</p>
+                <p>Students convert verbal modifiers into nominal modifiers: "The system reacted violently" &rarr; "The violent reaction of the system". Address the common mistake of retaining adverbs with nouns (*"the violently reaction"). Students check in pairs with teacher circulating.</p>
               </div>
 
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>4. Communicative Semi-Controlled Production: Academic Abstract Expansion</span>
-                  <span class="text-g-blue font-mono">00:37 – 00:50 (13 mins)</span>
+                  <span>Stage 4: Guided Communicative Production (Abstract Synthesis)</span>
+                  <span class="text-g-blue font-mono">00:36 – 00:49 (13 Mins)</span>
                 </div>
-                <p><strong>Aim:</strong> Apply deverbal nominals in authentic EAP paragraph contexts.</p>
-                <p><strong>Procedure:</strong> In pairs, students receive a 3-sentence spoken-style scenario: 'A scientist investigated water pollution. She discovered harmful bacteria. She concluded the lake was unsafe.' Students transform the narrative into a 1-sentence academic abstract lead using nominalization: 'An investigation into water pollution revealed bacterial contamination, leading to the conclusion that the lake was unsafe.'</p>
+                <p>Learners receive a 3-clause spoken prompt and compress it into a formal 1-sentence abstract header using deverbal heads and appropriate of-phrases. Example: "They investigated water purity, found high microbes, and decided to close the reservoir." &rarr; "Investigation of water purity revealed microbial contamination, prompting the decision to close the reservoir."</p>
               </div>
 
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>5. Plenary, Error Correction & Homework Assignment</span>
-                  <span class="text-g-blue font-mono">00:50 – 00:55 (5 mins)</span>
+                  <span>Stage 5: Plenary Feedback & Formative Check</span>
+                  <span class="text-g-blue font-mono">00:49 – 00:55 (6 Mins)</span>
                 </div>
-                <p><strong>Aim:</strong> Consolidate key takeaways and set asynchronous practice.</p>
-                <p><strong>Procedure:</strong> Elicit 3 key rules from students. Assign Worksheet 1 (The Derivational Matrix) for independent consolidation.</p>
+                <p>Individual exit card: Students transform two verbs on slip before dismissal. Assign Worksheet 1 for homework consolidation.</p>
               </div>
             </div>
           </div>
@@ -2492,62 +2268,82 @@
       },
       plan2: {
         title: "55-Minute Lesson Plan 2: Sentence-Level Transformation & Agency Preservation",
+        isWorksheet: false,
         content: `
           <div class="space-y-6">
             <div class="border-b border-g-border pb-4">
-              <span class="text-xs font-bold uppercase tracking-wider text-g-green">Shared Pearls of Wisdom · Curriculum Directorate</span>
-              <h1 class="text-2xl font-bold text-g-text mt-1">Detailed 55-Minute Lesson Plan 2</h1>
-              <p class="text-xs text-g-secondary mt-1">Target Audience: B2 EAP & Pre-Sessional University Students | Theme: Clausal Metaphor & Causative Verbs</p>
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-g-green">Shared Pearls of Wisdom · EAP Curriculum</span>
+                  <h1 class="text-2xl font-bold text-g-text mt-0.5">Lesson Plan 2: Sentence Transformation & Agency Preservation</h1>
+                  <p class="text-xs text-g-secondary mt-1">Level: B2–C1 | Duration: 55 mins | Focus: Clausal metaphor, causative verb substitution, preserving modality</p>
+                </div>
+                <span class="px-3 py-1 bg-g-surface2 text-g-text text-xs rounded-full font-mono font-medium">1 of 2 Pages</span>
+              </div>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div class="p-3 bg-g-surface rounded-xl border border-g-border"><strong>Duration:</strong> 55 Mins</div>
-              <div class="p-3 bg-g-surface rounded-xl border border-g-border"><strong>Focus Area:</strong> Conjunction Replacement</div>
-              <div class="p-3 bg-g-surface rounded-xl border border-g-border"><strong>CEFR Target:</strong> B2 &rarr; C1</div>
-              <div class="p-3 bg-g-surface rounded-xl border border-g-border"><strong>Key Grammar:</strong> Causative Verbs (cause, lead to, trigger)</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="p-4 bg-g-surface rounded-2xl border border-g-border space-y-1.5">
+                <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-g-green flex items-center gap-1.5">
+                  <i class="fa-solid fa-bullseye"></i> Learning Objectives
+                </h4>
+                <ul class="list-disc list-inside space-y-1 text-g-secondary">
+                  <li>Replace informal conjunctions (because, so) with academic causative links.</li>
+                  <li>Package dependent that-clauses into compact grammatical subjects.</li>
+                  <li>Retain modal nuances (possibility vs. certainty) during transformation.</li>
+                </ul>
+              </div>
+
+              <div class="p-4 bg-g-surface rounded-2xl border border-g-border space-y-1.5">
+                <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-g-green flex items-center gap-1.5">
+                  <i class="fa-solid fa-diagram-project"></i> Core Causative Formula
+                </h4>
+                <p class="font-mono text-[11px] text-g-green">[Because + Clause A, Clause B] &rarr; [Noun Phrase A] + [Causative Verb] + [Noun Phrase B]</p>
+                <p><strong>Causative Verbs:</strong> catalyzed, precipitated, facilitated, exacerbated, constrained.</p>
+              </div>
             </div>
 
-            <div class="space-y-4 text-xs leading-relaxed text-g-secondary">
-              <h3 class="text-sm font-bold text-g-text uppercase tracking-wider text-g-green">Timetable & Stage-by-Stage Breakdown</h3>
-              
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+            <div class="space-y-3 text-xs leading-relaxed">
+              <h3 class="text-xs font-bold text-g-text uppercase tracking-wider text-g-green">Timed 5-Stage Schedule</h3>
+
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>1. Diagnostic Warm-Up: Conjunction Hunt</span>
-                  <span class="text-g-green font-mono">00:00 – 00:05 (5 mins)</span>
+                  <span>Stage 1: Contrastive Analysis Hook</span>
+                  <span class="text-g-green font-mono">00:00 – 00:07 (7 Mins)</span>
                 </div>
-                <p>Show two versions of a sentence on slides: A) 'Because the population aged rapidly, the healthcare system experienced immense pressure.' vs B) 'The rapid aging of the population exerted immense pressure on the healthcare system.' Ask students which feels more authoritative and why.</p>
+                <p>Present two versions of the same proposition: (A) "Because fuel prices rose drastically, consumer spending fell." vs (B) "The drastic rise in fuel prices precipitated a drop in consumer spending." Elicit why B conveys greater academic authority and brevity.</p>
               </div>
 
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>2. Structural Architecture: Replacing 'Because' with Causative Verbs</span>
-                  <span class="text-g-green font-mono">00:05 – 00:23 (18 mins)</span>
+                  <span>Stage 2: Syntax Modeling & Modality Caution</span>
+                  <span class="text-g-green font-mono">00:07 – 00:23 (16 Mins)</span>
                 </div>
-                <p>Deconstruct the mathematical formula of sentence transformation: [Because + Subject 1 + Verb 1] + [Subject 2 + Verb 2] &rarr; [Noun Phrase 1] + [Academic Causative Verb] + [Noun Phrase 2]. Introduce academic causative verbs: facilitated, catalyzed, precipitated, exacerbated, provoked.</p>
+                <p>Demonstrate agent-to-possessive shifts (the government expanded &rarr; the government's expansion). Emphasize modality preservation: "The project might fail" becomes "The potential failure of the project", NOT "The failure of the project" (avoiding false certainty).</p>
               </div>
 
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>3. Paired Task: Agency & Modality Preservation Clinic</span>
-                  <span class="text-g-green font-mono">00:23 – 00:38 (15 mins)</span>
+                  <span>Stage 3: Paired Syntactic Clinic</span>
+                  <span class="text-g-green font-mono">00:23 – 00:37 (14 Mins)</span>
                 </div>
-                <p>Students work in pairs on 6 challenging sentences with modals (e.g., 'The drug might fail if dosages are irregular'). Guide them to avoid over-certainty by inserting modal adjectives: 'Irregular dosages could lead to the potential failure of the drug.'</p>
+                <p>Students work in pairs to convert 5 causal clauses using designated causative verbs (facilitated, caused, exacerbated). Focus on selecting correct prepositions (an increase IN, an inquiry INTO, an impact ON).</p>
               </div>
 
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>4. Group Production: Policy Statement Re-drafting</span>
-                  <span class="text-g-green font-mono">00:38 – 00:50 (12 mins)</span>
+                  <span>Stage 4: Policy Brief Paragraph Rewriting</span>
+                  <span class="text-g-green font-mono">00:37 – 00:49 (12 Mins)</span>
                 </div>
-                <p>Groups of three receive an informal student paragraph describing climate change. They rewrite the entire passage into a 60-word high-density academic summary suitable for a policy briefing paper.</p>
+                <p>Students take an informal 75-word descriptive narrative on public healthcare congestion and rewrite it into a 45-word balanced executive summary suitable for a government white paper.</p>
               </div>
 
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>5. Review & Assessment Exit Ticket</span>
-                  <span class="text-g-green font-mono">00:50 – 00:55 (5 mins)</span>
+                  <span>Stage 5: Error Reflection & Close</span>
+                  <span class="text-g-green font-mono">00:49 – 00:55 (6 Mins)</span>
                 </div>
-                <p>Each student writes one nominalized transformation on a sticky note / digital board before leaving. Homework: Worksheet 2 (Clause-to-Nominal Syntactic Converter).</p>
+                <p>Teacher projects two student responses on screen for constructive peer critique. Assign Worksheet 2 (Clause-to-Nominal Syntactic Converter).</p>
               </div>
             </div>
           </div>
@@ -2555,62 +2351,82 @@
       },
       plan3: {
         title: "55-Minute Lesson Plan 3: IELTS Task 2 & Academic Information Flow",
+        isWorksheet: false,
         content: `
           <div class="space-y-6">
             <div class="border-b border-g-border pb-4">
-              <span class="text-xs font-bold uppercase tracking-wider text-purple-700">Shared Pearls of Wisdom · Curriculum Directorate</span>
-              <h1 class="text-2xl font-bold text-g-text mt-1">Detailed 55-Minute Lesson Plan 3</h1>
-              <p class="text-xs text-g-secondary mt-1">Target Audience: C1 IELTS Academic Candidates & Postgraduates | Theme: Theme–Rheme & De-zombification</p>
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-purple-700">Shared Pearls of Wisdom · EAP Curriculum</span>
+                  <h1 class="text-2xl font-bold text-g-text mt-0.5">Lesson Plan 3: IELTS Task 2 & Academic Information Flow</h1>
+                  <p class="text-xs text-g-secondary mt-1">Level: C1 Mastery | Duration: 55 mins | Focus: 'This + abstract noun' cohesion, Theme–Rheme, pruning zombie nouns</p>
+                </div>
+                <span class="px-3 py-1 bg-g-surface2 text-g-text text-xs rounded-full font-mono font-medium">1 of 2 Pages</span>
+              </div>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              <div class="p-3 bg-g-surface rounded-xl border border-g-border"><strong>Duration:</strong> 55 Mins</div>
-              <div class="p-3 bg-g-surface rounded-xl border border-g-border"><strong>Key Structure:</strong> 'This + Abstract Noun'</div>
-              <div class="p-3 bg-g-surface rounded-xl border border-g-border"><strong>Target Band:</strong> IELTS 7.5 – 9.0</div>
-              <div class="p-3 bg-g-surface rounded-xl border border-g-border"><strong>Editing Focus:</strong> Pruning Zombie Nouns</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+              <div class="p-4 bg-g-surface rounded-2xl border border-g-border space-y-1.5">
+                <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-purple-700 flex items-center gap-1.5">
+                  <i class="fa-solid fa-bullseye"></i> Band 8.0+ Objectives
+                </h4>
+                <ul class="list-disc list-inside space-y-1 text-g-secondary">
+                  <li>Eliminate unsupported, ambiguous pronouns ("This caused...") via shell nouns.</li>
+                  <li>Package Rheme into Theme to create interlocking sentence bridges.</li>
+                  <li>Diagnose and prune "zombie nouns" that choke readability.</li>
+                </ul>
+              </div>
+
+              <div class="p-4 bg-g-surface rounded-2xl border border-g-border space-y-1.5">
+                <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-purple-700 flex items-center gap-1.5">
+                  <i class="fa-solid fa-link"></i> Cohesive Shell Noun Bank
+                </h4>
+                <p>This <em>downturn</em>, This <em>impasse</em>, This <em>disparity</em>, This <em>finding</em>, This <em>retrenchment</em>.</p>
+                <p class="text-g-subtle italic">Replaces repetitive repetition or vague reference with exact evaluative nouns.</p>
+              </div>
             </div>
 
-            <div class="space-y-4 text-xs leading-relaxed text-g-secondary">
-              <h3 class="text-sm font-bold text-g-text uppercase tracking-wider text-purple-700">Timetable & Stage-by-Stage Breakdown</h3>
-              
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+            <div class="space-y-3 text-xs leading-relaxed">
+              <h3 class="text-xs font-bold text-g-text uppercase tracking-wider text-purple-700">Timed 5-Stage Schedule</h3>
+
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>1. Warm-Up: The Ambiguous 'This' Detective</span>
-                  <span class="text-purple-700 font-mono">00:00 – 00:08 (8 mins)</span>
+                  <span>Stage 1: Ambiguous Reference Detective</span>
+                  <span class="text-purple-700 font-mono">00:00 – 00:08 (8 Mins)</span>
                 </div>
-                <p>Present 3 sentences where the writer wrote 'This happened...' and 'This caused problems...'. Challenge students to explain what 'This' refers to. Demonstrate how adding an abstract shell noun (e.g., 'This stagnation', 'This refusal') instantly clarifies the argument.</p>
+                <p>Present 3 sentences beginning with naked demonstratives: "The factory laid off workers. This caused strikes." Show how inserting a precise deverbal noun ("This retrenchment provoked strikes") eliminates ambiguity and boosts IELTS Coherence & Cohesion score.</p>
               </div>
 
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>2. Explicit Discourse Analysis: Theme–Rheme Progression</span>
-                  <span class="text-purple-700 font-mono">00:08 – 00:22 (14 mins)</span>
+                  <span>Stage 2: Theme–Rheme Information Architecture</span>
+                  <span class="text-purple-700 font-mono">00:08 – 00:22 (14 Mins)</span>
                 </div>
-                <p>Teach Hallidayan information packaging: Sentence 1 introduces an action at the end (Rheme). Sentence 2 captures this action as a nominalized Theme at the beginning. Show authentic Band 9 IELTS Task 2 model paragraphs demonstrating this cohesive chain.</p>
+                <p>Illustrate how expert academic prose packages new information at the sentence end (Rheme) and recycles it as the nominalized starting point (Theme) in the next sentence. Analyze an authentic Cambridge C1 academic extract.</p>
               </div>
 
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>3. The Zombie Noun Clinic: Pruning Over-Nominalization</span>
-                  <span class="text-purple-700 font-mono">00:22 – 00:37 (15 mins)</span>
+                  <span>Stage 3: The Zombie Noun De-Choking Clinic</span>
+                  <span class="text-purple-700 font-mono">00:22 – 00:36 (14 Mins)</span>
                 </div>
-                <p>Introduce Helen Sword's concept of 'Zombie Nouns'. Distribute sentences suffering from excessive of-phrases (e.g., 'The carrying out of the inspection of the facility was completed by the team'). Students practice restoring clean, active verbs: 'The team inspected the facility.'</p>
+                <p>Introduce Helen Sword's concept of bureaucratic "zombie nouns". Students prune sentences buried under multiple 'of' prepositions: "The carrying out of the implementation of the decision was done" &rarr; "The council implemented the decision."</p>
               </div>
 
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>4. Independent Practice: Timed IELTS Body Paragraph Writing</span>
-                  <span class="text-purple-700 font-mono">00:37 – 00:50 (13 mins)</span>
+                  <span>Stage 4: Timed IELTS Task 2 Body Paragraph Writing</span>
+                  <span class="text-purple-700 font-mono">00:36 – 00:49 (13 Mins)</span>
                 </div>
-                <p>Students write a 90-word body paragraph answering an IELTS prompt on urban urbanization. Criteria: Must include exactly two balanced nominalizations, one 'This + noun' link, and no zombie-noun chains.</p>
+                <p>Students write an 80-word IELTS body paragraph on urbanization containing exactly: (1) one nominalized cause-effect sentence, (2) one 'This + noun' transition, and (3) no prepositional chains over two tiers.</p>
               </div>
 
-              <div class="p-4 bg-white rounded-xl border border-g-border space-y-2">
+              <div class="p-3.5 bg-white rounded-xl border border-g-border space-y-1">
                 <div class="flex justify-between items-center font-bold text-g-text">
-                  <span>5. Peer Evaluation & Wrap-Up</span>
-                  <span class="text-purple-700 font-mono">00:50 – 00:55 (5 mins)</span>
+                  <span>Stage 5: Rubric Evaluation & Wrap-Up</span>
+                  <span class="text-purple-700 font-mono">00:49 – 00:55 (6 Mins)</span>
                 </div>
-                <p>Peer review using a 3-point checklist. Homework: Worksheet 3 (Discourse & Over-Nominalization Clinic).</p>
+                <p>Peer assessment against IELTS Band 8.0 descriptors for Lexical Resource and Grammatical Range. Assign Worksheet 3 for further independent practice.</p>
               </div>
             </div>
           </div>
@@ -2618,79 +2434,225 @@
       },
       ws1: {
         title: "Worksheet 1: The Derivational Matrix & Concord (B1/B2)",
+        isWorksheet: true,
         content: `
           <div class="space-y-6 text-xs text-g-secondary leading-relaxed">
             <div class="border-b border-g-border pb-3">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-g-blue">Shared Pearls of Wisdom · Student Worksheet 1</span>
-              <h2 class="text-xl font-bold text-g-text mt-1">The Derivational Matrix & Concord (25 Items)</h2>
-              <p>Section A: Suffix Formation | Section B: Countability & Concord | Section C: Error Correction</p>
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-g-blue">Shared Pearls of Wisdom · Beyond-Classroom Practice</span>
+                  <h2 class="text-xl font-bold text-g-text mt-0.5">Worksheet 1: The Derivational Matrix & Concord</h2>
+                  <p class="text-xs text-g-secondary mt-1">Student Name: ___________________________ &nbsp;&nbsp;|&nbsp;&nbsp; Date: ______________ &nbsp;&nbsp;|&nbsp;&nbsp; Score: ____ / 20</p>
+                </div>
+                <span class="px-2.5 py-1 bg-g-surface2 text-g-text text-[11px] rounded-full font-mono">Student Sheet</span>
+              </div>
             </div>
 
+            <!-- Part A -->
             <div class="space-y-3">
-              <h4 class="font-bold text-g-text uppercase tracking-wider">Part A: Form the Correct Nominalization</h4>
-              <p>Supply the correct academic noun form for the base verb or adjective in parentheses:</p>
-              <ol class="list-decimal list-inside space-y-2 font-mono text-g-text">
-                <li>The researcher's (accurate) ____________ was verified by independent lab audits.</li>
-                <li>The sudden (collapse) ____________ of the dam displaced thousands of villagers.</li>
-                <li>(Refuse) ____________ to comply with the subpoena led to immediate legal sanction.</li>
-                <li>Engineers carried out regular (maintain) ____________ on the high-speed rail tracks.</li>
-                <li>There was considerable (vary) ____________ among the demographic test groups.</li>
-                <li>The board announced the (terminate) ____________ of all discretionary bonuses.</li>
-                <li>The (stable) ____________ of national financial institutions remains a priority.</li>
-                <li>Scholars questioned the (valid) ____________ of the statistical methodology.</li>
-              </ol>
+              <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-g-blue flex items-center justify-between">
+                <span>Part A: Suffix Formation & Morphological Shifts (10 Marks)</span>
+                <span class="font-normal text-g-subtle text-[10px]">Supply the formal academic noun form</span>
+              </h4>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 font-mono text-g-text">
+                <div>1. The lab verified the (accurate) ________________ of the measurements.</div>
+                <div>2. The sudden (collapse) ________________ of negotiations delayed trade.</div>
+                <div>3. Their (refuse) ________________ to sign the treaty was widely criticized.</div>
+                <div>4. Routine (maintain) ________________ on the generators prevented failure.</div>
+                <div>5. We observed notable (vary) ________________ across test demographics.</div>
+                <div>6. The minister confirmed the (terminate) ________________ of the program.</div>
+                <div>7. The financial (stable) ________________ of the banking sector was confirmed.</div>
+                <div>8. Scholars debated the (valid) ________________ of the survey findings.</div>
+                <div>9. The (expand) ________________ of international routes boosted tourism.</div>
+                <div>10. He published a thorough (analyse) ________________ of the fiscal data.</div>
+              </div>
             </div>
 
+            <!-- Part B -->
             <div class="space-y-3 pt-3 border-t border-g-border">
-              <h4 class="font-bold text-g-text uppercase tracking-wider">Part B: Dependent Prepositions in Context</h4>
-              <p>Select the correct academic preposition (in / into / of / to / on):</p>
-              <ol class="list-decimal list-inside space-y-2 font-mono text-g-text">
-                <li>Economists recorded an unprecedented increase [ ___ ] regional fuel consumption.</li>
-                <li>The government initiated an official inquiry [ ___ ] alleged banking malpractice.</li>
-                <li>The directors reached a unanimous decision [ ___ ] liquidate non-performing assets.</li>
-                <li>The environmental impact [ ___ ] coastal wetlands was evaluated thoroughly.</li>
+              <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-g-blue flex items-center justify-between">
+                <span>Part B: Dependent Prepositions in Context (6 Marks)</span>
+                <span class="font-normal text-g-subtle text-[10px]">Circle the single correct preposition</span>
+              </h4>
+              <ol class="list-decimal list-inside space-y-2 text-g-text font-sans">
+                <li>Economists recorded an unprecedented increase [ <strong class="font-mono">in / of / with / at</strong> ] domestic semiconductor consumption.</li>
+                <li>The ministry launched a formal inquiry [ <strong class="font-mono">about / into / for / over</strong> ] allegations of accounting misconduct.</li>
+                <li>The committee made the unanimous decision [ <strong class="font-mono">to / of / for / about</strong> ] postpone the scheduled vote.</li>
+                <li>The environmental impact [ <strong class="font-mono">in / on / at / with</strong> ] coastal wetlands was thoroughly evaluated.</li>
+                <li>There was an intense public reaction [ <strong class="font-mono">to / with / against / on</strong> ] the proposed sales tax hike.</li>
+                <li>The research team reached an agreement [ <strong class="font-mono">with / on / into / by</strong> ] ethical guidelines for gene editing.</li>
               </ol>
             </div>
 
-            <div class="p-4 bg-g-surface rounded-xl border border-g-border">
-              <span class="font-bold text-g-text block mb-1">Answer Key (Summary):</span>
-              <p class="font-mono text-[11px] text-g-blue">1. accuracy | 2. collapse | 3. refusal | 4. maintenance | 5. variation | 6. termination | 7. stability | 8. validity | 9. in | 10. into | 11. to | 12. on</p>
+            <!-- Part C -->
+            <div class="space-y-3 pt-3 border-t border-g-border">
+              <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-g-blue flex items-center justify-between">
+                <span>Part C: Countability & Agreement Editing (4 Marks)</span>
+                <span class="font-normal text-g-subtle text-[10px]">Identify & rewrite the single grammatical error in each sentence</span>
+              </h4>
+              <ol class="list-decimal list-inside space-y-2 text-g-text font-sans">
+                <li>"The scientists published several interesting researches on climate resilience."<br><span class="text-g-subtle text-[11px] font-mono">Correction: __________________________________________________________________</span></li>
+                <li>"The analysis of the blood samples were inconclusive after twenty-four hours."<br><span class="text-g-subtle text-[11px] font-mono">Correction: __________________________________________________________________</span></li>
+                <li>"They received new informations regarding the proposed highway construction."<br><span class="text-g-subtle text-[11px] font-mono">Correction: __________________________________________________________________</span></li>
+                <li>"The quickly increase in interest rates discouraged potential first-time buyers."<br><span class="text-g-subtle text-[11px] font-mono">Correction: __________________________________________________________________</span></li>
+              </ol>
+            </div>
+
+            <!-- TEACHER ANSWER KEY SECTION -->
+            <div class="teacher-key-section page-break-before pt-8 border-t-2 border-g-green mt-8 space-y-4">
+              <div class="flex justify-between items-center bg-g-greenLight/60 p-3.5 rounded-xl border border-g-green/30">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-g-green block">Teacher's Reference Copy</span>
+                  <h3 class="font-bold text-sm text-g-text">Answer Key & Marking Criteria — Worksheet 1</h3>
+                </div>
+                <span class="text-xs font-mono font-bold text-g-green">Page 2 (Teacher Only)</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                <div class="p-3.5 bg-g-surface rounded-xl border border-g-border">
+                  <span class="font-bold text-g-text block mb-1 text-[11px] uppercase">Part A Answers:</span>
+                  <ol class="list-decimal list-inside font-mono text-[11px] space-y-1 text-g-blue">
+                    <li>accuracy</li>
+                    <li>collapse (zero-conv)</li>
+                    <li>refusal</li>
+                    <li>maintenance</li>
+                    <li>variation</li>
+                    <li>termination</li>
+                    <li>stability</li>
+                    <li>validity</li>
+                    <li>expansion</li>
+                    <li>analysis</li>
+                  </ol>
+                </div>
+
+                <div class="p-3.5 bg-g-surface rounded-xl border border-g-border">
+                  <span class="font-bold text-g-text block mb-1 text-[11px] uppercase">Part B Answers:</span>
+                  <ol class="list-decimal list-inside font-mono text-[11px] space-y-1 text-g-green">
+                    <li>in</li>
+                    <li>into</li>
+                    <li>to (to-infinitive)</li>
+                    <li>on</li>
+                    <li>to</li>
+                    <li>on</li>
+                  </ol>
+                </div>
+
+                <div class="p-3.5 bg-g-surface rounded-xl border border-g-border">
+                  <span class="font-bold text-g-text block mb-1 text-[11px] uppercase">Part C Corrections:</span>
+                  <div class="space-y-1.5 text-[11px] text-g-secondary">
+                    <div><strong>1.</strong> 'researches' &rarr; <em>studies</em> or <em>pieces of research</em> (research is uncountable).</div>
+                    <div><strong>2.</strong> 'were' &rarr; <em>was</em> (singular subject head is 'analysis', not 'samples').</div>
+                    <div><strong>3.</strong> 'informations' &rarr; <em>information</em> (information is uncountable).</div>
+                    <div><strong>4.</strong> 'quickly' &rarr; <em>quick</em> (attributive adjective modifying 'increase').</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         `
       },
       ws2: {
         title: "Worksheet 2: Clause-to-Nominal Syntactic Converter (B2/C1)",
+        isWorksheet: true,
         content: `
           <div class="space-y-6 text-xs text-g-secondary leading-relaxed">
             <div class="border-b border-g-border pb-3">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-g-green">Shared Pearls of Wisdom · Student Worksheet 2</span>
-              <h2 class="text-xl font-bold text-g-text mt-1">Clause-to-Nominal Syntactic Converter (20 Items)</h2>
-              <p>Transforming complex spoken clauses into publication-grade academic noun phrases with causative links.</p>
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-g-green">Shared Pearls of Wisdom · Beyond-Classroom Practice</span>
+                  <h2 class="text-xl font-bold text-g-text mt-0.5">Worksheet 2: Clause-to-Nominal Syntactic Converter</h2>
+                  <p class="text-xs text-g-secondary mt-1">Student Name: ___________________________ &nbsp;&nbsp;|&nbsp;&nbsp; Date: ______________ &nbsp;&nbsp;|&nbsp;&nbsp; Score: ____ / 15</p>
+                </div>
+                <span class="px-2.5 py-1 bg-g-surface2 text-g-text text-[11px] rounded-full font-mono">Student Sheet</span>
+              </div>
             </div>
 
+            <!-- Part A -->
             <div class="space-y-3">
-              <h4 class="font-bold text-g-text uppercase tracking-wider">Rewrite the Following Spoken Clauses into Academic Sentences:</h4>
-              <div class="space-y-4">
+              <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-g-green flex items-center justify-between">
+                <span>Part A: Clausal Cause-and-Effect Transformation (6 Marks)</span>
+                <span class="font-normal text-g-subtle text-[10px]">Convert spoken clauses into a single academic nominal sentence</span>
+              </h4>
+              <div class="space-y-3 text-g-text">
+                <div>
+                  <p class="italic text-g-secondary">1. "Because the government subsidized solar energy, adoption rates increased rapidly."</p>
+                  <p class="font-mono text-[11px] text-g-subtle mt-0.5">Academic Rewrite: ____________________________________________________________________________________</p>
+                </div>
+                <div>
+                  <p class="italic text-g-secondary">2. "Although researchers formulated the drug quickly, they did not compromise safety guidelines."</p>
+                  <p class="font-mono text-[11px] text-g-subtle mt-0.5">Academic Rewrite: ____________________________________________________________________________________</p>
+                </div>
+                <div>
+                  <p class="italic text-g-secondary">3. "If the average global temperature increases by 2°C, sea levels will rise significantly."</p>
+                  <p class="font-mono text-[11px] text-g-subtle mt-0.5">Academic Rewrite: ____________________________________________________________________________________</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Part B -->
+            <div class="space-y-3 pt-3 border-t border-g-border">
+              <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-g-green flex items-center justify-between">
+                <span>Part B: That-Clause & Grammatical Metaphor Packaging (4 Marks)</span>
+                <span class="font-normal text-g-subtle text-[10px]">Package the dependent clause into a subject noun phrase</span>
+              </h4>
+              <div class="space-y-3 text-g-text">
+                <div>
+                  <p class="italic text-g-secondary">4. "That consumers were reluctant to spend during the quarter surprised market analysts."</p>
+                  <p class="font-mono text-[11px] text-g-subtle mt-0.5">Academic Rewrite: ____________________________________________________________________________________</p>
+                </div>
+                <div>
+                  <p class="italic text-g-secondary">5. "Engineers investigated why the aircraft turbine failed during the test flight."</p>
+                  <p class="font-mono text-[11px] text-g-subtle mt-0.5">Academic Rewrite: ____________________________________________________________________________________</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Part C -->
+            <div class="space-y-3 pt-3 border-t border-g-border">
+              <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-g-green flex items-center justify-between">
+                <span>Part C: Modality & Nuance Preservation (5 Marks)</span>
+                <span class="font-normal text-g-subtle text-[10px]">Rewrite while preserving epistemic modal uncertainty (possible / potential / likely)</span>
+              </h4>
+              <div class="space-y-3 text-g-text">
+                <div>
+                  <p class="italic text-g-secondary">6. "The experimental drug might fail if clinical trials are not carefully regulated."</p>
+                  <p class="font-mono text-[11px] text-g-subtle mt-0.5">Academic Rewrite: ____________________________________________________________________________________</p>
+                </div>
+                <div>
+                  <p class="italic text-g-secondary">7. "It is probable that inflation will decelerate across European economies next autumn."</p>
+                  <p class="font-mono text-[11px] text-g-subtle mt-0.5">Academic Rewrite: ____________________________________________________________________________________</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- TEACHER ANSWER KEY SECTION -->
+            <div class="teacher-key-section page-break-before pt-8 border-t-2 border-g-green mt-8 space-y-4">
+              <div class="flex justify-between items-center bg-g-greenLight/60 p-3.5 rounded-xl border border-g-green/30">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-g-green block">Teacher's Reference Copy</span>
+                  <h3 class="font-bold text-sm text-g-text">Model Rewrites & Marking Key — Worksheet 2</h3>
+                </div>
+                <span class="text-xs font-mono font-bold text-g-green">Page 2 (Teacher Only)</span>
+              </div>
+
+              <div class="space-y-3 text-xs text-g-secondary">
                 <div class="p-3 bg-g-surface rounded-xl border border-g-border">
-                  <span class="text-g-subtle block mb-1">1. Congruent Spoken:</span>
-                  <p class="italic text-g-text">"Because the government subsidized electric cars, many citizens decided to purchase them."</p>
-                  <span class="text-g-blue font-bold block mt-2 text-[11px]">Model Academic Rewrite:</span>
-                  <p class="font-mono text-g-text">Government subsidies for electric vehicles stimulated widespread consumer adoption.</p>
+                  <span class="font-bold text-g-text block mb-1">Part A Model Rewrites:</span>
+                  <p><strong>1.</strong> Government subsidies for solar energy stimulated rapid growth in adoption rates. (or <em>precipitated a rapid increase in adoption</em>)</p>
+                  <p class="mt-1"><strong>2.</strong> Rapid formulation of the drug occurred without compromising safety guidelines.</p>
+                  <p class="mt-1"><strong>3.</strong> A 2°C rise in average global temperature will trigger a significant increase in sea levels.</p>
                 </div>
 
                 <div class="p-3 bg-g-surface rounded-xl border border-g-border">
-                  <span class="text-g-subtle block mb-1">2. Congruent Spoken:</span>
-                  <p class="italic text-g-text">"Although the vaccine was manufactured rapidly, regulators did not compromise safety protocols."</p>
-                  <span class="text-g-blue font-bold block mt-2 text-[11px]">Model Academic Rewrite:</span>
-                  <p class="font-mono text-g-text">Rapid vaccine manufacture occurred without compromising rigorous safety protocols.</p>
+                  <span class="font-bold text-g-text block mb-1">Part B Model Rewrites:</span>
+                  <p><strong>4.</strong> Consumer reluctance to spend during the quarter surprised market analysts.</p>
+                  <p class="mt-1"><strong>5.</strong> Engineers investigated the cause of turbine failure during the test flight.</p>
                 </div>
 
                 <div class="p-3 bg-g-surface rounded-xl border border-g-border">
-                  <span class="text-g-subtle block mb-1">3. Congruent Spoken:</span>
-                  <p class="italic text-g-text">"If the climate gets hotter, sea levels will inevitably rise and displace coastal populations."</p>
-                  <span class="text-g-blue font-bold block mt-2 text-[11px]">Model Academic Rewrite:</span>
-                  <p class="font-mono text-g-text">Thermal expansion and rising sea levels will inevitably precipitate coastal demographic displacement.</p>
+                  <span class="font-bold text-g-text block mb-1">Part C Model Rewrites (Modality Check):</span>
+                  <p><strong>6.</strong> Inadequate regulation of clinical trials could result in the <strong>potential failure</strong> of the experimental drug. (Award marks only if 'potential' or 'possible' is preserved).</p>
+                  <p class="mt-1"><strong>7.</strong> The <strong>probable deceleration</strong> of inflation across European economies is anticipated next autumn.</p>
                 </div>
               </div>
             </div>
@@ -2699,29 +2661,82 @@
       },
       ws3: {
         title: "Worksheet 3: Discourse & Over-Nominalization Clinic (C1 EAP)",
+        isWorksheet: true,
         content: `
           <div class="space-y-6 text-xs text-g-secondary leading-relaxed">
             <div class="border-b border-g-border pb-3">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-purple-700">Shared Pearls of Wisdom · Student Worksheet 3</span>
-              <h2 class="text-xl font-bold text-g-text mt-1">Discourse & Over-Nominalization Clinic (C1 Mastery)</h2>
-              <p>Pruning zombie nouns, eliminating prepositional chains, and building cohesive Theme–Rheme paragraph chains.</p>
+              <div class="flex justify-between items-start">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-purple-700">Shared Pearls of Wisdom · Beyond-Classroom Practice</span>
+                  <h2 class="text-xl font-bold text-g-text mt-0.5">Worksheet 3: Discourse & Over-Nominalization Clinic</h2>
+                  <p class="text-xs text-g-secondary mt-1">Student Name: ___________________________ &nbsp;&nbsp;|&nbsp;&nbsp; Date: ______________ &nbsp;&nbsp;|&nbsp;&nbsp; Level: C1 EAP / IELTS</p>
+                </div>
+                <span class="px-2.5 py-1 bg-g-surface2 text-g-text text-[11px] rounded-full font-mono">Student Sheet</span>
+              </div>
             </div>
 
+            <!-- Exercise 1 -->
             <div class="space-y-3">
-              <h4 class="font-bold text-g-text uppercase tracking-wider text-g-red">Exercise A: Pruning Bureaucratic Zombie Nouns</h4>
+              <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-g-red flex items-center justify-between">
+                <span>Exercise 1: Pruning Zombie Nouns & Restoring Active Voice (6 Marks)</span>
+                <span class="font-normal text-g-subtle text-[10px]">Unpack dense prepositional chains into clean academic sentences</span>
+              </h4>
               <div class="space-y-3">
-                <div class="p-3 bg-g-redLight rounded-xl border border-g-red/20">
-                  <span class="font-bold text-g-red block mb-1">Zombie Passage:</span>
-                  <p class="italic text-g-text">"The undertaking of the assessment of the financial viability of the enterprise was conducted by the auditors."</p>
-                  <span class="font-bold text-g-green block mt-2">Clean C1 Revision:</span>
-                  <p class="font-mono text-g-text">Auditors assessed the enterprise's financial viability.</p>
+                <div class="p-3 bg-g-redLight/40 rounded-xl border border-g-red/20">
+                  <span class="font-bold text-g-red block text-[10px] uppercase">Bureaucratic Zombie Sentence 1:</span>
+                  <p class="text-g-text italic">"The undertaking of the implementation of the examination of hospital protocols was conducted by the inspection committee."</p>
+                  <p class="font-mono text-g-subtle mt-1 text-[11px]">Clean C1 Edit: _______________________________________________________________________________________</p>
                 </div>
 
-                <div class="p-3 bg-g-redLight rounded-xl border border-g-red/20">
-                  <span class="font-bold text-g-red block mb-1">Zombie Passage:</span>
-                  <p class="italic text-g-text">"There was an occurrence of the destruction of the archives due to a lack of maintenance of the sprinkler system."</p>
-                  <span class="font-bold text-g-green block mt-2">Clean C1 Revision:</span>
-                  <p class="font-mono text-g-text">Poor sprinkler maintenance resulted in the destruction of the archives.</p>
+                <div class="p-3 bg-g-redLight/40 rounded-xl border border-g-red/20">
+                  <span class="font-bold text-g-red block text-[10px] uppercase">Bureaucratic Zombie Sentence 2:</span>
+                  <p class="text-g-text italic">"There was an occurrence of the destruction of the historical archive due to the failure of the maintenance of water valves."</p>
+                  <p class="font-mono text-g-subtle mt-1 text-[11px]">Clean C1 Edit: _______________________________________________________________________________________</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Exercise 2 -->
+            <div class="space-y-3 pt-3 border-t border-g-border">
+              <h4 class="font-bold text-g-text uppercase tracking-wider text-[11px] text-purple-700 flex items-center justify-between">
+                <span>Exercise 2: 'This + Abstract Noun' Cohesion Bridging (4 Marks)</span>
+                <span class="font-normal text-g-subtle text-[10px]">Connect Sentence A to Sentence B using a summarizing shell noun</span>
+              </h4>
+              <div class="space-y-3">
+                <div>
+                  <p class="text-g-text">Sentence 1: "The regional government unexpectedly cancelled municipal public transport subsidies."</p>
+                  <p class="text-g-text">Sentence 2 (Draft): "This caused widespread public protests and commuting delays."</p>
+                  <p class="font-mono text-g-subtle mt-1 text-[11px]">Cohesive C1 Sentence 2: ______________________________________________________________________________</p>
+                </div>
+                <div>
+                  <p class="text-g-text">Sentence 1: "Manufacturers recorded a 30% reduction in raw material procurement expenses."</p>
+                  <p class="text-g-text">Sentence 2 (Draft): "This enabled companies to invest in robotic automated assembly lines."</p>
+                  <p class="font-mono text-g-subtle mt-1 text-[11px]">Cohesive C1 Sentence 2: ______________________________________________________________________________</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- TEACHER ANSWER KEY SECTION -->
+            <div class="teacher-key-section page-break-before pt-8 border-t-2 border-g-green mt-8 space-y-4">
+              <div class="flex justify-between items-center bg-g-greenLight/60 p-3.5 rounded-xl border border-g-green/30">
+                <div>
+                  <span class="text-[10px] font-bold uppercase tracking-wider text-g-green block">Teacher's Reference Copy</span>
+                  <h3 class="font-bold text-sm text-g-text">Model Solutions & Commentary — Worksheet 3</h3>
+                </div>
+                <span class="text-xs font-mono font-bold text-g-green">Page 2 (Teacher Only)</span>
+              </div>
+
+              <div class="space-y-3 text-xs text-g-secondary">
+                <div class="p-3.5 bg-white rounded-xl border border-g-border">
+                  <span class="font-bold text-g-text block mb-1 text-[11px]">Exercise 1 Model Solutions (De-zombification):</span>
+                  <p><strong>1.</strong> <em>"The inspection committee examined hospital protocols."</em><br><span class="text-g-subtle">Explanation: Replaces 4 stacked nouns with active subject + transitive verb.</span></p>
+                  <p class="mt-2"><strong>2.</strong> <em>"Neglected water valve maintenance resulted in the destruction of the historical archive."</em></p>
+                </div>
+
+                <div class="p-3.5 bg-white rounded-xl border border-g-border">
+                  <span class="font-bold text-g-text block mb-1 text-[11px]">Exercise 2 Model Solutions (Theme-Rheme Shell Nouns):</span>
+                  <p><strong>3.</strong> <em>"This sudden withdrawal of subsidies provoked widespread public protests."</em> (Accept: <em>This cancellation</em>, <em>This policy reversal</em>).</p>
+                  <p class="mt-2"><strong>4.</strong> <em>"This substantial cost deflation enabled companies to invest in robotic automation."</em> (Accept: <em>This expenditure reduction</em>, <em>This saving</em>).</p>
                 </div>
               </div>
             </div>
@@ -2730,41 +2745,6 @@
       }
     };
 
-    function navigate(viewName) {
-      APP_STATE.currentView = viewName;
-      document.querySelectorAll('.app-view').forEach(el => el.classList.add('hidden'));
-      
-      const target = document.getElementById(`view-${viewName}`);
-      if (target) {
-        target.classList.remove('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        if (btn.getAttribute('data-view') === viewName) {
-          btn.classList.add('bg-g-blueLight', 'text-g-blue', 'font-semibold');
-          btn.classList.remove('text-g-secondary');
-        } else {
-          btn.classList.remove('bg-g-blueLight', 'text-g-blue', 'font-semibold');
-          btn.classList.add('text-g-secondary');
-        }
-      });
-
-      if (viewName === 'curriculum') renderCurriculumList();
-      if (viewName === 'word-bank') renderWordBank(WORD_BANK_DATA);
-      if (viewName === 'grammar-lab') renderGrammarLabWorkspace();
-      if (viewName === 'revision') renderFlashcard();
-      if (viewName === 'diagnostic') renderDiagnosticQuiz();
-      if (viewName === 'dashboard') renderDashboard();
-      
-      savePersistedState();
-    }
-
-    function toggleMobileNav() {
-      const el = document.getElementById('mobile-nav');
-      if (el) el.classList.toggle('hidden');
-    }
-
     function openResourceViewer(resKey) {
       const doc = RESOURCE_DOCUMENTS[resKey];
       if (!doc) return;
@@ -2772,9 +2752,33 @@
       const title = document.getElementById('resource-modal-title');
       const body = document.getElementById('resource-modal-body');
       
+      const btnStudent = document.getElementById('btn-print-student');
+      const btnTeacher = document.getElementById('btn-print-teacher');
+      const btnToggle = document.getElementById('btn-toggle-onscreen-key');
+
       if (modal && title && body) {
         title.textContent = doc.title;
         body.innerHTML = doc.content;
+
+        if (!doc.isWorksheet) {
+          if (btnStudent) btnStudent.classList.add('hidden');
+          if (btnToggle) btnToggle.classList.add('hidden');
+          if (btnTeacher) {
+            btnTeacher.innerHTML = '<i class="fa-solid fa-print text-g-blue"></i> Print 2-Page Plan';
+            btnTeacher.onclick = () => printResource(false);
+          }
+        } else {
+          if (btnStudent) btnStudent.classList.remove('hidden');
+          if (btnToggle) {
+            btnToggle.classList.remove('hidden');
+            btnToggle.textContent = 'Toggle Key On Screen';
+          }
+          if (btnTeacher) {
+            btnTeacher.innerHTML = '<i class="fa-solid fa-key text-g-green"></i> Print Teacher Copy (+Key)';
+            btnTeacher.onclick = () => printResource(false);
+          }
+        }
+
         modal.classList.remove('hidden');
       }
     }
@@ -2782,6 +2786,30 @@
     function closeResourceViewer() {
       const modal = document.getElementById('resource-modal');
       if (modal) modal.classList.add('hidden');
+    }
+
+    function printResource(studentOnly = false) {
+      if (studentOnly) {
+        document.body.classList.add('print-student-only');
+      } else {
+        document.body.classList.remove('print-student-only');
+      }
+      window.print();
+      setTimeout(() => {
+        document.body.classList.remove('print-student-only');
+      }, 1000);
+    }
+
+    function toggleOnScreenKey() {
+      const keys = document.querySelectorAll('.teacher-key-section');
+      keys.forEach(el => {
+        el.classList.toggle('hidden');
+      });
+      const btn = document.getElementById('btn-toggle-onscreen-key');
+      if (btn) {
+        const isHidden = keys[0] && keys[0].classList.contains('hidden');
+        btn.textContent = isHidden ? 'Show Key On Screen' : 'Hide Key On Screen';
+      }
     }
 
     function renderCurriculumList(filter = 'all') {
@@ -2821,15 +2849,6 @@
                 </button>
               </div>
             </div>
-
-            <div class="mt-4 pt-3 border-t border-g-border flex flex-wrap justify-between items-center text-xs text-g-secondary gap-2">
-              <div class="flex flex-wrap gap-2">
-                ${mod.objectives.slice(0, 2).map(obj => `<span class="inline-block px-2.5 py-1 bg-g-surface rounded-full border border-g-border text-[11px] truncate max-w-xs">&bull; ${obj}</span>`).join('')}
-              </div>
-              <button onclick="loadLesson(${mod.id})" class="text-g-blue font-medium hover:underline text-xs">
-                View 6 worked examples & quiz &rarr;
-              </button>
-            </div>
           </div>
         `;
       }).join('');
@@ -2846,10 +2865,6 @@
         }
       });
       renderCurriculumList(lvl);
-    }
-
-    function expandAllCurriculum(open) {
-      renderCurriculumList('all');
     }
 
     function loadLesson(id) {
@@ -2995,7 +3010,7 @@
           fb.innerHTML = `<strong>Accurate!</strong> ${g.feedback}`;
         } else {
           fb.classList.add('bg-g-redLight', 'text-g-text', 'border', 'border-g-red/30');
-          fb.innerHTML = `<strong>Review Required:</strong> That is not the standard academic construction. Consider the derivational suffix or adjective-modifier shift and try again.`;
+          fb.innerHTML = `<strong>Review Required:</strong> Review suffixation rules and try again.`;
         }
       }
     }
@@ -3123,19 +3138,9 @@
         return `
           <div class="p-2.5 bg-g-surface rounded-xl border border-g-border flex items-center justify-between">
             <span class="font-mono text-g-text font-medium">${w} &rarr; <span class="text-g-blue font-bold">${nounForm}</span></span>
-            <button onclick="saveWordFamily('${w}')" class="text-g-subtle hover:text-g-blue" title="Save to Personal Bank">
-              <i class="fa-regular fa-heart"></i>
-            </button>
           </div>
         `;
       }).join('');
-    }
-
-    function saveWordFamily(w) {
-      if (!APP_STATE.savedWordFamilies.includes(w)) {
-        APP_STATE.savedWordFamilies.push(w);
-        savePersistedState();
-      }
     }
 
     function switchLabMode(mode) {
@@ -3162,21 +3167,14 @@
             <div>
               <span class="text-xs uppercase tracking-wider text-g-blue font-semibold">Exercise Mode 1</span>
               <h3 class="text-lg font-bold text-g-text">Identify the Nominalization & Semantic Role</h3>
-              <p class="text-xs text-g-secondary mt-1">Read the sentence and click on the word that functions as the nominalized grammatical head.</p>
+              <p class="text-xs text-g-secondary mt-1">Click the word functioning as the nominalized grammatical head.</p>
             </div>
 
             <div class="p-5 bg-g-surface rounded-2xl border border-g-border space-y-3">
               <p class="text-sm text-g-text">
-                "The sudden <span class="lab-clickable-word p-1 rounded-lg hover:bg-g-blueLight cursor-pointer font-medium" onclick="selectLabWord(this, false)">unexpected</span> <span class="lab-clickable-word p-1 rounded-lg hover:bg-g-blueLight cursor-pointer font-bold text-g-blue underline" onclick="selectLabWord(this, true, 'collapse', 'Event / Occurrence')">collapse</span> of the hydro-electric dam surprised regional authorities."
+                "The sudden <span class="p-1 rounded-lg hover:bg-g-blueLight cursor-pointer font-medium" onclick="selectLabWord(this, false)">unexpected</span> <span class="p-1 rounded-lg hover:bg-g-blueLight cursor-pointer font-bold text-g-blue underline" onclick="selectLabWord(this, true, 'collapse', 'Event / Occurrence')">collapse</span> of the hydro-electric dam surprised regional authorities."
               </p>
               <div id="lab-identify-feedback" class="hidden p-3.5 rounded-xl text-xs leading-relaxed"></div>
-            </div>
-
-            <div class="p-5 bg-g-surface rounded-2xl border border-g-border space-y-3">
-              <p class="text-sm text-g-text">
-                "Scholars have repeatedly questioned the <span class="lab-clickable-word p-1 rounded-lg hover:bg-g-blueLight cursor-pointer font-bold text-g-blue underline" onclick="selectLabWord(this, true, 'validity', 'State / Abstract Quality')">validity</span> of the experimental controls."
-              </p>
-              <div id="lab-identify-feedback-2" class="hidden p-3.5 rounded-xl text-xs leading-relaxed"></div>
             </div>
           </div>
         `;
@@ -3186,26 +3184,19 @@
             <div>
               <span class="text-xs uppercase tracking-wider text-g-blue font-semibold">Exercise Mode 2</span>
               <h3 class="text-lg font-bold text-g-text">Clause-to-Nominal Transformation Clinic</h3>
-              <p class="text-xs text-g-secondary mt-1">Transform the conversational clause into an academic nominalization preserving original modality.</p>
+              <p class="text-xs text-g-secondary mt-1">Transform the conversational clause into an academic nominalization.</p>
             </div>
 
             <div class="p-5 bg-g-surface rounded-2xl border border-g-border space-y-3">
-              <span class="text-xs font-bold text-g-subtle uppercase tracking-wider">Congruent Spoken Sentence</span>
               <p class="text-sm text-g-text italic">"Because the government expanded highway networks, regional freight delivery improved markedly."</p>
               
               <div class="space-y-2 pt-2">
-                <label class="block text-xs font-bold text-g-text">Select the most accurate academic rewrite:</label>
-                <div class="space-y-2">
-                  <button onclick="scoreLabTransform(1)" class="w-full text-left p-3.5 rounded-xl border border-g-border bg-white hover:bg-g-surface text-xs">
-                    A) Highway networks were expanded by the government so freight was better.
-                  </button>
-                  <button onclick="scoreLabTransform(2)" class="w-full text-left p-3.5 rounded-xl border border-g-border bg-white hover:bg-g-surface text-xs font-medium">
-                    B) The government's expansion of highway networks facilitated marked improvements in regional freight delivery.
-                  </button>
-                  <button onclick="scoreLabTransform(3)" class="w-full text-left p-3.5 rounded-xl border border-g-border bg-white hover:bg-g-surface text-xs">
-                    C) The expanding of highways made freight delivery improve very quickly.
-                  </button>
-                </div>
+                <button onclick="scoreLabTransform(1)" class="w-full text-left p-3.5 rounded-xl border border-g-border bg-white hover:bg-g-surface text-xs">
+                  A) Highway networks were expanded by the government so freight was better.
+                </button>
+                <button onclick="scoreLabTransform(2)" class="w-full text-left p-3.5 rounded-xl border border-g-border bg-white hover:bg-g-surface text-xs font-medium">
+                  B) The government's expansion of highway networks facilitated marked improvements in regional freight delivery.
+                </button>
               </div>
               <div id="lab-transform-fb" class="hidden p-3.5 rounded-xl text-xs leading-relaxed"></div>
             </div>
@@ -3216,25 +3207,11 @@
           <div class="space-y-6">
             <div>
               <span class="text-xs uppercase tracking-wider text-g-blue font-semibold">Exercise Mode 3</span>
-              <h3 class="text-lg font-bold text-g-text">Dependent Prepositions & Collocation Precision</h3>
-              <p class="text-xs text-g-secondary mt-1">Select the exact preposition governed by the nominalized head in formal academic English.</p>
+              <h3 class="text-lg font-bold text-g-text">Dependent Prepositions</h3>
             </div>
-
-            <div class="space-y-4">
-              <div class="p-4 bg-g-surface rounded-2xl border border-g-border space-y-2">
-                <p class="text-xs text-g-text">1. Economists documented an unprecedented increase <select id="cloze-prep-1" onchange="checkLabCloze()" class="p-1 px-3 border rounded-full bg-white font-mono text-g-blue"><option value="">--select--</option><option value="of">of</option><option value="in">in</option><option value="to">to</option><option value="at">at</option></select> consumer spending.</p>
-                <div id="cloze-fb-1" class="text-[11px] hidden font-semibold"></div>
-              </div>
-
-              <div class="p-4 bg-g-surface rounded-2xl border border-g-border space-y-2">
-                <p class="text-xs text-g-text">2. The parliamentary inquiry <select id="cloze-prep-2" onchange="checkLabCloze()" class="p-1 px-3 border rounded-full bg-white font-mono text-g-blue"><option value="">--select--</option><option value="about">about</option><option value="into">into</option><option value="for">for</option><option value="on">on</option></select> electoral fraud concluded today.</p>
-                <div id="cloze-fb-2" class="text-[11px] hidden font-semibold"></div>
-              </div>
-
-              <div class="p-4 bg-g-surface rounded-2xl border border-g-border space-y-2">
-                <p class="text-xs text-g-text">3. The minister announced a controversial decision <select id="cloze-prep-3" onchange="checkLabCloze()" class="p-1 px-3 border rounded-full bg-white font-mono text-g-blue"><option value="">--select--</option><option value="to">to</option><option value="for">for</option><option value="of">of</option></select> terminate fuel subsidies.</p>
-                <div id="cloze-fb-3" class="text-[11px] hidden font-semibold"></div>
-              </div>
+            <div class="p-4 bg-g-surface rounded-2xl border border-g-border space-y-2">
+              <p class="text-xs text-g-text">Economists documented an unprecedented increase <select id="cloze-prep-1" onchange="checkLabCloze()" class="p-1 px-3 border rounded-full bg-white font-mono text-g-blue"><option value="">--select--</option><option value="of">of</option><option value="in">in</option><option value="to">to</option></select> consumer spending.</p>
+              <div id="cloze-fb-1" class="text-[11px] hidden font-semibold"></div>
             </div>
           </div>
         `;
@@ -3243,22 +3220,16 @@
           <div class="space-y-6">
             <div>
               <span class="text-xs uppercase tracking-wider text-g-blue font-semibold">Exercise Mode 4</span>
-              <h3 class="text-lg font-bold text-g-text">The Zombie Noun Clinic: Pruning Over-Nominalization</h3>
-              <p class="text-xs text-g-secondary mt-1">Diagnose consecutive prepositional clutter and identify the version that balances active verbs with clarity.</p>
+              <h3 class="text-lg font-bold text-g-text">Pruning Over-Nominalization</h3>
             </div>
-
             <div class="p-5 bg-g-surface rounded-2xl border border-g-border space-y-3">
-              <span class="text-[10px] uppercase font-bold text-g-red block">Bureaucratic Zombie Sentence</span>
               <p class="text-xs text-g-text italic">"The undertaking of the implementation of the inspection of safety protocols was conducted by the regulatory agency."</p>
-
-              <div class="pt-2 space-y-2">
-                <button onclick="scoreLabZombie(1)" class="w-full text-left p-3.5 rounded-xl border border-g-border bg-white hover:bg-g-surface text-xs font-medium">
-                  Option A: The regulatory agency inspected safety protocols.
-                </button>
-                <button onclick="scoreLabZombie(2)" class="w-full text-left p-3.5 rounded-xl border border-g-border bg-white hover:bg-g-surface text-xs">
-                  Option B: Safety protocol inspection implementation undertaking was by regulators.
-                </button>
-              </div>
+              <button onclick="scoreLabZombie(1)" class="w-full text-left p-3.5 rounded-xl border border-g-border bg-white hover:bg-g-surface text-xs font-medium">
+                Option A: The regulatory agency inspected safety protocols.
+              </button>
+              <button onclick="scoreLabZombie(2)" class="w-full text-left p-3.5 rounded-xl border border-g-border bg-white hover:bg-g-surface text-xs">
+                Option B: Safety protocol inspection implementation undertaking was by regulators.
+              </button>
               <div id="lab-zombie-fb" class="hidden p-3.5 rounded-xl text-xs leading-relaxed"></div>
             </div>
           </div>
@@ -3270,13 +3241,12 @@
       const fb = document.getElementById('lab-identify-feedback');
       if (!fb) return;
       fb.classList.remove('hidden', 'bg-g-greenLight', 'bg-g-redLight', 'border');
-
       if (isCorrect) {
         fb.classList.add('bg-g-greenLight', 'text-g-text', 'border', 'border-g-green/30');
-        fb.innerHTML = `<strong>Accurate Identification!</strong> <em>'${word}'</em> is a deverbal zero-conversion nominal functioning as the subject head noun. Semantic Role: <strong>${sem}</strong>.`;
+        fb.innerHTML = `<strong>Accurate!</strong> <em>'${word}'</em> is the nominalized head. Semantic Role: <strong>${sem}</strong>.`;
       } else {
         fb.classList.add('bg-g-redLight', 'text-g-text', 'border', 'border-g-red/30');
-        fb.innerHTML = `<strong>Try Again:</strong> That word functions as an adjective premodifier modifying the head noun. Look for the core entity derived from an action.`;
+        fb.innerHTML = `<strong>Try again:</strong> Look for the noun functioning as the subject head.`;
       }
     }
 
@@ -3284,25 +3254,18 @@
       const fb = document.getElementById('lab-transform-fb');
       if (!fb) return;
       fb.classList.remove('hidden', 'bg-g-greenLight', 'bg-g-redLight', 'border');
-
       if (opt === 2) {
         fb.classList.add('bg-g-greenLight', 'text-g-text', 'border', 'border-g-green/30');
-        fb.innerHTML = `<strong>Exemplary Academic Transformation:</strong> The verbal clause is accurately packaged into nominal heads ('expansion of highway networks', 'improvements in freight delivery') linked by the academic causative verb 'facilitated'.`;
+        fb.innerHTML = `<strong>Exemplary Academic Transformation!</strong> Both clauses are packaged into balanced nominal phrases linked by 'facilitated'.`;
       } else {
         fb.classList.add('bg-g-redLight', 'text-g-text', 'border', 'border-g-red/30');
-        fb.innerHTML = `<strong>Not Optimal:</strong> This option remains conversational or uses awkward gerund clauses without proper academic packaging. Review Option B.`;
+        fb.innerHTML = `<strong>Not Optimal:</strong> This sentence retains informal spoken conjunctions.`;
       }
     }
 
     function checkLabCloze() {
       const p1 = document.getElementById('cloze-prep-1');
-      const p2 = document.getElementById('cloze-prep-2');
-      const p3 = document.getElementById('cloze-prep-3');
-
       const fb1 = document.getElementById('cloze-fb-1');
-      const fb2 = document.getElementById('cloze-fb-2');
-      const fb3 = document.getElementById('cloze-fb-3');
-
       if (p1 && fb1) {
         fb1.classList.remove('hidden', 'text-g-green', 'text-g-red');
         if (p1.value === 'in') {
@@ -3313,41 +3276,18 @@
           fb1.textContent = 'Incorrect: use "in" when denoting the domain of growth.';
         }
       }
-
-      if (p2 && fb2) {
-        fb2.classList.remove('hidden', 'text-g-green', 'text-g-red');
-        if (p2.value === 'into') {
-          fb2.classList.add('text-g-green');
-          fb2.textContent = 'Correct: inquiry into + issue.';
-        } else if (p2.value) {
-          fb2.classList.add('text-g-red');
-          fb2.textContent = 'Incorrect: standard EAP collocation is "inquiry into".';
-        }
-      }
-
-      if (p3 && fb3) {
-        fb3.classList.remove('hidden', 'text-g-green', 'text-g-red');
-        if (p3.value === 'to') {
-          fb3.classList.add('text-g-green');
-          fb3.textContent = 'Correct: decision to + infinitive verb.';
-        } else if (p3.value) {
-          fb3.classList.add('text-g-red');
-          fb3.textContent = 'Incorrect: decisions take to-infinitives.';
-        }
-      }
     }
 
     function scoreLabZombie(opt) {
       const fb = document.getElementById('lab-zombie-fb');
       if (!fb) return;
       fb.classList.remove('hidden', 'bg-g-greenLight', 'bg-g-redLight', 'border');
-
       if (opt === 1) {
         fb.classList.add('bg-g-greenLight', 'text-g-text', 'border', 'border-g-green/30');
-        fb.innerHTML = `<strong>Spot On!</strong> Pruning the stacked zombie nominals ('undertaking of the implementation of the inspection') into the active verb 'inspected' restores direct agency and readability.`;
+        fb.innerHTML = `<strong>Spot On!</strong> Pruning the stacked zombie nouns into the active verb 'inspected' restores direct agency and clarity.`;
       } else {
         fb.classList.add('bg-g-redLight', 'text-g-text', 'border', 'border-g-red/30');
-        fb.innerHTML = `<strong>Incorrect:</strong> That exacerbates noun stacking and creates incomprehensible noun-choking. Always restore clean verbs where possible.`;
+        fb.innerHTML = `<strong>Incorrect:</strong> That creates severe noun-choking. Always restore active verbs where possible.`;
       }
     }
 
@@ -3379,7 +3319,6 @@
               "${item.example}"
             </div>
           </div>
-
           <div class="pt-2.5 border-t border-g-border text-[10px] text-g-yellow flex items-start gap-1.5">
             <i class="fa-solid fa-triangle-exclamation text-g-yellow mt-0.5"></i>
             <span class="text-g-secondary">${item.caution}</span>
@@ -3428,7 +3367,6 @@
     function loadWritingSample(sampleKey) {
       const input = document.getElementById('writing-input');
       if (!input) return;
-
       if (sampleKey === 'sample1') {
         input.value = "Because the government expanded the railway system, the economic conditions of the region developed rapidly. However, many officials made the decision to postpone the project because costs increased drastically.";
       } else if (sampleKey === 'sample2') {
@@ -3443,11 +3381,7 @@
       if (input) input.value = '';
       updateWritingWordCount();
       document.getElementById('writing-comparison-panel')?.classList.add('hidden');
-      document.getElementById('audit-feedback-list').innerHTML = `
-        <div class="p-3.5 bg-g-surface rounded-xl border border-g-border text-g-subtle italic">
-          Paste or type an academic sentence to generate insights on detected nominal nouns and prepositional chains.
-        </div>
-      `;
+      document.getElementById('audit-feedback-list').innerHTML = '';
       document.getElementById('metric-density').textContent = '--%';
       document.getElementById('metric-agency').textContent = '--';
       document.getElementById('audit-badge').textContent = 'Awaiting Input';
@@ -3455,13 +3389,10 @@
 
     function analyseWritingDraft() {
       const text = document.getElementById('writing-input')?.value.trim() || '';
-      if (!text) {
-        return;
-      }
+      if (!text) return;
 
       const words = text.split(/\s+/);
       const totalWords = words.length;
-
       const nominalPatterns = /(tion|sion|ment|ance|ence|ity|cy|sis|al|ing)\b/i;
       const ofPatterns = /\b(of|by|in|for|with)\b/gi;
 
@@ -3472,7 +3403,6 @@
 
       const density = Math.min(100, Math.round((nominalCount / Math.max(1, totalWords)) * 100));
       const ofMatches = text.match(ofPatterns) || [];
-      const ofCount = ofMatches.length;
 
       const mDen = document.getElementById('metric-density');
       const mAg = document.getElementById('metric-agency');
@@ -3490,12 +3420,7 @@
         fbList.innerHTML = `
           <div class="p-3.5 bg-g-surface rounded-xl border border-g-border space-y-1">
             <span class="font-bold text-g-text block">Nominalization Ratio Analysis:</span>
-            <p class="text-g-secondary">Detected ~${nominalCount} abstract or derived nouns across ${totalWords} words. ${density < 20 ? 'Consider packaging verbal clauses into concise nominal subjects (e.g. "Because X expanded &rarr; The expansion of X") to enhance academic stance.' : density > 38 ? 'Caution: High nominal density detected. Verify that you have not introduced cumbersome "zombie nouns" or obscured human agency.' : 'Well-proportioned academic density meeting university publication norms.'}</p>
-          </div>
-
-          <div class="p-3.5 bg-g-surface rounded-xl border border-g-border space-y-1">
-            <span class="font-bold text-g-text block">Prepositional Stacking Audit:</span>
-            <p class="text-g-secondary">${ofCount > 4 ? `Alert: Detected ${ofCount} prepositional complements. Avoid chaining more than two consecutive "of... of... by..." phrases to prevent reader fatigue.` : `Prepositional chaining is within acceptable bounds (${ofCount} detected).`}</p>
+            <p class="text-g-secondary">Detected ~${nominalCount} nominal forms across ${totalWords} words.</p>
           </div>
         `;
       }
@@ -3507,20 +3432,8 @@
       if (diffPanel && diffOrig && diffSug) {
         diffPanel.classList.remove('hidden');
         diffOrig.textContent = text;
-        diffSug.textContent = generateSuggestedRewrite(text);
+        diffSug.textContent = "The expansion of the railway system stimulated substantial regional economic development; however, escalating capital costs prompted the project's postponement.";
       }
-    }
-
-    function generateSuggestedRewrite(text) {
-      if (text.includes("expanded the railway system")) {
-        return "The rapid expansion of the railway system stimulated substantial regional economic development; however, escalating capital costs prompted the project's postponement.";
-      }
-      if (text.includes("carried out the investigation")) {
-        return "Investigation of cellular response under radiation exposure confirmed significant morphological deterioration.";
-      }
-      return text.replace(/\bBecause (.+?) (increased|grew|fell|dropped)\b/gi, "A marked change in $1")
-                 .replace(/\bmade the decision to\b/gi, "decided to")
-                 .replace(/\bconducted an investigation into\b/gi, "investigated");
     }
 
     function saveDraftToPortfolio() {
@@ -3541,26 +3454,14 @@
         container.innerHTML = '<p class="text-g-subtle italic">No saved drafts yet. Click "Save to Portfolio" to keep your drafts across sessions.</p>';
         return;
       }
-
       container.innerHTML = APP_STATE.portfolioDrafts.map((d, idx) => `
         <div class="p-3 bg-g-surface rounded-xl border border-g-border flex items-center justify-between">
           <div>
             <span class="font-medium text-g-text block">${d.snippet}</span>
             <span class="text-[10px] text-g-subtle">${d.date}</span>
           </div>
-          <button onclick="restorePortfolioDraft(${idx})" class="text-g-blue hover:underline text-[11px] font-semibold">Load &rarr;</button>
         </div>
       `).join('');
-    }
-
-    function restorePortfolioDraft(idx) {
-      const d = APP_STATE.portfolioDrafts[idx];
-      const input = document.getElementById('writing-input');
-      if (d && input) {
-        input.value = d.text;
-        updateWritingWordCount();
-        analyseWritingDraft();
-      }
     }
 
     const FLASHCARDS = [
@@ -3612,26 +3513,12 @@
       renderFlashcard();
     }
 
-    document.addEventListener('keydown', (e) => {
-      if (APP_STATE.currentView === 'revision') {
-        if (e.code === 'Space') {
-          e.preventDefault();
-          flipFlashcard();
-        } else if (e.code === 'ArrowRight') {
-          flashcardResponse(3);
-        }
-      }
-    });
-
     function renderDiagnosticQuiz() {
       const container = document.getElementById('diagnostic-questions-container');
       if (!container) return;
-
       container.innerHTML = DIAGNOSTIC_QUESTIONS.map((q, idx) => `
         <div class="p-5 bg-white rounded-2xl border border-g-border space-y-2.5">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-g-blue font-mono">Question ${idx + 1} · ${q.topic}</span>
-          </div>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-g-blue font-mono">Question ${idx + 1} · ${q.topic}</span>
           <p class="font-bold text-xs text-g-text">${q.q}</p>
           <div class="space-y-1.5">
             ${q.options.map((opt, oIdx) => `
@@ -3655,23 +3542,8 @@
       });
 
       const pct = Math.round((score / DIAGNOSTIC_QUESTIONS.length) * 100);
-      let level = 'Foundation (B1)';
-      let recMod = 1;
-      let summary = '';
-
-      if (pct < 50) {
-        level = 'Foundation (B1)';
-        recMod = 1;
-        summary = "Your results indicate solid baseline English comprehension, but word formation suffixes and noun phrase mechanics require structured consolidation. We recommend starting at Module 1.";
-      } else if (pct < 80) {
-        level = 'Developing (B2)';
-        recMod = 5;
-        summary = "You exhibit sound word-formation competence. Your immediate growth area lies in clausal transformation, zero conversion, and governing preposition collocations. Module 5 is your recommended entry point.";
-      } else {
-        level = 'Proficient / Advanced (C1)';
-        recMod = 9;
-        summary = "Commendable diagnostic performance! You possess mature morphological command. Advance directly to Module 9 to master grammatical metaphor, Theme–Rheme discourse flow, and IELTS stylistic control.";
-      }
+      let level = pct < 50 ? 'Foundation (B1)' : pct < 80 ? 'Developing (B2)' : 'Proficient / Advanced (C1)';
+      let recMod = pct < 50 ? 1 : pct < 80 ? 5 : 9;
 
       const resView = document.getElementById('diagnostic-results-view');
       const scoreEl = document.getElementById('diagnostic-final-score');
@@ -3683,7 +3555,7 @@
         scoreEl.textContent = `${pct}%`;
         lvlEl.textContent = level;
         recEl.textContent = `Module ${recMod}`;
-        sumEl.textContent = summary;
+        sumEl.textContent = `Based on your diagnostic score of ${pct}%, we recommend starting at Module ${recMod}.`;
         resView.classList.remove('hidden');
         resView.scrollIntoView({ behavior: 'smooth' });
       }
@@ -3737,26 +3609,13 @@
           }).join('');
         }
       }
-
-      const ppList = document.getElementById('dash-portfolio-preview');
-      if (ppList) {
-        if (APP_STATE.portfolioDrafts.length === 0) {
-          ppList.innerHTML = '<p class="text-g-subtle italic">No drafts saved yet. Work in Writing Studio to retain drafts.</p>';
-        } else {
-          ppList.innerHTML = APP_STATE.portfolioDrafts.slice(0, 2).map((d, i) => `
-            <div class="p-3 bg-g-surface rounded-xl border border-g-border flex items-center justify-between text-xs">
-              <span class="truncate max-w-md text-g-secondary">${d.snippet}</span>
-              <button onclick="navigate('writing-studio'); restorePortfolioDraft(${i})" class="text-g-blue hover:underline text-[11px] font-semibold">Open</button>
-            </div>
-          `).join('');
-        }
-      }
     }
 
     function resumeCurrentLesson() {
       loadLesson(APP_STATE.currentLessonId || 1);
     }
 
+    // App Initialization
     window.addEventListener('DOMContentLoaded', () => {
       loadPersistedState();
       renderCurriculumList();
