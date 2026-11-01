@@ -21,7 +21,7 @@
 <meta content="#650F22" name="theme-color"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&amp;family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&amp;family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,600;1,9..144,700&family=JetBrains+Mono:wght@500;600;700&family=Outfit:wght@500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet"/>
 <!-- Three.js 3D WebGL Library (CDN) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <style>
@@ -3703,6 +3703,206 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
   letter-spacing: 0.03em;
 }
 
+
+/* ============================================================
+   REFINED 3D BOX CONTAINMENT, TYPOGRAPHY & TOUCH INTERACTIONS
+   Fixes all text overflow / protrusion on Passive Voice & 3D tiles
+   ============================================================ */
+:root {
+  --font-serif: "Playfair Display", "Fraunces", Georgia, serif;
+  --font-mono: "JetBrains Mono", "Space Grotesk", monospace;
+}
+
+/* Strict 3D Box Containment so words NEVER come out of 3D boxes */
+.skill,
+.fc,
+.post,
+.s-card,
+.voice,
+.step,
+.jn,
+.ex-item,
+.ex-item a,
+.vmc-title-card {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+/* Keep Z-translations inside card boundaries so 3D tilt never pushes text outside the box */
+.skill .ico-tile {
+  transform: translateZ(12px) !important;
+}
+.skill:hover .ico-tile {
+  transform: translateZ(16px) scale(1.05) !important;
+}
+.skill h3,
+.fc-title,
+.post-title,
+.s-card h3,
+.step h3 {
+  transform: translateZ(8px) !important;
+  max-width: 100% !important;
+  overflow-wrap: break-word !important;
+  word-break: break-word !important;
+  hyphens: auto;
+}
+.skill p,
+.fc-desc,
+.post-excerpt,
+.s-card p,
+.step p {
+  transform: translateZ(4px) !important;
+  max-width: 100% !important;
+  overflow-wrap: break-word !important;
+}
+.skill .go {
+  transform: translateZ(12px) !important;
+}
+.skill:hover .go {
+  transform: translateZ(16px) scale(1.08) !important;
+}
+
+/* Ensure .post, .fc, .s-card, and .ex-item a clip any overflowing media or inner glow cleanly */
+.post,
+.fc,
+.s-card {
+  overflow: hidden !important;
+  padding: 18px !important;
+}
+
+.ex-item a {
+  overflow: hidden !important;
+  padding: 15px 18px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: 4px !important;
+  min-height: 78px !important;
+}
+
+.ex-name {
+  display: block !important;
+  max-width: 100% !important;
+  line-height: 1.3 !important;
+  overflow-wrap: break-word !important;
+}
+
+.post-tags {
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  max-width: 100% !important;
+}
+
+.media-pill {
+  max-width: calc(100% - 20px) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* Appealing Hero Display Typography & Shimmering 3D Marks */
+.hero-copy h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 3.6vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: -0.028em;
+  text-wrap: balance;
+}
+
+.hero-copy .mark-gold {
+  font-family: var(--font-serif);
+  font-style: italic;
+  background: linear-gradient(135deg, #650f22 0%, #b8143a 55%, #d43b5f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 0 rgba(101, 15, 34, 0.14));
+}
+
+.hero-copy .mark-wine {
+  background: linear-gradient(135deg, #9a3803 0%, #c85206 50%, #e07b12 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 0 rgba(181, 71, 8, 0.14));
+}
+
+/* Rich 3D Fallback Illustrations inside .media when local photos are absent */
+.media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.media::before {
+  content: attr(data-label);
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(101, 15, 34, 0.65);
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.s-card .media::before {
+  color: rgba(255, 255, 255, 0.7);
+}
+.media img {
+  position: relative;
+  z-index: 2;
+}
+
+/* Touch & Pointer Tactile Press Response */
+.card-3d,
+[data-tilt],
+.skill,
+.fc,
+.post,
+.s-card,
+.voice,
+.step,
+.ex-item a,
+.vmc-title-card {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.skill:active,
+.fc:active,
+.post:active,
+.s-card:active,
+.voice:active,
+.step:active,
+.ex-item a:active,
+.vmc-title-card:active {
+  transform: perspective(1200px) translate3d(0px, 3px, -3px) scale(0.988) !important;
+  transition: transform 0.08s ease-out !important;
+}
+
+/* Subtle Floating 3D Idle Animation on Hero Featured Cards */
+@keyframes floatCard3D_1 {
+  0%, 100% { --base-ty: 0px; }
+  50% { --base-ty: -4px; }
+}
+@keyframes floatCard3D_2 {
+  0%, 100% { --base-ty: 0px; }
+  50% { --base-ty: -6px; }
+}
+.fc-1 { animation: floatCard3D_1 6s ease-in-out infinite; }
+.fc-2 { animation: floatCard3D_2 7s ease-in-out infinite 0.8s; }
+.fc-3 { animation: floatCard3D_1 6.5s ease-in-out infinite 1.6s; }
+
 </style>
 <!-- Marks that JavaScript is running. The scroll-reveal animation is
        scoped to .js, so if this script or script.js ever fails to load,
@@ -3794,7 +3994,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="fc fc-1">
 <figure class="media" data-slot="feature-conditionals" data-tone="lime" style="--ratio:4/4.3">
 <a href="grammar-lesson-2.html" class="media-link" aria-label="Conditional Sentences: The Complete Guide">
-<img alt="A person with an umbrella on a wooded path" decoding="async" height="1075" loading="lazy" onerror="this.hidden=true" src="feature-conditionals.jpg" width="1000"/>
+<img alt="A person with an umbrella on a wooded path" decoding="async" height="1075" loading="lazy" onerror="this.hidden=true" src="Images/photos/feature-conditionals.jpg" width="1000"/>
 </a>
 </figure>
 <p class="fc-tag">Featured · Grammar</p>
@@ -3803,14 +4003,14 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 </article>
 <article class="fc fc-2">
 <figure class="media" data-slot="feature-history-words" data-tone="maroon" style="--ratio:16/9">
-<img alt="Old books, a quill and a pocket watch" decoding="async" height="756" onerror="this.hidden=true" src="feature-history-words.jpg" width="1344"/>
+<img alt="Old books, a quill and a pocket watch" decoding="async" height="756" onerror="this.hidden=true" src="Images/photos/feature-history-words.jpg" width="1344"/>
 </figure>
 <p class="fc-tag">6-Minute Lesson · Vocabulary</p>
 <h2 class="fc-title"><a href="words-that-changed-history.html">Words That Changed History</a></h2>
 </article>
 <article class="fc fc-3">
 <figure class="media" data-slot="feature-news-reading" data-tone="magenta" style="--ratio:16/9">
-<img alt="A reader studying a newspaper through a magnifying glass" decoding="async" height="756" onerror="this.hidden=true" src="feature-news-reading.jpg" width="1344"/>
+<img alt="A reader studying a newspaper through a magnifying glass" decoding="async" height="756" onerror="this.hidden=true" src="Images/photos/feature-news-reading.jpg" width="1344"/>
 </figure>
 <p class="fc-tag">News English · Intermediate</p>
 <h2 class="fc-title"><a href="courses/b1/reading/inferring-meaning.html">Reading Between the Lines</a></h2>
@@ -3913,8 +4113,8 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <!-- ============================================================
      PREMIUM COURSE VIDEO
      REPLACE YOUR VIDEO HERE:
-       1. Put your file at   premium-course-introduction.mp4
-       2. Put a poster at    premium-course-poster.jpg
+       1. Put your file at   videos/premium-course-introduction.mp4
+       2. Put a poster at    Images/premium-course-poster.jpg
      Nothing else needs changing.
 
      PREFER YOUTUBE / VIMEO INSTEAD?  Delete the <video> element
@@ -3931,10 +4131,10 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 </div>
 <div class="video-stage" data-reveal="">
 <div class="video-frame">
-<video class="video-el" controls="" height="900" playsinline="" poster="premium-course-poster.jpg" preload="metadata" width="1600">
-<source src="premium-course-introduction.mp4" type="video/mp4"/>
+<video class="video-el" controls="" height="900" playsinline="" poster="Images/premium-course-poster.jpg" preload="metadata" width="1600">
+<source src="videos/premium-course-introduction.mp4" type="video/mp4"/>
           Your browser cannot play this video.
-          <a href="premium-course-introduction.mp4">Download the introduction video</a> instead.
+          <a href="videos/premium-course-introduction.mp4">Download the introduction video</a> instead.
         </video>
 <!-- YOUTUBE / VIMEO ALTERNATIVE — uncomment and set your URL
         <div class="video-embed">
@@ -3978,7 +4178,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post post-lg" data-reveal="" data-topic="Passive voice grammar">
 <figure class="media" data-slot="lesson-passive-voice" data-tilt="" data-tone="lime" style="--ratio:16/9">
 <a href="passive-voice.html" class="media-link" aria-label="Passive Voice: When the Action Matters More Than the Actor">
-<img alt="A cake with one slice already taken" decoding="async" height="756" loading="lazy" onerror="this.hidden=true" src="lesson-passive-voice.jpg" width="1344"/>
+<img alt="A cake with one slice already taken" decoding="async" height="756" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-passive-voice.jpg" width="1344"/>
 </a>
 <span class="media-pill">Intermediate · B1</span>
 </figure>
@@ -3990,7 +4190,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Collocations make do vocabulary">
 <figure class="media" data-slot="lesson-collocations" data-tilt="" data-tone="maroon" style="--ratio:4/5">
 <a href="collocation.html" class="media-link" aria-label="Collocations with "Make" and "Do" — Once and For All">
-<img alt="Students writing in notebooks at a desk" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-collocations.jpg" width="480"/>
+<img alt="Students writing in notebooks at a desk" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-collocations.jpg" width="480"/>
 </a>
 <span class="media-pill">Upper-Int · B2</span>
 </figure>
@@ -4002,7 +4202,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Adjectives describing nouns">
 <figure class="media" data-slot="lesson-adjectives" data-tilt="" data-tone="magenta" style="--ratio:3/2">
 <a href="adjectives.html" class="media-link" aria-label="Words that bring nouns to life">
-<img alt="Swirling colourful paint" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-adjectives.jpg" width="900"/>
+<img alt="Swirling colourful paint" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-adjectives.jpg" width="900"/>
 </a>
 <span class="media-pill">All Levels</span>
 </figure>
@@ -4014,7 +4214,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Subjunctive reporting verbs syntax">
 <figure class="media" data-slot="lesson-subjunctive" data-tilt="" data-tone="white" style="--ratio:3/2">
 <a href="subjunctive-and-reporting-verbs.html" class="media-link" aria-label="Subjunctive and Reporting Verbs">
-<img alt="Someone blowing the seeds from a dandelion" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-subjunctive.jpg" width="900"/>
+<img alt="Someone blowing the seeds from a dandelion" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-subjunctive.jpg" width="900"/>
 </a>
 <span class="media-pill">Advanced · C1</span>
 </figure>
@@ -4026,7 +4226,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Storytelling fiction narrative">
 <figure class="media" data-slot="lesson-storytelling" data-tilt="" data-tone="lime" style="--ratio:3/2">
 <a href="courses/b1/reading/stories.html" class="media-link" aria-label="The Art of Storytelling & Inspirational Narratives">
-<img alt="A reader holding an illustrated storybook" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-storytelling.jpg" width="900"/>
+<img alt="A reader holding an illustrated storybook" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-storytelling.jpg" width="900"/>
 </a>
 <span class="media-pill">Intermediate · B1</span>
 </figure>
@@ -4038,7 +4238,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Leadership language business speeches rhetoric">
 <figure class="media" data-slot="lesson-leadership" data-tilt="" data-tone="maroon" style="--ratio:3/2">
 <a href="leadership-language.html" class="media-link" aria-label="Leadership Language: How Great Leaders Communicate">
-<img alt="A speaker addressing an audience from a lectern" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-leadership.jpg" width="900"/>
+<img alt="A speaker addressing an audience from a lectern" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-leadership.jpg" width="900"/>
 </a>
 <span class="media-pill">Advanced · C1</span>
 </figure>
@@ -4050,7 +4250,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="IELTS LinguaSkill exam preparation academic testing score">
 <figure class="media" data-slot="lesson-exam-prep" data-tilt="" data-tone="lime" style="--ratio:3/2">
 <a href="ielts-dashboard.html" class="media-link" aria-label="IELTS & LinguaSkill: High-Scoring Strategies">
-<img alt="Student preparing for international English exams with practice test papers and timer" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-exam-prep.jpg" width="900"/>
+<img alt="Student preparing for international English exams with practice test papers and timer" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-exam-prep.jpg" width="900"/>
 </a>
 <span class="media-pill">Exams · All Levels</span>
 </figure>
@@ -4062,7 +4262,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Grammar vocabulary masterclass academic writing style rhetoric">
 <figure class="media" data-slot="lesson-masterclass-c1" data-tilt="" data-tone="maroon" style="--ratio:3/2">
 <a href="masterclass.html" class="media-link" aria-label="Academic Masterclass: Precision, Nuance & Style">
-<img alt="Professor and students discussing linguistics in an amphitheater lecture hall" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-masterclass-c1.jpg" width="900"/>
+<img alt="Professor and students discussing linguistics in an amphitheater lecture hall" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-masterclass-c1.jpg" width="900"/>
 </a>
 <span class="media-pill">Advanced · C1</span>
 </figure>
@@ -4380,37 +4580,37 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 </div>
 <div class="series">
 <article class="s-card card-3d" data-reveal="" data-tilt="" data-topic="6 minute wisdom short lessons">
-<figure class="media" data-slot="series-6-minute-wisdom" data-tone="lime" style="--ratio:16/10"><img alt="An hourglass on a desk" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="series-6-minute-wisdom.jpg" width="960"/><span class="s-num">01</span></figure>
+<figure class="media" data-slot="series-6-minute-wisdom" data-tone="lime" style="--ratio:16/10"><img alt="An hourglass on a desk" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/series-6-minute-wisdom.jpg" width="960"/><span class="s-num">01</span></figure>
 <h3><a href="6-minute-wisdom.html">6-Minute Wisdom</a></h3>
 <p>Short, focused lessons delivered in exactly six minutes. Vocabulary, dialogue and comprehension in a single sitting.</p>
 <span class="chip">All Levels</span>
 </article>
 <article class="s-card card-3d" data-reveal="" data-tilt="" data-topic="The English We Speak idioms British expressions">
-<figure class="media" data-slot="series-english-we-speak" data-tone="magenta" style="--ratio:16/10"><img alt="Two friends talking over tea" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="series-english-we-speak.jpg" width="960"/><span class="s-num">02</span></figure>
+<figure class="media" data-slot="series-english-we-speak" data-tone="magenta" style="--ratio:16/10"><img alt="Two friends talking over tea" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/series-english-we-speak.jpg" width="960"/><span class="s-num">02</span></figure>
 <h3><a href="the-english-we-speak.html">The English We Speak</a></h3>
 <p>British expressions, colloquialisms and everyday phrases explained with context, examples and a touch of humour.</p>
 <span class="chip">2–3 min · Intermediate+</span>
 </article>
 <article class="s-card card-3d" data-reveal="" data-tilt="" data-topic="Riddles brain teasers puzzles">
-<figure class="media" data-slot="series-riddles" data-tone="white" style="--ratio:16/10"><img alt="A desk with a magnifying glass and papers" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="series-riddles.jpg" width="960"/><span class="s-num">03</span></figure>
+<figure class="media" data-slot="series-riddles" data-tone="white" style="--ratio:16/10"><img alt="A desk with a magnifying glass and papers" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/series-riddles.jpg" width="960"/><span class="s-num">03</span></figure>
 <h3><a href="riddles.html">Riddles</a></h3>
 <p>Riddles and brain teasers that challenge your thinking while stretching your English.</p>
 <span class="chip">Levels · B1–C1</span>
 </article>
 <article class="s-card card-3d" data-reveal="" data-tilt="" data-topic="Proverbs sayings culture">
-<figure class="media" data-slot="series-proverbs" data-tone="maroon" style="--ratio:16/10"><img alt="A ceramic owl figurine" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="series-proverbs.jpg" width="960"/><span class="s-num">04</span></figure>
+<figure class="media" data-slot="series-proverbs" data-tone="maroon" style="--ratio:16/10"><img alt="A ceramic owl figurine" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/series-proverbs.jpg" width="960"/><span class="s-num">04</span></figure>
 <h3><a href="proverbs.html">Proverbs</a></h3>
 <p>The rich tapestry of English proverbs, with real-life examples and cultural insight.</p>
 <span class="chip">Levels · All Levels</span>
 </article>
 <article class="s-card card-3d" data-reveal="" data-tilt="" data-topic="Idioms expressions">
-<figure class="media" data-slot="series-idioms" data-tone="lime" style="--ratio:16/10"><img alt="A cat and a dog meeting nose to nose" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="series-idioms.jpg" width="960"/><span class="s-num">05</span></figure>
+<figure class="media" data-slot="series-idioms" data-tone="lime" style="--ratio:16/10"><img alt="A cat and a dog meeting nose to nose" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/series-idioms.jpg" width="960"/><span class="s-num">05</span></figure>
 <h3><a href="idioms.html">Idioms</a></h3>
 <p>The world of English idioms, with clear explanations and practical usage examples.</p>
 <span class="chip">Levels · B1–C1</span>
 </article>
 <article class="s-card card-3d" data-reveal="" data-tilt="" data-topic="Lexical laboratory word lists flashcards">
-<figure class="media" data-slot="series-lexical-laboratory" data-tone="magenta" style="--ratio:16/10"><img alt="Wooden letter tiles scattered on a table" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="series-lexical-laboratory.jpg" width="960"/><span class="s-num">06</span></figure>
+<figure class="media" data-slot="series-lexical-laboratory" data-tone="magenta" style="--ratio:16/10"><img alt="Wooden letter tiles scattered on a table" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/series-lexical-laboratory.jpg" width="960"/><span class="s-num">06</span></figure>
 <h3><a href="lexical-laboratory.html">Lexical Laboratory</a></h3>
 <p>Word lists, flashcards and interactive exercises for building vocabulary that sticks.</p>
 <span class="chip">Levels · B1–C1</span>
@@ -4440,9 +4640,9 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 </div>
 <div aria-hidden="true" class="deck">
 <div class="deck-inner">
-<figure class="media deck-card deck-3" data-slot="premium-3" data-tone="magenta" style="--ratio:4/5"><img alt="" decoding="async" height="1000" loading="lazy" onerror="this.hidden=true" src="premium-3.jpg" width="800"/></figure>
-<figure class="media deck-card deck-2" data-slot="premium-2" data-tone="maroon" style="--ratio:4/5"><img alt="" decoding="async" height="1000" loading="lazy" onerror="this.hidden=true" src="premium-2.jpg" width="800"/></figure>
-<figure class="media deck-card deck-1" data-slot="premium-1" data-tone="lime" style="--ratio:4/5"><img alt="" decoding="async" height="1000" loading="lazy" onerror="this.hidden=true" src="premium-1.jpg" width="800"/></figure>
+<figure class="media deck-card deck-3" data-slot="premium-3" data-tone="magenta" style="--ratio:4/5"><img alt="" decoding="async" height="1000" loading="lazy" onerror="this.hidden=true" src="Images/photos/premium-3.jpg" width="800"/></figure>
+<figure class="media deck-card deck-2" data-slot="premium-2" data-tone="maroon" style="--ratio:4/5"><img alt="" decoding="async" height="1000" loading="lazy" onerror="this.hidden=true" src="Images/photos/premium-2.jpg" width="800"/></figure>
+<figure class="media deck-card deck-1" data-slot="premium-1" data-tone="lime" style="--ratio:4/5"><img alt="" decoding="async" height="1000" loading="lazy" onerror="this.hidden=true" src="Images/photos/premium-1.jpg" width="800"/></figure>
 </div>
 </div>
 </div>
@@ -4466,7 +4666,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <p aria-label="Rated 5 out of 5" class="voice-stars" role="img"><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg></p>
 <blockquote class="voice-text">Shared Pearls of Wisdom made grammar finally click for me. The lessons are not like textbooks — they use wisdom stories and real news. I went from B1 to B2 in 3 months and passed my LinguaSkill exam for my university application.</blockquote>
 <div class="voice-author">
-<img alt="" class="voice-photo" decoding="async" height="52" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid'" src="MOHAMED DIRAR MOHAMED.png" width="52"/>
+<img alt="" class="voice-photo" decoding="async" height="52" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid'" src="Images/MOHAMED DIRAR MOHAMED.png" width="52"/>
 <span aria-hidden="true" class="voice-avatar" style="display:none;">MD</span>
 <div><h3 class="voice-name">MOHAMED DIRAR MOHAMED</h3><p>LinguaSkill B2 · Lincoln University College</p></div>
 </div>
@@ -4476,7 +4676,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <p aria-label="Rated 5 out of 5" class="voice-stars" role="img"><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg></p>
 <blockquote class="voice-text">As a medical student, I recommend Shared Pearls of Wisdom to all my colleagues. The 6-Minute Wisdom and The English We Speak series are brilliant for academic vocabulary. I dramatically improved my pronunciation and confidence in English. I can now use it for my medical studies.</blockquote>
 <div class="voice-author">
-<img alt="" class="voice-photo" decoding="async" height="52" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid'" src="Pan Li.png" width="52"/>
+<img alt="" class="voice-photo" decoding="async" height="52" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid'" src="Images/Pan Li.png" width="52"/>
 <span aria-hidden="true" class="voice-avatar" style="display:none;">PL</span>
 <div><h3 class="voice-name">Pan Li.</h3><p>Medical student at Lincoln University College, Malaysia</p></div>
 </div>
@@ -4486,7 +4686,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <p aria-label="Rated 5 out of 5" class="voice-stars" role="img"><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg></p>
 <blockquote class="voice-text">I was struggling with writing and word stress. The lessons on collocations and academic writing are gold. Free, premium quality, and the level test gave me a clear path from A2 to B2. This is more than a premium course.</blockquote>
 <div class="voice-author">
-<img alt="" class="voice-photo" decoding="async" height="52" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid'" src="Sarah P..png" width="52"/>
+<img alt="" class="voice-photo" decoding="async" height="52" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid'" src="Images/Sarah P..png" width="52"/>
 <span aria-hidden="true" class="voice-avatar" style="display:none;">SP</span>
 <div><h3 class="voice-name">Sarah P.</h3><p>IELTS 7.5 · Currently in the UK for Masters</p></div>
 </div>
@@ -4507,7 +4707,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Reported speech indirect questions grammar">
 <figure class="media" data-slot="lesson-reported-speech" data-tilt="" data-tone="rose" style="--ratio:3/2">
 <a href="subjunctive-and-reporting-verbs.html" class="media-link" aria-label="Reported Speech">
-<img alt="Two university students in a library discussing quotations and reported speech" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-reported-speech.jpg" width="900"/>
+<img alt="Two university students in a library discussing quotations and reported speech" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-reported-speech.jpg" width="900"/>
 </a>
 <span class="media-pill">Intermediate · B1</span>
 </figure>
@@ -4519,7 +4719,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Adverbs frequency manner degree parts of speech">
 <figure class="media" data-slot="lesson-adverbs" data-tilt="" data-tone="amber" style="--ratio:3/2">
 <a href="parts-of-speech.html" class="media-link" aria-label="Adverbs">
-<img alt="Motion blur photography of an antique runner and cyclist with precision stopwatch and notebook" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-adverbs.jpg" width="900"/>
+<img alt="Motion blur photography of an antique runner and cyclist with precision stopwatch and notebook" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-adverbs.jpg" width="900"/>
 </a>
 <span class="media-pill">Elementary · A2</span>
 </figure>
@@ -4531,7 +4731,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Adjectives descriptive order sensory details">
 <figure class="media" data-slot="lesson-adjectives-deep" data-tilt="" data-tone="cyan" style="--ratio:3/2">
 <a href="adjectives.html" class="media-link" aria-label="Adjectives">
-<img alt="Sensory still life of rich textures, velvet, peacock feathers, and colorful crystals" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-adjectives-deep.jpg" width="900"/>
+<img alt="Sensory still life of rich textures, velvet, peacock feathers, and colorful crystals" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-adjectives-deep.jpg" width="900"/>
 </a>
 <span class="media-pill">Intermediate · B1</span>
 </figure>
@@ -4543,7 +4743,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Nouns countable uncountable compound collective">
 <figure class="media" data-slot="lesson-nouns" data-tilt="" data-tone="lavender" style="--ratio:4/5">
 <a href="parts-of-speech.html" class="media-link" aria-label="Nouns">
-<img alt="Arrangement of leather-bound books, brass microscope, and armillary sphere" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-nouns.jpg" width="480"/>
+<img alt="Arrangement of leather-bound books, brass microscope, and armillary sphere" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-nouns.jpg" width="480"/>
 </a>
 <span class="media-pill">All Levels</span>
 </figure>
@@ -4555,7 +4755,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post post-lg" data-reveal="" data-topic="Determiners quantifiers modifiers precision grammar">
 <figure class="media" data-slot="lesson-determiners" data-tilt="" data-tone="mint" style="--ratio:16/9">
 <a href="determiners-quantifiers-modifiers.html" class="media-link" aria-label="Determiners, Quantifiers and Modifiers">
-<img alt="Precision brass scales, apothecary boxes, and measuring instruments on wooden workbench" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-determiners.jpg" width="1067"/>
+<img alt="Precision brass scales, apothecary boxes, and measuring instruments on wooden workbench" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-determiners.jpg" width="1067"/>
 </a>
 <span class="media-pill">Upper-Int · B2</span>
 </figure>
@@ -4567,7 +4767,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Reading comprehension inference speed analysis">
 <figure class="media" data-slot="lesson-reading-skills" data-tilt="" data-tone="peach" style="--ratio:3/2">
 <a href="courses/b1/reading/inferring-meaning.html" class="media-link" aria-label="Reading">
-<img alt="Scholar reading an illuminated classical book in a sunlit library alcove" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-reading-skills.jpg" width="900"/>
+<img alt="Scholar reading an illuminated classical book in a sunlit library alcove" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-reading-skills.jpg" width="900"/>
 </a>
 <span class="media-pill">Intermediate · B1</span>
 </figure>
@@ -4579,7 +4779,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Speaking fluency pronunciation intonation discussion">
 <figure class="media" data-slot="lesson-speaking-skills" data-tilt="" data-tone="indigo" style="--ratio:3/2">
 <a href="linguaskill-speaking-module.html" class="media-link" aria-label="Speaking">
-<img alt="Articulate speaker presenting with confidence at a podium to an international audience" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-speaking-skills.jpg" width="900"/>
+<img alt="Articulate speaker presenting with confidence at a podium to an international audience" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-speaking-skills.jpg" width="900"/>
 </a>
 <span class="media-pill">Upper-Int · B2</span>
 </figure>
@@ -4591,7 +4791,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Figures of speech metaphors similes idioms rhetoric">
 <figure class="media" data-slot="lesson-figures-speech" data-tilt="" data-tone="lime" style="--ratio:3/2">
 <a href="idioms.html" class="media-link" aria-label="Figures of Speech">
-<img alt="Literary fine-art composition with hourglass, illuminated quill, celestial map, and golden origami bird" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-figures-speech.jpg" width="900"/>
+<img alt="Literary fine-art composition with hourglass, illuminated quill, celestial map, and golden origami bird" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-figures-speech.jpg" width="900"/>
 </a>
 <span class="media-pill">Advanced · C1</span>
 </figure>
@@ -4934,14 +5134,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const centerY = rect.height / 2;
 
         // Controlled, elegant tilt (clamped to max ±8deg X, ±10deg Y)
-        const rotateX = Math.max(-8, Math.min(8, ((centerY - y) / centerY) * 8));
-        const rotateY = Math.max(-10, Math.min(10, ((x - centerX) / centerX) * 10));
+        const rotateX = Math.max(-6, Math.min(6, ((centerY - y) / centerY) * 6));
+        const rotateY = Math.max(-7, Math.min(7, ((x - centerX) / centerX) * 7));
 
         // Update scoped CSS variables ONLY — never overwrite element.style.transform!
         card.style.setProperty('--tilt-rx', `${rotateX.toFixed(2)}deg`);
         card.style.setProperty('--tilt-ry', `${rotateY.toFixed(2)}deg`);
         card.style.setProperty('--tilt-ty', '-2px');
-        card.style.setProperty('--tilt-tz', '8px');
+        card.style.setProperty('--tilt-tz', '4px');
         card.style.setProperty('--gx', `${((x / rect.width) * 100).toFixed(1)}%`);
         card.style.setProperty('--gy', `${((y / rect.height) * 100).toFixed(1)}%`);
         card.style.setProperty('--go', '1');
@@ -5037,6 +5237,29 @@ document.addEventListener('DOMContentLoaded', () => {
       ring.rotation.z = -0.25;
       scene.add(ring);
 
+      // Brushed Champagne Gold & Wine Armillary Rings
+      const goldBandMat = new THREE.MeshPhysicalMaterial({
+        color: 0xf5cf7a,
+        roughness: 0.22,
+        metalness: 0.9,
+        clearcoat: 0.7
+      });
+      const wineBandMat = new THREE.MeshPhysicalMaterial({
+        color: 0xa92042,
+        roughness: 0.35,
+        metalness: 0.78,
+        clearcoat: 0.8
+      });
+      const armillaryInner = new THREE.Mesh(new THREE.TorusGeometry(8.2, 0.16, 20, 96), wineBandMat);
+      armillaryInner.position.copy(pearl.position);
+      armillaryInner.rotation.set(0.65, 0.3, 0);
+      scene.add(armillaryInner);
+
+      const armillaryOuter = new THREE.Mesh(new THREE.TorusGeometry(9.8, 0.18, 20, 110), goldBandMat);
+      armillaryOuter.position.copy(pearl.position);
+      armillaryOuter.rotation.set(-0.45, 0.5, 0.35);
+      scene.add(armillaryOuter);
+
       // Directional and Accent Lighting
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
       scene.add(ambientLight);
@@ -5082,6 +5305,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         ring.rotation.z = elapsed * 0.15;
         ring.position.y = pearl.position.y;
+        if (typeof armillaryInner !== "undefined") {
+          armillaryInner.rotation.z = elapsed * 0.38;
+          armillaryInner.position.y = pearl.position.y;
+        }
+        if (typeof armillaryOuter !== "undefined") {
+          armillaryOuter.rotation.y = -elapsed * 0.28;
+          armillaryOuter.position.y = pearl.position.y;
+        }
 
         renderer.render(scene, camera);
         animId = requestAnimationFrame(renderLoop);
@@ -5404,15 +5635,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === cefrModal) closeCefrModal();
   });
 
-  // Trigger modal once per session after gentle entrance delay
-  const hasClosedInSession = (() => {
-    try { return sessionStorage.getItem('spw_cefr_closed') === '1'; }
-    catch (e) { return false; }
-  })();
-
-  if (!hasClosedInSession) {
-    setTimeout(openCefrModal, 750);
-  }
+  // Always display the 50-Question CEFR Assessment popup modal on page load
+  setTimeout(openCefrModal, 600);
 
   // 10. NEWSLETTER SUBSCRIPTION (REAL BACKEND INTEGRATION /api/newsletter-subscribe)
   const subscribeForm = document.getElementById('subscribe-form');
@@ -5535,9 +5759,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+
+  // 13. INTUITIVE TOUCH-TILT FEEDBACK FOR TOUCH DEVICES
+  if (window.matchMedia("(pointer: coarse)").matches && !prefersReduced) {
+    document.querySelectorAll("[data-tilt], .card-3d, .skill, .fc, .post, .s-card, .voice, .step").forEach(card => {
+      card.addEventListener("touchstart", (e) => {
+        const touch = e.touches[0];
+        if (!touch) return;
+        const rect = card.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        const rotateX = Math.max(-5, Math.min(5, (((rect.height / 2) - y) / Math.max(1, rect.height / 2)) * 5));
+        const rotateY = Math.max(-6, Math.min(6, ((x - (rect.width / 2)) / Math.max(1, rect.width / 2)) * 6));
+        card.style.setProperty("--tilt-rx", rotateX.toFixed(2) + "deg");
+        card.style.setProperty("--tilt-ry", rotateY.toFixed(2) + "deg");
+        card.style.setProperty("--tilt-ty", "-3px");
+        card.style.setProperty("--tilt-tz", "4px");
+        card.style.setProperty("--gx", ((x / Math.max(1, rect.width)) * 100).toFixed(1) + "%");
+        card.style.setProperty("--gy", ((y / Math.max(1, rect.height)) * 100).toFixed(1) + "%");
+        card.style.setProperty("--go", "1");
+      }, { passive: true });
+
+      const resetTouch = () => {
+        card.style.setProperty("--tilt-rx", "0deg");
+        card.style.setProperty("--tilt-ry", "0deg");
+        card.style.setProperty("--tilt-ty", "0px");
+        card.style.setProperty("--tilt-tz", "0px");
+        card.style.setProperty("--go", "0");
+      };
+      card.addEventListener("touchend", resetTouch, { passive: true });
+      card.addEventListener("touchcancel", resetTouch, { passive: true });
+    });
+  }
+
 });
-
-
 
 /* ============================================================
    PREMIUM SUBSCRIBER 25-QUESTION ASSESSMENT LOGIC
