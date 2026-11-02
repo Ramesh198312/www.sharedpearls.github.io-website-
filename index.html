@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
@@ -497,7 +498,32 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 }
 
 /* Prefers reduced motion overrides */
-/* 3D animations enabled unconditionally across all OS settings */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal] {
+    opacity: 1 !important;
+    --reveal-ty: 0px !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  .card-3d,
+  [data-tilt],
+  .skill,
+  .s-card,
+  .voice,
+  .step,
+  .fc,
+  .post,
+  .deck-card {
+    transition: none !important;
+    transform: none !important;
+  }
+  .cube {
+    animation: none !important;
+  }
+  .tape-track {
+    animation-duration: 60s !important;
+  }
+}
 
 /* ============================================================
    NAVIGATION
@@ -3679,16 +3705,15 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 
 
 /* ============================================================
-   COMPLETE LIVE 3D ANIMATIONS, GLARE LIGHTING & BOX CONTAINMENT
+   REFINED 3D BOX CONTAINMENT, TYPOGRAPHY & TOUCH INTERACTIONS
+   Fixes all text overflow / protrusion on Passive Voice & 3D tiles
    ============================================================ */
 :root {
   --font-serif: "Playfair Display", "Fraunces", Georgia, serif;
   --font-mono: "JetBrains Mono", "Space Grotesk", monospace;
 }
 
-/* Enable 3D perspective & glare overlay across ALL interactive cards on the page */
-.card-3d,
-[data-tilt],
+/* Strict 3D Box Containment so words NEVER come out of 3D boxes */
 .skill,
 .fc,
 .post,
@@ -3696,118 +3721,61 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 .voice,
 .step,
 .jn,
+.ex-item,
 .ex-item a,
 .vmc-title-card {
-  --base-tx: 0px;
-  --base-ty: 0px;
-  --base-tz: 0px;
-  --base-rx: 0deg;
-  --base-ry: 0deg;
-  --base-rz: 0deg;
-  --reveal-ty: 0px;
-  --hover-ty: 0px;
-  --hover-tz: 0px;
-  --tilt-rx: 0deg;
-  --tilt-ry: 0deg;
-  --tilt-tz: 0px;
-  --tilt-ty: 0px;
-
-  transform:
-    perspective(1100px)
-    translate3d(
-      var(--base-tx),
-      calc(var(--base-ty) + var(--reveal-ty) + var(--hover-ty) + var(--tilt-ty)),
-      calc(var(--base-tz) + var(--hover-tz) + var(--tilt-tz))
-    )
-    rotateX(calc(var(--base-rx) + var(--tilt-rx)))
-    rotateY(calc(var(--base-ry) + var(--tilt-ry)))
-    rotateZ(var(--base-rz)) !important;
-
-  transform-style: preserve-3d;
-  position: relative;
   min-width: 0 !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
-  overflow: hidden !important;
   overflow-wrap: break-word !important;
   word-wrap: break-word !important;
   word-break: break-word !important;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  will-change: transform, box-shadow;
 }
 
-/* Dynamic 3D Specular Glare Lighting on all cards */
-.skill::after,
-.fc::after,
-.post::after,
-.s-card::after,
-.voice::after,
-.step::after,
-.jn::after,
-.ex-item a::after,
-.vmc-title-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(
-    circle at var(--gx, 50%) var(--gy, 50%),
-    rgba(255, 255, 255, 0.42) 0%,
-    rgba(255, 255, 255, 0.12) 34%,
-    transparent 68%
-  );
-  opacity: var(--go, 0);
-  pointer-events: none;
-  transition: opacity 0.25s ease;
-  z-index: 4;
-}
-
-/* Keep Z-translations inside card boundaries so words never protrude out of 3D boxes */
+/* Keep Z-translations inside card boundaries so 3D tilt never pushes text outside the box */
 .skill .ico-tile {
-  transform: translateZ(10px) !important;
-  transition: transform 0.3s var(--ease-spring);
+  transform: translateZ(12px) !important;
 }
 .skill:hover .ico-tile {
-  transform: translateZ(15px) scale(1.07) !important;
+  transform: translateZ(16px) scale(1.05) !important;
 }
 .skill h3,
 .fc-title,
 .post-title,
 .s-card h3,
-.step h3,
-.jn h3 {
-  transform: translateZ(6px) !important;
+.step h3 {
+  transform: translateZ(8px) !important;
   max-width: 100% !important;
   overflow-wrap: break-word !important;
   word-break: break-word !important;
+  hyphens: auto;
 }
 .skill p,
 .fc-desc,
 .post-excerpt,
 .s-card p,
-.step p,
-.jn p {
-  transform: translateZ(3px) !important;
+.step p {
+  transform: translateZ(4px) !important;
   max-width: 100% !important;
   overflow-wrap: break-word !important;
 }
 .skill .go {
-  transform: translateZ(10px) !important;
+  transform: translateZ(12px) !important;
 }
 .skill:hover .go {
-  transform: translateZ(14px) scale(1.08) !important;
+  transform: translateZ(16px) scale(1.08) !important;
 }
 
-.post, .fc, .s-card {
-  padding: 16px !important;
+/* Ensure .post, .fc, .s-card, and .ex-item a clip any overflowing media or inner glow cleanly */
+.post,
+.fc,
+.s-card {
+  overflow: hidden !important;
+  padding: 18px !important;
 }
-.fc {
-  background: rgba(255, 255, 255, 0.92) !important;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
+
 .ex-item a {
+  overflow: hidden !important;
   padding: 15px 18px !important;
   display: flex !important;
   flex-direction: column !important;
@@ -3815,121 +3783,37 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
   gap: 4px !important;
   min-height: 78px !important;
 }
+
 .ex-name {
   display: block !important;
   max-width: 100% !important;
   line-height: 1.3 !important;
   overflow-wrap: break-word !important;
 }
+
 .post-tags {
   flex-wrap: wrap !important;
   gap: 8px !important;
   max-width: 100% !important;
 }
+
 .media-pill {
   max-width: calc(100% - 20px) !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  z-index: 6 !important;
 }
-
-/* Un-hide & Animate the 3D Floating Stage Badges (.obj-cube, .obj-bubble, .obj-level) */
-.stage {
-  min-height: 430px !important;
-  overflow: visible !important;
-}
-.stage-3d-canvas {
-  position: absolute !important;
-  inset: -14% !important;
-  width: 128% !important;
-  height: 128% !important;
-  pointer-events: auto !important;
-  z-index: 0 !important;
-  opacity: 1 !important;
-}
-.obj-cube {
-  display: block !important;
-  position: absolute !important;
-  top: -22px !important;
-  right: -10px !important;
-  width: 48px !important;
-  height: 48px !important;
-  z-index: 15 !important;
-  pointer-events: none !important;
-}
-.obj-bubble {
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  position: absolute !important;
-  bottom: -16px !important;
-  left: -14px !important;
-  z-index: 15 !important;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #650f22, #a92042);
-  color: #ffffff;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 0.85rem;
-  border: 1.5px solid #f5cf7a;
-  box-shadow: 0 6px 0 #30060e, 0 14px 28px rgba(101, 15, 34, 0.35);
-  animation: float3DBadgeA 5.2s ease-in-out infinite;
-  pointer-events: none;
-}
-.obj-level {
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  position: absolute !important;
-  bottom: 42% !important;
-  right: -18px !important;
-  z-index: 15 !important;
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #d4ff46, #a8e600);
-  color: #172403;
-  font-family: var(--font-mono);
-  font-weight: 900;
-  font-size: 0.92rem;
-  border: 1.5px solid #ffffff;
-  box-shadow: 0 5px 0 #7ba302, 0 12px 24px rgba(188, 240, 34, 0.45);
-  animation: float3DBadgeB 6.4s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes float3DBadgeA {
-  0%, 100% { transform: translate3d(0, 0px, 35px) rotateZ(-4deg); }
-  50% { transform: translate3d(0, -10px, 45px) rotateZ(3deg); }
-}
-@keyframes float3DBadgeB {
-  0%, 100% { transform: translate3d(0, 0px, 40px) rotateZ(6deg); }
-  50% { transform: translate3d(0, -12px, 52px) rotateZ(-4deg); }
-}
-
-/* Continuous 3D Floating Idle Animation on Hero Featured Cards */
-@keyframes floatHeroCard1 {
-  0%, 100% { --base-ty: 0px; }
-  50% { --base-ty: -6px; }
-}
-@keyframes floatHeroCard2 {
-  0%, 100% { --base-ty: 0px; }
-  50% { --base-ty: -8px; }
-}
-.fc-1 { animation: floatHeroCard1 5.5s ease-in-out infinite; }
-.fc-2 { animation: floatHeroCard2 6.5s ease-in-out infinite 0.7s; }
-.fc-3 { animation: floatHeroCard1 6s ease-in-out infinite 1.4s; }
 
 /* Appealing Hero Display Typography & Shimmering 3D Marks */
 .hero-copy h1 {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 3.6vw, 3.3rem);
+  font-size: clamp(2.2rem, 3.6vw, 3.25rem);
   font-weight: 800;
-  line-height: 1.13;
+  line-height: 1.14;
   letter-spacing: -0.028em;
   text-wrap: balance;
 }
+
 .hero-copy .mark-gold {
   font-family: var(--font-serif);
   font-style: italic;
@@ -3938,6 +3822,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 2px 0 rgba(101, 15, 34, 0.14));
 }
+
 .hero-copy .mark-wine {
   background: linear-gradient(135deg, #9a3803 0%, #c85206 50%, #e07b12 100%);
   -webkit-background-clip: text;
@@ -3945,38 +3830,105 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
   filter: drop-shadow(0 2px 0 rgba(181, 71, 8, 0.14));
 }
 
-/* Tactile Press Down Response */
-.skill:active,
-.fc:active,
-.post:active,
-.s-card:active,
-.voice:active,
-.step:active,
-.jn:active,
-.ex-item a:active,
-.vmc-title-card:active {
-  transform: perspective(1100px) translate3d(0px, 3px, -3px) scale(0.986) !important;
-  transition: transform 0.08s ease-out !important;
+/* Rich 3D Fallback Illustrations inside .media when local photos are absent */
+.media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
-/* 3D SVG Artwork Overlay inside .media slots */
-.media-3d-art {
+.media::before {
+  content: attr(data-label);
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(101, 15, 34, 0.65);
   pointer-events: none;
-  transition: transform 0.45s var(--ease-smooth);
+  z-index: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-.media:hover .media-3d-art {
-  transform: scale(1.06);
+.s-card .media::before {
+  color: rgba(255, 255, 255, 0.7);
 }
 .media img {
   position: relative;
   z-index: 2;
 }
 
+/* Touch & Pointer Tactile Press Response */
+.card-3d,
+[data-tilt],
+.skill,
+.fc,
+.post,
+.s-card,
+.voice,
+.step,
+.ex-item a,
+.vmc-title-card {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.skill:active,
+.fc:active,
+.post:active,
+.s-card:active,
+.voice:active,
+.step:active,
+.ex-item a:active,
+.vmc-title-card:active {
+  transform: perspective(1200px) translate3d(0px, 3px, -3px) scale(0.988) !important;
+  transition: transform 0.08s ease-out !important;
+}
+
+/* Subtle Floating 3D Idle Animation on Hero Featured Cards */
+@keyframes floatCard3D_1 {
+  0%, 100% { --base-ty: 0px; }
+  50% { --base-ty: -4px; }
+}
+@keyframes floatCard3D_2 {
+  0%, 100% { --base-ty: 0px; }
+  50% { --base-ty: -6px; }
+}
+.fc-1 { animation: floatCard3D_1 6s ease-in-out infinite; }
+.fc-2 { animation: floatCard3D_2 7s ease-in-out infinite 0.8s; }
+.fc-3 { animation: floatCard3D_1 6.5s ease-in-out infinite 1.6s; }
+
+
+/* Modern artwork: change each img src and lesson href directly in this file.
+   Existing palette, fonts, card shadows, tilt and deck rotations are retained. */
+.skill .ico-tile.lesson-art {
+  width: 100%; height: auto; aspect-ratio: 3 / 2;
+  flex: 0 0 auto; overflow: hidden;
+}
+.lesson-art img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+.fc .media-link { position: relative; z-index: 3; }
+.fc .fc-title a { position: relative; z-index: 3; }
+/* Keep the three figures overlapping: the generic .media rule above sets
+   position: relative and must not override the premium deck positioning. */
+.premium .deck-inner > .deck-card {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+/* Bound the decorative deck without altering its three-dimensional transforms. */
+.premium { overflow: hidden; }
+.premium > * { min-width: 0; }
+.premium .deck { min-width: 0; max-width: 100%; container-type: inline-size; }
+/* Scale only the containing stage when its column is narrow; all card poses remain unchanged. */
+@container (max-width: 460px) { .premium .deck-inner { scale: .72; } }
+@container (max-width: 300px) { .premium .deck-inner { scale: .62; } }
 </style>
 <!-- Marks that JavaScript is running. The scroll-reveal animation is
        scoped to .js, so if this script or script.js ever fails to load,
@@ -4077,14 +4029,14 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 </article>
 <article class="fc fc-2">
 <figure class="media" data-slot="feature-history-words" data-tone="maroon" style="--ratio:16/9">
-<img alt="Old books, a quill and a pocket watch" decoding="async" height="756" onerror="this.hidden=true" src="feature-history-words.jpg" width="1344"/>
+<a class="media-link" href="words-that-changed-history.html" aria-label="Words That Changed History"><img alt="a contemporary sculptural microphone with expanding glass speech bubbles and abstract ripple rings symbolizing influential speeches" decoding="async" height="756" onerror="this.hidden=true" src="feature-history-words-modern-3d.jpg" width="1344"/></a>
 </figure>
 <p class="fc-tag">6-Minute Lesson · Vocabulary</p>
 <h2 class="fc-title"><a href="words-that-changed-history.html">Words That Changed History</a></h2>
 </article>
 <article class="fc fc-3">
 <figure class="media" data-slot="feature-news-reading" data-tone="magenta" style="--ratio:16/9">
-<img alt="A reader studying a newspaper through a magnifying glass" decoding="async" height="756" onerror="this.hidden=true" src="feature-news-reading.jpg" width="1344"/>
+<a class="media-link" href="courses/b1/reading/inferring-meaning.html" aria-label="Reading Between the Lines"><img alt="a contemporary tablet with abstract article lines and a floating magnifying glass revealing layered meaning" decoding="async" height="756" onerror="this.hidden=true" src="feature-news-reading-modern-3d.jpg" width="1344"/></a>
 </figure>
 <p class="fc-tag">News English · Intermediate</p>
 <h2 class="fc-title"><a href="courses/b1/reading/inferring-meaning.html">Reading Between the Lines</a></h2>
@@ -4134,49 +4086,49 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 </div>
 <div class="skills">
 <article class="skill card-3d" data-reveal="" data-tilt="" data-topic="Grammar tenses conditionals sentence structure">
-<span aria-hidden="true" class="ico-tile"><svg class="ico"><use href="#i-pen"></use></svg></span>
+<span aria-hidden="true" class="ico-tile lesson-art"><img src="skill-grammar-modern-3d.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async"/></span>
 <h3><a href="grammar-lesson-1.html">Grammar</a></h3>
 <p>Tenses, conditionals, sentence structure and more</p>
 <a aria-label="Open the Grammar course" class="go" href="grammar-lesson-1.html"><svg aria-hidden="true" class="ico ico-sm"><use href="#i-arrow"></use></svg></a>
 </article>
 <article class="skill card-3d" data-reveal="" data-tilt="" data-topic="Subject verb agreement grammar harmony">
-<span aria-hidden="true" class="ico-tile"><svg class="ico"><use href="#i-book"></use></svg></span>
+<span aria-hidden="true" class="ico-tile lesson-art"><img src="skill-agreement-modern-3d.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async"/></span>
 <h3><a href="subject-verb-agreement.html">Subject-verb Agreement</a></h3>
 <p>Make every sentence sound correct, clear and confident.</p>
 <a aria-label="Open the Subject-verb Agreement course" class="go" href="subject-verb-agreement.html"><svg aria-hidden="true" class="ico ico-sm"><use href="#i-arrow"></use></svg></a>
 </article>
 <article class="skill card-3d" data-reveal="" data-tilt="" data-topic="Pronunciation stress intonation sounds connected speech">
-<span aria-hidden="true" class="ico-tile"><svg class="ico"><use href="#i-mic"></use></svg></span>
+<span aria-hidden="true" class="ico-tile lesson-art"><img src="skill-pronunciation-modern-3d.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async"/></span>
 <h3><a href="pronunciation.html">Pronunciation</a></h3>
 <p>Stress, intonation, sounds &amp; connected speech</p>
 <a aria-label="Open the Pronunciation course" class="go" href="pronunciation.html"><svg aria-hidden="true" class="ico ico-sm"><use href="#i-arrow"></use></svg></a>
 </article>
 <article class="skill card-3d" data-reveal="" data-tilt="" data-topic="Listening audio dramas interviews comprehension">
-<span aria-hidden="true" class="ico-tile"><svg class="ico"><use href="#i-headphones"></use></svg></span>
+<span aria-hidden="true" class="ico-tile lesson-art"><img src="skill-listening-modern-3d.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async"/></span>
 <h3><a href="listening.html">Listening</a></h3>
 <p>Audio dramas, interviews &amp; comprehension practice</p>
 <a aria-label="Open the Listening course" class="go" href="listening.html"><svg aria-hidden="true" class="ico ico-sm"><use href="#i-arrow"></use></svg></a>
 </article>
 <article class="skill card-3d" data-reveal="" data-tilt="" data-topic="News English real news stories current affairs">
-<span aria-hidden="true" class="ico-tile"><svg class="ico"><use href="#i-news"></use></svg></span>
+<span aria-hidden="true" class="ico-tile lesson-art"><img src="skill-news-modern-3d.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async"/></span>
 <h3><a href="newsa1a2.html">News English</a></h3>
 <p>Real news stories adapted for English learners</p>
 <a aria-label="Open the News English course" class="go" href="newsa1a2.html"><svg aria-hidden="true" class="ico ico-sm"><use href="#i-arrow"></use></svg></a>
 </article>
 <article class="skill card-3d" data-reveal="" data-tilt="" data-topic="Business English meetings emails negotiation workplace">
-<span aria-hidden="true" class="ico-tile"><svg class="ico"><use href="#i-briefcase"></use></svg></span>
+<span aria-hidden="true" class="ico-tile lesson-art"><img src="skill-business-modern-3d.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async"/></span>
 <h3><a href="business-a1a2.html">Business English</a></h3>
 <p>Meetings, emails, negotiation &amp; workplace language</p>
 <a aria-label="Open the Business English course" class="go" href="business-a1a2.html"><svg aria-hidden="true" class="ico ico-sm"><use href="#i-arrow"></use></svg></a>
 </article>
 <article class="skill card-3d" data-reveal="" data-tilt="" data-topic="Writing essays reports emails creative writing">
-<span aria-hidden="true" class="ico-tile"><svg class="ico"><use href="#i-file"></use></svg></span>
+<span aria-hidden="true" class="ico-tile lesson-art"><img src="skill-writing-modern-3d.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async"/></span>
 <h3><a href="writinga1a2.html">Writing</a></h3>
 <p>Essays, reports, emails &amp; creative writing</p>
 <a aria-label="Open the Writing course" class="go" href="writinga1a2.html"><svg aria-hidden="true" class="ico ico-sm"><use href="#i-arrow"></use></svg></a>
 </article>
 <article class="skill card-3d" data-reveal="" data-tilt="" data-topic="Tutorials video lessons">
-<span aria-hidden="true" class="ico-tile"><svg class="ico"><use href="#i-play"></use></svg></span>
+<span aria-hidden="true" class="ico-tile lesson-art"><img src="skill-tutorials-modern-3d.jpg" alt="" width="1200" height="800" loading="lazy" decoding="async"/></span>
 <h3><a href="video-tutorial-page.html">Tutorials</a></h3>
 <p>Step-by-step video tutorials across every skill</p>
 <a aria-label="Open the video Tutorials" class="go" href="video-tutorial-page.html"><svg aria-hidden="true" class="ico ico-sm"><use href="#i-arrow"></use></svg></a>
@@ -4206,9 +4158,9 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <div class="video-stage" data-reveal="">
 <div class="video-frame">
 <video class="video-el" controls="" height="900" playsinline="" poster="premium-course-poster.jpg" preload="metadata" width="1600">
-<source src="premium-course-introduction.mp4" type="video/mp4"/>
+<source src="videos/premium-course-introduction.mp4" type="video/mp4"/>
           Your browser cannot play this video.
-          <a href="premium-course-introduction.mp4">Download the introduction video</a> instead.
+          <a href="videos/premium-course-introduction.mp4">Download the introduction video</a> instead.
         </video>
 <!-- YOUTUBE / VIMEO ALTERNATIVE — uncomment and set your URL
         <div class="video-embed">
@@ -4252,7 +4204,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post post-lg" data-reveal="" data-topic="Passive voice grammar">
 <figure class="media" data-slot="lesson-passive-voice" data-tilt="" data-tone="lime" style="--ratio:16/9">
 <a href="passive-voice.html" class="media-link" aria-label="Passive Voice: When the Action Matters More Than the Actor">
-<img alt="A cake with one slice already taken" decoding="async" height="756" loading="lazy" onerror="this.hidden=true" src="lesson-passive-voice.jpg" width="1344"/>
+<img alt="a contemporary robotic arm painting a smooth burgundy sphere, visual focus on the object receiving the action" decoding="async" height="756" loading="lazy" onerror="this.hidden=true" src="Images/modern-3d/lesson-passive-voice-modern-3d.jpg" width="1344"/>
 </a>
 <span class="media-pill">Intermediate · B1</span>
 </figure>
@@ -4300,7 +4252,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <article class="post" data-reveal="" data-topic="Storytelling fiction narrative">
 <figure class="media" data-slot="lesson-storytelling" data-tilt="" data-tone="lime" style="--ratio:3/2">
 <a href="courses/b1/reading/stories.html" class="media-link" aria-label="The Art of Storytelling & Inspirational Narratives">
-<img alt="A reader holding an illustrated storybook" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/lesson-storytelling.jpg" width="900"/>
+<img alt="A reader holding an illustrated storybook" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-storytelling.jpg" width="900"/>
 </a>
 <span class="media-pill">Intermediate · B1</span>
 </figure>
@@ -4654,37 +4606,37 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 </div>
 <div class="series">
 <article class="s-card card-3d" data-reveal="" data-tilt="" data-topic="6 minute wisdom short lessons">
-<figure class="media" data-slot="series-6-minute-wisdom" data-tone="lime" style="--ratio:16/10"><img alt="An hourglass on a desk" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/series-6-minute-wisdom.jpg" width="960"/><span class="s-num">01</span></figure>
+<figure class="media" data-slot="series-6-minute-wisdom" data-tone="lime" style="--ratio:16/10"><img alt="a contemporary sculptural digital timer showing 06:00 with a floating lightbulb and small learning blocks" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="series-6-minute-wisdom-modern-3d.jpg" width="960"/><span class="s-num">01</span></figure>
 <h3><a href="6-minute-wisdom.html">6-Minute Wisdom</a></h3>
 <p>Short, focused lessons delivered in exactly six minutes. Vocabulary, dialogue and comprehension in a single sitting.</p>
 <span class="chip">All Levels</span>
 </article>
 <article class="s-card card-3d" data-reveal="" data-tilt="" data-topic="The English We Speak idioms British expressions">
-<figure class="media" data-slot="series-english-we-speak" data-tone="magenta" style="--ratio:16/10"><img alt="Two friends talking over tea" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/series-english-we-speak.jpg" width="960"/><span class="s-num">02</span></figure>
+<figure class="media" data-slot="series-english-we-speak" data-tone="magenta" style="--ratio:16/10"><img alt="two expressive rounded 3D chat bubbles above contemporary wireless earbuds, lively conversation" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="series-english-we-speak-modern-3d.jpg" width="960"/><span class="s-num">02</span></figure>
 <h3><a href="the-english-we-speak.html">The English We Speak</a></h3>
 <p>British expressions, colloquialisms and everyday phrases explained with context, examples and a touch of humour.</p>
 <span class="chip">2–3 min · Intermediate+</span>
 </article>
 <article class="s-card card-3d" data-reveal="" data-tilt="" data-topic="Riddles brain teasers puzzles">
-<figure class="media" data-slot="series-riddles" data-tone="white" style="--ratio:16/10"><img alt="A desk with a magnifying glass and papers" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/series-riddles.jpg" width="960"/><span class="s-num">03</span></figure>
+<figure class="media" data-slot="series-riddles" data-tone="white" style="--ratio:16/10"><img alt="a playful sophisticated floating puzzle cube with one missing piece and a sculpted question mark" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="series-riddles-modern-3d.jpg" width="960"/><span class="s-num">03</span></figure>
 <h3><a href="riddles.html">Riddles</a></h3>
 <p>Riddles and brain teasers that challenge your thinking while stretching your English.</p>
 <span class="chip">Levels · B1–C1</span>
 </article>
 <article class="s-card card-3d" data-reveal="" data-tilt="" data-topic="Proverbs sayings culture">
-<figure class="media" data-slot="series-proverbs" data-tone="maroon" style="--ratio:16/10"><img alt="A ceramic owl figurine" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/series-proverbs.jpg" width="960"/><span class="s-num">04</span></figure>
+<figure class="media" data-slot="series-proverbs" data-tone="maroon" style="--ratio:16/10"><img alt="a modern stylized wisdom tree growing from an open minimalist book, rounded sculptural leaves and a speech bubble" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="series-proverbs-modern-3d.jpg" width="960"/><span class="s-num">04</span></figure>
 <h3><a href="proverbs.html">Proverbs</a></h3>
 <p>The rich tapestry of English proverbs, with real-life examples and cultural insight.</p>
 <span class="chip">Levels · All Levels</span>
 </article>
 <article class="s-card card-3d" data-reveal="" data-tilt="" data-topic="Idioms expressions">
-<figure class="media" data-slot="series-idioms" data-tone="lime" style="--ratio:16/10"><img alt="A cat and a dog meeting nose to nose" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/series-idioms.jpg" width="960"/><span class="s-num">05</span></figure>
+<figure class="media" data-slot="series-idioms" data-tone="lime" style="--ratio:16/10"><img alt="a playful miniature cloud raining tiny sculpted cats and dogs above a sleek umbrella, a visual idiom" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="series-idioms-modern-3d.jpg" width="960"/><span class="s-num">05</span></figure>
 <h3><a href="idioms.html">Idioms</a></h3>
 <p>The world of English idioms, with clear explanations and practical usage examples.</p>
 <span class="chip">Levels · B1–C1</span>
 </article>
 <article class="s-card card-3d" data-reveal="" data-tilt="" data-topic="Lexical laboratory word lists flashcards">
-<figure class="media" data-slot="series-lexical-laboratory" data-tone="magenta" style="--ratio:16/10"><img alt="Wooden letter tiles scattered on a table" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="Images/photos/series-lexical-laboratory.jpg" width="960"/><span class="s-num">06</span></figure>
+<figure class="media" data-slot="series-lexical-laboratory" data-tone="magenta" style="--ratio:16/10"><img alt="a futuristic word lab with transparent glass capsules and floating alphabet blocks A B C" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="series-lexical-laboratory-modern-3d.jpg" width="960"/><span class="s-num">06</span></figure>
 <h3><a href="lexical-laboratory.html">Lexical Laboratory</a></h3>
 <p>Word lists, flashcards and interactive exercises for building vocabulary that sticks.</p>
 <span class="chip">Levels · B1–C1</span>
@@ -4714,9 +4666,9 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 </div>
 <div aria-hidden="true" class="deck">
 <div class="deck-inner">
-<figure class="media deck-card deck-3" data-slot="premium-3" data-tone="magenta" style="--ratio:4/5"><img alt="" decoding="async" height="1000" loading="lazy" onerror="this.hidden=true" src="premium-3.jpg" width="800"/></figure>
-<figure class="media deck-card deck-2" data-slot="premium-2" data-tone="maroon" style="--ratio:4/5"><img alt="" decoding="async" height="1000" loading="lazy" onerror="this.hidden=true" src="premium-2.jpg" width="800"/></figure>
-<figure class="media deck-card deck-1" data-slot="premium-1" data-tone="lime" style="--ratio:4/5"><img alt="" decoding="async" height="1000" loading="lazy" onerror="this.hidden=true" src="premium-1.jpg" width="800"/></figure>
+<figure class="media deck-card deck-3" data-slot="premium-3" data-tone="magenta" style="--ratio:4/5"><img alt="" decoding="async" height="2000" loading="lazy" onerror="this.hidden=true" src="premium-3.jpg" width="1200"/></figure>
+<figure class="media deck-card deck-2" data-slot="premium-2" data-tone="maroon" style="--ratio:4/5"><img alt="" decoding="async" height="2000" loading="lazy" onerror="this.hidden=true" src="premium-2.jpg" width="1200"/></figure>
+<figure class="media deck-card deck-1" data-slot="premium-1" data-tone="lime" style="--ratio:4/5"><img alt="" decoding="async" height="2000" loading="lazy" onerror="this.hidden=true" src="premium-1.jpg" width="1200"/></figure>
 </div>
 </div>
 </div>
@@ -4780,27 +4732,27 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <div class="posts">
 <article class="post" data-reveal="" data-topic="Reported speech indirect questions grammar">
 <figure class="media" data-slot="lesson-reported-speech" data-tilt="" data-tone="rose" style="--ratio:3/2">
-<a href="subjunctive-and-reporting-verbs.html" class="media-link" aria-label="Reported Speech">
+<a href="premium-reported-speech.html" class="media-link" aria-label="Reported Speech">
 <img alt="Two university students in a library discussing quotations and reported speech" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-reported-speech.jpg" width="900"/>
 </a>
 <span class="media-pill">Intermediate · B1</span>
 </figure>
 <p class="post-tags"><span class="tag tag-grammar">Grammar</span><span class="pill pill-lime">B1</span></p>
-<h3 class="post-title"><a href="subjunctive-and-reporting-verbs.html">Reported Speech</a></h3>
+<h3 class="post-title"><a href="premium-reported-speech.html">Reported Speech</a></h3>
 <p class="post-excerpt">Master the shifts in tenses, pronouns and reporting verbs to relay conversations with clarity.</p>
-<p class="post-meta"><span>Intermediate</span><i></i><span>15 min</span></p>
+<p class="post-meta"><span>Intermediate</span><i></i><span>Full course + review</span></p>
 </article>
 <article class="post" data-reveal="" data-topic="Adverbs frequency manner degree parts of speech">
 <figure class="media" data-slot="lesson-adverbs" data-tilt="" data-tone="amber" style="--ratio:3/2">
-<a href="parts-of-speech.html" class="media-link" aria-label="Adverbs">
+<a href="grammar/phase-1/adverbs-adverbial-structures.html" class="media-link" aria-label="Adverbs">
 <img alt="Motion blur photography of an antique runner and cyclist with precision stopwatch and notebook" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-adverbs.jpg" width="900"/>
 </a>
 <span class="media-pill">Elementary · A2</span>
 </figure>
 <p class="post-tags"><span class="tag tag-vocab">Grammar</span><span class="pill pill-lime">A2</span></p>
-<h3 class="post-title"><a href="parts-of-speech.html">Adverbs</a></h3>
+<h3 class="post-title"><a href="grammar/phase-1/adverbs-adverbial-structures.html">Adverbs</a></h3>
 <p class="post-excerpt">How, when and where an action happens. Expand beyond basic -ly adverbs to elevate sentence flow.</p>
-<p class="post-meta"><span>Elementary+</span><i></i><span>10 min</span></p>
+<p class="post-meta"><span>Elementary+</span><i></i><span>11-unit course</span></p>
 </article>
 <article class="post" data-reveal="" data-topic="Adjectives descriptive order sensory details">
 <figure class="media" data-slot="lesson-adjectives-deep" data-tilt="" data-tone="cyan" style="--ratio:3/2">
@@ -4816,15 +4768,15 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 </article>
 <article class="post" data-reveal="" data-topic="Nouns countable uncountable compound collective">
 <figure class="media" data-slot="lesson-nouns" data-tilt="" data-tone="lavender" style="--ratio:4/5">
-<a href="parts-of-speech.html" class="media-link" aria-label="Nouns">
+<a href="grammar/phase-1/nouns-noun-phrases.html" class="media-link" aria-label="Nouns">
 <img alt="Arrangement of leather-bound books, brass microscope, and armillary sphere" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-nouns.jpg" width="480"/>
 </a>
 <span class="media-pill">All Levels</span>
 </figure>
 <p class="post-tags"><span class="tag tag-grammar">Grammar</span><span class="pill pill-lime">A1–B2</span></p>
-<h3 class="post-title"><a href="parts-of-speech.html">Nouns</a></h3>
+<h3 class="post-title"><a href="grammar/phase-1/nouns-noun-phrases.html">Nouns</a></h3>
 <p class="post-excerpt">Countable vs uncountable traps, irregular plurals and collective nouns in professional discourse.</p>
-<p class="post-meta"><span>All levels</span><i></i><span>12 min</span></p>
+<p class="post-meta"><span>All levels</span><i></i><span>17-unit course</span></p>
 </article>
 <article class="post post-lg" data-reveal="" data-topic="Determiners quantifiers modifiers precision grammar">
 <figure class="media" data-slot="lesson-determiners" data-tilt="" data-tone="mint" style="--ratio:16/9">
@@ -4836,43 +4788,43 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <p class="post-tags"><span class="tag tag-grammar">Grammar</span><span class="pill pill-lime">B2</span></p>
 <h3 class="post-title"><a href="determiners-quantifiers-modifiers.html">Determiners, Quantifiers and Modifiers</a></h3>
 <p class="post-excerpt">Pinpoint exact quantities, degrees and specific references with zero ambiguity in formal English.</p>
-<p class="post-meta"><span>Upper-Intermediate</span><i></i><span>18 min</span></p>
+<p class="post-meta"><span>Upper-Intermediate</span><i></i><span>3 modules + review</span></p>
 </article>
 <article class="post" data-reveal="" data-topic="Reading comprehension inference speed analysis">
 <figure class="media" data-slot="lesson-reading-skills" data-tilt="" data-tone="peach" style="--ratio:3/2">
-<a href="courses/b1/reading/inferring-meaning.html" class="media-link" aria-label="Reading">
-<img alt="Scholar reading an illuminated classical book in a sunlit library alcove" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-reading-skills.jpg" width="900"/>
+<a href="courses/b1/reading/index.html" class="media-link" aria-label="Reading">
+<img alt="a sleek open digital reader with floating translucent layered pages and magnifying lens" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-reading-skills-modern-3d.jpg" width="900"/>
 </a>
 <span class="media-pill">Intermediate · B1</span>
 </figure>
 <p class="post-tags"><span class="tag tag-fiction">Core Skills</span><span class="pill pill-lime">B1</span></p>
-<h3 class="post-title"><a href="courses/b1/reading/inferring-meaning.html">Reading</a></h3>
+<h3 class="post-title"><a href="courses/b1/reading/index.html">Reading</a></h3>
 <p class="post-excerpt">Proven strategies for skimming, scanning and extracting underlying nuance in complex essays.</p>
-<p class="post-meta"><span>Intermediate</span><i></i><span>15 min</span></p>
+<p class="post-meta"><span>Intermediate</span><i></i><span>Reading Lab</span></p>
 </article>
 <article class="post" data-reveal="" data-topic="Speaking fluency pronunciation intonation discussion">
 <figure class="media" data-slot="lesson-speaking-skills" data-tilt="" data-tone="indigo" style="--ratio:3/2">
-<a href="linguaskill-speaking-module.html" class="media-link" aria-label="Speaking">
+<a href="courses/b1/speaking/index.html" class="media-link" aria-label="Speaking">
 <img alt="Articulate speaker presenting with confidence at a podium to an international audience" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-speaking-skills.jpg" width="900"/>
 </a>
-<span class="media-pill">Upper-Int · B2</span>
+<span class="media-pill">Intermediate · B1</span>
 </figure>
-<p class="post-tags"><span class="tag tag-business">Core Skills</span><span class="pill pill-lime">B2</span></p>
-<h3 class="post-title"><a href="linguaskill-speaking-module.html">Speaking</a></h3>
+<p class="post-tags"><span class="tag tag-business">Core Skills</span><span class="pill pill-lime">B1</span></p>
+<h3 class="post-title"><a href="courses/b1/speaking/index.html">Speaking</a></h3>
 <p class="post-excerpt">Overcome hesitation, master natural rhythm and transition phrases for confident discussions.</p>
-<p class="post-meta"><span>Upper-Intermediate</span><i></i><span>20 min</span></p>
+<p class="post-meta"><span>Intermediate</span><i></i><span>Speaking Studio</span></p>
 </article>
 <article class="post" data-reveal="" data-topic="Figures of speech metaphors similes idioms rhetoric">
 <figure class="media" data-slot="lesson-figures-speech" data-tilt="" data-tone="lime" style="--ratio:3/2">
-<a href="idioms.html" class="media-link" aria-label="Figures of Speech">
+<a href="premium-figures-of-speech.html" class="media-link" aria-label="Figures of Speech">
 <img alt="Literary fine-art composition with hourglass, illuminated quill, celestial map, and golden origami bird" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-figures-speech.jpg" width="900"/>
 </a>
 <span class="media-pill">Advanced · C1</span>
 </figure>
 <p class="post-tags"><span class="tag tag-vocab">Literary English</span><span class="pill pill-lime">C1</span></p>
-<h3 class="post-title"><a href="idioms.html">Figures of Speech</a></h3>
+<h3 class="post-title"><a href="premium-figures-of-speech.html">Figures of Speech</a></h3>
 <p class="post-excerpt">Metaphor, hyperbole, alliteration and irony. Transform basic English into evocative, persuasive speech.</p>
-<p class="post-meta"><span>Advanced</span><i></i><span>22 min</span></p>
+<p class="post-meta"><span>Advanced</span><i></i><span>Full course + assessment</span></p>
 </article>
 </div>
 </div>
@@ -5147,7 +5099,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const stageInner = stage ? stage.querySelector('.stage-inner') : null;
   const heroSection = document.querySelector('.hero');
 
-  if (heroSection && stageInner) {
+  if (heroSection && stageInner && window.matchMedia('(pointer: fine)').matches) {
     let mouseX = 0, mouseY = 0;
     let currentRx = 0, currentRy = 0;
     let isTrackingHero = false;
@@ -5184,357 +5136,290 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 5. UNIVERSAL 3D CARD TILT, TOUCH-TILT & SPECULAR GLARE ENGINE
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const all3DCards = document.querySelectorAll(
-    "[data-tilt], .card-3d, .skill, .fc, .post, .s-card, .voice, .step, .jn, .ex-item a, .vmc-title-card"
-  );
+  // 5. UNIFIED 3D CARD TILT ENGINE (REFINED & NON-DESTRUCTIVE)
+  // Only enabled on devices with a fine pointer (mouse / trackpad)
+  const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (!prefersReduced) {
-    all3DCards.forEach((card) => {
+  if (isFinePointer && !prefersReduced) {
+    const tiltCards = document.querySelectorAll('[data-tilt], .card-3d');
+    tiltCards.forEach(card => {
       let isHovered = false;
 
-      card.addEventListener("pointerenter", () => {
+      card.addEventListener('pointerenter', () => {
         isHovered = true;
-        card.style.transition = "transform 0.09s ease-out, box-shadow 0.2s ease";
+        card.style.transition = 'transform 0.1s ease-out, box-shadow 0.2s ease';
       });
 
-      card.addEventListener("pointermove", (e) => {
-        if (!isHovered && e.pointerType === "mouse") isHovered = true;
+      card.addEventListener('pointermove', (e) => {
+        if (!isHovered) return;
         const rect = card.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        const centerX = Math.max(1, rect.width / 2);
-        const centerY = Math.max(1, rect.height / 2);
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
 
-        const rotateX = Math.max(-6.5, Math.min(6.5, ((centerY - y) / centerY) * 6.5));
-        const rotateY = Math.max(-7.5, Math.min(7.5, ((x - centerX) / centerX) * 7.5));
+        // Controlled, elegant tilt (clamped to max ±8deg X, ±10deg Y)
+        const rotateX = Math.max(-6, Math.min(6, ((centerY - y) / centerY) * 6));
+        const rotateY = Math.max(-7, Math.min(7, ((x - centerX) / centerX) * 7));
 
-        card.style.setProperty("--tilt-rx", rotateX.toFixed(2) + "deg");
-        card.style.setProperty("--tilt-ry", rotateY.toFixed(2) + "deg");
-        card.style.setProperty("--tilt-ty", "-4px");
-        card.style.setProperty("--tilt-tz", "6px");
-        card.style.setProperty("--gx", ((x / Math.max(1, rect.width)) * 100).toFixed(1) + "%");
-        card.style.setProperty("--gy", ((y / Math.max(1, rect.height)) * 100).toFixed(1) + "%");
-        card.style.setProperty("--go", "1");
+        // Update scoped CSS variables ONLY — never overwrite element.style.transform!
+        card.style.setProperty('--tilt-rx', `${rotateX.toFixed(2)}deg`);
+        card.style.setProperty('--tilt-ry', `${rotateY.toFixed(2)}deg`);
+        card.style.setProperty('--tilt-ty', '-2px');
+        card.style.setProperty('--tilt-tz', '4px');
+        card.style.setProperty('--gx', `${((x / rect.width) * 100).toFixed(1)}%`);
+        card.style.setProperty('--gy', `${((y / rect.height) * 100).toFixed(1)}%`);
+        card.style.setProperty('--go', '1');
       });
 
-      const resetCardTilt = () => {
+      card.addEventListener('pointerleave', () => {
         isHovered = false;
-        card.style.transition = "transform 0.42s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.42s ease";
-        card.style.setProperty("--tilt-rx", "0deg");
-        card.style.setProperty("--tilt-ry", "0deg");
-        card.style.setProperty("--tilt-ty", "0px");
-        card.style.setProperty("--tilt-tz", "0px");
-        card.style.setProperty("--go", "0");
-      };
-
-      card.addEventListener("pointerleave", resetCardTilt);
-      card.addEventListener("pointercancel", resetCardTilt);
-
-      // Mobile/Tablet Touch-Tilt Support
-      card.addEventListener("touchstart", (e) => {
-        const touch = e.touches[0];
-        if (!touch) return;
-        const rect = card.getBoundingClientRect();
-        const x = touch.clientX - rect.left;
-        const y = touch.clientY - rect.top;
-        const rotateX = Math.max(-5, Math.min(5, (((rect.height / 2) - y) / Math.max(1, rect.height / 2)) * 5));
-        const rotateY = Math.max(-6, Math.min(6, ((x - (rect.width / 2)) / Math.max(1, rect.width / 2)) * 6));
-        card.style.setProperty("--tilt-rx", rotateX.toFixed(2) + "deg");
-        card.style.setProperty("--tilt-ry", rotateY.toFixed(2) + "deg");
-        card.style.setProperty("--tilt-ty", "-3px");
-        card.style.setProperty("--tilt-tz", "5px");
-        card.style.setProperty("--gx", ((x / Math.max(1, rect.width)) * 100).toFixed(1) + "%");
-        card.style.setProperty("--gy", ((y / Math.max(1, rect.height)) * 100).toFixed(1) + "%");
-        card.style.setProperty("--go", "1");
-      }, { passive: true });
-
-      card.addEventListener("touchend", resetCardTilt, { passive: true });
+        // Smooth return transition
+        card.style.transition = 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease';
+        // Reset tilt variables back to 0 — preserving all resting base offsets!
+        card.style.setProperty('--tilt-rx', '0deg');
+        card.style.setProperty('--tilt-ry', '0deg');
+        card.style.setProperty('--tilt-ty', '0px');
+        card.style.setProperty('--tilt-tz', '0px');
+        card.style.setProperty('--go', '0');
+      });
     });
   }
 
-  // 5B. BESPOKE 3D ORBITAL SVG ARTWORK INJECTOR FOR ALL .media SLOTS
-  const slotPalettes = {
-    "feature-conditionals": { bg: "linear-gradient(135deg, #1b2e05 0%, #365314 48%, #65a30d 100%)", a1: "#d4ff46", a2: "#fef08a", glyph: "❖" },
-    "feature-history-words": { bg: "linear-gradient(135deg, #2e050e 0%, #650f22 52%, #9e1234 100%)", a1: "#f5cf7a", a2: "#fda4af", glyph: "✒" },
-    "feature-news-reading": { bg: "linear-gradient(135deg, #2e1065 0%, #581c87 52%, #7e22ce 100%)", a1: "#e9d5ff", a2: "#f5cf7a", glyph: "◎" },
-    "lesson-passive-voice": { bg: "linear-gradient(135deg, #1f2937 0%, #3f6212 52%, #84cc16 100%)", a1: "#d4ff46", a2: "#ffffff", glyph: "⇄" },
-    "lesson-collocations": { bg: "linear-gradient(135deg, #3b0714 0%, #7f1d1d 55%, #b91c1c 100%)", a1: "#fde68a", a2: "#fecdd3", glyph: "✦" },
-    "lesson-adjectives": { bg: "linear-gradient(135deg, #4a044e 0%, #86198f 50%, #c026d3 100%)", a1: "#f5d0fe", a2: "#fde047", glyph: "◈" },
-    "lesson-subjunctive": { bg: "linear-gradient(135deg, #451a03 0%, #78350f 52%, #b45309 100%)", a1: "#fde68a", a2: "#fef3c7", glyph: "§" },
-    "lesson-storytelling": { bg: "linear-gradient(135deg, #064e3b 0%, #047857 52%, #10b981 100%)", a1: "#a7f3d0", a2: "#f5cf7a", glyph: "❦" },
-    "lesson-leadership": { bg: "linear-gradient(135deg, #30060e 0%, #650f22 50%, #881337 100%)", a1: "#f5cf7a", a2: "#fecdd3", glyph: "♛" },
-    "lesson-exam-prep": { bg: "linear-gradient(135deg, #0c4a6e 0%, #0369a1 52%, #0284c7 100%)", a1: "#d4ff46", a2: "#bae6fd", glyph: "⌘" },
-    "lesson-masterclass-c1": { bg: "linear-gradient(135deg, #1a0308 0%, #4a091a 50%, #701a75 100%)", a1: "#f5cf7a", a2: "#d4ff46", glyph: "✦" },
-    "series-6-minute-wisdom": { bg: "linear-gradient(135deg, #1a2e05 0%, #3f6212 52%, #65a30d 100%)", a1: "#d4ff46", a2: "#fef9c3", glyph: "⧗" },
-    "series-english-we-speak": { bg: "linear-gradient(135deg, #3b0764 0%, #6b21a8 52%, #9333ea 100%)", a1: "#f3e8ff", a2: "#f5cf7a", glyph: "❝" },
-    "series-riddles": { bg: "linear-gradient(135deg, #1e293b 0%, #334155 52%, #475569 100%)", a1: "#f5cf7a", a2: "#38bdf8", glyph: "?" },
-    "series-proverbs": { bg: "linear-gradient(135deg, #450a0a 0%, #7f1d1d 52%, #991b1b 100%)", a1: "#f5cf7a", a2: "#fecaca", glyph: "✦" },
-    "series-idioms": { bg: "linear-gradient(135deg, #14532d 0%, #15803d 52%, #22c55e 100%)", a1: "#d4ff46", a2: "#bbf7d0", glyph: "⚡" },
-    "series-lexical-laboratory": { bg: "linear-gradient(135deg, #311042 0%, #701a75 52%, #a21caf 100%)", a1: "#f5d0fe", a2: "#d4ff46", glyph: "⚗" },
-    "lesson-reported-speech": { bg: "linear-gradient(135deg, #4c0519 0%, #881337 52%, #be123c 100%)", a1: "#fecdd3", a2: "#f5cf7a", glyph: "«»" },
-    "lesson-adverbs": { bg: "linear-gradient(135deg, #451a03 0%, #92400e 52%, #d97706 100%)", a1: "#fef3c7", a2: "#d4ff46", glyph: "↠" },
-    "lesson-adjectives-deep": { bg: "linear-gradient(135deg, #083344 0%, #0e7490 52%, #06b6d4 100%)", a1: "#cffafe", a2: "#f5cf7a", glyph: "✧" },
-    "lesson-nouns": { bg: "linear-gradient(135deg, #2e1065 0%, #4c1d95 52%, #6d28d9 100%)", a1: "#ddd6fe", a2: "#f5cf7a", glyph: "▣" },
-    "lesson-determiners": { bg: "linear-gradient(135deg, #064e3b 0%, #0f766e 52%, #14b8a6 100%)", a1: "#99f6e4", a2: "#d4ff46", glyph: "⚖" },
-    "lesson-reading-skills": { bg: "linear-gradient(135deg, #431407 0%, #9a3412 52%, #ea580c 100%)", a1: "#ffedd5", a2: "#fde68a", glyph: "📖" },
-    "lesson-speaking-skills": { bg: "linear-gradient(135deg, #1e1b4b 0%, #3730a3 52%, #4f46e5 100%)", a1: "#e0e7ff", a2: "#d4ff46", glyph: "🎙" },
-    "lesson-figures-speech": { bg: "linear-gradient(135deg, #1a2e05 0%, #365314 50%, #4d7c0f 100%)", a1: "#d4ff46", a2: "#f5cf7a", glyph: "🎭" },
-    "premium-1": { bg: "linear-gradient(145deg, #1a0308 0%, #650f22 52%, #9e1234 100%)", a1: "#f5cf7a", a2: "#d4ff46", glyph: "✦" },
-    "premium-2": { bg: "linear-gradient(145deg, #0f172a 0%, #1e293b 52%, #334155 100%)", a1: "#d4ff46", a2: "#38bdf8", glyph: "◈" },
-    "premium-3": { bg: "linear-gradient(145deg, #3b0764 0%, #581c87 52%, #7e22ce 100%)", a1: "#f5cf7a", a2: "#e9d5ff", glyph: "♛" }
-  };
-
-  document.querySelectorAll(".media[data-slot]").forEach((mediaEl, idx) => {
-    const slotName = mediaEl.getAttribute("data-slot") || "feature-conditionals";
-    const pal = slotPalettes[slotName] || slotPalettes["feature-conditionals"];
-    mediaEl.style.background = pal.bg;
-    const svgWrap = document.createElement("div");
-    svgWrap.className = "media-3d-art";
-    svgWrap.setAttribute("aria-hidden", "true");
-    svgWrap.innerHTML = `
-      <svg viewBox="0 0 400 250" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <radialGradient id="g-${slotName}-${idx}" cx="70%" cy="30%" r="65%">
-            <stop offset="0%" stop-color="${pal.a1}" stop-opacity="0.38" />
-            <stop offset="55%" stop-color="${pal.a2}" stop-opacity="0.12" />
-            <stop offset="100%" stop-color="#000000" stop-opacity="0" />
-          </radialGradient>
-        </defs>
-        <rect width="400" height="250" fill="url(#g-${slotName}-${idx})" />
-        <g stroke="rgba(255,255,255,0.1)" stroke-width="1">
-          <line x1="0" y1="200" x2="400" y2="200" />
-          <line x1="0" y1="224" x2="400" y2="224" />
-          <line x1="60" y1="250" x2="160" y2="168" />
-          <line x1="150" y1="250" x2="195" y2="168" />
-          <line x1="250" y1="250" x2="215" y2="168" />
-          <line x1="340" y1="250" x2="245" y2="168" />
-        </g>
-        <g transform="translate(260, 118)">
-          <ellipse cx="0" cy="0" rx="80" ry="32" fill="none" stroke="${pal.a1}" stroke-opacity="0.65" stroke-width="1.6" transform="rotate(-22)" />
-          <ellipse cx="0" cy="0" rx="62" ry="62" fill="none" stroke="rgba(255,255,255,0.18)" stroke-dasharray="4 5" stroke-width="1.2" />
-          <circle cx="0" cy="0" r="35" fill="rgba(255,255,255,0.09)" stroke="${pal.a1}" stroke-width="1.5" />
-          <circle cx="-50" cy="-16" r="4.5" fill="${pal.a1}" />
-          <circle cx="44" cy="22" r="3.5" fill="${pal.a2}" />
-        </g>
-        <text x="260" y="130" text-anchor="middle" fill="${pal.a1}" font-size="34" font-family="Playfair Display, Georgia, serif" font-weight="700">${pal.glyph}</text>
-      </svg>
-    `;
-    mediaEl.prepend(svgWrap);
-  });
-
-  // 6. COMPOSITE 9-PART THREE.JS 3D PEARL, ARMILLARY RINGS & CEFR SATELLITES SCENE
-  // Fixed: Never call canvas.getContext("webgl") on the target canvas before new THREE.WebGLRenderer({ canvas })!
+  // 6. THREE.JS 3D PEARL SPHERE & CONSTELLATION SCENE (OPTIMIZED)
   const initThreeJsScene = () => {
-    if (typeof THREE === "undefined" || !stage) return;
+    if (typeof THREE === 'undefined' || !stage) return;
 
-    let canvas = document.getElementById("stage-3d-canvas");
+    let canvas = document.getElementById('stage-3d-canvas');
     if (!canvas) {
-      canvas = document.createElement("canvas");
-      canvas.id = "stage-3d-canvas";
-      canvas.className = "stage-3d-canvas";
-      canvas.setAttribute("aria-hidden", "true");
+      canvas = document.createElement('canvas');
+      canvas.id = 'stage-3d-canvas';
+      canvas.className = 'stage-3d-canvas';
+      canvas.setAttribute('aria-hidden', 'true');
       stage.prepend(canvas);
     }
 
     try {
-      // Probe WebGL support on a separate offscreen canvas so we never lock the main canvas context!
-      const probeCanvas = document.createElement("canvas");
-      const probeGl = probeCanvas.getContext("webgl2") || probeCanvas.getContext("webgl") || probeCanvas.getContext("experimental-webgl");
-      if (!probeGl) {
-        stage.classList.add("has-fallback");
+      // Test WebGL capability
+      const testGl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!testGl) {
+        stage.classList.add('has-fallback');
         return;
       }
 
-      const width = canvas.clientWidth || 500;
-      const height = canvas.clientHeight || 460;
-
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 200);
-      camera.position.set(0, 1.0, 25);
+      const camera = new THREE.PerspectiveCamera(45, (canvas.clientWidth || 400) / (canvas.clientHeight || 400), 0.1, 1000);
+      camera.position.z = 28;
 
       const renderer = new THREE.WebGLRenderer({
         canvas: canvas,
         alpha: true,
         antialias: true,
-        powerPreference: "high-performance"
+        powerPreference: 'high-performance'
       });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+      renderer.setSize(canvas.clientWidth || 400, canvas.clientHeight || 400);
 
-      const rootGroup = new THREE.Group();
-      rootGroup.position.set(0, 0.3, -2);
-      scene.add(rootGroup);
-
-      // Part 1: Luminous Nacreous Pearl Core
-      const pearlGeometry = new THREE.SphereGeometry(4.4, 48, 48);
+      // Pearl Sphere Geometry
+      const pearlGeometry = new THREE.SphereGeometry(6.5, 48, 48);
       const pearlMaterial = new THREE.MeshPhysicalMaterial({
-        color: 0xfffcf7,
-        emissive: 0x2a050d,
-        roughness: 0.14,
+        color: 0xfcfbf9,
+        emissive: 0x22050b,
+        roughness: 0.15,
         metalness: 0.1,
         clearcoat: 1.0,
-        clearcoatRoughness: 0.06,
-        reflectivity: 0.95
+        clearcoatRoughness: 0.08,
+        reflectivity: 0.9,
+        ior: 1.55,
+        transmission: 0.05
       });
       const pearl = new THREE.Mesh(pearlGeometry, pearlMaterial);
-      rootGroup.add(pearl);
+      pearl.position.set(0, 0, -5);
+      scene.add(pearl);
 
-      // Part 2: Equatorial Gold Filigree Band
-      const goldMat = new THREE.MeshStandardMaterial({
-        color: 0xf5cf7a,
-        emissive: 0x422802,
-        roughness: 0.22,
-        metalness: 0.88
-      });
-      const eqBand = new THREE.Mesh(new THREE.TorusGeometry(4.55, 0.12, 20, 96), goldMat);
-      eqBand.rotation.x = Math.PI / 2;
-      rootGroup.add(eqBand);
-
-      // Part 3: Inner Wine-Copper Gimbal Ring
-      const wineMat = new THREE.MeshStandardMaterial({
-        color: 0xcc365c,
-        emissive: 0x380512,
-        roughness: 0.32,
-        metalness: 0.75
-      });
-      const innerRing = new THREE.Mesh(new THREE.TorusGeometry(6.1, 0.15, 20, 100), wineMat);
-      innerRing.rotation.set(0.65, 0.3, 0);
-      rootGroup.add(innerRing);
-
-      // Part 4: Middle Brushed Champagne Gold Armillary Ring
-      const midRing = new THREE.Mesh(new THREE.TorusGeometry(7.7, 0.17, 20, 110), goldMat);
-      midRing.rotation.set(-0.45, 0.5, 0.35);
-      rootGroup.add(midRing);
-
-      // Part 5: Outer Lime Astrolabe Bezel Ring
-      const limeMat = new THREE.MeshStandardMaterial({
-        color: 0xd4ff46,
-        emissive: 0x3b4d05,
-        roughness: 0.4,
-        metalness: 0.5
-      });
-      const outerRing = new THREE.Mesh(new THREE.TorusGeometry(9.2, 0.11, 16, 120), limeMat);
-      outerRing.rotation.set(1.1, -0.2, 0.2);
-      rootGroup.add(outerRing);
-
-      // Part 6-8: 6 Orbiting CEFR Level Octahedron Crystal Satellites
-      const satellitesGroup = new THREE.Group();
-      rootGroup.add(satellitesGroup);
-      const satColors = [0xd4ff46, 0xf5cf7a, 0xcc365c, 0x38bdf8, 0xa855f7, 0x10b981];
-      const satGeo = new THREE.OctahedronGeometry(0.62, 0);
-      const satellites = [];
-      for (let i = 0; i < 6; i++) {
-        const satMat = new THREE.MeshStandardMaterial({
-          color: satColors[i],
-          roughness: 0.2,
-          metalness: 0.65
-        });
-        const sat = new THREE.Mesh(satGeo, satMat);
-        const angle = (i / 6) * Math.PI * 2;
-        const radius = 7.6 + (i % 2) * 1.5;
-        sat.position.set(Math.cos(angle) * radius, Math.sin(angle * 2) * 1.8, Math.sin(angle) * radius);
-        satellitesGroup.add(sat);
-        satellites.push(sat);
-      }
-
-      // Part 9: Orbiting Gold-Lime Particle Halo
+      // Orbiting Gold-Lime Particle Halo
       const ringGeometry = new THREE.BufferGeometry();
-      const ringCount = 160;
+      const ringCount = 140;
       const ringPositions = new Float32Array(ringCount * 3);
       for (let i = 0; i < ringCount; i++) {
         const theta = (i / ringCount) * Math.PI * 2;
-        const radius = 10.2 + (Math.random() - 0.5) * 1.8;
+        const radius = 10.5 + (Math.random() - 0.5) * 1.5;
         ringPositions[i * 3] = Math.cos(theta) * radius;
-        ringPositions[i * 3 + 1] = Math.sin(theta) * radius * 0.4 + (Math.random() - 0.5) * 1.2;
-        ringPositions[i * 3 + 2] = Math.sin(theta) * radius * 0.85;
+        ringPositions[i * 3 + 1] = Math.sin(theta) * radius * 0.35 + (Math.random() - 0.5) * 0.8;
+        ringPositions[i * 3 + 2] = Math.sin(theta) * radius * 0.8;
       }
-      ringGeometry.setAttribute("position", new THREE.BufferAttribute(ringPositions, 3));
+      ringGeometry.setAttribute('position', new THREE.BufferAttribute(ringPositions, 3));
       const ringMaterial = new THREE.PointsMaterial({
         color: 0xd4ff46,
-        size: 0.3,
+        size: 0.28,
         transparent: true,
-        opacity: 0.9,
+        opacity: 0.85,
         blending: THREE.AdditiveBlending
       });
-      const particleHalo = new THREE.Points(ringGeometry, ringMaterial);
-      rootGroup.add(particleHalo);
+      const ring = new THREE.Points(ringGeometry, ringMaterial);
+      ring.position.copy(pearl.position);
+      ring.rotation.x = 0.5;
+      ring.rotation.z = -0.25;
+      scene.add(ring);
 
-      // Studio Lighting Rig
-      scene.add(new THREE.AmbientLight(0xffffff, 0.85));
-      const keyLight = new THREE.DirectionalLight(0xffe8c8, 2.2);
-      keyLight.position.set(15, 20, 20);
-      scene.add(keyLight);
+      // Brushed Champagne Gold & Wine Armillary Rings
+      const goldBandMat = new THREE.MeshPhysicalMaterial({
+        color: 0xf5cf7a,
+        roughness: 0.22,
+        metalness: 0.9,
+        clearcoat: 0.7
+      });
+      const wineBandMat = new THREE.MeshPhysicalMaterial({
+        color: 0xa92042,
+        roughness: 0.35,
+        metalness: 0.78,
+        clearcoat: 0.8
+      });
+      const armillaryInner = new THREE.Mesh(new THREE.TorusGeometry(8.2, 0.16, 20, 96), wineBandMat);
+      armillaryInner.position.copy(pearl.position);
+      armillaryInner.rotation.set(0.65, 0.3, 0);
+      scene.add(armillaryInner);
 
-      const lightWine = new THREE.PointLight(0xc72950, 3.6, 55);
-      lightWine.position.set(-15, -10, 12);
+      const armillaryOuter = new THREE.Mesh(new THREE.TorusGeometry(9.8, 0.18, 20, 110), goldBandMat);
+      armillaryOuter.position.copy(pearl.position);
+      armillaryOuter.rotation.set(-0.45, 0.5, 0.35);
+      scene.add(armillaryOuter);
+
+      // Directional and Accent Lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+      scene.add(ambientLight);
+
+      const light1 = new THREE.DirectionalLight(0xffe8c8, 1.8);
+      light1.position.set(15, 20, 20);
+      scene.add(light1);
+
+      const lightWine = new THREE.PointLight(0xa82041, 3.2, 50);
+      lightWine.position.set(-15, -10, 10);
       scene.add(lightWine);
 
-      const lightLime = new THREE.PointLight(0xd4ff46, 2.8, 45);
-      lightLime.position.set(12, 12, 12);
+      const lightLime = new THREE.PointLight(0xd4ff46, 2.5, 40);
+      lightLime.position.set(10, 12, 10);
       scene.add(lightLime);
 
-      // Interactive pointer/touch drag rotation on the 3D Orrery
-      let targetRotX = 0, targetRotY = 0;
-      let currentRotX = 0, currentRotY = 0;
-      if (heroSection) {
-        heroSection.addEventListener("pointermove", (e) => {
-          const rect = heroSection.getBoundingClientRect();
-          targetRotY = (((e.clientX - rect.left) / Math.max(1, rect.width)) * 2 - 1) * 0.55;
-          targetRotX = (((e.clientY - rect.top) / Math.max(1, rect.height)) * 2 - 1) * 0.35;
-        }, { passive: true });
-      }
-
+      // Resize handler
       const onResize = () => {
         if (!canvas || !renderer || !camera) return;
-        const w = canvas.clientWidth || 500;
-        const h = canvas.clientHeight || 460;
-        camera.aspect = w / h;
+        const width = canvas.clientWidth || 400;
+        const height = canvas.clientHeight || 400;
+        camera.aspect = width / height;
         camera.updateProjectionMatrix();
-        renderer.setSize(w, h);
+        renderer.setSize(width, height);
       };
-      window.addEventListener("resize", onResize, { passive: true });
+      window.addEventListener('resize', onResize, { passive: true });
 
+      // Viewport & Visibility State Management
+      let isVisible = true;
+      let isTabActive = !document.hidden;
+      let animId = null;
       const clock = new THREE.Clock();
+
       const renderLoop = () => {
-        if (prefersReduced) return;
+        if (!isVisible || !isTabActive || prefersReduced) {
+          animId = null;
+          return;
+        }
         const elapsed = clock.getElapsedTime();
-        currentRotX += (targetRotX - currentRotX) * 0.06;
-        currentRotY += (targetRotY - currentRotY) * 0.06;
+        pearl.rotation.y = elapsed * 0.18;
+        pearl.rotation.x = Math.sin(elapsed * 0.25) * 0.12;
+        pearl.position.y = Math.sin(elapsed * 1.2) * 0.5;
 
-        rootGroup.rotation.x = currentRotX;
-        rootGroup.rotation.y = currentRotY + elapsed * 0.18;
-        rootGroup.position.y = 0.3 + Math.sin(elapsed * 1.3) * 0.42;
-
-        innerRing.rotation.z = elapsed * 0.44;
-        innerRing.rotation.x = 0.65 + Math.sin(elapsed * 0.5) * 0.2;
-        midRing.rotation.y = -elapsed * 0.34;
-        outerRing.rotation.z = -elapsed * 0.24;
-        particleHalo.rotation.y = elapsed * 0.12;
-
-        satellitesGroup.rotation.y = elapsed * 0.3;
-        for (let i = 0; i < satellites.length; i++) {
-          satellites[i].rotation.x = elapsed * 1.2 + i;
-          satellites[i].rotation.y = elapsed * 0.9 + i;
+        ring.rotation.z = elapsed * 0.15;
+        ring.position.y = pearl.position.y;
+        if (typeof armillaryInner !== "undefined") {
+          armillaryInner.rotation.z = elapsed * 0.38;
+          armillaryInner.position.y = pearl.position.y;
+        }
+        if (typeof armillaryOuter !== "undefined") {
+          armillaryOuter.rotation.y = -elapsed * 0.28;
+          armillaryOuter.position.y = pearl.position.y;
         }
 
         renderer.render(scene, camera);
-        requestAnimationFrame(renderLoop);
+        animId = requestAnimationFrame(renderLoop);
       };
 
+      const startAnimation = () => {
+        if (!animId && isVisible && isTabActive && !prefersReduced) {
+          clock.start();
+          animId = requestAnimationFrame(renderLoop);
+        }
+      };
+
+      const stopAnimation = () => {
+        if (animId) {
+          cancelAnimationFrame(animId);
+          animId = null;
+        }
+      };
+
+      // Pause when stage is off-screen
+      if ('IntersectionObserver' in window) {
+        const stageObserver = new IntersectionObserver((entries) => {
+          isVisible = entries[0].isIntersecting;
+          if (isVisible) {
+            startAnimation();
+          } else {
+            stopAnimation();
+          }
+        }, { threshold: 0.05 });
+        stageObserver.observe(stage);
+      }
+
+      // Pause when browser tab is inactive
+      document.addEventListener('visibilitychange', () => {
+        isTabActive = !document.hidden;
+        if (isTabActive) {
+          startAnimation();
+        } else {
+          stopAnimation();
+        }
+      });
+
+      // Handle WebGL context loss
+      canvas.addEventListener('webglcontextlost', (e) => {
+        e.preventDefault();
+        stopAnimation();
+        stage.classList.add('has-fallback');
+      }, false);
+
+      canvas.addEventListener('webglcontextrestored', () => {
+        stage.classList.remove('has-fallback');
+        startAnimation();
+      }, false);
+
+      // Initial single render
       renderer.render(scene, camera);
-      if (!prefersReduced) requestAnimationFrame(renderLoop);
+      if (!prefersReduced) startAnimation();
+
     } catch (e) {
-      console.warn("Three.js fallback active:", e);
-      stage.classList.add("has-fallback");
+      console.warn('Three.js initialization gracefully skipped:', e);
+      stage.classList.add('has-fallback');
     }
   };
 
-  if (typeof THREE !== "undefined") {
-    initThreeJsScene();
+  // Three.js loader with offline/error resilience
+  if (typeof THREE === 'undefined') {
+    const threeScript = document.createElement('script');
+    threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+    threeScript.onload = initThreeJsScene;
+    threeScript.onerror = () => {
+      stage?.classList.add('has-fallback');
+    };
+    document.head.appendChild(threeScript);
+    // Timeout fallback if CDN hangs or is offline
+    setTimeout(() => {
+      if (typeof THREE === 'undefined') {
+        stage?.classList.add('has-fallback');
+      }
+    }, 1200);
   } else {
-    window.addEventListener("load", initThreeJsScene);
+    initThreeJsScene();
   }
 
   // 7. EXPLORER TOPIC FILTERING & SHOW MORE
@@ -5812,7 +5697,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         // Route subscriber email directly to info@sharedpearls.com via FormSubmit endpoint
-        const response = await fetch('https://formsubmit.co/ajax/info@sharedpearls.com', {
+        const response = await fetch('https://formsubmit.co/ajax/ramesh.suvedi@gmail.com', {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
@@ -5900,9 +5785,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+
+  // 13. INTUITIVE TOUCH-TILT FEEDBACK FOR TOUCH DEVICES
+  if (window.matchMedia("(pointer: coarse)").matches && !prefersReduced) {
+    document.querySelectorAll("[data-tilt], .card-3d, .skill, .fc, .post, .s-card, .voice, .step").forEach(card => {
+      card.addEventListener("touchstart", (e) => {
+        const touch = e.touches[0];
+        if (!touch) return;
+        const rect = card.getBoundingClientRect();
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        const rotateX = Math.max(-5, Math.min(5, (((rect.height / 2) - y) / Math.max(1, rect.height / 2)) * 5));
+        const rotateY = Math.max(-6, Math.min(6, ((x - (rect.width / 2)) / Math.max(1, rect.width / 2)) * 6));
+        card.style.setProperty("--tilt-rx", rotateX.toFixed(2) + "deg");
+        card.style.setProperty("--tilt-ry", rotateY.toFixed(2) + "deg");
+        card.style.setProperty("--tilt-ty", "-3px");
+        card.style.setProperty("--tilt-tz", "4px");
+        card.style.setProperty("--gx", ((x / Math.max(1, rect.width)) * 100).toFixed(1) + "%");
+        card.style.setProperty("--gy", ((y / Math.max(1, rect.height)) * 100).toFixed(1) + "%");
+        card.style.setProperty("--go", "1");
+      }, { passive: true });
+
+      const resetTouch = () => {
+        card.style.setProperty("--tilt-rx", "0deg");
+        card.style.setProperty("--tilt-ry", "0deg");
+        card.style.setProperty("--tilt-ty", "0px");
+        card.style.setProperty("--tilt-tz", "0px");
+        card.style.setProperty("--go", "0");
+      };
+      card.addEventListener("touchend", resetTouch, { passive: true });
+      card.addEventListener("touchcancel", resetTouch, { passive: true });
+    });
+  }
+
 });
-
-
 
 /* ============================================================
    PREMIUM SUBSCRIBER 25-QUESTION ASSESSMENT LOGIC
