@@ -616,54 +616,8 @@ input[type=range]{ width:100%; accent-color:var(--petrol); height:6px; cursor:po
   background-image:
     radial-gradient(circle 380px at var(--card-mx, 50%) var(--card-my, 20%), rgba(40,85,112,0.06), transparent 70%);
 }
-
-.studio-dock-wrap{
-  position:fixed; bottom:16px; left:50%; transform:translateX(-50%);
-  z-index:150; width:min(860px, 94vw);
-  transition: transform 0.3s var(--ease);
-}
-.studio-dock-wrap.collapsed{
-  transform: translate(-50%, calc(100% - 34px));
-}
-.studio-dock-toggle{
-  display:inline-flex; align-items:center; gap:8px;
-  margin:0 auto; background:#FFFFFF; color:var(--petrol);
-  border:1px solid var(--hairline); border-bottom:none;
-  padding:6px 16px; border-radius:10px 10px 0 0;
-  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:0.06em;
-  cursor:pointer; box-shadow:0 -4px 12px rgba(20,37,52,0.08);
-}
-.studio-dock-bar{
-  background: rgba(255,255,255,0.96);
-  color: var(--ink);
-  border: 1px solid var(--hairline);
-  border-radius: 14px;
-  padding: 12px 18px;
-  box-shadow: 0 20px 44px rgba(20,37,52,0.14);
-  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:14px;
-}
-.dock-group{
-  display:flex; align-items:center; gap:10px; font-family:var(--mono); font-size:11px;
-}
-.dock-group label{ color:var(--petrol); font-weight:700; white-space:nowrap; }
-.dock-select, .dock-btn{
-  background: var(--ivory-2); color: var(--ink);
-  border: 1px solid var(--hairline); border-radius: 6px;
-  padding: 6px 11px; font-family: var(--mono); font-size: 11px; font-weight: 600;
-  cursor: pointer; white-space: nowrap; transition: all 0.15s;
-}
-.dock-select:hover, .dock-btn:hover{
-  border-color: var(--petrol); color: var(--petrol);
-}
-.dock-btn.primary{
-  background: var(--petrol);
-  color: #fff; font-weight: 700; border-color: var(--petrol);
-}
-.dock-btn.primary:hover{
-  background: var(--petrol-bright); color: #fff;
-}
 </style>
-<script src="/_aistudio-iframe.js?v=1f94f900"></script></head>
+</head>
 <body>
 <canvas id="bg3dCanvas" aria-hidden="true"></canvas>
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -3209,71 +3163,6 @@ function exportWavefrontOBJ(){
   URL.revokeObjectURL(a.href);
 }
 
-function initBlenderStudioDock(){
-  const dock = document.createElement('aside');
-  dock.className = 'studio-dock-wrap';
-  dock.setAttribute('aria-label', 'Light Palette and Blender Export Controls');
-  dock.innerHTML = `
-    <div style="text-align:center;">
-      <button type="button" class="studio-dock-toggle" id="dockCollapseBtn" aria-expanded="true">&#9662; LIGHT PALETTE &amp; BLENDER STUDIO</button>
-    </div>
-    <div class="studio-dock-bar">
-      <div class="dock-group">
-        <label for="dockTexSelect">Light Palette</label>
-        <select id="dockTexSelect" class="dock-select">
-          <option value="sky">Academic Ice &amp; Pearl (#F8FAFC)</option>
-          <option value="alabaster">Warm Alabaster &amp; Cream (#FAF8F5)</option>
-          <option value="mint">Soft Sage &amp; Mint (#F4F9F6)</option>
-        </select>
-      </div>
-      <div class="dock-group">
-        <button type="button" class="dock-btn" id="dockOrbitBtn" aria-pressed="false">Auto-Orbit Light</button>
-        <button type="button" class="dock-btn" id="dockExportObjBtn" title="Download Wavefront .obj 3D mesh for Blender">Export .OBJ</button>
-        <button type="button" class="dock-btn primary" id="dockExportPyBtn" title="Download Blender 4.x Python scene script (.py)">Blender .PY Scene</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(dock);
-
-  const toggleBtn = $('#dockCollapseBtn', dock);
-  toggleBtn.addEventListener('click', () => {
-    const collapsed = dock.classList.toggle('collapsed');
-    toggleBtn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
-    toggleBtn.innerHTML = collapsed ? '&#9652; LIGHT PALETTE &amp; BLENDER STUDIO' : '&#9662; LIGHT PALETTE &amp; BLENDER STUDIO';
-  });
-
-  $('#dockTexSelect', dock).addEventListener('change', (e) => {
-    const val = e.target.value;
-    const root = document.documentElement;
-    if(val === 'alabaster'){
-      root.style.setProperty('--ivory', '#FAF8F5');
-      root.style.setProperty('--stone', '#F3EFE6');
-      root.style.setProperty('--stone-deep', '#E8E1D3');
-      root.style.setProperty('--petrol', '#285570');
-    } else if(val === 'mint'){
-      root.style.setProperty('--ivory', '#F5FAF7');
-      root.style.setProperty('--stone', '#EBF4EE');
-      root.style.setProperty('--stone-deep', '#DCECE2');
-      root.style.setProperty('--petrol', '#1D5B4C');
-    } else {
-      root.style.setProperty('--ivory', '#F8FAFC');
-      root.style.setProperty('--stone', '#F0F5F9');
-      root.style.setProperty('--stone-deep', '#E4EDF5');
-      root.style.setProperty('--petrol', '#285570');
-    }
-  });
-
-  const orbitBtn = $('#dockOrbitBtn', dock);
-  orbitBtn.addEventListener('click', () => {
-    Studio3DConfig.autoOrbitLight = !Studio3DConfig.autoOrbitLight;
-    orbitBtn.setAttribute('aria-pressed', Studio3DConfig.autoOrbitLight ? 'true' : 'false');
-    orbitBtn.style.borderColor = Studio3DConfig.autoOrbitLight ? 'var(--gold)' : '';
-  });
-
-  $('#dockExportObjBtn', dock).addEventListener('click', exportWavefrontOBJ);
-  $('#dockExportPyBtn', dock).addEventListener('click', exportBlenderPythonScript);
-}
-
 /* =====================================================================
    BOOTSTRAP
    ===================================================================== */
@@ -3299,9 +3188,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initWorksheetButton();
   initCertificateButton();
 
-  /* Initialize Dynamic Lighting & Blender Studio (without 3D word extrusion) */
+  /* Initialize Dynamic Lighting & Spatial Canvas */
   initDynamic3DLightingAndCanvas();
-  initBlenderStudioDock();
 });
 
 </script>
