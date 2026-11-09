@@ -3929,6 +3929,123 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 /* Scale only the containing stage when its column is narrow; all card poses remain unchanged. */
 @container (max-width: 460px) { .premium .deck-inner { scale: .72; } }
 @container (max-width: 300px) { .premium .deck-inner { scale: .62; } }
+
+/* Native full-card links: no overlays, depth planes or moving hit areas. */
+#stage, #stage .stage-inner, #stage .stage-grid,
+#stage .featured-lesson-link, #stage .featured-lesson-link * {
+  transform: none !important;
+  transform-style: flat !important;
+  perspective: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+#stage .stage-inner { position: relative; z-index: 1; }
+#stage .featured-lesson-link {
+  display: block;
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: 0 4px 0 #e5cdd5, 0 10px 20px rgba(101,15,34,.12) !important;
+  transition: box-shadow .15s ease;
+}
+/* Child content cannot become a separate hit plane or intercept the link. */
+#stage .featured-lesson-link * { pointer-events: none; }
+#stage .featured-lesson-link::before,
+#stage .featured-lesson-link::after { content: none !important; }
+#stage .featured-lesson-link:hover {
+  box-shadow: 0 4px 0 #cfa5b3, 0 12px 24px rgba(101,15,34,.22) !important;
+}
+#stage .featured-lesson-link:hover .fc-title { text-decoration: underline; }
+#stage .featured-lesson-link:focus-visible {
+  outline: 3px solid var(--wine-700);
+  outline-offset: 4px;
+}
+#stage .obj, #stage canvas { pointer-events: none; }
+
+/* Warm pearl and gold assessment shell with a solid, layered 3D edge. */
+#premium-assessment {
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(255,255,255,.95), transparent 55%),
+    linear-gradient(125deg, #fff1cc 0%, #fff8ed 45%, #efdfec 100%);
+  border: 1px solid #d7b78d;
+  border-top: 2px solid #fffdf5;
+  border-radius: 22px;
+  box-shadow: 0 3px 0 #e9cdab, 0 9px 0 #b88c68,
+    0 12px 0 #8b6055, 0 24px 38px -12px rgba(83,32,47,.32),
+    inset 0 2px 0 #ffffff, inset 0 -2px 0 rgba(158,104,72,.12);
+  margin-bottom: 20px;
+}
+#premium-assessment .qa-kicker { color: #7c3a28; }
+#premium-assessment .qa-stage {
+  background: linear-gradient(145deg, #ffffff, #fffcf7);
+  border-color: #e1cbb8;
+  box-shadow: 0 4px 0 #e4d2c2, 0 10px 18px -8px rgba(91,49,58,.2),
+    inset 0 2px 0 #ffffff;
+}
+#premium-assessment .qa-toggle-btn {
+  box-shadow: 0 3px 0 #d6bdac, 0 5px 8px rgba(91,49,58,.1);
+}
+#premium-assessment .qa-toggle-btn:active { transform: translateY(2px); }
+#premium-assessment .qa-option-card,
+#premium-assessment .qa-preview-item,
+#premium-assessment .qa-results-card {
+  box-shadow: 0 3px 0 #e3d2c4, 0 7px 12px -6px rgba(91,49,58,.22),
+    inset 0 1px 0 rgba(255,255,255,.9);
+}
+#premium-assessment .qa-option-card.is-selected {
+  box-shadow: 0 3px 0 #b59eb9, inset 0 1px 0 rgba(255,255,255,.8);
+}
+#premium-assessment .qa-num-badge,
+#premium-assessment .qa-btn {
+  box-shadow: 0 3px 0 #c9b1a8, 0 6px 10px -5px rgba(91,49,58,.24);
+}
+#premium-assessment .qa-num-badge.is-active,
+#premium-assessment .qa-btn-next,
+#premium-assessment .qa-btn-preview { box-shadow: 0 3px 0 #36203a; }
+#premium-assessment .qa-btn-submit { box-shadow: 0 3px 0 #0a4944; }
+#premium-assessment button:focus-visible,
+#premium-assessment .qa-option-card:focus-visible {
+  outline: 3px solid #7c3a28;
+  outline-offset: 3px;
+}
+#premium-assessment .qa-header-top { flex-wrap: wrap; }
+@media (max-width: 640px) {
+  #premium-assessment { border-radius: 16px; }
+  #premium-assessment .qa-header-top > div:last-child { flex-wrap: wrap; }
+}
+
+/* Larger premium artwork, with room reserved for the complete hover fan. */
+.premium { grid-template-columns: .9fr 1.1fr; gap: 32px; }
+.premium .deck {
+  container-type: inline-size;
+  width: 100%;
+  min-height: 0;
+  padding: 48px 0;
+  perspective: none;
+  overflow: hidden;
+}
+.premium .deck-inner {
+  width: min(300px, 52cqw);
+  height: auto;
+  aspect-ratio: 4 / 5;
+  scale: 1;
+  transform-style: flat;
+}
+.premium .deck-inner > .deck-card { transform-origin: center; }
+.premium .deck .deck-3 { transform: translateX(-28%) rotate(-6deg); }
+.premium .deck .deck-2 { transform: none; }
+.premium .deck .deck-1 { transform: translateX(28%) rotate(6deg); }
+.premium .deck:hover .deck-3 { transform: translateX(-36%) rotate(-8deg) scale(1.02); }
+.premium .deck:hover .deck-2 { transform: translateY(-10px) scale(1.03); }
+.premium .deck:hover .deck-1 { transform: translateX(36%) rotate(8deg) scale(1.02); }
+@media (max-width: 1024px) {
+  .premium { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .premium .deck-inner > .deck-card { transition: none; }
+}
 </style>
 <!-- Marks that JavaScript is running. The scroll-reveal animation is
        scoped to .js, so if this script or script.js ever fails to load,
@@ -4017,30 +4134,30 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <div class="stage" id="stage">
 <div class="stage-inner">
 <div class="stage-grid">
-<article class="fc fc-1">
+<a class="fc fc-1 featured-lesson-link" href="grammar-lesson-2.html" aria-labelledby="featured-lesson-1">
 <figure class="media" data-slot="feature-conditionals" data-tone="lime" style="--ratio:4/4.3">
-<a href="grammar-lesson-2.html" class="media-link" aria-label="Conditional Sentences: The Complete Guide">
+
 <img alt="A person with an umbrella on a wooded path" decoding="async" height="1075" loading="lazy" onerror="this.hidden=true" src="feature-conditionals.jpg" width="1000"/>
-</a>
+
 </figure>
 <p class="fc-tag">Featured · Grammar</p>
-<h2 class="fc-title"><a href="grammar-lesson-2.html">Mastering Conditional Sentences</a></h2>
+<h2 class="fc-title" id="featured-lesson-1">Mastering Conditional Sentences</h2>
 <p class="fc-desc">All four conditionals, with examples drawn from literature and everyday speech.</p>
-</article>
-<article class="fc fc-2">
+</a>
+<a class="fc fc-2 featured-lesson-link" href="words-that-changed-history.html" aria-labelledby="featured-lesson-2">
 <figure class="media" data-slot="feature-history-words" data-tone="maroon" style="--ratio:16/9">
-<a class="media-link" href="words-that-changed-history.html" aria-label="Words That Changed History"><img alt="a contemporary sculptural microphone with expanding glass speech bubbles and abstract ripple rings symbolizing influential speeches" decoding="async" height="756" onerror="this.hidden=true" src="feature-history-words-modern-3d.jpg" width="1344"/></a>
+<img alt="a contemporary sculptural microphone with expanding glass speech bubbles and abstract ripple rings symbolizing influential speeches" decoding="async" height="756" onerror="this.hidden=true" src="feature-history-words-modern-3d.jpg" width="1344"/>
 </figure>
 <p class="fc-tag">6-Minute Lesson · Vocabulary</p>
-<h2 class="fc-title"><a href="words-that-changed-history.html">Words That Changed History</a></h2>
-</article>
-<article class="fc fc-3">
+<h2 class="fc-title" id="featured-lesson-2">Words That Changed History</h2>
+</a>
+<a class="fc fc-3 featured-lesson-link" href="courses/b1/reading/inferring-meaning.html" aria-labelledby="featured-lesson-3">
 <figure class="media" data-slot="feature-news-reading" data-tone="magenta" style="--ratio:16/9">
-<a class="media-link" href="courses/b1/reading/inferring-meaning.html" aria-label="Reading Between the Lines"><img alt="a contemporary tablet with abstract article lines and a floating magnifying glass revealing layered meaning" decoding="async" height="756" onerror="this.hidden=true" src="feature-news-reading-modern-3d.jpg" width="1344"/></a>
+<img alt="a contemporary tablet with abstract article lines and a floating magnifying glass revealing layered meaning" decoding="async" height="756" onerror="this.hidden=true" src="feature-news-reading-modern-3d.jpg" width="1344"/>
 </figure>
 <p class="fc-tag">News English · Intermediate</p>
-<h2 class="fc-title"><a href="courses/b1/reading/inferring-meaning.html">Reading Between the Lines</a></h2>
-</article>
+<h2 class="fc-title" id="featured-lesson-3">Reading Between the Lines</h2>
+</a>
 </div>
 <!-- decorative 3D objects -->
 <div aria-hidden="true" class="obj obj-cube" data-depth="2.4">
@@ -4359,7 +4476,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
           <span class="vmc-syllabus-kicker">Lesson Syllabus &amp; Objectives</span>
           <span class="vmc-duration-tag" id="vmcActiveDuration">18:45 HD</span>
         </div>
-        <h3 class="post-title vmc-syllabus-title" id="vmcActiveSyllabusTitle">Mastering Conditional Logic: Zero, First, Second, Third &amp; Mixed</h3>
+        <h3 class="post-title vmc-syllabus-title" id="vmcActiveSyllabusTitle">Conditionals Made Simple</h3>
         <p class="post-excerpt vmc-syllabus-desc" id="vmcActiveDesc">
           Deconstruct real, hypothetical, and counterfactual conditionals with authentic spoken scenarios and formal inverted syntactic structures.
         </p>
@@ -4880,9 +4997,9 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <p>Our best lesson, a quote, and one vocabulary tip — straight to your inbox.</p>
 </div>
 <div class="newsletter-form">
-<form id="subscribe-form" novalidate="" action="mailto:info@sharedpearls.com" method="POST" enctype="text/plain">
-<input type="hidden" name="_to" value="info@sharedpearls.com">
-<input type="hidden" name="_subject" value="New Monthly Newsletter Subscription - Shared Pearls of Wisdom">
+<form id="subscribe-form" action="/api/newsletter-subscribe" method="POST">
+
+
 <div class="field">
 <label class="sr-only" for="email-input">Email address</label>
 <input autocomplete="email" id="email-input" inputmode="email" maxlength="254" name="email" placeholder="Email address" required="" type="email"/>
@@ -4895,6 +5012,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <button class="btn btn-dark btn-sm" id="submit-btn" type="submit">Sign up</button>
 </form>
 <p class="newsletter-note">Monthly English-learning updates. Unsubscribe anytime.</p>
+<noscript><p>Please enable JavaScript to submit your newsletter signup.</p></noscript>
 <p aria-live="polite" class="newsletter-status" id="newsletter-status" role="status"></p>
 </div>
 </div>
@@ -5096,45 +5214,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. HERO 3D STAGE POINTER PARALLAX
   const stage = document.getElementById('stage');
-  const stageInner = stage ? stage.querySelector('.stage-inner') : null;
-  const heroSection = document.querySelector('.hero');
-
-  if (heroSection && stageInner && window.matchMedia('(pointer: fine)').matches) {
-    let mouseX = 0, mouseY = 0;
-    let currentRx = 0, currentRy = 0;
-    let isTrackingHero = false;
-    let heroRaf = null;
-
-    const animateStage = () => {
-      if (!isTrackingHero && Math.abs(currentRx) < 0.05 && Math.abs(currentRy) < 0.05) {
-        stageInner.style.transform = 'rotateX(0deg) rotateY(0deg)';
-        heroRaf = null;
-        return;
-      }
-      currentRx += ((-mouseY * 12) - currentRx) * 0.08;
-      currentRy += ((mouseX * 16) - currentRy) * 0.08;
-      stageInner.style.transform = `rotateX(${currentRx.toFixed(2)}deg) rotateY(${currentRy.toFixed(2)}deg)`;
-      heroRaf = requestAnimationFrame(animateStage);
-    };
-
-    heroSection.addEventListener('pointerenter', () => {
-      isTrackingHero = true;
-      if (!heroRaf) heroRaf = requestAnimationFrame(animateStage);
-    });
-
-    heroSection.addEventListener('pointermove', (e) => {
-      const rect = heroSection.getBoundingClientRect();
-      mouseX = (e.clientX - rect.left) / rect.width - 0.5;
-      mouseY = (e.clientY - rect.top) / rect.height - 0.5;
-      if (!heroRaf) heroRaf = requestAnimationFrame(animateStage);
-    });
-
-    heroSection.addEventListener('pointerleave', () => {
-      isTrackingHero = false;
-      mouseX = 0;
-      mouseY = 0;
-    });
-  }
+  // Featured links use a stable, flat hit area.
 
   // 5. UNIFIED 3D CARD TILT ENGINE (REFINED & NON-DESTRUCTIVE)
   // Only enabled on devices with a fine pointer (mouse / trackpad)
@@ -5430,7 +5510,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let activeCategory = 'all';
   let isExpanded = false;
-  const INITIAL_LIMIT = 18;
+  const INITIAL_LIMIT = 20;
 
   const updateExplorer = () => {
     let visibleCount = 0;
@@ -5664,74 +5744,52 @@ document.addEventListener('DOMContentLoaded', () => {
   // Always display the 50-Question CEFR Assessment popup modal on page load
   setTimeout(openCefrModal, 600);
 
-  // 10. NEWSLETTER SUBSCRIPTION (REAL BACKEND INTEGRATION /api/newsletter-subscribe)
+  // Newsletter requests go to the existing server integration.
   const subscribeForm = document.getElementById('subscribe-form');
   const emailInput = document.getElementById('email-input');
   const statusEl = document.getElementById('newsletter-status');
   const submitBtn = document.getElementById('submit-btn');
   const honeypot = document.getElementById('company-website');
-
-  if (subscribeForm && emailInput && statusEl) {
+  let signupPending = false;
+  if (subscribeForm && emailInput && statusEl && submitBtn) {
     subscribeForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-
-      // Silent honeypot spam protection
-      if (honeypot && honeypot.value.trim() !== '') {
-        statusEl.textContent = 'Submission received.';
+      if (signupPending) return;
+      emailInput.value = emailInput.value.trim();
+      if (!subscribeForm.reportValidity()) return;
+      if (honeypot && honeypot.value.trim()) return;
+      if (!/^https?:$/.test(location.protocol)) {
+        statusEl.textContent = 'Please open the published website to sign up. Signup is unavailable in this local preview.';
         return;
       }
-
-      const email = emailInput.value.trim();
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        statusEl.textContent = 'Please enter a valid email address.';
-        statusEl.style.color = '#ff6b8b';
-        emailInput.focus();
-        return;
-      }
-
-      // Loading state
-      statusEl.textContent = 'Subscribing...';
-      statusEl.style.color = 'var(--lime-400)';
-      if (submitBtn) submitBtn.disabled = true;
-
+      signupPending = true;
+      submitBtn.disabled = true;
+      subscribeForm.setAttribute('aria-busy', 'true');
+      statusEl.textContent = 'Sending your signup request…';
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
       try {
-        // Route subscriber email directly to info@sharedpearls.com via FormSubmit endpoint
-        const response = await fetch('https://formsubmit.co/ajax/ramesh.suvedi@gmail.com', {
+        const response = await fetch(subscribeForm.action, {
           method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({ 
-            email: email,
-            _subject: 'New Monthly Newsletter Subscription — Shared Pearls of Wisdom',
-            _replyto: email,
-            recipient: 'info@sharedpearls.com'
-          })
+          headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+          body: JSON.stringify({email: emailInput.value, company_website: '', source: 'Dashboard monthly newsletter'}),
+          signal: controller.signal
         });
-
-        if (response.ok) {
-          statusEl.textContent = '✓ Thank you! Your subscription request (' + email + ') has been routed to info@sharedpearls.com.';
-          statusEl.style.color = 'var(--lime-400)';
-          emailInput.value = '';
-        } else {
-          throw new Error('Fallback to direct mail routing');
+        const result = await response.json();
+        if (!response.ok || result.ok !== true) {
+          throw new Error(result.error || 'We could not save your signup. Please try again later.');
         }
-      } catch (err) {
-        // Direct mailto fallback ensuring subscriber email reaches info@sharedpearls.com
-        const mailLink = document.createElement('a');
-        mailLink.href = 'mailto:info@sharedpearls.com?subject=' + encodeURIComponent('Monthly Newsletter Subscription') + '&body=' + encodeURIComponent('Please subscribe this email address to the monthly newsletter: ' + email);
-        mailLink.target = '_blank';
-        document.body.appendChild(mailLink);
-        mailLink.click();
-        document.body.removeChild(mailLink);
-
-        statusEl.textContent = '✓ Thank you! Your subscription request (' + email + ') has been directed to info@sharedpearls.com.';
-        statusEl.style.color = 'var(--lime-400)';
-        emailInput.value = '';
+        statusEl.textContent = 'Thank you! Your newsletter signup request has been received.';
+        subscribeForm.reset();
+      } catch (error) {
+        statusEl.textContent = error.name === 'AbortError'
+          ? 'The signup service took too long to respond. Please try again.'
+          : 'We could not confirm your signup. Your email has been kept here so you can try again.';
       } finally {
-        if (submitBtn) submitBtn.disabled = false;
+        clearTimeout(timeout);
+        signupPending = false;
+        submitBtn.disabled = false;
+        subscribeForm.removeAttribute('aria-busy');
       }
     });
   }
@@ -5757,34 +5815,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 12. CANVAS / IFRAME NAVIGATION HELPER
-  // Prevents broken page 404s inside isolated Canvas sandboxes while preserving exact real links
-  if (window.self !== window.top && !location.hostname.includes('sharedpearls.com')) {
-    document.body.addEventListener('click', (e) => {
-      const link = e.target.closest('a');
-      if (!link) return;
-      const href = link.getAttribute('href');
-      if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto:')) {
-        e.preventDefault();
-        showPreviewToast(`Verified course destination: ${href}`);
-      }
-    });
-
-    function showPreviewToast(msg) {
-      let toast = document.getElementById('demo-toast');
-      if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'demo-toast';
-        toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1a0308;color:#ffffff;padding:12px 22px;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,0.35);z-index:9999;border:1.5px solid rgba(212,255,70,0.6);display:flex;align-items:center;gap:10px;transition:opacity 0.3s;pointer-events:none;';
-        document.body.appendChild(toast);
-      }
-      toast.innerHTML = `<span style="color:#d4ff46;font-size:16px;">✦</span> ${msg}`;
-      toast.style.opacity = '1';
-      clearTimeout(toast._t);
-      toast._t = setTimeout(() => { toast.style.opacity = '0'; }, 2400);
-    }
-  }
-
+  // Keep native lesson navigation enabled, including inside frames.
 
   // 13. INTUITIVE TOUCH-TILT FEEDBACK FOR TOUCH DEVICES
   if (window.matchMedia("(pointer: coarse)").matches && !prefersReduced) {
@@ -6660,7 +6691,7 @@ const MASTERCLASS_DATA = {
     {
       id: "g1",
       num: "01",
-      title: "Mastering Conditional Logic: Zero, First, Second, Third & Mixed",
+      title: "Conditionals Made Simple",
       category: "Grammar Masterclass",
       level: "B2–C1",
       duration: "18:45",
@@ -6674,7 +6705,7 @@ const MASTERCLASS_DATA = {
     {
       id: "g2",
       num: "02",
-      title: "Grammatical Inversion for Formal & Literary Emphasis",
+      title: "Inversion: Changing Word Order for Emphasis",
       category: "Grammar Masterclass",
       level: "C1",
       duration: "14:20",
@@ -6688,7 +6719,7 @@ const MASTERCLASS_DATA = {
     {
       id: "g3",
       num: "03",
-      title: "The Subjunctive Mood & Advanced Modality in C1 Academic Writing",
+      title: "Subjunctives and Modal Verbs Made Simple",
       category: "Grammar Masterclass",
       level: "C1",
       duration: "16:10",
@@ -6702,7 +6733,7 @@ const MASTERCLASS_DATA = {
     {
       id: "g4",
       num: "04",
-      title: "Nuances of Tense & Aspect: Perfect vs. Progressive Contrasts",
+      title: "Perfect and Continuous Tenses",
       category: "Grammar Masterclass",
       level: "B2",
       duration: "12:35",
@@ -6716,7 +6747,7 @@ const MASTERCLASS_DATA = {
     {
       id: "g5",
       num: "05",
-      title: "Advanced Non-Finite Participle Clauses & Sentence Compaction",
+      title: "Shorter Sentences with Participle Clauses",
       category: "Grammar Masterclass",
       level: "C1",
       duration: "15:50",
@@ -6730,7 +6761,7 @@ const MASTERCLASS_DATA = {
     {
       id: "g6",
       num: "06",
-      title: "Cleft Sentences & Information Focus in Spoken and Written English",
+      title: "Cleft Sentences: Highlighting Key Ideas",
       category: "Grammar Masterclass",
       level: "C1",
       duration: "17:15",
@@ -6744,7 +6775,7 @@ const MASTERCLASS_DATA = {
     {
       id: "g7",
       num: "07",
-      title: "Ellipsis, Substitution & Structural Economy in Complex Sentences",
+      title: "Avoiding Repetition in Sentences",
       category: "Grammar Masterclass",
       level: "B2–C1",
       duration: "14:50",
@@ -6758,7 +6789,7 @@ const MASTERCLASS_DATA = {
     {
       id: "g8",
       num: "08",
-      title: "Dependent Prepositions & Fixed Syntactic Collocations",
+      title: "Choosing the Right Preposition",
       category: "Grammar Masterclass",
       level: "B2–C1",
       duration: "16:40",
@@ -6774,7 +6805,7 @@ const MASTERCLASS_DATA = {
     {
       id: "d1",
       num: "01",
-      title: "Cohesion & Coherence: Structuring High-Scoring Academic Arguments",
+      title: "Building Clear Arguments",
       category: "Discourse & Rhetoric",
       level: "B2–C1",
       duration: "22:30",
@@ -6788,7 +6819,7 @@ const MASTERCLASS_DATA = {
     {
       id: "d2",
       num: "02",
-      title: "Signposting & Transition Dynamics: Guiding the Reader Through Logic",
+      title: "Linking Ideas and Guiding Your Reader",
       category: "Discourse & Rhetoric",
       level: "B2–C1",
       duration: "17:40",
@@ -6802,7 +6833,7 @@ const MASTERCLASS_DATA = {
     {
       id: "d3",
       num: "03",
-      title: "Hedging & Epistemic Stance: Expressing Caution in Scholarly Prose",
+      title: "Expressing Ideas with Caution",
       category: "Discourse & Rhetoric",
       level: "C1",
       duration: "15:25",
@@ -6816,7 +6847,7 @@ const MASTERCLASS_DATA = {
     {
       id: "d4",
       num: "04",
-      title: "Persuasive Oratory: Rhetorical Tropes, Triads & Cadence in Speech",
+      title: "Giving Persuasive Speeches",
       category: "Discourse & Rhetoric",
       level: "C1",
       duration: "20:10",
@@ -6830,7 +6861,7 @@ const MASTERCLASS_DATA = {
     {
       id: "d5",
       num: "05",
-      title: "The Art of the Counter-Argument: Rebuttal & Concession Strategies",
+      title: "Responding to Opposing Views",
       category: "Discourse & Rhetoric",
       level: "B2–C1",
       duration: "19:15",
@@ -6844,7 +6875,7 @@ const MASTERCLASS_DATA = {
     {
       id: "d6",
       num: "06",
-      title: "Paragraph Organization & The Given-New Principle in Essay Structure",
+      title: "Writing Well-Organized Paragraphs",
       category: "Discourse & Rhetoric",
       level: "B2–C1",
       duration: "18:20",
@@ -6858,7 +6889,7 @@ const MASTERCLASS_DATA = {
     {
       id: "d7",
       num: "07",
-      title: "Register, Politeness & Pragmatic Appropriateness in Professional Contexts",
+      title: "Using the Right Tone at Work",
       category: "Discourse & Rhetoric",
       level: "B2–C1",
       duration: "15:45",
@@ -6872,7 +6903,7 @@ const MASTERCLASS_DATA = {
     {
       id: "d8",
       num: "08",
-      title: "Syntactic Parallelism, Rhythm & Structural Balance in Formal Rhetoric",
+      title: "Writing Balanced Sentences",
       category: "Discourse & Rhetoric",
       level: "C1",
       duration: "19:05",
