@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="An interactive grammar lab for infinitives, -ing forms, and past participles." />
+    <title>Infinitives Grammar Lab</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap');
+
+      :root {
+        --paper: #f7f5ef;
+        --paper-2: #fcfbf8;
+        --ink: #202b38;
+        --muted: #69727c;
+        --line: #dedbd2;
+        --navy: #223142;
+        --navy-2: #2b3c4d;
+        --teal: #2f887e;
+        --teal-soft: #e0f0ed;
+        --coral: #c9634b;
+        --gold: #d69d3a;
+        --shadow: 0 14px 38px rgba(32, 43, 56, .08);
+        --serif: 'Fraunces', Georgia, serif;
+        --sans: 'DM Sans', Arial, sans-serif;
+        --mono: 'DM Mono', monospace;
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.6 var(--sans); }
+      button, a, input { font: inherit; }
+      button, a { -webkit-tap-highlight-color: transparent; }
+      button { border: 0; cursor: pointer; }
+      a { color: inherit; text-decoration: none; }
+
+      .app { min-height: 100vh; }
+      .sidebar {
+        position: fixed; inset: 0 auto 0 0; z-index: 20; display: flex; width: 282px;
+        flex-direction: column; padding: 24px 20px; background: var(--navy); color: #f7f5ef;
+      }
+      .brand { display: flex; align-items: center; gap: 12px; }
+      .brand-mark { display: grid; width: 40px; height: 40px; place-items: center; border-radius: 12px; background: #3db7aa; color: #173332; font: 26px/1 var(--serif); }
+      .brand-name { display: block; font: 600 19px/1 var(--serif); }
+      .brand-sub { display: block; margin-top: 5px; color: rgba(247,245,239,.55); font: 9px var(--mono); letter-spacing: .22em; text-transform: uppercase; }
+      .course-label { display: flex; justify-content: space-between; margin: 40px 8px 10px; color: rgba(247,245,239,.5); font: 10px var(--mono); letter-spacing: .18em; text-transform: uppercase; }
+      .nav { min-height: 0; flex: 1; overflow: auto; }
+      .nav-divider { height: 1px; margin: 14px 0; background: rgba(247,245,239,.14); }
+      .nav-link { display: flex; align-items: flex-start; gap: 12px; width: 100%; padding: 9px 12px; border-radius: 10px; color: rgba(247,245,239,.7); font-size: 13px; line-height: 1.35; transition: .2s ease; }
+      .nav-link:hover { background: var(--navy-2); color: #fff; }
+      .nav-link.active { background: rgba(61,183,170,.18); color: #55c0b2; }
+      .nav-num { min-width: 27px; color: rgba(247,245,239,.35); font: 10px var(--mono); }
+      .nav-link.active .nav-num { color: #55c0b2; }
+      .premium { margin-top: 18px; padding: 14px; border: 1px solid rgba(247,245,239,.13); border-radius: 12px; background: rgba(255,255,255,.04); }
+      .premium-title { color: #55c0b2; font: 10px var(--mono); letter-spacing: .15em; text-transform: uppercase; }
+      .premium p { margin: 8px 0 0; color: rgba(247,245,239,.56); font-size: 11px; line-height: 1.5; }
+
+      .content { min-height: 100vh; margin-left: 282px; }
+      .topbar { position: sticky; top: 0; z-index: 10; display: flex; height: 68px; align-items: center; justify-content: space-between; padding: 0 40px; border-bottom: 1px solid var(--line); background: rgba(247,245,239,.9); backdrop-filter: blur(14px); }
+      .topbar-note, .saved { color: var(--muted); font: 10px var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+      .saved { display: flex; align-items: center; gap: 8px; letter-spacing: .1em; }
+      .saved-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--teal); }
+      .mobile-menu { display: none; padding: 6px; background: none; color: var(--ink); font-size: 22px; }
+      .page { max-width: 1180px; margin: 0 auto; padding: 42px 40px 70px; animation: rise .4s ease both; }
+      .eyebrow { display: flex; align-items: center; gap: 12px; color: var(--teal); font: 10px var(--mono); letter-spacing: .2em; text-transform: uppercase; }
+      .eyebrow::before { content: ''; width: 32px; height: 1px; background: currentColor; }
+      h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: -.04em; }
+      h1 { font-size: clamp(3rem, 7vw, 6.8rem); line-height: .92; }
+      h2 { font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1; }
+      h3 { font-size: 1.35rem; line-height: 1.12; }
+      .lede { max-width: 680px; margin: 26px 0 0; color: var(--muted); font-size: 18px; line-height: 1.7; }
+      .accent-text { color: var(--teal); font-style: italic; }
+
+      .overview-hero { display: grid; grid-template-columns: 1.08fr .92fr; gap: 36px; align-items: end; padding: 20px 0 80px; }
+      .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+      .button { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 10px; font-weight: 700; transition: .2s ease; }
+      .button:hover { transform: translateY(-2px); }
+      .button-primary { background: var(--teal); color: #fff; }
+      .button-secondary { border: 1px solid var(--line); background: var(--paper-2); color: var(--ink); }
+      .button:disabled { cursor: not-allowed; opacity: .45; transform: none; }
+      .stats-card { position: relative; overflow: hidden; padding: 30px; border-radius: 18px; background: var(--navy); color: #f7f5ef; box-shadow: var(--shadow); }
+      .stats-card::after { content: ''; position: absolute; right: -60px; top: -80px; width: 220px; height: 220px; border: 1px solid rgba(61,183,170,.27); border-radius: 50%; box-shadow: 0 0 0 26px rgba(61,183,170,.05), 0 0 0 52px rgba(61,183,170,.04); }
+      .stats-label { color: rgba(247,245,239,.56); font: 10px var(--mono); letter-spacing: .18em; text-transform: uppercase; }
+      .stats-number { position: relative; z-index: 1; display: flex; align-items: end; gap: 10px; margin-top: 42px; }
+      .stats-number strong { color: #4db9ae; font: 64px/.85 var(--serif); }
+      .stats-number span { color: rgba(247,245,239,.58); font-size: 13px; line-height: 1.35; }
+      .progress-label { display: flex; justify-content: space-between; margin: 28px 0 7px; color: rgba(247,245,239,.55); font: 10px var(--mono); text-transform: uppercase; }
+      .progress-track { height: 8px; overflow: hidden; border-radius: 99px; background: rgba(247,245,239,.15); }
+      .progress-fill { height: 100%; border-radius: inherit; background: #4db9ae; transition: width .5s ease; }
+      .stats-foot { display: flex; gap: 40px; margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(247,245,239,.14); }
+      .stats-foot strong { display: block; font: 27px var(--serif); }
+      .stats-foot span { color: rgba(247,245,239,.48); font: 9px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+
+      .section-rule { padding-top: 30px; border-top: 1px solid var(--line); }
+      .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 30px; }
+      .section-heading p { max-width: 360px; margin: 0; color: var(--muted); font-size: 14px; }
+      .section-kicker { margin: 0 0 8px; color: var(--coral); font: 10px var(--mono); letter-spacing: .2em; text-transform: uppercase; }
+      .lesson-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 34px; }
+      .lesson-card { display: flex; min-height: 190px; flex-direction: column; justify-content: space-between; padding: 20px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper-2); transition: .2s ease; }
+      .lesson-card:hover { border-color: rgba(47,136,126,.55); box-shadow: var(--shadow); transform: translateY(-3px); }
+      .card-top, .card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+      .card-num { color: var(--muted); font: 11px var(--mono); }
+      .card-check { display: grid; width: 20px; height: 20px; place-items: center; border-radius: 50%; background: var(--teal); color: #fff; font-size: 12px; }
+      .card-bottom { color: var(--muted); font-size: 12px; }
+      .card-arrow { color: var(--teal); font-size: 19px; transition: transform .2s ease; }
+      .lesson-card:hover .card-arrow { transform: translateX(4px); }
+
+      .lesson-top { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 34px; }
+      .lesson-top .meta { color: var(--muted); font: 10px var(--mono); letter-spacing: .15em; text-transform: uppercase; }
+      .worksheet { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border: 1px solid var(--line); border-radius: 9px; background: var(--paper-2); color: var(--ink); font-size: 12px; font-weight: 700; }
+      .worksheet:hover { background: #eeeae0; }
+      .lesson-header { max-width: 900px; }
+      .lesson-kicker { display: inline-block; margin-bottom: 18px; padding: 5px 11px; border-radius: 99px; background: var(--teal-soft); color: var(--teal); font: 10px var(--mono); letter-spacing: .17em; text-transform: uppercase; }
+      .lesson-summary { max-width: 730px; margin: 24px 0 0; color: var(--muted); font-size: 18px; line-height: 1.7; }
+      .concepts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; padding: 26px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+      .concept { display: flex; gap: 12px; }
+      .concept-number { color: var(--coral); font: 10px var(--mono); }
+      .concept p { margin: 7px 0 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
+      .examples-layout { display: grid; grid-template-columns: .78fr 1.22fr; gap: 28px; margin-top: 48px; }
+      .sub-label { display: flex; align-items: center; gap: 9px; color: var(--teal); font: 10px var(--mono); letter-spacing: .18em; text-transform: uppercase; }
+      .sub-label::before { content: ''; width: 24px; height: 1px; background: currentColor; }
+      .examples h2 { margin-top: 12px; font-size: 2.1rem; }
+      .example-list { display: grid; gap: 10px; margin-top: 22px; }
+      .example { padding: 13px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper-2); box-shadow: 0 5px 14px rgba(32,43,56,.04); font: 17px/1.45 var(--serif); }
+      .note-box { padding: 28px; border-radius: 18px; background: #efe8dc; }
+      .note-box blockquote { margin: 22px 0 0; font: 600 26px/1.25 var(--serif); }
+      .note-box p { margin: 20px 0 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+      .practice { margin-top: 64px; padding-top: 30px; border-top: 1px solid var(--line); }
+      .practice-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; }
+      .practice-heading h2 { margin-top: 12px; }
+      .answered { color: var(--muted); font: 11px var(--mono); }
+      .practice-progress { height: 6px; margin-top: 22px; overflow: hidden; border-radius: 99px; background: var(--line); }
+      .practice-progress div { height: 100%; background: var(--teal); transition: width .3s ease; }
+      .questions { display: grid; gap: 13px; margin-top: 28px; }
+      .question { padding: 18px 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--paper-2); transition: .2s ease; }
+      .question.correct { border-color: rgba(47,136,126,.6); }
+      .question.incorrect { border-color: rgba(201,99,75,.65); }
+      .question-row { display: flex; gap: 15px; }
+      .question-number { color: var(--coral); font: 11px var(--mono); }
+      .question-body { min-width: 0; flex: 1; }
+      .question-prompt { margin: 0; font-weight: 600; line-height: 1.5; }
+      .options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 14px; }
+      .option { display: flex; align-items: flex-start; gap: 9px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; color: var(--ink); cursor: pointer; font-size: 13px; line-height: 1.4; transition: .2s ease; }
+      .option:hover { background: #f0ede5; }
+      .option.selected { border-color: var(--teal); background: var(--teal-soft); }
+      .option input { margin-top: 3px; accent-color: var(--teal); }
+      .rationale { margin: 14px 0 0; padding-top: 10px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; line-height: 1.6; }
+      .feedback-row { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-top: 25px; }
+      .feedback { padding: 10px 14px; border-radius: 9px; background: var(--teal-soft); color: var(--teal); font-size: 13px; font-weight: 700; }
+      .lesson-nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 48px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+      .lesson-nav a:hover { color: var(--ink); }
+      .lesson-nav small { display: block; margin-bottom: 3px; color: var(--coral); font: 9px var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+
+      .answer-intro { max-width: 750px; }
+      .answer-list { display: grid; gap: 10px; margin-top: 44px; }
+      .answer-item { border: 1px solid var(--line); border-radius: 12px; background: var(--paper-2); overflow: hidden; }
+      .answer-summary { display: flex; align-items: center; gap: 15px; padding: 17px 20px; cursor: pointer; list-style: none; }
+      .answer-summary::-webkit-details-marker { display: none; }
+      .answer-summary::after { content: '›'; margin-left: auto; color: var(--muted); font-size: 22px; transition: transform .2s ease; }
+      .answer-item[open] .answer-summary::after { transform: rotate(90deg); }
+      .answer-summary .num { color: var(--coral); font: 11px var(--mono); }
+      .answer-summary strong { font: 20px var(--serif); }
+      .answer-content { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; padding: 0 20px 20px; border-top: 1px solid var(--line); }
+      .answer-content h4 { margin: 18px 0 8px; color: var(--muted); font: 10px var(--mono); letter-spacing: .15em; text-transform: uppercase; }
+      .answer-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+      .answer-chip { padding: 6px 8px; border-radius: 6px; background: #eeebe3; font: 11px var(--mono); }
+      .answer-chip b { margin-right: 4px; color: var(--coral); }
+      .answer-content p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+      .empty { padding: 80px 0; text-align: center; }
+      .empty h1 { font-size: 4rem; }
+      .empty p { color: var(--muted); }
+      @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+      @media (max-width: 1050px) {
+        .lesson-grid { grid-template-columns: repeat(3, 1fr); }
+        .overview-hero { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 800px) {
+        .sidebar { width: 282px; transform: translateX(-100%); transition: transform .25s ease; }
+        .sidebar.open { transform: translateX(0); }
+        .content { margin-left: 0; }
+        .topbar { padding: 0 20px; }
+        .topbar-note { display: none; }
+        .mobile-menu { display: inline-block; }
+        .page { padding: 30px 20px 55px; }
+        .lesson-grid { grid-template-columns: repeat(2, 1fr); }
+        .concepts, .examples-layout { grid-template-columns: 1fr; }
+        .examples-layout { gap: 25px; }
+      }
+      @media (max-width: 540px) {
+        h1 { font-size: 3.35rem; }
+        .lede, .lesson-summary { font-size: 16px; }
+        .lesson-grid { grid-template-columns: 1fr; }
+        .lesson-top { align-items: flex-start; flex-direction: column; }
+        .lesson-top .worksheet { align-self: stretch; justify-content: center; }
+        .options, .answer-content { grid-template-columns: 1fr; }
+        .feedback-row { align-items: stretch; flex-direction: column; }
+        .feedback-row .button { justify-content: center; }
+        .lesson-nav { align-items: flex-start; flex-direction: column; }
+      }
+      @media print {
+        .no-print, .sidebar, .topbar, .lesson-nav { display: none !important; }
+        .content { margin-left: 0; }
+        .page { max-width: none; padding: 18px; }
+        body { background: #fff; color: #000; }
+        .lesson-kicker, .note-box, .example, .question, .answer-item { break-inside: avoid; }
+        .note-box { background: #f3f3f3; }
+        .option { color: #000; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      const LESSONS = [
+        {
+          id: '1', title: 'Infinitives after verbs', kicker: 'Learn the essential forms and functions',
+          summary: 'Explore the essential forms and functions of infinitives, -ing forms, and participles in English. Learn how these structures work as subjects, objects, and complements, when infinitives appear with or without to, how perfect infinitives are used, and how to choose between infinitive and -ing forms with confidence.',
+          concepts: [['Verb + to-infinitive', 'Choose to + base verb after agree, decide, expect, hope, learn, manage, offer, promise, refuse, seem, and want.'], ['Verb + that-clause', 'Some verbs allow both forms: I expect to win / I expect that I will win.'], ['Negative infinitives', 'Put not before to: She decided not to answer.']],
+          examples: ['The committee agreed to publish the findings.', 'I hope to hear from you before Friday.', 'They promised not to disclose the source.', 'The archive seems to contain a missing letter.'],
+          questions: [
+            ['The visiting scholar ___ to return next spring.', ['promised', 'promised returning', 'promised to return', 'promised that return'], 2, 'Promise is followed by to + base verb.'],
+            ['We decided ___ the seminar until October.', ['to postpone', 'postponing', 'postpone', 'to postponing'], 0, 'Decide takes the to-infinitive.'],
+            ['Mara hopes ___ the original manuscript.', ['locating', 'to locate', 'locate', 'that locate'], 1, 'Hope + to-infinitive expresses a future intention.'],
+            ['The department agreed ___ the access rules.', ['revising', 'revise', 'to revise', 'to revising'], 2, 'Agree takes to + base verb.'],
+            ['He refused ___ the confidential notes.', ['to share', 'sharing', 'share', 'to sharing'], 0, 'Refuse is followed by a to-infinitive.'],
+            ['They expected ___ on time.', ['arriving', 'arrive', 'to arriving', 'to arrive'], 3, 'Expect + to-infinitive is the compact pattern.'],
+            ['I managed ___ the citation before class.', ['to check', 'checking', 'check', 'to checking'], 0, 'Manage is followed by to + base verb.'],
+            ['She promised ___ anyone about the change.', ['not tell', 'not to tell', 'to not telling', 'not telling'], 1, 'Not comes before to in a negative infinitive.'],
+            ['Which sentence is also possible?', ['I hope that I pass.', 'I hope that pass.', 'I hope passing.', 'I hope to passing.'], 0, 'Hope can be followed by a that-clause as well as an infinitive.'],
+            ['The result seems ___ the original hypothesis.', ['support', 'supporting', 'to support', 'to supporting'], 2, 'Seem + to-infinitive links the result to its apparent action.']
+          ]
+        },
+        {
+          id: '2', title: 'Verb + object + infinitive', kicker: 'When one person wants, asks, or expects another person to act',
+          summary: 'When one person wants, asks, or expects another person to act, English places the object between the main verb and the infinitive.',
+          concepts: [['The architecture', 'Verb + object + to-infinitive: She asked him to stay.'], ['Reporting and permission', 'Ask, advise, allow, encourage, expect, invite, remind, teach, tell, and want commonly use this frame.'], ['Bare infinitives', 'Let and make take object + base verb in active clauses; the passive uses to.']],
+          examples: ['The tutor encouraged us to question the premise.', 'Please remind me to bring the sources.', 'The editor told the writer to cut the paragraph.', 'The rules let students work in pairs.'],
+          questions: [
+            ['The lecturer encouraged the class ___ the assumption.', ['question', 'to question', 'questioning', 'to questioning'], 1, 'Encourage + object + to-infinitive.'],
+            ['I reminded Theo ___ his pass.', ['bring', 'bringing', 'to bring', 'to bringing'], 2, 'Remind takes an object followed by to + base verb.'],
+            ['The dean advised us ___ early.', ['to register', 'registering', 'register', 'to registering'], 0, 'Advise + object + to-infinitive.'],
+            ['They allowed visitors ___ photographs.', ['taking', 'take', 'to take', 'to taking'], 2, 'Allow + object + to-infinitive.'],
+            ['She wants her assistant ___ the room.', ['to book', 'book', 'booking', 'to booking'], 0, 'Want + object + to-infinitive.'],
+            ['The guide told everyone ___ behind the line.', ['stand', 'standing', 'to stand', 'to standing'], 2, 'Tell + object + to-infinitive.'],
+            ['The policy lets students ___ recordings.', ['to make', 'making', 'make', 'to making'], 2, 'Let takes object + bare infinitive, without to.'],
+            ['The schedule made us ___ late.', ['to work', 'working', 'work', 'to working'], 2, 'Make takes object + bare infinitive in active clauses.'],
+            ['“They made him apologize” becomes passive as:', ['He was made apologize.', 'He was made to apologize.', 'He made to apologize.', 'He was making to apologize.'], 1, 'The passive of make restores to.'],
+            ['Which sentence assigns the action to a different person?', ['I expected to Nina call.', 'I expected Nina to call.', 'I expected Nina calling.', 'I expected to call Nina.'], 1, 'Nina is the understood subject of to call.']
+          ]
+        },
+        {
+          id: '3', title: 'Try and…, go and…, etc.', kicker: 'Informal English with two base verbs',
+          summary: 'Informal English sometimes pairs two base verbs with and. These vivid patterns are common in speech, while formal writing usually keeps to.',
+          concepts: [['Try and + verb', 'Try and call me later means try to call me later.'], ['Go and + verb', 'Go and see what happened is a lively alternative to go to see what happened.'], ['Register', 'After do, did, and does, use the bare form. In academic prose, prefer the explicit infinitive.']],
+          examples: ['Try and find a quieter place to read.', 'Go and ask the librarian for the folio.', 'Come and look at this marginal note.', 'Do try to keep the quotation intact.'],
+          questions: [
+            ['“Try and call me” means:', ['Try calling me never.', 'Try to call me.', 'Try call me before.', 'Try for calling me.'], 1, 'Try and + verb is informal try to + verb.'],
+            ['Go and ___ whether the archive is open.', ['check', 'to check', 'checking', 'checked'], 0, 'Go and takes the base form.'],
+            ['Come and ___ beside the window.', ['to sit', 'sitting', 'sit', 'sat'], 2, 'Come and + base verb is natural in conversation.'],
+            ['Which is more formal?', ['Try and revise it.', 'Try to revise it.', 'Try revise it.', 'Try revising to it.'], 1, 'Try to revise is the explicit infinitive form.'],
+            ['Do ___ patient with the slow scanner.', ['to be', 'being', 'be', 'been'], 2, 'Do + bare infinitive is emphatic.'],
+            ['“Go and see” is most at home in:', ['casual conversation', 'a legal heading only', 'a passive clause', 'a noun phrase'], 0, 'The pattern has a conversational register.'],
+            ['Choose the correct form after “Did you…”', ['Did you went?', 'Did you to go?', 'Did you go?', 'Did you going?'], 2, 'Do-support takes the base verb.'],
+            ['“Come and look” contains:', ['a gerund', 'two coordinated base verbs', 'a passive infinitive', 'a noun complement'], 1, 'And links two base forms.'],
+            ['For a formal report, choose:', ['Go and examine the sample.', 'Examine the sample.', 'Go examine and the sample.', 'Go to examining the sample.'], 1, 'The direct imperative is concise and formal.'],
+            ['Which sentence is grammatical?', ['Do try to arrive early.', 'Do try arriving early to.', 'Do to try arrive early.', 'Do trying arrive early.'], 0, 'Do + try + to-infinitive is standard.']
+          ]
+        },
+        {
+          id: '4', title: '-ing forms after verbs', kicker: 'Gerunds behave like nouns',
+          summary: 'Gerunds let an action behave like a noun. After certain verbs, the -ing form is not optional decoration but the required complement.',
+          concepts: [['Verb + -ing', 'Avoid, enjoy, finish, imagine, keep, mind, miss, postpone, practise, risk, and suggest take -ing.'], ['Object + -ing', 'Some verbs notice an action in progress: I caught him copying.'], ['Suggest', 'Suggest takes an -ing form or a that-clause, not object + to-infinitive.']],
+          examples: ['She enjoys tracing the argument through the footnotes.', 'We postponed discussing the final chapter.', 'I do not mind waiting for the scan.', 'They suggested taking a different approach.'],
+          questions: [
+            ['I enjoy ___ in the silent reading room.', ['to work', 'working', 'work', 'to working'], 1, 'Enjoy is followed by -ing.'],
+            ['Please avoid ___ the same claim twice.', ['to repeat', 'repeat', 'repeating', 'to repeating'], 2, 'Avoid + gerund.'],
+            ['They finished ___ the bibliography.', ['checking', 'to check', 'check', 'to checking'], 0, 'Finish takes an -ing complement.'],
+            ['Mina postponed ___ her response.', ['to send', 'sending', 'send', 'to sending'], 1, 'Postpone + -ing.'],
+            ['Would you mind ___ the window?', ['to close', 'close', 'closing', 'to closing'], 2, 'Mind + -ing is used for polite requests.'],
+            ['The team risked ___ the deadline.', ['to miss', 'miss', 'missing', 'to missing'], 2, 'Risk is followed by -ing.'],
+            ['The article suggests ___ the sample.', ['to enlarge', 'enlarging', 'enlarge', 'to enlarging'], 1, 'Suggest + -ing or a that-clause.'],
+            ['I caught the student ___ the answer.', ['to copy', 'copy', 'copying', 'to copying'], 2, 'Catch + object + -ing describes an action in progress.'],
+            ['She kept ___ until the point was clear.', ['to explain', 'explain', 'explaining', 'to explaining'], 2, 'Keep is followed by -ing.'],
+            ['Which complement follows “imagine”?', ['Imagine to live there.', 'Imagine living there.', 'Imagine live there.', 'Imagine to living there.'], 1, 'Imagine + -ing is idiomatic.']
+          ]
+        },
+        {
+          id: '5', title: 'Infinitives after adjectives', kicker: 'Adjectives can point toward an action',
+          summary: 'Adjectives can point toward an action: a reaction, a superlative judgment, or a practical assessment of ease and difficulty.',
+          concepts: [['Reaction', 'It is nice to meet you and I am sorry to hear that use adjective + to-infinitive.'], ['Superlatives', 'The first, the last, the only, and the best are naturally followed by a to-infinitive.'], ['Easy and difficult', 'This text is difficult to translate, or It is difficult to translate this text.']],
+          examples: ['It was generous of the archive to waive the fee.', 'She is the first student to notice the pattern.', 'This handwriting is difficult to decipher.', 'I am delighted to see the room full.'],
+          questions: [
+            ['I am delighted ___ you here.', ['seeing', 'to see', 'see', 'to seeing'], 1, 'A reaction adjective takes the to-infinitive.'],
+            ['He was sorry ___ the announcement.', ['to miss', 'missing', 'miss', 'to missing'], 0, 'Sorry + to-infinitive expresses a present reaction.'],
+            ['She is the first person ___ the error.', ['noticing', 'notice', 'to notice', 'to noticing'], 2, 'Ordinal + to-infinitive identifies the person.'],
+            ['They were the only researchers ___ the result.', ['to replicate', 'replicating', 'replicate', 'to replicating'], 0, 'Only + to-infinitive.'],
+            ['This passage is hard ___.', ['understanding', 'to understand', 'understand', 'to understanding'], 1, 'Easy/difficult adjectives take to + base verb.'],
+            ['It is easy ___ the distinction.', ['missing', 'miss', 'to miss', 'to missing'], 2, 'It + adjective + to-infinitive is impersonal.'],
+            ['Which sentence is correct?', ['The best to leave was now.', 'The best time leaving was now.', 'The best time to leave was now.', 'The best time to leaving was now.'], 2, 'Noun + superlative can take a to-infinitive.'],
+            ['It was kind ___ the tutor to stay late.', ['of', 'for', 'to', 'with'], 0, 'Adjective + of + person evaluates behavior.'],
+            ['The map is impossible ___.', ['to read', 'reading', 'read', 'to reading'], 0, 'Impossible + to-infinitive.'],
+            ['“The first to arrive” means the first person:', ['arriving', 'who arrived', 'to arriving', 'arrive'], 1, 'The infinitive has a relative-clause meaning.']
+          ]
+        },
+        {
+          id: '6', title: 'Infinitives after nouns & pronouns', kicker: 'The action in the noun',
+          summary: 'Nouns can open a purpose phrase, identify a next action, or gesture toward the future. Pronouns follow the same compact logic.',
+          concepts: [['Noun + to-infinitive', 'A plan to expand, a decision to leave, and the ability to listen use an infinitive as complement.'], ['Purpose', 'Use to + verb to say why someone does something.'], ['The life to come', 'The infinitive can describe what is next or intended: the years to come, something to read.']],
+          examples: ['We need a quiet place to talk.', 'He had no reason to doubt the witness.', 'The years to come will test the theory.', 'There are three articles to read before Thursday.'],
+          questions: [
+            ['She went to the archive ___ the ledger.', ['consulting', 'to consult', 'consult', 'to consulting'], 1, 'A to-infinitive can express purpose.'],
+            ['We need a room ___ in private.', ['to speak', 'speaking', 'speak', 'to speaking'], 0, 'Noun + to-infinitive identifies the room’s use.'],
+            ['He had no reason ___ the account.', ['doubting', 'doubt', 'to doubt', 'to doubting'], 2, 'Reason + to-infinitive.'],
+            ['There are two chapters ___ tonight.', ['reading', 'to read', 'read', 'to reading'], 1, 'The infinitive describes work that remains.'],
+            ['She found someone ___ the archive.', ['to help', 'helping to', 'help', 'to helping'], 0, 'Someone + to-infinitive identifies a possible helper.'],
+            ['The years ___ may change our view.', ['coming', 'to come', 'come', 'to coming'], 1, 'The years to come means future years.'],
+            ['I have nothing ___ about the proposal.', ['adding', 'to add', 'add', 'to adding'], 1, 'Nothing + to-infinitive describes an available action.'],
+            ['He borrowed a pen ___ the form.', ['completing', 'complete', 'to complete', 'to completing'], 2, 'Purpose uses to + base verb.'],
+            ['The first step ___ is careful observation.', ['taking', 'to take', 'take', 'to taking'], 1, 'Noun + to-infinitive names the next action.'],
+            ['“The work to be done” is:', ['active only', 'passive or unfinished', 'past only', 'unrelated to work'], 1, 'To be done means work that needs completion.']
+          ]
+        },
+        {
+          id: '7', title: '-ing forms after nouns & adjectives', kicker: 'The activity itself',
+          summary: 'An -ing form after a noun or adjective can name the activity itself, especially when the phrase describes an experience or a way of working.',
+          concepts: [['Noun + -ing', 'There is no point in arguing treats the activity as a noun-like idea.'], ['Adjective + -ing', 'Busy, worth, and worthwhile commonly point to an activity.'], ['Meaning', 'The -ing form keeps the focus on the activity, not simply on a future task.']],
+          examples: ['There is no point in worrying about the index.', 'The problem of finding evidence is familiar.', 'The article is worth reading twice.', 'She was busy preparing the handout.'],
+          questions: [
+            ['There is no point in ___ about it now.', ['to worry', 'worry', 'worrying', 'to worrying'], 2, 'No point in is followed by -ing.'],
+            ['The text is worth ___.', ['to reread', 'rereading', 'reread', 'to rereading'], 1, 'Worth + -ing means it deserves the activity.'],
+            ['She was busy ___ the seminar room.', ['arrange', 'to arrange', 'arranging', 'to arranging'], 2, 'Busy + -ing describes an activity.'],
+            ['The problem of ___ a source took all morning.', ['to find', 'finding', 'find', 'to finding'], 1, 'Of is a preposition and takes -ing.'],
+            ['It is worthwhile ___ the definitions.', ['checking', 'to checking', 'check', 'checked'], 0, 'Worthwhile can be followed by -ing.'],
+            ['There is little use in ___ the result.', ['to dispute', 'dispute', 'disputing', 'to disputing'], 2, 'Use in + -ing is natural.'],
+            ['The difficulty of ___ the scan was unexpected.', ['to read', 'reading', 'read', 'to reading'], 1, 'Of takes a gerund here.'],
+            ['Which sentence focuses on an activity’s value?', ['It is worth reading.', 'It is worth to read.', 'It worth read.', 'It is worth to reading.'], 0, 'Worth + gerund evaluates the activity.'],
+            ['He is busy ___ the references.', ['to sort', 'sorting', 'sort', 'to sorting'], 1, 'Busy + -ing.'],
+            ['“No point in arguing” suggests arguing is:', ['useful', 'futile', 'mandatory', 'already finished'], 1, 'The expression says the activity will not help.']
+          ]
+        },
+        {
+          id: '8', title: '-ing forms after prepositions', kicker: 'Prepositions always take -ing',
+          summary: 'After a preposition, use an -ing form. This includes the often-misread to in phrases such as look forward to and be used to.',
+          concepts: [['The dependable rule', 'Preposition + -ing: interested in reading, without checking, before leaving, and after finishing.'], ['To as a preposition', 'In look forward to, object to, and be accustomed to, to is followed by -ing.'], ['Pronouns', 'Use object pronouns after prepositions: without him knowing, by her asking.']],
+          examples: ['We look forward to hearing your response.', 'She left without saying goodbye.', 'They objected to changing the title.', 'After reading the proof, call me.'],
+          questions: [
+            ['She left without ___ goodbye.', ['to say', 'say', 'saying', 'to saying'], 2, 'Without is a preposition, so it takes -ing.'],
+            ['I am interested in ___ the full argument.', ['to read', 'reading', 'read', 'to reading'], 1, 'In + gerund.'],
+            ['We look forward to ___ from you.', ['hear', 'to hear', 'hearing', 'to hearing'], 2, 'Here to is a preposition.'],
+            ['He objected to ___ the title.', ['change', 'to change', 'changing', 'to changing'], 2, 'Object to + -ing.'],
+            ['After ___ the article, write a response.', ['to read', 'read', 'reading', 'to reading'], 2, 'After is a preposition here.'],
+            ['She is used to ___ early.', ['wake', 'to wake', 'waking', 'to waking'], 2, 'Be used to + -ing means accustomed to.'],
+            ['They solved it by ___ the data again.', ['to check', 'checking', 'check', 'to checking'], 1, 'By + -ing explains method.'],
+            ['Which phrase is correct?', ['instead of to wait', 'instead waiting', 'instead of waiting', 'instead to waiting'], 2, 'Instead of is followed by a gerund.'],
+            ['He succeeded in ___ the pattern.', ['to find', 'finding', 'find', 'to finding'], 1, 'Succeed in + -ing.'],
+            ['“To” is a preposition in:', ['to study', 'to leave', 'look forward to meeting', 'to explain'], 2, 'Look forward to meeting uses preposition to.']
+          ]
+        },
+        {
+          id: '9', title: 'Infinitives or -ing forms', kicker: 'Some verbs take both forms but change meaning',
+          summary: 'Some verbs take both forms but change meaning. Slow down at remember, go on, regret, try, mean, learn, and the preference verbs.',
+          concepts: [['Memory and sequence', 'Remember doing looks back; remember to do concerns a duty. Go on doing continues; go on to do moves on.'], ['Purpose and result', 'Try doing experiments with a method; try to do attempts a task.'], ['Preference and attitude', 'Like, love, hate, and prefer allow both forms with little change in general meaning.']],
+          examples: ['I remember meeting her in the old library.', 'Remember to lock the cabinet.', 'He stopped to answer the question.', 'He stopped answering questions.', 'She tried moving the lamp.', 'She tried to move the cabinet.'],
+          questions: [
+            ['I remember ___ the professor last year.', ['to meet', 'meeting', 'meet', 'to meeting'], 1, 'Remember + -ing recalls a past event.'],
+            ['Remember ___ the citation before submitting.', ['checking', 'check', 'to check', 'to checking'], 2, 'Remember + to-infinitive concerns a future duty.'],
+            ['She stopped ___ a phone call.', ['making', 'to make', 'make', 'to making'], 1, 'Stop + to-infinitive means pause to do another action.'],
+            ['She stopped ___ phone calls.', ['to make', 'make', 'making', 'to making'], 2, 'Stop + -ing means end the activity.'],
+            ['Try ___ the paragraph aloud.', ['to read', 'reading', 'read', 'to reading'], 1, 'Try + -ing tests a method.'],
+            ['He tried ___ the locked drawer.', ['opening', 'to open', 'open', 'to opening'], 1, 'Try + to-infinitive means make an attempt.'],
+            ['They went on ___ about the same point.', ['to argue', 'arguing', 'argue', 'to arguing'], 1, 'Go on + -ing continues the same activity.'],
+            ['She went on ___ the methods.', ['discussing', 'to discuss', 'discuss', 'to discussing'], 1, 'Go on + to-infinitive moves to a new action.'],
+            ['He regrets ___ the email so quickly.', ['to send', 'sending', 'send', 'to sending'], 1, 'Regret + -ing looks back at an action.'],
+            ['Which means intention?', ['I mean missing the train.', 'I mean to call her.', 'I mean calling yesterday.', 'I mean to calling her.'], 1, 'Mean + to-infinitive expresses intention.']
+          ]
+        },
+        {
+          id: '10', title: 'Active & passive infinitives', kicker: 'The infinitive has its own voice',
+          summary: 'The infinitive has its own voice. Use the active form when the subject acts and the passive form when the subject receives the action.',
+          concepts: [['Active', 'To write, to be writing, and to have written show an actor doing the action.'], ['Passive', 'To be written and to have been written show the subject receiving the action.'], ['Need and require', 'The room needs to be cleaned; needs cleaning has the same passive sense in informal use.']],
+          examples: ['The researcher hopes to publish soon.', 'The paper needs to be revised.', 'She is proud to have completed the project.', 'The forms are to be signed by Friday.'],
+          questions: [
+            ['The student hopes ___ the article.', ['to publish', 'to be published', 'to publishing', 'being published'], 0, 'The student is the actor: active infinitive.'],
+            ['The article needs ___.', ['to revise', 'revising', 'to be revised', 'to be revise'], 2, 'The article receives revision: passive infinitive.'],
+            ['She is pleased ___ the work.', ['to have finished', 'to have been finished', 'finishing', 'to finished'], 0, 'She completed it, so use perfect active.'],
+            ['The manuscript is expected ___ next month.', ['to publish', 'to be published', 'publishing', 'to have publish'], 1, 'The manuscript receives publication.'],
+            ['The room needs ___.', ['cleaning', 'to clean', 'clean', 'to cleaning'], 0, 'Need + -ing can have passive meaning.'],
+            ['The building requires ___ immediately.', ['to repair', 'repairing', 'to be repaired', 'repair'], 2, 'Require + passive infinitive is explicit.'],
+            ['They deserve ___ for the discovery.', ['to praise', 'to be praised', 'praising', 'to be praise'], 1, 'They receive praise.'],
+            ['The team appears ___ the data.', ['to have misunderstood', 'to have been misunderstood', 'misunderstanding to', 'to misunderstood'], 0, 'The team did the misunderstanding.'],
+            ['“To be being examined” is:', ['active simple', 'passive progressive', 'active perfect', 'passive perfect'], 1, 'Be being + past participle marks passive progressive.'],
+            ['The contracts are ___ tomorrow.', ['to sign', 'to be signed', 'signing', 'to have sign'], 1, 'Contracts receive the signing.']
+          ]
+        },
+        {
+          id: '11', title: 'Causative structures: make', kicker: 'Force or pressure',
+          summary: 'Make places another person at the center of an action. Its active and passive patterns differ by one important word: to.',
+          concepts: [['Active make', 'Make + object + base verb: The evidence made her reconsider.'], ['Passive make', 'Be made + to-infinitive: She was made to reconsider.'], ['Meaning', 'Make is stronger than ask or encourage; it suggests force or pressure.']],
+          examples: ['The question made him pause.', 'The evidence made the jury reconsider.', 'She was made to repeat the experiment.', 'The discovery made us rethink the timeline.'],
+          questions: [
+            ['The result made us ___ the timeline.', ['to rethink', 'rethinking', 'rethink', 'to rethinking'], 2, 'Active make + object takes the bare infinitive.'],
+            ['The tutor made the group ___ the passage.', ['to reread', 'reread', 'rereading', 'to rereading'], 1, 'Make + object + base verb.'],
+            ['He was made ___ the statement.', ['repeat', 'to repeat', 'repeating', 'to repeating'], 1, 'Passive make requires to.'],
+            ['The noise made her ___.', ['to jump', 'jump', 'jumping', 'to jumping'], 1, 'The object is followed by the bare infinitive.'],
+            ['Which is correct?', ['They made him to stay.', 'They made him stay.', 'They made stay him.', 'They made him staying.'], 1, 'Active make does not take to.'],
+            ['Which is passive?', ['The rule made her wait.', 'She was made to wait.', 'She made to wait.', 'The rule was made her wait.'], 1, 'Be made + to-infinitive is passive.'],
+            ['Make most strongly suggests:', ['a casual suggestion', 'force or pressure', 'a past memory', 'a preposition'], 1, 'Causative make often carries force.'],
+            ['The announcement made everyone ___ silent.', ['to fall', 'fall', 'falling', 'to falling'], 1, 'Object + bare infinitive after make.'],
+            ['They were made ___ outside.', ['to wait', 'wait', 'waiting', 'to waiting'], 0, 'Passive pattern: were made to wait.'],
+            ['Complete the active pattern:', ['make + object + to verb', 'make + object + verb', 'make + verb + -ing', 'make + to + object'], 1, 'Active causative make takes object + bare infinitive.']
+          ]
+        },
+        {
+          id: '12', title: 'Causative structures: get', kicker: 'Persuasion or arrangement',
+          summary: 'Get is the more negotiable causative: it usually means persuade, arrange, or manage to cause an action, and it keeps to before the infinitive.',
+          concepts: [['Get + object + to', 'Get someone to do something means persuade or arrange for them to do it.'], ['Get + -ing', 'Get + object + -ing can start an activity: get them talking.'], ['Get something done', 'Get + object + past participle means arrange for a service or result.']],
+          examples: ['We got the students to compare the passages.', 'She got him talking about the archive.', 'I need to get my laptop repaired.', 'Can you get the forms signed?'],
+          questions: [
+            ['She got the committee ___ the proposal.', ['to reconsider', 'reconsider', 'reconsidering to', 'to reconsidering'], 0, 'Get + object + to-infinitive.'],
+            ['We got them ___ about the evidence.', ['to talk', 'talk', 'talking', 'to talking'], 2, 'Get + object + -ing starts or encourages activity.'],
+            ['I need to get my glasses ___.', ['repair', 'to repair', 'repaired', 'repairing'], 2, 'Get + object + past participle arranges a service.'],
+            ['He got the assistant ___ the files.', ['to scan', 'scan', 'scanning to', 'to scanning'], 0, 'Persuasion takes to + base verb.'],
+            ['Which means arrange for a result?', ['get the page to print', 'get the page printed', 'get print the page', 'get printing page'], 1, 'Get + object + past participle expresses an arranged result.'],
+            ['The facilitator got everyone ___.', ['to participate', 'participating', 'participate', 'to participating'], 1, 'Get + object + -ing involves people.'],
+            ['Get differs from make because get suggests:', ['persuasion or arrangement', 'force only', 'a memory', 'a preposition'], 0, 'Get is generally less forceful.'],
+            ['They got the technician ___ the projector.', ['fix', 'to fix', 'fixing to', 'to fixing'], 1, 'Get + object + to-infinitive.'],
+            ['She got the article ___.', ['translate', 'to translate', 'translated', 'translating'], 2, 'The article receives the translation.'],
+            ['Choose the grammatical sentence:', ['I got him to explain it.', 'I got him explain it.', 'I got to him explain it.', 'I got him to explaining it.'], 0, 'Get someone to do something is standard.']
+          ]
+        },
+        {
+          id: '13', title: 'Causative structures: have', kicker: 'Arrange or instruct',
+          summary: 'Have can arrange a service, or instruct a person. The complement tells you whether a person acts or a thing receives the action.',
+          concepts: [['Have + object + base verb', 'Have someone do something means instruct or arrange for a person to act.'], ['Have + object + past participle', 'Have something done means arrange for someone else to do it.'], ['Time and agency', 'The object is the person acting in the first pattern, but the thing receiving an action in the second.']],
+          examples: ['The editor had the intern check the references.', 'We had the transcript typed overnight.', 'She had the technician install the software.', 'Have the students compare the editions.'],
+          questions: [
+            ['The editor had the intern ___ the references.', ['to check', 'check', 'checking', 'to checking'], 1, 'Have + person + bare infinitive.'],
+            ['We had the transcript ___.', ['type', 'to type', 'typed', 'typing'], 2, 'Have + thing + past participle arranges a service.'],
+            ['She had the technician ___ the software.', ['install', 'to install', 'installing', 'to installing'], 0, 'Have + person + base verb.'],
+            ['They had the forms ___.', ['sign', 'to sign', 'signed', 'signing'], 2, 'The forms receive the signature.'],
+            ['Which means instruct a person?', ['have the room cleaned', 'have the assistant clean the room', 'have cleaned the room', 'have to clean assistant'], 1, 'The assistant is the actor.'],
+            ['Which means arrange a service?', ['have the assistant copy it', 'have the copy made', 'have copy the assistant', 'have making the copy'], 1, 'Have + object + past participle describes a service.'],
+            ['Have is generally more ___ than make.', ['neutral', 'forceful', 'regretful', 'passive only'], 0, 'Have often describes an instruction neutrally.'],
+            ['Please have someone ___ the light.', ['to repair', 'repair', 'repairing', 'to repairing'], 1, 'Have someone + bare infinitive.'],
+            ['I had my portrait ___.', ['frame', 'to frame', 'framed', 'framing'], 2, 'The portrait receives the framing.'],
+            ['Complete the service pattern: have + object +', ['base verb only', 'past participle', 'to + person', '-ing only'], 1, 'Have something done uses a past participle.']
+          ]
+        },
+        {
+          id: '14', title: 'Hear, see, watch + object', kicker: 'Whole event or action in progress',
+          summary: 'Perception verbs take an object plus either a bare infinitive or an -ing form. The choice frames the event as whole or in progress.',
+          concepts: [['Whole event', 'Hear, see, watch, and feel + object + base verb presents the action as a complete event.'], ['Action in progress', 'The -ing form zooms into the middle of an event.'], ['Passive', 'In passive clauses, the infinitive takes to: She was seen to cross the quad.']],
+          examples: ['I heard the door close.', 'We watched the students filing into the hall.', 'She felt the floor tremble.', 'They were seen to leave before noon.'],
+          questions: [
+            ['I saw the student ___ the room.', ['to enter', 'enter', 'entering to', 'to entering'], 1, 'Perception + object + bare infinitive presents the whole event.'],
+            ['I saw the student ___ the room when I looked up.', ['enter', 'to enter', 'entering', 'to entering'], 2, 'The -ing form presents the action in progress.'],
+            ['We heard the bell ___.', ['to ring', 'ring', 'ringing to', 'to ringing'], 1, 'Hear + object + bare infinitive.'],
+            ['She watched the researchers ___ the samples.', ['to label', 'label', 'labeling', 'to labeling'], 2, 'The -ing form focuses on ongoing activity.'],
+            ['He felt the floor ___.', ['to shake', 'shake', 'shaking to', 'to shaking'], 1, 'Feel + object + bare infinitive can present the complete event.'],
+            ['The students were heard ___ the answer.', ['to discuss', 'discuss', 'discussing to', 'to discussing'], 0, 'Passive perception takes to + infinitive.'],
+            ['Which emphasizes an event as a whole?', ['I saw her crossing.', 'I saw her cross.', 'I saw to her cross.', 'I saw her to crossing.'], 1, 'Bare infinitive presents the complete event.'],
+            ['Which emphasizes an event in progress?', ['We watched them leave.', 'We watched them to leave.', 'We watched them leaving.', 'We watched leaving them.'], 2, 'Object + -ing frames the middle of an event.'],
+            ['The lecturer was seen ___ the hall.', ['to enter', 'enter', 'entering to', 'to entering'], 0, 'Passive see + to-infinitive.'],
+            ['Choose the correct active pattern:', ['hear + object + to verb', 'hear + object + base verb or -ing', 'hear + to + object', 'hear + object + past participle only'], 1, 'Active perception verbs take a bare infinitive or -ing.']
+          ]
+        }
+      ];
+
+      const progressKey = 'infinitives-grammar-lab-standalone-progress';
+      let progress = JSON.parse(localStorage.getItem(progressKey) || '{}');
+      let answers = {};
+      let submitted = false;
+      let sidebarOpen = false;
+
+      const esc = (value) => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
+      const currentHash = () => window.location.hash.replace(/^#/, '') || 'overview';
+      const currentLesson = () => {
+        const match = currentHash().match(/^lesson\/(\d+)$/);
+        return match ? LESSONS.find((lesson) => lesson.id === match[1]) : null;
+      };
+      const navigate = (destination) => { window.location.hash = destination; };
+      const saveProgress = () => localStorage.setItem(progressKey, JSON.stringify(progress));
+      const completedCount = () => Object.values(progress).filter((item) => item.completed).length;
+
+      function renderSidebar() {
+        const hash = currentHash();
+        return `
+          <aside class="sidebar ${sidebarOpen ? 'open' : ''}" id="sidebar">
+            <a class="brand" href="#overview" onclick="closeSidebar()">
+              <span class="brand-mark">∫</span>
+              <span><span class="brand-name">Infinitives</span><span class="brand-sub">Grammar Lab</span></span>
+            </a>
+            <div class="course-label"><span>Course map</span><span>14 topics</span></div>
+            <nav class="nav" aria-label="Course topics">
+              <a class="nav-link ${hash === 'overview' ? 'active' : ''}" href="#overview" onclick="closeSidebar()"><span class="nav-num">◫</span><span>Course overview</span></a>
+              <div class="nav-divider"></div>
+              ${LESSONS.map((lesson) => `<a class="nav-link ${hash === `lesson/${lesson.id}` ? 'active' : ''}" href="#lesson/${lesson.id}" onclick="closeSidebar()"><span class="nav-num">${lesson.id}</span><span>${esc(lesson.title)}</span></a>`).join('')}
+              <div class="nav-divider"></div>
+              <a class="nav-link ${hash === 'answer-key' ? 'active' : ''}" href="#answer-key" onclick="closeSidebar()"><span class="nav-num">▤</span><span>Final answer key</span></a>
+            </nav>
+            <div class="premium"><div class="premium-title">✦ Premium access</div><p>Your complete reading, practice, and teacher worksheet set.</p></div>
+          </aside>
+        `;
+      }
+
+      function renderShell(content) {
+        document.getElementById('app').innerHTML = `
+          ${renderSidebar()}
+          <div class="content">
+            <header class="topbar">
+              <button class="mobile-menu" aria-label="Open navigation" onclick="openSidebar()">☰</button>
+              <div class="topbar-note">Harvard writing &amp; language · Section 9 studio</div>
+              <div class="saved"><span class="saved-dot"></span>Local progress saved</div>
+            </header>
+            ${content}
+          </div>
+        `;
+      }
+
+      function renderOverview() {
+        const completed = completedCount();
+        const averageScores = Object.values(progress).filter((item) => item.completed).map((item) => item.score);
+        const average = averageScores.length ? Math.round(averageScores.reduce((sum, score) => sum + score, 0) / averageScores.length) : '—';
+        const next = LESSONS.find((lesson) => !progress[lesson.id]?.completed) || LESSONS[0];
+        renderShell(`
+          <main class="page">
+            <section class="overview-hero">
+              <div>
+                <div class="eyebrow">Section 9 · Infinitives &amp; participles</div>
+                <h1 style="margin-top:34px">A sharper ear<br><span class="accent-text">for the verb.</span></h1>
+                <p class="lede">An authored study room for the forms that sit between grammar and meaning. Read the rule, hear the contrast, then make the choice yourself.</p>
+                <div class="hero-actions"><a class="button button-primary" href="#lesson/${next.id}">Continue with ${next.id} <span>→</span></a><a class="button button-secondary" href="#answer-key">Read the answer key</a></div>
+              </div>
+              <div class="stats-card">
+                <div class="stats-label">Your studio notes</div>
+                <div class="stats-number"><strong>${completed}</strong><span>of 14 lessons<br>completed</span></div>
+                <div class="progress-label"><span>Course progress</span><span>${Math.round(completed / 14 * 100)}%</span></div>
+                <div class="progress-track"><div class="progress-fill" style="width:${completed / 14 * 100}%"></div></div>
+                <div class="stats-foot"><div><strong>${average}<small style="font:15px var(--sans)">%</small></strong><span>average score</span></div><div><strong>140</strong><span>questions</span></div></div>
+              </div>
+            </section>
+            <section class="section-rule">
+              <div class="section-heading"><div><p class="section-kicker">The syllabus</p><h2>Fourteen decisions worth noticing.</h2></div><p>Move in order for a slow build, or jump directly to the structure your writing needs today.</p></div>
+              <div class="lesson-grid">${LESSONS.map((lesson, index) => {
+                const record = progress[lesson.id];
+                return `<a class="lesson-card" href="#lesson/${lesson.id}"><div class="card-top"><span class="card-num">${lesson.id}</span>${record?.completed ? '<span class="card-check">✓</span>' : `<span class="card-num">0${index + 1}</span>`}</div><h3>${esc(lesson.title)}</h3><div class="card-bottom"><span>${record?.completed ? `Score ${record.score}%` : '10 questions'}</span><span class="card-arrow">→</span></div></a>`;
+              }).join('')}</div>
+            </section>
+            <section class="section-rule" style="margin-top:64px"><div class="section-heading"><div><p class="section-kicker">How to use the lab</p><h2>Read. Compare. Choose.</h2></div></div><div class="lesson-grid" style="grid-template-columns:repeat(3,1fr)"><div><span class="card-num">01</span><h3 style="margin-top:16px">Read the pattern</h3><p style="color:var(--muted);font-size:13px">Each lesson starts with the small rule that changes the sentence.</p></div><div><span class="card-num">02</span><h3 style="margin-top:16px">Compare the meaning</h3><p style="color:var(--muted);font-size:13px">Examples put the form in a real academic context.</p></div><div><span class="card-num">03</span><h3 style="margin-top:16px">Make the call</h3><p style="color:var(--muted);font-size:13px">Ten questions turn recognition into a choice you can trust.</p></div></div></section>
+          </main>
+        `);
+      }
+
+      function renderLesson(lesson) {
+        answers = {};
+        submitted = false;
+        const saved = progress[lesson.id];
+        renderShell(`
+          <main class="page">
+            <div class="lesson-top no-print"><span class="meta">Lesson ${lesson.id} &nbsp;/&nbsp; ${LESSONS.findIndex((item) => item.id === lesson.id) + 1} of 14</span><button class="worksheet" onclick="window.print()">⇩&nbsp; Download worksheet PDF</button></div>
+            <article id="lesson-print">
+              <header class="lesson-header"><div class="lesson-kicker">${esc(lesson.kicker)}</div><h1>${esc(lesson.title)}</h1><p class="lesson-summary">${esc(lesson.summary)}</p></header>
+              <section class="concepts">${lesson.concepts.map((concept, index) => `<div class="concept"><span class="concept-number">0${index + 1}</span><div><h3 style="font-family:var(--sans);font-size:15px;letter-spacing:0">${esc(concept[0])}</h3><p>${esc(concept[1])}</p></div></div>`).join('')}</section>
+              <section class="examples-layout"><div class="examples"><div class="sub-label">In the margin</div><h2>Notice the shape.</h2><div class="example-list">${lesson.examples.map((example) => `<div class="example">${esc(example)}</div>`).join('')}</div></div><div class="note-box"><div class="sub-label">A note for writers</div><blockquote>Grammar is not a fence around meaning. It is the lens that tells your reader where to look.</blockquote><p>Read each example twice. On the second pass, ask what changed when the form changed: time, agency, purpose, or simply the speaker’s attitude.</p></div></section>
+              <section class="practice" id="practice"><div class="practice-heading"><div><div class="sub-label" style="color:var(--coral)">Practice set</div><h2>Make the form do its work.</h2></div><span class="answered" id="answered-count">0 / 10 answered</span></div><div class="practice-progress"><div id="practice-fill" style="width:0%"></div></div><div class="questions">${lesson.questions.map((question, index) => `<div class="question" id="question-${index}"><div class="question-row"><span class="question-number">${String(index + 1).padStart(2, '0')}</span><div class="question-body"><p class="question-prompt">${esc(question[0])}</p><div class="options">${question[1].map((option, optionIndex) => `<label class="option" id="option-${index}-${optionIndex}"><input type="radio" name="question-${lesson.id}-${index}" value="${optionIndex}" onchange="chooseAnswer(${index},${optionIndex})"><span>${esc(option)}</span></label>`).join('')}</div><div class="rationale" id="rationale-${index}" hidden></div></div></div></div>`).join('')}</div><div class="feedback-row no-print"><div id="feedback">${saved?.completed ? `<div class="feedback">Previous score: ${saved.score}% — you can submit a new attempt.</div>` : ''}</div><button class="button button-primary" id="submit-button" onclick="submitLesson('${lesson.id}')" disabled>Submit answers <span>✓</span></button></div></section>
+            </article>
+            <nav class="lesson-nav no-print"><a href="#lesson/${LESSONS[Math.max(0, LESSONS.findIndex((item) => item.id === lesson.id) - 1)].id}"><small>Previous</small>${LESSONS[Math.max(0, LESSONS.findIndex((item) => item.id === lesson.id) - 1)].title}</a><a style="text-align:right" href="#lesson/${LESSONS[Math.min(LESSONS.length - 1, LESSONS.findIndex((item) => item.id === lesson.id) + 1)].id}"><small>Next</small>${LESSONS[Math.min(LESSONS.length - 1, LESSONS.findIndex((item) => item.id === lesson.id) + 1)].title}</a></nav>
+          </main>
+        `);
+        window.scrollTo(0, 0);
+      }
+
+      function renderAnswerKey() {
+        renderShell(`
+          <main class="page">
+            <div class="answer-intro"><div class="eyebrow" style="color:var(--coral)">Reference desk</div><h1 style="margin-top:30px">Final answer<br><span class="accent-text">key.</span></h1><p class="lede">A compact map back through the chapter. Use the rationale to understand the decision, not just to mark a box.</p></div>
+            <div class="answer-list">${LESSONS.map((lesson) => `<details class="answer-item"><summary class="answer-summary"><span class="num">${lesson.id}</span><strong>${esc(lesson.title)}</strong></summary><div class="answer-content"><div><h4>Answers in order</h4><div class="answer-chips">${lesson.questions.map((question, index) => `<span class="answer-chip"><b>${index + 1}.</b>${String.fromCharCode(65 + question[2])}</span>`).join('')}</div></div><div><h4>Core idea</h4><p>${esc(lesson.summary)}</p></div></div></details>`).join('')}</div>
+          </main>
+        `);
+      }
+
+      function chooseAnswer(index, value) {
+        answers[index] = value;
+        document.querySelectorAll(`#question-${index} .option`).forEach((option, optionIndex) => option.classList.toggle('selected', optionIndex === value));
+        const answered = Object.keys(answers).length;
+        document.getElementById('answered-count').textContent = `${answered} / 10 answered`;
+        document.getElementById('practice-fill').style.width = `${answered * 10}%`;
+        document.getElementById('submit-button').disabled = answered < 10;
+      }
+
+      function submitLesson(id) {
+        const lesson = LESSONS.find((item) => item.id === id);
+        let correct = 0;
+        lesson.questions.forEach((question, index) => {
+          const questionElement = document.getElementById(`question-${index}`);
+          const isCorrect = answers[index] === question[2];
+          correct += isCorrect ? 1 : 0;
+          questionElement.classList.toggle('correct', isCorrect);
+          questionElement.classList.toggle('incorrect', !isCorrect);
+          const rationale = document.getElementById(`rationale-${index}`);
+          rationale.hidden = false;
+          rationale.innerHTML = `<strong style="color:${isCorrect ? 'var(--teal)' : 'var(--coral)'}">${isCorrect ? 'Correct.' : 'Review.'}</strong> ${esc(question[3])}`;
+        });
+        const score = Math.round(correct / 10 * 100);
+        progress[id] = { score, completed: true };
+        saveProgress();
+        document.getElementById('feedback').innerHTML = `<div class="feedback">${score}% · ${score >= 80 ? 'A confident reading.' : score >= 60 ? 'A useful first pass.' : 'Return to the examples and try again.'}</div>`;
+        document.getElementById('submit-button').textContent = 'Update score ✓';
+        submitted = true;
+        document.getElementById('feedback').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      function openSidebar() { sidebarOpen = true; document.getElementById('sidebar')?.classList.add('open'); }
+      function closeSidebar() { sidebarOpen = false; document.getElementById('sidebar')?.classList.remove('open'); }
+
+      function render() {
+        const hash = currentHash();
+        const lesson = currentLesson();
+        if (lesson) renderLesson(lesson);
+        else if (hash === 'answer-key') renderAnswerKey();
+        else if (hash === 'overview') renderOverview();
+        else { navigate('overview'); return; }
+      }
+
+      window.addEventListener('hashchange', render);
+      render();
+    </script>
+  </body>
+</html>
