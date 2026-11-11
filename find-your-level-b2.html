@@ -194,6 +194,21 @@ select{border:1.5px solid #bcc5dc;border-radius:8px;padding:6px 8px;background:#
 .pl small{font-family:'IBM Plex Mono';font-size:.7rem;color:var(--lime)}
 .ptrack{height:6px;border-radius:6px;background:rgba(255,255,255,.18);margin-top:6px;overflow:hidden}
 .ptrack i{display:block;height:100%;width:0;background:var(--lime);transition:width .25s linear}
+.ptime{font-size:.74rem;color:#c9d0e6;margin-left:auto}
+.pcue{display:flex;align-items:center;gap:6px 10px;flex-wrap:wrap;margin-top:8px;padding:6px 10px;border-radius:8px;background:var(--lime);color:var(--ink);font-size:.86rem;line-height:1.3}
+.pcue.ck{background:#e6e9f3}
+.pcue-k{font-family:'Space Grotesk',system-ui,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:.74rem}
+.pcue-c{margin-left:auto;font-size:.95rem}
+.player.cueing{box-shadow:0 0 0 3px var(--lime)}
+.grp.readnow{border-top-color:transparent;box-shadow:0 0 0 3px var(--lime);border-radius:12px;padding:12px;margin-top:14px;background:#fbfff2}
+.qn.qnow{background:var(--lime);color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
+.lplan{list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 12px;font-size:.8rem}
+.lplan li{display:inline-flex;align-items:center;gap:6px}
+.lplan li>span{padding:3px 10px;border-radius:999px;background:#eef9d8;color:#33500a}
+.lplan li.rd>span{background:var(--acc-bg);color:var(--acc-d)}
+.lplan li.ck>span{background:var(--warnbg);color:var(--warn)}
+.lplan li:not(:last-child)::after{content:'→';color:var(--muted)}
+.tpause{color:var(--muted);font-style:italic}
 
 /* writing */
 .bas{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;scroll-margin-top:calc(var(--hdr) + 80px)}
@@ -392,7 +407,7 @@ body.testing .foot{display:none}
       <div class="hstats"><span>40 listening questions</span><span>40 reading questions</span><span>3 writing tasks</span><span>15 speaking recordings</span><span>3 hours</span></div>
     </section>
     <div class="mods">
-      <div class="modcard"><div class="k">MODULE 1 · ABOUT 40 MIN</div><h3>Listening</h3><p>Four parts: a phone call, a talk with a map, a student discussion and a presentation. You hear each recording once.</p><div class="m">40 questions</div></div>
+      <div class="modcard"><div class="k">MODULE 1 · ABOUT 40 MIN</div><h3>Listening</h3><p>Four parts: a phone call, a talk with a map, a student discussion and a presentation. Each recording gives you time to read the questions and to check your answers. You hear it once.</p><div class="m">40 questions</div></div>
       <div class="modcard"><div class="k">MODULE 2 · ABOUT 60 MIN</div><h3>Reading</h3><p>Short texts, academic passages and articles, with eleven different question types.</p><div class="m">40 questions</div></div>
       <div class="modcard"><div class="k">MODULE 3 · ABOUT 60 MIN</div><h3>Writing</h3><p>Build sentences, write an email and contribute to an academic discussion. Scored 0–5 with a strict rubric.</p><div class="m">3 tasks</div></div>
       <div class="modcard"><div class="k">MODULE 4 · ABOUT 20 MIN</div><h3>Speaking</h3><p>Read aloud, repeat, describe, re-tell, answer and respond. Each answer is recorded and saved so you can listen back.</p><div class="m">15 recordings</div></div>
@@ -405,7 +420,7 @@ body.testing .foot{display:none}
         <li>To start the whole test again, use <b>Reset and retake the test</b> at the bottom of the page.</li>
         <li>When a module’s time is over you will see a reminder. The test does not close, so you can still finish.</li>
         <li>Each module is divided into parts. Use the part buttons, or the question numbers at the bottom of the screen, to move around. Your answers are saved in this browser.</li>
-        <li>In Listening you can hear each recording <b>once</b>, as in the real exam. You can pause it. Read the questions before you press play.</li>
+        <li>In Listening you can hear each recording <b>once</b>, as in the real exam. You can pause it. Each recording has silent reading time before each set of questions (30 to 45 seconds) and checking time at the end, with a countdown on the player.</li>
         <li>The Speaking module needs a microphone. Recording starts automatically after a tone. Your recordings stay on this device and are not uploaded.</li>
         <li>You can submit only when all four modules are complete.</li>
       </ul>
@@ -421,7 +436,7 @@ body.testing .foot{display:none}
 <div id="test" hidden>
   <main class="wrap">
     <section class="module" id="mod-listening" data-mod="listening">
-      <div class="mhead"><h1>Listening</h1><p>Four parts, 40 questions. Read the questions in each part, then press play. You will hear each recording once.</p></div>
+      <div class="mhead"><h1>Listening</h1><p>Four parts, 40 questions. You hear each recording once. Each one gives you time to read the questions before you listen and to check your answers at the end.</p></div>
       <nav class="pnav" id="pn-listening" aria-label="Listening parts"></nav>
       <div id="body-listening"></div>
     </section>
@@ -464,131 +479,1099 @@ body.testing .foot{display:none}
      Codes: S Sonia, L Libby, R Ryan, T Thomas (en-GB); N Natasha, W William (en-AU); C Clara, M Liam (en-CA). -->
 <script type="application/json" id="rec-data">
 {
-"ls1":{"title":"Part 1 · Questions 1–10","lines":[
- ["S","Narrator","Part 1. You will hear a woman telephoning a removal company to arrange a house move. Listen and answer questions 1 to 10."],
- ["R","Mark","Good morning, Westbrook Removals, Mark speaking. How can I help?"],
- ["N","Danielle","Oh, hi. Um, I'm moving house next month, and I was hoping to get a quote, and maybe book a date, if you've got anything free."],
- ["R","Mark","Sure, no problem at all. I'll just take a few details first, if that's all right. Could I have your name?"],
- ["N","Danielle","Yes, it's Danielle Okafor."],
- ["R","Mark","Danielle. And how do you spell the surname?"],
- ["N","Danielle","O, K, A, F, O, R."],
- ["R","Mark","O, K, A, F, O, R. Lovely. And where are you moving from?"],
- ["N","Danielle","I'm in a flat at the moment. Flat 3, 27 Albion Street. That's here in Bristol."],
- ["R","Mark","Albion. Is that A, L, B, I, O, N?"],
- ["N","Danielle","That's right."],
- ["R","Mark","And where are you moving to?"],
- ["N","Danielle","To a little house in Bath. My new job's there, so, yeah."],
- ["R","Mark","Oh, nice. It's a lovely city. Bath, okay. Now, have you got a date in mind?"],
- ["N","Danielle","Well, I was originally thinking of the twelfth of May. But the people who are selling the house have just told me they can't hand over the keys until the following week. So, could we say the nineteenth?"],
- ["R","Mark","Let me just have a look. Yes, the nineteenth of May is fine. That's a Monday, which actually works out well for you, because weekdays are a bit cheaper than weekends."],
- ["N","Danielle","Oh, great."],
- ["R","Mark","Right. So, how big is the flat? How many bedrooms?"],
- ["N","Danielle","Two bedrooms. Er, it's mostly the usual stuff, you know. Beds, a sofa, a wardrobe."],
- ["R","Mark","Anything that needs special handling? Some people have antiques, or a fish tank, or..."],
- ["N","Danielle","Ha, no fish. Oh, but there's a piano. It's not a big one, it's an upright, but it's really heavy."],
- ["R","Mark","No problem, we move pianos all the time. I'll just make a note, because the team will need to bring a special trolley. Piano. Okay. And what about parking at your flat? Is there a driveway, or a car park?"],
- ["N","Danielle","No, there's nothing like that. It's just parking on the street, and it's usually pretty full."],
- ["R","Mark","Okay. In that case, the van will need a permit to park outside. You apply to the council for that, and it usually takes about ten days, so it's worth doing it soon."],
- ["N","Danielle","A permit. Right, I'll sort that out this week."],
- ["R","Mark","Now, we also offer a packing service. Some customers like us to pack everything, but that can get quite expensive."],
- ["N","Danielle","Hmm. I think I can manage most of it myself. Books and clothes are easy. But the kitchen is a nightmare, with all the glasses and plates. Could you just do the kitchen?"],
- ["R","Mark","Of course. Kitchen only. I'll put that down."],
- ["N","Danielle","And, um, one more thing. The house in Bath needs some work before I can move everything in, so I might need somewhere to keep some of the furniture for a while."],
- ["R","Mark","We've got a storage unit just outside the city. How long would you need it for?"],
- ["N","Danielle","The builders said four weeks. But, you know what builders are like, so let's say six, to be safe."],
- ["R","Mark","Six weeks. That's sensible."],
- ["N","Danielle","So, how much are we looking at, roughly?"],
- ["R","Mark","Okay. So, with the move, the piano, the kitchen packing and the storage, that comes to eight hundred and sixty pounds. But I'd really recommend our insurance, which covers any damage during the move. With insurance, the total is nine hundred and forty."],
- ["N","Danielle","Nine hundred and forty. Yes, I think I'll take the insurance, with the piano and everything."],
- ["R","Mark","Good choice. And just for our records, how did you hear about us? Was it our website?"],
- ["N","Danielle","No, actually, it was my neighbour. She used you last year, and she said you were brilliant."],
- ["R","Mark","Oh, that's nice to hear. I'll put neighbour. And finally, what's the best phone number for you?"],
- ["N","Danielle","It's oh, seven, seven, oh, oh, nine, oh, oh, two, four, eight."],
- ["R","Mark","Lovely. I'll email you the booking confirmation this afternoon, Danielle."],
- ["N","Danielle","Brilliant. Thanks so much for your help."],
- ["R","Mark","You're welcome. Bye now."],
- ["S","Narrator","That is the end of Part 1."]]},
-"ls2":{"title":"Part 2 · Questions 11–20","lines":[
- ["S","Narrator","Part 2. You will hear a local historian talking to a group of students about a heritage site called Calder Mills. Listen and answer questions 11 to 20."],
- ["T","Dr Reeve","Good morning, everyone, and welcome. My name's Alan Reeve, and I teach local history at the university. Before we walk round Calder Mills this afternoon, I'd like to give you a bit of background, and then I'll explain where everything is on the site map you've got in front of you."],
- ["T","Dr Reeve","So, a little history first. The mill was built in 1838 by a family called the Hartleys. Now, most visitors assume it was a cotton mill, because so many mills in the north of England were. But in fact, Calder Mills produced woollen blankets. At its peak, it was sending blankets all over the world, and it employed around nine hundred people, many of them children, I'm sorry to say."],
- ["T","Dr Reeve","There was a serious fire in 1902, which destroyed the weaving shed. But the Hartleys rebuilt it within two years, so that wasn't what finished the business. What really ended things was competition. By the 1960s, cheaper blankets were being imported from abroad, and the mill simply couldn't match their prices. It closed its doors for the last time in 1971."],
- ["T","Dr Reeve","For the next thirty years or so, the buildings stood empty. A developer wanted to knock them down and build flats, and that's when local people got involved. They formed a campaign group, and they did raise some money themselves, around ten per cent of the total. But the vast majority of the funding, about twelve million pounds, came from a national heritage fund. The council contributed the land."],
- ["T","Dr Reeve","One thing I'd ask you to look out for is the clock tower in the middle of Mill Square. Unlike almost everything else here, the clock is completely original. The mechanism dates from 1838, and a volunteer still climbs up and winds it by hand every Monday morning. You can't go up the tower yourselves, I'm afraid, but there's a good view of it from the square."],
- ["T","Dr Reeve","Right. Now, if you look at your map. We'll come in through the West Gate, which is on the left-hand side of the map, next to the car park. As you walk through the gate, the first building on your left is the library. It used to be the mill offices, where the wages were paid, and it's still got the original wooden counters, which make lovely reading desks."],
- ["T","Dr Reeve","The building on your right as you come through the gate is the gift shop, so you'll pass that on the way out as well."],
- ["T","Dr Reeve","Carry on straight ahead and you'll reach Mill Square. The long building along the whole of the north side of the square was the weaving shed, the one that burned down and was rebuilt. That's now the recreation centre, with a climbing wall and sports halls. It's very popular with families."],
- ["T","Dr Reeve","Now, in the top right-hand corner of the site, you'll see the old engine house. It's easy to spot, because of the tall chimney. That's been turned into a small cinema, which shows mainly independent films. It's only got eighty seats, so it's worth booking."],
- ["T","Dr Reeve","Directly opposite the clock tower, on the east side of the square, is the building that used to be the dye works. This is where the wool was coloured, in enormous vats. And, believe it or not, the swimming pool has been built in exactly the spot where those vats used to be."],
- ["T","Dr Reeve","Then, if you head south towards the river, you'll see the footbridge, which takes you over to the railway station. There are two small buildings beside the bridge. The one on the west side, the side nearer the gift shop, is the coffee shop. It's got a terrace right on the water, and I'd recommend it for lunch. The one on the other side of the bridge is just the ticket office for boat trips."],
- ["T","Dr Reeve","And finally, in the bottom right-hand corner, by the river, is the old wool store, which is now an art gallery. It's free to get in, and at the moment there's an exhibition of photographs of the mill workers."],
- ["T","Dr Reeve","Okay. Are there any questions before we set off?"],
- ["S","Narrator","That is the end of Part 2."]]},
-"ls3":{"title":"Part 3 · Questions 21–30","lines":[
- ["S","Narrator","Part 3. You will hear two university students, Hannah and Josh, discussing a proposal for a project. Listen and answer questions 21 to 30."],
- ["L","Hannah","Hi, Josh. Have you got a minute to look at the proposal before we send it to Doctor Price?"],
- ["W","Josh","Yeah, sure. I've read through your draft, actually. I think the repair café idea is great. What made you think of it?"],
- ["L","Hannah","Well, I'd love to say it was all my own idea, but I actually went to one last summer, when I was staying with my aunt in Leeds. People were bringing in broken toasters and torn jackets, and volunteers fixed them for free. And I just thought, why don't we have one on campus?"],
- ["W","Josh","Makes sense. Doctor Price did say she wanted something practical, not just another awareness campaign."],
- ["L","Hannah","Exactly. So, what did you think of the draft? Be honest."],
- ["W","Josh","Okay, honestly? The writing's good, and the budget's fine, more or less. But the main problem is that we don't actually show that students want it. We just say they will."],
- ["L","Hannah","Hmm, yeah. That's fair. We need some evidence."],
- ["W","Josh","Well, the good news is, I ran a quick online survey last week, while you were writing. We got just over two hundred responses."],
- ["L","Hannah","Two hundred? That's brilliant. What did people say?"],
- ["W","Josh","So, I expected that most people would want help with phones and laptops, you know, cracked screens and so on. But actually, that came second. The thing most people asked for was clothing repairs. Zips, buttons, holes in jeans. I think a lot of students just don't know how to sew."],
- ["L","Hannah","Interesting. That's actually easier for us, because we don't need specialist equipment for clothes."],
- ["W","Josh","True. Though we'd still want to offer some help with electronics."],
- ["L","Hannah","Okay. Next thing: where do we hold it? I'd put the library foyer in the draft."],
- ["W","Josh","I thought about that, but it's supposed to be a quiet space, and with sewing machines and people chatting, I don't think the library staff would be very happy."],
- ["L","Hannah","No, you're right. What about the students' union? It's got that big room upstairs."],
- ["W","Josh","I asked. They charge forty pounds an hour, which would use up most of our budget in a month."],
- ["L","Hannah","Oh. Well, that's out, then."],
- ["W","Josh","But I did speak to one of the technicians in the engineering department, and he said we could use their workshop on Wednesday afternoons. It's free, it's already got tools, and it meets all the safety rules."],
- ["L","Hannah","Perfect. Let's go with that."],
- ["W","Josh","Now, there are a couple of things we still haven't dealt with in the proposal. The first one's insurance. If someone's laptop gets damaged while we're fixing it, who pays?"],
- ["L","Hannah","Good point. I'll ask the university whether their insurance covers student volunteers. And the other thing?"],
- ["W","Josh","Training. We can't just hand a soldering iron to a first-year who's never used one."],
- ["L","Hannah","No, definitely not. We'll need a proper training session before we open. I suppose we'll need some advertising too, but that's easy. We can use the student newsletter."],
- ["W","Josh","Yeah, advertising's not really a problem. And waste isn't an issue either. The workshop already has recycling bins."],
- ["L","Hannah","Okay. So, insurance and training go in the proposal. What about approval? Does Doctor Price sign it off?"],
- ["W","Josh","She has to approve the academic side. But before that, the estates department has to agree, because it involves using a university building. So they're actually first."],
- ["L","Hannah","The estates department. I'll email them today. And how are we going to persuade people to volunteer? We can't pay them."],
- ["W","Josh","I thought we could offer certificates. Lots of students need evidence of volunteering for their CVs."],
- ["L","Hannah","Certificates. Great. Simple, but people will appreciate it."],
- ["W","Josh","One last thing. Doctor Price said the final version has to include a detailed budget, not just a rough total."],
- ["L","Hannah","Fine. I'll do the budget this weekend. And how do we show it's working, once it's up and running?"],
- ["W","Josh","I read that a lot of repair cafés weigh every item they fix. Then you can say, for example, we saved two hundred kilos from landfill this term."],
- ["L","Hannah","That's a really nice idea. It's easy to measure, and it sounds impressive."],
- ["W","Josh","Great. So, shall we meet again on Thursday?"],
- ["L","Hannah","Thursday's perfect."],
- ["S","Narrator","That is the end of Part 3."]]},
-"ls4":{"title":"Part 4 · Questions 31–40","lines":[
- ["S","Narrator","Part 4. You will hear a student giving a presentation about bioluminescence. Listen and answer questions 31 to 40."],
- ["C","Megan","Hi, everyone. For my presentation today, I'm going to talk about bioluminescence, which is the ability of living things to produce their own light. It's something I first saw on a beach in Australia, at night, when every wave lit up as it broke, and I've been fascinated by it ever since."],
- ["C","Megan","So, what actually is bioluminescence? Basically, it's light produced by a chemical reaction inside an organism. Two substances are involved. One is usually called luciferin, and the other is an enzyme, luciferase. When they combine with oxygen, energy is released. But, and this is the important part, it's released as light, rather than heat. That's why bioluminescence is sometimes called cold light."],
- ["C","Megan","Now, on land, bioluminescence is quite rare. Fireflies are the best-known example, and there are some fungi that glow. But in the ocean, it's incredibly common. Scientists estimate that roughly three-quarters of the animals living in the deep sea can produce light."],
- ["C","Megan","Interestingly, most of that light is blue. There's a simple reason for this. Blue light travels the furthest through seawater, while red light is absorbed very quickly. In fact, most deep-sea animals can't even see red light."],
- ["C","Megan","So, why do animals do it? There are three main reasons. The first is to find food. The famous example here is the anglerfish, which has a kind of glowing fishing rod growing from its head. Smaller animals swim towards the light, thinking it's something to eat, and they become prey themselves."],
- ["C","Megan","The second reason is to hide. This sounds strange, because light usually makes you more visible. But some squid have lights on their undersides. When a predator looks up from below, it would normally see the dark outline of the squid against the light from the surface. By producing just the right amount of light, the squid makes its shadow disappear. This is called counter-illumination."],
- ["C","Megan","The third reason is defence. Some deep-sea shrimp, when they're attacked, release a glowing cloud into the water, and while the predator is confused, the shrimp escapes. It's a bit like an octopus releasing ink, but with light instead."],
- ["C","Megan","What I saw on that beach, by the way, wasn't caused by animals at all, but by tiny single-celled organisms called dinoflagellates. They only produce light when the water around them is disturbed. So you see it when waves break, or when a boat moves through the water, or even when you run your hand through it."],
- ["C","Megan","Bioluminescence also has some very practical uses for humans. A protein that was first found in a glowing jellyfish is now used in laboratories all over the world. Scientists attach it to other proteins so that they can watch cells inside living tissue, for example, to see how cancer spreads. Its discovery led to a Nobel Prize in 2008."],
- ["C","Megan","However, there are concerns. Some coastal bays that are famous for bioluminescence are now being damaged by pollution, especially from boats and new building developments, and the light displays there have become much weaker."],
- ["C","Megan","To conclude, I'd say that we still understand surprisingly little about bioluminescence, mainly because the deep sea is so difficult to study. Most species that produce light have never been observed in their natural environment. So what's needed most, in my opinion, is more exploration of the deep ocean. Thank you. Are there any questions?"],
- ["S","Narrator","That is the end of Part 4. That is the end of the listening test."]]},
-"rs1":{"title":"Repeat Sentence 1","lines":[["T","Speaker","The library will be closed for two weeks while the heating system is replaced."]]},
-"rs2":{"title":"Repeat Sentence 2","lines":[["N","Speaker","Students who miss more than three seminars may be asked to repeat the module."]]},
-"rs3":{"title":"Repeat Sentence 3","lines":[["C","Speaker","Most of the research for this project was carried out in remote coastal villages."]]},
-"rs4":{"title":"Repeat Sentence 4","lines":[["R","Speaker","Please make sure that all assignments are submitted through the online portal."]]},
-"rl1":{"title":"Re-tell Lecture","lines":[
- ["T","Lecturer","Today I want to look at the link between sleep and memory. For a long time, sleep was seen as a kind of switching off, a period when the brain simply rested. We now know that this picture is wrong. While we sleep, the brain is extremely busy, and one of its most important jobs is to sort and store the information we've taken in during the day."],
- ["T","Lecturer","In one well-known type of experiment, volunteers learn a list of words, or a simple task, in the evening. Half of them then sleep normally, and the other half stay awake. The next day, the group that slept usually remembers significantly more. Researchers think this happens because, during deep sleep, the brain replays the day's experiences and moves important memories into long-term storage."],
- ["T","Lecturer","This has practical implications for students. Staying up all night to revise before an exam may actually be counterproductive, because without sleep, much of what you studied may never be properly stored."]]},
-"asq1":{"title":"Short Question 1","lines":[["L","Speaker","What do we call a period of ten years?"]]},
-"asq2":{"title":"Short Question 2","lines":[["M","Speaker","Which part of a plant usually grows under the ground?"]]},
-"asq3":{"title":"Short Question 3","lines":[["S","Speaker","What is a book called when a person writes about their own life?"]]},
-"asq4":{"title":"Short Question 4","lines":[["W","Speaker","What instrument do astronomers use to look at distant stars and planets?"]]},
-"rts1":{"title":"Respond to a Situation","lines":[["L","Speaker","You borrowed a classmate's textbook a week ago and promised to return it yesterday, but you left it at home. Your classmate needs it for an exam tomorrow. Call your classmate, apologise, and explain how you will solve the problem."]]}
+ "ls1": {
+  "title": "Part 1 · Questions 1–10",
+  "lines": [
+   [
+    "S",
+    "Narrator",
+    "Part 1. You will hear a woman telephoning a removal company to arrange a house move. First, you have some time to look at questions 1 to 5."
+   ],
+   [
+    "P",
+    "",
+    "30"
+   ],
+   [
+    "S",
+    "Narrator",
+    "Now listen carefully and answer questions 1 to 5."
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "R",
+    "Mark",
+    "Good morning, Westbrook Removals, Mark speaking. How can I help?"
+   ],
+   [
+    "N",
+    "Danielle",
+    "Oh, hi. Um, I'm moving house next month, and I was hoping to get a quote, and maybe book a date, if you've got anything free."
+   ],
+   [
+    "R",
+    "Mark",
+    "Sure, no problem at all. I'll just take a few details first, if that's all right. Could I have your name?"
+   ],
+   [
+    "N",
+    "Danielle",
+    "Yes, it's Danielle Okafor."
+   ],
+   [
+    "R",
+    "Mark",
+    "Danielle. And how do you spell the surname?"
+   ],
+   [
+    "N",
+    "Danielle",
+    "O, K, A, F, O, R."
+   ],
+   [
+    "R",
+    "Mark",
+    "O, K, A, F, O, R. Lovely. And where are you moving from?"
+   ],
+   [
+    "N",
+    "Danielle",
+    "I'm in a flat at the moment. Flat 3, 27 Albion Street. That's here in Bristol."
+   ],
+   [
+    "R",
+    "Mark",
+    "Albion. Is that A, L, B, I, O, N?"
+   ],
+   [
+    "N",
+    "Danielle",
+    "That's right."
+   ],
+   [
+    "R",
+    "Mark",
+    "And where are you moving to?"
+   ],
+   [
+    "N",
+    "Danielle",
+    "To a little house in Bath. My new job's there, so, yeah."
+   ],
+   [
+    "R",
+    "Mark",
+    "Oh, nice. It's a lovely city. Bath, okay. Now, have you got a date in mind?"
+   ],
+   [
+    "N",
+    "Danielle",
+    "Well, I was originally thinking of the twelfth of May. But the people who are selling the house have just told me they can't hand over the keys until the following week. So, could we say the nineteenth?"
+   ],
+   [
+    "R",
+    "Mark",
+    "Let me just have a look."
+   ],
+   [
+    "P",
+    "",
+    "2"
+   ],
+   [
+    "R",
+    "Mark",
+    "Yes, the nineteenth of May is fine. That's a Monday, which actually works out well for you, because weekdays are a bit cheaper than weekends."
+   ],
+   [
+    "N",
+    "Danielle",
+    "Oh, great."
+   ],
+   [
+    "R",
+    "Mark",
+    "Right. So, how big is the flat? How many bedrooms?"
+   ],
+   [
+    "N",
+    "Danielle",
+    "Two bedrooms. Er, it's mostly the usual stuff, you know. Beds, a sofa, a wardrobe."
+   ],
+   [
+    "R",
+    "Mark",
+    "Anything that needs special handling? Some people have antiques, or a fish tank, or..."
+   ],
+   [
+    "N",
+    "Danielle",
+    "Ha, no fish. Oh, but there's a piano. It's not a big one, it's an upright, but it's really heavy."
+   ],
+   [
+    "R",
+    "Mark",
+    "No problem, we move pianos all the time. I'll just make a note, because the team will need to bring a special trolley. Piano. Okay."
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "S",
+    "Narrator",
+    "Before you hear the rest of the conversation, you have some time to look at questions 6 to 10."
+   ],
+   [
+    "P",
+    "",
+    "30"
+   ],
+   [
+    "S",
+    "Narrator",
+    "Now listen and answer questions 6 to 10."
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "R",
+    "Mark",
+    "Right, what about parking at your flat? Is there a driveway, or a car park?"
+   ],
+   [
+    "N",
+    "Danielle",
+    "No, there's nothing like that. It's just parking on the street, and it's usually pretty full."
+   ],
+   [
+    "R",
+    "Mark",
+    "Okay. In that case, the van will need a permit to park outside. You apply to the council for that, and it usually takes about ten days, so it's worth doing it soon."
+   ],
+   [
+    "N",
+    "Danielle",
+    "A permit. Right, I'll sort that out this week."
+   ],
+   [
+    "R",
+    "Mark",
+    "Now, we also offer a packing service. Some customers like us to pack everything, but that can get quite expensive."
+   ],
+   [
+    "N",
+    "Danielle",
+    "Hmm."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "N",
+    "Danielle",
+    "I think I can manage most of it myself. Books and clothes are easy. But the kitchen is a nightmare, with all the glasses and plates. Could you just do the kitchen?"
+   ],
+   [
+    "R",
+    "Mark",
+    "Of course. Kitchen only. I'll put that down."
+   ],
+   [
+    "N",
+    "Danielle",
+    "And, um, one more thing. The house in Bath needs some work before I can move everything in, so I might need somewhere to keep some of the furniture for a while."
+   ],
+   [
+    "R",
+    "Mark",
+    "We've got a storage unit just outside the city. How long would you need it for?"
+   ],
+   [
+    "N",
+    "Danielle",
+    "The builders said four weeks. But, you know what builders are like, so let's say six, to be safe."
+   ],
+   [
+    "R",
+    "Mark",
+    "Six weeks. That's sensible."
+   ],
+   [
+    "N",
+    "Danielle",
+    "So, how much are we looking at, roughly?"
+   ],
+   [
+    "R",
+    "Mark",
+    "Okay, let me just add that up."
+   ],
+   [
+    "P",
+    "",
+    "2"
+   ],
+   [
+    "R",
+    "Mark",
+    "Right. So, with the move, the piano, the kitchen packing and the storage, that comes to eight hundred and sixty pounds. But I'd really recommend our insurance, which covers any damage during the move. With insurance, the total is nine hundred and forty."
+   ],
+   [
+    "N",
+    "Danielle",
+    "Nine hundred and forty. Yes, I think I'll take the insurance, with the piano and everything."
+   ],
+   [
+    "R",
+    "Mark",
+    "Good choice. And just for our records, how did you hear about us? Was it our website?"
+   ],
+   [
+    "N",
+    "Danielle",
+    "No, actually, it was my neighbour. She used you last year, and she said you were brilliant."
+   ],
+   [
+    "R",
+    "Mark",
+    "Oh, that's nice to hear. I'll put neighbour. And finally, what's the best phone number for you?"
+   ],
+   [
+    "N",
+    "Danielle",
+    "It's oh, seven, seven, oh, oh, nine, oh, oh, two, four, eight."
+   ],
+   [
+    "R",
+    "Mark",
+    "Lovely. I'll email you the booking confirmation this afternoon, Danielle."
+   ],
+   [
+    "N",
+    "Danielle",
+    "Brilliant. Thanks so much for your help."
+   ],
+   [
+    "R",
+    "Mark",
+    "You're welcome. Bye now."
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "S",
+    "Narrator",
+    "That is the end of Part 1. You now have some time to check your answers."
+   ],
+   [
+    "P",
+    "",
+    "30"
+   ]
+  ],
+  "cues": [
+   [
+    1,
+    10.87,
+    30
+   ],
+   [
+    29,
+    221.9,
+    30
+   ],
+   [
+    59,
+    449.47,
+    30
+   ]
+  ]
+ },
+ "ls2": {
+  "title": "Part 2 · Questions 11–20",
+  "lines": [
+   [
+    "S",
+    "Narrator",
+    "Part 2. You will hear a local historian talking to a group of students about a heritage site called Calder Mills. First, you have some time to look at questions 11 to 14."
+   ],
+   [
+    "P",
+    "",
+    "30"
+   ],
+   [
+    "S",
+    "Narrator",
+    "Now listen carefully and answer questions 11 to 14."
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "Good morning, everyone, and welcome. My name's Alan Reeve, and I teach local history at the university. Before we walk round Calder Mills this afternoon, I'd like to give you a bit of background, and then I'll explain where everything is on the site map you've got in front of you."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "So, a little history first. The mill was built in 1838 by a family called the Hartleys. Now, most visitors assume it was a cotton mill, because so many mills in the north of England were. But in fact, Calder Mills produced woollen blankets. At its peak, it was sending blankets all over the world, and it employed around nine hundred people, many of them children, I'm sorry to say."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "There was a serious fire in 1902, which destroyed the weaving shed. But the Hartleys rebuilt it within two years, so that wasn't what finished the business. What really ended things was competition. By the 1960s, cheaper blankets were being imported from abroad, and the mill simply couldn't match their prices. It closed its doors for the last time in 1971."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "For the next thirty years or so, the buildings stood empty. A developer wanted to knock them down and build flats, and that's when local people got involved. They formed a campaign group, and they did raise some money themselves, around ten per cent of the total. But the vast majority of the funding, about twelve million pounds, came from a national heritage fund. The council contributed the land."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "One thing I'd ask you to look out for is the clock tower in the middle of Mill Square. Unlike almost everything else here, the clock is completely original. The mechanism dates from 1838, and a volunteer still climbs up and winds it by hand every Monday morning. You can't go up the tower yourselves, I'm afraid, but there's a good view of it from the square."
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "S",
+    "Narrator",
+    "Before you hear the rest of the talk, you have some time to look at the map and questions 15 to 20."
+   ],
+   [
+    "P",
+    "",
+    "40"
+   ],
+   [
+    "S",
+    "Narrator",
+    "Now listen and answer questions 15 to 20."
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "Right. Now, if you look at your map."
+   ],
+   [
+    "P",
+    "",
+    "2.5"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "We'll come in through the West Gate, which is on the left-hand side of the map, next to the car park. As you walk through the gate, the first building on your left is the library. It used to be the mill offices, where the wages were paid, and it's still got the original wooden counters, which make lovely reading desks."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "The building on your right as you come through the gate is the gift shop, so you'll pass that on the way out as well."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "Carry on straight ahead and you'll reach Mill Square. The long building along the whole of the north side of the square was the weaving shed, the one that burned down and was rebuilt. That's now the recreation centre, with a climbing wall and sports halls. It's very popular with families."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "Now, in the top right-hand corner of the site, you'll see the old engine house. It's easy to spot, because of the tall chimney. That's been turned into a small cinema, which shows mainly independent films. It's only got eighty seats, so it's worth booking."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "Directly opposite the clock tower, on the east side of the square, is the building that used to be the dye works. This is where the wool was coloured, in enormous vats. And, believe it or not, the swimming pool has been built in exactly the spot where those vats used to be."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "Then, if you head south towards the river, you'll see the footbridge, which takes you over to the railway station. There are two small buildings beside the bridge. The one on the west side, the side nearer the gift shop, is the coffee shop. It's got a terrace right on the water, and I'd recommend it for lunch. The one on the other side of the bridge is just the ticket office for boat trips."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "And finally, in the bottom right-hand corner, by the river, is the old wool store, which is now an art gallery. It's free to get in, and at the moment there's an exhibition of photographs of the mill workers."
+   ],
+   [
+    "P",
+    "",
+    "1.2"
+   ],
+   [
+    "T",
+    "Dr Reeve",
+    "Okay. Are there any questions before we set off?"
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "S",
+    "Narrator",
+    "That is the end of Part 2. You now have some time to check your answers."
+   ],
+   [
+    "P",
+    "",
+    "30"
+   ]
+  ],
+  "cues": [
+   [
+    1,
+    12.91,
+    30
+   ],
+   [
+    15,
+    181.68,
+    40
+   ],
+   [
+    37,
+    370.34,
+    30
+   ]
+  ]
+ },
+ "ls3": {
+  "title": "Part 3 · Questions 21–30",
+  "lines": [
+   [
+    "S",
+    "Narrator",
+    "Part 3. You will hear two university students, Hannah and Josh, discussing a proposal for a project. First, you have some time to look at questions 21 to 26."
+   ],
+   [
+    "P",
+    "",
+    "30"
+   ],
+   [
+    "S",
+    "Narrator",
+    "Now listen carefully and answer questions 21 to 26."
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "L",
+    "Hannah",
+    "Hi, Josh. Have you got a minute to look at the proposal before we send it to Doctor Price?"
+   ],
+   [
+    "W",
+    "Josh",
+    "Yeah, sure. I've read through your draft, actually. I think the repair café idea is great. What made you think of it?"
+   ],
+   [
+    "L",
+    "Hannah",
+    "Well, I'd love to say it was all my own idea, but I actually went to one last summer, when I was staying with my aunt in Leeds. People were bringing in broken toasters and torn jackets, and volunteers fixed them for free. And I just thought, why don't we have one on campus?"
+   ],
+   [
+    "W",
+    "Josh",
+    "Makes sense. Doctor Price did say she wanted something practical, not just another awareness campaign."
+   ],
+   [
+    "L",
+    "Hannah",
+    "Exactly. So, what did you think of the draft? Be honest."
+   ],
+   [
+    "W",
+    "Josh",
+    "Okay, honestly?"
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "W",
+    "Josh",
+    "The writing's good, and the budget's fine, more or less. But the main problem is that we don't actually show that students want it. We just say they will."
+   ],
+   [
+    "L",
+    "Hannah",
+    "Hmm, yeah. That's fair. We need some evidence."
+   ],
+   [
+    "W",
+    "Josh",
+    "Well, the good news is, I ran a quick online survey last week, while you were writing. We got just over two hundred responses."
+   ],
+   [
+    "L",
+    "Hannah",
+    "Two hundred? That's brilliant. What did people say?"
+   ],
+   [
+    "W",
+    "Josh",
+    "So, I expected that most people would want help with phones and laptops, you know, cracked screens and so on. But actually, that came second. The thing most people asked for was clothing repairs. Zips, buttons, holes in jeans. I think a lot of students just don't know how to sew."
+   ],
+   [
+    "L",
+    "Hannah",
+    "Interesting. That's actually easier for us, because we don't need specialist equipment for clothes."
+   ],
+   [
+    "W",
+    "Josh",
+    "True. Though we'd still want to offer some help with electronics."
+   ],
+   [
+    "L",
+    "Hannah",
+    "Okay. Next thing: where do we hold it? I'd put the library foyer in the draft."
+   ],
+   [
+    "W",
+    "Josh",
+    "I thought about that, but it's supposed to be a quiet space, and with sewing machines and people chatting, I don't think the library staff would be very happy."
+   ],
+   [
+    "L",
+    "Hannah",
+    "No, you're right. What about the students' union? It's got that big room upstairs."
+   ],
+   [
+    "W",
+    "Josh",
+    "I asked. They charge forty pounds an hour, which would use up most of our budget in a month."
+   ],
+   [
+    "L",
+    "Hannah",
+    "Oh. Well, that's out, then."
+   ],
+   [
+    "W",
+    "Josh",
+    "But I did speak to one of the technicians in the engineering department, and he said we could use their workshop on Wednesday afternoons. It's free, it's already got tools, and it meets all the safety rules."
+   ],
+   [
+    "L",
+    "Hannah",
+    "Perfect. Let's go with that."
+   ],
+   [
+    "W",
+    "Josh",
+    "Now, there are a couple of things we still haven't dealt with in the proposal. The first one's insurance. If someone's laptop gets damaged while we're fixing it, who pays?"
+   ],
+   [
+    "L",
+    "Hannah",
+    "Good point. I'll ask the university whether their insurance covers student volunteers. And the other thing?"
+   ],
+   [
+    "W",
+    "Josh",
+    "Training. We can't just hand a soldering iron to a first-year who's never used one."
+   ],
+   [
+    "L",
+    "Hannah",
+    "No, definitely not. We'll need a proper training session before we open. I suppose we'll need some advertising too, but that's easy. We can use the student newsletter."
+   ],
+   [
+    "W",
+    "Josh",
+    "Yeah, advertising's not really a problem. And waste isn't an issue either. The workshop already has recycling bins."
+   ],
+   [
+    "L",
+    "Hannah",
+    "Okay. So, insurance and training go in the proposal."
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "S",
+    "Narrator",
+    "Before you hear the rest of the conversation, you have some time to look at questions 27 to 30."
+   ],
+   [
+    "P",
+    "",
+    "30"
+   ],
+   [
+    "S",
+    "Narrator",
+    "Now listen and answer questions 27 to 30."
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "L",
+    "Hannah",
+    "Now, what about approval? Does Doctor Price sign it off?"
+   ],
+   [
+    "W",
+    "Josh",
+    "She has to approve the academic side. But before that, the estates department has to agree, because it involves using a university building. So they're actually first."
+   ],
+   [
+    "L",
+    "Hannah",
+    "The estates department. I'll email them today. And how are we going to persuade people to volunteer? We can't pay them."
+   ],
+   [
+    "W",
+    "Josh",
+    "I thought we could offer certificates. Lots of students need evidence of volunteering for their CVs."
+   ],
+   [
+    "L",
+    "Hannah",
+    "Certificates. Great. Simple, but people will appreciate it."
+   ],
+   [
+    "W",
+    "Josh",
+    "One last thing. Doctor Price said the final version has to include a detailed budget, not just a rough total."
+   ],
+   [
+    "L",
+    "Hannah",
+    "Fine. I'll do the budget this weekend. And how do we show it's working, once it's up and running?"
+   ],
+   [
+    "W",
+    "Josh",
+    "I read that a lot of repair cafés weigh every item they fix. Then you can say, for example, we saved two hundred kilos from landfill this term."
+   ],
+   [
+    "L",
+    "Hannah",
+    "That's a really nice idea. It's easy to measure, and it sounds impressive."
+   ],
+   [
+    "W",
+    "Josh",
+    "Great. So, shall we meet again on Thursday?"
+   ],
+   [
+    "L",
+    "Hannah",
+    "Thursday's perfect."
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "S",
+    "Narrator",
+    "That is the end of Part 3. You now have some time to check your answers."
+   ],
+   [
+    "P",
+    "",
+    "30"
+   ]
+  ],
+  "cues": [
+   [
+    1,
+    13.42,
+    30
+   ],
+   [
+    33,
+    295.75,
+    30
+   ],
+   [
+    49,
+    425.18,
+    30
+   ]
+  ]
+ },
+ "ls4": {
+  "title": "Part 4 · Questions 31–40",
+  "lines": [
+   [
+    "S",
+    "Narrator",
+    "Part 4. You will hear a student giving a presentation about bioluminescence. First, you have some time to look at questions 31 to 40."
+   ],
+   [
+    "P",
+    "",
+    "45"
+   ],
+   [
+    "S",
+    "Narrator",
+    "Now listen carefully and answer questions 31 to 40."
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "C",
+    "Megan",
+    "Hi, everyone. For my presentation today, I'm going to talk about bioluminescence, which is the ability of living things to produce their own light. It's something I first saw on a beach in Australia, at night, when every wave lit up as it broke, and I've been fascinated by it ever since."
+   ],
+   [
+    "P",
+    "",
+    "1.2"
+   ],
+   [
+    "C",
+    "Megan",
+    "So, what actually is bioluminescence?"
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "C",
+    "Megan",
+    "Basically, it's light produced by a chemical reaction inside an organism. Two substances are involved. One is usually called luciferin, and the other is an enzyme, luciferase. When they combine with oxygen, energy is released. But, and this is the important part, it's released as light, rather than heat. That's why bioluminescence is sometimes called cold light."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "C",
+    "Megan",
+    "Now, on land, bioluminescence is quite rare. Fireflies are the best-known example, and there are some fungi that glow. But in the ocean, it's incredibly common. Scientists estimate that roughly three-quarters of the animals living in the deep sea can produce light."
+   ],
+   [
+    "P",
+    "",
+    "0.8"
+   ],
+   [
+    "C",
+    "Megan",
+    "Interestingly, most of that light is blue. There's a simple reason for this. Blue light travels the furthest through seawater, while red light is absorbed very quickly. In fact, most deep-sea animals can't even see red light."
+   ],
+   [
+    "P",
+    "",
+    "1.2"
+   ],
+   [
+    "C",
+    "Megan",
+    "So, why do animals do it?"
+   ],
+   [
+    "P",
+    "",
+    "0.8"
+   ],
+   [
+    "C",
+    "Megan",
+    "There are three main reasons. The first is to find food. The famous example here is the anglerfish, which has a kind of glowing fishing rod growing from its head. Smaller animals swim towards the light, thinking it's something to eat, and they become prey themselves."
+   ],
+   [
+    "P",
+    "",
+    "1"
+   ],
+   [
+    "C",
+    "Megan",
+    "The second reason is to hide. This sounds strange, because light usually makes you more visible. But some squid have lights on their undersides. When a predator looks up from below, it would normally see the dark outline of the squid against the light from the surface. By producing just the right amount of light, the squid makes its shadow disappear. This is called counter-illumination."
+   ],
+   [
+    "P",
+    "",
+    "1.1"
+   ],
+   [
+    "C",
+    "Megan",
+    "The third reason is defence. Some deep-sea shrimp, when they're attacked, release a glowing cloud into the water, and while the predator is confused, the shrimp escapes. It's a bit like an octopus releasing ink, but with light instead."
+   ],
+   [
+    "P",
+    "",
+    "1.1"
+   ],
+   [
+    "C",
+    "Megan",
+    "What I saw on that beach, by the way, wasn't caused by animals at all, but by tiny single-celled organisms called dinoflagellates. They only produce light when the water around them is disturbed. So you see it when waves break, or when a boat moves through the water, or even when you run your hand through it."
+   ],
+   [
+    "P",
+    "",
+    "1.1"
+   ],
+   [
+    "C",
+    "Megan",
+    "Bioluminescence also has some very practical uses for humans. A protein that was first found in a glowing jellyfish is now used in laboratories all over the world. Scientists attach it to other proteins so that they can watch cells inside living tissue, for example, to see how cancer spreads. Its discovery led to a Nobel Prize in 2008."
+   ],
+   [
+    "P",
+    "",
+    "1.1"
+   ],
+   [
+    "C",
+    "Megan",
+    "However, there are concerns. Some coastal bays that are famous for bioluminescence are now being damaged by pollution, especially from boats and new building developments, and the light displays there have become much weaker."
+   ],
+   [
+    "P",
+    "",
+    "1.1"
+   ],
+   [
+    "C",
+    "Megan",
+    "To conclude, I'd say that we still understand surprisingly little about bioluminescence, mainly because the deep sea is so difficult to study. Most species that produce light have never been observed in their natural environment. So what's needed most, in my opinion, is more exploration of the deep ocean. Thank you. Are there any questions?"
+   ],
+   [
+    "P",
+    "",
+    "1.5"
+   ],
+   [
+    "S",
+    "Narrator",
+    "That is the end of Part 4, and the end of the listening test. You now have some time to check your answers."
+   ],
+   [
+    "P",
+    "",
+    "30"
+   ]
+  ],
+  "cues": [
+   [
+    1,
+    11.09,
+    45
+   ],
+   [
+    31,
+    315.98,
+    30
+   ]
+  ]
+ },
+ "rs1": {
+  "title": "Repeat Sentence 1",
+  "lines": [
+   [
+    "T",
+    "Speaker",
+    "The library will be closed for two weeks while the heating system is replaced."
+   ]
+  ]
+ },
+ "rs2": {
+  "title": "Repeat Sentence 2",
+  "lines": [
+   [
+    "N",
+    "Speaker",
+    "Students who miss more than three seminars may be asked to repeat the module."
+   ]
+  ]
+ },
+ "rs3": {
+  "title": "Repeat Sentence 3",
+  "lines": [
+   [
+    "C",
+    "Speaker",
+    "Most of the research for this project was carried out in remote coastal villages."
+   ]
+  ]
+ },
+ "rs4": {
+  "title": "Repeat Sentence 4",
+  "lines": [
+   [
+    "R",
+    "Speaker",
+    "Please make sure that all assignments are submitted through the online portal."
+   ]
+  ]
+ },
+ "rl1": {
+  "title": "Re-tell Lecture",
+  "lines": [
+   [
+    "T",
+    "Lecturer",
+    "Today I want to look at the link between sleep and memory. For a long time, sleep was seen as a kind of switching off, a period when the brain simply rested. We now know that this picture is wrong. While we sleep, the brain is extremely busy, and one of its most important jobs is to sort and store the information we've taken in during the day."
+   ],
+   [
+    "T",
+    "Lecturer",
+    "In one well-known type of experiment, volunteers learn a list of words, or a simple task, in the evening. Half of them then sleep normally, and the other half stay awake. The next day, the group that slept usually remembers significantly more. Researchers think this happens because, during deep sleep, the brain replays the day's experiences and moves important memories into long-term storage."
+   ],
+   [
+    "T",
+    "Lecturer",
+    "This has practical implications for students. Staying up all night to revise before an exam may actually be counterproductive, because without sleep, much of what you studied may never be properly stored."
+   ]
+  ]
+ },
+ "asq1": {
+  "title": "Short Question 1",
+  "lines": [
+   [
+    "L",
+    "Speaker",
+    "What do we call a period of ten years?"
+   ]
+  ]
+ },
+ "asq2": {
+  "title": "Short Question 2",
+  "lines": [
+   [
+    "M",
+    "Speaker",
+    "Which part of a plant usually grows under the ground?"
+   ]
+  ]
+ },
+ "asq3": {
+  "title": "Short Question 3",
+  "lines": [
+   [
+    "S",
+    "Speaker",
+    "What is a book called when a person writes about their own life?"
+   ]
+  ]
+ },
+ "asq4": {
+  "title": "Short Question 4",
+  "lines": [
+   [
+    "W",
+    "Speaker",
+    "What instrument do astronomers use to look at distant stars and planets?"
+   ]
+  ]
+ },
+ "rts1": {
+  "title": "Respond to a Situation",
+  "lines": [
+   [
+    "L",
+    "Speaker",
+    "You borrowed a classmate's textbook a week ago and promised to return it yesterday, but you left it at home. Your classmate needs it for an exam tomorrow. Call your classmate, apologise, and explain how you will solve the problem."
+   ]
+  ]
+ }
 }
 </script>
 <script>
@@ -1079,7 +2062,38 @@ function mark(q){var v=S.ans[q.anchor];
    rendering: listening & reading
    ===================================================================== */
 function player(rec,label,max){
-  return '<div class="player" data-rec="'+rec+'" data-max="'+max+'"><button type="button" class="pp" aria-label="Play or pause: '+esc(label)+'"><svg><use href="#i-play"/></svg></button><div class="pm"><div class="pl"><b>'+esc(label)+'</b><small class="pc"></small></div><div class="ptrack"><i></i></div></div></div>';
+  return '<div class="player" data-rec="'+rec+'" data-max="'+max+'"><button type="button" class="pp" aria-label="Play or pause: '+esc(label)+'"><svg><use href="#i-play"/></svg></button><div class="pm"><div class="pl"><b>'+esc(label)+'</b><small class="pc"></small><span class="ptime mono"></span></div><div class="ptrack"><i></i></div>'+
+    '<div class="pcue" hidden><span class="pcue-k"></span><span class="pcue-t"></span><b class="pcue-c mono"></b></div><span class="sr pcue-sr" aria-live="polite"></span></div></div>';
+}
+/* Reading-time cues. A pause of 10 s or more in a listening script is reading or checking time;
+   the narrator line before it says which questions it is for. REC[id].cues holds the start time
+   of each one in the MP3 ([line index, start s, length s], copied in by build-b2.js). */
+function cueInfo(rec,idx){
+  var L=REC[rec].lines,t='',s=+L[idx][2];
+  for(var j=idx-1;j>=0;j--){if(L[j][0]!=='P'){t=L[j][2];break;}}
+  var m=/questions (\d+) to (\d+)/i.exec(t);
+  if(m)return {k:'read',a:+m[1],b:+m[2],s:s,lab:'Reading time',txt:'Look at questions '+m[1]+'–'+m[2]};
+  if(/check your answers/i.test(t))return {k:'check',s:s,lab:'Checking time',txt:'Check your answers'};
+  return {k:'pause',s:s,lab:'Pause',txt:''};
+}
+function cueAt(rec,t){var cs=REC[rec].cues;if(!cs)return null;for(var i=0;i<cs.length;i++){if(t>=cs[i][1]&&t<cs[i][1]+cs[i][2]){var c=cueInfo(rec,cs[i][0]);c.left=cs[i][1]+cs[i][2]-t;return c;}}return null;}
+function showCue(el,c,left){
+  if(!el)return;var box=$('.pcue',el),sr=$('.pcue-sr',el),pg=el.closest('.page'),key=c?c.k+(c.a||''):'';
+  if(!box)return;
+  if(el.dataset.cue!==key){
+    el.dataset.cue=key;box.hidden=!c;el.classList.toggle('cueing',!!c);box.classList.toggle('ck',!!(c&&c.k!=='read'));
+    if(c){$('.pcue-k',box).textContent=c.lab;$('.pcue-t',box).textContent=c.txt;sr.textContent=c.lab+(c.txt?'. '+c.txt+'.':'');}else sr.textContent='';
+    if(pg){$$('.grp',pg).forEach(function(g){var a=+g.dataset.qa,b=+g.dataset.qb;g.classList.toggle('readnow',!!(c&&c.k==='read'&&a<=c.b&&b>=c.a));});
+      $$('.qn',pg).forEach(function(q){var n=+q.textContent;q.classList.toggle('qnow',!!(c&&c.k==='read'&&n>=c.a&&n<=c.b));});}
+  }
+  if(c)$('.pcue-c',box).textContent=fmtS(Math.ceil(left));
+}
+function lplan(rec){
+  var L=REC[rec].lines,h='';
+  L.forEach(function(l,i){if(l[0]!=='P'||+l[2]<10)return;var c=cueInfo(rec,i);
+    if(c.k==='read')h+='<li class="rd"><span><b>'+c.s+' s</b> to read Q'+c.a+'–'+c.b+'</span></li><li class="ls"><span>Listen<span class="hide-s"> and answer</span></span></li>';
+    else if(c.k==='check')h+='<li class="ck"><span><b>'+c.s+' s</b> to check</span></li>';});
+  return h?'<ol class="lplan" aria-label="What happens in this recording">'+h+'</ol>':'';
 }
 function inlineField(it){
   var id=it.id,q=QBY[id];
@@ -1112,7 +2126,7 @@ function listItem(it,g){
   return h+'</div>';
 }
 function renderGroup(g){
-  var h='<div class="grp"><div class="ptop"><span class="chip">'+esc(g.type)+'</span><span class="chip dim">Questions '+firstN(g)+'–'+lastN(g)+'</span></div><div class="instr">'+g.instr+'</div>'+(g.box||'');
+  var h='<div class="grp" data-qa="'+firstN(g)+'" data-qb="'+lastN(g)+'"><div class="ptop"><span class="chip">'+esc(g.type)+'</span><span class="chip dim">Questions '+firstN(g)+'–'+lastN(g)+'</span></div><div class="instr">'+g.instr+'</div>'+(g.box||'');
   if(g.render==='form'||g.render==='notes'||g.render==='inline')h+=fillInline(g.html,g);
   else if(g.render==='map')h+='<div class="maprow"><div>'+g.map+'</div><div class="maplist">'+g.items.map(function(it){return listItem(it,g);}).join('')+'</div></div>';
   else h+=g.items.map(function(it){return listItem(it,g);}).join('');
@@ -1122,7 +2136,7 @@ function firstN(g){var n=g.items[0].n;return Array.isArray(n)?n[0]:n;}
 function lastN(g){var n=g.items[g.items.length-1].n;return Array.isArray(n)?n[n.length-1]:n;}
 function partRange(p){return firstN(p.groups[0])+'–'+lastN(p.groups[p.groups.length-1]);}
 function renderLPart(p,i){
-  return '<section class="page" data-page="'+i+'"'+(i?' hidden':'')+'><div class="ptop"><span class="chip">Part '+p.n+'</span><span class="chip dim">Questions '+partRange(p)+'</span></div><h2>'+esc(p.title)+'</h2><p class="lead">'+esc(p.intro)+' Read the questions first. Then press play.</p>'+
+  return '<section class="page" data-page="'+i+'"'+(i?' hidden':'')+'><div class="ptop"><span class="chip">Part '+p.n+'</span><span class="chip dim">Questions '+partRange(p)+'</span></div><h2>'+esc(p.title)+'</h2><p class="lead">'+esc(p.intro)+' The recording gives you time to read the questions before you listen, and time to check your answers at the end. Press play when you are ready.</p>'+lplan(p.rec)+
     player(p.rec,'Part '+p.n+' recording',MAXPLAYS)+p.groups.map(renderGroup).join('')+pager('listening',i,LISTENING.length)+'</section>';
 }
 function renderRPart(p,i){
@@ -1354,19 +2368,20 @@ function updPlayer(el){
   el.classList.toggle('used',!active&&left<=0);
   $('use',$('.pp',el)).setAttribute('href',active&&cur.playing?'#i-pause':'#i-play');
 }
-function setProg(f){if(!cur)return;if(cur.el){var i=$('.ptrack i',cur.el);if(i)i.style.width=Math.min(100,f*100)+'%';}if(cur.onProg)cur.onProg(f);}
+function setProg(f,txt){if(!cur)return;if(cur.el){var i=$('.ptrack i',cur.el);if(i)i.style.width=Math.min(100,f*100)+'%';var tt=$('.ptime',cur.el);if(tt)tt.textContent=txt||'';}if(cur.onProg)cur.onProg(f);}
+function resetPlayer(el){var i=$('.ptrack i',el);if(i)i.style.width='0';var tt=$('.ptime',el);if(tt)tt.textContent='';showCue(el,null);updPlayer(el);}
 function stopAudio(){
   if(!cur)return;var c=cur;
   try{AU.pause();}catch(e){}
   if(window.speechSynthesis)speechSynthesis.cancel();
-  cur=null;if(c.el){var i=$('.ptrack i',c.el);if(i)i.style.width='0';updPlayer(c.el);}
+  cur=null;if(c.el)resetPlayer(c.el);
 }
 function pauseAudio(){
   if(!cur)return;if(!cur.el){stopAudio();return;}
   if(cur.mode==='mp3')try{AU.pause();}catch(e){}else if(window.speechSynthesis)speechSynthesis.pause();
   cur.playing=false;updPlayer(cur.el);
 }
-function endCur(){var c=cur;cur=null;if(c.el&&+c.el.dataset.max){S.plays[c.rec]=(S.plays[c.rec]||0)+1;save();}if(c.el){var i=$('.ptrack i',c.el);if(i)i.style.width='0';updPlayer(c.el);}if(c.onEnd)c.onEnd();}
+function endCur(){var c=cur;cur=null;if(c.el&&+c.el.dataset.max){S.plays[c.rec]=(S.plays[c.rec]||0)+1;save();}if(c.el)resetPlayer(c.el);if(c.onEnd)c.onEnd();}
 function clickPlayer(el){
   if(cur&&cur.el===el){
     if(cur.mode==='mp3'){if(cur.playing){AU.pause();cur.playing=false;}else{AU.play();cur.playing=true;}}
@@ -1381,7 +2396,11 @@ function clickPlayer(el){
 }
 function playClip(rec,onProg,onEnd){stopAudio();cur={el:null,rec:rec,mode:'mp3',playing:true,onProg:onProg,onEnd:onEnd};startMp3(rec);}
 function startMp3(rec){AU.src=AUDIO_DIR+rec+'.mp3';var p=AU.play();if(p&&p.catch)p.catch(function(err){if(cur&&cur.rec===rec&&cur.mode==='mp3'&&err&&err.name!=='AbortError')fallbackTTS();});}
-AU.addEventListener('timeupdate',function(){if(cur&&cur.mode==='mp3'&&AU.duration)setProg(AU.currentTime/AU.duration);});
+AU.addEventListener('timeupdate',function(){
+  if(!(cur&&cur.mode==='mp3'&&AU.duration))return;
+  setProg(AU.currentTime/AU.duration,fmtS(AU.currentTime)+' / '+fmtS(AU.duration));
+  if(cur.el){var c=cueAt(cur.rec,AU.currentTime);showCue(cur.el,c,c&&c.left);}
+});
 AU.addEventListener('ended',function(){if(cur&&cur.mode==='mp3')endCur();});
 AU.addEventListener('error',function(){if(cur&&cur.mode==='mp3'&&AU.src.indexOf(cur.rec+'.mp3')>=0)fallbackTTS();});
 function pickVoice(code){
@@ -1402,7 +2421,12 @@ function fallbackTTS(){
   function next(){
     if(cur!==token)return;
     if(token.idx>=lines.length){endCur();return;}
-    var L=lines[token.idx],u=new SpeechSynthesisUtterance(L[2]),v=pickVoice(L[0]);
+    var L=lines[token.idx];
+    if(L[0]==='P'){   /* silence: wait, counting only while not paused; long pauses show the reading-time countdown */
+      var left=+L[2]*1000,c=+L[2]>=10&&token.el?cueInfo(rec,token.idx):null;
+      (function wait(){if(cur!==token)return;if(token.playing)left-=250;if(c)showCue(token.el,c,left/1000);
+        if(left<=0){if(c)showCue(token.el,null);token.idx++;setProg(token.idx/lines.length);next();}else setTimeout(wait,250);})();return;}
+    var u=new SpeechSynthesisUtterance(L[2]),v=pickVoice(L[0]);
     if(v){u.voice=v;u.lang=v.lang;}else u.lang=(VMAP[L[0]]||['en-GB'])[0];
     u.rate=.95;
     u.onend=function(){token.idx++;setProg(token.idx/lines.length);setTimeout(next,400);};
@@ -1589,7 +2613,8 @@ function buildReport(){
   function keyText(q){if(q.kind==='multi'||q.kind==='pick2')return q.key.join(' + ');if(q.kind==='order')return q.key.map(function(k){return q.it.parts[k].split(' ').slice(0,4).join(' ')+'…';}).join(' → ');if(q.kind==='cw')return q.it.show+q.it.miss;if(q.accept)return q.accept[0]+(q.accept.length>1?' (also accepted: '+q.accept.slice(1,4).join(', ')+')':'');return q.key;}
   function label(q){return q.it.stem||(q.kind==='letter'&&q.g.render==='inline'?'Gap '+q.n:'');}
   function rvRows(qs){return qs.map(function(q){var m=mark(q),c=m===1?'y':m>0?'p':'n';return '<div class="rvrow"><span class="rn">'+(q.mod==='reading'?'R':'L')+q.n+'</span><span><small>'+esc(q.type)+(label(q)?' · '+esc(label(q)):'')+'</small>Your answer: <b>'+esc(ansText(q))+'</b>'+(m===1?'':'<br>Correct: <b>'+esc(keyText(q))+'</b>')+'</span><span class="rm '+c+'">'+(m===1?'✓':m>0?m:'✗')+'</span></div>';}).join('');}
-  var trs=LISTENING.map(function(p){var R=REC[p.rec];return '<div class="tscript"><b>'+esc(R.title)+'</b><br>'+R.lines.map(function(l){return '<i>'+esc(l[1])+':</i> '+esc(l[2]);}).join('<br>')+'</div>';}).join('');
+  function tLine(l){if(l[0]==='P')return +l[2]>=10?'<span class="tpause">[ '+l[2]+' seconds’ pause ]</span>':'';return '<i>'+esc(l[1])+':</i> '+esc(l[2]);}
+  var trs=LISTENING.map(function(p){var R=REC[p.rec];return '<div class="tscript"><b>'+esc(R.title)+'</b><br>'+R.lines.map(tLine).filter(Boolean).join('<br>')+'</div>';}).join('');
   h+='<section class="rsec"><h2>Answer review</h2><p class="note">Check every answer. Partly correct answers show the marks you received.</p><details class="rv"><summary>Listening · '+lS+' / 40</summary>'+rvRows(lQ)+'</details><details class="rv"><summary>Reading · '+rS+' / 40</summary>'+rvRows(rQ)+'</details><details class="rv"><summary>Listening transcripts</summary>'+trs+'</details></section>';
   var nx=[];
   if(overall>=80)nx.push(['find-your-level-c1.html','Take the C1 level test','You are ready for the next step.']);
