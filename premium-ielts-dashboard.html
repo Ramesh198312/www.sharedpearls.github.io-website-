@@ -14,7 +14,7 @@
     :root {
       --brand-red: #A51C30; /* Premium Crimson */
       --brand-red-dark: #A51C30;
-      --brand-gold: hwb(12 73% 2%);
+      --brand-gold: lab(71.92% 15.76 74.29);
       --brand-dark: #222222;
       --brand-grey: #4B525A;
       --bg-light: #F9F9F9;
@@ -86,7 +86,7 @@
     /* Abstract background pattern placeholder */
     .hero::before {
       content: ''; position: absolute; top: 0; right: 0; bottom: 0; left: 50%;
-      background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+      background: none; /* one uniform red behind the photo and the description */
       z-index: 1; pointer-events: none;
     }
     .hero-container {
@@ -243,6 +243,172 @@
       
       .btn-book { display: none; } /* Optional: Hide the access button on very small screens to save space */
     }
+    /* ═══════════════════════════════════════════
+       SPOW INNER PAGES (single-file views, hash routed)
+    ═══════════════════════════════════════════ */
+    /* Logo and title sit together as one brand lock-up; links stay on the right */
+    .navbar { justify-content: flex-start; }
+    .navbar .logo-img { flex: 0 0 auto; }
+    .navbar .logo-img + .navbar-brand { margin-left: .85rem; margin-right: auto; line-height: 1.15; }
+    .nav-links a.is-current { color: var(--brand-gold); }
+    .nav-links a.is-current::after { content: ''; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: var(--brand-gold); }
+    .spow-view[hidden], #view-home[hidden] { display: none !important; }
+    .spow-view { background: var(--bg-white); }
+
+    .v-hero { background: var(--brand-red); color: var(--bg-white); padding: 3.5rem 5% 3rem; }
+    .v-hero-in { max-width: 1200px; margin: 0 auto; }
+    .v-kicker { font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--brand-gold); margin-bottom: .9rem; }
+    .v-hero h1 { font-family: var(--font-heading); font-size: 3rem; line-height: 1.12; margin-bottom: 1rem; max-width: 900px; }
+    .v-hero h1 em { color: var(--brand-gold); }
+    .v-lead { font-size: 1.15rem; font-weight: 300; max-width: 820px; opacity: .95; }
+    .v-back { display: inline-flex; align-items: center; gap: .4rem; margin-top: 1.6rem; font-size: .9rem; font-weight: 600; color: var(--bg-white); border: 1px solid rgba(255,255,255,.45); padding: .55rem 1rem; border-radius: 4px; transition: var(--transition); }
+    .v-back:hover { background: var(--bg-white); color: var(--brand-red); }
+
+    .v-layout { max-width: 1200px; margin: 0 auto; padding: 3rem 5% 4.5rem; display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 3rem; align-items: start; }
+    .v-toc { position: sticky; top: 150px; border-left: 3px solid var(--border-color); padding-left: 1rem; }
+    .v-toc p { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--brand-grey); font-weight: 700; margin-bottom: .7rem; }
+    .v-toc button { display: block; width: 100%; text-align: left; background: none; border: 0; font: inherit; font-size: .9rem; color: var(--brand-grey); padding: .35rem 0; cursor: pointer; line-height: 1.35; }
+    .v-toc button:hover, .v-toc button.on { color: var(--brand-red); }
+    .v-main { min-width: 0; }
+    .v-sec { margin-bottom: 3.5rem; scroll-margin-top: 150px; }
+    .v-sec > h2 { font-family: var(--font-heading); font-size: 2rem; line-height: 1.2; margin-bottom: 1rem; color: var(--brand-dark); }
+    .v-sec > h2 span { color: var(--brand-red); }
+    .v-sec h3 { font-family: var(--font-heading); font-size: 1.3rem; margin: 1.6rem 0 .6rem; color: var(--brand-dark); }
+    .v-sec h4 { font-size: 1rem; margin: 1.1rem 0 .4rem; color: var(--brand-red); }
+    .v-sec p { margin-bottom: 1rem; color: #333; }
+    .v-sec ul, .v-sec ol { margin: 0 0 1rem 1.3rem; color: #333; }
+    .v-sec li { margin-bottom: .45rem; }
+    .v-sec strong { color: var(--brand-dark); }
+    .v-sec a.v-link, .v-sec p a, .v-sec li a { color: var(--brand-red); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+    .v-note { font-size: .82rem; color: var(--brand-grey); }
+
+    .v-stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 1rem; margin: 1.2rem 0 1.6rem; }
+    .v-stat { background: var(--bg-light); border: 1px solid var(--border-color); border-top: 3px solid var(--brand-red); border-radius: 6px; padding: 1.1rem 1rem; }
+    .v-stat b { display: block; font-family: var(--font-heading); font-size: 1.9rem; color: var(--brand-red); line-height: 1.1; }
+    .v-stat span { font-size: .85rem; color: var(--brand-grey); }
+
+    .v-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.2rem; margin: 1rem 0 1.4rem; }
+    .v-grid.two { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .v-card { background: var(--bg-white); border: 1px solid var(--border-color); border-radius: 6px; padding: 1.3rem 1.25rem; box-shadow: var(--shadow-sm); }
+    .v-card h4 { margin-top: 0; font-size: 1.02rem; }
+    .v-card p, .v-card li { font-size: .92rem; }
+    .v-card p:last-child, .v-card ul:last-child { margin-bottom: 0; }
+    .v-card .v-ico { width: 42px; height: 42px; border-radius: 50%; background: var(--brand-red); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; margin-bottom: .8rem; }
+    a.v-card { display: block; transition: var(--transition); }
+    a.v-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: rgba(165,28,48,.35); }
+
+    .v-call { background: #FBF3F4; border-left: 4px solid var(--brand-red); border-radius: 0 6px 6px 0; padding: 1rem 1.2rem; margin: 1.2rem 0; font-size: .95rem; }
+    .v-call.gold { background: #FBF7EC; border-left-color: var(--brand-gold); }
+    .v-call.dark { background: #F2F3F4; border-left-color: var(--brand-dark); }
+    .v-call p:last-child { margin-bottom: 0; }
+
+    .v-tablewrap { overflow-x: auto; margin: 1rem 0 1.4rem; border: 1px solid var(--border-color); border-radius: 6px; }
+    .v-table { width: 100%; border-collapse: collapse; font-size: .92rem; min-width: 520px; }
+    .v-table th { background: var(--brand-red); color: #fff; text-align: left; padding: .7rem .8rem; font-weight: 600; }
+    .v-table td { padding: .65rem .8rem; border-top: 1px solid var(--border-color); vertical-align: top; }
+    .v-table tr:nth-child(even) td { background: var(--bg-light); }
+    .v-table td:first-child { font-weight: 600; color: var(--brand-dark); }
+
+    .v-steps { counter-reset: st; list-style: none; margin: 1rem 0 1.4rem !important; padding: 0; }
+    .v-steps > li { counter-increment: st; position: relative; padding: 0 0 1.2rem 3.2rem; margin: 0; border-left: 2px solid var(--border-color); margin-left: 1rem !important; }
+    .v-steps > li:last-child { border-left-color: transparent; }
+    .v-steps > li::before { content: counter(st); position: absolute; left: -1.05rem; top: -.1rem; width: 2.1rem; height: 2.1rem; border-radius: 50%; background: var(--brand-red); color: #fff; font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: .9rem; }
+    .v-steps > li b { display: block; color: var(--brand-dark); margin-bottom: .2rem; }
+
+    details.v-acc { border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: .7rem; background: var(--bg-white); }
+    details.v-acc > summary { cursor: pointer; padding: .9rem 1.1rem; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+    details.v-acc > summary::-webkit-details-marker { display: none; }
+    details.v-acc > summary::after { content: '+'; color: var(--brand-red); font-size: 1.3rem; line-height: 1; }
+    details.v-acc[open] > summary::after { content: '−'; }
+    details.v-acc[open] > summary { border-bottom: 1px solid var(--border-color); }
+    details.v-acc > div { padding: 1rem 1.1rem; font-size: .94rem; }
+    details.v-acc > div p:last-child, details.v-acc > div ul:last-child { margin-bottom: 0; }
+
+    .v-tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 1.2rem; }
+    .v-tabs button { font: inherit; font-size: .9rem; font-weight: 600; padding: .55rem 1rem; border: 1px solid var(--border-color); background: var(--bg-white); border-radius: 999px; cursor: pointer; color: var(--brand-grey); }
+    .v-tabs button.on { background: var(--brand-red); border-color: var(--brand-red); color: #fff; }
+    .v-pane[hidden] { display: none; }
+
+    .v-tool { background: var(--bg-light); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.4rem; margin: 1.2rem 0 1.6rem; }
+    .v-tool h4 { margin-top: 0; }
+    .v-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+    .v-field { display: flex; flex-direction: column; gap: .3rem; font-size: .85rem; font-weight: 600; color: var(--brand-grey); min-width: 130px; flex: 1; }
+    .v-field select, .v-field input { font: inherit; font-size: .95rem; padding: .55rem .6rem; border: 1px solid #CFCFCF; border-radius: 4px; background: #fff; color: var(--brand-dark); width: 100%; }
+    .v-btn { font: inherit; font-weight: 600; font-size: .92rem; background: var(--brand-red); color: #fff; border: 0; border-radius: 4px; padding: .65rem 1.2rem; cursor: pointer; transition: var(--transition); }
+    .v-btn:hover { background: var(--brand-dark); }
+    .v-btn.ghost { background: transparent; color: var(--brand-red); border: 1px solid var(--brand-red); }
+    .v-btn.ghost:hover { background: var(--brand-red); color: #fff; }
+    .v-out { margin-top: 1rem; background: #fff; border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem 1.1rem; font-size: .95rem; }
+    .v-out:empty { display: none; }
+    .v-big { font-family: var(--font-heading); font-size: 2.4rem; color: var(--brand-red); line-height: 1; }
+
+    .v-q { background: #fff; border: 1px solid var(--border-color); border-radius: 6px; padding: 1rem 1.1rem; margin-bottom: .8rem; }
+    .v-q .qn { display: inline-flex; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--brand-dark); color: #fff; font-size: .8rem; font-weight: 700; align-items: center; justify-content: center; margin-right: .5rem; }
+    .v-q label { display: flex; gap: .55rem; align-items: flex-start; padding: .35rem .2rem; cursor: pointer; font-size: .94rem; }
+    .v-q input[type=text], .v-q select { font: inherit; font-size: .94rem; padding: .35rem .5rem; border: 1px solid #CFCFCF; border-radius: 4px; max-width: 100%; }
+    .v-q.ok { border-color: #2E7D4F; background: #F2FAF5; }
+    .v-q.bad { border-color: var(--brand-red); background: #FDF4F5; }
+    .v-fb { font-size: .88rem; margin-top: .5rem; color: var(--brand-grey); }
+    .v-fb:empty { display: none; }
+    .v-passage { background: #FFFDF8; border: 1px solid #EFE6D2; border-radius: 6px; padding: 1.3rem 1.4rem; font-family: Georgia, 'Times New Roman', serif; font-size: 1.02rem; line-height: 1.75; margin-bottom: 1.2rem; }
+    .v-passage p { color: #2A2A2A; }
+    .v-passage .pl { font-family: var(--font-body); font-weight: 700; color: var(--brand-red); margin-right: .4rem; }
+    .v-model { background: #fff; border: 1px solid var(--border-color); border-left: 4px solid var(--brand-gold); border-radius: 0 6px 6px 0; padding: 1.2rem 1.3rem; margin: 1rem 0; font-size: .96rem; }
+    .v-model p:last-child { margin-bottom: 0; }
+    .v-tag { display: inline-block; font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: var(--brand-dark); color: #fff; padding: .2rem .55rem; border-radius: 3px; margin-right: .35rem; }
+    .v-tag.red { background: var(--brand-red); }
+    .v-tag.gold { background: #9A7419; }
+    .v-chips { display: flex; flex-wrap: wrap; gap: .45rem; margin: .4rem 0 1rem; }
+    .v-chips span { font-size: .84rem; background: var(--bg-light); border: 1px solid var(--border-color); border-radius: 999px; padding: .25rem .7rem; }
+    .v-check { list-style: none; margin-left: 0 !important; }
+    .v-check li { display: flex; gap: .6rem; align-items: flex-start; }
+    .v-check input { margin-top: .35rem; accent-color: var(--brand-red); }
+    .v-timer { font-family: var(--font-heading); font-size: 2.2rem; color: var(--brand-dark); min-width: 6ch; }
+    textarea.v-pad { width: 100%; min-height: 260px; font: inherit; font-size: 1rem; line-height: 1.7; padding: 1rem; border: 1px solid #CFCFCF; border-radius: 6px; resize: vertical; }
+    .v-news { display: grid; grid-template-columns: 120px minmax(0,1fr); gap: 1.2rem; padding: 1.2rem 0; border-top: 1px solid var(--border-color); }
+    .v-news time { font-size: .85rem; font-weight: 700; color: var(--brand-red); }
+    .v-news h4 { margin: 0 0 .35rem; font-size: 1.08rem; color: var(--brand-dark); font-family: var(--font-heading); }
+    .v-news p { font-size: .93rem; margin-bottom: .4rem; }
+    .v-disclaimer { max-width: 1200px; margin: 0 auto 3rem; padding: 0 5%; }
+    .v-disclaimer div { font-size: .82rem; color: var(--brand-grey); border-top: 1px solid var(--border-color); padding-top: 1rem; }
+    .v-svg { width: 100%; height: auto; background: #fff; border: 1px solid var(--border-color); border-radius: 6px; }
+
+    .prep-art { width: 100%; height: 250px; background: var(--brand-red); display: flex; align-items: flex-end; justify-content: space-between; padding: 1.5rem 1.6rem; color: #fff; position: relative; overflow: hidden; }
+    .prep-art.dark { background: var(--brand-dark); }
+    .prep-art.grey { background: var(--brand-grey); }
+    .prep-art b { font-family: var(--font-heading); font-size: 4.2rem; line-height: .9; color: var(--brand-gold); }
+    .prep-art i { font-style: normal; font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; max-width: 12ch; text-align: right; opacity: .9; }
+    .prep-art::before { content: ''; position: absolute; width: 260px; height: 260px; border-radius: 50%; border: 2px solid rgba(255,255,255,.14); top: -90px; right: -70px; }
+    .prep-art::after { content: ''; position: absolute; width: 160px; height: 160px; border-radius: 50%; border: 2px solid rgba(255,255,255,.1); top: -30px; right: 10px; }
+    .prep-sub { font-size: .88rem; color: var(--brand-grey); padding: 0 2rem 1.7rem; margin-top: -.9rem; }
+
+    @media (max-width: 1024px) {
+      .v-layout { grid-template-columns: minmax(0,1fr); gap: 1.2rem; padding-top: 1.6rem; }
+      .v-toc { position: static; border-left: 0; padding-left: 0; display: flex; gap: .45rem; overflow-x: auto; padding-bottom: .4rem; }
+      .v-toc p { display: none; }
+      .v-toc button { width: auto; white-space: nowrap; border: 1px solid var(--border-color); border-radius: 999px; padding: .4rem .85rem; font-size: .84rem; }
+      .v-stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .v-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: flex; } /* the hamburger menu needs the links rendered (collapsed by max-height) */
+      .nav-links a.is-current::after { display: none; }
+      .v-hero { padding: 2.4rem 5% 2.2rem; }
+      .v-hero h1 { font-size: 2.1rem; }
+      .v-lead { font-size: 1.02rem; }
+      .v-sec > h2 { font-size: 1.6rem; }
+      .v-grid, .v-grid.two { grid-template-columns: minmax(0,1fr); }
+      .v-news { grid-template-columns: minmax(0,1fr); gap: .3rem; }
+      .v-passage { padding: 1rem; font-size: .98rem; }
+      .v-tool { padding: 1rem; }
+      .breadcrumbs { flex-wrap: wrap; }
+    }
+    @media (max-width: 420px) {
+      .v-stats { grid-template-columns: minmax(0,1fr); }
+      .navbar { padding: 1rem 4%; gap: .5rem; }
+      .navbar-brand { font-size: 1.15rem; }
+      .logo-img { height: 56px; }
+    }
   </style>
 </head>
 <body>
@@ -260,15 +426,11 @@
     </button>
 
     <div class="nav-links">
-      <a href="#">Test Takers</a>
-      <a href="#">Organisations</a>
-      <a href="#">Researchers</a>
-      <a href="#">News & Insights</a>
+      <a href="#test-takers">Test Takers</a>
+      <a href="#organisations">Organisations</a>
+      <a href="#researchers">Researchers</a>
+      <a href="#news">News &amp; Insights</a>
     </div>
-    <a href="#" class="btn-book">
-      <span>Access Trajectory</span>
-      <svg class="arrow-icon" viewBox="0 0 20 20"><path d="m14 3-1.057 1.146 4.185 4.542H0v1.624h17.128l-4.185 4.542L14 16l6-6.5L14 3Z"/></svg>
-    </a>
   </nav>
 
   <!-- BREADCRUMBS -->
@@ -279,6 +441,8 @@
     <span class="active">IELTS Academic</span>
   </div>
 
+  <div id="view-home">
+
   <!-- HERO SECTION -->
   <header class="hero">
     <div class="hero-container">
@@ -286,10 +450,10 @@
         <!-- Placeholder for the square header image (similar to ielts.org student holding a book) -->
         <img src="ielts-premium-academic-scholar.png" alt="Premium Academic Scholar">
       </div>
-       <div class="hero-content">
+      <div class="hero-content">
         <h1 class="hero-title" align="center">Premium IELTS 
-          <em>Academic</em>/<em>General Training</em></h1>
-        <p class="hero-strapline" align="center">IELTS is a global English proficiency test used for study, work, or migration to countries where English is primarily spoken.</p>
+          <em>Academic</em></h1>
+        <p class="hero-strapline" align="center">The English test for university study and professional registration, prepared for in full: timed tests, model answers and expert strategy for every skill.</p>
       </div>
     </div>
   </header>
@@ -297,9 +461,9 @@
   <!-- INTRO TEXT -->
   <section class="intro-section">
     <div class="intro-container intro-text">
-      <p>You can access the <strong>Pure IELTS Academic</strong> trajectory exclusively via our premium dashboard. The full simulation time is <strong>2 hours and 45 minutes</strong>, locked to prevent distractions and mimic absolute test conditions.</p>
-      <p>Choose this tier if you require a Band 8.5+ for Ivy League postgraduate levels, Q1 journal publishing requirements, or elite professional registration.</p>
-      <p>In this premium tier, we do not teach basic grammar. We focus entirely on the mechanics of the four domains: Listening, Reading, Writing, and Speaking, dissecting the exact algorithmic requirements of the <strong>Band 9 descriptors</strong>.</p>
+      <p><strong>IELTS Academic</strong> is the version of IELTS for university study and professional registration. The full test takes <strong>2 hours and 45 minutes</strong>, and every practice test on this dashboard runs to the same timings, so you rehearse under real conditions.</p>
+      <p>Whether you need a 6.5 for an undergraduate offer or 7.5 and above for postgraduate study or professional registration, our materials follow the real test's specifications: forty questions each in Listening and Reading, two Academic Writing tasks and a three-part Speaking test.</p>
+      <p>In this premium tier we concentrate on what moves your band: the reasoning behind every Listening and Reading answer, Writing and Speaking measured against the four <strong>assessment criteria</strong>, and the strategies high scorers use under time pressure.</p>
     </div>
   </section>
 
@@ -308,7 +472,7 @@
     <div class="grid-4">
       
       <!-- Listening -->
-      <a href="premium-ielts-listening-dashboard.html" class="card-component">
+      <a href="ielts-premium-listening-landing-page.html" class="card-component">
         <div class="card-img-wrap">
           <div class="card-icon-placeholder" style="background: var(--brand-dark);">🎧</div>
         </div>
@@ -317,7 +481,7 @@
             Listening
             <svg class="arrow-icon" viewBox="0 0 20 20"><path d="m14 3-1.057 1.146 4.185 4.542H0v1.624h17.128l-4.185 4.542L14 16l6-6.5L14 3Z"/></svg>
           </h3>
-          <p class="card-summary">Time allowed: 30 mins<br>Focus: Diverse Global Accents & Distractor Traps</p>
+          <p class="card-summary">Time allowed: 30 mins + 2 to check<br>10 full tests · 400 questions · British, Australian &amp; Canadian voices</p>
         </div>
       </a>
 
@@ -336,7 +500,7 @@
       </a>
 
       <!-- Writing -->
-     <a href="premium-ieltstask1-task2.html" class="card-component">
+      <a href="premium-ieltstask1-task2.html" class="card-component">
         <div class="card-img-wrap">
           <div class="card-icon-placeholder" style="background: var(--brand-red);">✍️</div>
         </div>
@@ -350,7 +514,7 @@
       </a>
 
       <!-- Speaking -->
-      <a href="premium-ielts-speaking-dashboard" class="card-component">
+      <a href="ielts-premium-speaking-landing-page.html" class="card-component">
         <div class="card-img-wrap">
           <div class="card-icon-placeholder" style="background: var(--brand-grey);">🎙️</div>
         </div>
@@ -359,7 +523,7 @@
             Speaking
             <svg class="arrow-icon" viewBox="0 0 20 20"><path d="m14 3-1.057 1.146 4.185 4.542H0v1.624h17.128l-4.185 4.542L14 16l6-6.5L14 3Z"/></svg>
           </h3>
-          <p class="card-summary">Time allowed: 11–14 mins<br>Focus: Part 3 Abstract Philosophical Discourse</p>
+          <p class="card-summary">20 full tests · 11–14 mins each<br>Recorded examiner, your answers recorded, sample answers</p>
         </div>
       </a>
 
@@ -373,7 +537,7 @@
       
       <div class="grid-3">
         <!-- Resource 1 -->
-        <a href="#" class="prep-card">
+        <a href="#how-to-prepare" class="prep-card">
           <img src="ielts-how-to-prepare.jpg" alt="Preparation" class="prep-img">
           <div class="prep-body">
             <h3 class="prep-title">How to <span>prepare</span></h3>
@@ -382,7 +546,7 @@
         </a>
 
         <!-- Resource 2 -->
-        <a href="#" class="prep-card">
+        <a href="#sample-questions" class="prep-card">
           <img src="ielts-preparation.jpg" alt="Sample Questions" class="prep-img">
           <div class="prep-body">
             <h3 class="prep-title">IELTS sample test <span>questions</span></h3>
@@ -391,16 +555,1189 @@
         </a>
 
         <!-- Resource 3 -->
-        <a href="#" class="prep-card">
+        <a href="#writing-resources" class="prep-card">
           <img src="ielts-writing.jpg" alt="Writing Resources" class="prep-img">
           <div class="prep-body">
             <h3 class="prep-title">IELTS writing test preparation <span>resources</span></h3>
             <svg class="arrow-icon" style="color: var(--brand-red);" viewBox="0 0 20 20"><path d="m14 3-1.057 1.146 4.185 4.542H0v1.624h17.128l-4.185 4.542L14 16l6-6.5L14 3Z"/></svg>
           </div>
         </a>
+
+        <!-- Resource 4 -->
+        <a href="#band-scores" class="prep-card">
+          <div class="prep-art" aria-hidden="true"><b>0–9</b><i>Band scores &amp; calculators</i></div>
+          <div class="prep-body">
+            <h3 class="prep-title">Understanding your band <span>scores</span></h3>
+            <svg class="arrow-icon" style="color: var(--brand-red);" viewBox="0 0 20 20"><path d="m14 3-1.057 1.146 4.185 4.542H0v1.624h17.128l-4.185 4.542L14 16l6-6.5L14 3Z"/></svg>
+          </div>
+        </a>
+
+        <!-- Resource 5 -->
+        <a href="#speaking-resources" class="prep-card">
+          <div class="prep-art dark" aria-hidden="true"><b>11–14</b><i>Minutes of Speaking</i></div>
+          <div class="prep-body">
+            <h3 class="prep-title">IELTS speaking test preparation <span>resources</span></h3>
+            <svg class="arrow-icon" style="color: var(--brand-red);" viewBox="0 0 20 20"><path d="m14 3-1.057 1.146 4.185 4.542H0v1.624h17.128l-4.185 4.542L14 16l6-6.5L14 3Z"/></svg>
+          </div>
+        </a>
+
+        <!-- Resource 6 -->
+        <a href="#test-day" class="prep-card">
+          <div class="prep-art grey" aria-hidden="true"><b>2h45</b><i>Test day guide</i></div>
+          <div class="prep-body">
+            <h3 class="prep-title">Test day: what to <span>expect</span></h3>
+            <svg class="arrow-icon" style="color: var(--brand-red);" viewBox="0 0 20 20"><path d="m14 3-1.057 1.146 4.185 4.542H0v1.624h17.128l-4.185 4.542L14 16l6-6.5L14 3Z"/></svg>
+          </div>
+        </a>
       </div>
     </div>
   </section>
+
+  </div><!-- /view-home -->
+
+  <!-- INNER PAGES (hash routed: #test-takers, #organisations, #researchers, #news, #how-to-prepare, #sample-questions, #writing-resources, #band-scores, #speaking-resources, #test-day) -->
+  <section class="spow-view" id="v-test-takers" data-route="test-takers" data-title="Test Takers" hidden>
+    <div class="v-hero"><div class="v-hero-in">
+      <div class="v-kicker">For test takers · IELTS Academic</div>
+      <h1>Everything you need to know, <em>from booking to results</em></h1>
+      <p class="v-lead">A clear, step-by-step guide to IELTS Academic: who it is for, how the test is built, how to book, what happens on the day and what you can do once your scores arrive.</p>
+      <a href="#" class="v-back">← Back to the Premium dashboard</a>
+    </div></div>
+    <div class="v-layout">
+      <nav class="v-toc" data-toc aria-label="On this page"></nav>
+      <div class="v-main">
+
+        <div class="v-sec" id="tt-who" data-short="Is it right for you?">
+          <h2>Is IELTS Academic <span>right for you?</span></h2>
+          <p>IELTS Academic measures whether your English is ready for an English-speaking academic or professional environment. Universities use it for undergraduate and postgraduate admission, and many professional bodies — for doctors, nurses, pharmacists, engineers and teachers, for example — use it for registration.</p>
+          <div class="v-stats">
+            <div class="v-stat"><b>2h 45m</b><span>total test time</span></div>
+            <div class="v-stat"><b>4</b><span>skills tested: Listening, Reading, Writing, Speaking</span></div>
+            <div class="v-stat"><b>0–9</b><span>band scale, reported in half bands</span></div>
+            <div class="v-stat"><b>13,500+</b><span>organisations that accept IELTS</span></div>
+          </div>
+          <div class="v-grid">
+            <div class="v-card"><div class="v-ico">🎓</div><h4>University study</h4><p>Admission to foundation, undergraduate, master's and doctoral programmes taught in English.</p></div>
+            <div class="v-card"><div class="v-ico">🩺</div><h4>Professional registration</h4><p>Many regulators set minimum IELTS Academic scores, often for each skill separately, before you can practise.</p></div>
+            <div class="v-card"><div class="v-ico">🌍</div><h4>Visas linked to study</h4><p>Some immigration authorities accept IELTS for student routes. Check the exact test version they require before you book.</p></div>
+          </div>
+          <div class="v-call"><p><strong>Before you book:</strong> always check the score your university, employer or regulator asks for — overall and for each skill — and which version of the test they accept. This dashboard prepares you for IELTS Academic only.</p></div>
+        </div>
+
+        <div class="v-sec" id="tt-format" data-short="Test format">
+          <h2>The test <span>at a glance</span></h2>
+          <p>Listening, Reading and Writing are taken in one sitting with no breaks between them. Speaking is a face-to-face conversation with a certified examiner, held on the same day or up to about a week before or after, depending on your test centre.</p>
+          <div class="v-tablewrap"><table class="v-table">
+            <thead><tr><th>Section</th><th>Time</th><th>What you do</th><th>Questions</th></tr></thead>
+            <tbody>
+              <tr><td>Listening</td><td>About 30 minutes</td><td>Four recordings: an everyday conversation, an everyday monologue, an academic discussion and a university-style lecture. You hear each recording once.</td><td>40</td></tr>
+              <tr><td>Reading</td><td>60 minutes</td><td>Three long texts from books, journals, magazines and newspapers, written for a non-specialist audience.</td><td>40</td></tr>
+              <tr><td>Writing</td><td>60 minutes</td><td>Task 1: describe visual information in at least 150 words. Task 2: write an essay of at least 250 words in response to an argument or problem.</td><td>2 tasks</td></tr>
+              <tr><td>Speaking</td><td>11–14 minutes</td><td>Part 1 interview, Part 2 long turn from a task card, Part 3 two-way discussion of more abstract ideas.</td><td>3 parts</td></tr>
+            </tbody>
+          </table></div>
+          <p>On paper, you get extra time at the end of Listening to copy your answers onto the answer sheet. On computer you type answers as you go and get a short review period instead. In Reading there is no extra transfer time in either format, so your answers must be on the answer sheet or screen within the 60 minutes.</p>
+          <p><a href="#how-to-prepare">See the full preparation guide →</a></p>
+        </div>
+
+        <div class="v-sec" id="tt-ways" data-short="Computer or paper">
+          <h2>Computer or paper: <span>which suits you?</span></h2>
+          <p>The content, difficulty, timing and marking criteria are the same whichever format you choose. The difference is how you answer and how fast you receive your results.</p>
+          <div class="v-tablewrap"><table class="v-table">
+            <thead><tr><th>Feature</th><th>IELTS on computer</th><th>IELTS on paper</th></tr></thead>
+            <tbody>
+              <tr><td>How you answer</td><td>Type and click on screen; word count shown in Writing; highlight and note tools.</td><td>Pencil for Listening and Reading answer sheets; handwritten Writing.</td></tr>
+              <tr><td>Results</td><td>Usually within 1–2 days.</td><td>About 13 days after the test.</td></tr>
+              <tr><td>Speaking</td><td colspan="2">Identical in both: a live, face-to-face conversation with an examiner.</td></tr>
+              <tr><td>One Skill Retake</td><td>Available at participating centres.</td><td>Not available.</td></tr>
+              <tr><td>Best for</td><td>Confident typists who want speed and a visible word count.</td><td>Candidates who think and plan best on paper.</td></tr>
+            </tbody>
+          </table></div>
+          <div class="v-call gold"><p><strong>Premium tip:</strong> practise in the format you will sit. Typing speed, scrolling between a text and its questions, and handwriting stamina all affect your score more than most candidates expect.</p></div>
+        </div>
+
+        <div class="v-sec" id="tt-book" data-short="How to book">
+          <h2>How to <span>book your test</span></h2>
+          <ol class="v-steps">
+            <li><b>Confirm your requirement</b>Find the exact overall and per-skill scores you need, the test version accepted and the latest date your results must be valid.</li>
+            <li><b>Choose a format and a centre</b>Compare computer and paper dates near you. Popular centres fill up quickly before university deadlines.</li>
+            <li><b>Prepare your identification</b>You must bring the same valid passport or national ID that you used when booking. A mismatch can stop you from sitting the test.</li>
+            <li><b>Book and pay</b>Fees are set locally and vary by country. Read the centre's rules on transfers, cancellations and refunds before paying.</li>
+            <li><b>Request adjustments early</b>If you have a disability, a medical condition or a learning difference, ask the centre about modified papers, extra time or other arrangements well in advance.</li>
+            <li><b>Plan your preparation</b>Use the <a href="#how-to-prepare">study plan builder</a> to turn the weeks you have left into a realistic schedule.</li>
+          </ol>
+        </div>
+
+        <div class="v-sec" id="tt-day" data-short="On the day">
+          <h2>On <span>test day</span></h2>
+          <p>Arrive early: identity checks, photographs and security procedures take time, and late arrivals may not be admitted. Personal belongings, including phones and smartwatches, are stored outside the test room. You will usually be given everything you need to write with.</p>
+          <p>Read our complete <a href="#test-day">test day guide</a> for a timeline, the rules you must follow and a printable checklist.</p>
+        </div>
+
+        <div class="v-sec" id="tt-results" data-short="Your results">
+          <h2>Your results <span>and what to do next</span></h2>
+          <p>You receive a band score from 0 to 9 for each skill and an overall band. The overall band is the average of the four skills, rounded to the nearest half band. Your results are shown on a Test Report Form (TRF).</p>
+          <div class="v-grid two">
+            <div class="v-card"><h4>Sending results</h4><p>You can usually send results electronically to a number of organisations free of charge, and request more for a fee. Many organisations can also check results directly through a secure verification service.</p></div>
+            <div class="v-card"><h4>How long results last</h4><p>Most organisations accept results for two years from the test date. Some set a shorter limit, so check before you apply.</p></div>
+            <div class="v-card"><h4>Asking for a remark</h4><p>If you believe a score is wrong, you can request an Enquiry on Results, usually within six weeks of your test. You can ask for one or more skills to be re-marked. If your band changes, the fee is normally refunded.</p></div>
+            <div class="v-card"><h4>IELTS One Skill Retake</h4><p>If you took IELTS on computer at a participating centre, you may be able to retake one skill within 60 days instead of the whole test. Check first that your organisation accepts it.</p></div>
+          </div>
+          <p><a href="#band-scores">Understand your band scores and try the score calculators →</a></p>
+        </div>
+
+        <div class="v-sec" id="tt-faq" data-short="FAQs">
+          <h2>Frequently asked <span>questions</span></h2>
+          <details class="v-acc"><summary>Is IELTS Academic harder than other versions?</summary><div><p>Listening and Speaking are the same in every version. Academic Reading and Writing use academic-style texts and tasks, so they suit people heading for university or professional registration. The scoring standard is the same: a band 7 means the same level of ability whichever paper you take.</p></div></details>
+          <details class="v-acc"><summary>What do I write with in the paper test?</summary><div><p>Listening and Reading answer sheets are completed in pencil. For Writing on paper you write on the answer sheet with the pen you are given. Always follow the instructions given in the room.</p></div></details>
+          <details class="v-acc"><summary>Does writing more words get a higher score?</summary><div><p>No. Going over the minimum is not penalised, but length alone earns nothing. Writing too much in Task 1 can steal time from Task 2, which carries twice the weight.</p></div></details>
+          <details class="v-acc"><summary>Can I make notes during the test?</summary><div><p>Yes. On paper you can write on the question paper; on computer you can use the highlighting and note tools. Notes are never marked — only your answers on the answer sheet or in the answer boxes count.</p></div></details>
+          <details class="v-acc"><summary>Is American or British spelling accepted?</summary><div><p>Both are accepted, as long as you spell correctly. Try to stay consistent within one answer.</p></div></details>
+          <details class="v-acc"><summary>How many times can I take IELTS?</summary><div><p>There is no limit on the number of attempts. Most improvement, however, comes from focused preparation between attempts rather than from repeating the test.</p></div></details>
+          <details class="v-acc"><summary>Will my Speaking test be recorded?</summary><div><p>Yes. Speaking tests are recorded for quality control and so that they can be re-marked if you request an Enquiry on Results.</p></div></details>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <section class="spow-view" id="v-organisations" data-route="organisations" data-title="Organisations" hidden>
+    <div class="v-hero"><div class="v-hero-in">
+      <div class="v-kicker">For universities, employers and regulators</div>
+      <h1>Using IELTS Academic <em>with confidence</em></h1>
+      <p class="v-lead">A practical briefing for admissions teams, professional bodies and employers: what IELTS scores mean, how to set sensible requirements, how to verify results and how to keep your policy up to date.</p>
+      <a href="#" class="v-back">← Back to the Premium dashboard</a>
+    </div></div>
+    <div class="v-layout">
+      <nav class="v-toc" data-toc aria-label="On this page"></nav>
+      <div class="v-main">
+
+        <div class="v-sec" id="org-why" data-short="Why IELTS">
+          <h2>Why organisations <span>rely on IELTS</span></h2>
+          <p>IELTS Academic assesses all four skills — including a live Speaking test with a human examiner — and reports results on a single, well-described 0–9 scale. It is accepted by more than 13,500 organisations worldwide, which means applicants can reuse one result across several destinations.</p>
+          <div class="v-grid">
+            <div class="v-card"><div class="v-ico">⚖️</div><h4>Four-skill evidence</h4><p>Separate band scores for Listening, Reading, Writing and Speaking let you set requirements that match the real demands of a course or job.</p></div>
+            <div class="v-card"><div class="v-ico">🗣️</div><h4>Human-rated production</h4><p>Writing and Speaking are rated by trained, certified examiners against published criteria, with ongoing monitoring of examiner standards.</p></div>
+            <div class="v-card"><div class="v-ico">🔒</div><h4>Verifiable results</h4><p>Results can be checked online through a free, secure results service for recognising organisations.</p></div>
+          </div>
+        </div>
+
+        <div class="v-sec" id="org-scores" data-short="Reading the scores">
+          <h2>What the <span>band scores mean</span></h2>
+          <p>Each band describes a level of practical ability. The labels below summarise the scale; the full skill-by-skill descriptions are published by the test owners.</p>
+          <div class="v-tablewrap"><table class="v-table">
+            <thead><tr><th>Band</th><th>Label</th><th>In practice</th></tr></thead>
+            <tbody>
+              <tr><td>9</td><td>Expert user</td><td>Complete, accurate and fluent command of the language.</td></tr>
+              <tr><td>8</td><td>Very good user</td><td>Full command with occasional slips; handles detailed argument well.</td></tr>
+              <tr><td>7</td><td>Good user</td><td>Operational command with some inaccuracies; generally handles complex language and reasoning.</td></tr>
+              <tr><td>6</td><td>Competent user</td><td>Effective command despite errors; copes with fairly complex language in familiar situations.</td></tr>
+              <tr><td>5</td><td>Modest user</td><td>Partial command; conveys overall meaning but makes many mistakes.</td></tr>
+              <tr><td>4</td><td>Limited user</td><td>Basic competence in familiar situations, with frequent problems of understanding and expression.</td></tr>
+              <tr><td>3–1</td><td>Extremely limited to non-user</td><td>Very restricted communication, down to isolated words.</td></tr>
+              <tr><td>0</td><td>Did not attempt</td><td>No assessable information.</td></tr>
+            </tbody>
+          </table></div>
+          <p>The overall band is the average of the four skill scores, rounded to the nearest half band. Averages ending in .25 round up to the next half band, and averages ending in .75 round up to the next whole band.</p>
+        </div>
+
+        <div class="v-sec" id="org-set" data-short="Setting requirements">
+          <h2>Setting <span>score requirements</span></h2>
+          <p>A good requirement is defensible, specific and reviewed. A single overall score can hide a weak skill, so most organisations combine an overall minimum with per-skill minimums.</p>
+          <ol class="v-steps">
+            <li><b>Analyse the real language demands</b>List the tasks people must perform: following lectures, reading research, writing reports, speaking with patients or clients. Decide which skills matter most.</li>
+            <li><b>Read the band descriptors with subject experts</b>Ask academic or professional staff which band best describes the minimum acceptable performance for each skill.</li>
+            <li><b>Set overall and per-skill minimums</b>For example, a writing-heavy programme might set a higher Writing minimum than a lab-based one; a patient-facing role might weight Speaking and Listening.</li>
+            <li><b>Decide on validity and retakes</b>State how old a result may be (two years is common) and whether you accept results improved through IELTS One Skill Retake or combined from several sittings.</li>
+            <li><b>Monitor outcomes</b>Compare entry scores with later academic or workplace performance and adjust if your thresholds prove too high or too low.</li>
+          </ol>
+          <div class="v-call dark"><p><strong>Illustrative only:</strong> the profile below shows the kind of structure many organisations use. It is not a recommendation for any particular course.</p></div>
+          <div class="v-tablewrap"><table class="v-table">
+            <thead><tr><th>Example context</th><th>Overall</th><th>Listening</th><th>Reading</th><th>Writing</th><th>Speaking</th></tr></thead>
+            <tbody>
+              <tr><td>Foundation or pathway course</td><td>5.5</td><td>5.0</td><td>5.0</td><td>5.0</td><td>5.0</td></tr>
+              <tr><td>Undergraduate degree</td><td>6.0–6.5</td><td>5.5–6.0</td><td>5.5–6.0</td><td>5.5–6.0</td><td>5.5–6.0</td></tr>
+              <tr><td>Writing-intensive master's</td><td>7.0</td><td>6.5</td><td>6.5</td><td>7.0</td><td>6.5</td></tr>
+              <tr><td>Patient-facing registration</td><td>7.0+</td><td>7.0</td><td>7.0</td><td>6.5–7.0</td><td>7.0</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="v-sec" id="org-verify" data-short="Verifying results">
+          <h2>Verifying <span>results</span></h2>
+          <p>Never rely on a scanned or printed copy alone. Recognising organisations can register for the free IELTS Results Service and check scores directly against the official record.</p>
+          <ul>
+            <li>Match the applicant's name, date of birth and photograph to the record.</li>
+            <li>Check the test date against your validity window.</li>
+            <li>Confirm the test version — Academic, General Training or a UKVI version — is the one you accept.</li>
+            <li>Record the TRF number and verification date in the applicant's file.</li>
+            <li>Treat any mismatch as a reason to pause the decision and contact the test owners, not as a minor clerical error.</li>
+          </ul>
+          <div class="v-call"><p><strong>New TRF design (from 15 July 2026):</strong> Test Report Forms now carry the logo and qualification title of Ofqual, the regulator for qualifications in England. Forms issued before and after that date remain valid, and test takers do not need to resend forms already submitted.</p></div>
+        </div>
+
+        <div class="v-sec" id="org-integrity" data-short="Integrity">
+          <h2>Security <span>and integrity</span></h2>
+          <p>Test security combines identity checks on test day, controlled test materials, examiner monitoring and statistical checks on results. For your own processes, the strongest protections are simple: verify every result at source, train staff to spot inconsistencies and record your checks.</p>
+          <p>In June 2026 the regulator Ofqual fined Cambridge English £875,000 after a marking fault in computer-delivered Listening and Reading tests between August 2023 and September 2025. Corrected results were issued, most of them higher by half a band. If you made decisions during that period, check whether any applicant received a corrected result. See <a href="#news">News &amp; Insights</a> for the details.</p>
+        </div>
+
+        <div class="v-sec" id="org-checklist" data-short="Policy checklist">
+          <h2>Policy <span>checklist</span></h2>
+          <ul class="v-check">
+            <li><input type="checkbox" id="oc1"><label for="oc1">Overall and per-skill minimums are published for every programme or role.</label></li>
+            <li><input type="checkbox" id="oc2"><label for="oc2">The accepted test versions (Academic, UKVI, etc.) are stated clearly.</label></li>
+            <li><input type="checkbox" id="oc3"><label for="oc3">A validity period is set and applied consistently.</label></li>
+            <li><input type="checkbox" id="oc4"><label for="oc4">A position on IELTS One Skill Retake results is published.</label></li>
+            <li><input type="checkbox" id="oc5"><label for="oc5">Every result is verified through the results service before an offer is confirmed.</label></li>
+            <li><input type="checkbox" id="oc6"><label for="oc6">Requirements are reviewed at least every two years using outcome data.</label></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <section class="spow-view" id="v-researchers" data-route="researchers" data-title="Researchers" hidden>
+    <div class="v-hero"><div class="v-hero-in">
+      <div class="v-kicker">For researchers and teacher-researchers</div>
+      <h1>The evidence <em>behind the scores</em></h1>
+      <p class="v-lead">Where IELTS research is published, what the latest test statistics show, how reliability and measurement error work, and how to find funding for your own study.</p>
+      <a href="#" class="v-back">← Back to the Premium dashboard</a>
+    </div></div>
+    <div class="v-layout">
+      <nav class="v-toc" data-toc aria-label="On this page"></nav>
+      <div class="v-main">
+
+        <div class="v-sec" id="rs-series" data-short="Research series">
+          <h2>Where IELTS research <span>is published</span></h2>
+          <p>The IELTS partners publish a large body of research — more than 140 reports are listed in the current research archive. The main series are:</p>
+          <div class="v-grid two">
+            <div class="v-card"><h4>IELTS Research Reports Online</h4><p>Studies by independent researchers funded through the joint research grants programme. The core series for validity, washback and score-use research.</p></div>
+            <div class="v-card"><h4>IELTS Partnership Research Papers</h4><p>Research led by the partners themselves, including comparability studies with other tests.</p></div>
+            <div class="v-card"><h4>Studies in Language Testing (SiLT)</h4><p>A book series covering the theory and practice of language assessment in depth.</p></div>
+            <div class="v-card"><h4>Research Notes &amp; Research updates</h4><p>Shorter, regular publications on test development, product changes and ongoing projects.</p></div>
+          </div>
+          <h3>Recent titles worth reading</h3>
+          <ul>
+            <li><em>IELTS Voices</em> — a 2026 survey of 8,395 test takers and prospective candidates across 165 countries about motivations, experiences and outcomes.</li>
+            <li><em>The road to understanding in lecture listening</em> — N. Latimer, C. Inoue, S. Chan and D. M. K. Lam.</li>
+            <li><em>Safeguarding equity, access and inclusion in IELTS</em> — C. Inoue and L. Taylor.</li>
+            <li><em>An investigation of the language assessment interests and needs of professional registration bodies in the UK</em> — J. Pill and S. Sheehan.</li>
+            <li><em>Exploring the possibilities of integrating communicative AI into the IELTS test preparation process</em> — C. Perrotta, U. Knoch, N. Selwyn and S. Mohammadi.</li>
+            <li><em>Beyond score correlations: a content comparison of IELTS Academic and TOEFL iBT</em> — S. T. Cushing.</li>
+          </ul>
+        </div>
+
+        <div class="v-sec" id="rs-stats" data-short="Test statistics">
+          <h2>Latest <span>test statistics</span></h2>
+          <p>The test owners publish yearly statistics: score distributions by age, reason for taking the test, first language and nationality, plus reliability figures for each section. The figures below are for the 2024–25 reporting year.</p>
+          <div class="v-tablewrap"><table class="v-table">
+            <thead><tr><th>Section</th><th>Mean band</th><th>Standard deviation</th><th>SEM</th><th>Reliability (Cronbach's alpha, average)</th></tr></thead>
+            <tbody>
+              <tr><td>Listening</td><td>6.45</td><td>1.36</td><td>0.43</td><td>0.90 (range 0.83–0.95)</td></tr>
+              <tr><td>Academic Reading</td><td>6.32</td><td>1.26</td><td>0.36</td><td>0.92 (range 0.87–0.94)</td></tr>
+            </tbody>
+          </table></div>
+          <div class="v-stats">
+            <div class="v-stat"><b>0.92</b><span>Writing inter-rater reliability</span></div>
+            <div class="v-stat"><b>0.90</b><span>Speaking inter-rater reliability</span></div>
+            <div class="v-stat"><b>0.97</b><span>composite reliability, Academic</span></div>
+            <div class="v-stat"><b>0.17</b><span>composite SEM, Academic</span></div>
+          </div>
+          <p class="v-note">Inter-rater figures compare original ratings with independent re-ratings. Always quote the reporting year with any statistic, because figures are updated annually.</p>
+        </div>
+
+        <div class="v-sec" id="rs-sem" data-short="Measurement error">
+          <h2>Understanding <span>measurement error</span></h2>
+          <p>No test measures ability perfectly. The standard error of measurement (SEM) estimates how far an observed score is likely to be from a candidate's "true" score. Roughly two times in three, the true score lies within one SEM of the observed score; about 95 times in a hundred, within two SEMs. This matters when a candidate falls just below a cut-off.</p>
+          <div class="v-tool" id="sem-tool">
+            <h4>Score band explorer</h4>
+            <div class="v-row">
+              <label class="v-field">Section
+                <select id="sem-sec"><option value="0.43">Listening (SEM 0.43)</option><option value="0.36">Academic Reading (SEM 0.36)</option><option value="0.17">Overall, Academic (SEM 0.17)</option></select></label>
+              <label class="v-field">Observed band
+                <select id="sem-band"></select></label>
+            </div>
+            <button class="v-btn" id="sem-go" type="button">Show likely range</button>
+            <div class="v-out" id="sem-out"></div>
+          </div>
+        </div>
+
+        <div class="v-sec" id="rs-validity" data-short="Validity">
+          <h2>How validity <span>is argued</span></h2>
+          <p>Modern language testing treats validity as an argument built from many kinds of evidence, not as a single number. IELTS research is commonly organised around a socio-cognitive framework, which asks questions such as:</p>
+          <div class="v-grid">
+            <div class="v-card"><h4>Test taker</h4><p>Who takes the test, and are any groups disadvantaged by format, topic or delivery mode?</p></div>
+            <div class="v-card"><h4>Cognitive validity</h4><p>Do tasks trigger the same mental processes as real academic listening, reading, writing and speaking?</p></div>
+            <div class="v-card"><h4>Context validity</h4><p>Are the texts, tasks and conditions representative of the target situation?</p></div>
+            <div class="v-card"><h4>Scoring validity</h4><p>Are marking criteria, rater training and statistical checks consistent and fair?</p></div>
+            <div class="v-card"><h4>Consequential validity</h4><p>What effects do scores have on teaching (washback), on decisions and on society?</p></div>
+            <div class="v-card"><h4>Criterion-related validity</h4><p>How do scores relate to other measures and to later performance in study or work?</p></div>
+          </div>
+        </div>
+
+        <div class="v-sec" id="rs-funding" data-short="Funding & awards">
+          <h2>Funding <span>and awards</span></h2>
+          <ul>
+            <li><strong>Joint-funded research grants programme</strong> — calls for proposals from researchers worldwide; funded studies are published in the IELTS Research Reports Online series.</li>
+            <li><strong>Caroline Clapham IELTS Masters Award</strong> — a £2,000 prize for an outstanding master's dissertation in language testing, given in memory of Caroline Clapham.</li>
+            <li><strong>Scholarships</strong> — regional awards and scholarships are announced through the IELTS research and news pages.</li>
+          </ul>
+          <div class="v-call gold"><p><strong>Strong proposals usually</strong> address a question the partners have flagged as a priority, explain exactly how results could inform test development or score use, and include a realistic plan for recruiting participants.</p></div>
+        </div>
+
+        <div class="v-sec" id="rs-ideas" data-short="Research ideas">
+          <h2>Questions <span>still worth asking</span></h2>
+          <div class="v-chips"><span>Automated marking and validity</span><span>Conversational AI in speaking assessment</span><span>Computer vs paper comparability</span><span>Score use by professional regulators</span><span>Washback on test preparation</span><span>Accessibility and accommodations</span><span>Lecture listening demands</span><span>Integrated skills in real study</span></div>
+          <p>For classroom teacher-researchers, small studies are valuable too: tracking how learners use feedback on Task 2 essays, comparing timed and untimed writing, or investigating which Reading question types cause the most errors in a particular group.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <section class="spow-view" id="v-news" data-route="news" data-title="News &amp; Insights" hidden>
+    <div class="v-hero"><div class="v-hero-in">
+      <div class="v-kicker">News &amp; Insights</div>
+      <h1>What is changing in IELTS, <em>and what it means for you</em></h1>
+      <p class="v-lead">A curated digest of recent IELTS developments, explained in plain English, followed by in-depth premium insights from our teaching team.</p>
+      <a href="#" class="v-back">← Back to the Premium dashboard</a>
+    </div></div>
+    <div class="v-layout">
+      <nav class="v-toc" data-toc aria-label="On this page"></nav>
+      <div class="v-main">
+
+        <div class="v-sec" id="nw-digest" data-short="Latest digest">
+          <h2>Latest <span>developments</span></h2>
+          <p class="v-note">Summaries are written by Shared Pearls of Wisdom. Dates are those of the original announcements; follow the links for the full statements.</p>
+
+          <article class="v-news"><time>1 Oct 2026</time><div>
+            <span class="v-tag">Insight</span><h4>Keeping trust in high-stakes test scores</h4>
+            <p>The IELTS partners published a discussion of what organisations need in order to trust English test scores used for admissions, registration and visas — a theme that runs through most of this year's announcements.</p>
+            <p><a class="v-link" href="https://ielts.org/news-and-insights" target="_blank" rel="noopener">Read on ielts.org ↗</a></p></div></article>
+
+          <article class="v-news"><time>15 Sep 2026</time><div>
+            <span class="v-tag">Security</span><h4>How secure is your English test?</h4>
+            <p>An article on the identity checks, controlled materials and monitoring that protect results. For candidates, the practical lesson is simple: the ID you book with must be the ID you bring.</p>
+            <p><a class="v-link" href="https://ielts.org/news-and-insights" target="_blank" rel="noopener">Read on ielts.org ↗</a></p></div></article>
+
+          <article class="v-news"><time>7 Sep 2026</time><div>
+            <span class="v-tag red">Research</span><h4>IELTS Voices: recognition matters most</h4>
+            <p>A survey of 8,395 test takers and prospective candidates in 165 countries found that 82% put the broadest possible recognition first when choosing a test, and 42% of those taking IELTS for study were considering more than one destination. Only 11% said they would pick a cheaper test if it lowered their confidence of success, and 67% reported better speaking confidence, academic or professional writing — or both — after preparing.</p>
+            <p><a class="v-link" href="https://ielts.org/news-and-insights/recognition-matters-most-as-globally-mobile-test-takers-keep-options-open-ielts-research-finds" target="_blank" rel="noopener">Read on ielts.org ↗</a></p></div></article>
+
+          <article class="v-news"><time>7 Sep 2026</time><div>
+            <span class="v-tag gold">Awards</span><h4>2026 IELTS USA Andrea Scott scholar announced</h4>
+            <p>The latest scholarship was awarded for work on equity in urban planning, continuing the partners' support for graduate study.</p>
+            <p><a class="v-link" href="https://ielts.org/news-and-insights" target="_blank" rel="noopener">Read on ielts.org ↗</a></p></div></article>
+
+          <article class="v-news"><time>11 Jun 2026</time><div>
+            <span class="v-tag red">Results</span><h4>New design for Test Report Forms from 15 July 2026</h4>
+            <p>All digital and paper TRFs now show the Ofqual logo and qualification title. Your existing TRF stays valid, your scores do not change and you do not need to resend forms already submitted. If your TRF was issued between June 2024 and 14 July 2026, you can request an updated version free of charge; doing so does not extend its validity.</p>
+            <p><a class="v-link" href="https://ielts.org/news-and-insights/changes-to-test-report-forms" target="_blank" rel="noopener">Read on ielts.org ↗</a></p></div></article>
+
+          <article class="v-news"><time>11 Jun 2026</time><div>
+            <span class="v-tag red">Regulation</span><h4>Ofqual fines Cambridge English £875,000 over marking errors</h4>
+            <p>England's qualifications regulator found that an automatic-marking fault affected computer-delivered Listening and Reading tests between August 2023 and September 2025. Of 7.7 million tests, 93,865 responses were marked incorrectly. 62,794 learners received corrected Listening or Reading results, and 21,717 saw their overall band change — the great majority upwards, usually by half a band, with 1,115 lowered. Writing and Speaking, which are marked by human examiners, were not affected.</p>
+            <p><a class="v-link" href="https://www.gov.uk/government/news/ofqual-fines-cambridge-english-875000-after-incorrect-results-for-global-english-language-tests" target="_blank" rel="noopener">Read the regulator's statement ↗</a></p></div></article>
+
+          <article class="v-news"><time>13 May 2026</time><div>
+            <span class="v-tag">Insight</span><h4>What automated marking means for validity</h4>
+            <p>A discussion of how automated scoring can support — or undermine — the validity and integrity of language tests, published as automarking came under scrutiny across the sector.</p>
+            <p><a class="v-link" href="https://ielts.org/news-and-insights" target="_blank" rel="noopener">Read on ielts.org ↗</a></p></div></article>
+
+          <article class="v-news"><time>15 Apr 2026</time><div>
+            <span class="v-tag">Insight</span><h4>Conversational AI in speaking assessment</h4>
+            <p>An exploration of where conversational AI might fit in assessing speaking. IELTS Speaking itself remains a live conversation with a human examiner.</p>
+            <p><a class="v-link" href="https://ielts.org/news-and-insights" target="_blank" rel="noopener">Read on ielts.org ↗</a></p></div></article>
+
+          <article class="v-news"><time>Nov 2025</time><div>
+            <span class="v-tag red">Results</span><h4>Score corrections issued to affected candidates</h4>
+            <p>IELTS announced that a small proportion of candidates had received incorrect results between August 2023 and September 2025 and began issuing corrections. If your result changed and you had already submitted it, tell the university, employer or visa authority concerned.</p>
+            <p><a class="v-link" href="https://ielts.org/take-a-test/your-results/adjustments" target="_blank" rel="noopener">Read on ielts.org ↗</a></p></div></article>
+        </div>
+
+        <div class="v-sec" id="nw-task2" data-short="Insight: Task 2">
+          <h2>Insight: why Task 2 <span>decides your Writing band</span></h2>
+          <p>Task 2 counts twice as much as Task 1. In practice, that means a candidate scoring 7 in Task 1 and 6 in Task 2 averages about 6.3, while the reverse — 6 in Task 1 and 7 in Task 2 — averages about 6.7. The same two numbers produce results almost half a band apart.</p>
+          <p>The lesson: give Task 2 the full 40 minutes, including five minutes of planning. A rushed, unfinished essay is the single most common reason strong candidates miss a Writing 7. Finish Task 1 in 20 minutes even if you would like to polish it.</p>
+          <p><a href="#writing-resources">Go to the Writing preparation resources →</a></p>
+        </div>
+
+        <div class="v-sec" id="nw-half" data-short="Insight: half bands">
+          <h2>Insight: what <span>half a band</span> really means</h2>
+          <p>The published standard error of measurement for Academic Reading is 0.36 of a band, and for Listening 0.43. So if you need a 7 and score 6.5, your true ability may well be at 7 — but it may equally be at 6. Before rebooking, look at which question types you lost marks on. A targeted month of practice usually moves a score more reliably than an immediate retake.</p>
+          <p><a href="#researchers">Explore measurement error on the Researchers page →</a></p>
+        </div>
+
+        <div class="v-sec" id="nw-computer" data-short="Insight: on computer">
+          <h2>Insight: computer-delivered tests, <span>without the myths</span></h2>
+          <ul>
+            <li><strong>Same test, same standard.</strong> The tasks, timing and marking criteria do not change with the format.</li>
+            <li><strong>Different habits.</strong> On screen you cannot underline with a pen, so practise with highlighting tools and keep your eyes on the question numbers.</li>
+            <li><strong>Faster results.</strong> Most computer results arrive within two days, which helps when an application deadline is close.</li>
+            <li><strong>Retake option.</strong> Only computer-delivered tests can lead to IELTS One Skill Retake.</li>
+          </ul>
+        </div>
+
+        <div class="v-sec" id="nw-habits" data-short="Insight: Band 8 readers">
+          <h2>Insight: five habits of <span>Band 8 readers</span></h2>
+          <ol>
+            <li>They read the questions first and decide what kind of information each one needs — a name, a number, an opinion, a reason.</li>
+            <li>They know that most question sets follow the order of the text, so they never search the whole passage for each answer.</li>
+            <li>They treat paraphrase as the default: the passage almost never repeats the words of the question.</li>
+            <li>They separate FALSE (the text says the opposite) from NOT GIVEN (the text does not say) and never answer from general knowledge.</li>
+            <li>They move on after 90 seconds on one question and come back if time allows.</li>
+          </ol>
+          <p><a href="#sample-questions">Try the Reading sample questions →</a></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <section class="spow-view" id="v-how-to-prepare" data-route="how-to-prepare" data-title="How to prepare" data-parent="Prepare for your test" hidden>
+    <div class="v-hero"><div class="v-hero-in">
+      <div class="v-kicker">Prepare for your test · Guide</div>
+      <h1>How to prepare for <em>IELTS Academic</em></h1>
+      <p class="v-lead">A complete preparation system: diagnose your level, build a realistic study plan, master each section's strategies and arrive on test day ready to perform.</p>
+      <a href="#" class="v-back">← Back to the Premium dashboard</a>
+    </div></div>
+    <div class="v-layout">
+      <nav class="v-toc" data-toc aria-label="On this page"></nav>
+      <div class="v-main">
+
+        <div class="v-sec" id="hp-method" data-short="The method">
+          <h2>The six-stage <span>preparation method</span></h2>
+          <ol class="v-steps">
+            <li><b>Know the destination</b>Write down the overall and per-skill bands you need and your deadline. Everything else is planned backwards from these numbers.</li>
+            <li><b>Diagnose honestly</b>Take one complete timed test — Listening, Reading and Writing in one sitting, then a recorded Speaking test. Score it strictly. This is your baseline.</li>
+            <li><b>Find the gap</b>Compare your baseline with your target for each skill. A gap of half a band needs fine-tuning; a gap of a full band or more needs language development as well as technique.</li>
+            <li><b>Train skills, not just tests</b>Doing test after test only measures you. Improvement comes from focused practice: question types you miss, essay structures you avoid, sounds you mispronounce.</li>
+            <li><b>Simulate under pressure</b>Every two or three weeks, sit a full test under exam timing with no pauses. Track your scores in a simple table.</li>
+            <li><b>Taper and rehearse</b>In the final week, reduce the volume, revise your error log, rehearse the test-day routine and sleep properly.</li>
+          </ol>
+        </div>
+
+        <div class="v-sec" id="hp-plan" data-short="Study plan builder">
+          <h2>Build your <span>study plan</span></h2>
+          <p>Tell us where you are and where you need to be. The planner suggests how to divide your weekly hours between the four skills and gives you a week-by-week outline.</p>
+          <div class="v-tool">
+            <h4>Personal study plan builder</h4>
+            <div class="v-row">
+              <label class="v-field">Current overall band<select id="pl-now"></select></label>
+              <label class="v-field">Target overall band<select id="pl-target"></select></label>
+              <label class="v-field">Weeks until test<input id="pl-weeks" type="number" min="1" max="52" value="8"></label>
+              <label class="v-field">Hours per week<input id="pl-hours" type="number" min="2" max="40" value="10"></label>
+            </div>
+            <div class="v-row">
+              <label class="v-field">Weakest skill<select id="pl-weak"><option>Writing</option><option>Speaking</option><option>Reading</option><option>Listening</option></select></label>
+            </div>
+            <button class="v-btn" id="pl-go" type="button">Generate my plan</button>
+            <div class="v-out" id="pl-out"></div>
+          </div>
+          <p class="v-note">A widely used rule of thumb is that moving up one full band takes many weeks of sustained, guided study for most adult learners. The planner flags targets that look too ambitious for the time available.</p>
+        </div>
+
+        <div class="v-sec" id="hp-skills" data-short="Skill strategies">
+          <h2>Strategies for <span>each section</span></h2>
+          <div class="v-tabs" data-tabs="hp"><button class="on" data-tab="hp-l" type="button">Listening</button><button data-tab="hp-r" type="button">Reading</button><button data-tab="hp-w" type="button">Writing</button><button data-tab="hp-s" type="button">Speaking</button></div>
+          <div class="v-pane" data-pane="hp-l" data-group="hp">
+            <h3>Listening: anticipate, then follow</h3>
+            <ul>
+              <li><strong>Use the reading time.</strong> Before each part, read the questions and predict the type of answer: a number, a date, a name, a noun.</li>
+              <li><strong>Follow the signposts.</strong> Speakers mark changes with phrases such as "moving on to", "the main problem was", "actually, no — it's". Corrections are a favourite trap.</li>
+              <li><strong>Spell perfectly.</strong> A correct idea with a spelling mistake scores zero. Learn the spelling of common topic words, days, months and numbers.</li>
+              <li><strong>Watch the word limit.</strong> "NO MORE THAN TWO WORDS AND/OR A NUMBER" is strict: three words is wrong even if the meaning is right.</li>
+              <li><strong>Don't stop when you miss one.</strong> Let it go and listen for the next answer; answers come in order.</li>
+            </ul>
+            <p><a href="ielts-premium-listening-landing-page.html">Practise with the 10 premium Listening tests →</a></p>
+          </div>
+          <div class="v-pane" data-pane="hp-r" data-group="hp" hidden>
+            <h3>Reading: navigate, don't read every word</h3>
+            <ul>
+              <li><strong>Skim each passage in two minutes</strong> to learn its structure: what each paragraph is about.</li>
+              <li><strong>Locate, then read closely.</strong> Find the part of the text that matches the question using key words and their paraphrases, then read those lines carefully.</li>
+              <li><strong>Know the question logic.</strong> TRUE/FALSE/NOT GIVEN tests facts; YES/NO/NOT GIVEN tests the writer's views. Headings test the main idea, not a detail.</li>
+              <li><strong>Budget 20 minutes per passage</strong> — and remember there is no extra time to transfer answers.</li>
+              <li><strong>Build reading stamina</strong> by reading one long article a day from a quality science, history or current-affairs source.</li>
+            </ul>
+            <p><a href="ielts-premium-reading-landing-page.html">Practise with the 20 premium Reading tests →</a></p>
+          </div>
+          <div class="v-pane" data-pane="hp-w" data-group="hp" hidden>
+            <h3>Writing: plan, then write precisely</h3>
+            <ul>
+              <li><strong>Task 1 in 20 minutes:</strong> introduction (paraphrase), overview of the main trends, two body paragraphs with selected data. No opinions.</li>
+              <li><strong>Task 2 in 40 minutes:</strong> five minutes planning, a clear position, two or three well-developed body paragraphs, a conclusion that matches your introduction.</li>
+              <li><strong>Answer every part of the question.</strong> Many essays lose marks because they discuss the topic instead of answering the question.</li>
+              <li><strong>Keep an error log.</strong> Write down every correction you receive. Most candidates repeat the same five or six errors.</li>
+            </ul>
+            <p><a href="#writing-resources">Open the full Writing resources →</a></p>
+          </div>
+          <div class="v-pane" data-pane="hp-s" data-group="hp" hidden>
+            <h3>Speaking: extend, explain, exemplify</h3>
+            <ul>
+              <li><strong>Part 1:</strong> answer directly, then add a reason or an example. Two or three sentences is ideal.</li>
+              <li><strong>Part 2:</strong> use the minute of preparation to note key words for each prompt, not full sentences. Keep talking until the examiner stops you.</li>
+              <li><strong>Part 3:</strong> give opinions, compare, speculate about the future and consider other viewpoints.</li>
+              <li><strong>Record yourself weekly</strong> and listen for hesitations, repeated words and unclear sounds.</li>
+            </ul>
+            <p><a href="#speaking-resources">Open the full Speaking resources →</a></p>
+          </div>
+        </div>
+
+        <div class="v-sec" id="hp-week" data-short="A model week">
+          <h2>A model <span>study week</span></h2>
+          <p>For a candidate studying ten hours a week with Writing as the weakest skill:</p>
+          <div class="v-tablewrap"><table class="v-table">
+            <thead><tr><th>Day</th><th>Focus</th><th>Time</th></tr></thead>
+            <tbody>
+              <tr><td>Monday</td><td>Task 2 essay under time + error-log review</td><td>1 h 30</td></tr>
+              <tr><td>Tuesday</td><td>One Reading passage, question-type drill + vocabulary notebook</td><td>1 h 15</td></tr>
+              <tr><td>Wednesday</td><td>Listening Parts 3–4 + spelling list</td><td>1 h</td></tr>
+              <tr><td>Thursday</td><td>Task 1 report + rewrite of Monday's essay</td><td>1 h 30</td></tr>
+              <tr><td>Friday</td><td>Speaking Parts 2–3, recorded and reviewed</td><td>1 h</td></tr>
+              <tr><td>Saturday</td><td>Full timed Listening + Reading test</td><td>2 h</td></tr>
+              <tr><td>Sunday</td><td>Review the week's mistakes; long-form reading for pleasure</td><td>1 h 45</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="v-sec" id="hp-mistakes" data-short="Common mistakes">
+          <h2>Preparation mistakes <span>to avoid</span></h2>
+          <div class="v-grid two">
+            <div class="v-card"><h4>Testing instead of training</h4><p>Doing a full test every day measures your level but rarely changes it. Spend most of your time on targeted practice.</p></div>
+            <div class="v-card"><h4>Memorising model essays</h4><p>Examiners recognise memorised material, and it rarely fits the actual question. Learn structures and flexible language instead.</p></div>
+            <div class="v-card"><h4>Ignoring timing</h4><p>Practising without a clock hides your real performance. Time every task from week two.</p></div>
+            <div class="v-card"><h4>Chasing rare vocabulary</h4><p>Precise, natural word choice scores higher than impressive words used wrongly.</p></div>
+          </div>
+        </div>
+
+        <div class="v-sec" id="hp-final" data-short="Final-week checklist">
+          <h2>Final-week <span>checklist</span></h2>
+          <p class="v-note">Your ticks are saved on this device.</p>
+          <ul class="v-check" data-store="hp-check">
+            <li><input type="checkbox" id="hc1"><label for="hc1">I have confirmed the test date, time, venue and travel route.</label></li>
+            <li><input type="checkbox" id="hc2"><label for="hc2">My ID document is valid and matches my booking exactly.</label></li>
+            <li><input type="checkbox" id="hc3"><label for="hc3">I have sat at least two full timed tests in the last month.</label></li>
+            <li><input type="checkbox" id="hc4"><label for="hc4">I have reviewed my error log for Writing and Reading.</label></li>
+            <li><input type="checkbox" id="hc5"><label for="hc5">I have rehearsed a Speaking test aloud with a timer.</label></li>
+            <li><input type="checkbox" id="hc6"><label for="hc6">I know my timing plan for Reading (20 minutes per passage) and Writing (20 + 40).</label></li>
+            <li><input type="checkbox" id="hc7"><label for="hc7">I will sleep well the night before and arrive early.</label></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <section class="spow-view" id="v-sample-questions" data-route="sample-questions" data-title="IELTS sample test questions" data-parent="Prepare for your test" hidden>
+    <div class="v-hero"><div class="v-hero-in">
+      <div class="v-kicker">Prepare for your test · Interactive samples</div>
+      <h1>IELTS sample <em>test questions</em></h1>
+      <p class="v-lead">Try authentic-style questions from all four sections, check your answers instantly and read why each answer is right. Every sample here is original Shared Pearls of Wisdom material written to IELTS Academic specifications.</p>
+      <a href="#" class="v-back">← Back to the Premium dashboard</a>
+    </div></div>
+    <div class="v-layout">
+      <nav class="v-toc" data-toc aria-label="On this page"></nav>
+      <div class="v-main">
+
+        <div class="v-sec" id="sq-listening" data-short="Listening sample">
+          <h2>Listening sample: <span>Part 1</span></h2>
+          <p>A student phones a library to book a group study room. Read questions 1–7 first. Then press play — you will hear the recording <strong>once</strong>, as in the real test.</p>
+          <div class="v-tool">
+            <div class="v-row" style="align-items:center">
+              <button class="v-btn" id="ls-play" type="button">▶ Play recording</button>
+              <button class="v-btn ghost" id="ls-stop" type="button">■ Stop</button>
+              <span class="v-note" id="ls-status">Uses a British, Australian or Canadian voice from your device if one is available.</span>
+            </div>
+          </div>
+          <div data-set="ls">
+            <h4>Questions 1–5 · Complete the form. Write ONE WORD AND/OR A NUMBER for each answer.</h4>
+            <div class="v-q" data-ans="okafor" data-why="He spells his surname: O-K-A-F-O-R."><span class="qn">1</span>Name: Daniel <input type="text" aria-label="Question 1" autocomplete="off"></div>
+            <div class="v-q" data-ans="wednesday" data-why="He first says Tuesday, then corrects himself: Wednesday would be better."><span class="qn">2</span>Day of booking: <input type="text" aria-label="Question 2" autocomplete="off"></div>
+            <div class="v-q" data-ans="5|five|5pm|5 pm|5.00|5:00|5 o'clock|five o'clock" data-why="Two o'clock for three hours — the librarian confirms 'two till five'."><span class="qn">3</span>Time: 2 pm until <input type="text" aria-label="Question 3" autocomplete="off"></div>
+            <div class="v-q" data-ans="6|six" data-why="'There'll be six of us.'"><span class="qn">4</span>Number of people: <input type="text" aria-label="Question 4" autocomplete="off"></div>
+            <div class="v-q" data-ans="garden" data-why="The smaller rooms only take four, so she suggests the Garden Room."><span class="qn">5</span>Room: the <input type="text" aria-label="Question 5" autocomplete="off"> Room</div>
+            <h4>Questions 6–7 · Choose the correct answer.</h4>
+            <div class="v-q" data-ans="2" data-why="Two members of his group have a lecture on Tuesday afternoon. Nothing is said about the room's availability, his work or opening hours."><span class="qn">6</span>Why does Daniel change the day of the booking?
+              <label><input type="radio" name="ls6" value="0"> The room he wants is already booked.</label>
+              <label><input type="radio" name="ls6" value="1"> He has to work on that day.</label>
+              <label><input type="radio" name="ls6" value="2"> Some members of his group have a class.</label>
+              <label><input type="radio" name="ls6" value="3"> The library closes early on that day.</label></div>
+            <div class="v-q" data-ans="1" data-why="Drinks with lids are fine, but hot food is not allowed in the study rooms; the café is a separate place on the ground floor."><span class="qn">7</span>What does the librarian say about food and drink?
+              <label><input type="radio" name="ls7" value="0"> Drinks are not allowed anywhere in the building.</label>
+              <label><input type="radio" name="ls7" value="1"> Hot food may not be eaten in the study rooms.</label>
+              <label><input type="radio" name="ls7" value="2"> Food can be delivered to the room from the café.</label>
+              <label><input type="radio" name="ls7" value="3"> Only cold drinks are permitted in the rooms.</label></div>
+            <div class="v-row"><button class="v-btn" type="button" data-check="ls">Check answers</button><button class="v-btn ghost" type="button" data-reset="ls">Try again</button></div>
+            <div class="v-out" data-score="ls"></div>
+          </div>
+          <details class="v-acc"><summary>Show the transcript</summary><div id="ls-script">
+            <p><strong>Librarian:</strong> Good morning, Harbour Street Library. How can I help?</p>
+            <p><strong>Daniel:</strong> Hi. I'd like to book one of your group study rooms for next week, please.</p>
+            <p><strong>Librarian:</strong> Certainly. Can I take your name?</p>
+            <p><strong>Daniel:</strong> It's Daniel Okafor. That's O, K, A, F, O, R.</p>
+            <p><strong>Librarian:</strong> Thank you. And which day were you thinking of?</p>
+            <p><strong>Daniel:</strong> Tuesday, if possible. Actually, no — Wednesday would be better, because two of my group have a lecture on Tuesday afternoon.</p>
+            <p><strong>Librarian:</strong> Wednesday, then. The rooms are open from nine in the morning until eight in the evening. What time would you like?</p>
+            <p><strong>Daniel:</strong> From two o'clock, for three hours.</p>
+            <p><strong>Librarian:</strong> So that's two till five. And how many people will there be?</p>
+            <p><strong>Daniel:</strong> There'll be six of us.</p>
+            <p><strong>Librarian:</strong> Then I'd suggest the Garden Room. The smaller rooms only take four. It also has a large screen you can connect a laptop to.</p>
+            <p><strong>Daniel:</strong> Great. Is there a charge?</p>
+            <p><strong>Librarian:</strong> It's free for students, but you'll need to show your student card at the front desk. Otherwise it's eight pounds an hour.</p>
+            <p><strong>Daniel:</strong> That's fine, I'll bring it. Oh, and can we bring food?</p>
+            <p><strong>Librarian:</strong> Drinks with lids are fine, but no hot food in the study rooms, I'm afraid. There's a café on the ground floor.</p>
+            <p><strong>Daniel:</strong> And is the room near the lift? One of our group uses a wheelchair.</p>
+            <p><strong>Librarian:</strong> Yes, the Garden Room is on the first floor, right next to the lift. Your booking reference is G R four seven one.</p>
+            <p><strong>Daniel:</strong> Perfect. Thanks very much.</p>
+          </div></details>
+        </div>
+
+        <div class="v-sec" id="sq-reading" data-short="Reading sample">
+          <h2>Reading sample: <span>a short passage</span></h2>
+          <p>Allow about 15 minutes. A full Reading passage is longer — around 700–900 words — but the question types are the same.</p>
+          <div class="v-passage">
+            <p style="font-family:var(--font-heading);font-size:1.3rem;font-weight:700;margin-bottom:.8rem">The Return of the Night Train</p>
+            <p><span class="pl">A</span>Sleeper trains were once a familiar part of European travel. In the 1970s, an extensive network of overnight services linked cities from Lisbon to Moscow, carrying business travellers, holidaymakers and families who preferred a bed to a long drive. Over the following decades, however, the network contracted sharply. Cheap flights, faster daytime trains and the high cost of maintaining specialised carriages made night services unprofitable, and many operators withdrew them altogether.</p>
+            <p><span class="pl">B</span>The decline was not universal. Austria's national railway chose to expand rather than retreat, taking over several routes abandoned by other operators in the mid-2010s and ordering a new generation of carriages. Its gamble rested on a simple observation: a night train replaces not only a journey but also a night in a hotel, and on trips of roughly 800 to 1,500 kilometres it can compete with flying on total travel time once airport transfers and security checks are included.</p>
+            <p><span class="pl">C</span>Interest has since grown, driven partly by travellers' concern about the climate. A passenger travelling by electric train typically produces a small fraction of the emissions of the same journey by air, although the exact figure depends on how the electricity is generated. Surveys suggest that many travellers say they would choose a sleeper for environmental reasons, but researchers caution that stated intentions do not always translate into bookings, particularly when fares are high.</p>
+            <p><span class="pl">D</span>Price remains the central difficulty. A sleeper carriage carries far fewer passengers than a day carriage of the same length, because much of its space is given over to beds, and each train completes only one journey in twenty-four hours. Track access charges, which operators pay to use the rail network, vary widely between countries and can add significantly to the cost of a long international route. Some governments now subsidise night services or reduce these charges, arguing that the environmental benefits justify public support.</p>
+            <p><span class="pl">E</span>The future of the night train may depend less on nostalgia than on design. New carriages offer private compartments with their own washrooms, aimed at travellers who once rejected sleepers as cramped and uncomfortable, alongside cheaper reclining seats for those on a budget. Whether such improvements can attract enough passengers to make routes viable without permanent subsidy is a question operators are still trying to answer.</p>
+          </div>
+          <div data-set="rd">
+            <h4>Questions 1–4 · Do the following statements agree with the information in the passage? Choose TRUE, FALSE or NOT GIVEN.</h4>
+            <div class="v-q" data-ans="true" data-why="Paragraph A: in the 1970s a network of overnight services linked cities from Lisbon to Moscow."><span class="qn">1</span>In the 1970s, overnight trains connected cities in different parts of Europe. <select aria-label="Question 1"><option value="">Choose…</option><option value="true">TRUE</option><option value="false">FALSE</option><option value="not given">NOT GIVEN</option></select></div>
+            <div class="v-q" data-ans="false" data-why="Paragraph B says the opposite: Austria's railway chose to expand, taking over routes others had abandoned."><span class="qn">2</span>Austria's national railway reduced its night services in the mid-2010s. <select aria-label="Question 2"><option value="">Choose…</option><option value="true">TRUE</option><option value="false">FALSE</option><option value="not given">NOT GIVEN</option></select></div>
+            <div class="v-q" data-ans="not given" data-why="Fares are mentioned only in general terms. The passage never compares Austrian fares with those of other countries."><span class="qn">3</span>Night-train fares in Austria are lower than in other European countries. <select aria-label="Question 3"><option value="">Choose…</option><option value="true">TRUE</option><option value="false">FALSE</option><option value="not given">NOT GIVEN</option></select></div>
+            <div class="v-q" data-ans="false" data-why="Paragraph D: track access charges 'vary widely between countries'."><span class="qn">4</span>Operators pay the same track access charges in every country. <select aria-label="Question 4"><option value="">Choose…</option><option value="true">TRUE</option><option value="false">FALSE</option><option value="not given">NOT GIVEN</option></select></div>
+            <h4>Questions 5–6 · Choose the correct answer.</h4>
+            <div class="v-q" data-ans="3" data-why="Paragraph B: a night train replaces 'not only a journey but also a night in a hotel'. Operating costs, airlines and subsidies are not given as the reason."><span class="qn">5</span>Why did Austria's railway believe night trains could succeed?
+              <label><input type="radio" name="rd5" value="0"> They cost less to operate than daytime trains.</label>
+              <label><input type="radio" name="rd5" value="1"> Airlines had stopped flying on the same routes.</label>
+              <label><input type="radio" name="rd5" value="2"> The government had promised to fund them.</label>
+              <label><input type="radio" name="rd5" value="3"> They save travellers the cost of accommodation as well as travel.</label></div>
+            <div class="v-q" data-ans="0" data-why="Paragraph E argues that the future 'may depend less on nostalgia than on design', describing new compartments and seats; whether subsidy will still be needed remains an open question."><span class="qn">6</span>What is the writer's main point in paragraph E?
+              <label><input type="radio" name="rd6" value="0"> Improved carriage design may be key to the revival of night trains.</label>
+              <label><input type="radio" name="rd6" value="1"> Nostalgia is the main reason passengers choose sleepers.</label>
+              <label><input type="radio" name="rd6" value="2"> Private compartments are too expensive for most travellers.</label>
+              <label><input type="radio" name="rd6" value="3"> Night trains will soon no longer need public money.</label></div>
+            <h4>Questions 7–9 · Complete the sentences. Write ONE WORD ONLY from the passage.</h4>
+            <div class="v-q" data-ans="beds" data-why="Paragraph D: 'much of its space is given over to beds'."><span class="qn">7</span>A sleeper carriage holds fewer passengers because much of its space is used for <input type="text" aria-label="Question 7" autocomplete="off">.</div>
+            <div class="v-q" data-ans="electricity" data-why="Paragraph C: the figure 'depends on how the electricity is generated'."><span class="qn">8</span>The emissions of an electric train journey depend on how the <input type="text" aria-label="Question 8" autocomplete="off"> is produced.</div>
+            <div class="v-q" data-ans="environmental" data-why="Paragraph D: governments argue that 'the environmental benefits justify public support'."><span class="qn">9</span>Some governments support night trains because of their <input type="text" aria-label="Question 9" autocomplete="off"> benefits.</div>
+            <div class="v-row"><button class="v-btn" type="button" data-check="rd">Check answers</button><button class="v-btn ghost" type="button" data-reset="rd">Try again</button></div>
+            <div class="v-out" data-score="rd"></div>
+          </div>
+        </div>
+
+        <div class="v-sec" id="sq-task1" data-short="Writing Task 1 sample">
+          <h2>Writing sample: <span>Task 1</span></h2>
+          <div class="v-call dark"><p><strong>You should spend about 20 minutes on this task.</strong> The chart below shows the average number of hours per week spent on four leisure activities by two age groups in one country in 2025. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.</p></div>
+          <svg class="v-svg" viewBox="0 0 640 360" role="img" aria-label="Bar chart of weekly hours on four leisure activities for people aged 16 to 24 and 65 and over">
+            <text x="320" y="26" text-anchor="middle" font-family="Inter, sans-serif" font-size="15" font-weight="600" fill="#222">Average weekly hours on leisure activities, 2025</text>
+            <g font-family="Inter, sans-serif" font-size="12" fill="#4B525A">
+              <line x1="70" y1="300" x2="610" y2="300" stroke="#999"/>
+              <line x1="70" y1="60" x2="70" y2="300" stroke="#999"/>
+              <g stroke="#E5E5E5"><line x1="70" y1="240" x2="610" y2="240"/><line x1="70" y1="180" x2="610" y2="180"/><line x1="70" y1="120" x2="610" y2="120"/><line x1="70" y1="60" x2="610" y2="60"/></g>
+              <text x="60" y="304" text-anchor="end">0</text><text x="60" y="244" text-anchor="end">5</text><text x="60" y="184" text-anchor="end">10</text><text x="60" y="124" text-anchor="end">15</text><text x="60" y="64" text-anchor="end">20</text>
+              <text x="22" y="180" transform="rotate(-90 22 180)" text-anchor="middle">Hours per week</text>
+            </g>
+            <g>
+              <rect x="100" y="228" width="44" height="72" fill="#A51C30"/><rect x="148" y="60" width="44" height="240" fill="#4B525A"/>
+              <rect x="235" y="132" width="44" height="168" fill="#A51C30"/><rect x="283" y="264" width="44" height="36" fill="#4B525A"/>
+              <rect x="370" y="276" width="44" height="24" fill="#A51C30"/><rect x="418" y="228" width="44" height="72" fill="#4B525A"/>
+              <rect x="505" y="240" width="44" height="60" fill="#A51C30"/><rect x="553" y="264" width="44" height="36" fill="#4B525A"/>
+            </g>
+            <g font-family="Inter, sans-serif" font-size="11" fill="#222" text-anchor="middle">
+              <text x="122" y="222">6</text><text x="170" y="54">20</text><text x="257" y="126">14</text><text x="305" y="258">3</text>
+              <text x="392" y="270">2</text><text x="440" y="222">6</text><text x="527" y="234">5</text><text x="575" y="258">3</text>
+            </g>
+            <g font-family="Inter, sans-serif" font-size="12" fill="#222" text-anchor="middle">
+              <text x="146" y="320">Television</text><text x="281" y="320">Online video</text><text x="416" y="320">Reading</text><text x="551" y="320">Sport &amp; exercise</text>
+            </g>
+            <g font-family="Inter, sans-serif" font-size="12" fill="#222">
+              <rect x="210" y="336" width="12" height="12" fill="#A51C30"/><text x="228" y="346">Aged 16–24</text>
+              <rect x="330" y="336" width="12" height="12" fill="#4B525A"/><text x="348" y="346">Aged 65 and over</text>
+            </g>
+          </svg>
+          <details class="v-acc"><summary>Read a high-band model answer (184 words)</summary><div>
+            <div class="v-model">
+              <p>The bar chart compares how many hours a week people aged 16–24 and those aged 65 and over spent on four leisure activities in one country in 2025.</p>
+              <p>Overall, the two age groups had strikingly different preferences. Older people devoted by far the most time to television, whereas the younger group favoured online video. Sport and exercise occupied relatively little time in both groups.</p>
+              <p>The most dramatic contrast concerned screen-based entertainment. People aged 65 and over watched television for an average of 20 hours a week, more than three times the figure for 16- to 24-year-olds (6 hours). The pattern was almost exactly reversed for online video: the younger group spent 14 hours a week on it, compared with only 3 hours among older people.</p>
+              <p>Reading was also more popular with the older group, who read for 6 hours a week, three times as long as the young (2 hours). Sport and exercise was the second activity in which the younger group led, though by a much smaller margin: 5 hours compared with 3. For both groups, however, it remained a relatively minor pastime.</p>
+            </div>
+            <h4>Why this response scores highly</h4>
+            <ul>
+              <li><strong>Task achievement:</strong> a clear overview in the second paragraph; key figures are selected and compared rather than listed one by one.</li>
+              <li><strong>Coherence and cohesion:</strong> paragraphs group related activities; linking is natural ("whereas", "The pattern was almost exactly reversed").</li>
+              <li><strong>Lexical resource:</strong> precise comparison language ("more than three times the figure", "devoted by far the most time").</li>
+              <li><strong>Grammar:</strong> a range of structures — comparatives, relative clauses, participle phrases — with no errors.</li>
+            </ul>
+          </div></details>
+        </div>
+
+        <div class="v-sec" id="sq-task2" data-short="Writing Task 2 sample">
+          <h2>Writing sample: <span>Task 2</span></h2>
+          <div class="v-call dark"><p><strong>You should spend about 40 minutes on this task.</strong> Some people believe that universities should focus mainly on preparing students for employment. Others think that their main purpose is to provide knowledge for its own sake. Discuss both views and give your own opinion. Give reasons for your answer and include any relevant examples from your own knowledge or experience. Write at least 250 words.</p></div>
+          <details class="v-acc"><summary>Read a high-band model answer (298 words)</summary><div>
+            <div class="v-model">
+              <p>Universities have always served more than one master. While some argue that their chief responsibility is to equip graduates for the job market, others maintain that the pursuit of knowledge is valuable in itself. In my view, the two aims are less opposed than they first appear, but a university that serves only employers would fail both students and society.</p>
+              <p>The case for an employment focus is understandable. Higher education is expensive, and many students borrow heavily to pay for it. They reasonably expect their degree to lead to secure work, and governments that fund universities want a return in the form of a skilled workforce. Courses in medicine, engineering or accounting, which combine theory with professional training, show how effectively universities can prepare people for specific careers.</p>
+              <p>On the other hand, knowledge pursued for its own sake has produced many of the discoveries that later transformed economies. Research into the properties of light or the structure of DNA was not designed to create jobs, yet it eventually underpinned entire industries. Moreover, subjects such as history and philosophy develop the ability to analyse evidence and construct arguments — qualities employers increasingly value precisely because they cannot be taught as narrow job skills.</p>
+              <p>For these reasons, I believe universities should prioritise deep, rigorous learning while making its practical value visible. Work placements, career guidance and projects with local organisations can be added to almost any degree without reducing it to vocational training. What matters is that the curriculum is not dictated by the needs of the labour market in a particular year, which may be very different by the time students graduate.</p>
+              <p>In conclusion, preparing students for work and expanding knowledge are complementary goals, but the second should lead, because it is the foundation on which lasting employability is built.</p>
+            </div>
+            <h4>Why this response scores highly</h4>
+            <ul>
+              <li><strong>Task response:</strong> both views are discussed fairly, and the writer's position is stated in the introduction, developed in paragraph 4 and confirmed in the conclusion.</li>
+              <li><strong>Coherence and cohesion:</strong> one central idea per paragraph; reference ("these reasons", "the second") avoids repetition.</li>
+              <li><strong>Lexical resource:</strong> natural collocations such as "serve more than one master", "underpinned entire industries", "dictated by the needs of the labour market".</li>
+              <li><strong>Grammar:</strong> complex sentences are controlled and accurate, including concessive and relative clauses.</li>
+            </ul>
+          </div></details>
+          <p><a href="premium-ieltstask1-task2.html">Practise full Task 1 and Task 2 papers in the Writing Lab →</a></p>
+        </div>
+
+        <div class="v-sec" id="sq-speaking" data-short="Speaking sample">
+          <h2>Speaking sample: <span>Parts 1, 2 and 3</span></h2>
+          <div class="v-tabs" data-tabs="sp"><button class="on" data-tab="sp1" type="button">Part 1</button><button data-tab="sp2" type="button">Part 2</button><button data-tab="sp3" type="button">Part 3</button></div>
+          <div class="v-pane" data-pane="sp1" data-group="sp">
+            <p>The examiner asks short questions about familiar topics. Aim for two or three sentences each.</p>
+            <ul><li>Let's talk about where you live. What do you like most about your neighbourhood?</li><li>Has your area changed much in recent years?</li><li>Do you know many of your neighbours?</li><li>Would you like to live somewhere different in the future?</li></ul>
+            <div class="v-model"><p><span class="v-tag gold">Model</span> <em>What do you like most about your neighbourhood?</em> — Probably the fact that everything is within walking distance. There's a market, a small park and a library just a few streets away, so I rarely need to take the bus. It also feels quite friendly, because the same shopkeepers have been there for years.</p></div>
+          </div>
+          <div class="v-pane" data-pane="sp2" data-group="sp" hidden>
+            <div class="v-call dark"><p><strong>Describe a skill you learned outside school or university.</strong><br>You should say: what the skill is · how you learned it · how long it took you to learn · and explain why this skill is useful to you.</p></div>
+            <div class="v-tool" data-timer="sp2t">
+              <h4>Part 2 timer</h4>
+              <div class="v-row" style="align-items:center"><span class="v-timer" data-tdisp>1:00</span><span class="v-note" data-tlabel>Preparation: 1 minute</span></div>
+              <div class="v-row"><button class="v-btn" type="button" data-tstart>Start preparation</button><button class="v-btn ghost" type="button" data-treset>Reset</button></div>
+            </div>
+            <div class="v-model"><p><span class="v-tag gold">Model opening</span> I'd like to talk about learning to cook, which I picked up almost entirely from my grandmother rather than from any course. When I moved away for university I realised I couldn't make anything beyond instant noodles, so every weekend for about six months I would video-call her while she talked me through a recipe step by step…</p></div>
+          </div>
+          <div class="v-pane" data-pane="sp3" data-group="sp" hidden>
+            <p>The examiner asks more abstract questions linked to the Part 2 topic. Develop your answers with reasons, comparisons and examples.</p>
+            <ul><li>Which practical skills should schools teach that they currently do not?</li><li>Is it better to learn a skill from a person or from online videos?</li><li>Do you think older people find it harder to learn new skills? Why?</li><li>How might the skills people need for work change over the next twenty years?</li></ul>
+            <div class="v-model"><p><span class="v-tag gold">Model</span> <em>Is it better to learn from a person or from online videos?</em> — I think it depends on the skill. Videos are excellent for something visual and step-by-step, like fixing a bicycle, because you can pause and replay them. But for anything that needs feedback — playing an instrument, say — a real teacher is hard to replace, because they can spot mistakes you don't even notice you're making.</p></div>
+          </div>
+          <p><a href="ielts-premium-speaking-landing-page.html">Take a full recorded Speaking test →</a></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <section class="spow-view" id="v-writing-resources" data-route="writing-resources" data-title="IELTS Writing test preparation resources" data-parent="Prepare for your test" hidden>
+    <div class="v-hero"><div class="v-hero-in">
+      <div class="v-kicker">Prepare for your test · Academic Writing</div>
+      <h1>IELTS Writing test <em>preparation resources</em></h1>
+      <p class="v-lead">Everything you need for Academic Writing Tasks 1 and 2: the marking criteria in plain English, structures for every chart and essay type, language banks, common errors, a timed practice pad and a band estimator.</p>
+      <a href="#" class="v-back">← Back to the Premium dashboard</a>
+    </div></div>
+    <div class="v-layout">
+      <nav class="v-toc" data-toc aria-label="On this page"></nav>
+      <div class="v-main">
+
+        <div class="v-sec" id="wr-overview" data-short="Overview">
+          <h2>Academic Writing <span>at a glance</span></h2>
+          <div class="v-stats">
+            <div class="v-stat"><b>60 min</b><span>for both tasks</span></div>
+            <div class="v-stat"><b>150+</b><span>words for Task 1 (about 20 min)</span></div>
+            <div class="v-stat"><b>250+</b><span>words for Task 2 (about 40 min)</span></div>
+            <div class="v-stat"><b>2 : 1</b><span>Task 2 counts twice as much as Task 1</span></div>
+          </div>
+          <p>Write in full sentences and paragraphs; notes and bullet points are penalised, as are answers that are off-topic or copied. Going over the minimum word count is not penalised, but answers that fall short may not show enough to reach the higher bands. Use an academic or neutral style throughout.</p>
+          <p><a href="premium-ieltstask1-task2.html">Open the premium Writing Lab: practice mode and strict timed test mode →</a></p>
+        </div>
+
+        <div class="v-sec" id="wr-criteria" data-short="Marking criteria">
+          <h2>The four criteria <span>in plain English</span></h2>
+          <p>Each task is marked against four equally weighted criteria. The first criterion has a different name in each task.</p>
+          <div class="v-tablewrap"><table class="v-table">
+            <thead><tr><th>Criterion</th><th>The examiner asks…</th><th>Band 6 typically</th><th>Band 7 typically</th><th>Band 8+ typically</th></tr></thead>
+            <tbody>
+              <tr><td>Task Achievement (T1) / Task Response (T2)</td><td>Did you do exactly what the task asked, fully and relevantly?</td><td>Covers the task but some points are underdeveloped; Task 1 overview may be unclear.</td><td>Clear overview or position; main ideas extended and supported.</td><td>Every part fully addressed; ideas well developed with precise support.</td></tr>
+              <tr><td>Coherence &amp; Cohesion</td><td>Is it logically organised and easy to follow?</td><td>Organisation is visible but linking can be mechanical or faulty.</td><td>Clear progression; a range of linking used with some over- or under-use.</td><td>Sequencing is skilful; cohesion attracts no attention.</td></tr>
+              <tr><td>Lexical Resource</td><td>How wide and precise is your vocabulary?</td><td>Adequate range; some errors in word choice or spelling that don't block meaning.</td><td>Some less common words and collocations; occasional errors.</td><td>Wide, natural and precise vocabulary; rare slips.</td></tr>
+              <tr><td>Grammatical Range &amp; Accuracy</td><td>How varied and accurate are your sentences?</td><td>Mix of simple and complex sentences; noticeable errors.</td><td>Variety of complex structures; frequent error-free sentences.</td><td>Wide range; the majority of sentences are error-free.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="v-note">This table summarises general patterns to guide your practice. It is not a substitute for the full published band descriptors.</p>
+        </div>
+
+        <div class="v-sec" id="wr-t1" data-short="Task 1 visuals">
+          <h2>Task 1: <span>every type of visual</span></h2>
+          <p>Task 1 asks you to summarise, select and compare. You never give opinions or reasons the data does not show.</p>
+          <div class="v-grid">
+            <div class="v-card"><div class="v-ico">📈</div><h4>Line graph</h4><p>Focus on trends over time: the overall direction, peaks, troughs and crossover points.</p></div>
+            <div class="v-card"><div class="v-ico">📊</div><h4>Bar chart</h4><p>Compare categories. Group bars that behave similarly instead of describing each one.</p></div>
+            <div class="v-card"><div class="v-ico">🥧</div><h4>Pie chart</h4><p>Proportions of a whole. Use fractions and percentages; compare the largest and smallest shares.</p></div>
+            <div class="v-card"><div class="v-ico">🔢</div><h4>Table</h4><p>Lots of numbers — select. Find the highest, lowest and most surprising figures.</p></div>
+            <div class="v-card"><div class="v-ico">⚙️</div><h4>Process diagram</h4><p>Describe stages in order using the passive and sequencing language. Count the stages in your overview.</p></div>
+            <div class="v-card"><div class="v-ico">🗺️</div><h4>Map</h4><p>Describe changes between two or more dates: what was added, removed, expanded or relocated.</p></div>
+          </div>
+          <h3>The four-paragraph structure</h3>
+          <ol class="v-steps">
+            <li><b>Introduction (1 sentence)</b>Paraphrase what the visual shows: what, where, when, and in what units.</li>
+            <li><b>Overview (2 sentences)</b>The two or three most important features — the big picture, with no detailed numbers. This is the single most important paragraph for Task Achievement.</li>
+            <li><b>Body paragraph 1</b>Details of the first group of features, with selected figures and comparisons.</li>
+            <li><b>Body paragraph 2</b>Details of the second group of features. Stop at around 170–190 words.</li>
+          </ol>
+        </div>
+
+        <div class="v-sec" id="wr-t1lang" data-short="Task 1 language">
+          <h2>Task 1 <span>language bank</span></h2>
+          <div class="v-tabs" data-tabs="wl"><button class="on" data-tab="wl1" type="button">Trends</button><button data-tab="wl2" type="button">Comparisons</button><button data-tab="wl3" type="button">Approximation</button><button data-tab="wl4" type="button">Processes</button><button data-tab="wl5" type="button">Maps</button></div>
+          <div class="v-pane" data-pane="wl1" data-group="wl">
+            <div class="v-tablewrap"><table class="v-table"><thead><tr><th>Movement</th><th>Verbs</th><th>Nouns</th><th>Degree</th></tr></thead><tbody>
+              <tr><td>Up</td><td>rise, increase, grow, climb, surge</td><td>a rise, an increase, growth, a surge</td><td>sharply, steeply, significantly, steadily, gradually, slightly</td></tr>
+              <tr><td>Down</td><td>fall, decrease, decline, drop, plunge</td><td>a fall, a decrease, a decline, a drop</td><td>dramatically, considerably, moderately, marginally</td></tr>
+              <tr><td>No change</td><td>remain stable, level off, plateau</td><td>a plateau, a period of stability</td><td>at around…, virtually unchanged</td></tr>
+              <tr><td>Up and down</td><td>fluctuate</td><td>fluctuations</td><td>wildly, slightly, between X and Y</td></tr>
+              <tr><td>Highest / lowest</td><td>peak at, reach a high of, hit a low of</td><td>a peak, a low point</td><td>an all-time high, its lowest point</td></tr>
+            </tbody></table></div>
+            <p><em>Example:</em> Sales rose steadily to a peak of 4.2 million in 2019 before falling sharply over the following two years.</p>
+          </div>
+          <div class="v-pane" data-pane="wl2" data-group="wl" hidden>
+            <ul><li>X was <strong>twice as high as</strong> Y / <strong>three times the figure for</strong> Y.</li><li>X was <strong>considerably / slightly higher than</strong> Y.</li><li><strong>By contrast</strong>, / <strong>whereas</strong> / <strong>while</strong> Y remained low…</li><li>X accounted for <strong>the largest share</strong>, <strong>followed by</strong> Y.</li><li>The figures for X and Y were <strong>almost identical</strong> / <strong>similar</strong>.</li><li>X <strong>overtook</strong> Y in 2015 / The two lines <strong>converged</strong> in 2015.</li></ul>
+          </div>
+          <div class="v-pane" data-pane="wl3" data-group="wl" hidden>
+            <ul><li><strong>just over / just under / roughly / approximately / nearly</strong> 40%</li><li>40% → <strong>two fifths</strong>; 25% → <strong>a quarter</strong>; 52% → <strong>just over half</strong>; 74% → <strong>almost three quarters</strong></li><li><strong>the vast majority / a significant minority / a small proportion</strong> of…</li></ul>
+            <div class="v-call gold"><p>Vary between exact figures and approximations — but every number you give must be accurate.</p></div>
+          </div>
+          <div class="v-pane" data-pane="wl4" data-group="wl" hidden>
+            <ul><li><strong>Sequence:</strong> First, / At the first stage, / Next, / Following this, / Once…, / Finally,</li><li><strong>Passive:</strong> The beans <strong>are harvested</strong>, <strong>sorted</strong> and then <strong>dried</strong> in the sun.</li><li><strong>Combining stages:</strong> <strong>After being</strong> washed, the bottles <strong>are</strong> crushed. / The mixture is heated, <strong>which</strong> removes the water.</li><li><strong>Overview:</strong> The process consists of eight stages, beginning with… and ending with…</li></ul>
+          </div>
+          <div class="v-pane" data-pane="wl5" data-group="wl" hidden>
+            <ul><li>The woodland <strong>was cleared</strong> to make way for a housing estate.</li><li>The car park <strong>was extended</strong> / <strong>was replaced by</strong> a shopping centre.</li><li>A new road <strong>was constructed</strong> linking the station to the town centre.</li><li><strong>To the north of</strong> / <strong>adjacent to</strong> / <strong>opposite</strong> the school…</li><li>Overall, the town became <strong>far more developed and residential</strong>, while its farmland <strong>largely disappeared</strong>.</li></ul>
+          </div>
+        </div>
+
+        <div class="v-sec" id="wr-t2" data-short="Task 2 essay types">
+          <h2>Task 2: <span>the five essay types</span></h2>
+          <p>Identify the type in the first ten seconds — it decides your structure and your thesis.</p>
+          <details class="v-acc" open><summary>Opinion (agree or disagree / to what extent)</summary><div>
+            <p><strong>Recognise it:</strong> "To what extent do you agree or disagree?"</p>
+            <p><strong>Structure:</strong> Introduction with a clear position → two body paragraphs supporting it (optionally one conceding the other side) → conclusion restating your position.</p>
+            <p><strong>Thesis model:</strong> "While X has some advantages, I strongly disagree that it should replace Y, because…"</p></div></details>
+          <details class="v-acc"><summary>Discussion (discuss both views and give your opinion)</summary><div>
+            <p><strong>Recognise it:</strong> "Some people think…; others believe… Discuss both views and give your own opinion."</p>
+            <p><strong>Structure:</strong> Introduction outlining both views and your opinion → body 1 view A → body 2 view B (or your view) → conclusion.</p>
+            <p><strong>Trap:</strong> forgetting your own opinion, which caps Task Response.</p></div></details>
+          <details class="v-acc"><summary>Advantages and disadvantages</summary><div>
+            <p><strong>Recognise it:</strong> "Do the advantages outweigh the disadvantages?" or "What are the advantages and disadvantages?"</p>
+            <p><strong>Structure:</strong> If asked whether one outweighs the other, you must give a judgement and keep it consistent throughout.</p></div></details>
+          <details class="v-acc"><summary>Problem and solution (causes and solutions)</summary><div>
+            <p><strong>Recognise it:</strong> "What problems does this cause? What can be done to solve them?"</p>
+            <p><strong>Structure:</strong> body 1 problems/causes, explained with consequences → body 2 solutions matched to those problems.</p>
+            <p><strong>Tip:</strong> link each solution explicitly to a problem you described.</p></div></details>
+          <details class="v-acc"><summary>Two-part (direct) questions</summary><div>
+            <p><strong>Recognise it:</strong> two separate questions, e.g. "Why is this happening? Is it a positive or negative development?"</p>
+            <p><strong>Structure:</strong> one body paragraph per question, answered directly in its first sentence.</p></div></details>
+          <h3>Building a Band 7+ body paragraph</h3>
+          <div class="v-model"><p><span class="v-tag red">Point</span> Public transport investment is the most effective way to reduce urban congestion. <span class="v-tag">Explain</span> Unlike road building, which tends to attract more cars, efficient trains and buses give drivers a realistic alternative. <span class="v-tag gold">Example</span> In cities with frequent and reliable metro services, a far smaller share of commuters choose to drive into the centre. <span class="v-tag">Link</span> Spending on public transport therefore tackles the cause of congestion rather than its symptoms.</p></div>
+        </div>
+
+        <div class="v-sec" id="wr-cohesion" data-short="Cohesion">
+          <h2>Cohesion <span>without clichés</span></h2>
+          <div class="v-tablewrap"><table class="v-table"><thead><tr><th>Function</th><th>Use</th><th>Avoid overusing</th></tr></thead><tbody>
+            <tr><td>Adding</td><td>In addition, Moreover, A further reason is…</td><td>Furthermore at the start of every paragraph</td></tr>
+            <tr><td>Contrasting</td><td>However, By contrast, Although…, While…</td><td>On the other hand without "on the one hand" logic</td></tr>
+            <tr><td>Cause / result</td><td>As a result, Consequently, This leads to…, because of</td><td>So at the start of a sentence in formal writing</td></tr>
+            <tr><td>Examples</td><td>For instance, such as, A case in point is…</td><td>"For example" repeated three times</td></tr>
+            <tr><td>Reference</td><td>this trend, such policies, the former / the latter</td><td>Repeating the same noun phrase</td></tr>
+            <tr><td>Concluding</td><td>In conclusion, Overall (Task 1 overview)</td><td>"In a nutshell", "To sum up everything"</td></tr>
+          </tbody></table></div>
+        </div>
+
+        <div class="v-sec" id="wr-errors" data-short="Common errors">
+          <h2>Ten errors <span>that cost bands</span></h2>
+          <div class="v-tablewrap"><table class="v-table"><thead><tr><th>Error</th><th>Correction</th><th>Why</th></tr></thead><tbody>
+            <tr><td>The number of students have increased.</td><td>The number of students <strong>has</strong> increased.</td><td>"The number" is singular.</td></tr>
+            <tr><td>The percentage of cars rose to 30% in 2010 to 45% in 2020.</td><td>…rose <strong>from</strong> 30% in 2010 to 45% in 2020.</td><td>From… to… for change.</td></tr>
+            <tr><td>People should get more informations.</td><td>…more <strong>information</strong>.</td><td>Uncountable noun.</td></tr>
+            <tr><td>Nowadays, technology is developing rapidly in our modern world of today.</td><td>Technology is developing rapidly.</td><td>Redundancy lowers precision.</td></tr>
+            <tr><td>In my opinion, I think that…</td><td>I believe that… / In my view,…</td><td>Double opinion marker.</td></tr>
+            <tr><td>It has many advantages, for example economy.</td><td>…for example, <strong>it boosts the local economy</strong>.</td><td>Examples need explanation.</td></tr>
+            <tr><td>The chart shows the sales. The sales increased. The sales then fell.</td><td>Sales increased before falling…</td><td>Repetition and short, choppy sentences.</td></tr>
+            <tr><td>Governments must to invest.</td><td>Governments must invest.</td><td>Modal + bare infinitive.</td></tr>
+            <tr><td>This is a very big problem.</td><td>This is a <strong>serious / pressing</strong> problem.</td><td>Precise collocation.</td></tr>
+            <tr><td>Writing a Task 1 conclusion with an opinion.</td><td>Use an overview, not an opinion.</td><td>Task 1 reports data only.</td></tr>
+          </tbody></table></div>
+        </div>
+
+        <div class="v-sec" id="wr-pad" data-short="Timed practice pad">
+          <h2>Timed <span>practice pad</span></h2>
+          <p>Choose a task, start the clock and write. The live word count turns red under the minimum. Your draft is saved on this device.</p>
+          <div class="v-tool" id="pad">
+            <div class="v-row">
+              <label class="v-field">Task<select id="pad-task"><option value="1">Task 1 · 20 minutes · 150 words</option><option value="2">Task 2 · 40 minutes · 250 words</option></select></label>
+              <div class="v-field" style="flex:0 0 auto">Time left<span class="v-timer" id="pad-clock">20:00</span></div>
+            </div>
+            <div class="v-call dark" id="pad-prompt" style="margin-top:0"></div>
+            <div class="v-row"><button class="v-btn ghost" id="pad-new" type="button">New prompt</button><button class="v-btn" id="pad-start" type="button">Start timer</button><button class="v-btn ghost" id="pad-clear" type="button">Clear text</button></div>
+            <textarea class="v-pad" id="pad-text" placeholder="Start writing here…" spellcheck="false"></textarea>
+            <p class="v-note" style="margin-top:.5rem"><strong id="pad-count">0 words</strong> · spell-check is turned off, as in the real test.</p>
+          </div>
+        </div>
+
+        <div class="v-sec" id="wr-estimate" data-short="Band estimator">
+          <h2>Writing <span>band estimator</span></h2>
+          <p>Rate your own response (or ask a teacher to) against each criterion. The estimator averages the criteria for each task and weights Task 2 twice as heavily as Task 1.</p>
+          <div class="v-tool" id="est">
+            <h4>Task 1</h4>
+            <div class="v-row" data-est="1"></div>
+            <h4>Task 2</h4>
+            <div class="v-row" data-est="2"></div>
+            <button class="v-btn" id="est-go" type="button">Estimate my Writing band</button>
+            <div class="v-out" id="est-out"></div>
+          </div>
+          <p class="v-note">An estimate only. Real scores come from certified examiners, and the exact rounding used in Writing is not published.</p>
+        </div>
+
+        <div class="v-sec" id="wr-checklist" data-short="Self-check">
+          <h2>Before you <span>stop writing</span></h2>
+          <ul class="v-check" data-store="wr-check">
+            <li><input type="checkbox" id="wc1"><label for="wc1">Task 1 has a clear overview with no opinions.</label></li>
+            <li><input type="checkbox" id="wc2"><label for="wc2">Task 2 answers every part of the question and my position is consistent.</label></li>
+            <li><input type="checkbox" id="wc3"><label for="wc3">Each body paragraph has one main idea, explained and supported.</label></li>
+            <li><input type="checkbox" id="wc4"><label for="wc4">I have checked subject–verb agreement, articles and plurals.</label></li>
+            <li><input type="checkbox" id="wc5"><label for="wc5">I have met both word minimums.</label></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <section class="spow-view" id="v-band-scores" data-route="band-scores" data-title="Understanding band scores" data-parent="Prepare for your test" hidden>
+    <div class="v-hero"><div class="v-hero-in">
+      <div class="v-kicker">Prepare for your test · Scores</div>
+      <h1>Understanding your <em>band scores</em></h1>
+      <p class="v-lead">How each skill is scored, how the overall band is calculated and rounded, and calculators that turn your practice-test results into band estimates.</p>
+      <a href="#" class="v-back">← Back to the Premium dashboard</a>
+    </div></div>
+    <div class="v-layout">
+      <nav class="v-toc" data-toc aria-label="On this page"></nav>
+      <div class="v-main">
+
+        <div class="v-sec" id="bs-scale" data-short="The 0–9 scale">
+          <h2>The <span>0–9 scale</span></h2>
+          <div class="v-tablewrap"><table class="v-table">
+            <thead><tr><th>Band</th><th>User level</th><th>What it means</th></tr></thead>
+            <tbody>
+              <tr><td>9</td><td>Expert</td><td>Fully operational command: appropriate, accurate and fluent, with complete understanding.</td></tr>
+              <tr><td>8</td><td>Very good</td><td>Full command with occasional unsystematic inaccuracies; handles complex, detailed argument well.</td></tr>
+              <tr><td>7</td><td>Good</td><td>Operational command with some inaccuracies and misunderstandings in some situations.</td></tr>
+              <tr><td>6</td><td>Competent</td><td>Generally effective command despite some inaccuracies, especially in familiar situations.</td></tr>
+              <tr><td>5</td><td>Modest</td><td>Partial command; copes with overall meaning in most situations but makes many mistakes.</td></tr>
+              <tr><td>4</td><td>Limited</td><td>Basic competence limited to familiar situations, with frequent problems.</td></tr>
+              <tr><td>3</td><td>Extremely limited</td><td>Conveys and understands only general meaning in very familiar situations.</td></tr>
+              <tr><td>2</td><td>Intermittent</td><td>Great difficulty understanding spoken and written English.</td></tr>
+              <tr><td>1</td><td>Non-user</td><td>No ability to use the language beyond a few isolated words.</td></tr>
+              <tr><td>0</td><td>Did not attempt</td><td>No assessable information provided.</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="v-sec" id="bs-overall" data-short="Overall calculator">
+          <h2>Overall band <span>calculator</span></h2>
+          <p>The overall band is the mean of the four skills, rounded to the nearest half band. A mean ending in .25 rounds <em>up</em> to the next half band (6.25 → 6.5); a mean ending in .75 rounds <em>up</em> to the next whole band (6.75 → 7.0). A mean of 6.125 rounds down to 6.0.</p>
+          <div class="v-tool">
+            <div class="v-row" id="ov-fields"></div>
+            <button class="v-btn" id="ov-go" type="button">Calculate overall band</button>
+            <div class="v-out" id="ov-out"></div>
+          </div>
+        </div>
+
+        <div class="v-sec" id="bs-raw" data-short="Listening & Reading converter">
+          <h2>Listening and Reading <span>score converter</span></h2>
+          <p>Listening and Academic Reading each have 40 questions worth one mark. Your raw mark is converted to a band. Published guidance gives these anchor points: about 16 correct for band 5, 23 for band 6, 30 for band 7 and 35 for band 8 in Listening, and 15, 23, 30 and 35 for the same bands in Academic Reading. The exact conversion varies slightly between test versions.</p>
+          <div class="v-tool">
+            <div class="v-row">
+              <label class="v-field">Section<select id="rw-sec"><option value="L">Listening</option><option value="R">Academic Reading</option></select></label>
+              <label class="v-field">Correct answers (0–40)<input id="rw-n" type="number" min="0" max="40" value="30"></label>
+            </div>
+            <button class="v-btn" id="rw-go" type="button">Convert</button>
+            <div class="v-out" id="rw-out"></div>
+          </div>
+          <div class="v-tablewrap"><table class="v-table" id="rw-table">
+            <thead><tr><th>Band</th><th>Listening (correct answers)</th><th>Academic Reading (correct answers)</th></tr></thead>
+            <tbody></tbody>
+          </table></div>
+          <p class="v-note">Approximate conversion consistent with the published anchor points; use it to track practice tests, not to predict an official result.</p>
+        </div>
+
+        <div class="v-sec" id="bs-productive" data-short="Writing & Speaking">
+          <h2>How Writing and Speaking <span>are scored</span></h2>
+          <div class="v-grid two">
+            <div class="v-card"><h4>Writing</h4><p>Each task is rated on four equally weighted criteria: Task Achievement or Task Response, Coherence and Cohesion, Lexical Resource, and Grammatical Range and Accuracy. Task 2 contributes twice as much as Task 1 to your Writing band.</p><p><a href="#writing-resources">Try the Writing band estimator →</a></p></div>
+            <div class="v-card"><h4>Speaking</h4><p>Rated on four equally weighted criteria: Fluency and Coherence, Lexical Resource, Grammatical Range and Accuracy, and Pronunciation. The examiner rates the whole test, not each part separately.</p><p><a href="#speaking-resources">Open the Speaking resources →</a></p></div>
+          </div>
+        </div>
+
+        <div class="v-sec" id="bs-target" data-short="Reaching your target">
+          <h2>Planning for a <span>target profile</span></h2>
+          <p>Many universities and regulators set a minimum for each skill as well as for the overall band. Use the overall calculator to test different profiles: for example, 7.5, 7.5, 6.0 and 6.5 average 6.875, which rounds to an overall 7.0 — but if your course requires 6.5 in every skill, the 6.0 in Writing still means you have not met the requirement.</p>
+          <div class="v-call"><p><strong>Strategy:</strong> work out which skill is cheapest to improve. For many candidates, Listening and Reading respond fastest to targeted practice, while Writing and Speaking need longer, feedback-driven work.</p></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <section class="spow-view" id="v-speaking-resources" data-route="speaking-resources" data-title="IELTS Speaking test preparation resources" data-parent="Prepare for your test" hidden>
+    <div class="v-hero"><div class="v-hero-in">
+      <div class="v-kicker">Prepare for your test · Speaking</div>
+      <h1>IELTS Speaking test <em>preparation resources</em></h1>
+      <p class="v-lead">How the three parts work, what examiners listen for, strategies that extend your answers naturally, a cue-card generator with a built-in timer, and the language that lifts your band.</p>
+      <a href="#" class="v-back">← Back to the Premium dashboard</a>
+    </div></div>
+    <div class="v-layout">
+      <nav class="v-toc" data-toc aria-label="On this page"></nav>
+      <div class="v-main">
+
+        <div class="v-sec" id="sr-format" data-short="The three parts">
+          <h2>The three <span>parts</span></h2>
+          <div class="v-tablewrap"><table class="v-table">
+            <thead><tr><th>Part</th><th>Length</th><th>What happens</th><th>Aim for</th></tr></thead>
+            <tbody>
+              <tr><td>1 · Interview</td><td>4–5 minutes</td><td>Questions about familiar topics: home, studies, work, hobbies, daily routines.</td><td>Direct answer + reason or example (2–3 sentences).</td></tr>
+              <tr><td>2 · Long turn</td><td>3–4 minutes</td><td>A task card with a topic and prompts. One minute to prepare, then speak for up to two minutes. One or two short follow-up questions.</td><td>A continuous, organised talk that covers every prompt.</td></tr>
+              <tr><td>3 · Discussion</td><td>4–5 minutes</td><td>Abstract questions linked to the Part 2 topic: society, change, comparison, the future.</td><td>Opinions developed with reasons, examples and balance.</td></tr>
+            </tbody>
+          </table></div>
+          <p>The whole test lasts 11–14 minutes and is recorded. It is a real conversation with a certified examiner, in person or by video call depending on your centre.</p>
+        </div>
+
+        <div class="v-sec" id="sr-criteria" data-short="What examiners hear">
+          <h2>What examiners <span>listen for</span></h2>
+          <div class="v-grid two">
+            <div class="v-card"><h4>Fluency &amp; Coherence</h4><p>Speaking at length without unnatural pauses, and linking ideas so that the listener can follow easily.</p></div>
+            <div class="v-card"><h4>Lexical Resource</h4><p>Vocabulary that is precise and natural, including idiomatic language used appropriately and the ability to paraphrase.</p></div>
+            <div class="v-card"><h4>Grammatical Range &amp; Accuracy</h4><p>A mix of simple and complex structures, with errors that don't get in the way of meaning.</p></div>
+            <div class="v-card"><h4>Pronunciation</h4><p>Clear individual sounds, word and sentence stress, rhythm and intonation. An accent is fine; unclear speech is not.</p></div>
+          </div>
+        </div>
+
+        <div class="v-sec" id="sr-strategies" data-short="Strategies">
+          <h2>Strategies <span>for each part</span></h2>
+          <div class="v-tabs" data-tabs="ss"><button class="on" data-tab="ss1" type="button">Part 1</button><button data-tab="ss2" type="button">Part 2</button><button data-tab="ss3" type="button">Part 3</button></div>
+          <div class="v-pane" data-pane="ss1" data-group="ss">
+            <ul><li>Answer the question first, then extend: <em>"Yes, quite a lot, actually — mainly because…"</em></li><li>Use tenses naturally: past for change ("I used to…"), present perfect for experience ("I've recently started…").</li><li>Avoid one-word answers and memorised speeches; both sound unnatural.</li></ul>
+          </div>
+          <div class="v-pane" data-pane="ss2" data-group="ss" hidden>
+            <ul><li>Note four or five key words — one per prompt — plus one story or detail you can describe vividly.</li><li>Follow the prompts in order; they give your talk a ready-made structure.</li><li>Spend most of your time on the final "explain why" prompt: it invites the richest language.</li><li>If you finish early, add a comparison, a feeling or a consequence.</li></ul>
+          </div>
+          <div class="v-pane" data-pane="ss3" data-group="ss" hidden>
+            <ul><li>Use the <strong>O-R-E</strong> pattern: Opinion → Reason → Example (or Exception).</li><li>Speculate: <em>"It's quite likely that…", "I'd imagine that in the future…"</em></li><li>Compare generations, countries or past and present.</li><li>It's fine to say you haven't thought about something before — then think aloud in good English.</li></ul>
+          </div>
+        </div>
+
+        <div class="v-sec" id="sr-cards" data-short="Cue-card practice">
+          <h2>Cue-card <span>practice</span></h2>
+          <p>Draw a random task card, prepare for one minute, then speak for two. Record yourself on your phone and listen back.</p>
+          <div class="v-call dark" id="cue-card" style="margin-top:0"></div>
+          <div class="v-tool" data-timer="cue-t" style="margin-top:0">
+            <div class="v-row" style="align-items:center"><span class="v-timer" data-tdisp>1:00</span><span class="v-note" data-tlabel>Preparation: 1 minute</span></div>
+            <div class="v-row"><button class="v-btn ghost" type="button" id="cue-new">New card</button><button class="v-btn" type="button" data-tstart>Start preparation</button><button class="v-btn ghost" type="button" data-treset>Reset</button></div>
+          </div>
+        </div>
+
+        <div class="v-sec" id="sr-language" data-short="Useful language">
+          <h2>Language that <span>lifts your band</span></h2>
+          <div class="v-grid two">
+            <div class="v-card"><h4>Buying thinking time</h4><ul><li>That's an interesting question — I haven't really thought about it before.</li><li>Let me think… I suppose the main reason would be…</li></ul></div>
+            <div class="v-card"><h4>Giving opinions</h4><ul><li>I'd argue that… / I'm fairly convinced that…</li><li>To some extent, I'd say… but…</li></ul></div>
+            <div class="v-card"><h4>Comparing</h4><ul><li>Compared with my parents' generation, …</li><li>Whereas in the past…, these days…</li></ul></div>
+            <div class="v-card"><h4>Paraphrasing a word you've forgotten</h4><ul><li>It's a kind of… / It's the thing you use to…</li><li>I can't think of the exact word, but it's similar to…</li></ul></div>
+          </div>
+        </div>
+
+        <div class="v-sec" id="sr-pron" data-short="Pronunciation">
+          <h2>Pronunciation <span>quick wins</span></h2>
+          <ol>
+            <li><strong>Word stress:</strong> PHOtograph, phoTOgrapher, photoGRAPHic — stress shifts with the suffix.</li>
+            <li><strong>Sentence stress:</strong> stress the content words — <em>I SPENT the WHOLE SUMmer LEARNing to SWIM.</em></li>
+            <li><strong>Chunking:</strong> pause between meaningful groups of words, not in the middle of them.</li>
+            <li><strong>Final consonants:</strong> don't drop the ends of words — <em>asked, months, world</em>.</li>
+            <li><strong>Intonation:</strong> fall for statements, rise to show you're adding more or checking.</li>
+          </ol>
+          <p><a href="ielts-premium-speaking-landing-page.html">Take one of 20 full recorded Speaking tests →</a></p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <section class="spow-view" id="v-test-day" data-route="test-day" data-title="Test day guide" data-parent="Prepare for your test" hidden>
+    <div class="v-hero"><div class="v-hero-in">
+      <div class="v-kicker">Prepare for your test · Test day</div>
+      <h1>Test day: <em>what to expect</em></h1>
+      <p class="v-lead">A calm, well-rehearsed test day is worth marks. Here is what happens, the rules you must follow, and what to do after the test.</p>
+      <a href="#" class="v-back">← Back to the Premium dashboard</a>
+    </div></div>
+    <div class="v-layout">
+      <nav class="v-toc" data-toc aria-label="On this page"></nav>
+      <div class="v-main">
+
+        <div class="v-sec" id="td-before" data-short="The day before">
+          <h2>The day <span>before</span></h2>
+          <ul>
+            <li>Check your confirmation email for the reporting time, address and any centre-specific instructions.</li>
+            <li>Put your identification document by the door. It must be the same document you used to book, and it must be valid.</li>
+            <li>Plan your journey with a margin for delays; late candidates may not be allowed in.</li>
+            <li>Do light revision only: skim your error log and a few useful phrases. No full mock test.</li>
+            <li>Sleep. Concentration in the third hour of the test depends on it.</li>
+          </ul>
+        </div>
+
+        <div class="v-sec" id="td-timeline" data-short="Timeline">
+          <h2>How the day <span>unfolds</span></h2>
+          <ol class="v-steps">
+            <li><b>Check-in</b>Identity verification, photograph and, at many centres, a finger scan. Belongings go into a secure storage area.</li>
+            <li><b>Listening (about 30 minutes)</b>Instructions and recordings play through headphones or speakers. Read ahead whenever you are given time.</li>
+            <li><b>Reading (60 minutes)</b>Three passages, 40 questions. Keep to about 20 minutes per passage — no extra transfer time.</li>
+            <li><b>Writing (60 minutes)</b>Task 1, then Task 2 — or Task 2 first if that is your strategy. Watch the clock, not the word count.</li>
+            <li><b>Speaking (11–14 minutes)</b>Same day or a different day, depending on your centre. The examiner checks your ID again before starting.</li>
+          </ol>
+        </div>
+
+        <div class="v-sec" id="td-rules" data-short="Rules">
+          <h2>Rules you <span>must follow</span></h2>
+          <div class="v-grid two">
+            <div class="v-card"><h4>Allowed in the room</h4><ul><li>Your ID document</li><li>Pencils, pen and eraser (paper test; often provided)</li><li>A clear water bottle, where the centre permits it</li></ul></div>
+            <div class="v-card"><h4>Not allowed</h4><ul><li>Phones, smartwatches and any electronic device</li><li>Notes, dictionaries or paper of your own</li><li>Talking to or copying from other candidates</li></ul></div>
+          </div>
+          <div class="v-call"><p>Breaking the rules can lead to your results being withheld or cancelled. If you feel unwell or have a problem with the recording or equipment, raise your hand and tell the invigilator immediately — not after the test.</p></div>
+        </div>
+
+        <div class="v-sec" id="td-after" data-short="After the test">
+          <h2>After <span>the test</span></h2>
+          <div class="v-tablewrap"><table class="v-table">
+            <thead><tr><th>What</th><th>When</th><th>Notes</th></tr></thead>
+            <tbody>
+              <tr><td>Results (computer)</td><td>Usually 1–2 days</td><td>Available online first; the TRF follows.</td></tr>
+              <tr><td>Results (paper)</td><td>About 13 days</td><td>Timing can vary slightly by country.</td></tr>
+              <tr><td>Enquiry on Results</td><td>Usually within 6 weeks of the test</td><td>Re-marking of one or more skills; the fee is normally refunded if your band changes.</td></tr>
+              <tr><td>IELTS One Skill Retake</td><td>Within 60 days of the original test</td><td>Computer-delivered tests at participating centres only; one retake per test; check that your organisation accepts it.</td></tr>
+              <tr><td>Result validity</td><td>Usually two years</td><td>Set by each organisation, not by the test.</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <div class="v-sec" id="td-check" data-short="Checklist">
+          <h2>Test-morning <span>checklist</span></h2>
+          <p class="v-note">Your ticks are saved on this device.</p>
+          <ul class="v-check" data-store="td-check">
+            <li><input type="checkbox" id="td1"><label for="td1">ID document (the one I booked with)</label></li>
+            <li><input type="checkbox" id="td2"><label for="td2">Confirmation email and centre address</label></li>
+            <li><input type="checkbox" id="td3"><label for="td3">Clear water bottle, if allowed</label></li>
+            <li><input type="checkbox" id="td4"><label for="td4">A light breakfast — the written tests last nearly three hours</label></li>
+            <li><input type="checkbox" id="td5"><label for="td5">Leave with at least 30 minutes to spare</label></li>
+            <li><input type="checkbox" id="td6"><label for="td6">Phone switched off and ready to hand in</label></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <div class="v-disclaimer" id="v-disclaimer"><div>Shared Pearls of Wisdom is an independent preparation platform. It is not affiliated with, or endorsed by, the IELTS partners. Test rules, fees and timings can change and may vary by country: always confirm details with your test centre.</div></div>
 
   <!-- FOOTER -->
   <footer class="footer">
@@ -423,6 +1760,319 @@
       hamburger.classList.toggle('active');
       navLinks.classList.toggle('active');
     });
+  </script>
+  <script id="spow-views">
+  (function () {
+    'use strict';
+    var $ = function (s, r) { return (r || document).querySelector(s); };
+    var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+    var store = {
+      get: function (k) { try { return localStorage.getItem('spow-ielts-' + k); } catch (e) { return null; } },
+      set: function (k, v) { try { localStorage.setItem('spow-ielts-' + k, v); } catch (e) {} }
+    };
+    var esc = function (t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+    var halfRound = function (m) { var f = Math.floor(m), d = m - f + 1e-9; return d < 0.25 ? f : (d < 0.75 ? f + 0.5 : f + 1); };
+    var fmt = function (b) { return (Math.round(b * 10) / 10).toFixed(1); };
+    var bandOptions = function (sel, from, to, def) { for (var b = to; b >= from; b -= 0.5) { var o = document.createElement('option'); o.value = b; o.textContent = fmt(b); if (b === def) o.selected = true; sel.appendChild(o); } };
+
+    /* ---------- Router ---------- */
+    var home = $('#view-home');
+    var views = $$('.spow-view');
+    var crumbs = $('.breadcrumbs');
+    var crumbsHome = crumbs ? crumbs.innerHTML : '';
+    var baseTitle = document.title;
+    var navLinks = $$('.nav-links a');
+    function show(route) {
+      var target = null;
+      views.forEach(function (v) { if (v.getAttribute('data-route') === route) target = v; });
+      views.forEach(function (v) { v.hidden = v !== target; });
+      if (home) home.hidden = !!target;
+      navLinks.forEach(function (a) { a.classList.toggle('is-current', !!target && a.getAttribute('href') === '#' + route); });
+      var nl = $('.nav-links'), hb = $('.hamburger');
+      if (nl) nl.classList.remove('active'); if (hb) hb.classList.remove('active');
+      if (target) {
+        var t = target.getAttribute('data-title'), p = target.getAttribute('data-parent');
+        var tmp = document.createElement('div'); tmp.innerHTML = t; var plain = tmp.textContent;
+        document.title = plain + ' · Premium IELTS Academic · Shared Pearls of Wisdom';
+        if (crumbs) crumbs.innerHTML = '<a href="#">IELTS Academic</a> <span>❯</span> ' + (p ? '<a href="#" data-goto="prep">' + esc(p) + '</a> <span>❯</span> ' : '') + '<span class="active">' + t + '</span>';
+        window.scrollTo(0, 0);
+      } else {
+        document.title = baseTitle;
+        if (crumbs) crumbs.innerHTML = crumbsHome;
+      }
+    }
+    function route() { show(decodeURIComponent(location.hash.replace(/^#/, ''))); }
+    window.addEventListener('hashchange', route);
+    document.addEventListener('click', function (e) {
+      var g = e.target.closest('[data-goto="prep"]');
+      if (g) { e.preventDefault(); if (location.hash) { history.pushState('', document.title, location.pathname + location.search); route(); } var s = $('.prep-section'); if (s) setTimeout(function () { s.scrollIntoView({ behavior: 'smooth' }); }, 30); }
+    });
+
+    /* ---------- On-this-page menus ---------- */
+    $$('[data-toc]').forEach(function (toc) {
+      var view = toc.closest('.spow-view');
+      var label = document.createElement('p'); label.textContent = 'On this page'; toc.appendChild(label);
+      $$('.v-sec[id]', view).forEach(function (sec) {
+        var b = document.createElement('button'); b.type = 'button';
+        b.textContent = sec.getAttribute('data-short') || $('h2', sec).textContent;
+        b.addEventListener('click', function () {
+          $$('button', toc).forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on');
+          sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        toc.appendChild(b);
+      });
+    });
+
+    /* ---------- Tabs ---------- */
+    document.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-tabs] button'); if (!b) return;
+      var grp = b.parentElement.getAttribute('data-tabs');
+      $$('button', b.parentElement).forEach(function (x) { x.classList.toggle('on', x === b); });
+      $$('.v-pane[data-group="' + grp + '"]').forEach(function (p) { p.hidden = p.getAttribute('data-pane') !== b.getAttribute('data-tab'); });
+    });
+
+    /* ---------- Saved checklists ---------- */
+    $$('[data-store]').forEach(function (list) {
+      var key = list.getAttribute('data-store'), saved = {};
+      try { saved = JSON.parse(store.get(key) || '{}'); } catch (e) {}
+      $$('input[type=checkbox]', list).forEach(function (c) {
+        c.checked = !!saved[c.id];
+        c.addEventListener('change', function () { saved[c.id] = c.checked; store.set(key, JSON.stringify(saved)); });
+      });
+    });
+
+    /* ---------- Interactive questions ---------- */
+    var norm = function (t) { return String(t || '').toLowerCase().replace(/\s+/g, ' ').replace(/[.,!?]+$/, '').trim(); };
+    function grade(set, reset) {
+      var box = $('[data-set="' + set + '"]'), right = 0, items = $$('.v-q', box);
+      items.forEach(function (q) {
+        var fb = $('.v-fb', q); if (!fb) { fb = document.createElement('div'); fb.className = 'v-fb'; q.appendChild(fb); }
+        q.classList.remove('ok', 'bad'); fb.textContent = '';
+        var txt = $('input[type=text]', q), sel = $('select', q), rad = $$('input[type=radio]', q);
+        if (reset) { if (txt) txt.value = ''; if (sel) sel.value = ''; rad.forEach(function (r) { r.checked = false; }); return; }
+        var val = txt ? txt.value : sel ? sel.value : ((rad.filter(function (r) { return r.checked; })[0] || {}).value || '');
+        var ok = q.getAttribute('data-ans').split('|').some(function (a) { return norm(a) === norm(val); });
+        if (ok) right++;
+        q.classList.add(ok ? 'ok' : 'bad');
+        var answer = q.getAttribute('data-ans').split('|')[0];
+        if (rad.length) { var r = rad.filter(function (x) { return x.value === answer; })[0]; answer = r ? r.parentElement.textContent.trim() : answer; }
+        fb.textContent = (ok ? '✓ Correct. ' : '✗ Answer: ' + (rad.length ? answer : answer.toUpperCase()) + ' ') + (q.getAttribute('data-why') || '');
+      });
+      var out = $('[data-score="' + set + '"]');
+      if (out) out.innerHTML = reset ? '' : '<span class="v-big">' + right + '/' + items.length + '</span> &nbsp; ' + (right === items.length ? 'Excellent — every answer correct.' : 'Read the explanations under each question, then try again.');
+    }
+    document.addEventListener('click', function (e) {
+      var c = e.target.closest('[data-check]'); if (c) grade(c.getAttribute('data-check'), false);
+      var r = e.target.closest('[data-reset]'); if (r) grade(r.getAttribute('data-reset'), true);
+    });
+
+    /* ---------- Listening sample: British / Australian / Canadian voices only ---------- */
+    (function () {
+      var play = $('#ls-play'), stop = $('#ls-stop'), status = $('#ls-status');
+      if (!play) return;
+      var synth = window.speechSynthesis;
+      function pickVoices() {
+        if (!synth) return [];
+        var ok = synth.getVoices().filter(function (v) { return /^en[-_](GB|AU|CA)/i.test(v.lang); });
+        var gb = ok.filter(function (v) { return /GB/i.test(v.lang); });
+        return (gb.length >= 2 ? gb : ok);
+      }
+      play.addEventListener('click', function () {
+        var voices = pickVoices();
+        if (!synth || !voices.length) { status.textContent = 'No British, Australian or Canadian voice is available on this device. Open the transcript below and read it instead.'; return; }
+        synth.cancel();
+        var lines = $$('#ls-script p');
+        var vA = voices[0], vB = voices[1] || voices[0];
+        lines.forEach(function (p) {
+          var who = ($('strong', p) || {}).textContent || '';
+          var text = p.textContent.replace(who, '').trim();
+          var u = new SpeechSynthesisUtterance(text);
+          u.voice = /Librarian/.test(who) ? vA : vB; u.lang = u.voice.lang;
+          u.rate = 0.95; u.pitch = /Librarian/.test(who) ? 1.08 : 0.92;
+          synth.speak(u);
+        });
+        status.textContent = 'Playing… (' + vA.name + (vB !== vA ? ' and ' + vB.name : '') + ')';
+        play.disabled = true;
+        var last = setInterval(function () { if (!synth.speaking) { clearInterval(last); play.disabled = false; status.textContent = 'Recording finished. Check your answers below.'; } }, 500);
+      });
+      stop.addEventListener('click', function () { if (synth) synth.cancel(); play.disabled = false; status.textContent = 'Stopped.'; });
+      window.addEventListener('hashchange', function () { if (synth) synth.cancel(); play.disabled = false; });
+    })();
+
+    /* ---------- Part 2 timers (1 min prep, 2 min talk) ---------- */
+    $$('[data-timer]').forEach(function (box) {
+      var disp = $('[data-tdisp]', box), label = $('[data-tlabel]', box), start = $('[data-tstart]', box), reset = $('[data-treset]', box);
+      var id = null, left = 60, phase = 0;
+      var draw = function () { disp.textContent = Math.floor(left / 60) + ':' + ('0' + (left % 60)).slice(-2); };
+      var stopT = function () { if (id) clearInterval(id); id = null; };
+      var resetT = function () { stopT(); phase = 0; left = 60; label.textContent = 'Preparation: 1 minute'; start.textContent = 'Start preparation'; start.disabled = false; draw(); };
+      box._reset = resetT;
+      start.addEventListener('click', function () {
+        if (id) return; start.disabled = true;
+        label.textContent = phase === 0 ? 'Preparing… make notes' : 'Speak now — up to 2 minutes';
+        id = setInterval(function () {
+          left--; draw();
+          if (left <= 0) {
+            stopT();
+            if (phase === 0) { phase = 1; left = 120; draw(); label.textContent = 'Preparation over. Start speaking when ready.'; start.textContent = 'Start speaking'; start.disabled = false; }
+            else { label.textContent = 'Time is up. Thank you.'; start.textContent = 'Done'; }
+          }
+        }, 1000);
+      });
+      reset.addEventListener('click', resetT);
+      window.addEventListener('hashchange', resetT);
+    });
+
+    /* ---------- Cue cards ---------- */
+    (function () {
+      var card = $('#cue-card'), btn = $('#cue-new'); if (!card) return;
+      var cards = [
+        ['Describe a place in your town or city that has changed a lot.', ['where it is', 'what it used to be like', 'how it has changed', 'and explain how you feel about these changes']],
+        ['Describe a book or article that taught you something important.', ['what it was', 'when you read it', 'what it was about', 'and explain what you learned from it']],
+        ['Describe a time when you helped someone.', ['who you helped', 'what the situation was', 'what you did', 'and explain how you felt afterwards']],
+        ['Describe a piece of technology you could not live without.', ['what it is', 'when you started using it', 'how often you use it', 'and explain why it is so important to you']],
+        ['Describe a journey that took longer than expected.', ['where you were going', 'how you travelled', 'what caused the delay', 'and explain what you did while you waited']],
+        ['Describe a teacher who influenced you.', ['who the teacher was', 'what subject they taught', 'what they were like', 'and explain how they influenced you']],
+        ['Describe an event you attended that was well organised.', ['what the event was', 'where and when it took place', 'who organised it', 'and explain why you think it was well organised']],
+        ['Describe a goal you hope to achieve in the next five years.', ['what the goal is', 'why you chose it', 'what you need to do to achieve it', 'and explain how achieving it would change your life']],
+        ['Describe a public building you think is beautiful.', ['what building it is', 'where it is', 'what it looks like', 'and explain why you find it beautiful']],
+        ['Describe a decision that was difficult to make.', ['what the decision was', 'when you made it', 'what options you had', 'and explain why it was difficult']],
+        ['Describe a traditional food from your country.', ['what it is', 'how it is made', 'when people eat it', 'and explain why it is important to your culture']],
+        ['Describe a time you changed your mind about something.', ['what it was about', 'what you thought before', 'what made you change your mind', 'and explain whether you think it was the right decision']]
+      ];
+      var i = -1;
+      var draw = function () {
+        var n; do { n = Math.floor(Math.random() * cards.length); } while (n === i && cards.length > 1); i = n;
+        card.innerHTML = '<p><strong>' + esc(cards[i][0]) + '</strong><br>You should say: ' + cards[i][1].map(esc).join(' · ') + '</p>';
+        var t = card.parentElement.querySelector('[data-timer]'); if (t && t._reset) t._reset();
+      };
+      btn.addEventListener('click', draw); draw();
+    })();
+
+    /* ---------- Study plan builder ---------- */
+    (function () {
+      var now = $('#pl-now'), tgt = $('#pl-target'); if (!now) return;
+      bandOptions(now, 4, 8.5, 5.5); bandOptions(tgt, 5, 9, 7);
+      $('#pl-go').addEventListener('click', function () {
+        var a = +now.value, b = +tgt.value, w = Math.max(1, Math.min(52, +$('#pl-weeks').value || 8)), h = Math.max(2, Math.min(40, +$('#pl-hours').value || 10));
+        var weak = $('#pl-weak').value, out = $('#pl-out'), gap = b - a, total = w * h;
+        if (gap <= 0) { out.innerHTML = '<p><strong>You are already at or above your target.</strong> Use the time to secure it: one full timed test a week, plus focused work on your weakest skill (' + esc(weak) + ') so that no single score falls below the requirement.</p>'; return; }
+        var need = gap * 2 * 80, ratio = total / need;
+        var verdict = ratio >= 1 ? ['Realistic', 'Your available time matches what a gain of this size usually needs.'] : ratio >= 0.6 ? ['Ambitious', 'Achievable with very disciplined, feedback-driven study. Consider adding hours or weeks if you can.'] : ['Very ambitious', 'The gap is large for the time available. Consider a later test date, more weekly hours or an intermediate target.'];
+        var skills = ['Listening', 'Reading', 'Writing', 'Speaking'], share = {};
+        skills.forEach(function (s) { share[s] = s === weak ? 0.37 : 0.21; });
+        var rows = skills.map(function (s) { return '<tr><td>' + s + (s === weak ? ' <span class="v-tag red">focus</span>' : '') + '</td><td>' + (Math.round(h * share[s] * 2) / 2) + ' h</td></tr>'; }).join('');
+        var mockEvery = w <= 4 ? 1 : (w <= 10 ? 2 : 3);
+        var phases = [];
+        phases.push('<li><b>Week 1 — Diagnose</b>Sit a full timed test, score it strictly and start an error log.</li>');
+        if (w > 2) phases.push('<li><b>Weeks 2–' + Math.max(2, w - 1) + ' — Train</b>Targeted practice by question type and task type, with a full mock test every ' + (mockEvery === 1 ? 'week' : mockEvery + ' weeks') + '. Get feedback on at least two Writing tasks and one Speaking test each week.</li>');
+        phases.push('<li><b>Final week — Taper</b>One last mock early in the week, then light revision of your error log and test-day rehearsal.</li>');
+        out.innerHTML = '<p><span class="v-tag ' + (ratio >= 1 ? 'gold' : 'red') + '">' + verdict[0] + '</span> Gap: <strong>' + fmt(gap) + ' band' + (gap === 1 ? '' : 's') + '</strong> · Study time available: <strong>' + total + ' hours</strong>. ' + verdict[1] + '</p>' +
+          '<div class="v-tablewrap"><table class="v-table" style="min-width:0"><thead><tr><th>Skill</th><th>Hours per week</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+          '<ol class="v-steps">' + phases.join('') + '</ol>';
+      });
+    })();
+
+    /* ---------- SEM explorer ---------- */
+    (function () {
+      var band = $('#sem-band'); if (!band) return;
+      bandOptions(band, 4, 9, 6.5);
+      $('#sem-go').addEventListener('click', function () {
+        var s = +$('#sem-sec').value, b = +band.value;
+        var lo1 = Math.max(0, b - s), hi1 = Math.min(9, b + s), lo2 = Math.max(0, b - 2 * s), hi2 = Math.min(9, b + 2 * s);
+        $('#sem-out').innerHTML = '<p>Observed band <strong>' + fmt(b) + '</strong>, SEM ' + s + '.</p><p>About two times in three, the true score lies between <strong>' + lo1.toFixed(2) + '</strong> and <strong>' + hi1.toFixed(2) + '</strong>. About 95 times in a hundred, between <strong>' + lo2.toFixed(2) + '</strong> and <strong>' + hi2.toFixed(2) + '</strong>.</p>';
+      });
+    })();
+
+    /* ---------- Overall band calculator ---------- */
+    (function () {
+      var f = $('#ov-fields'); if (!f) return;
+      var defs = { Listening: 7, Reading: 6.5, Writing: 6, Speaking: 6.5 };
+      Object.keys(defs).forEach(function (k) {
+        var l = document.createElement('label'); l.className = 'v-field'; l.textContent = k;
+        var s = document.createElement('select'); s.setAttribute('data-skill', k); bandOptions(s, 0, 9, defs[k]); l.appendChild(s); f.appendChild(l);
+      });
+      $('#ov-go').addEventListener('click', function () {
+        var v = $$('select', f).map(function (s) { return +s.value; }), m = v.reduce(function (a, b) { return a + b; }, 0) / 4, r = halfRound(m);
+        $('#ov-out').innerHTML = '<span class="v-big">' + fmt(r) + '</span> &nbsp; overall · average ' + m.toFixed(3).replace(/0+$/, '').replace(/\.$/, '') + ' rounded to the nearest half band.';
+      });
+    })();
+
+    /* ---------- Listening / Reading converter ---------- */
+    (function () {
+      var T = {
+        L: [[9, 39], [8.5, 37], [8, 35], [7.5, 32], [7, 30], [6.5, 26], [6, 23], [5.5, 18], [5, 16], [4.5, 13], [4, 10], [3.5, 8], [3, 6], [2.5, 4]],
+        R: [[9, 39], [8.5, 37], [8, 35], [7.5, 33], [7, 30], [6.5, 27], [6, 23], [5.5, 19], [5, 15], [4.5, 13], [4, 10], [3.5, 8], [3, 6], [2.5, 4]]
+      };
+      var tb = $('#rw-table tbody'); if (!tb) return;
+      var range = function (t, i) { var lo = t[i][1], hi = i === 0 ? 40 : t[i - 1][1] - 1; return lo === hi ? '' + lo : lo + '–' + hi; };
+      tb.innerHTML = T.L.map(function (r, i) { return '<tr><td>' + fmt(r[0]) + '</td><td>' + range(T.L, i) + '</td><td>' + range(T.R, i) + '</td></tr>'; }).join('');
+      $('#rw-go').addEventListener('click', function () {
+        var n = Math.max(0, Math.min(40, Math.round(+$('#rw-n').value || 0))), t = T[$('#rw-sec').value], b = null;
+        for (var i = 0; i < t.length; i++) if (n >= t[i][1]) { b = t[i][0]; break; }
+        $('#rw-out').innerHTML = b === null ? '<p>' + n + '/40 is below the range of this table (under band 2.5).</p>' : '<span class="v-big">' + fmt(b) + '</span> &nbsp; approximate band for ' + n + '/40.';
+      });
+    })();
+
+    /* ---------- Writing practice pad ---------- */
+    (function () {
+      var ta = $('#pad-text'); if (!ta) return;
+      var P = {
+        1: [
+          'The data shows the percentage of adults in one country who cycled to work in 2005, 2015 and 2025. Men: 6%, 9%, 14%. Women: 2%, 4%, 9%. Summarise the information by selecting and reporting the main features, and make comparisons where relevant.',
+          'The data shows household spending in one country in 1995 and 2025, as a share of the total. Housing: 22% → 34%. Food: 26% → 15%. Transport: 14% → 13%. Leisure: 9% → 14%. Other: 29% → 24%. Summarise the main features and make comparisons where relevant.',
+          'A process: used glass bottles are collected from homes, taken to a recycling plant, sorted by colour, crushed, melted in a furnace at around 1,500°C, moulded into new bottles, and delivered to shops. Summarise the process.',
+          'Visitors to three museums (thousands), 2010 / 2018 / 2025. Science: 420 / 610 / 580. History: 510 / 470 / 455. Art: 300 / 390 / 640. Summarise the main features and make comparisons where relevant.'
+        ],
+        2: [
+          'Some people think that governments should spend money on public transport rather than on building new roads. To what extent do you agree or disagree?',
+          'In many countries, people are living longer. What problems does this cause for individuals and society? What solutions can you suggest?',
+          'Some people believe that children should start learning a foreign language at primary school. Others think it is better to begin in secondary school. Discuss both views and give your own opinion.',
+          'More and more people are choosing to work from home. Do the advantages of this development outweigh the disadvantages?',
+          'Many museums and historical sites are mainly visited by tourists rather than local people. Why is this the case? What can be done to attract more local visitors?',
+          'Some people say that the best way to reduce crime is to give longer prison sentences. Others believe there are better ways. Discuss both views and give your opinion.'
+        ]
+      };
+      var task = $('#pad-task'), clock = $('#pad-clock'), promptBox = $('#pad-prompt'), count = $('#pad-count');
+      var id = null, left = 1200, pi = 0;
+      var minWords = function () { return task.value === '1' ? 150 : 250; };
+      var draw = function () { clock.textContent = ('0' + Math.floor(left / 60)).slice(-2) + ':' + ('0' + (left % 60)).slice(-2); clock.style.color = left <= 120 ? 'var(--brand-red)' : ''; };
+      var words = function () { var m = ta.value.trim().match(/[A-Za-z0-9À-ÿ'’-]+/g); return m ? m.length : 0; };
+      var upd = function () { var n = words(); count.textContent = n + ' word' + (n === 1 ? '' : 's'); count.style.color = n < minWords() ? 'var(--brand-red)' : '#2E7D4F'; store.set('pad-' + task.value, ta.value); };
+      var stopT = function () { if (id) clearInterval(id); id = null; $('#pad-start').textContent = 'Start timer'; };
+      var setTask = function () { stopT(); left = task.value === '1' ? 1200 : 2400; draw(); pi = 0; newPrompt(true); ta.value = store.get('pad-' + task.value) || ''; upd(); };
+      var newPrompt = function (first) { var list = P[task.value]; if (!first) pi = (pi + 1) % list.length; promptBox.innerHTML = '<p><strong>Task ' + task.value + '.</strong> ' + esc(list[pi]) + ' Write at least ' + minWords() + ' words.</p>'; };
+      task.addEventListener('change', setTask);
+      $('#pad-new').addEventListener('click', function () { newPrompt(false); });
+      $('#pad-clear').addEventListener('click', function () { ta.value = ''; upd(); });
+      $('#pad-start').addEventListener('click', function () {
+        if (id) { stopT(); return; }
+        if (left <= 0) { left = task.value === '1' ? 1200 : 2400; }
+        this.textContent = 'Pause timer';
+        id = setInterval(function () { left--; draw(); if (left <= 0) { stopT(); clock.textContent = 'Time!'; } }, 1000);
+      });
+      ta.addEventListener('input', upd);
+      window.addEventListener('hashchange', stopT);
+      setTask();
+    })();
+
+    /* ---------- Writing band estimator ---------- */
+    (function () {
+      var go = $('#est-go'); if (!go) return;
+      var C = { 1: ['Task Achievement', 'Coherence & Cohesion', 'Lexical Resource', 'Grammar'], 2: ['Task Response', 'Coherence & Cohesion', 'Lexical Resource', 'Grammar'] };
+      [1, 2].forEach(function (t) {
+        var row = $('[data-est="' + t + '"]');
+        C[t].forEach(function (c) { var l = document.createElement('label'); l.className = 'v-field'; l.textContent = c; var s = document.createElement('select'); bandOptions(s, 3, 9, t === 1 ? 6.5 : 6); l.appendChild(s); row.appendChild(l); });
+      });
+      go.addEventListener('click', function () {
+        var avg = function (t) { var v = $$('[data-est="' + t + '"] select').map(function (s) { return +s.value; }); return v.reduce(function (a, b) { return a + b; }, 0) / v.length; };
+        var t1 = avg(1), t2 = avg(2), w = (t1 + 2 * t2) / 3, r = Math.round(w * 2) / 2;
+        $('#est-out').innerHTML = '<span class="v-big">' + fmt(r) + '</span> &nbsp; estimated Writing band · Task 1 average ' + t1.toFixed(2) + ', Task 2 average ' + t2.toFixed(2) + ' (weighted ' + w.toFixed(2) + ').' + (t2 < t1 ? '<p style="margin-top:.6rem">Task 2 is pulling your score down — because it counts double, this is where extra practice pays most.</p>' : '');
+      });
+    })();
+
+    route();
+  })();
   </script>
 </body>
 </body>
