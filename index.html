@@ -4107,6 +4107,60 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 @media (prefers-reduced-motion: reduce) {
   .premium .deck-inner > .deck-card { transition: none; }
 }
+
+/* ============================================================
+   ULTRA-3D SOLAR SYSTEM ORBITS (THREE PLACES)
+   Transparent pearl-compatible · Zero text · Space-recovering collapse
+   ============================================================ */
+.celestial-band,
+.celestial-mid-wrap,
+.celestial-bottom-wrap {
+  position: relative;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+  transition: padding 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.celestial-stage-shell {
+  --celestial-h: clamp(290px, 32vw, 390px);
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+  height: var(--celestial-h);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 1;
+  transition:
+    height 2.6s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 2.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.celestial-mid-shell {
+  --celestial-h: clamp(300px, 34vw, 410px);
+}
+.celestial-bottom-shell {
+  --celestial-h: clamp(290px, 32vw, 390px);
+}
+.celestial-stage-shell.is-collapsed {
+  height: 0px !important;
+  opacity: 0 !important;
+}
+.celestial-canvas {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  height: var(--celestial-h);
+  display: block;
+  pointer-events: none;
+}
 </style>
 <!-- Marks that JavaScript is running. The scroll-reveal animation is
        scoped to .js, so if this script or script.js ever fails to load,
@@ -4175,6 +4229,16 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <!-- ============================================================
      HERO
 ============================================================ -->
+<!-- ============================================================
+     ULTRA-3D CELESTIAL CONSTELLATIONS & SPINNING PLANETS (TOP)
+============================================================ -->
+<div aria-hidden="true" class="celestial-band">
+  <div class="wrap">
+    <div class="celestial-stage-shell" id="celestial-hero-stage">
+      <canvas class="celestial-canvas" id="celestial-hero-canvas"></canvas>
+    </div>
+  </div>
+</div>
 <section class="hero">
 <div class="wrap hero-grid">
 <div class="hero-copy">
@@ -4429,13 +4493,13 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 </article>
 <article class="post" data-reveal="" data-topic="Storytelling fiction narrative">
 <figure class="media" data-slot="lesson-storytelling" data-tilt="" data-tone="lime" style="--ratio:3/2">
-<a href="the-art-of-storytelling-inspirational-narratives.html" class="media-link" aria-label="The Art of Storytelling & Inspirational Narratives">
+<a href="reading-stories.html" class="media-link" aria-label="The Art of Storytelling & Inspirational Narratives">
 <img alt="A reader holding an illustrated storybook" decoding="async" height="600" loading="lazy" onerror="this.hidden=true" src="lesson-storytelling-3d.jpg" width="900"/>
 </a>
 <span class="media-pill">Intermediate · B1</span>
 </figure>
 <p class="post-tags"><span class="tag tag-fiction">Fiction</span><span class="pill pill-lime">B1</span></p>
-<h3 class="post-title"><a href="the-art-of-storytelling-inspirational-narratives.html">The Art of Storytelling &amp; Inspirational Narratives</a></h3>
+<h3 class="post-title"><a href="reading-stories.html">The Art of Storytelling &amp; Inspirational Narratives</a></h3>
 <p class="post-excerpt">Learn an exceptional approach to crafting compelling stories, with real-world examples.</p>
 <p class="post-meta"><span>Intermediate</span><i></i><span>50 min</span></p>
 </article>
@@ -4771,6 +4835,16 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 <!-- ============================================================
      POPULAR SERIES
 ============================================================ -->
+<!-- ============================================================
+     ULTRA-3D CELESTIAL CONSTELLATIONS & SPINNING PLANETS (MID)
+============================================================ -->
+<div aria-hidden="true" class="celestial-mid-wrap" id="celestial-cosmos">
+  <div class="wrap">
+    <div class="celestial-stage-shell celestial-mid-shell" id="celestial-mid-stage">
+      <canvas class="celestial-canvas" id="celestial-mid-canvas"></canvas>
+    </div>
+  </div>
+</div>
 <section class="section section-tight" id="series">
 <div class="wrap">
 <div class="panel-dark">
@@ -4876,7 +4950,7 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
 </div>
 </article>
 <article class="voice voice-featured card-3d" data-reveal="" data-tilt="">
-<span class="voice-badge">Career Chaser</span>
+<span class="voice-badge">Top Educator</span>
 <p aria-label="Rated 5 out of 5" class="voice-stars" role="img"><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg><svg aria-hidden="true" class="ico"><use href="#i-star"></use></svg></p>
 <blockquote class="voice-text">As a medical student, I recommend Shared Pearls of Wisdom to all my colleagues. The 6-Minute Wisdom and The English We Speak series are brilliant for academic vocabulary. I dramatically improved my pronunciation and confidence in English. I can now use it for my medical studies.</blockquote>
 <div class="voice-author">
@@ -5103,6 +5177,16 @@ html.js [data-reveal].is-revealed:not(.card-3d):not([data-tilt]):not(.skill):not
      Links marked "coming soon" have no page yet — create the file
      named in the href, then remove the data-soon attribute.
 ============================================================ -->
+<!-- ============================================================
+     ULTRA-3D CELESTIAL CONSTELLATIONS & SPINNING PLANETS (BOTTOM)
+============================================================ -->
+<div aria-hidden="true" class="celestial-bottom-wrap" id="celestial-horizon">
+  <div class="wrap">
+    <div class="celestial-stage-shell celestial-bottom-shell" id="celestial-bottom-stage">
+      <canvas class="celestial-canvas" id="celestial-bottom-canvas"></canvas>
+    </div>
+  </div>
+</div>
 <footer class="site-footer">
 <div class="wrap footer-grid">
 <div class="footer-brand">
@@ -7337,6 +7421,389 @@ document.addEventListener("DOMContentLoaded", () => {
   "description": "English learning resource offering structured lessons in grammar, vocabulary, pronunciation, listening and real-world English, aligned to CEFR levels A1 to C1.",
   "email": "info@sharedpearls.com"
 }
+</script>
+
+<script>
+/* ============================================================
+   ULTRA-3D SOLAR SYSTEM ORBITS (THREE PLACES)
+   Matches attached 8-planet concentric sample · Transparent bg
+   Recovers vertical space when disappeared, reclaims when appearing
+   ============================================================ */
+(function initSolarOrbitStages() {
+  if (typeof THREE === 'undefined') return;
+  const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function createPlanetTexture(bands, swirlA, swirlB, spot, polarCap) {
+    const c = document.createElement('canvas');
+    c.width = 256; c.height = 128;
+    const ctx = c.getContext('2d');
+    const g = ctx.createLinearGradient(0, 0, 0, 128);
+    bands.forEach((b) => g.addColorStop(b[0], b[1]));
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 256, 128);
+
+    for (let i = 0; i < 18; i++) {
+      const y = (i / 18) * 128;
+      const h = 2 + (i % 3) * 1.5;
+      ctx.fillStyle = i % 2 === 0 ? swirlA : swirlB;
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      for (let x = 0; x <= 256; x += 16) {
+        ctx.lineTo(x, y + Math.sin((x / 256) * Math.PI * 4 + i * 0.7) * 3);
+      }
+      ctx.lineTo(256, y + h); ctx.lineTo(0, y + h); ctx.closePath(); ctx.fill();
+    }
+    if (spot) {
+      const sg = ctx.createRadialGradient(145, 70, 2, 145, 70, 16);
+      sg.addColorStop(0, spot);
+      sg.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = sg;
+      ctx.beginPath();
+      ctx.ellipse(145, 70, 18, 9, -0.1, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    if (polarCap) {
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.85)';
+      ctx.fillRect(0, 0, 256, 10);
+      ctx.fillRect(0, 118, 256, 10);
+    }
+    const tex = new THREE.CanvasTexture(c);
+    tex.wrapS = THREE.RepeatWrapping;
+    return tex;
+  }
+
+  function createSunTexture() {
+    const c = document.createElement('canvas');
+    c.width = 512; c.height = 256;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#fde047';
+    ctx.fillRect(0, 0, 512, 256);
+    for (let i = 0; i < 42; i++) {
+      ctx.fillStyle = i % 2 === 0 ? 'rgba(245, 158, 11, 0.45)' : 'rgba(254, 240, 138, 0.55)';
+      ctx.beginPath();
+      ctx.ellipse(Math.random() * 512, Math.random() * 256, 18 + Math.random() * 28, 10 + Math.random() * 18, Math.random() * Math.PI, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    const tex = new THREE.CanvasTexture(c);
+    tex.wrapS = THREE.RepeatWrapping;
+    return tex;
+  }
+
+  function createRingTexture(c1, c2) {
+    const c = document.createElement('canvas');
+    c.width = 256; c.height = 32;
+    const ctx = c.getContext('2d');
+    const g = ctx.createLinearGradient(0, 0, 256, 0);
+    g.addColorStop(0.0, 'rgba(0,0,0,0)');
+    g.addColorStop(0.18, c1);
+    g.addColorStop(0.45, c2);
+    g.addColorStop(0.54, 'rgba(0,0,0,0.06)');
+    g.addColorStop(0.62, c1);
+    g.addColorStop(0.88, c2);
+    g.addColorStop(1.0, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 256, 32);
+    return new THREE.CanvasTexture(c);
+  }
+
+  // Crisp 4-point star sparkle sprite (matches sample's star crosses)
+  function createSparkleSprite() {
+    const c = document.createElement('canvas');
+    c.width = 64; c.height = 64;
+    const ctx = c.getContext('2d');
+    ctx.clearRect(0, 0, 64, 64);
+    const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 28);
+    g.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    g.addColorStop(0.35, 'rgba(218, 154, 34, 0.85)');
+    g.addColorStop(1, 'rgba(218, 154, 34, 0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.moveTo(32, 2);
+    ctx.quadraticCurveTo(34, 30, 62, 32);
+    ctx.quadraticCurveTo(34, 34, 32, 62);
+    ctx.quadraticCurveTo(30, 34, 2, 32);
+    ctx.quadraticCurveTo(30, 30, 32, 2);
+    ctx.fill();
+    return new THREE.CanvasTexture(c);
+  }
+
+  function createDotSprite() {
+    const c = document.createElement('canvas');
+    c.width = 32; c.height = 32;
+    const ctx = c.getContext('2d');
+    const g = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+    g.addColorStop(0, 'rgba(184, 118, 20, 1)');
+    g.addColorStop(0.5, 'rgba(134, 22, 49, 0.45)');
+    g.addColorStop(1, 'rgba(134, 22, 49, 0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 32, 32);
+    return new THREE.CanvasTexture(c);
+  }
+
+  const sparkleSprite = createSparkleSprite();
+  const dotSprite = createDotSprite();
+  const sunTex = createSunTexture();
+
+  // Authentic Solar System colors (shared textures across all 3 stages for lightweight performance)
+  const planetsSpec = [
+    { r: 3.0,  sz: 0.42, spd: 1.25, spin: 1.1,  angle: 0.35, bands: [[0,'#6e6c67'],[0.5,'#a8a59e'],[1,'#5c5a55']], swA: 'rgba(220,218,212,0.26)', swB: 'rgba(65,63,58,0.25)' },
+    { r: 4.2,  sz: 0.56, spd: 0.95, spin: -0.8, angle: 2.85, bands: [[0,'#c29b59'],[0.5,'#edd49a'],[1,'#b88b44']], swA: 'rgba(255,248,225,0.34)', swB: 'rgba(168,124,58,0.22)' },
+    { r: 5.5,  sz: 0.64, spd: 0.78, spin: 1.2,  angle: 5.65, bands: [[0,'#1e40af'],[0.5,'#2563eb'],[1,'#1d4ed8']], swA: 'rgba(34,197,94,0.65)', swB: 'rgba(255,255,255,0.38)', moon: true },
+    { r: 6.8,  sz: 0.52, spd: 0.65, spin: 1.0,  angle: 2.10, bands: [[0,'#8b2c06'],[0.5,'#c1440e'],[1,'#9a3412']], swA: 'rgba(224,99,54,0.35)', swB: 'rgba(105,30,6,0.28)', polarCap: true },
+    { r: 8.5,  sz: 1.22, spd: 0.46, spin: 1.5,  angle: 3.70, bands: [[0,'#a5693d'],[0.3,'#efe6cf'],[0.55,'#c88b3a'],[0.8,'#d8ca9d'],[1,'#8d552e']], swA: 'rgba(255,248,235,0.32)', swB: 'rgba(150,82,36,0.24)', spot: 'rgba(185,56,31,0.72)' },
+    { r: 10.5, sz: 1.04, spd: 0.35, spin: 1.3,  angle: 5.15, bands: [[0,'#c9ad72'],[0.4,'#e3d0a0'],[0.7,'#f1e4c0'],[1,'#b5965b']], swA: 'rgba(255,250,235,0.28)', swB: 'rgba(166,134,75,0.22)', ring: true },
+    { r: 12.2, sz: 0.82, spd: 0.26, spin: -0.9, angle: 3.10, bands: [[0,'#5bc2d9'],[0.5,'#7de3f4'],[1,'#49b2c9']], swA: 'rgba(224,250,255,0.3)', swB: 'rgba(65,168,191,0.2)' },
+    { r: 13.8, sz: 0.84, spd: 0.20, spin: 0.95, angle: 0.10, bands: [[0,'#1e3a8a'],[0.5,'#2b54c7'],[1,'#1d4ed8']], swA: 'rgba(191,219,254,0.3)', swB: 'rgba(23,37,84,0.24)' }
+  ];
+  const sharedPlanetTex = planetsSpec.map((s) => createPlanetTexture(s.bands, s.swA, s.swB, s.spot, s.polarCap));
+
+  // Full left-to-right 4-point star sparkles & dots (zero zig-zag lines)
+  function buildStarryField() {
+    const group = new THREE.Group();
+
+    const sPos = new Float32Array(95 * 3);
+    for (let i = 0; i < 95; i++) {
+      sPos[i * 3] = (Math.random() - 0.5) * 62;
+      sPos[i * 3 + 1] = (Math.random() - 0.5) * 18;
+      sPos[i * 3 + 2] = (Math.random() - 0.5) * 14 - 5;
+    }
+    const sGeo = new THREE.BufferGeometry();
+    sGeo.setAttribute('position', new THREE.Float32BufferAttribute(sPos, 3));
+    group.add(new THREE.Points(sGeo, new THREE.PointsMaterial({
+      color: 0xc98a18, map: sparkleSprite, size: 0.95, transparent: true, opacity: 0.88, depthWrite: false
+    })));
+
+    const dPos = new Float32Array(180 * 3);
+    for (let i = 0; i < 180; i++) {
+      dPos[i * 3] = (Math.random() - 0.5) * 64;
+      dPos[i * 3 + 1] = (Math.random() - 0.5) * 18;
+      dPos[i * 3 + 2] = (Math.random() - 0.5) * 14 - 6;
+    }
+    const dGeo = new THREE.BufferGeometry();
+    dGeo.setAttribute('position', new THREE.Float32BufferAttribute(dPos, 3));
+    group.add(new THREE.Points(dGeo, new THREE.PointsMaterial({
+      color: 0x861631, map: dotSprite, size: 0.42, transparent: true, opacity: 0.65, depthWrite: false
+    })));
+
+    return group;
+  }
+
+  function mountSolarStage(shellId, canvasId, cycleLen, phaseOffset) {
+    const shell = document.getElementById(shellId);
+    const canvas = document.getElementById(canvasId);
+    if (!shell || !canvas) return;
+
+    try {
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) return;
+
+      const scene = new THREE.Scene();
+      const w = shell.clientWidth || window.innerWidth || 1200;
+      const h = parseFloat(getComputedStyle(canvas).height) || 340;
+      const fov = 40;
+      const camera = new THREE.PerspectiveCamera(fov, w / h, 0.1, 260);
+      function fitCameraToOrbits(cw, ch) {
+        const aspect = cw / Math.max(1, ch);
+        const halfFovRad = (fov * Math.PI) / 360;
+        const tanHalf = Math.tan(halfFovRad);
+        const distV = 9.4 / tanHalf;
+        const distH = 17.6 / (tanHalf * aspect);
+        const dist = Math.max(distV, distH);
+        camera.aspect = aspect;
+        camera.position.set(0, dist * 0.32, dist);
+        camera.lookAt(0, 0, 0);
+        camera.updateProjectionMatrix();
+      }
+      fitCameraToOrbits(w, h);
+
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'high-performance' });
+      renderer.setClearColor(0x000000, 0);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+      renderer.setSize(w, h);
+
+      scene.add(new THREE.AmbientLight(0xffffff, 1.15));
+      const key = new THREE.DirectionalLight(0xfff7e6, 1.15);
+      key.position.set(14, 20, 22);
+      scene.add(key);
+      const fill = new THREE.DirectionalLight(0xffe8c8, 0.55);
+      fill.position.set(-16, -8, 18);
+      scene.add(fill);
+
+      const world = new THREE.Group();
+      world.rotation.x = 0.22; // Tilted so all 8 concentric orbits read clearly like the sample
+      scene.add(world);
+
+      const starField = buildStarryField();
+      world.add(starField);
+
+      // Central Golden Sun + Subtle Corona Halo
+      const sun = new THREE.Mesh(
+        new THREE.SphereGeometry(2.05, 40, 40),
+        new THREE.MeshPhysicalMaterial({
+          map: sunTex, emissive: 0xd97706, emissiveIntensity: 0.45,
+          roughness: 0.22, clearcoat: 0.85
+        })
+      );
+      world.add(sun);
+
+      const corona = new THREE.Mesh(
+        new THREE.SphereGeometry(2.38, 32, 32),
+        new THREE.MeshBasicMaterial({ color: 0xfde047, transparent: true, opacity: 0.22, depthWrite: false })
+      );
+      world.add(corona);
+
+      // 8 Concentric Circular Orbit Rings & Planets
+      const movers = [];
+      planetsSpec.forEach((spec) => {
+        const orbitRing = new THREE.Mesh(
+          new THREE.TorusGeometry(spec.r, 0.03, 8, 128),
+          new THREE.MeshBasicMaterial({ color: 0xb87614, transparent: true, opacity: 0.42 })
+        );
+        orbitRing.rotation.x = Math.PI / 2;
+        world.add(orbitRing);
+
+        const pivot = new THREE.Group();
+        pivot.rotation.y = spec.angle;
+
+        const pGrp = new THREE.Group();
+        pGrp.position.set(spec.r, 0, 0);
+
+        const tex = sharedPlanetTex[planetsSpec.indexOf(spec)];
+        const mesh = new THREE.Mesh(
+          new THREE.SphereGeometry(spec.sz, 36, 36),
+          new THREE.MeshPhongMaterial({ map: tex, shininess: 45, specular: 0xfff5dc })
+        );
+        pGrp.add(mesh);
+
+        if (spec.moon) {
+          const moonPivot = new THREE.Group();
+          const moon = new THREE.Mesh(
+            new THREE.SphereGeometry(0.16, 16, 16),
+            new THREE.MeshPhysicalMaterial({ color: 0xe5e7eb, roughness: 0.3 })
+          );
+          moon.position.set(spec.sz + 0.45, 0.12, 0);
+          moonPivot.add(moon);
+          pGrp.add(moonPivot);
+          spec.moonPivot = moonPivot;
+        }
+
+        if (spec.ring) {
+          const ring = new THREE.Mesh(
+            new THREE.RingGeometry(spec.sz * 1.38, spec.sz * 2.15, 56),
+            new THREE.MeshBasicMaterial({
+              map: createRingTexture('rgba(180,83,9,0.68)', 'rgba(245,207,122,0.85)'),
+              side: THREE.DoubleSide, transparent: true, depthWrite: false
+            })
+          );
+          ring.rotation.x = Math.PI / 2.3;
+          ring.rotation.y = 0.2;
+          pGrp.add(ring);
+        }
+
+        pivot.add(pGrp);
+        world.add(pivot);
+        movers.push({ pivot, mesh, spec });
+      });
+
+      // 3 Sleek Shooting Stars gliding across the cosmos
+      const comets = [];
+      for (let i = 0; i < 3; i++) {
+        const cometGrp = new THREE.Group();
+        const head = new THREE.Mesh(
+          new THREE.SphereGeometry(0.18, 12, 12),
+          new THREE.MeshBasicMaterial({ color: 0x0284c7 })
+        );
+        const tail = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.01, 0.14, 2.4, 8),
+          new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.45 })
+        );
+        tail.rotation.z = Math.PI / 2;
+        tail.position.x = -1.2;
+        cometGrp.add(head);
+        cometGrp.add(tail);
+        cometGrp.rotation.z = -0.35;
+        cometGrp.position.set(-22 + i * 14, 3.5 - i * 2.5, -3);
+        world.add(cometGrp);
+        comets.push({ grp: cometGrp, offset: i * 4.2 });
+      }
+
+      window.addEventListener('resize', () => {
+        const nw = shell.clientWidth || window.innerWidth || 1200;
+        const nh = parseFloat(getComputedStyle(canvas).height) || 340;
+        fitCameraToOrbits(nw, nh);
+        renderer.setSize(nw, nh);
+      }, { passive: true });
+
+      let isVisible = true;
+      let animId = null;
+      let elapsed = 0;
+      let lastTs = performance.now();
+      let currentlyCollapsed = false;
+      let smoothScale = 1.0;
+
+      function tick(now) {
+        if (!isVisible || document.hidden || prefersReduced) {
+          animId = null;
+          return;
+        }
+        const dt = Math.min(0.05, (now - lastTs) / 1000);
+        lastTs = now;
+        elapsed += dt;
+
+        // Lifecycle: 0..0.74 visible & orbiting -> 0.74..1.0 collapsed (space recovered!)
+        const p = ((elapsed + phaseOffset) % cycleLen) / cycleLen;
+        const shouldCollapse = p >= 0.74;
+        if (shouldCollapse !== currentlyCollapsed) {
+          currentlyCollapsed = shouldCollapse;
+          shell.classList.toggle('is-collapsed', shouldCollapse);
+        }
+
+        // Slow-motion smooth scale ease on emerge/dissolve
+        const targetScale = shouldCollapse ? 0.78 : 1.0;
+        smoothScale += (targetScale - smoothScale) * Math.min(1, dt * 1.4);
+        world.scale.setScalar(smoothScale);
+
+        if (!shouldCollapse || parseFloat(getComputedStyle(shell).opacity) > 0.01) {
+          sun.rotation.y += dt * 0.35;
+          corona.scale.setScalar(1 + Math.sin(elapsed * 2.2) * 0.04);
+          starField.rotation.y += dt * 0.01;
+          movers.forEach((m) => {
+            m.pivot.rotation.y += dt * m.spec.spd;
+            m.mesh.rotation.y += dt * m.spec.spin;
+            if (m.spec.moonPivot) m.spec.moonPivot.rotation.y += dt * 2.6;
+          });
+          comets.forEach((cm) => {
+            const t = ((elapsed * 4.5 + cm.offset) % 44) - 22;
+            cm.grp.position.x = t;
+            cm.grp.position.y = 4.2 - t * 0.18;
+          });
+          renderer.render(scene, camera);
+        }
+        animId = requestAnimationFrame(tick);
+      }
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver((entries) => {
+          isVisible = entries[0].isIntersecting;
+          if (isVisible && !animId && !prefersReduced) {
+            lastTs = performance.now();
+            animId = requestAnimationFrame(tick);
+          }
+        }, { threshold: 0.01 }).observe(shell.parentElement || shell);
+      }
+
+      renderer.render(scene, camera);
+      if (!prefersReduced) animId = requestAnimationFrame(tick);
+    } catch (e) {
+      console.warn('Solar stage skipped:', e);
+    }
+  }
+
+  // Three places: Top (above headline), Middle (before Popular Series), Bottom (above Footer)
+  mountSolarStage('celestial-hero-stage',   'celestial-hero-canvas',   22, 0.0);
+  mountSolarStage('celestial-mid-stage',    'celestial-mid-canvas',    24, 7.5);
+  mountSolarStage('celestial-bottom-stage', 'celestial-bottom-canvas', 23, 14.0);
+})();
 </script>
 </body>
 </html>
