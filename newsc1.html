@@ -1,528 +1,594 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>News English C1 – Shared Pearls of Wisdom</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-  <style>
-    :root{--ink:#0e0c0a;--paper:#f7f4ef;--cream:#eeeae3;--gold:#b07d2a;--gold-lt:#d4a445;--teal:#1e6b6b;--pearl:#d8d3cb;--shadow:rgba(14,12,10,.10);--ok:#1a5c35;--no:#7a1520;--lv:#3d1a60;}
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{font-family:'Source Serif 4',Georgia,serif;background:var(--paper);color:var(--ink);}
-    nav{background:var(--ink);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-    .nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold-lt);padding:1.1rem 0;text-decoration:none;}
-    .nav-logo span{color:#fff;font-style:italic;}
-    .nav-links{display:flex;gap:.5rem;}
-    .nav-link{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:#aaa;text-decoration:none;padding:.3rem .7rem;transition:color .2s;}
-    .nav-link:hover,.nav-link.cur{color:var(--gold-lt);}
-    .hero{background:linear-gradient(135deg,#120830,#3d1a60,#1a0830);padding:4.5rem 2rem 3.5rem;position:relative;overflow:hidden;}
-    .hero::before{content:'📰';font-size:18rem;position:absolute;opacity:.04;top:-2rem;right:2rem;pointer-events:none;}
-    .hero-inner{max-width:900px;margin:0 auto;}
-    .hero-eyebrow{font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:1rem;}
-    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);color:#fff;line-height:1.1;margin-bottom:.8rem;}
-    .hero h1 em{color:var(--gold-lt);font-style:italic;}
-    .hero-desc{color:rgba(255,255,255,.65);font-size:1rem;line-height:1.8;max-width:640px;margin-bottom:1.5rem;}
-    .hero-pills{display:flex;gap:.5rem;flex-wrap:wrap;}
-    .hp{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:.28rem .75rem;background:rgba(255,255,255,.08);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.14);}
-    .prog-bar{height:3px;background:rgba(255,255,255,.1);margin-top:2.5rem;}
-    .prog-fill{height:100%;width:0;background:var(--gold-lt);transition:width .3s;}
-    .cefr-box{background:#fff;max-width:900px;margin:-1.5rem auto 0;position:relative;z-index:2;padding:1.8rem 2.2rem;box-shadow:0 6px 32px rgba(0,0,0,.12);}
-    .cefr-box h2{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--lv);margin-bottom:.5rem;}
-    .cefr-box p{font-size:.95rem;line-height:1.8;color:#444;}
-    .cefr-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.8rem;}
-    .ct{background:rgba(61,26,96,.07);border:1px solid rgba(61,26,96,.18);color:var(--lv);font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.09em;text-transform:uppercase;padding:.22rem .6rem;}
-    .layout{max-width:960px;margin:0 auto;padding:3rem 2rem 5rem;display:grid;grid-template-columns:1fr 240px;gap:3rem;}
-    .news-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;}
-    .news-headline{font-family:'Playfair Display',serif;font-size:1.75rem;color:var(--ink);line-height:1.2;margin-bottom:.6rem;}
-    .news-dateline{font-family:'DM Mono',monospace;font-size:.68rem;color:#aaa;margin-bottom:1.2rem;}
-    .news-body p{font-size:1.02rem;line-height:1.95;color:#333;margin-bottom:1.1rem;}
-    .news-body p strong{color:var(--lv);}
-    .pull-quote{background:var(--lv);color:#fff;padding:1.3rem 1.6rem;margin:1.5rem 0;font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;border-left:4px solid var(--gold);}
-    .vocab-tip{background:rgba(61,26,96,.05);border-left:3px solid var(--lv);padding:.8rem 1rem;margin:1rem 0;font-size:.9rem;color:#444;line-height:1.75;}
-    .vocab-tip strong{color:var(--lv);}
-    .ex-block{background:#fff;padding:1.8rem;box-shadow:0 2px 12px var(--shadow);margin:2rem 0;}
-    .ex-block-head{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem;padding-bottom:.8rem;border-bottom:2px solid var(--pearl);}
-    .ex-type-badge{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;padding:.3rem .8rem;border-radius:2px;flex-shrink:0;}
-    .badge-mcq{background:rgba(61,26,96,.1);color:var(--lv);}
-    .badge-tf{background:rgba(30,107,107,.1);color:var(--teal);}
-    .badge-fill{background:rgba(200,146,42,.1);color:var(--gold);}
-    .badge-comp{background:rgba(42,100,150,.1);color:#2a6496;}
-    .badge-cloze{background:rgba(139,26,26,.1);color:var(--no);}
-    .badge-scram{background:rgba(26,92,58,.1);color:var(--ok);}
-    .ex-block-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ink);}
-    .ex-block-sub{font-size:.85rem;color:#888;margin-top:.2rem;}
-    .q-item{margin-bottom:1.3rem;padding-bottom:1.3rem;border-bottom:1px solid var(--pearl);}
-    .q-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
-    .q-num{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem;}
-    .q-text{font-size:.97rem;color:#333;line-height:1.75;margin-bottom:.6rem;}
-    .q-text strong{color:var(--lv);}
-    .opts{display:flex;flex-direction:column;gap:.35rem;}
-    .opt{display:flex;align-items:flex-start;gap:.7rem;padding:.5rem .85rem;border:1px solid var(--pearl);cursor:pointer;background:var(--paper);transition:all .2s;font-size:.93rem;color:#444;line-height:1.55;}
-    .opt:hover{border-color:var(--lv);}
-    .opt.sel{border-color:var(--lv);background:rgba(61,26,96,.04);}
-    .opt.ok{border-color:var(--ok);background:rgba(26,92,53,.07);color:var(--ok);}
-    .opt.no{border-color:var(--no);background:rgba(122,21,32,.05);color:var(--no);}
-    .ol{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--lv);flex-shrink:0;margin-top:1px;}
-    .opt.ok .ol{color:var(--ok);}.opt.no .ol{color:var(--no);}
-    .tf-opts{display:flex;gap:.6rem;}
-    .tf-btn{padding:.5rem 1.4rem;border:1px solid var(--pearl);background:var(--paper);font-family:'DM Mono',monospace;font-size:.72rem;cursor:pointer;transition:all .2s;color:#666;}
-    .tf-btn.sel{border-color:var(--lv);color:var(--lv);}
-    .tf-btn.ok{border-color:var(--ok);background:rgba(26,92,53,.07);color:var(--ok);}
-    .tf-btn.no{border-color:var(--no);background:rgba(122,21,32,.05);color:var(--no);}
-    .inline-input{width:160px;padding:.25rem .5rem;border:none;border-bottom:2px solid var(--lv);background:transparent;font-family:'DM Mono',monospace;font-size:.88rem;color:var(--teal);outline:none;text-align:center;}
-    .inline-input.ok{border-bottom-color:var(--ok);color:var(--ok);}
-    .inline-input.no{border-bottom-color:var(--no);}
-    .inline-select{font-family:'DM Mono',monospace;font-size:.82rem;padding:.18rem .4rem;border:1px solid var(--lv);background:#fff;color:var(--teal);cursor:pointer;outline:none;}
-    .inline-select.ok{border-color:var(--ok);color:var(--ok);}
-    .inline-select.no{border-color:var(--no);color:var(--no);}
-    .word-bank{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.8rem;min-height:44px;padding:.5rem;background:var(--cream);border:1px solid var(--pearl);}
-    .word-tile{padding:.3rem .7rem;background:#fff;border:1px solid var(--pearl);font-family:'DM Mono',monospace;font-size:.78rem;cursor:pointer;user-select:none;transition:all .2s;}
-    .word-tile:hover{border-color:var(--lv);}
-    .word-tile.used{opacity:.35;cursor:default;text-decoration:line-through;}
-    .answer-slots{display:flex;gap:.4rem;flex-wrap:wrap;min-height:44px;padding:.5rem;border:1px dashed var(--pearl);background:#fff;}
-    .placed-tile{padding:.3rem .7rem;background:rgba(61,26,96,.08);border:1px solid var(--lv);font-family:'DM Mono',monospace;font-size:.78rem;cursor:pointer;color:var(--lv);}
-    .fb{font-family:'DM Mono',monospace;font-size:.72rem;margin-top:.4rem;display:none;padding:.4rem .7rem;line-height:1.55;}
-    .fb.ok{background:rgba(26,92,53,.08);color:var(--ok);}
-    .fb.no{background:rgba(122,21,32,.06);color:var(--no);}
-    .check-btn{padding:.75rem 1.8rem;background:var(--lv);color:#fff;border:none;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-top:1.2rem;transition:all .2s;}
-    .check-btn:hover{filter:brightness(1.2);}
-    .score-box{display:none;margin-top:1rem;padding:1rem 1.4rem;background:var(--ink);display:flex;align-items:center;gap:1.2rem;}
-    .sb-num{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold-lt);}
-    .sb-msg{font-family:'DM Mono',monospace;font-size:.7rem;color:#8899bb;line-height:1.5;}
-    .sidebar{display:flex;flex-direction:column;gap:1.2rem;}
-    .sc{background:#fff;padding:1.3rem;box-shadow:0 2px 10px var(--shadow);}
-    .sc h4{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem;padding-bottom:.5rem;border-bottom:1px solid var(--pearl);}
-    .level-nav{list-style:none;}
-    .level-nav li{border-bottom:1px solid var(--pearl);}
-    .level-nav li:last-child{border-bottom:none;}
-    .level-nav a{display:flex;align-items:center;gap:.6rem;padding:.55rem 0;font-size:.88rem;color:#555;text-decoration:none;transition:color .2s;}
-    .level-nav a:hover{color:var(--gold);}
-    .level-nav a.cur{color:var(--lv);font-weight:600;}
-    .lbadge{font-family:'DM Mono',monospace;font-size:.58rem;padding:.18rem .45rem;flex-shrink:0;}
-    .la1{background:rgba(42,100,150,.1);color:#2a6496;}
-    .lb1{background:rgba(30,107,107,.1);color:var(--teal);}
-    .lb2{background:rgba(139,58,16,.1);color:#8b3a10;}
-    .lc1{background:rgba(61,26,96,.1);color:var(--lv);}
-    .tip{background:rgba(61,26,96,.05);border:1px solid rgba(61,26,96,.16);padding:.9rem 1rem;font-size:.87rem;line-height:1.75;color:#555;}
-    .tip strong{color:var(--lv);}
-    .complete-box{background:rgba(26,92,53,.07);border:1px solid rgba(26,92,53,.2);padding:1.2rem;text-align:center;}
-    .complete-box strong{color:var(--ok);font-size:1rem;display:block;margin-bottom:.5rem;}
-    .complete-box p{font-size:.85rem;color:#555;margin-bottom:.8rem;line-height:1.6;}
-    .home-btn{display:block;background:var(--ink);color:var(--gold-lt);padding:.9rem;text-align:center;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:all .2s;}
-    .home-btn:hover{background:#2d2010;}
-    .prev-btn{display:block;background:transparent;color:var(--lv);border:1px solid var(--lv);padding:.8rem;text-align:center;font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;text-decoration:none;transition:all .2s;}
-    .prev-btn:hover{background:var(--lv);color:#fff;}
-    footer{background:var(--ink);padding:2rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
-    footer p{color:#666;font-size:.78rem;font-family:'DM Mono',monospace;}
-    footer a{color:var(--gold);text-decoration:none;font-family:'DM Mono',monospace;font-size:.78rem;}
-    @media(max-width:800px){.layout{grid-template-columns:1fr;}footer{padding:2rem 1.5rem;}}
-  </style>
-</head>
-<body>
-<nav>
-  <a href="index.html" class="nav-logo">Shared <span>Pearls</span> of Wisdom</a>
-  <div class="nav-links">
-    <a href="newsa1a2.html" class="nav-link">A1/A2</a>
-    <a href="newsb1.html" class="nav-link">B1</a>
-    <a href="newsb2.html" class="nav-link">B2</a>
-    <a href="newsc1.html" class="nav-link cur">C1</a>
-  </div>
-</nav>
+<!doctype html>
+<html lang="en-GB"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="C1 News English reading, listening and assessments from Shared Pearls of Wisdom">
+<title>News English C1 | Shared Pearls of Wisdom</title>
+<style>*{box-sizing:border-box}
+:root{color-scheme:light;--paper:#f8f6f0;--card:#fffefa;--ink:#202925;--muted:#52635a;--accent:#225b4e;--line:#ccd7cc;--wash:#e9f1e8;--rust:#843b28;--sand:#f7e8da}
+body{margin:0;background:var(--paper);color:var(--ink);font:1rem/1.58 "Segoe UI",system-ui,sans-serif}
+a{color:var(--accent);text-underline-offset:.17em}button,input,select,textarea{font:inherit;color:inherit}button,summary{cursor:pointer}button,.button{display:inline-block;background:var(--wash);border:1px solid var(--accent);border-radius:.35rem;padding:.38rem .65rem;color:var(--accent);font-weight:700}button:not(:disabled):hover,.button:hover{text-decoration:underline}button:disabled{opacity:.55;cursor:default}[hidden]{display:none!important}:focus-visible{outline:3px solid var(--rust);outline-offset:3px}
+.wrap{width:min(1200px,calc(100% - 2.5rem));margin-inline:auto}.mast{padding:.85rem 0;border-bottom:1px solid var(--line)}.line,.actions,.levels{display:flex;align-items:center;gap:.55rem .9rem;flex-wrap:wrap}.mast .line,footer .line{justify-content:space-between}.levels a{padding:.22rem .48rem;font-weight:700}.levels a[aria-current]{background:var(--wash);border-radius:.3rem;text-decoration:none}
+.skip{position:absolute;top:0;transform:translateY(-120%);background:white;padding:.5rem;z-index:2}.skip:focus{transform:none}
+header .brand{font-weight:750}.hero{padding:clamp(1.8rem,6vw,4.3rem) 0;background:var(--wash);border-bottom:1px solid var(--line)}.hero p{max-width:65ch}
+h1,h2,h3{font-family:Georgia,serif;line-height:1.13;margin:0 0 .6rem}h1{font-size:clamp(2.5rem,7vw,5rem);font-weight:400;letter-spacing:-.05em}h2{font-size:clamp(1.7rem,4vw,2.65rem);font-weight:400;letter-spacing:-.025em}h3{font-size:1.3rem}p{margin:0 0 .8rem}.eyebrow,.tag{font-size:.82rem;font-weight:750;color:var(--rust)}.eyebrow{letter-spacing:.14em;text-transform:uppercase}
+main{padding-block:1.5rem 3rem}.section{margin-bottom:1.65rem}.panel,.story-card{background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:clamp(.85rem,2vw,1.35rem)}.story-card>a{display:block;font-size:1.28rem;font-family:Georgia,serif;font-weight:700}.story-card p{margin:.55rem 0 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:.75rem}.lead-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:.75rem}.lead-grid .grid{grid-template-columns:1fr}.lead{background:var(--wash);display:grid;align-content:start;gap:.7rem;border-top:4px solid var(--accent)}.lead>a{font-size:clamp(1.7rem,4vw,2.8rem)}.lead p{max-width:53ch}
+.filters{display:grid;grid-template-columns:minmax(170px,2fr) minmax(125px,1fr) minmax(125px,1fr);gap:.65rem;margin:1rem 0}.filters label{display:grid;font-weight:700;gap:.2rem}
+input:not([type=radio]):not([type=file]),select,textarea{padding:.38rem .55rem;border:1px solid #778a7c;border-radius:.34rem;background:white;min-width:0;max-width:100%}textarea{display:block;width:100%;min-height:8rem}.muted,.notice{font-size:.92rem;color:var(--muted)}.notice,.feedback{padding:.55rem .7rem;background:var(--sand);border-radius:.35rem}.feedback:empty{display:none}.metadata{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:.5rem .85rem;margin:.8rem 0}.metadata dt{font-weight:700}.metadata dd{margin:0;overflow-wrap:anywhere}
+.reader{max-width:76ch;font:1.12rem/1.75 Georgia,serif}.reader.large{font-size:1.33rem}.reader p{scroll-margin-top:1rem}.reader sup{font:700 .72rem "Segoe UI",sans-serif;color:var(--rust);margin-right:.3rem}.reader img{max-width:100%;height:auto}
+details>summary{font-weight:750;color:var(--accent)}details[open]>summary{margin-bottom:.65rem}.quiz section{margin:1rem 0}.quiz fieldset{min-width:0;margin:.7rem 0;padding:.55rem .8rem;border:1px solid var(--line);border-radius:.4rem}.quiz legend{font-weight:700;padding:0 .24rem}.option{display:flex;align-items:baseline;gap:.5rem;margin:.28rem 0}.quiz input[type=text]{width:min(100%,26rem)}.cloze{line-height:2.4}.cloze input[type=text]{width:min(100%,9rem);margin-inline:.2rem}.scramble-list{display:flex;flex-wrap:wrap;gap:.4rem;min-height:2.6rem;padding:.45rem;border:1px dashed var(--line);border-radius:.35rem;margin:.45rem 0;list-style:none}.scramble-list li{display:flex;gap:.28rem;flex-wrap:wrap}.scramble-list button{font-size:.87rem}.done{color:#215343}.detail-header{margin:.65rem 0 1rem}.school details{border-top:1px solid var(--line);padding:.55rem 0}.school ul{padding-left:1.2rem}footer{background:var(--card);border-top:1px solid var(--line);padding:1rem 0}
+@media(max-width:710px){.lead-grid,.filters{grid-template-columns:1fr}}
+@media(max-width:380px){.wrap{width:calc(100% - 1.2rem)}}
+@media print{header,footer,.filters,.screen-only,.quiz button{display:none!important}.panel{border:0}}
+</style>
+<style>:root{--accent:#59436f;--wash:#efebf4}</style>
 
-<div class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">News English · Level 4 of 4 · Advanced</div>
-    <h1>News English:<br/><em>C1 Advanced</em></h1>
-    <p class="hero-desc">Engage with a sophisticated editorial-style news analysis piece on artificial intelligence regulation in the UK. Complete 25 demanding exercises across all six question types — testing precision, inference, vocabulary, and discourse understanding.</p>
-    <div class="hero-pills">
-      <span class="hp">💎 Advanced</span>
-      <span class="hp">📰 Technology &amp; Law</span>
-      <span class="hp">25 Questions</span>
-      <span class="hp">6 Exercise Types</span>
-    </div>
-  </div>
-  <div class="prog-bar"><div class="prog-fill" id="pf"></div></div>
+</head><body data-live-feed="off" data-level="c1">
+<a class="skip" href="#edition">Skip to the news edition</a>
+<header><div class="mast"><div class="wrap line">
+<a class="brand" href="index.html">Shared Pearls of Wisdom</a><nav class="levels" aria-label="News English levels"><a href="newsa1a2.html">A1/A2</a><a href="newsb1.html">B1</a><a href="newsb2.html">B2</a><a href="newsc1.html" aria-current="page">C1</a></nav>
+</div></div><div class="hero"><div class="wrap"><p class="eyebrow">News English · C1</p><h1>Analysis and accountability</h1><p>Read closely for attribution, framing and uncertainty. Build a 300–400-word editorial analysis.</p>
+<div class="actions"><a href="#edition" class="button">Browse the edition</a><a href="#curriculum">Curriculum</a><a href="#teaching">Teacher resources</a></div>
+</div></div></header>
+<main class="wrap">
+<noscript><p class="notice">Enable JavaScript to open articles and use the assessments.</p></noscript>
+<div id="content">
+<section class="section" id="edition">
+<h2>Stories to read and discuss</h2>
+<p id="feed-status" class="notice" role="status">Curriculum edition. The stories below are fictional teaching scenarios. Live reporting is disabled for this edition.</p>
+<div class="filters"><label>Search stories<input id="search" type="search" placeholder="Search headlines and topics"></label>
+<label>Category<select id="category"><option value="">All categories</option></select></label>
+<label>Collection<select id="collection"><option value="">All stories</option><option value="fiction">Fictional practice</option><option value="archive">Archived reporting</option><option value="source">Source-linked reporting</option><option value="saved">Saved articles</option><option value="history">Reading history</option></select></label>
 </div>
-
-<div class="cefr-box">
-  <h2>What is CEFR C1?</h2>
-  <p>At <strong>C1 (Advanced)</strong>, learners can understand a wide range of demanding, longer texts and recognise implicit meaning, nuance, and authorial stance. News articles at this level include complex syntax, nominalisations, technical vocabulary, hedged language, rhetorical devices, and intertextual references. Learners are expected to interpret attitude and register, identify logical fallacies, evaluate arguments, and understand how language choices shape meaning.</p>
-  <div class="cefr-tags">
-    <span class="ct">Complex syntax</span><span class="ct">Nominalisations</span><span class="ct">Hedged language</span><span class="ct">Authorial stance</span><span class="ct">Rhetorical devices</span><span class="ct">Implicit meaning</span>
-  </div>
+<p id="results-count" class="muted" role="status"></p><div id="story-grid" class="lead-grid"></div>
+<button type="button" id="more-news" hidden>More reviewed stories</button>
+</section>
+<section class="section panel school" id="curriculum"><h2>Curriculum</h2>
+<p id="unit-progress" role="status"></p><p class="muted">This edition includes Unit 1. The remaining eleven units are listed so you can see the course sequence.</p><div id="unit-list"></div>
+</section>
+<section class="section panel school" id="teaching"><h2>Teacher resources for Unit 1</h2>
+<details><summary>Student Centred Learning · 50 minutes</summary>
+<p><strong>Outcome.</strong> Compare governance arrangements and preserve the limits of a proposal when paraphrasing. <strong>Core story.</strong> <a href="#story=governance">Who should oversee automated decisions?</a></p>
+<p><strong>Prepare.</strong> Open the core story, expose paragraph numbers and distribute the worksheet. Keep the answer key for feedback. Use the transcript if a UK browser voice is unavailable.</p>
+<ol><li><strong>0–5 minutes.</strong> Show the article headline only. Ask learners to predict the decision, event or issue, then collect predictions without judging them.</li><li><strong>5–14 minutes.</strong> Read the first two paragraphs silently. Learners mark two details and choose a word whose meaning can be inferred from context.</li><li><strong>14–22 minutes.</strong> Partners explain how they inferred a word and check the glossary. Model one comparison between a claim and its supporting paragraph.</li><li><strong>22–35 minutes.</strong> Groups choose a second story from the same unit, make a three-point brief and challenge another group to show evidence for each point.</li><li><strong>35–45 minutes.</strong> Complete the worksheet individually. Compare one answer with a partner and use the paragraph numbers to resolve differences.</li><li><strong>45–50 minutes.</strong> Collect an exit slip with one supported statement and its evidence. Identify a shared point to revisit.</li></ol>
+<p><strong>Learner task.</strong> Attribute each position, explain its strongest limitation and identify an unanswered policy question. Use a precise reporting verb and retain the relevant qualification.</p>
+<p><strong>Differentiate.</strong> Offer the first two paragraphs and three glossary terms before independent work. Ask confident readers to compare the lead with <a href="#story=cross-border">A cross-border complaint tests co-operation between regulators</a>.</p>
+<p><strong>Assess.</strong> Check that factual details point to paragraphs and that claims retain their original certainty. Use the worksheet key for the core questions.</p>
+<p><strong>Homework.</strong> Read the fourth story and write a new brief using the same evidence check.</p>
+<p><a data-worksheet="c1-student" target="_blank" rel="noopener">Open editable worksheet and answer key</a></p></details>
+<details><summary>Task Based Learning · 50 minutes</summary>
+<p><strong>Outcome.</strong> Compare governance arrangements and preserve the limits of a proposal when paraphrasing. <strong>Core story.</strong> <a href="#story=liability">An automated error tests how responsibility is assigned</a></p>
+<p><strong>Prepare.</strong> Open the core story, expose paragraph numbers and distribute the worksheet. Keep the answer key for feedback. Use the transcript if a UK browser voice is unavailable.</p>
+<ol><li><strong>0–7 minutes.</strong> Set the publication task. Each group is producing a short bulletin for a reader who has not seen the story. Examine headings and identify the intended audience.</li><li><strong>7–15 minutes.</strong> Read or listen to the story once for the main idea and again for key details. Compare what the headline leads you to expect with what the text establishes.</li><li><strong>15–30 minutes.</strong> Assign a writer, evidence checker and reader. Draft a headline and short bulletin. Mark who said each contested or uncertain claim and cite a paragraph for each firm statement.</li><li><strong>30–40 minutes.</strong> Exchange bulletins. The reviewers mark one accurate detail and one sentence that should be clarified, attributed or qualified.</li><li><strong>40–47 minutes.</strong> Revise the bulletin and deliver it aloud. Ask the audience to identify the main change and one remaining question.</li><li><strong>47–50 minutes.</strong> Collect the worksheet and record whether each group’s headline is supported by its evidence.</li></ol>
+<p><strong>Learner task.</strong> Attribute each position, explain its strongest limitation and identify an unanswered policy question. Use a precise reporting verb and retain the relevant qualification.</p>
+<p><strong>Differentiate.</strong> Offer the first two paragraphs and three glossary terms before independent work. Ask confident readers to compare the lead with <a href="#story=cross-border">A cross-border complaint tests co-operation between regulators</a>.</p>
+<p><strong>Assess.</strong> Check that factual details point to paragraphs and that claims retain their original certainty. Use the worksheet key for the core questions.</p>
+<p><strong>Homework.</strong> Read the fourth story and write a new brief using the same evidence check.</p>
+<p><a data-worksheet="c1-task" target="_blank" rel="noopener">Open editable worksheet and answer key</a></p></details>
+<details><summary>Think Pair Share · 50 minutes</summary>
+<p><strong>Outcome.</strong> Compare governance arrangements and preserve the limits of a proposal when paraphrasing. <strong>Core story.</strong> <a href="#story=transparency">What a public register can reveal about automated decisions</a></p>
+<p><strong>Prepare.</strong> Open the core story, expose paragraph numbers and distribute the worksheet. Keep the answer key for feedback. Use the transcript if a UK browser voice is unavailable.</p>
+<ol><li><strong>0–8 minutes.</strong> Read the story independently and record the key change and two details in the worksheet. Allow a second reading or transcript.</li><li><strong>8–15 minutes.</strong> Think individually about which detail would matter most to a person affected by the story. Give a reason and note a paragraph number.</li><li><strong>15–27 minutes.</strong> In pairs, compare evidence and choose one statement both can support. Identify where a second interpretation is possible.</li><li><strong>27–37 minutes.</strong> Compare with another pair. Give the competing accounts a fair hearing and agree which wording best reflects the article.</li><li><strong>37–45 minutes.</strong> Share the statement and its source with the class. Peers ask one factual question and one question about interpretation.</li><li><strong>45–50 minutes.</strong> Ask learners to revise one sentence and explain the edit on their exit slip.</li></ol>
+<p><strong>Learner task.</strong> Attribute each position, explain its strongest limitation and identify an unanswered policy question. Use a precise reporting verb and retain the relevant qualification.</p>
+<p><strong>Differentiate.</strong> Offer the first two paragraphs and three glossary terms before independent work. Ask confident readers to compare the lead with <a href="#story=cross-border">A cross-border complaint tests co-operation between regulators</a>.</p>
+<p><strong>Assess.</strong> Check that factual details point to paragraphs and that claims retain their original certainty. Use the worksheet key for the core questions.</p>
+<p><strong>Homework.</strong> Read the fourth story and write a new brief using the same evidence check.</p>
+<p><a data-worksheet="c1-pair" target="_blank" rel="noopener">Open editable worksheet and answer key</a></p></details>
+</section>
+<section class="section panel"><h2>Your reading progress</h2>
+<p>Drafts, saved articles and assessment results stay in this browser. Export a copy to keep it yourself.</p>
+<div class="actions"><button type="button" id="export-progress">Export progress</button><label>Import progress <input id="import-progress" type="file" accept="application/json,.json"></label></div>
+<p id="storage" role="status" class="muted"></p>
+</section>
 </div>
-
-<div class="layout">
-<main>
-  <div class="news-label">📰 News Analysis · C1 · Advanced</div>
-  <div class="news-headline">Britain's Race to Regulate Artificial Intelligence: Too Little, Too Late?</div>
-  <div class="news-dateline">ANALYSIS · LONDON · FRIDAY, 21 FEBRUARY · SHARED PEARLS NEWS SERVICE</div>
-
-  <div class="news-body">
-    <p>When the <strong>UK Artificial Intelligence Safety Institute (AISI)</strong> published its inaugural evaluation report in November 2023, it made a striking admission: no major AI system currently deployed globally had been subjected to sufficiently rigorous safety testing prior to release. For a body established just weeks earlier, in October 2023, under the auspices of the <strong>Department for Science, Innovation and Technology</strong>, it was a declaration of intent — but also, critics argued, one that arrived conspicuously late.</p>
-    <p>The broader context is one of accelerating technological disruption. The number of AI-related patent applications filed in the UK rose by <strong>214 percent between 2018 and 2023</strong>, according to the <strong>Intellectual Property Office</strong>. Meanwhile, global investment in AI reached an estimated <strong>$91.9 billion in 2022</strong>, with the UK attracting the third-largest share of that investment among OECD nations, behind only the United States and China. Against this backdrop, the relative tardiness of the UK's regulatory response has drawn sustained criticism from academics, civil society organisations, and the technology sector alike — though for markedly different reasons.</p>
-
-    <div class="pull-quote">"The fundamental question is not whether AI should be regulated, but whether democratic institutions are capable of regulating it before it regulates us." — Professor Amelia Osei, LSE</div>
-
-    <p>The UK government's stated approach — set out in its <strong>March 2023 white paper, "A pro-innovation approach to AI regulation"</strong> — is deliberately non-legislative. Rather than enacting a comprehensive AI Act akin to the <strong>EU's landmark legislation</strong>, which entered into force in August 2024, the UK opted to assign oversight responsibilities to existing sectoral regulators: the Financial Conduct Authority, the Information Commissioner's Office, the Competition and Markets Authority, and others. The rationale, articulated by ministers with some persistence, is that sector-specific expertise produces more nuanced and proportionate regulation than any overarching statutory framework could achieve.</p>
-    <p>This position has attracted fierce opposition from a number of quarters. <strong>Professor Amelia Osei</strong>, a computational law scholar at the <strong>London School of Economics</strong>, argues that the multi-regulator model creates dangerous "jurisdictional lacunae" — gaps between regulatory domains through which high-risk AI applications can pass without meaningful scrutiny. "A facial recognition system used in a shopping centre sits at the intersection of data protection law, consumer rights, equalities legislation, and criminal justice policy," she observed in a lecture at King's College London in January. "No single existing regulator owns that problem."</p>
-    <p>Proponents of the government's approach counter that premature legislation risks calcifying today's technological assumptions into tomorrow's legal constraints. <strong>Dr Marcus Webb</strong>, director of the <strong>Alan Turing Institute's policy programme</strong>, contends that "regulatory agility" — the capacity to adapt frameworks in real time as technology evolves — is the defining virtue of the UK's model. "The EU passed legislation in 2024 based on a technology landscape that had already been substantially transformed by large language models," he argued. "By the time that legislation reaches full implementation, it may already be obsolescent."</p>
-    <p>The debate is further complicated by the <strong>geopolitical dimension</strong>. The UK's AI Safety Summit, held at Bletchley Park on <strong>1–2 November 2023</strong> — attended by representatives from <strong>28 countries</strong> and the EU, as well as executives from major AI companies including <strong>OpenAI, Google DeepMind, and Anthropic</strong> — produced the <strong>Bletchley Declaration</strong>, a non-binding statement of intent to collaborate on frontier AI safety. Signatories notably included the United States, China, and the European Union — a rare convergence described by several commentators as "diplomatically significant but substantively thin."</p>
-    <p>Domestically, the government has committed to publishing a <strong>progress report on AI regulation by June 2025</strong>. It has also allocated <strong>£100 million</strong> to establish nine new AI Research Resource centres and announced that AISI would be renamed the <strong>AI Safety Institute</strong> — a rebranding that critics noted was symbolic rather than structural. Whether these measures constitute the foundation of a coherent governance framework, or merely the appearance of one, remains a question that both policymakers and the public are increasingly compelled to confront.</p>
-  </div>
-
-  <div class="vocab-tip"><strong>Key Terms:</strong> auspices (support or protection of an organisation) · lacunae (gaps or missing parts in a system) · calcify (to make something fixed and unable to change) · obsolescent (becoming outdated) · non-binding (not legally required to be followed) · jurisdictional (relating to the authority or area of responsibility of a legal body)</div>
-
-  <!-- A: MCQ -->
-  <div class="ex-block">
-    <div class="ex-block-head">
-      <span class="ex-type-badge badge-mcq">A · MCQ</span>
-      <div><div class="ex-block-title">Multiple Choice Questions</div><div class="ex-block-sub">Questions 1–5 · Choose the most accurate answer based on the article</div></div>
-    </div>
-
-    <div class="q-item" id="mcq1"><div class="q-num">Question 1</div>
-      <div class="q-text">When was the UK AI Safety Institute established?</div>
-      <div class="opts">
-        <div class="opt" onclick="pickOpt(this,'mcq1')"><span class="ol">A</span>March 2023</div>
-        <div class="opt" onclick="pickOpt(this,'mcq1')"><span class="ol">B</span>October 2023</div>
-        <div class="opt" onclick="pickOpt(this,'mcq1')"><span class="ol">C</span>November 2023</div>
-        <div class="opt" onclick="pickOpt(this,'mcq1')"><span class="ol">D</span>August 2024</div>
-      </div><div class="fb" id="fb_mcq1"></div>
-    </div>
-
-    <div class="q-item" id="mcq2"><div class="q-num">Question 2</div>
-      <div class="q-text">By what percentage did AI-related patent applications in the UK increase between 2018 and 2023?</div>
-      <div class="opts">
-        <div class="opt" onclick="pickOpt(this,'mcq2')"><span class="ol">A</span>91.9%</div>
-        <div class="opt" onclick="pickOpt(this,'mcq2')"><span class="ol">B</span>114%</div>
-        <div class="opt" onclick="pickOpt(this,'mcq2')"><span class="ol">C</span>214%</div>
-        <div class="opt" onclick="pickOpt(this,'mcq2')"><span class="ol">D</span>300%</div>
-      </div><div class="fb" id="fb_mcq2"></div>
-    </div>
-
-    <div class="q-item" id="mcq3"><div class="q-num">Question 3</div>
-      <div class="q-text">What does Professor Osei mean by "jurisdictional lacunae"?</div>
-      <div class="opts">
-        <div class="opt" onclick="pickOpt(this,'mcq3')"><span class="ol">A</span>Areas where AI regulation is too strict.</div>
-        <div class="opt" onclick="pickOpt(this,'mcq3')"><span class="ol">B</span>Legal gaps between regulatory domains through which risky AI applications can pass unexamined.</div>
-        <div class="opt" onclick="pickOpt(this,'mcq3')"><span class="ol">C</span>Countries that have not signed international AI agreements.</div>
-        <div class="opt" onclick="pickOpt(this,'mcq3')"><span class="ol">D</span>Technical flaws within AI systems that cause harm.</div>
-      </div><div class="fb" id="fb_mcq3"></div>
-    </div>
-
-    <div class="q-item" id="mcq4"><div class="q-num">Question 4</div>
-      <div class="q-text">What was the Bletchley Declaration described as by commentators?</div>
-      <div class="opts">
-        <div class="opt" onclick="pickOpt(this,'mcq4')"><span class="ol">A</span>A legally binding international AI treaty.</div>
-        <div class="opt" onclick="pickOpt(this,'mcq4')"><span class="ol">B</span>Diplomatically significant but substantively thin.</div>
-        <div class="opt" onclick="pickOpt(this,'mcq4')"><span class="ol">C</span>A detailed technical framework for AI safety testing.</div>
-        <div class="opt" onclick="pickOpt(this,'mcq4')"><span class="ol">D</span>An embarrassing failure of UK diplomacy.</div>
-      </div><div class="fb" id="fb_mcq4"></div>
-    </div>
-
-    <div class="q-item" id="mcq5"><div class="q-num">Question 5</div>
-      <div class="q-text">What does Dr Marcus Webb argue is the defining virtue of the UK's regulatory model?</div>
-      <div class="opts">
-        <div class="opt" onclick="pickOpt(this,'mcq5')"><span class="ol">A</span>Its comprehensive statutory framework covering all AI applications.</div>
-        <div class="opt" onclick="pickOpt(this,'mcq5')"><span class="ol">B</span>Regulatory agility — the capacity to adapt frameworks as technology evolves.</div>
-        <div class="opt" onclick="pickOpt(this,'mcq5')"><span class="ol">C</span>Its alignment with the EU AI Act.</div>
-        <div class="opt" onclick="pickOpt(this,'mcq5')"><span class="ol">D</span>The speed with which the legislation was passed.</div>
-      </div><div class="fb" id="fb_mcq5"></div>
-    </div>
-
-    <button class="check-btn" onclick="checkMCQ('A',{mcq1:'B',mcq2:'C',mcq3:'B',mcq4:'B',mcq5:'B'})">Check Section A</button>
-    <div class="score-box" id="sc_A" style="display:none;"><div class="sb-num" id="sn_A"></div><div class="sb-msg" id="sm_A"></div></div>
-  </div>
-
-  <!-- B: TRUE/FALSE -->
-  <div class="ex-block">
-    <div class="ex-block-head">
-      <span class="ex-type-badge badge-tf">B · True/False</span>
-      <div><div class="ex-block-title">True or False?</div><div class="ex-block-sub">Questions 6–10 · Requires close reading — some statements paraphrase rather than quote directly</div></div>
-    </div>
-
-    <div class="q-item" id="tf6"><div class="q-num">Question 6</div>
-      <div class="q-text">The UK government chose to create a single comprehensive AI Act modelled on the EU's approach.</div>
-      <div class="tf-opts"><button class="tf-btn" onclick="pickTF(this,'tf6','T')">TRUE</button><button class="tf-btn" onclick="pickTF(this,'tf6','F')">FALSE</button></div>
-      <div class="fb" id="fb_tf6"></div>
-    </div>
-    <div class="q-item" id="tf7"><div class="q-num">Question 7</div>
-      <div class="q-text">Global investment in AI reached approximately $91.9 billion in 2022.</div>
-      <div class="tf-opts"><button class="tf-btn" onclick="pickTF(this,'tf7','T')">TRUE</button><button class="tf-btn" onclick="pickTF(this,'tf7','F')">FALSE</button></div>
-      <div class="fb" id="fb_tf7"></div>
-    </div>
-    <div class="q-item" id="tf8"><div class="q-num">Question 8</div>
-      <div class="q-text">The AI Safety Summit at Bletchley Park was attended by representatives from 28 countries.</div>
-      <div class="tf-opts"><button class="tf-btn" onclick="pickTF(this,'tf8','T')">TRUE</button><button class="tf-btn" onclick="pickTF(this,'tf8','F')">FALSE</button></div>
-      <div class="fb" id="fb_tf8"></div>
-    </div>
-    <div class="q-item" id="tf9"><div class="q-num">Question 9</div>
-      <div class="q-text">The article presents the UK's regulatory approach as clearly superior to the EU's model.</div>
-      <div class="tf-opts"><button class="tf-btn" onclick="pickTF(this,'tf9','T')">TRUE</button><button class="tf-btn" onclick="pickTF(this,'tf9','F')">FALSE</button></div>
-      <div class="fb" id="fb_tf9"></div>
-    </div>
-    <div class="q-item" id="tf10"><div class="q-num">Question 10</div>
-      <div class="q-text">The government allocated £100 million to establish nine new AI Research Resource centres.</div>
-      <div class="tf-opts"><button class="tf-btn" onclick="pickTF(this,'tf10','T')">TRUE</button><button class="tf-btn" onclick="pickTF(this,'tf10','F')">FALSE</button></div>
-      <div class="fb" id="fb_tf10"></div>
-    </div>
-
-    <button class="check-btn" onclick="checkTF('B',{tf6:'F',tf7:'T',tf8:'T',tf9:'F',tf10:'T'})">Check Section B</button>
-    <div class="score-box" id="sc_B" style="display:none;"><div class="sb-num" id="sn_B"></div><div class="sb-msg" id="sm_B"></div></div>
-  </div>
-
-  <!-- C: FILL IN THE BLANK -->
-  <div class="ex-block">
-    <div class="ex-block-head">
-      <span class="ex-type-badge badge-fill">C · Fill in the Blank</span>
-      <div><div class="ex-block-title">Fill in the Blank</div><div class="ex-block-sub">Questions 11–15 · Use the precise word, figure, or term from the article</div></div>
-    </div>
-
-    <div class="q-item"><div class="q-num">Question 11</div>
-      <div class="q-text">The UK government's white paper on AI regulation was published in <input class="inline-input" id="fi11" placeholder="month &amp; year"/>.</div>
-      <div class="fb" id="fb_fi11"></div>
-    </div>
-    <div class="q-item"><div class="q-num">Question 12</div>
-      <div class="q-text">The EU's AI legislation entered into force in <input class="inline-input" id="fi12" placeholder="month &amp; year"/>.</div>
-      <div class="fb" id="fb_fi12"></div>
-    </div>
-    <div class="q-item"><div class="q-num">Question 13</div>
-      <div class="q-text">Professor Amelia Osei is a computational law scholar at the <input class="inline-input" id="fi13" placeholder="institution" style="width:200px"/>.</div>
-      <div class="fb" id="fb_fi13"></div>
-    </div>
-    <div class="q-item"><div class="q-num">Question 14</div>
-      <div class="q-text">The AI Safety Summit was held at <input class="inline-input" id="fi14" placeholder="location"/> on 1–2 November 2023.</div>
-      <div class="fb" id="fb_fi14"></div>
-    </div>
-    <div class="q-item"><div class="q-num">Question 15</div>
-      <div class="q-text">The government committed to publishing a progress report on AI regulation by <input class="inline-input" id="fi15" placeholder="date"/>.</div>
-      <div class="fb" id="fb_fi15"></div>
-    </div>
-
-    <button class="check-btn" onclick="checkFillC1()">Check Section C</button>
-    <div class="score-box" id="sc_C" style="display:none;"><div class="sb-num" id="sn_C"></div><div class="sb-msg" id="sm_C"></div></div>
-  </div>
-
-  <!-- D: SENTENCE COMPLETION -->
-  <div class="ex-block">
-    <div class="ex-block-head">
-      <span class="ex-type-badge badge-comp">D · Sentence Completion</span>
-      <div><div class="ex-block-title">Complete the Sentence</div><div class="ex-block-sub">Questions 16–18 · Requires understanding of argument and implication</div></div>
-    </div>
-
-    <div class="q-item" id="sc16"><div class="q-num">Question 16</div>
-      <div class="q-text">Dr Webb argues that the EU's AI Act may already be "obsolescent" when fully implemented because…</div>
-      <div class="opts">
-        <div class="opt" onclick="pickOpt(this,'sc16')"><span class="ol">A</span>…it was drafted by politicians rather than technologists.</div>
-        <div class="opt" onclick="pickOpt(this,'sc16')"><span class="ol">B</span>…it was based on a technology landscape substantially transformed by large language models before it was enacted.</div>
-        <div class="opt" onclick="pickOpt(this,'sc16')"><span class="ol">C</span>…the UK has already surpassed the EU in AI regulation.</div>
-        <div class="opt" onclick="pickOpt(this,'sc16')"><span class="ol">D</span>…the EU failed to consult AI companies during its drafting.</div>
-      </div><div class="fb" id="fb_sc16"></div>
-    </div>
-    <div class="q-item" id="sc17"><div class="q-num">Question 17</div>
-      <div class="q-text">The article's headline — "Too Little, Too Late?" — suggests the author's stance is…</div>
-      <div class="opts">
-        <div class="opt" onclick="pickOpt(this,'sc17')"><span class="ol">A</span>…unreservedly supportive of the government's approach.</div>
-        <div class="opt" onclick="pickOpt(this,'sc17')"><span class="ol">B</span>…sceptical about whether the UK's regulatory efforts are adequate and timely.</div>
-        <div class="opt" onclick="pickOpt(this,'sc17')"><span class="ol">C</span>…indifferent to the question of AI regulation.</div>
-        <div class="opt" onclick="pickOpt(this,'sc17')"><span class="ol">D</span>…calling for immediate legislative action identical to the EU model.</div>
-      </div><div class="fb" id="fb_sc17"></div>
-    </div>
-    <div class="q-item" id="sc18"><div class="q-num">Question 18</div>
-      <div class="q-text">The renaming of AISI to the "AI Safety Institute" was criticised because…</div>
-      <div class="opts">
-        <div class="opt" onclick="pickOpt(this,'sc18')"><span class="ol">A</span>…the new name was considered confusing for the public.</div>
-        <div class="opt" onclick="pickOpt(this,'sc18')"><span class="ol">B</span>…it was considered symbolic rather than structural — a change in name without a change in substance.</div>
-        <div class="opt" onclick="pickOpt(this,'sc18')"><span class="ol">C</span>…it removed the word "Innovation" from the organisation's title.</div>
-        <div class="opt" onclick="pickOpt(this,'sc18')"><span class="ol">D</span>…it implied the organisation had failed its original safety mission.</div>
-      </div><div class="fb" id="fb_sc18"></div>
-    </div>
-
-    <button class="check-btn" onclick="checkMCQ('D',{sc16:'B',sc17:'B',sc18:'B'})">Check Section D</button>
-    <div class="score-box" id="sc_D" style="display:none;"><div class="sb-num" id="sn_D"></div><div class="sb-msg" id="sm_D"></div></div>
-  </div>
-
-  <!-- E: CLOZE -->
-  <div class="ex-block">
-    <div class="ex-block-head">
-      <span class="ex-type-badge badge-cloze">E · Cloze</span>
-      <div><div class="ex-block-title">Cloze Exercise</div><div class="ex-block-sub">Questions 19–22 · Choose the word that best fits the register and meaning of the passage</div></div>
-    </div>
-
-    <p style="font-size:.97rem;line-height:2.4;color:#333;padding:1.2rem;background:var(--cream);">
-      The UK's approach to AI regulation has been
-      <select id="cl19"><option value="">▾</option><option>praised universally</option><option>deliberately non-legislative</option><option>modelled on the EU</option><option>rapidly implemented</option></select>
-      , assigning oversight to existing sectoral regulators rather than enacting a comprehensive statute. Critics argue this creates
-      <select id="cl20"><option value="">▾</option><option>regulatory agility</option><option>international cooperation</option><option>jurisdictional lacunae</option><option>transparent governance</option></select>
-      — gaps through which high-risk AI applications may pass without scrutiny. The government's preferred term for its own model is
-      <select id="cl21"><option value="">▾</option><option>obsolescent legislation</option><option>regulatory agility</option><option>statutory oversight</option><option>bureaucratic inertia</option></select>
-      . Meanwhile, the Bletchley Declaration, signed by 28 nations, was characterised as
-      <select id="cl22"><option value="">▾</option><option>a landmark binding treaty</option><option>substantively thin</option><option>a comprehensive regulatory framework</option><option>technically prescriptive</option></select>
-      by several observers.
-    </p>
-    <div class="fb" id="fb_cloze"></div>
-    <button class="check-btn" onclick="checkClozeC1()">Check Section E</button>
-    <div class="score-box" id="sc_E" style="display:none;"><div class="sb-num" id="sn_E"></div><div class="sb-msg" id="sm_E"></div></div>
-  </div>
-
-  <!-- F: SCRAMBLED -->
-  <div class="ex-block">
-    <div class="ex-block-head">
-      <span class="ex-type-badge badge-scram">F · Scrambled Sentences</span>
-      <div><div class="ex-block-title">Unscramble the Sentence</div><div class="ex-block-sub">Questions 23–25 · These sentences use complex structures from the article — click words in the correct order</div></div>
-    </div>
-
-    <div class="q-item">
-      <div class="q-num">Question 23</div>
-      <div class="q-text">Rearrange: <em>no / major / AI / system / had / been / subjected / to / rigorous / safety / testing</em></div>
-      <div class="word-bank" id="wb23"></div>
-      <div class="answer-slots" id="as23"></div>
-      <div class="fb" id="fb_s23"></div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">Question 24</div>
-      <div class="q-text">Rearrange: <em>the / UK / attracted / the / third-largest / share / of / global / AI / investment</em></div>
-      <div class="word-bank" id="wb24"></div>
-      <div class="answer-slots" id="as24"></div>
-      <div class="fb" id="fb_s24"></div>
-    </div>
-    <div class="q-item">
-      <div class="q-num">Question 25</div>
-      <div class="q-text">Rearrange: <em>whether / these / measures / constitute / a / coherent / governance / framework / remains / unclear</em></div>
-      <div class="word-bank" id="wb25"></div>
-      <div class="answer-slots" id="as25"></div>
-      <div class="fb" id="fb_s25"></div>
-    </div>
-
-    <button class="check-btn" onclick="checkScramble()">Check Section F</button>
-    <div class="score-box" id="sc_F" style="display:none;"><div class="sb-num" id="sn_F"></div><div class="sb-msg" id="sm_F"></div></div>
-  </div>
-
+<section id="detail" hidden aria-label="Article detail"></section>
 </main>
-
-<aside class="sidebar">
-  <div class="sc">
-    <h4>News English Levels</h4>
-    <ul class="level-nav">
-      <li><a href="newsa1a2.html"><span class="lbadge la1">A1/A2</span> Beginner</a></li>
-      <li><a href="newsb1.html"><span class="lbadge lb1">B1</span> Intermediate</a></li>
-      <li><a href="newsb2.html"><span class="lbadge lb2">B2</span> Upper-Int</a></li>
-      <li><a href="newsc1.html" class="cur"><span class="lbadge lc1">C1</span> Advanced</a></li>
-    </ul>
-  </div>
-  <div class="sc">
-    <h4>C1 Reading Strategy</h4>
-    <div class="tip"><strong>At C1</strong>, notice the author's <em>stance</em>. Is the journalist neutral, sceptical, or sympathetic to a particular view? Words like "critics argued," "proponents counter," and "remains to be seen" signal where the author sits between competing perspectives.</div>
-  </div>
-  <div class="sc">
-    <div class="complete-box">
-      <strong>🎉 News English Complete!</strong>
-      <p>You have completed all four News English levels — A1/A2 through to C1. Your reading comprehension across all CEFR levels is now fully developed.</p>
-    </div>
-  </div>
-  <a href="newsb2.html" class="prev-btn">← B2</a>
-  <a href="newsa1a2.html" class="home-btn">🏠 All Lessons</a>
-</aside>
-</div>
-
-<footer>
-  <p>© 2026 Shared Pearls of Wisdom</p>
-  <a href="newsa1a2.html">← Back to all lessons</a>
-</footer>
-
+<footer><div class="wrap line"><div><a href="index.html">Shared Pearls of Wisdom</a> · <a href="courses/b1/reading/articles.html">B1 reading archive</a></div>
+<nav class="levels" aria-label="Continue to a News English level"><a href="newsa1a2.html">A1/A2</a><a href="newsb1.html">B1</a><a href="newsb2.html">B2</a><a href="newsc1.html" aria-current="page">C1</a></nav></div></footer>
 <script>
-window.addEventListener('scroll',()=>{const d=document.documentElement;document.getElementById('pf').style.width=((d.scrollTop||document.body.scrollTop)/(d.scrollHeight-d.clientHeight)*100)+'%';});
-function pickOpt(el,qid){const item=document.getElementById(qid);if(item.dataset.done)return;item.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');}
-function checkMCQ(sec,answers){
-  let s=0,t=Object.keys(answers).length;
-  for(let id in answers){
-    const item=document.getElementById(id);item.dataset.done='1';
-    const sel=item.querySelector('.opt.sel');const fb=document.getElementById('fb_'+id);const correct=answers[id];
-    item.querySelectorAll('.opt').forEach(o=>{o.onclick=null;if(o.querySelector('.ol').textContent.trim()===correct)o.classList.add('ok');});
-    fb.style.display='block';
-    if(sel){const ch=sel.querySelector('.ol').textContent.trim();if(ch===correct){s++;fb.className='fb ok';fb.textContent='✓ Correct!';}else{sel.classList.add('no');fb.className='fb no';fb.textContent='✗ Correct: '+correct+'.';}}
-    else{fb.className='fb no';fb.textContent='— Answer: '+correct+'.';}
-  }
-  showScore(sec,s,t);
-}
-function pickTF(btn,qid,val){const item=document.getElementById(qid);if(item.dataset.done)return;item.querySelectorAll('.tf-btn').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');btn.dataset.val=val;}
-function checkTF(sec,answers){
-  let s=0,t=Object.keys(answers).length;
-  for(let id in answers){
-    const item=document.getElementById(id);item.dataset.done='1';const correct=answers[id];const fb=document.getElementById('fb_'+id);
-    let chosen=null;item.querySelectorAll('.tf-btn').forEach(b=>{if(b.dataset.val)chosen=b;});
-    item.querySelectorAll('.tf-btn').forEach(b=>{b.onclick=null;if(b.dataset.val===correct)b.classList.add('ok');});
-    fb.style.display='block';
-    if(chosen){if(chosen.dataset.val===correct){s++;fb.className='fb ok';fb.textContent='✓ Correct!';}else{chosen.classList.add('no');fb.className='fb no';fb.textContent='✗ '+(correct==='T'?'TRUE':'FALSE')+'.';}
-    }else{fb.className='fb no';fb.textContent='— Answer: '+(correct==='T'?'TRUE':'FALSE')+'.';}
-  }
-  showScore(sec,s,t);
-}
-function checkFillC1(){
-  const checks=[
-    {id:'fi11',ok:'march 2023',num:11},
-    {id:'fi12',ok:'august 2024',num:12},
-    {id:'fi13',ok:'london school of economics',num:13},
-    {id:'fi14',ok:'bletchley park',num:14},
-    {id:'fi15',ok:'june 2025',num:15}
-  ];
-  let s=0;
-  checks.forEach(c=>{
-    const inp=document.getElementById(c.id);
-    const val=inp.value.trim().toLowerCase();
-    const ok=val.includes(c.ok.toLowerCase())||c.ok.toLowerCase().includes(val)&&val.length>3;
-    inp.classList.remove('ok','no');inp.classList.add(ok?'ok':'no');
-    const fb=document.getElementById('fb_fi'+c.num);fb.style.display='block';
-    if(ok){s++;fb.className='fb ok';fb.textContent='✓ Correct!';}
-    else{fb.className='fb no';fb.textContent='✗ Answer: '+c.ok+'.';}
-  });
-  showScore('C',s,5);
-}
-function checkClozeC1(){
-  const ans={cl19:'deliberately non-legislative',cl20:'jurisdictional lacunae',cl21:'regulatory agility',cl22:'substantively thin'};
-  let s=0;
-  for(let id in ans){const el=document.getElementById(id);el.classList.remove('ok','no');if(el.value===ans[id]){s++;el.classList.add('ok');}else el.classList.add('no');}
-  const fb=document.getElementById('fb_cloze');fb.style.display='block';
-  fb.className=s===4?'fb ok':'fb no';
-  fb.textContent=s===4?'✓ All correct!':'✗ '+s+'/4. Answers: deliberately non-legislative / jurisdictional lacunae / regulatory agility / substantively thin.';
-  showScore('E',s,4);
-}
-const SC={
-  23:['no','major','AI','system','had','been','subjected','to','rigorous','safety','testing'],
-  24:['the','UK','attracted','the','third-largest','share','of','global','AI','investment'],
-  25:['whether','these','measures','constitute','a','coherent','governance','framework','remains','unclear']
-};
-function buildSC(){
-  [23,24,25].forEach(n=>{
-    const ws=[...SC[n]].sort(()=>Math.random()-.5);
-    const wb=document.getElementById('wb'+n);
-    ws.forEach(w=>{
-      const t=document.createElement('div');t.className='word-tile';t.textContent=w;
-      t.onclick=()=>{if(t.classList.contains('used'))return;t.classList.add('used');const as=document.getElementById('as'+n);const pt=document.createElement('div');pt.className='placed-tile';pt.textContent=w;pt.onclick=()=>{t.classList.remove('used');as.removeChild(pt);};as.appendChild(pt);};
-      wb.appendChild(t);
-    });
-  });
-}
-buildSC();
-function checkScramble(){
-  let tot=0;
-  [23,24,25].forEach(n=>{
-    const as=document.getElementById('as'+n);
-    const placed=Array.from(as.querySelectorAll('.placed-tile')).map(t=>t.textContent.toLowerCase());
-    const req=SC[n].map(w=>w.toLowerCase());
-    const ok=req.every(w=>placed.includes(w))&&placed.length===req.length;
-    const fb=document.getElementById('fb_s'+n);fb.style.display='block';
-    if(ok){tot++;fb.className='fb ok';fb.textContent='✓ Correct!';as.querySelectorAll('.placed-tile').forEach(t=>{t.style.background='rgba(26,92,53,.1)';t.style.borderColor='var(--ok)';t.style.color='var(--ok)';t.onclick=null;});}
-    else{fb.className='fb no';fb.textContent='✗ Correct: '+SC[n].join(' ')+'.';}
-  });
-  showScore('F',tot,3);
-}
-function showScore(sec,s,t){
-  const box=document.getElementById('sc_'+sec);box.style.display='flex';
-  document.getElementById('sn_'+sec).textContent=s+'/'+t;
-  const msgs=['Try again!','Keep going!','Good effort!','Well done!','Excellent!'];
-  document.getElementById('sm_'+sec).textContent=msgs[Math.min(Math.floor(s/t*4),4)];
-}
+window.newsCurriculum = {"units": [{"number": "01", "title": "AI Regulation and Accountability", "angles": "governance models; liability; transparency; cross-border enforcement"}, {"number": "02", "title": "Geopolitics and International Relations", "angles": "negotiation; sanctions; diplomacy; humanitarian law"}, {"number": "03", "title": "Economic Strategy", "angles": "fiscal choices; productivity; monetary policy; inequality"}, {"number": "04", "title": "Climate Justice", "angles": "historical responsibility; adaptation finance; carbon markets; vulnerable regions"}, {"number": "05", "title": "Scientific Uncertainty", "angles": "peer review; reproducibility; risk communication; research ethics"}, {"number": "06", "title": "Democracy and Institutional Trust", "angles": "misinformation; elections; independent oversight; public confidence"}, {"number": "07", "title": "Media Ethics and Public Debate", "angles": "source protection; corrections; headlines; editorial accountability"}, {"number": "08", "title": "Digital Rights", "angles": "surveillance; privacy; algorithmic decision- making; competition"}, {"number": "09", "title": "Higher Education Policy", "angles": "academic freedom; access; research impact; funding priorities"}, {"number": "10", "title": "Global Health Governance", "angles": "preparedness; equity; medical evidence; international institutions"}, {"number": "11", "title": "Migration and Human Rights", "angles": "policy trade-offs; legal frameworks; integration; displacement"}, {"number": "12", "title": "Culture, Language and Power", "angles": "representation; historical narratives; cultural heritage; language in politics"}], "articles": [{"id": "governance", "title": "Who should oversee automated decisions?", "category": "Technology", "level": "c1", "band": "C1", "unit": "01", "legacy": true, "wordCount": 826, "body": ["The government of fictional Alder Coast has invited evidence on how decisions involving artificial intelligence should be supervised. Its discussion paper compares two arrangements. One would create a central regulator with power to investigate across sectors. The other would retain existing sector regulators while requiring them to share complaints and agree on a lead body. The paper identifies both options for consultation and does not announce a decision. Yet some public commentary already treats the choice as a contest between stronger and weaker regulation, a distinction the options do not necessarily support.", "Under the central model, someone denied an essential service after an automated assessment could bring a complaint to a single office. That office could ask for records from the organisation operating the system and, within the powers proposed, from its suppliers. Supporters say a common point of entry would reduce the risk that different organisations send a complainant elsewhere. They also argue that recurring problems could be detected across industries before each sector accumulated enough evidence to investigate independently. Their case depends on the central body obtaining usable evidence and being able to act on it.", "Sector regulators have defended an alternative in which expertise and authority remain closer to the services involved. A housing regulator may know which records show that a decision has changed someone’s access to an appeal. A transport regulator may understand how a scheduling system affects night services that ordinary demand figures do not capture. Neither example establishes that specialist knowledge alone produces a fair decision. It does explain why a regulator familiar with the process might identify a relevant question earlier than a central body reading a standardised record for the first time.", "The distinction is complicated by the commercial arrangements behind a system. A model may be supplied by one company, configured by a second and operated by a third. The organisation receiving complaints may have access to a decision record while lacking information about an update that changed the relevant settings. Conversely, a supplier able to explain those settings may know little about how a decision was used. The proposal therefore asks whether evidence-sharing obligations should attach to each role, regardless of which oversight model is chosen. A promise of co-operation would be less consequential than a workable way to obtain records promptly.", "An appendix presents a deliberately limited exercise, not a report of actual complaints. In the exercise, a tenant challenges a housing allocation decision after discovering that an old address remains in the system. The housing body resolves the individual case by correcting the address. It cannot tell whether the address was imported once or whether a recurring import will reproduce it. A central team might notice similar complaints elsewhere, but it still would need a technical account of the import. A sector team might be better placed to judge the harm, but would need arrangements to alert another regulator to the pattern. The value of the exercise is that it separates remedy for one person from prevention for others.", "The consultation includes a further option sometimes lost in summaries: testing the two models in stages. It could begin with a single public contact point and an obligation to send cases to a named investigator. Cases involving more than one sector would be assessed against agreed deadlines. The government could then examine whether handovers delayed decisions or left anyone without a remedy. If neither delay nor gaps persisted, an entirely new institution might be unnecessary. If complaints repeatedly stalled because no body could obtain a necessary record, a change in investigatory powers would be easier to justify.", "Several respondents have asked the government to define success before it chooses a structure. Counting complaints closed within a deadline might reward fast referrals without showing whether a problem was fixed. Counting the number of investigations could encourage agencies to open cases that never lead to an answer. More informative measures might include whether someone received a reasoned response, whether an error was corrected for similarly affected people and whether a regulator could obtain the evidence it needed. Such measures are more demanding to collect and do not remove every judgement about the quality of a remedy.", "An accurate headline would acknowledge that the government is consulting on who investigates and what powers investigators need. Describing the first option as a single regulator is accurate only if the coverage also explains what the agency could do. Describing the second as existing rules is incomplete because shared handling and compulsory evidence access might represent substantial changes. At consultation stage, references to a winner or to new protections already in force overstate what the paper establishes.", "The eventual decision will be easier to evaluate if it identifies whose responsibilities change, how a person seeks redress and what happens when organisations disagree about jurisdiction. Arguments about institutions matter because they affect these practical questions. They matter less if the only distinction readers are offered is whether the government appears decisive."], "cloze": ["Under the ", " model, someone denied an essential service after an automated assessment could bring a complaint to a single ", ". That office could ask for records from the organisation operating the system and, within the powers proposed, from its ", ". Supporters say a common point of entry would reduce the risk that different organisations send a complainant elsewhere. They also argue that recurring problems could be detected across industries before each sector accumulated enough ", " to investigate independently. Their case depends on the central body obtaining usable evidence and being able to act on it."], "quiz": [{"id": "mc1", "type": "mc", "prompt": "What has the government announced?", "answer": "a", "evidence": 1, "options": [["a", "A consultation comparing oversight arrangements"], ["b", "The immediate closure of sector regulators"], ["c", "The appointment of a central regulator"]], "feedback": "A consultation comparing oversight arrangements. Check paragraph 1 for the evidence."}, {"id": "mc2", "type": "mc", "prompt": "What advantage do supporters claim for a central office?", "answer": "a", "evidence": 2, "options": [["a", "A common route for complaints across sectors"], ["b", "Automatic correction of every complaint"], ["c", "No need for supplier information"]], "feedback": "A common route for complaints across sectors. Check paragraph 2 for the evidence."}, {"id": "mc3", "type": "mc", "prompt": "Why might supplier evidence be needed?", "answer": "a", "evidence": 4, "options": [["a", "The complaint handler may lack details of an update"], ["b", "Suppliers always know the full history of a case"], ["c", "Sector regulators cannot receive a complaint"]], "feedback": "The complaint handler may lack details of an update. Check paragraph 4 for the evidence."}, {"id": "mc4", "type": "mc", "prompt": "What distinction does the fictional housing example demonstrate?", "answer": "a", "evidence": 5, "options": [["a", "Fixing one case differs from preventing recurrence"], ["b", "All local errors require entirely new laws"], ["c", "An individual remedy establishes a national trend"]], "feedback": "Fixing one case differs from preventing recurrence. Check paragraph 5 for the evidence."}, {"id": "mc5", "type": "mc", "prompt": "Inference: Why is speed of closure an incomplete measure?", "answer": "a", "evidence": 7, "options": [["a", "A fast referral might leave the underlying issue unresolved"], ["b", "It always proves the remedy was successful"], ["c", "All referrals are deliberate delays"]], "feedback": "A fast referral might leave the underlying issue unresolved. Check paragraph 7 for the evidence."}, {"id": "tf1", "type": "tf", "prompt": "The government has selected the central regulator option.", "answer": "false", "evidence": 1, "feedback": "Evidence: The government of fictional Alder Coast has invited evidence on how decisions involving artificial intelligence should be supervised. Its discussion paper compares two arrangements. One would create a central regulator with power to investigate across sectors. The other would retain existing sector regulators while requiring them to share complaints and agree on a lead body. The paper identifies both options for consultation and does not announce a decision. Yet some public commentary already treats the choice as a contest between stronger and weaker regulation, a distinction the options do not necessarily support."}, {"id": "tf2", "type": "tf", "prompt": "A sector regulator may recognise useful sector-specific evidence.", "answer": "true", "evidence": 3, "feedback": "Evidence: Sector regulators have defended an alternative in which expertise and authority remain closer to the services involved. A housing regulator may know which records show that a decision has changed someone’s access to an appeal. A transport regulator may understand how a scheduling system affects night services that ordinary demand figures do not capture. Neither example establishes that specialist knowledge alone produces a fair decision. It does explain why a regulator familiar with the process might identify a relevant question earlier than a central body reading a standardised record for the first time."}, {"id": "tf3", "type": "tf", "prompt": "The housing example is drawn from an actual complaint.", "answer": "false", "evidence": 5, "feedback": "Evidence: An appendix presents a deliberately limited exercise, not a report of actual complaints. In the exercise, a tenant challenges a housing allocation decision after discovering that an old address remains in the system. The housing body resolves the individual case by correcting the address. It cannot tell whether the address was imported once or whether a recurring import will reproduce it. A central team might notice similar complaints elsewhere, but it still would need a technical account of the import. A sector team might be better placed to judge the harm, but would need arrangements to alert another regulator to the pattern. The value of the exercise is that it separates remedy for one person from prevention for others."}, {"id": "tf4", "type": "tf", "prompt": "The paper considers beginning with a single public contact point.", "answer": "true", "evidence": 6, "feedback": "Evidence: The consultation includes a further option sometimes lost in summaries: testing the two models in stages. It could begin with a single public contact point and an obligation to send cases to a named investigator. Cases involving more than one sector would be assessed against agreed deadlines. The government could then examine whether handovers delayed decisions or left anyone without a remedy. If neither delay nor gaps persisted, an entirely new institution might be unnecessary. If complaints repeatedly stalled because no body could obtain a necessary record, a change in investigatory powers would be easier to justify."}, {"id": "fill1", "type": "fill", "prompt": "The ___ of fictional Alder Coast has invited evidence on how decisions involving artificial intelligence should be supervised.", "answer": ["government"], "evidence": 1, "feedback": "The missing word is “government”."}, {"id": "fill2", "type": "fill", "prompt": "They also argue that recurring problems could be detected across industries before each sector accumulated enough ___ to investigate independently.", "answer": ["evidence"], "evidence": 2, "feedback": "The missing word is “evidence”."}, {"id": "fill3", "type": "fill", "prompt": "One would create a ___ regulator with power to investigate across sectors.", "answer": ["central"], "evidence": 1, "feedback": "The missing word is “central”."}, {"id": "fill4", "type": "fill", "prompt": "The other would retain existing sector regulators while requiring them to share ___ and agree on a lead body.", "answer": ["complaints"], "evidence": 1, "feedback": "The missing word is “complaints”."}, {"id": "completion1", "type": "completion", "prompt": "The paper identifies both options for consultation and does not ___", "answer": ["announce a decision."], "evidence": 1, "feedback": "The article ends this sentence with “announce a decision.”."}, {"id": "completion2", "type": "completion", "prompt": "Yet some public commentary already treats the choice as a contest between stronger and weaker regulation, a distinction the options do ___", "answer": ["not necessarily support."], "evidence": 1, "feedback": "The article ends this sentence with “not necessarily support.”."}, {"id": "completion3", "type": "completion", "prompt": "Under the central model, someone denied an essential service after an automated assessment could bring a complaint to ___", "answer": ["a single office."], "evidence": 2, "feedback": "The article ends this sentence with “a single office.”."}, {"id": "completion4", "type": "completion", "prompt": "That office could ask for records from the organisation operating the system and, within the powers proposed, ___", "answer": ["from its suppliers."], "evidence": 2, "feedback": "The article ends this sentence with “from its suppliers.”."}, {"id": "cloze1", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["central"], "evidence": 2, "feedback": "The article uses “central” here."}, {"id": "cloze2", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["office"], "evidence": 2, "feedback": "The article uses “office” here."}, {"id": "cloze3", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["suppliers"], "evidence": 2, "feedback": "The article uses “suppliers” here."}, {"id": "cloze4", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["evidence"], "evidence": 2, "feedback": "The article uses “evidence” here."}, {"id": "scramble1", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 1, "chunks": ["Its discussion", "paper compares", "two arrangements."], "feedback": "Its discussion paper compares two arrangements."}, {"id": "scramble2", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 9, "chunks": ["Arguments about institutions", "matter because they", "affect these practical questions."], "feedback": "Arguments about institutions matter because they affect these practical questions."}, {"id": "scramble3", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 3, "chunks": ["Neither example establishes", "that specialist knowledge alone", "produces a fair decision."], "feedback": "Neither example establishes that specialist knowledge alone produces a fair decision."}, {"id": "scramble4", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 4, "chunks": ["The distinction is", "complicated by the commercial", "arrangements behind a system."], "feedback": "The distinction is complicated by the commercial arrangements behind a system."}], "published_at": "2026-11-21", "updated_at": null, "fetched_at": null, "reviewed_at": null, "source_title": "Who should oversee automated decisions?", "source_url": "#story=governance", "publisher": "Shared Pearls of Wisdom", "excerpt": null, "status": "fiction", "review_status": "curriculum", "author": "Shared Pearls of Wisdom teaching adaptation", "reviewer": null, "corrections": null, "image_license": null, "image_url": null, "glossary": [["oversight", "/ˈəʊvəsaɪt/ · Supervision of an activity or organisation. Cross-sector oversight."], ["redress", "/rɪˈdres/ · Action intended to remedy a wrong. Seek redress."], ["jurisdiction", "/ˌdʒʊərɪsˈdɪkʃən/ · The scope of legal authority. A dispute about jurisdiction."], ["standardised", "/ˈstændədaɪzd/ · Made to follow a common format or method. Standardised records."], ["handover", "/ˈhændəʊvə/ · Transfer of responsibility from one person or body to another. Delay during a handover."], ["sector", "/ˈsektə/ · A distinct area of activity. Regulators in different sectors."], ["consequential", "/ˌkɒnsɪˈkwenʃəl/ · Having important effects. A consequential obligation."], ["allocation", "/ˌæləˈkeɪʃən/ · The act of deciding who receives something. A housing allocation decision."], ["recurring", "/rɪˈkɜːrɪŋ/ · Happening repeatedly. Investigate a recurring fault."], ["reasoned", "/ˈriːzənd/ · Supported by an explanation or argument. A reasoned response."]]}, {"id": "liability", "title": "An automated error tests how responsibility is assigned", "category": "Business", "level": "c1", "band": "C1", "unit": "01", "legacy": false, "wordCount": 822, "body": ["A draft liability framework in Alder Coast would require providers of certain automated services to explain how a claimant could seek compensation after an error. The draft is being discussed in committee and has no legal effect. It starts from a common problem: people can usually identify the organisation that communicated a decision, but may have little information about the companies responsible for supplying, configuring or maintaining the system behind it. The distinction matters when a remedy depends on showing who controlled the circumstances that led to a loss.", "Consider the fictional example included in the discussion. A small retailer receives a new insurance premium calculated partly from an automated assessment of its premises. The assessment incorrectly records a storage area as inaccessible to inspection. The insurer later accepts that the underlying entry was wrong. However, the company that generated the risk score says it received the entry from a survey contractor, while the contractor says the information was changed after delivery. The retailer’s immediate interest is in having the premium put right. Identifying who caused the error is a separate question.", "One proposal would make the organisation that uses the system answerable to the customer in the first instance. That organisation could then pursue a supplier under its contract if it could show the supplier was at fault. Advocates argue that this approach would make it easier for the customer to take action against a party they can identify. They accept that disputes between companies might continue after the customer has obtained redress, but regard that as a less serious obstacle than requiring an individual to reconstruct a supply chain before filing a claim.", "Business representatives have raised a different concern. If the organisation using the system had to absorb a loss before a supplier dispute was resolved, it might face costs it cannot predict or insure. A large firm may be able to demand better records and stronger guarantees from suppliers. A small firm that relies on a standard product may have much less bargaining power. One response would be to require suppliers to keep particular records and make them available when there is a credible dispute. Merely directing the claimant to the most visible organisation would not solve the underlying difficulty of proving where an error arose.", "Another option would allow claimants to bring proceedings against several parties from the outset. In principle that makes it possible to hear competing explanations in one case. In practice it can increase the complexity and expense of a dispute, particularly where the loss is modest. The committee is therefore considering whether a lower-cost route should handle corrections and small claims, with more extensive evidence powers reserved for cases involving serious harm or a repeated pattern. That would require a clear rule for moving a case from one procedure to the other.", "A further issue is the relation between an inaccurate record and a decision based on it. In the retailer example, the claimant would want to show that correcting the entry changed the premium or was likely to do so. An error that looks serious in a document may have played little part in the final calculation. On the other hand, it may be difficult for a retailer to demonstrate how a score was constructed without access to information the insurer or its providers hold. An obligation to give a meaningful account of the decision could narrow that gap, provided it includes the factors relevant to the particular case.", "The proposed framework distinguishes compensation from other forms of remedy. The insurer might correct the record and recalculate the premium without resolving whether the retailer suffered further loss. If the same fault affected other customers, the committee would also want a route for notification and repair across the affected group. A headline announcing that companies will pay for every automated error would therefore go beyond the proposal. Liability can depend on the law adopted, the kind of loss, and the evidence connecting an error to a decision.", "It would also be misleading to infer that mandatory records amount to a guarantee that an explanation will be available. A record may show that a model version changed on a particular day, yet fail to establish what was different about one person’s assessment. Conversely, requiring every possible record indefinitely raises costs and can make sensitive information harder to protect. The consultation asks which records would support an investigation and how long the need for them is likely to persist. That question is narrower than whether automated systems should generally be transparent.", "The committee has requested examples of modest losses, recurring faults and serious disputes so that the options can be evaluated across different situations. An evidence-led account will track which party can investigate and correct a decision, how a claimant can test an explanation, and what costs the new rules would impose. Those details could matter more than the label attached to the liability model."], "cloze": ["Consider the fictional example included in the discussion. A small retailer receives a new insurance ", " calculated partly from an automated ", " of its premises. The assessment incorrectly records a storage area as inaccessible to inspection. The insurer later accepts that the underlying entry was wrong. However, the company that generated the risk score says it received the entry from a survey ", ", while the contractor says the information was changed after ", ". The retailer’s immediate interest is in having the premium put right. Identifying who caused the error is a separate question."], "quiz": [{"id": "mc1", "type": "mc", "prompt": "What is the status of the framework?", "answer": "a", "evidence": 1, "options": [["a", "A draft under committee discussion"], ["b", "A binding insurance rule"], ["c", "An order already enforced in court"]], "feedback": "A draft under committee discussion. Check paragraph 1 for the evidence."}, {"id": "mc2", "type": "mc", "prompt": "What does the retailer want first?", "answer": "a", "evidence": 2, "options": [["a", "The premium put right"], ["b", "A new premises inspection business"], ["c", "A dispute between every supplier"]], "feedback": "The premium put right. Check paragraph 2 for the evidence."}, {"id": "mc3", "type": "mc", "prompt": "Who would answer to the customer first under one option?", "answer": "a", "evidence": 3, "options": [["a", "The organisation using the system"], ["b", "Any unrelated contractor"], ["c", "The committee itself"]], "feedback": "The organisation using the system. Check paragraph 3 for the evidence."}, {"id": "mc4", "type": "mc", "prompt": "Why might joint proceedings be unattractive for modest losses?", "answer": "a", "evidence": 5, "options": [["a", "They may increase expense and complexity"], ["b", "They always prevent explanations"], ["c", "They immediately prohibit compensation"]], "feedback": "They may increase expense and complexity. Check paragraph 5 for the evidence."}, {"id": "mc5", "type": "mc", "prompt": "Inference: Why might correction be insufficient as a remedy?", "answer": "a", "evidence": 7, "options": [["a", "Further loss or effects on other customers may remain"], ["b", "Correcting an entry proves there was no error"], ["c", "A valid correction always prevents a future mistake"]], "feedback": "Further loss or effects on other customers may remain. Check paragraph 7 for the evidence."}, {"id": "tf1", "type": "tf", "prompt": "The insurer accepts that an entry in the assessment was wrong.", "answer": "true", "evidence": 2, "feedback": "Evidence: Consider the fictional example included in the discussion. A small retailer receives a new insurance premium calculated partly from an automated assessment of its premises. The assessment incorrectly records a storage area as inaccessible to inspection. The insurer later accepts that the underlying entry was wrong. However, the company that generated the risk score says it received the entry from a survey contractor, while the contractor says the information was changed after delivery. The retailer’s immediate interest is in having the premium put right. Identifying who caused the error is a separate question."}, {"id": "tf2", "type": "tf", "prompt": "Small firms are described as having the same bargaining power as large firms.", "answer": "false", "evidence": 4, "feedback": "Evidence: Business representatives have raised a different concern. If the organisation using the system had to absorb a loss before a supplier dispute was resolved, it might face costs it cannot predict or insure. A large firm may be able to demand better records and stronger guarantees from suppliers. A small firm that relies on a standard product may have much less bargaining power. One response would be to require suppliers to keep particular records and make them available when there is a credible dispute. Merely directing the claimant to the most visible organisation would not solve the underlying difficulty of proving where an error arose."}, {"id": "tf3", "type": "tf", "prompt": "The claimant may need to connect the error to the premium.", "answer": "true", "evidence": 6, "feedback": "Evidence: A further issue is the relation between an inaccurate record and a decision based on it. In the retailer example, the claimant would want to show that correcting the entry changed the premium or was likely to do so. An error that looks serious in a document may have played little part in the final calculation. On the other hand, it may be difficult for a retailer to demonstrate how a score was constructed without access to information the insurer or its providers hold. An obligation to give a meaningful account of the decision could narrow that gap, provided it includes the factors relevant to the particular case."}, {"id": "tf4", "type": "tf", "prompt": "A record of a model version change always explains the outcome in an individual case.", "answer": "false", "evidence": 8, "feedback": "Evidence: It would also be misleading to infer that mandatory records amount to a guarantee that an explanation will be available. A record may show that a model version changed on a particular day, yet fail to establish what was different about one person’s assessment. Conversely, requiring every possible record indefinitely raises costs and can make sensitive information harder to protect. The consultation asks which records would support an investigation and how long the need for them is likely to persist. That question is narrower than whether automated systems should generally be transparent."}, {"id": "fill1", "type": "fill", "prompt": "A ___ liability framework in Alder Coast would require providers of certain automated services to explain how a claimant could seek compensation after an error.", "answer": ["draft"], "evidence": 1, "feedback": "The missing word is “draft”."}, {"id": "fill2", "type": "fill", "prompt": "The draft is being discussed in ___ and has no legal effect.", "answer": ["committee"], "evidence": 1, "feedback": "The missing word is “committee”."}, {"id": "fill3", "type": "fill", "prompt": "Merely directing the ___ to the most visible organisation would not solve the underlying difficulty of proving where an error arose.", "answer": ["claimant"], "evidence": 4, "feedback": "The missing word is “claimant”."}, {"id": "fill4", "type": "fill", "prompt": "The proposed framework distinguishes ___ from other forms of remedy.", "answer": ["compensation"], "evidence": 7, "feedback": "The missing word is “compensation”."}, {"id": "completion1", "type": "completion", "prompt": "The distinction matters when a remedy depends on showing who controlled the circumstances that led ___", "answer": ["to a loss."], "evidence": 1, "feedback": "The article ends this sentence with “to a loss.”."}, {"id": "completion2", "type": "completion", "prompt": "Consider the fictional example included ___", "answer": ["in the discussion."], "evidence": 2, "feedback": "The article ends this sentence with “in the discussion.”."}, {"id": "completion3", "type": "completion", "prompt": "A small retailer receives a new insurance premium calculated partly from an automated assessment ___", "answer": ["of its premises."], "evidence": 2, "feedback": "The article ends this sentence with “of its premises.”."}, {"id": "completion4", "type": "completion", "prompt": "The assessment incorrectly records a storage area as ___", "answer": ["inaccessible to inspection."], "evidence": 2, "feedback": "The article ends this sentence with “inaccessible to inspection.”."}, {"id": "cloze1", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["premium"], "evidence": 2, "feedback": "The article uses “premium” here."}, {"id": "cloze2", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["assessment"], "evidence": 2, "feedback": "The article uses “assessment” here."}, {"id": "cloze3", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["contractor"], "evidence": 2, "feedback": "The article uses “contractor” here."}, {"id": "cloze4", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["delivery"], "evidence": 2, "feedback": "The article uses “delivery” here."}, {"id": "scramble1", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 4, "chunks": ["Business representatives", "have raised", "a different concern."], "feedback": "Business representatives have raised a different concern."}, {"id": "scramble2", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 2, "chunks": ["Identifying who caused", "the error is", "a separate question."], "feedback": "Identifying who caused the error is a separate question."}, {"id": "scramble3", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 2, "chunks": ["The insurer later", "accepts that the", "underlying entry was wrong."], "feedback": "The insurer later accepts that the underlying entry was wrong."}, {"id": "scramble4", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 2, "chunks": ["The retailer’s immediate", "interest is in having", "the premium put right."], "feedback": "The retailer’s immediate interest is in having the premium put right."}], "published_at": "2026-11-21", "updated_at": null, "fetched_at": null, "reviewed_at": null, "source_title": "An automated error tests how responsibility is assigned", "source_url": "#story=liability", "publisher": "Shared Pearls of Wisdom", "excerpt": null, "status": "fiction", "review_status": "curriculum", "author": "Shared Pearls of Wisdom teaching adaptation", "reviewer": null, "corrections": null, "image_license": null, "image_url": null, "glossary": [["claimant", "/ˈkleɪmənt/ · Someone who formally seeks a remedy or payment. A claimant seeking compensation."], ["redress", "/rɪˈdres/ · A response to a wrong or loss. Obtain redress."], ["bargaining power", "/ˈbɑːɡɪnɪŋ paʊə/ · The ability to secure favourable terms in negotiation. Limited bargaining power."], ["proceedings", "/prəˈsiːdɪŋz/ · Formal legal steps. Bring proceedings."], ["recalculate", "/ˌriːˈkælkjəleɪt/ · Calculate an amount again. Recalculate a premium."], ["compensation", "/ˌkɒmpenˈseɪʃən/ · Payment or other provision for a loss. Seek compensation."], ["premium", "/ˈpriːmiəm/ · The price paid for insurance. An insurance premium."], ["absorb", "/əbˈzɔːb/ · Bear a cost without passing it to someone else. Absorb a loss."], ["regulatory framework", "/ˈreɡjələtəri freɪmwɜːk/ · The rules and institutions for oversight. Propose a regulatory framework."], ["credible", "/ˈkredəbəl/ · Believable or worthy of attention. A credible dispute."]]}, {"id": "transparency", "title": "What a public register can reveal about automated decisions", "category": "Technology", "level": "c1", "band": "C1", "unit": "01", "legacy": false, "wordCount": 806, "body": ["The fictional city of Bracken Reach has proposed a public register of automated decision systems used by its departments. The register would identify what a tool does, which service uses it and who can answer a question about its effects. A version for public comment includes separate fields for the date a system was introduced and the date its description was last changed. The council says the measure would improve transparency, although it has not yet decided which details would be mandatory or who would check that the records remain accurate.", "The register’s value depends partly on whether readers can distinguish simple administrative automation from tools that affect consequential decisions. A program that sorts emails by department is different from one that screens applications before a person sees them. Publishing both entries without explaining their role could be formally complete while making the most important systems hard to find. The information commissioner in the scenario has asked the council to state whether each tool merely assists staff, recommends an outcome, or determines a step that a person cannot readily reverse.", "Officials have tested the draft format using an example from housing maintenance. A tool sorts repair requests into queues based on descriptions submitted online. An entry saying that it prioritises by risk might sound reassuring. An entry explaining that certain reported conditions move requests into a queue for immediate review would allow readers to ask a more precise question about what happens to cases that use unexpected language. The difference lies less in the quantity of text than in whether the description identifies the consequence that matters to a caller.", "Some providers argue that detailed publication could reveal proprietary methods or make a system easier to manipulate. The draft accepts that there may be grounds to withhold a technical detail, but proposes to record what has been withheld and why. Advocates for residents argue that a description should still explain how to query a decision, even if some code or security settings cannot be made public. In their view, a register that records limitations openly may be more useful than one that appears complete while concealing exceptions from readers.", "A separate issue is what happens after a system is listed. The description of an assessment may have been accurate at launch and become misleading after a change to the data or rules. The city is considering separate records for substantive changes and minor editorial corrections. A substantive change might include wider use of a tool or a change to the role of human review. An editorial correction might fix a contact address or clarify wording without changing how the tool works. Mixing the two would make it difficult to tell whether a new date refers to a changed system or a corrected description.", "The consultation also asks about access outside the website. A downloadable table would help researchers compare departments and track changes over time. Some residents, however, would benefit more from a clear reference on a decision letter or a telephone contact that can direct a question to the right team. The proposal therefore considers using the same underlying records in several formats. This would make it possible to update a contact once and have the change appear wherever that record is displayed. It would not, by itself, make the language accessible to the people most affected.", "To evaluate the register, the council suggested counting visits and downloads during its first six months. Community groups objected that these figures could rise because a controversial case attracted attention. They suggested checking whether users could locate a system, identify how it affected a decision and find out where to challenge an error. A modest test could ask readers to complete those tasks using the register and note where they became stuck. Their answers might reveal unclear categories or contact details more effectively than a count of visits.", "The draft has generated opposing headlines. One describes the plan as exposing the algorithms that run the city. Another calls it a list of systems the council already knows about. The first exaggerates what a register can reveal about how a tool works. The second misses the difference between holding information internally and making it usable to an outsider. A balanced report should identify the fields under consideration, the exceptions and the process for updating records. It should also distinguish the existence of a register from independent evidence about whether a listed tool is fair.", "The council plans to revise its proposal after the consultation. If it adopts a register, the practical test will be whether people can connect a public description to a decision they experienced and obtain an answer when that description is inadequate. The amount of information published may matter, but its organisation, accuracy and connection with a route to redress will matter at least as much."], "cloze": ["The register’s value depends partly on whether readers can distinguish simple ", " automation from tools that affect consequential decisions. A program that sorts emails by department is different from one that screens ", " before a person sees them. Publishing both entries without explaining their role could be formally complete while making the most important systems hard to find. The information commissioner in the scenario has asked the council to state whether each ", " merely assists staff, recommends an ", ", or determines a step that a person cannot readily reverse."], "quiz": [{"id": "mc1", "type": "mc", "prompt": "What two dates does the sample register keep separate?", "answer": "a", "evidence": 1, "options": [["a", "When the system was introduced and when its description changed"], ["b", "When a complaint was filed and when a press release appeared"], ["c", "When staff began work and when the public office opened"]], "feedback": "When the system was introduced and when its description changed. Check paragraph 1 for the evidence."}, {"id": "mc2", "type": "mc", "prompt": "Why distinguish administrative tools from consequential ones?", "answer": "a", "evidence": 2, "options": [["a", "A flat list can obscure the tools that most affect people"], ["b", "Ordinary email sorting always determines eligibility"], ["c", "High-impact tools should have no public description"]], "feedback": "A flat list can obscure the tools that most affect people. Check paragraph 2 for the evidence."}, {"id": "mc3", "type": "mc", "prompt": "Why record what is withheld?", "answer": "a", "evidence": 4, "options": [["a", "It makes exceptions visible even if a detail is protected"], ["b", "It shows every tool is fair"], ["c", "It removes the need for a complaints route"]], "feedback": "It makes exceptions visible even if a detail is protected. Check paragraph 4 for the evidence."}, {"id": "mc4", "type": "mc", "prompt": "What is an example of a substantive change?", "answer": "a", "evidence": 5, "options": [["a", "A change to the role of human review"], ["b", "A corrected telephone number"], ["c", "An editorial spelling fix"]], "feedback": "A change to the role of human review. Check paragraph 5 for the evidence."}, {"id": "mc5", "type": "mc", "prompt": "Why might page visits be misleading?", "answer": "a", "evidence": 7, "options": [["a", "A controversial case can raise visits without making the register useful"], ["b", "Every visit proves an error was fixed"], ["c", "Downloads establish that every entry is correct"]], "feedback": "A controversial case can raise visits without making the register useful. Check paragraph 7 for the evidence."}, {"id": "tf1", "type": "tf", "prompt": "The council has already decided all mandatory fields.", "answer": "false", "evidence": 1, "feedback": "Evidence: The fictional city of Bracken Reach has proposed a public register of automated decision systems used by its departments. The register would identify what a tool does, which service uses it and who can answer a question about its effects. A version for public comment includes separate fields for the date a system was introduced and the date its description was last changed. The council says the measure would improve transparency, although it has not yet decided which details would be mandatory or who would check that the records remain accurate."}, {"id": "tf2", "type": "tf", "prompt": "An explanation of which requests are prioritised may be more useful than a broad risk label.", "answer": "true", "evidence": 3, "feedback": "Evidence: Officials have tested the draft format using an example from housing maintenance. A tool sorts repair requests into queues based on descriptions submitted online. An entry saying that it prioritises by risk might sound reassuring. An entry explaining that certain reported conditions move requests into a queue for immediate review would allow readers to ask a more precise question about what happens to cases that use unexpected language. The difference lies less in the quantity of text than in whether the description identifies the consequence that matters to a caller."}, {"id": "tf3", "type": "tf", "prompt": "The plan considers more than one format for accessing information.", "answer": "true", "evidence": 6, "feedback": "Evidence: The consultation also asks about access outside the website. A downloadable table would help researchers compare departments and track changes over time. Some residents, however, would benefit more from a clear reference on a decision letter or a telephone contact that can direct a question to the right team. The proposal therefore considers using the same underlying records in several formats. This would make it possible to update a contact once and have the change appear wherever that record is displayed. It would not, by itself, make the language accessible to the people most affected."}, {"id": "tf4", "type": "tf", "prompt": "A register alone provides independent evidence that each tool is fair.", "answer": "false", "evidence": 8, "feedback": "Evidence: The draft has generated opposing headlines. One describes the plan as exposing the algorithms that run the city. Another calls it a list of systems the council already knows about. The first exaggerates what a register can reveal about how a tool works. The second misses the difference between holding information internally and making it usable to an outsider. A balanced report should identify the fields under consideration, the exceptions and the process for updating records. It should also distinguish the existence of a register from independent evidence about whether a listed tool is fair."}, {"id": "fill1", "type": "fill", "prompt": "The fictional ___ of Bracken Reach has proposed a public register of automated decision systems used by its departments.", "answer": ["city"], "evidence": 1, "feedback": "The missing word is “city”."}, {"id": "fill2", "type": "fill", "prompt": "The ___ would identify what a tool does, which service uses it and who can answer a question about its effects.", "answer": ["register"], "evidence": 1, "feedback": "The missing word is “register”."}, {"id": "fill3", "type": "fill", "prompt": "The information commissioner in the scenario has asked the council to state whether each ___ merely assists staff, recommends an outcome, or determines a step that a person cannot readily reverse.", "answer": ["tool"], "evidence": 2, "feedback": "The missing word is “tool”."}, {"id": "fill4", "type": "fill", "prompt": "A downloadable table would help researchers compare ___ and track changes over time.", "answer": ["departments"], "evidence": 6, "feedback": "The missing word is “departments”."}, {"id": "completion1", "type": "completion", "prompt": "A version for public comment includes separate fields for the date a system was introduced and the date its description ___", "answer": ["was last changed."], "evidence": 1, "feedback": "The article ends this sentence with “was last changed.”."}, {"id": "completion2", "type": "completion", "prompt": "The register’s value depends partly on whether readers can distinguish simple administrative automation from tools that ___", "answer": ["affect consequential decisions."], "evidence": 2, "feedback": "The article ends this sentence with “affect consequential decisions.”."}, {"id": "completion3", "type": "completion", "prompt": "A program that sorts emails by department is different from one that screens applications before a ___", "answer": ["person sees them."], "evidence": 2, "feedback": "The article ends this sentence with “person sees them.”."}, {"id": "completion4", "type": "completion", "prompt": "Publishing both entries without explaining their role could be formally complete while making the most important systems ___", "answer": ["hard to find."], "evidence": 2, "feedback": "The article ends this sentence with “hard to find.”."}, {"id": "cloze1", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["administrative"], "evidence": 2, "feedback": "The article uses “administrative” here."}, {"id": "cloze2", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["applications"], "evidence": 2, "feedback": "The article uses “applications” here."}, {"id": "cloze3", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["tool"], "evidence": 2, "feedback": "The article uses “tool” here."}, {"id": "cloze4", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["outcome"], "evidence": 2, "feedback": "The article uses “outcome” here."}, {"id": "scramble1", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 8, "chunks": ["The draft", "has generated", "opposing headlines."], "feedback": "The draft has generated opposing headlines."}, {"id": "scramble2", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 6, "chunks": ["The consultation also", "asks about access", "outside the website."], "feedback": "The consultation also asks about access outside the website."}, {"id": "scramble3", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 9, "chunks": ["The council plans", "to revise its", "proposal after the consultation."], "feedback": "The council plans to revise its proposal after the consultation."}, {"id": "scramble4", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 3, "chunks": ["An entry saying", "that it prioritises by", "risk might sound reassuring."], "feedback": "An entry saying that it prioritises by risk might sound reassuring."}], "published_at": "2026-11-21", "updated_at": null, "fetched_at": null, "reviewed_at": null, "source_title": "What a public register can reveal about automated decisions", "source_url": "#story=transparency", "publisher": "Shared Pearls of Wisdom", "excerpt": null, "status": "fiction", "review_status": "curriculum", "author": "Shared Pearls of Wisdom teaching adaptation", "reviewer": null, "corrections": null, "image_license": null, "image_url": null, "glossary": [["register", "/ˈredʒɪstə/ · An official list or record. Maintain a public register."], ["consequential", "/ˌkɒnsɪˈkwenʃəl/ · Having important effects. A consequential decision."], ["proprietary", "/prəˈpraɪətəri/ · Owned or controlled by a particular organisation. Proprietary methods."], ["substantive", "/səbˈstæntɪv/ · Affecting the substance or operation rather than the presentation. A substantive change."], ["withhold", "/wɪðˈhəʊld/ · Decide not to provide information. Withhold a technical detail."], ["mandatory", "/ˈmændətəri/ · Required by a rule. A mandatory field."], ["formally", "/ˈfɔːməli/ · According to a formal rule or requirement. A formally complete entry."], ["inspection", "/ɪnˈspekʃən/ · A close examination. Allow inspection of a record."], ["administrative", "/ədˈmɪnɪstrətɪv/ · Connected with managing routine work. Administrative automation."], ["redress", "/rɪˈdres/ · A remedy for something that went wrong. A route to redress."]]}, {"id": "cross-border", "title": "A cross-border complaint tests co-operation between regulators", "category": "World", "level": "c1", "band": "C1", "unit": "01", "legacy": false, "wordCount": 800, "body": ["Three fictional jurisdictions are considering a shared procedure for complaints involving automated services supplied across borders. Under the proposal, a person would file a complaint with a regulator at home even if the service provider operates elsewhere. The receiving authority would determine which other regulator needs to participate and would remain responsible for keeping the complainant informed. The draft specifies a route for sharing requests and replies, while leaving each jurisdiction’s substantive law in place.", "The problem is illustrated by a case devised for the consultation. A worker in Norvale applies online for a professional training grant. The organisation administering the grant is based in the neighbouring jurisdiction of Serren. It uses a tool maintained under contract by a provider registered in Varin. The worker receives a rejection based partly on a classification that appears inconsistent with the evidence submitted. The administrator can explain what category appeared on its screen, but it says it cannot inspect the supplier’s process for assigning that category. No actual grant applicant or authority is involved in the example.", "One difficulty is deciding which power applies to each part of the investigation. A regulator in Norvale may have authority to receive a complaint about the service’s effect on a resident. It may lack a direct means of requiring the overseas supplier to provide its technical records. A Varin regulator may be able to request those records, but need a sufficiently precise description of the disputed decision to know what to ask for. The proposal would allow the first authority to specify the evidence it seeks and the second to respond within a defined period or explain why it cannot comply.", "Identical forms would make requests easier to recognise, but they would not necessarily resolve differences in legal definitions. A tool judged to be part of a decision in one jurisdiction might be treated as an administrative aid in another. Different rules may also apply to how long data can be retained or transferred. The draft therefore separates sharing a request from authorising release of the records requested. If information cannot be shared in full, the responding authority could propose a limited extract, a summary or controlled inspection. These alternatives would only help if they preserved enough detail for the disputed question to be answered.", "An accountability group has asked who would respond if both regulators consider the other better placed to lead. The draft sets out a procedure for naming a lead authority and recording the reasons for that choice. A named lead could reduce delays and provide a focal point for the complainant. It would not remove the need for each participant to explain what it did within its authority. An archive of referrals might show cases moving efficiently while concealing a pattern in which the lead rarely obtained the records required for a decision.", "Providers have raised concerns about duplicated requests and inconsistent deadlines. A small supplier might face overlapping demands for the same version history, each in a different form. A shared reference number could allow authorities to identify material already collected, while leaving access subject to the applicable rules. Industry representatives have suggested a single deadline for the entire investigation. Consumer organisations argue that a realistic deadline should distinguish the time needed to resolve the immediate problem from the longer period needed to understand a pattern across multiple cases.", "The draft does not require one jurisdiction to adopt the outcome reached by another. That is an important limit. A resident might obtain a correction from the organisation administering a service while a supplier remains subject to a separate investigation elsewhere. Equally, an authority could confirm what happened and still lack the power to award compensation. The proposal is principally about case handling and access to evidence. Changing jurisdiction, standards of liability or remedies would require decisions beyond what is proposed.", "A useful comparison of the current and proposed arrangements would examine three things. First, does the person know which authority will stay in contact? Second, can investigators obtain enough information to answer the question? Third, can someone make good an identified error or prevent it from recurring? The first two are plausible objectives for the procedure. The third depends partly on the powers the relevant body already has and on what organisations do after a finding. It would be premature to infer that improved co-operation automatically produces equivalent rights across the participating jurisdictions.", "Officials have invited comments on response deadlines, grounds for refusing information and how decisions should be explained to complainants. Coverage should therefore distinguish agreement on a possible process from evidence that regulators could apply it consistently in real cases. If a pilot goes ahead, its reporting will be more useful if it records where requests stalled, which workarounds succeeded and whether the person ultimately received a meaningful answer."], "cloze": ["The problem is illustrated by a case devised for the consultation. A ", " in Norvale applies online for a professional training grant. The organisation administering the grant is based in the neighbouring jurisdiction of Serren. It uses a tool maintained under contract by a provider registered in Varin. The worker receives a rejection based partly on a ", " that appears inconsistent with the evidence submitted. The ", " can explain what category appeared on its screen, but it says it cannot inspect the supplier’s process for assigning that category. No actual grant applicant or ", " is involved in the example."], "quiz": [{"id": "mc1", "type": "mc", "prompt": "Where would a person first file a complaint?", "answer": "a", "evidence": 1, "options": [["a", "With a regulator at home"], ["b", "With the provider’s foreign trade association"], ["c", "With every regulator separately"]], "feedback": "With a regulator at home. Check paragraph 1 for the evidence."}, {"id": "mc2", "type": "mc", "prompt": "What gives rise to the fictional worker’s dispute?", "answer": "a", "evidence": 2, "options": [["a", "An apparently inconsistent grant classification"], ["b", "A disagreement about employment hours"], ["c", "A cancelled meeting in Varin"]], "feedback": "An apparently inconsistent grant classification. Check paragraph 2 for the evidence."}, {"id": "mc3", "type": "mc", "prompt": "What distinction does the draft make about records?", "answer": "a", "evidence": 4, "options": [["a", "Requesting them and authorising release are separate"], ["b", "Every request automatically authorises full release"], ["c", "No record may ever be inspected"]], "feedback": "Requesting them and authorising release are separate. Check paragraph 4 for the evidence."}, {"id": "mc4", "type": "mc", "prompt": "What can a named lead authority improve?", "answer": "a", "evidence": 5, "options": [["a", "The clarity of responsibility and contact"], ["b", "The automatic award of compensation"], ["c", "The uniformity of all substantive law"]], "feedback": "The clarity of responsibility and contact. Check paragraph 5 for the evidence."}, {"id": "mc5", "type": "mc", "prompt": "Inference: What would overstate the proposal?", "answer": "a", "evidence": 7, "options": [["a", "Claiming it guarantees the same remedies everywhere"], ["b", "Saying it could improve contact between regulators"], ["c", "Saying it sets out evidence-sharing procedures"]], "feedback": "Claiming it guarantees the same remedies everywhere. Check paragraph 7 for the evidence."}, {"id": "tf1", "type": "tf", "prompt": "The procedure would replace each jurisdiction’s substantive law.", "answer": "false", "evidence": 1, "feedback": "Evidence: Three fictional jurisdictions are considering a shared procedure for complaints involving automated services supplied across borders. Under the proposal, a person would file a complaint with a regulator at home even if the service provider operates elsewhere. The receiving authority would determine which other regulator needs to participate and would remain responsible for keeping the complainant informed. The draft specifies a route for sharing requests and replies, while leaving each jurisdiction’s substantive law in place."}, {"id": "tf2", "type": "tf", "prompt": "One regulator may need another regulator’s powers to obtain technical records.", "answer": "true", "evidence": 3, "feedback": "Evidence: One difficulty is deciding which power applies to each part of the investigation. A regulator in Norvale may have authority to receive a complaint about the service’s effect on a resident. It may lack a direct means of requiring the overseas supplier to provide its technical records. A Varin regulator may be able to request those records, but need a sufficiently precise description of the disputed decision to know what to ask for. The proposal would allow the first authority to specify the evidence it seeks and the second to respond within a defined period or explain why it cannot comply."}, {"id": "tf3", "type": "tf", "prompt": "A shared reference number is the procedure for naming a lead authority.", "answer": "false", "evidence": 5, "feedback": "Evidence: An accountability group has asked who would respond if both regulators consider the other better placed to lead. The draft sets out a procedure for naming a lead authority and recording the reasons for that choice. A named lead could reduce delays and provide a focal point for the complainant. It would not remove the need for each participant to explain what it did within its authority. An archive of referrals might show cases moving efficiently while concealing a pattern in which the lead rarely obtained the records required for a decision."}, {"id": "tf4", "type": "tf", "prompt": "The draft allows separate investigations and does not require one jurisdiction to adopt another’s outcome.", "answer": "true", "evidence": 7, "feedback": "Evidence: The draft does not require one jurisdiction to adopt the outcome reached by another. That is an important limit. A resident might obtain a correction from the organisation administering a service while a supplier remains subject to a separate investigation elsewhere. Equally, an authority could confirm what happened and still lack the power to award compensation. The proposal is principally about case handling and access to evidence. Changing jurisdiction, standards of liability or remedies would require decisions beyond what is proposed."}, {"id": "fill1", "type": "fill", "prompt": "Three fictional ___ are considering a shared procedure for complaints involving automated services supplied across borders.", "answer": ["jurisdictions"], "evidence": 1, "feedback": "The missing word is “jurisdictions”."}, {"id": "fill2", "type": "fill", "prompt": "The draft sets out a ___ for naming a lead authority and recording the reasons for that choice.", "answer": ["procedure"], "evidence": 5, "feedback": "The missing word is “procedure”."}, {"id": "fill3", "type": "fill", "prompt": "Under the proposal, a person would file a ___ with a regulator at home even if the service provider operates elsewhere.", "answer": ["complaint"], "evidence": 1, "feedback": "The missing word is “complaint”."}, {"id": "fill4", "type": "fill", "prompt": "The receiving ___ would determine which other regulator needs to participate and would remain responsible for keeping the complainant informed.", "answer": ["authority"], "evidence": 1, "feedback": "The missing word is “authority”."}, {"id": "completion1", "type": "completion", "prompt": "The draft specifies a route for sharing requests and replies, while leaving each jurisdiction’s substantive ___", "answer": ["law in place."], "evidence": 1, "feedback": "The article ends this sentence with “law in place.”."}, {"id": "completion2", "type": "completion", "prompt": "The problem is illustrated by a case devised ___", "answer": ["for the consultation."], "evidence": 2, "feedback": "The article ends this sentence with “for the consultation.”."}, {"id": "completion3", "type": "completion", "prompt": "A worker in Norvale applies online for a ___", "answer": ["professional training grant."], "evidence": 2, "feedback": "The article ends this sentence with “professional training grant.”."}, {"id": "completion4", "type": "completion", "prompt": "The organisation administering the grant is based in the neighbouring ___", "answer": ["jurisdiction of Serren."], "evidence": 2, "feedback": "The article ends this sentence with “jurisdiction of Serren.”."}, {"id": "cloze1", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["worker"], "evidence": 2, "feedback": "The article uses “worker” here."}, {"id": "cloze2", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["classification"], "evidence": 2, "feedback": "The article uses “classification” here."}, {"id": "cloze3", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["administrator"], "evidence": 2, "feedback": "The article uses “administrator” here."}, {"id": "cloze4", "type": "cloze", "prompt": "Complete this gap in the passage.", "answer": ["authority"], "evidence": 2, "feedback": "The article uses “authority” here."}, {"id": "scramble1", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 7, "chunks": ["That", "is an", "important limit."], "feedback": "That is an important limit."}, {"id": "scramble2", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 8, "chunks": ["The first two", "are plausible objectives", "for the procedure."], "feedback": "The first two are plausible objectives for the procedure."}, {"id": "scramble3", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 6, "chunks": ["Providers have raised", "concerns about duplicated", "requests and inconsistent deadlines."], "feedback": "Providers have raised concerns about duplicated requests and inconsistent deadlines."}, {"id": "scramble4", "type": "scramble", "prompt": "Rebuild the sentence in the article’s order.", "answer": ["0", "1", "2"], "evidence": 8, "chunks": ["Second, can investigators", "obtain enough information", "to answer the question?"], "feedback": "Second, can investigators obtain enough information to answer the question?"}], "published_at": "2026-11-21", "updated_at": null, "fetched_at": null, "reviewed_at": null, "source_title": "A cross-border complaint tests co-operation between regulators", "source_url": "#story=cross-border", "publisher": "Shared Pearls of Wisdom", "excerpt": null, "status": "fiction", "review_status": "curriculum", "author": "Shared Pearls of Wisdom teaching adaptation", "reviewer": null, "corrections": null, "image_license": null, "image_url": null, "glossary": [["substantive law", "/səbˌstæntɪv ˈlɔː/ · Rules defining rights and obligations. Apply substantive law."], ["classification", "/ˌklæsɪfɪˈkeɪʃən/ · Assignment to a category. Dispute a classification."], ["lead authority", "/ˌliːd ɔːˈθɒrəti/ · The body responsible for co-ordinating a case. Name a lead authority."], ["overlapping", "/ˌəʊvəˈlæpɪŋ/ · Covering some of the same ground. Overlapping requests."], ["controlled inspection", "/kənˌtrəʊld ɪnˈspekʃən/ · Examination subject to rules about access and use. Offer controlled inspection."], ["jurisdiction", "/ˌdʒʊərɪsˈdɪkʃən/ · A legal territory or the scope of an authority’s power. A participating jurisdiction."], ["retain", "/rɪˈteɪn/ · Keep something for a period or purpose. Retain technical records."], ["co-operation", "/kəʊˌɒpəˈreɪʃən/ · Working with others towards a shared purpose. Improve regulatory co-operation."], ["workaround", "/ˈwɜːkəraʊnd/ · An alternative way to complete something despite an obstacle. Try a workaround."], ["authorise", "/ˈɔːθəraɪz/ · Give formal permission. Authorise the release of records."]]}]};
+
 </script>
-</body>
-</html>
+<script>
+/* A local, dependency-free PDF containing only the learner's actual result. */
+window.newsPdf = function newsPdf(lines) {
+  function ascii(text) {
+    return String(text).normalize('NFKD').replace(/[\u0300-\u036f]/g,'')
+      .replace(/[“”]/g,'"').replace(/[‘’]/g,"'").replace(/[–—]/g,'-').replace(/[^\x20-\x7e]/g,' ');
+  }
+  const flat = [];
+  for (const line of lines) {
+    const words=ascii(line).split(/\s+/);
+    let next='';
+    for(const word of words){
+      if(next.length+word.length>85){flat.push(next);next='';}
+      next+=(next?' ':'')+word;
+    }
+    flat.push(next);
+  }
+  const count=Math.max(1,Math.ceil(flat.length/50));
+  const objects=['<< /Type /Catalog /Pages 2 0 R >>','', '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>'];
+  const pages=[];
+  for(let page=0;page<count;page++){
+    const sentences=flat.slice(page*50,(page+1)*50);
+    const pageId=4+2*page, streamId=pageId+1;
+    pages.push(pageId+' 0 R');
+    const commands=sentences.map(s=>'('+s.replace(/[\\()]/g,'\\$&')+') Tj T*').join('\n');
+    const stream='BT /F1 11 Tf 14 TL 44 791 Td\n'+commands+'\nET\n';
+    objects.push('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 3 0 R >> >> /Contents '+streamId+' 0 R >>');
+    objects.push('<< /Length '+stream.length+' >>\nstream\n'+stream+'endstream');
+  }
+  objects[1]='<< /Type /Pages /Kids ['+pages.join(' ')+'] /Count '+count+' >>';
+  let pdf='%PDF-1.5\n';
+  const offsets=[];
+  for(const [index,obj] of objects.entries()){
+    offsets.push(pdf.length);
+    pdf+=(index+1)+' 0 obj\n'+obj+'\nendobj\n';
+  }
+  const xref=pdf.length;
+  pdf+='xref\n0 '+(objects.length+1)+'\n0000000000 65535 f \n';
+  for(const offset of offsets) pdf+=String(offset).padStart(10,'0')+' 00000 n \n';
+  return pdf+'trailer\n<< /Size '+(objects.length+1)+' /Root 1 0 R >>\nstartxref\n'+xref+'\n%%EOF\n';
+};
+
+</script>
+<script>
+(() => {
+  'use strict';
+  const level = document.body.dataset.level;
+  const {units,articles} = window.newsCurriculum;
+  const titles = {a1a2:'A1/A2',b1:'B1',b2:'B2',c1:'C1'};
+  const types = {mc:'Multiple choice',tf:'True or false',fill:'Fill in the blank',completion:'Sentence completion',cloze:'Cloze passage',scramble:'Scrambled sentences'};
+  const categories = ['World','Local','Science','Health','Environment','Business','Technology','Culture','Sport','Education'];
+  const key = 'spw:news:v1:'+level;
+  const readState = () => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(key) || '{}');
+      return saved && typeof saved==='object' && !Array.isArray(saved) ? saved : {};
+    } catch { return {}; }
+  };
+  let state=readState();
+  let feedPage=0;
+  let feedRequest=0;
+  let activeFeedCategory='';
+  let live=[];
+  let currentSpeech;
+  const byId=id=>document.getElementById(id);
+  function el(tag,text,attrs={}) {
+    const n=document.createElement(tag);
+    if(text!==null && text!==undefined) n.textContent=text;
+    for(const [name,value] of Object.entries(attrs)) n.setAttribute(name,value);
+    return n;
+  }
+  function action(label,handler,attrs={}) {
+    const n=el('button',label,{type:'button',...attrs});
+    n.addEventListener('click',handler);
+    return n;
+  }
+  function writeState() {
+    try { localStorage.setItem(key,JSON.stringify(state)); }
+    catch { byId('storage').textContent='Progress could not be saved in this browser.'; }
+  }
+  function record(id) {
+    if(!state[id] || typeof state[id]!=='object') state[id]={};
+    return state[id];
+  }
+  const date = stamp => stamp && Number.isFinite(Date.parse(stamp)) ? new Intl.DateTimeFormat('en-GB',{dateStyle:'medium',timeStyle:stamp.length>10?'short':undefined,timeZone:'UTC'}).format(new Date(stamp))+(stamp.length>10?' UTC':'') : '';
+  const validUrl = value => {
+    try { const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password?u.href:null; }
+    catch{return null;}
+  };
+  function shuffled(items) {
+    const array=[...items];
+    for(let i=array.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [array[i],array[j]]=[array[j],array[i]];
+    }
+    return array;
+  }
+  function gradeText(s) {
+    return s.normalize('NFKC').toLowerCase().replace(/[’‘]/g,"'").replace(/[–—]/g,'-')
+      .replace(/[\p{P}\p{S}]+/gu,' ').trim().replace(/\s+/g,' ');
+  }
+  function filterArticles() {
+    const q=byId('search').value.trim().toLowerCase();
+    const category=byId('category').value, collection=byId('collection').value;
+    const all=[...live,...articles];
+    const filtered=all.filter(a=>{
+      if(category && a.category!==category) return false;
+      if(collection==='fiction' && a.status!=='fiction') return false;
+      if(collection==='archive' && a.status!=='archived') return false;
+      if(collection==='source' && !['source-linked','verified-adaptation'].includes(a.status)) return false;
+      if(collection==='saved' && !state[a.id]?.saved) return false;
+      if(collection==='history' && !state[a.id]?.seen) return false;
+      return !q || [a.title,a.category,a.publisher,...(a.body||[])].join(' ').toLowerCase().includes(q);
+    });
+    const news=byId('story-grid');
+    news.replaceChildren();
+    byId('results-count').textContent=filtered.length+' '+(filtered.length===1?'story':'stories');
+    if(!filtered.length) {news.append(el('p','No articles match those filters.'));return;}
+    if(filtered.length===1) {news.append(card(filtered[0],true));return;}
+    news.append(card(filtered[0],true));
+    const second=el('div',null,{class:'grid'});
+    for(const article of filtered.slice(1)) second.append(card(article,false));
+    news.append(second);
+  }
+  function factLabel(a) {
+    return {fiction:'Fictional teaching scenario',archived:'Archived report','source-linked':'Source-linked headline','verified-adaptation':'Reviewed teaching adaptation'}[a.status] || 'Source-linked headline';
+  }
+  function card(a,lead) {
+    const n=el('article',null,{class:'story-card'+(lead?' lead':'')});
+    n.append(el('span',a.category+' · '+factLabel(a),{class:'tag'}),el('a',a.title,{href:'#story='+a.id}));
+    if(a.body?.length) n.append(el('p',a.body[0]));
+    else n.append(el('p',a.publisher+(date(a.source_published_at)?' · '+date(a.source_published_at):'')));
+    const attempt=state[a.id]?.score;
+    if(attempt) n.append(el('p','Last score: '+attempt.correct+'/'+attempt.total,{class:'muted'}));
+    return n;
+  }
+  function metadata(a) {
+    const d=el('dl',null,{class:'metadata'});
+    const add=(name,value)=>{
+      if(!value) return;
+      d.append(el('dt',name),el('dd',value));
+    };
+    add('Publisher',a.publisher);
+    add(a.status==='fiction'?'Teaching edition':'Originally published',date(a.source_published_at||a.published_at));
+    add('Source publication update',date(a.source_updated_at));
+    add('Updated',date(a.editorial_updated_at));
+    add('Fetched at',date(a.fetched_at));
+    add('Source headline',a.source_title);
+    add('Adaptation author',a.adaptation_author||a.author);
+    add('Review status',a.review_status==='curriculum'?'Original curriculum fiction':a.review_status);
+    add('Editor',a.reviewer);
+    add('Review date',date(a.reviewed_at));
+    add('Image licence',a.image_license);
+    add('Level',a.band||titles[level]);
+    add('Reading length',a.wordCount ? a.wordCount+' words' : '');
+    return d;
+  }
+  function nav() {
+    byId('content').hidden=location.hash.startsWith('#story=');
+    byId('detail').hidden=!byId('content').hidden;
+  }
+  function stopAudio() {
+    if(currentSpeech) { window.speechSynthesis?.cancel();currentSpeech=null; }
+  }
+  function speech(article,area) {
+    const status=el('p','',{class:'muted',role:'status'});
+    const controls=el('div',null,{class:'actions'});
+    const play=action('Play UK browser voice',()=>{
+      const service=window.speechSynthesis;
+      const voice=service?.getVoices().find(v=>/^en[-_]GB$/i.test(v.lang));
+      if(!voice || !window.SpeechSynthesisUtterance) {
+        status.textContent='A UK speech voice is unavailable. Read the article or open the transcript below.';
+        return;
+      }
+      stopAudio();
+      let index=0;
+      const run={};
+      currentSpeech=run;
+      const read=()=>{
+        if(currentSpeech!==run) return;
+        if(index===article.body.length){status.textContent='Listening finished.';currentSpeech=null;return;}
+        const turn=new SpeechSynthesisUtterance(article.body[index]);
+        run.turn=turn;turn.voice=voice;turn.lang='en-GB';turn.rate=Number(speed.value);
+        status.textContent='Reading paragraph '+(index+1)+' of '+article.body.length+'.';
+        turn.onend=()=>{index++;read();};
+        turn.onerror=()=>{if(currentSpeech===run){currentSpeech=null;status.textContent='Browser playback stopped. The transcript is available.';}};
+        service.speak(turn);
+      };
+      read();
+    });
+    const pause=action('Pause or resume',()=>{
+      if(!currentSpeech)return;
+      const service=window.speechSynthesis;
+      if(service.paused) service.resume();else service.pause();
+    });
+    const speed=el('select',null,{'aria-label':'Narration speed'});
+    for(const s of ['0.8','1','1.2']) speed.append(el('option',s+'×',{value:s}));
+    speed.value='1';
+    controls.append(play,pause,action('Stop',()=>{stopAudio();status.textContent='Playback stopped.';}),speed);
+    area.append(el('p','Browser-generated narration uses an installed UK voice when available.',{class:'muted'}),controls,status);
+    const transcript=el('details');
+    transcript.append(el('summary','Open the listening transcript'));
+    for(const paragraph of article.body) transcript.append(el('p',paragraph));
+    area.append(transcript);
+  }
+  function scrambled(q) {
+    const root=el('div');
+    const available=el('div',null,{class:'actions','aria-label':'Available sentence parts'});
+    const ordered=el('ol',null,{class:'scramble-list','aria-label':'Your sentence order'});
+    const status=el('p','',{role:'status',class:'muted'});
+    const controls=el('div',null,{class:'actions'});
+    let bank=shuffled(q.chunks.map((_,i)=>String(i)));
+    if(bank.every((x,i)=>x===q.answer[i])) bank=[bank[1],bank[0],...bank.slice(2)];
+    let chosen=[];
+    const remove=(i)=>{chosen.splice(i,1);paint();};
+    const move=(i,j)=>{[chosen[i],chosen[j]]=[chosen[j],chosen[i]];paint();ordered.children[j]?.querySelector('button')?.focus();};
+    function paint() {
+      available.replaceChildren(...bank.filter(x=>!chosen.includes(x)).map(i=>action(q.chunks[Number(i)],()=>{
+        chosen.push(i);paint();(available.querySelector('button')||ordered.querySelector('button'))?.focus();
+      })));
+      ordered.replaceChildren(...chosen.map((chunk,index)=>{
+        const chunkText=q.chunks[Number(chunk)];
+        const row=el('li');
+        const left=action('←',()=>move(index,index-1),{'aria-label':'Move '+chunkText+' earlier'});
+        const right=action('→',()=>move(index,index+1),{'aria-label':'Move '+chunkText+' later'});
+        left.disabled=index===0;right.disabled=index===chosen.length-1;
+        row.append(el('span',chunkText),left,right,action('Remove',()=>remove(index),{'aria-label':'Remove '+chunkText}));
+        return row;
+      }));
+      status.textContent=chosen.length+' of '+q.chunks.length+' parts placed.';
+    }
+    controls.append(action('Undo last placement',()=>{chosen.pop();paint();}),action('Clear order',()=>{chosen=[];paint();}));
+    root.append(available,ordered,controls,status);
+    paint();
+    return {root,read:()=>[...chosen]};
+  }
+  function quiz(article) {
+    const area=el('section',null,{class:'quiz panel',id:'exercises'});
+    area.append(el('h2','Reading assessment'),el('p','Use the article for evidence. For text gaps and sentence ordering, reproduce the wording in the article. Case, spacing and surrounding punctuation are ignored.'));
+    const form=el('form'), attempt=record(article.id), answers=[];
+    if(attempt.score) area.append(el('p','Previous attempt: '+attempt.score.correct+'/'+attempt.score.total,{class:'muted'}));
+    for(const [kind,label] of Object.entries(types)){
+      const group=el('section');
+      group.append(el('h3',label));
+      const items=article.quiz.filter(q=>q.type===kind);
+      if(kind==='cloze'){
+        const passage=el('p',null,{class:'cloze'});
+        items.forEach((q,i)=>{
+          const input=el('input',null,{type:'text','aria-label':'Cloze gap '+(i+1),autocomplete:'off'});
+          const feedback=el('p','',{class:'feedback',role:'status'});
+          passage.append(document.createTextNode(article.cloze[i]),input);
+          answers.push({q,read:()=>input.value,feedback});
+        });
+        passage.append(document.createTextNode(article.cloze.at(-1)));
+        group.append(passage,...answers.slice(-items.length).map(x=>x.feedback));
+      } else {
+        for(const [index,q] of items.entries()) {
+          const field=el('fieldset');
+          field.append(el('legend',(index+1)+'. '+q.prompt));
+          let read;
+          if(kind==='mc'||kind==='tf'){
+            let choices=kind==='tf'?[['true','True'],['false','False']]:shuffled(q.options);
+            if(kind==='tf' && index===0) group.insertBefore(el('p','Choose True if the statement is supported by the article.'),group.children[1]||null);
+            for(const [id,label] of choices) {
+              const input=el('input',null,{type:'radio',name:q.id,value:id});
+              const option=el('label',null,{class:'option'});
+              option.append(input,document.createTextNode(label));
+              field.append(option);
+            }
+            read=()=>field.querySelector('input:checked')?.value||'';
+          } else if(kind==='scramble'){
+            const task=scrambled(q);field.append(task.root);read=task.read;
+          } else {
+            const input=el('input',null,{type:'text','aria-label':label+' '+(index+1),autocomplete:'off'});
+            field.append(input);read=()=>input.value;
+          }
+          const feedback=el('p','',{class:'feedback',role:'status'});
+          field.append(feedback);group.append(field);
+          answers.push({q,read,feedback});
+        }
+      }
+      form.append(group);
+    }
+    const result=el('p','',{role:'status',tabindex:'-1'});
+    const buttons=el('div',null,{class:'actions'});
+    buttons.append(el('button','Check answers',{type:'submit'}));
+    buttons.append(action('Retry assessment',()=>{area.replaceWith(quiz(article));document.querySelector('#exercises h2').scrollIntoView();}));
+    const report=action('Download PDF report',()=>downloadReport(article,record(article.id).score));
+    report.hidden=!attempt.score;
+    buttons.append(report);form.append(buttons,result);area.append(form);
+    form.addEventListener('submit',event=>{
+      event.preventDefault();
+      const mistakes=[], byType={};
+      let correct=0;
+      for(const {q,read,feedback} of answers) {
+        const answer=read();
+        const right=q.type==='scramble' ? answer.join('|')===q.answer.join('|') :
+          (Array.isArray(q.answer)?q.answer.some(x=>gradeText(answer)===gradeText(x)):answer===q.answer);
+        byType[q.type]??={correct:0,total:0};
+        byType[q.type].total++;byType[q.type].correct+=Number(right);
+        correct+=Number(right);
+        if(!right) mistakes.push({id:q.id,prompt:q.prompt,evidence:q.evidence});
+        feedback.replaceChildren(document.createTextNode((right?'Correct. ':'Review this. ')+q.feedback+' '),
+          el('a','Read paragraph '+q.evidence,{href:'#story='+article.id,'data-evidence':q.evidence}));
+        feedback.querySelector('a').addEventListener('click',event=>{
+          event.preventDefault();byId('p-'+q.evidence)?.focus();byId('p-'+q.evidence)?.scrollIntoView({block:'center'});
+        });
+      }
+      attempt.score={correct,total:answers.length,byType,mistakes,at:new Date().toISOString(),attempts:(attempt.score?.attempts||0)+1};
+      writeState();report.hidden=false;result.textContent=correct+' of '+answers.length+' correct. Review the explanations and evidence links.';result.focus();
+    });
+    return area;
+  }
+  function download(name,data,type) {
+    const url=URL.createObjectURL(new Blob([data],{type}));
+    const link=el('a',null,{href:url,download:name});document.body.append(link);link.click();link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+  }
+  function downloadReport(article,score) {
+    if(!score) return;
+    const lines=['Shared Pearls of Wisdom','News English performance report',article.title,
+      'Level: '+article.band+'   Attempt: '+score.attempts,'Date: '+date(score.at),
+      'Result: '+score.correct+' / '+score.total+' ('+Math.round(score.correct/score.total*100)+'%)',''];
+    for(const [kind,tally] of Object.entries(score.byType)) lines.push(types[kind]+': '+tally.correct+' / '+tally.total);
+    if(score.mistakes.length){
+      lines.push('','Review these questions with the cited paragraphs');
+      for(const item of score.mistakes) lines.push(item.id+' (paragraph '+item.evidence+'): '+item.prompt);
+    } else lines.push('','All graded questions correct.');
+    download(article.id+'-performance.pdf',window.newsPdf(lines),'application/pdf');
+  }
+  function articleView(a) {
+    const detail=byId('detail');
+    detail.replaceChildren();
+    const entry=record(a.id);
+    entry.seen=new Date().toISOString();writeState();
+    detail.append(el('a','← Back to the edition',{href:'#edition'}));
+    const header=el('div',null,{class:'detail-header'});
+    header.append(el('p',a.category+' · '+factLabel(a),{class:'tag'}));
+    const heading=el('h1',a.title,{tabindex:'-1'});
+    header.append(heading,metadata(a));
+    if(a.status==='fiction') header.append(el('p',a.legacy?'Reworked from the original level worksheet. Places, people and events belong to this teaching scenario.':'Original fictional teaching scenario. Events in the story are invented for language practice.',{class:'notice'}));
+    const source=validUrl(a.source_url);
+    header.append(source ? el('a','Read the original at '+a.publisher,{href:source,rel:'noopener noreferrer'}) : el('p','Original source: this Shared Pearls of Wisdom teaching edition.',{class:'muted'}));
+    if(a.original_excerpt) header.append(el('p','Approved source excerpt: '+a.original_excerpt));
+    if(a.corrections) header.append(el('p','Corrections: '+a.corrections));
+    const buttons=el('div',null,{class:'actions'});
+    const saved=action(entry.saved?'Remove from saved articles':'Save article',()=>{
+      entry.saved=!entry.saved;writeState();saved.textContent=entry.saved?'Remove from saved articles':'Save article';
+    });
+    buttons.append(saved);header.append(buttons);detail.append(header);
+    const image=validUrl(a.image_url);
+    if(image&&a.image_license){
+      const figure=el('figure'), img=el('img',null,{src:image,alt:'',loading:'lazy',referrerpolicy:'no-referrer'});
+      img.addEventListener('error',()=>figure.remove());
+      figure.append(img,el('figcaption',a.image_license));detail.append(figure);
+    }
+    if(a.body?.length) {
+      const body=el('div',null,{class:'reader'});
+      for(const [i,paragraph] of a.body.entries()){
+        const p=el('p',null,{id:'p-'+(i+1),tabindex:'-1'});
+        p.append(el('sup',String(i+1),{'aria-hidden':'true'}),document.createTextNode(paragraph));body.append(p);
+      }
+      buttons.append(action('Change reading size',()=>body.classList.toggle('large')));
+      detail.append(body);
+      const aids=el('section',null,{class:'section panel'});aids.append(el('h2','Listen and review'));
+      speech(a,aids);
+      if(a.glossary?.length) {
+        const glossary=el('details');
+        glossary.append(el('summary','Vocabulary and collocations'));
+        const list=el('dl');
+        for(const [term,meaning] of a.glossary) list.append(el('dt',term),el('dd',meaning));
+        glossary.append(list);aids.append(glossary);
+      }
+      detail.append(aids);
+    }
+    if(a.quiz?.length) detail.append(quiz(a),writing(a,entry));
+    heading.focus();
+  }
+  const writingTargets={
+    a1a2:['Write 3–5 sentences. Say who did what and where. Include one important time, number or plan.','Use past simple for a finished event and will for a plan.'],
+    b1:['Write a 100–150-word summary. Explain what changed, why it changed and how people responded.','Use a reporting verb to separate a person’s expectation from the result.'],
+    b2:['Write a 200–250-word analysis that compares two positions and identifies evidence that could change the assessment.','Use concession and cautious language such as could, would or the model assumes.'],
+    c1:['Write a 300–400-word editorial analysis. Separate the proposal, the evidence offered for it and unresolved questions.','Use precise reporting verbs and explain where each assertion comes from.'],
+  };
+  function writing(a,entry) {
+    const w=el('section',null,{class:'panel section'});
+    w.append(el('h2','Write or discuss'),el('p',writingTargets[level][0]),el('p',writingTargets[level][1]));
+    w.append(el('p','Self-check: Have you covered the main change, selected precise details from the story and separated what happened from proposals or predictions?'));
+    const text=el('textarea',null,{'aria-label':'Your response'});text.value=entry.writing||'';
+    text.addEventListener('input',()=>{entry.writing=text.value;writeState();});
+    w.append(text,action(entry.complete?'Completed · undo':'Mark article complete',event=>{
+      entry.complete=!entry.complete;writeState();event.target.textContent=entry.complete?'Completed · undo':'Mark article complete';
+    }));
+    return w;
+  }
+  function fromLive(x) {
+    return {...x,title:x.teaching_title||x.source_title,body:typeof x.adaptation==='string'?x.adaptation.split(/\n\s*\n/):[]};
+  }
+  async function api(path) {
+    const response=await fetch('/api/news-centre/'+path,{headers:{accept:'application/json'},signal:AbortSignal.timeout(8000)});
+    if(!response.ok||!response.headers.get('content-type')?.includes('application/json')) throw Error('Feed unavailable');
+    return response.json();
+  }
+  async function refreshFeed(append=false) {
+    if(document.body.dataset.liveFeed!=='on' || location.protocol==='file:') return;
+    const sequence=++feedRequest;
+    const category=byId('category').value;
+    const parameters=new URLSearchParams({level,page:String(append?feedPage+1:1)});
+    if(category) parameters.set('category',category);
+    try {
+      const [result,status]=await Promise.all([api('stories?'+parameters),api('status')]);
+      if(sequence!==feedRequest) return;
+      live=append?[...live,...result.stories.map(fromLive)]:result.stories.map(fromLive);
+      activeFeedCategory=category;
+      feedPage=Number(parameters.get('page'));
+      byId('more-news').hidden=!result.nextPage;
+      byId('feed-status').textContent=(status.status==='available'?'Feed connected.':'News feed temporarily unavailable.')+
+        (status.last_successful_refresh?' Last successful refresh: '+date(status.last_successful_refresh)+'.':'')+
+        (live.length?' Showing editorially approved entries.':' No approved reports are available in this edition.');
+    } catch {
+      if(sequence!==feedRequest) return;
+      if(!append && activeFeedCategory!==category) live=[];
+      byId('more-news').hidden=true;
+      byId('feed-status').textContent='News feed temporarily unavailable. Curriculum stories below are clearly marked as fictional.';
+    }
+    filterArticles();
+  }
+  let navSequence=0;
+  async function route() {
+    const change=++navSequence;
+    stopAudio();nav();
+    if(!byId('content').hidden){filterArticles();updateUnitProgress();byId(location.hash.slice(1))?.scrollIntoView();return;}
+    const id=location.hash.slice('#story='.length);
+    let a=[...articles,...live].find(item=>item.id===id);
+    if(document.body.dataset.liveFeed==='on'&&!a&&/^[a-f0-9-]{36}$/.test(id)&&location.protocol!=='file:') {
+      byId('detail').replaceChildren(el('p','Loading reviewed story…',{role:'status'}));
+      try {a=fromLive((await api('stories/'+id)).story);}catch{}
+    }
+    if(change!==navSequence) return;
+    if(a) articleView(a);
+    else byId('detail').replaceChildren(el('h1','Story unavailable'),el('a','Return to the edition',{href:'#edition'}));
+  }
+  function updateUnitProgress(){
+    const done=articles.filter(a=>state[a.id]?.complete).length;
+    byId('unit-progress').textContent=done+' of '+articles.length+' published curriculum articles marked complete.';
+  }
+  for(const category of categories) byId('category').append(el('option',category,{value:category}));
+  for(const unit of units) {
+    const details=el('details');
+    const ready=unit.number==='01';
+    details.append(el('summary',unit.number+' · '+unit.title),el('p',unit.angles));
+    if(ready) details.open=true;
+    details.append(el('p',ready?'Four stories available in this edition.':'Planned unit. Stories will appear after authoring and review.',{class:'muted'}));
+    byId('unit-list').append(details);
+  }
+  byId('search').addEventListener('input',filterArticles);
+  byId('category').addEventListener('change',()=>{filterArticles();refreshFeed();});
+  byId('collection').addEventListener('change',filterArticles);
+  byId('more-news').addEventListener('click',()=>refreshFeed(true));
+  byId('export-progress').addEventListener('click',()=>download('news-'+level+'-progress.json',JSON.stringify({level,records:state},null,2),'application/json'));
+  byId('import-progress').addEventListener('change',async event=>{
+    const input=event.target,file=input.files[0],status=byId('storage');
+    if(!file)return;
+    try {
+      if(file.size>1000000) throw Error();
+      const imported=JSON.parse(await file.text());
+      if(imported.level!==level||!imported.records||Array.isArray(imported.records)) throw Error();
+      for(const a of articles) {
+        const supplied=imported.records[a.id];
+        if(!supplied||typeof supplied!=='object') continue;
+        const target=record(a.id);
+        if(typeof supplied.saved==='boolean')target.saved=supplied.saved;
+        if(typeof supplied.complete==='boolean')target.complete=supplied.complete;
+        if(typeof supplied.seen==='string'&&Number.isFinite(Date.parse(supplied.seen)))target.seen=supplied.seen;
+        if(typeof supplied.writing==='string')target.writing=supplied.writing.slice(0,18000);
+      }
+      writeState();filterArticles();updateUnitProgress();
+      status.textContent='Saved articles, reading history, completion and drafts imported. Scores remain on the browser where the assessment was completed.';
+    } catch {status.textContent='Choose a valid progress export for this level.';}
+    input.value='';
+  });
+  window.addEventListener('hashchange',route);
+  route();refreshFeed();
+})();
+
+
+
+</script>
+<script>
+
+(() => {
+    const worksheets = {"c1-student": "\u003c!doctype html>\u003chtml lang=\"en-GB\">\u003chead>\u003cmeta charset=\"utf-8\">\u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\u003ctitle>Student Centred Learning | News English worksheet\u003c/title>\u003cstyle>*{box-sizing:border-box}\n:root{color-scheme:light;--paper:#f8f6f0;--card:#fffefa;--ink:#202925;--muted:#52635a;--accent:#225b4e;--line:#ccd7cc;--wash:#e9f1e8;--rust:#843b28;--sand:#f7e8da}\nbody{margin:0;background:var(--paper);color:var(--ink);font:1rem/1.58 \"Segoe UI\",system-ui,sans-serif}\na{color:var(--accent);text-underline-offset:.17em}button,input,select,textarea{font:inherit;color:inherit}button,summary{cursor:pointer}button,.button{display:inline-block;background:var(--wash);border:1px solid var(--accent);border-radius:.35rem;padding:.38rem .65rem;color:var(--accent);font-weight:700}button:not(:disabled):hover,.button:hover{text-decoration:underline}button:disabled{opacity:.55;cursor:default}[hidden]{display:none!important}:focus-visible{outline:3px solid var(--rust);outline-offset:3px}\n.wrap{width:min(1200px,calc(100% - 2.5rem));margin-inline:auto}.mast{padding:.85rem 0;border-bottom:1px solid var(--line)}.line,.actions,.levels{display:flex;align-items:center;gap:.55rem .9rem;flex-wrap:wrap}.mast .line,footer .line{justify-content:space-between}.levels a{padding:.22rem .48rem;font-weight:700}.levels a[aria-current]{background:var(--wash);border-radius:.3rem;text-decoration:none}\n.skip{position:absolute;top:0;transform:translateY(-120%);background:white;padding:.5rem;z-index:2}.skip:focus{transform:none}\nheader .brand{font-weight:750}.hero{padding:clamp(1.8rem,6vw,4.3rem) 0;background:var(--wash);border-bottom:1px solid var(--line)}.hero p{max-width:65ch}\nh1,h2,h3{font-family:Georgia,serif;line-height:1.13;margin:0 0 .6rem}h1{font-size:clamp(2.5rem,7vw,5rem);font-weight:400;letter-spacing:-.05em}h2{font-size:clamp(1.7rem,4vw,2.65rem);font-weight:400;letter-spacing:-.025em}h3{font-size:1.3rem}p{margin:0 0 .8rem}.eyebrow,.tag{font-size:.82rem;font-weight:750;color:var(--rust)}.eyebrow{letter-spacing:.14em;text-transform:uppercase}\nmain{padding-block:1.5rem 3rem}.section{margin-bottom:1.65rem}.panel,.story-card{background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:clamp(.85rem,2vw,1.35rem)}.story-card>a{display:block;font-size:1.28rem;font-family:Georgia,serif;font-weight:700}.story-card p{margin:.55rem 0 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:.75rem}.lead-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:.75rem}.lead-grid .grid{grid-template-columns:1fr}.lead{background:var(--wash);display:grid;align-content:start;gap:.7rem;border-top:4px solid var(--accent)}.lead>a{font-size:clamp(1.7rem,4vw,2.8rem)}.lead p{max-width:53ch}\n.filters{display:grid;grid-template-columns:minmax(170px,2fr) minmax(125px,1fr) minmax(125px,1fr);gap:.65rem;margin:1rem 0}.filters label{display:grid;font-weight:700;gap:.2rem}\ninput:not([type=radio]):not([type=file]),select,textarea{padding:.38rem .55rem;border:1px solid #778a7c;border-radius:.34rem;background:white;min-width:0;max-width:100%}textarea{display:block;width:100%;min-height:8rem}.muted,.notice{font-size:.92rem;color:var(--muted)}.notice,.feedback{padding:.55rem .7rem;background:var(--sand);border-radius:.35rem}.feedback:empty{display:none}.metadata{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:.5rem .85rem;margin:.8rem 0}.metadata dt{font-weight:700}.metadata dd{margin:0;overflow-wrap:anywhere}\n.reader{max-width:76ch;font:1.12rem/1.75 Georgia,serif}.reader.large{font-size:1.33rem}.reader p{scroll-margin-top:1rem}.reader sup{font:700 .72rem \"Segoe UI\",sans-serif;color:var(--rust);margin-right:.3rem}.reader img{max-width:100%;height:auto}\ndetails>summary{font-weight:750;color:var(--accent)}details[open]>summary{margin-bottom:.65rem}.quiz section{margin:1rem 0}.quiz fieldset{min-width:0;margin:.7rem 0;padding:.55rem .8rem;border:1px solid var(--line);border-radius:.4rem}.quiz legend{font-weight:700;padding:0 .24rem}.option{display:flex;align-items:baseline;gap:.5rem;margin:.28rem 0}.quiz input[type=text]{width:min(100%,26rem)}.cloze{line-height:2.4}.cloze input[type=text]{width:min(100%,9rem);margin-inline:.2rem}.scramble-list{display:flex;flex-wrap:wrap;gap:.4rem;min-height:2.6rem;padding:.45rem;border:1px dashed var(--line);border-radius:.35rem;margin:.45rem 0;list-style:none}.scramble-list li{display:flex;gap:.28rem;flex-wrap:wrap}.scramble-list button{font-size:.87rem}.done{color:#215343}.detail-header{margin:.65rem 0 1rem}.school details{border-top:1px solid var(--line);padding:.55rem 0}.school ul{padding-left:1.2rem}footer{background:var(--card);border-top:1px solid var(--line);padding:1rem 0}\n@media(max-width:710px){.lead-grid,.filters{grid-template-columns:1fr}}\n@media(max-width:380px){.wrap{width:calc(100% - 1.2rem)}}\n@media print{header,footer,.filters,.screen-only,.quiz button{display:none!important}.panel{border:0}}\n\u003c/style>\n\u003cstyle>textarea{min-height:3.4rem;margin:.25rem 0 1rem}@media print{.student-answer{min-height:6rem}details:not([open]){display:none}}\u003c/style>\u003c/head>\n\u003cbody>\u003cmain class=\"wrap\">\u003cp class=\"tag\">Shared Pearls of Wisdom · News English · Unit 1\u003c/p>\u003ch1>Student Centred Learning worksheet\u003c/h1>\n\u003cp>Read \u003ca href=\"NEWS_EDITION_URL#story=governance\">Who should oversee automated decisions?\u003c/a>. For each answer, include the number of the supporting paragraph.\u003c/p>\n\u003carticle class=\"panel\">\u003ch2>Reading and evidence\u003c/h2>\u003clabel for=\"q1\">1. What has the government announced?\u003c/label>\u003ctextarea id=\"q1\" rows=\"2\">\u003c/textarea>\u003clabel for=\"q2\">2. What advantage do supporters claim for a central office?\u003c/label>\u003ctextarea id=\"q2\" rows=\"2\">\u003c/textarea>\u003clabel for=\"q3\">3. Why might supplier evidence be needed?\u003c/label>\u003ctextarea id=\"q3\" rows=\"2\">\u003c/textarea>\u003clabel for=\"q4\">4. What distinction does the fictional housing example demonstrate?\u003c/label>\u003ctextarea id=\"q4\" rows=\"2\">\u003c/textarea>\u003clabel for=\"q5\">5. Inference: Why is speed of closure an incomplete measure?\u003c/label>\u003ctextarea id=\"q5\" rows=\"2\">\u003c/textarea>\n\u003ch2>Writing\u003c/h2>\u003cp>Write a 300–400-word analysis that attributes competing positions, qualifies conclusions and identifies unresolved evidence.\u003c/p>\u003clabel for=\"writing\">Draft answer\u003c/label>\u003ctextarea id=\"writing\" class=\"student-answer\">\u003c/textarea>\n\u003cdetails>\u003csummary>Teacher answer key\u003c/summary>\u003col>\u003cli>A consultation comparing oversight arrangements. Check paragraph 1 for the evidence.\u003c/li>\u003cli>A common route for complaints across sectors. Check paragraph 2 for the evidence.\u003c/li>\u003cli>The complaint handler may lack details of an update. Check paragraph 4 for the evidence.\u003c/li>\u003cli>Fixing one case differs from preventing recurrence. Check paragraph 5 for the evidence.\u003c/li>\u003cli>A fast referral might leave the underlying issue unresolved. Check paragraph 7 for the evidence.\u003c/li>\u003c/ol>\n\u003cp>Accept accurate paraphrase. Check coverage of the main event or issue, use of evidence, and whether attribution and certainty match the story.\u003c/p>\u003c/details>\u003c/article>\n\u003cp class=\"screen-only\">\u003cbutton id=\"print\" type=\"button\">Print worksheet\u003c/button>\u003c/p>\u003c/main>\n\u003cscript>document.getElementById('print').addEventListener('click',()=>window.print());\u003c/script>\u003c/body>\u003c/html>", "c1-task": "\u003c!doctype html>\u003chtml lang=\"en-GB\">\u003chead>\u003cmeta charset=\"utf-8\">\u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\u003ctitle>Task Based Learning | News English worksheet\u003c/title>\u003cstyle>*{box-sizing:border-box}\n:root{color-scheme:light;--paper:#f8f6f0;--card:#fffefa;--ink:#202925;--muted:#52635a;--accent:#225b4e;--line:#ccd7cc;--wash:#e9f1e8;--rust:#843b28;--sand:#f7e8da}\nbody{margin:0;background:var(--paper);color:var(--ink);font:1rem/1.58 \"Segoe UI\",system-ui,sans-serif}\na{color:var(--accent);text-underline-offset:.17em}button,input,select,textarea{font:inherit;color:inherit}button,summary{cursor:pointer}button,.button{display:inline-block;background:var(--wash);border:1px solid var(--accent);border-radius:.35rem;padding:.38rem .65rem;color:var(--accent);font-weight:700}button:not(:disabled):hover,.button:hover{text-decoration:underline}button:disabled{opacity:.55;cursor:default}[hidden]{display:none!important}:focus-visible{outline:3px solid var(--rust);outline-offset:3px}\n.wrap{width:min(1200px,calc(100% - 2.5rem));margin-inline:auto}.mast{padding:.85rem 0;border-bottom:1px solid var(--line)}.line,.actions,.levels{display:flex;align-items:center;gap:.55rem .9rem;flex-wrap:wrap}.mast .line,footer .line{justify-content:space-between}.levels a{padding:.22rem .48rem;font-weight:700}.levels a[aria-current]{background:var(--wash);border-radius:.3rem;text-decoration:none}\n.skip{position:absolute;top:0;transform:translateY(-120%);background:white;padding:.5rem;z-index:2}.skip:focus{transform:none}\nheader .brand{font-weight:750}.hero{padding:clamp(1.8rem,6vw,4.3rem) 0;background:var(--wash);border-bottom:1px solid var(--line)}.hero p{max-width:65ch}\nh1,h2,h3{font-family:Georgia,serif;line-height:1.13;margin:0 0 .6rem}h1{font-size:clamp(2.5rem,7vw,5rem);font-weight:400;letter-spacing:-.05em}h2{font-size:clamp(1.7rem,4vw,2.65rem);font-weight:400;letter-spacing:-.025em}h3{font-size:1.3rem}p{margin:0 0 .8rem}.eyebrow,.tag{font-size:.82rem;font-weight:750;color:var(--rust)}.eyebrow{letter-spacing:.14em;text-transform:uppercase}\nmain{padding-block:1.5rem 3rem}.section{margin-bottom:1.65rem}.panel,.story-card{background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:clamp(.85rem,2vw,1.35rem)}.story-card>a{display:block;font-size:1.28rem;font-family:Georgia,serif;font-weight:700}.story-card p{margin:.55rem 0 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:.75rem}.lead-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:.75rem}.lead-grid .grid{grid-template-columns:1fr}.lead{background:var(--wash);display:grid;align-content:start;gap:.7rem;border-top:4px solid var(--accent)}.lead>a{font-size:clamp(1.7rem,4vw,2.8rem)}.lead p{max-width:53ch}\n.filters{display:grid;grid-template-columns:minmax(170px,2fr) minmax(125px,1fr) minmax(125px,1fr);gap:.65rem;margin:1rem 0}.filters label{display:grid;font-weight:700;gap:.2rem}\ninput:not([type=radio]):not([type=file]),select,textarea{padding:.38rem .55rem;border:1px solid #778a7c;border-radius:.34rem;background:white;min-width:0;max-width:100%}textarea{display:block;width:100%;min-height:8rem}.muted,.notice{font-size:.92rem;color:var(--muted)}.notice,.feedback{padding:.55rem .7rem;background:var(--sand);border-radius:.35rem}.feedback:empty{display:none}.metadata{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:.5rem .85rem;margin:.8rem 0}.metadata dt{font-weight:700}.metadata dd{margin:0;overflow-wrap:anywhere}\n.reader{max-width:76ch;font:1.12rem/1.75 Georgia,serif}.reader.large{font-size:1.33rem}.reader p{scroll-margin-top:1rem}.reader sup{font:700 .72rem \"Segoe UI\",sans-serif;color:var(--rust);margin-right:.3rem}.reader img{max-width:100%;height:auto}\ndetails>summary{font-weight:750;color:var(--accent)}details[open]>summary{margin-bottom:.65rem}.quiz section{margin:1rem 0}.quiz fieldset{min-width:0;margin:.7rem 0;padding:.55rem .8rem;border:1px solid var(--line);border-radius:.4rem}.quiz legend{font-weight:700;padding:0 .24rem}.option{display:flex;align-items:baseline;gap:.5rem;margin:.28rem 0}.quiz input[type=text]{width:min(100%,26rem)}.cloze{line-height:2.4}.cloze input[type=text]{width:min(100%,9rem);margin-inline:.2rem}.scramble-list{display:flex;flex-wrap:wrap;gap:.4rem;min-height:2.6rem;padding:.45rem;border:1px dashed var(--line);border-radius:.35rem;margin:.45rem 0;list-style:none}.scramble-list li{display:flex;gap:.28rem;flex-wrap:wrap}.scramble-list button{font-size:.87rem}.done{color:#215343}.detail-header{margin:.65rem 0 1rem}.school details{border-top:1px solid var(--line);padding:.55rem 0}.school ul{padding-left:1.2rem}footer{background:var(--card);border-top:1px solid var(--line);padding:1rem 0}\n@media(max-width:710px){.lead-grid,.filters{grid-template-columns:1fr}}\n@media(max-width:380px){.wrap{width:calc(100% - 1.2rem)}}\n@media print{header,footer,.filters,.screen-only,.quiz button{display:none!important}.panel{border:0}}\n\u003c/style>\n\u003cstyle>textarea{min-height:3.4rem;margin:.25rem 0 1rem}@media print{.student-answer{min-height:6rem}details:not([open]){display:none}}\u003c/style>\u003c/head>\n\u003cbody>\u003cmain class=\"wrap\">\u003cp class=\"tag\">Shared Pearls of Wisdom · News English · Unit 1\u003c/p>\u003ch1>Task Based Learning worksheet\u003c/h1>\n\u003cp>Read \u003ca href=\"NEWS_EDITION_URL#story=liability\">An automated error tests how responsibility is assigned\u003c/a>. For each answer, include the number of the supporting paragraph.\u003c/p>\n\u003carticle class=\"panel\">\u003ch2>Reading and evidence\u003c/h2>\u003clabel for=\"q1\">1. What is the status of the framework?\u003c/label>\u003ctextarea id=\"q1\" rows=\"2\">\u003c/textarea>\u003clabel for=\"q2\">2. What does the retailer want first?\u003c/label>\u003ctextarea id=\"q2\" rows=\"2\">\u003c/textarea>\u003clabel for=\"q3\">3. Who would answer to the customer first under one option?\u003c/label>\u003ctextarea id=\"q3\" rows=\"2\">\u003c/textarea>\u003clabel for=\"q4\">4. Why might joint proceedings be unattractive for modest losses?\u003c/label>\u003ctextarea id=\"q4\" rows=\"2\">\u003c/textarea>\u003clabel for=\"q5\">5. Inference: Why might correction be insufficient as a remedy?\u003c/label>\u003ctextarea id=\"q5\" rows=\"2\">\u003c/textarea>\n\u003ch2>Writing\u003c/h2>\u003cp>Write a 300–400-word analysis that attributes competing positions, qualifies conclusions and identifies unresolved evidence.\u003c/p>\u003clabel for=\"writing\">Draft answer\u003c/label>\u003ctextarea id=\"writing\" class=\"student-answer\">\u003c/textarea>\n\u003cdetails>\u003csummary>Teacher answer key\u003c/summary>\u003col>\u003cli>A draft under committee discussion. Check paragraph 1 for the evidence.\u003c/li>\u003cli>The premium put right. Check paragraph 2 for the evidence.\u003c/li>\u003cli>The organisation using the system. Check paragraph 3 for the evidence.\u003c/li>\u003cli>They may increase expense and complexity. Check paragraph 5 for the evidence.\u003c/li>\u003cli>Further loss or effects on other customers may remain. Check paragraph 7 for the evidence.\u003c/li>\u003c/ol>\n\u003cp>Accept accurate paraphrase. Check coverage of the main event or issue, use of evidence, and whether attribution and certainty match the story.\u003c/p>\u003c/details>\u003c/article>\n\u003cp class=\"screen-only\">\u003cbutton id=\"print\" type=\"button\">Print worksheet\u003c/button>\u003c/p>\u003c/main>\n\u003cscript>document.getElementById('print').addEventListener('click',()=>window.print());\u003c/script>\u003c/body>\u003c/html>", "c1-pair": "\u003c!doctype html>\u003chtml lang=\"en-GB\">\u003chead>\u003cmeta charset=\"utf-8\">\u003cmeta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\u003ctitle>Think Pair Share | News English worksheet\u003c/title>\u003cstyle>*{box-sizing:border-box}\n:root{color-scheme:light;--paper:#f8f6f0;--card:#fffefa;--ink:#202925;--muted:#52635a;--accent:#225b4e;--line:#ccd7cc;--wash:#e9f1e8;--rust:#843b28;--sand:#f7e8da}\nbody{margin:0;background:var(--paper);color:var(--ink);font:1rem/1.58 \"Segoe UI\",system-ui,sans-serif}\na{color:var(--accent);text-underline-offset:.17em}button,input,select,textarea{font:inherit;color:inherit}button,summary{cursor:pointer}button,.button{display:inline-block;background:var(--wash);border:1px solid var(--accent);border-radius:.35rem;padding:.38rem .65rem;color:var(--accent);font-weight:700}button:not(:disabled):hover,.button:hover{text-decoration:underline}button:disabled{opacity:.55;cursor:default}[hidden]{display:none!important}:focus-visible{outline:3px solid var(--rust);outline-offset:3px}\n.wrap{width:min(1200px,calc(100% - 2.5rem));margin-inline:auto}.mast{padding:.85rem 0;border-bottom:1px solid var(--line)}.line,.actions,.levels{display:flex;align-items:center;gap:.55rem .9rem;flex-wrap:wrap}.mast .line,footer .line{justify-content:space-between}.levels a{padding:.22rem .48rem;font-weight:700}.levels a[aria-current]{background:var(--wash);border-radius:.3rem;text-decoration:none}\n.skip{position:absolute;top:0;transform:translateY(-120%);background:white;padding:.5rem;z-index:2}.skip:focus{transform:none}\nheader .brand{font-weight:750}.hero{padding:clamp(1.8rem,6vw,4.3rem) 0;background:var(--wash);border-bottom:1px solid var(--line)}.hero p{max-width:65ch}\nh1,h2,h3{font-family:Georgia,serif;line-height:1.13;margin:0 0 .6rem}h1{font-size:clamp(2.5rem,7vw,5rem);font-weight:400;letter-spacing:-.05em}h2{font-size:clamp(1.7rem,4vw,2.65rem);font-weight:400;letter-spacing:-.025em}h3{font-size:1.3rem}p{margin:0 0 .8rem}.eyebrow,.tag{font-size:.82rem;font-weight:750;color:var(--rust)}.eyebrow{letter-spacing:.14em;text-transform:uppercase}\nmain{padding-block:1.5rem 3rem}.section{margin-bottom:1.65rem}.panel,.story-card{background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:clamp(.85rem,2vw,1.35rem)}.story-card>a{display:block;font-size:1.28rem;font-family:Georgia,serif;font-weight:700}.story-card p{margin:.55rem 0 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:.75rem}.lead-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:.75rem}.lead-grid .grid{grid-template-columns:1fr}.lead{background:var(--wash);display:grid;align-content:start;gap:.7rem;border-top:4px solid var(--accent)}.lead>a{font-size:clamp(1.7rem,4vw,2.8rem)}.lead p{max-width:53ch}\n.filters{display:grid;grid-template-columns:minmax(170px,2fr) minmax(125px,1fr) minmax(125px,1fr);gap:.65rem;margin:1rem 0}.filters label{display:grid;font-weight:700;gap:.2rem}\ninput:not([type=radio]):not([type=file]),select,textarea{padding:.38rem .55rem;border:1px solid #778a7c;border-radius:.34rem;background:white;min-width:0;max-width:100%}textarea{display:block;width:100%;min-height:8rem}.muted,.notice{font-size:.92rem;color:var(--muted)}.notice,.feedback{padding:.55rem .7rem;background:var(--sand);border-radius:.35rem}.feedback:empty{display:none}.metadata{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:.5rem .85rem;margin:.8rem 0}.metadata dt{font-weight:700}.metadata dd{margin:0;overflow-wrap:anywhere}\n.reader{max-width:76ch;font:1.12rem/1.75 Georgia,serif}.reader.large{font-size:1.33rem}.reader p{scroll-margin-top:1rem}.reader sup{font:700 .72rem \"Segoe UI\",sans-serif;color:var(--rust);margin-right:.3rem}.reader img{max-width:100%;height:auto}\ndetails>summary{font-weight:750;color:var(--accent)}details[open]>summary{margin-bottom:.65rem}.quiz section{margin:1rem 0}.quiz fieldset{min-width:0;margin:.7rem 0;padding:.55rem .8rem;border:1px solid var(--line);border-radius:.4rem}.quiz legend{font-weight:700;padding:0 .24rem}.option{display:flex;align-items:baseline;gap:.5rem;margin:.28rem 0}.quiz input[type=text]{width:min(100%,26rem)}.cloze{line-height:2.4}.cloze input[type=text]{width:min(100%,9rem);margin-inline:.2rem}.scramble-list{display:flex;flex-wrap:wrap;gap:.4rem;min-height:2.6rem;padding:.45rem;border:1px dashed var(--line);border-radius:.35rem;margin:.45rem 0;list-style:none}.scramble-list li{display:flex;gap:.28rem;flex-wrap:wrap}.scramble-list button{font-size:.87rem}.done{color:#215343}.detail-header{margin:.65rem 0 1rem}.school details{border-top:1px solid var(--line);padding:.55rem 0}.school ul{padding-left:1.2rem}footer{background:var(--card);border-top:1px solid var(--line);padding:1rem 0}\n@media(max-width:710px){.lead-grid,.filters{grid-template-columns:1fr}}\n@media(max-width:380px){.wrap{width:calc(100% - 1.2rem)}}\n@media print{header,footer,.filters,.screen-only,.quiz button{display:none!important}.panel{border:0}}\n\u003c/style>\n\u003cstyle>textarea{min-height:3.4rem;margin:.25rem 0 1rem}@media print{.student-answer{min-height:6rem}details:not([open]){display:none}}\u003c/style>\u003c/head>\n\u003cbody>\u003cmain class=\"wrap\">\u003cp class=\"tag\">Shared Pearls of Wisdom · News English · Unit 1\u003c/p>\u003ch1>Think Pair Share worksheet\u003c/h1>\n\u003cp>Read \u003ca href=\"NEWS_EDITION_URL#story=transparency\">What a public register can reveal about automated decisions\u003c/a>. For each answer, include the number of the supporting paragraph.\u003c/p>\n\u003carticle class=\"panel\">\u003ch2>Reading and evidence\u003c/h2>\u003clabel for=\"q1\">1. What two dates does the sample register keep separate?\u003c/label>\u003ctextarea id=\"q1\" rows=\"2\">\u003c/textarea>\u003clabel for=\"q2\">2. Why distinguish administrative tools from consequential ones?\u003c/label>\u003ctextarea id=\"q2\" rows=\"2\">\u003c/textarea>\u003clabel for=\"q3\">3. Why record what is withheld?\u003c/label>\u003ctextarea id=\"q3\" rows=\"2\">\u003c/textarea>\u003clabel for=\"q4\">4. What is an example of a substantive change?\u003c/label>\u003ctextarea id=\"q4\" rows=\"2\">\u003c/textarea>\u003clabel for=\"q5\">5. Why might page visits be misleading?\u003c/label>\u003ctextarea id=\"q5\" rows=\"2\">\u003c/textarea>\n\u003ch2>Writing\u003c/h2>\u003cp>Write a 300–400-word analysis that attributes competing positions, qualifies conclusions and identifies unresolved evidence.\u003c/p>\u003clabel for=\"writing\">Draft answer\u003c/label>\u003ctextarea id=\"writing\" class=\"student-answer\">\u003c/textarea>\n\u003cdetails>\u003csummary>Teacher answer key\u003c/summary>\u003col>\u003cli>When the system was introduced and when its description changed. Check paragraph 1 for the evidence.\u003c/li>\u003cli>A flat list can obscure the tools that most affect people. Check paragraph 2 for the evidence.\u003c/li>\u003cli>It makes exceptions visible even if a detail is protected. Check paragraph 4 for the evidence.\u003c/li>\u003cli>A change to the role of human review. Check paragraph 5 for the evidence.\u003c/li>\u003cli>A controversial case can raise visits without making the register useful. Check paragraph 7 for the evidence.\u003c/li>\u003c/ol>\n\u003cp>Accept accurate paraphrase. Check coverage of the main event or issue, use of evidence, and whether attribution and certainty match the story.\u003c/p>\u003c/details>\u003c/article>\n\u003cp class=\"screen-only\">\u003cbutton id=\"print\" type=\"button\">Print worksheet\u003c/button>\u003c/p>\u003c/main>\n\u003cscript>document.getElementById('print').addEventListener('click',()=>window.print());\u003c/script>\u003c/body>\u003c/html>"};
+    const edition = new URL(location.href);
+    edition.hash = '';
+    const editionHref = edition.href.replaceAll('&', '&amp;').replaceAll('"', '&quot;');
+    for (const link of document.querySelectorAll('[data-worksheet]')) {
+        const html = worksheets[link.dataset.worksheet].replace('NEWS_EDITION_URL', () => editionHref);
+        link.href = URL.createObjectURL(new Blob([html], {type: 'text/html;charset=utf-8'}));
+        link.textContent += ' (opens in a new tab)';
+    }
+})();
+
+</script>
+</body></html>
